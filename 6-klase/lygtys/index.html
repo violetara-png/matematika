@@ -169,7 +169,7 @@
     <div class="rules">
       <div class="rule"><b>🔒 10 spynų.</b> Atrakinamos iš eilės, sprendžiant lygtis.</div>
       <div class="rule"><b>🔢 Kiekviena spyna</b> duoda po vieną galutinio kodo skaitmenį.</div>
-      <div class="rule"><b>💡 Įstrigai?</b> Kiekviena spyna turi patarimą.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
       <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis detektyvo rangas.</div>
     </div>
 
@@ -222,6 +222,20 @@
 <script>
 /* ================= 4 VARIANTAI ================= */
 /* Kiekvienas variantas: 10 spynų, vienaženkliai sprendiniai. */
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Pirmiausia perkelk laisvąjį skaičių į kitą pusę (pakeisdamas jo ženklą), o tada padalink abi puses iš skaičiaus, esančio prie x.",
+  "Skliaustas. Gali arba pirma padalinti abi puses iš daugiklio prieš skliaustą, arba atskliausti. Toliau spręsk kaip įprastą lygtį.",
+  "x yra abiejose pusėse. Surink narius su x į vieną pusę, o skaičius į kitą, perkeldamas juos ir keisdamas ženklą.",
+  "Perkelk narius su x į vieną pusę, o skaičius į kitą. Būk atidus su neigiamu nariu prieš x, keisdamas jo ženklą.",
+  "Trupmena. Pirmiausia padaugink abi puses iš vardiklio (nepamiršk jo ženklo), tada spręsk kaip paprastą lygtį.",
+  "Pažymėk nežinomąjį dydį raide x, o kitą dydį išreikšk per x. Užrašyk jų sumą kaip lygtį ir spręsk pats.",
+  "Pirma atskliausk pusę su skliaustu, tada surink narius su x į vieną pusę, o skaičius į kitą.",
+  "Kaip ir su x abiejose pusėse: narius su x rink į vieną pusę, o skaičius į kitą, keisdamas ženklus perkeldamas.",
+  "Pirmiausia atsikratyk laisvo skaičiaus (perkelk į kitą pusę), o tada dalybos, padaugindamas abi puses iš vardiklio.",
+  "Mažesnįjį skaičių pažymėk x, o didesnįjį išreikšk per x. Jų suma duota, tad užrašyk lygtį ir spręsk.",
+];
+
 const VARIANTS = [
  /* --- VARIANTAS 1 · kodas 6953483762 --- */
  [
@@ -406,7 +420,7 @@ function buildStations(){
         </div>
         <div class="fb" id="fb${i}"></div>
         <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
-        <div class="hint" id="hint${i}">${st.hint}</div>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
         <div class="digit-reveal" id="dig${i}" style="display:none">
           <span class="lbl">Šios spynos skaitmuo galutiniam kodui:</span>
           <span class="dg" id="dgv${i}"></span>
