@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · Lygtys · 6 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:13px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:26px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.eq{font-family:var(--math);font-size:14px;white-space:nowrap}
+  td.sol{color:#333;font-family:var(--math);font-size:13px}
+  td.x{width:44px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .word{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#444;white-space:normal}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .roomlink{background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid var(--accent2);
+    border-radius:8px;padding:12px 14px;margin:0 0 14px;font-size:13.5px}
+  .roomlink a{color:var(--accent);font-weight:700;font-family:'Consolas',monospace;word-break:break-all}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:12px} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>Lygtys</b> · 6 klasė · Profesoriaus Lygtickio laboratorija · 10 spynų · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 10 lygčių iš eilės. Kiekvienos lygties sprendinys <b>x</b> yra vienas galutinio seifo kodo
+    skaitmuo (iš eilės nuo 1 iki 10 spynos). Surinkęs visą kodą ir įvedęs jį į seifą, mokinys „pabėga".
+    Skirtingi variantai turi kitus skaičius ir kitą kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div class="roomlink">
+    🔗 <b>Kambario nuoroda mokiniams:</b>
+    <a href="https://matematika-violeta.netlify.app/6-klase/lygtys/">matematika-violeta.netlify.app/6-klase/lygtys/</a><br>
+    Mokinys atsidaro nuorodą, pradžioje pasirenka jam skirtą variantą (1–4) ir sprendžia.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 30 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos spynos.</li>
+      <li>Galima spręsti komandomis po 2 — vienas skaičiuoja, kitas tikrina.</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"6953483762", rows:[
+   [1,"2x + 5 = 17","2x = 17 − 5 = 12;  x = 12 : 2",6],
+   [2,"3·(x − 4) = 15","x − 4 = 15 : 3 = 5;  x = 5 + 4",9],
+   [3,"5x − 8 = 2x + 7","5x − 2x = 7 + 8;  3x = 15;  x = 5",5],
+   [4,"4 − 2x = x − 5","4 + 5 = x + 2x;  9 = 3x;  x = 3",3],
+   [5,"(3x − 15) : (−3) = 1","3x − 15 = 1·(−3) = −3;  3x = 12;  x = 4",4],
+   ["6w","Mėgintuvėlių 2× daugiau nei kolbų, iš viso 24. Kiek kolbų?","x + 2x = 24;  3x = 24;  x = 8",8],
+   [7,"2·(x + 3) = x + 9","2x + 6 = x + 9;  x = 3",3],
+   [8,"7x − 5 = 4x + 16","3x = 21;  x = 7",7],
+   [9,"x : 3 + 5 = 7","x : 3 = 2;  x = 6",6],
+   ["10w","Suma 12, vienas 5× didesnis. Mažesnysis?","x + 5x = 12;  6x = 12;  x = 2",2],
+ ]},
+ { code:"7974652683", rows:[
+   [1,"3x + 4 = 25","3x = 21;  x = 7",7],
+   [2,"2·(x − 5) = 8","x − 5 = 4;  x = 9",9],
+   [3,"6x − 9 = 4x + 5","2x = 14;  x = 7",7],
+   [4,"7 − 3x = x − 9","16 = 4x;  x = 4",4],
+   [5,"(2x − 10) : (−2) = −1","2x − 10 = 2;  2x = 12;  x = 6",6],
+   ["6w","Knygų 3× daugiau nei sąsiuvinių, iš viso 20. Kiek sąsiuvinių?","x + 3x = 20;  4x = 20;  x = 5",5],
+   [7,"3·(x + 2) = 2x + 8","3x + 6 = 2x + 8;  x = 2",2],
+   [8,"8x − 7 = 5x + 11","3x = 18;  x = 6",6],
+   [9,"x : 2 + 3 = 7","x : 2 = 4;  x = 8",8],
+   ["10w","Suma 15, vienas 4× didesnis. Mažesnysis?","x + 4x = 15;  5x = 15;  x = 3",3],
+ ]},
+ { code:"6554791586", rows:[
+   [1,"4x + 3 = 27","4x = 24;  x = 6",6],
+   [2,"5·(x − 2) = 15","x − 2 = 3;  x = 5",5],
+   [3,"7x − 4 = 3x + 16","4x = 20;  x = 5",5],
+   [4,"5 − 2x = x − 7","12 = 3x;  x = 4",4],
+   [5,"(4x − 20) : (−4) = −2","4x − 20 = 8;  4x = 28;  x = 7",7],
+   ["6w","Obuolių 2× daugiau nei kriaušių, iš viso 27. Kiek kriaušių?","x + 2x = 27;  3x = 27;  x = 9",9],
+   [7,"4·(x + 1) = 3x + 5","4x + 4 = 3x + 5;  x = 1",1],
+   [8,"9x − 6 = 6x + 9","3x = 15;  x = 5",5],
+   [9,"x : 4 + 2 = 4","x : 4 = 2;  x = 8",8],
+   ["10w","Suma 18, vienas 2× didesnis. Mažesnysis?","x + 2x = 18;  3x = 18;  x = 6",6],
+ ]},
+ { code:"6545643563", rows:[
+   [1,"5x + 2 = 32","5x = 30;  x = 6",6],
+   [2,"4·(x − 3) = 8","x − 3 = 2;  x = 5",5],
+   [3,"8x − 5 = 5x + 7","3x = 12;  x = 4",4],
+   [4,"6 − 2x = x − 9","15 = 3x;  x = 5",5],
+   [5,"(3x − 12) : (−3) = −2","3x − 12 = 6;  3x = 18;  x = 6",6],
+   ["6w","Pieštukų 3× daugiau nei trintukų, iš viso 16. Kiek trintukų?","x + 3x = 16;  4x = 16;  x = 4",4],
+   [7,"2·(x + 4) = x + 11","2x + 8 = x + 11;  x = 3",3],
+   [8,"7x − 8 = 4x + 7","3x = 15;  x = 5",5],
+   [9,"x : 3 + 4 = 6","x : 3 = 2;  x = 6",6],
+   ["10w","Suma 21, vienas 6× didesnis. Mažesnysis?","x + 6x = 21;  7x = 21;  x = 3",3],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Lygtis / uždavinys</th><th>Sprendimas</th><th>x</th></tr>
+      ${v.rows.map(r=>{
+        const num = String(r[0]).replace('w','');
+        const isWord = String(r[0]).includes('w');
+        return `<tr>
+          <td class="n">${num}</td>
+          <td class="${isWord?'eq word':'eq'}">${r[1]}</td>
+          <td class="sol">${r[2]}</td>
+          <td class="x">${r[3]}</td>
+        </tr>`;
+      }).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Seifo kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Raidiniai reiškiniai (5–6 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Mokymosi asistentas „Algis“</h1>
+    <p>Tema: <b>Raidiniai reiškiniai</b> · 5–6 klasė · sudėtingesnis lygis</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Algis</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime <b>raidinius reiškinius</b>:
+        skaičiuosime reikšmes, jungsime panašius narius ir atskleisime skliaustus.
+        <br><br>
+        Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis,
+        o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Algis</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd">
+        <button onclick="ins('+')">+</button>
+        <button onclick="ins('−')">−</button>
+        <button onclick="ins('·')">·</button>
+        <button onclick="ins('(')">(</button>
+        <button onclick="ins(')')">)</button>
+      </div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Algis</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė)
+          ir parašysiu komentarą. Reiškinius rašyk paprastai, pvz. <b>3a+12</b> arba <b>5x+10</b>.
+          <br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {
+    intro:"Pradėkime nuo <b>reikšmės skaičiavimo</b>. Kai raidė turi konkrečią reikšmę, ją pakeičiame skaičiumi.",
+    expr:"5a − 4,&nbsp;&nbsp;kai a = 6",
+    q:"Apskaičiuok šio reiškinio reikšmę.",
+    accepted:["26"],
+    hints:[
+      "Užrašas <b>a = 6</b> reiškia, kad vietoj raidės <b>a</b> rašome skaičių <b>6</b>.",
+      "Gauni <b>5·6 − 4</b>. Prisimink: pirma atliekame daugybą, tik paskui atimtį.",
+      "5·6 = 30. Dabar iš gauto skaičiaus atimk 4 — ir turėsi atsakymą."
+    ]
+  },
+  {
+    intro:"Dabar — <b>panašių narių sutraukimas</b>. Panašūs nariai turi tą pačią raidę.",
+    expr:"7a + 3a − 2a",
+    q:"Sutrauk panašius narius (užrašyk trumpiau).",
+    accepted:["8a","a8"],
+    hints:[
+      "Visi trys nariai turi tą pačią raidę <b>a</b> — vadinasi, juos galima sujungti į vieną.",
+      "Su raide <b>a</b> elgiamės kaip su daiktais: 7 obuoliai + 3 obuoliai − 2 obuoliai. Skaičiuok 7 + 3 − 2.",
+      "Apskaičiuok 7 + 3 − 2 ir prie rezultato prirašyk raidę <b>a</b>."
+    ]
+  },
+  {
+    intro:"Kylame aukščiau — <b>skliaustų atskleidimas</b>.",
+    expr:"3 · (a + 4)",
+    q:"Atskleisk skliaustus.",
+    accepted:["3a+12","12+3a"],
+    hints:[
+      "Skaičių prieš skliaustus dauginame iš <b>KIEKVIENO</b> nario skliaustuose atskirai.",
+      "Reikia atlikti du veiksmus: <b>3·a</b> ir <b>3·4</b>, o rezultatus sudėti.",
+      "3·a = 3a. Dabar apskaičiuok 3·4 ir prijunk ženklu +."
+    ]
+  },
+  {
+    intro:"Sujunkime du įgūdžius: <b>atskleisti skliaustus ir sutraukti panašius narius</b>.",
+    expr:"2 · (a + 3) + 4a",
+    q:"Supaprastink reiškinį.",
+    accepted:["6a+6","6+6a"],
+    hints:[
+      "Pirmiausia atskleisk skliaustus: <b>2·a + 2·3</b>.",
+      "Gausi <b>2a + 6 + 4a</b>. Dabar sujunk narius, kurie turi raidę <b>a</b>.",
+      "Nariai su a: 2a + 4a. Skaičius 6 lieka atskirai — jo su a jungti negalima."
+    ]
+  },
+  {
+    intro:"Paskutinė ir sunkiausia — bus <b>atimtis prieš skliaustus</b>. Būk atidus ženklams!",
+    expr:"5a + 3 · (a − 2)",
+    q:"Supaprastink reiškinį.",
+    accepted:["8a-6","-6+8a"],
+    hints:[
+      "Atskleisk skliaustus: <b>3·a − 3·2</b> (dauginame ir turime minusą prieš 6).",
+      "Gausi <b>5a + 3a − 6</b>. Sujunk narius su raide <b>a</b>.",
+      "Nariai su a: 5a + 3a. Skaičius −6 lieka atskirai."
+    ]
+  }
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [
+  { // ---- Variantas A ----
+    label:"variantas A",
+    qs:[
+      {t:"Apskaičiuok reiškinio reikšmę: <span>3a + 5</span>, kai a = 4.", acc:["17"], hint:"Pakeisk a skaičiumi 4: 3·4 + 5."},
+      {t:"Apskaičiuok reiškinio reikšmę: <span>6b − 7</span>, kai b = 5.", acc:["23"], hint:"6·5 = 30, tada atimk 7."},
+      {t:"Sutrauk panašius narius: <span>4x + 5x</span>.", acc:["9x","x9"], hint:"Sudėk skaičius prie x: 4 + 5."},
+      {t:"Sutrauk panašius narius: <span>9y − 4y + y</span>.", acc:["6y","y6"], hint:"Prisimink: y reiškia 1y. Skaičiuok 9 − 4 + 1."},
+      {t:"Sutrauk panašius narius: <span>8a + 3 − 2a</span>.", acc:["6a+3","3+6a"], hint:"Jungiam tik narius su a: 8a − 2a. Skaičius 3 lieka."},
+      {t:"Atskleisk skliaustus: <span>5 · (x + 2)</span>.", acc:["5x+10","10+5x"], hint:"5·x ir 5·2."},
+      {t:"Atskleisk skliaustus: <span>4 · (a − 3)</span>.", acc:["4a-12","-12+4a"], hint:"4·a ir 4·3, prieš 12 lieka minusas."},
+      {t:"Supaprastink: <span>2 · (b + 1) + 3b</span>.", acc:["5b+2","2+5b"], hint:"Atskleisk: 2b + 2. Tada 2b + 3b, o 2 lieka."},
+      {t:"Supaprastink: <span>3 · (x + 2) + 2 · (x + 1)</span>.", acc:["5x+8","8+5x"], hint:"3x+6 ir 2x+2. Sujunk: (3x+2x) ir (6+2)."},
+      {t:"Supaprastink: <span>7a − 2 · (a − 3)</span>.", acc:["5a+6","6+5a"], hint:"−2·(a−3) = −2a + 6. Tada 7a − 2a, o +6 lieka."}
+    ]
+  },
+  { // ---- Variantas B ----
+    label:"variantas B",
+    qs:[
+      {t:"Apskaičiuok reiškinio reikšmę: <span>4a + 6</span>, kai a = 3.", acc:["18"], hint:"Pakeisk a skaičiumi 3: 4·3 + 6."},
+      {t:"Apskaičiuok reiškinio reikšmę: <span>7b − 5</span>, kai b = 4.", acc:["23"], hint:"7·4 = 28, tada atimk 5."},
+      {t:"Sutrauk panašius narius: <span>6x + 2x</span>.", acc:["8x","x8"], hint:"Sudėk skaičius prie x: 6 + 2."},
+      {t:"Sutrauk panašius narius: <span>10y − 3y − y</span>.", acc:["6y","y6"], hint:"y reiškia 1y. Skaičiuok 10 − 3 − 1."},
+      {t:"Sutrauk panašius narius: <span>9a + 4 − 5a</span>.", acc:["4a+4","4+4a"], hint:"Jungiam tik narius su a: 9a − 5a. Skaičius 4 lieka."},
+      {t:"Atskleisk skliaustus: <span>3 · (x + 5)</span>.", acc:["3x+15","15+3x"], hint:"3·x ir 3·5."},
+      {t:"Atskleisk skliaustus: <span>6 · (a − 2)</span>.", acc:["6a-12","-12+6a"], hint:"6·a ir 6·2, prieš 12 lieka minusas."},
+      {t:"Supaprastink: <span>4 · (b + 2) + 2b</span>.", acc:["6b+8","8+6b"], hint:"Atskleisk: 4b + 8. Tada 4b + 2b, o 8 lieka."},
+      {t:"Supaprastink: <span>2 · (x + 4) + 3 · (x + 1)</span>.", acc:["5x+11","11+5x"], hint:"2x+8 ir 3x+3. Sujunk: (2x+3x) ir (8+3)."},
+      {t:"Supaprastink: <span>8a − 3 · (a − 2)</span>.", acc:["5a+6","6+5a"], hint:"−3·(a−2) = −3a + 6. Tada 8a − 3a, o +6 lieka."}
+    ]
+  },
+  { // ---- Variantas C ----
+    label:"variantas C",
+    qs:[
+      {t:"Apskaičiuok reiškinio reikšmę: <span>5a + 2</span>, kai a = 5.", acc:["27"], hint:"Pakeisk a skaičiumi 5: 5·5 + 2."},
+      {t:"Apskaičiuok reiškinio reikšmę: <span>8b − 6</span>, kai b = 3.", acc:["18"], hint:"8·3 = 24, tada atimk 6."},
+      {t:"Sutrauk panašius narius: <span>7x + 4x</span>.", acc:["11x","x11"], hint:"Sudėk skaičius prie x: 7 + 4."},
+      {t:"Sutrauk panašius narius: <span>12y − 5y + 2y</span>.", acc:["9y","y9"], hint:"Skaičiuok 12 − 5 + 2."},
+      {t:"Sutrauk panašius narius: <span>10a + 5 − 4a</span>.", acc:["6a+5","5+6a"], hint:"Jungiam tik narius su a: 10a − 4a. Skaičius 5 lieka."},
+      {t:"Atskleisk skliaustus: <span>4 · (x + 3)</span>.", acc:["4x+12","12+4x"], hint:"4·x ir 4·3."},
+      {t:"Atskleisk skliaustus: <span>7 · (a − 2)</span>.", acc:["7a-14","-14+7a"], hint:"7·a ir 7·2, prieš 14 lieka minusas."},
+      {t:"Supaprastink: <span>3 · (b + 3) + 4b</span>.", acc:["7b+9","9+7b"], hint:"Atskleisk: 3b + 9. Tada 3b + 4b, o 9 lieka."},
+      {t:"Supaprastink: <span>4 · (x + 1) + 2 · (x + 3)</span>.", acc:["6x+10","10+6x"], hint:"4x+4 ir 2x+6. Sujunk: (4x+2x) ir (4+6)."},
+      {t:"Supaprastink: <span>9a − 4 · (a − 1)</span>.", acc:["5a+4","4+5a"], hint:"−4·(a−1) = −4a + 4. Tada 9a − 4a, o +4 lieka."}
+    ]
+  }
+];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok skliaustų atskleidimą ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti panašių narių sutraukimą."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
