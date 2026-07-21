@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · Sudėtingesnės lygtys · 6 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(18px,3.6vw,26px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:20px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:44px;height:56px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:26px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(360px,92%);padding:15px;font-size:26px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Avarinė padėtis · Stotis Nr. 6</span>
+    <h1>Kosmoso stotis <span class="amber">Sigma</span></h1>
+    <div class="sub">Pabėgimo kambarys · Sudėtingesnės lygtys · 6 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Astronaute,</span> stotis „Sigma" pradėjo prarasti deguonį. Bortinis
+      kompiuteris sugedo ir <b>užrakino visus šliuzus</b>. Ekrane mirksi pranešimas:</p>
+      <p style="margin:12px 0 0"><i>„Iki gelbėjimosi kapsulės, dešimt sistemų. Kiekviena atsirakina
+      išsprendus lygtį ir duoda po vieną kapsulės paleidimo kodo skaitmenį. Surink visą kodą, paleisk
+      kapsulę ir dink iš stoties, kol dar turi oro."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės. Ramiai. Laikas ir deguonis senka.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 sistemų.</b> Atrakinamos iš eilės, sprendžiant lygtis.</div>
+      <div class="rule"><b>🔢 Kiekviena sistema</b> duoda po vieną kapsulės kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis astronauto rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą paleidimo kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti gelbėjimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚀 Gelbėjimosi kapsulė</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 sistemos):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Paleisti kapsulę</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🚀🌌</div>
+    <h2>Ištrūkai iš stoties!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Kapsulė atsijungė nuo „Sigmos" ir
+      pasuko Žemės link. Sudėtingiausios lygtys tavęs nesustabdė, tu tikras kosmoso matematikas.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · matematikos pabėgimo kambarys · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Pirma atskliausk abi puses, tada sutrauk skaičius kiekvienoje pusėje. Paskui narius su x rink į vieną pusę, skaičius į kitą.",
+  "Trupmena lygi skaičiui. Padaugink abi puses iš vardiklio, kad atsikratytum trupmenos, ir spręsk toliau.",
+  "x yra abiejose pusėse, o viena pusė su trupmena. Padaugink abi puses iš vardiklio, kad dingtų trupmena, tada surink narius su x į vieną pusę, o skaičius į kitą.",
+  "Dvi trupmenos lygios. Padaugink abi puses iš bendro vardiklio (skaičiaus, kuris dalijasi iš abiejų vardiklių), tada spręsk gautą lygtį.",
+  "Pirma atskliausk, tada sutrauk panašius narius toje pačioje pusėje. Paskui spręsk kaip įprastą lygtį.",
+  "Trupmena lygi skaičiui. Padaugink abi puses iš vardiklio ir spręsk gautą lygtį.",
+  "Atskliausk abu skliaustus, stebėk minusą prieš antrą, tada sutrauk panašius narius.",
+  "Dvi trupmenos su x. Padaugink abi puses iš bendro vardiklio, kad atsikratytum trupmenų, tada spręsk lygtį.",
+  "Atskliausk abi puses ir sutrauk, tada narius su x rink į vieną pusę, o skaičius į kitą.",
+  "Pažymėk skaičių raide x ir kiekvieną sąlygos dalį užrašyk kaip reiškinį. Sulygink abi puses ir spręsk pats.",
+];
+
+/* ================= 4 VARIANTAI · sudėtingesnės lygtys ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 6795678664 --- */
+ [
+  { title:"Šliuzo kodas", eq:"4 · (x − 1) + 3 = 2 · (x + 3) + 5", q:"Pirmas šliuzas. Įvesk x, kad atsidarytų.", ans:6 },
+  { title:"Deguonies vožtuvas", eq:"(x + 2) : 3 = 3", q:"Deguonies vožtuvas užrakintas trupmena.", ans:7 },
+  { title:"Navigacijos pultas", eq:"x : 3 + 4 = x − 2", q:"Navigacijos pulte x kartojasi abiejose pusėse.", ans:9 },
+  { title:"Reaktoriaus balansas", eq:"(2x − 1) : 3 = (x + 1) : 2", q:"Reaktorius saugus, kai dvi trupmenos lygios.", ans:5 },
+  { title:"Kuro linija", eq:"6x − 2 · (x + 1) = 22", q:"Kuro linijos skaičiavimas su skliaustais.", ans:6 },
+  { title:"Ryšio kanalas", eq:"(3x + 1) : 2 = 11", q:"Ryšio dažnis: trupmena lygi skaičiui.", ans:7 },
+  { title:"Gravitacijos jungiklis", eq:"2 · (x − 3) − (x − 1) = 3", q:"Gravitacijos jungiklis su dviem skliaustais.", ans:8 },
+  { title:"Aušinimo dalikliai", eq:"x : 2 + x : 3 = 5", q:"Aušinimas padalintas į dvi dalis.", ans:6 },
+  { title:"Kapsulės užraktas", eq:"5 · (x − 1) − 2 · (x + 1) = x + 5", q:"Kapsulės užraktas: skliaustai ir x abiejose pusėse.", ans:6 },
+  { title:"Paskutinis skydas", eq:"", q:"Paskutinė sistema! Pagalvojau skaičių, padauginau iš 4 ir atėmiau 5. Gavau tiek pat, kiek tą patį skaičių padauginus iš 2 ir pridėjus 3. Koks tas skaičius? (tai ir yra x)", ans:4 },
+ ],
+ /* --- VARIANTAS 2 · kodas 3787664835 --- */
+ [
+  { title:"Šliuzo kodas", eq:"3 · (x − 2) + 4 = 2 · (x − 1) + 3", q:"Pirmas šliuzas. Įvesk x, kad atsidarytų.", ans:3 },
+  { title:"Deguonies vožtuvas", eq:"(x + 5) : 2 = 6", q:"Deguonies vožtuvas užrakintas trupmena.", ans:7 },
+  { title:"Navigacijos pultas", eq:"x : 2 + 3 = x − 1", q:"Navigacijos pulte x kartojasi abiejose pusėse.", ans:8 },
+  { title:"Reaktoriaus balansas", eq:"(2x + 1) : 3 = (x + 3) : 2", q:"Reaktorius saugus, kai dvi trupmenos lygios.", ans:7 },
+  { title:"Kuro linija", eq:"5x − 3 · (x − 2) = 18", q:"Kuro linijos skaičiavimas su skliaustais.", ans:6 },
+  { title:"Ryšio kanalas", eq:"(2x + 3) : 5 = 3", q:"Ryšio dažnis: trupmena lygi skaičiui.", ans:6 },
+  { title:"Gravitacijos jungiklis", eq:"3 · (x − 2) − (x − 4) = 6", q:"Gravitacijos jungiklis su dviem skliaustais.", ans:4 },
+  { title:"Aušinimo dalikliai", eq:"x : 2 + x : 4 = 6", q:"Aušinimas padalintas į dvi dalis.", ans:8 },
+  { title:"Kapsulės užraktas", eq:"4 · (x − 1) − 2 · (x + 2) = x − 5", q:"Kapsulės užraktas: skliaustai ir x abiejose pusėse.", ans:3 },
+  { title:"Paskutinis skydas", eq:"", q:"Paskutinė sistema! Pagalvojau skaičių, padauginau iš 5 ir atėmiau 4. Gavau tiek pat, kiek tą patį skaičių padauginus iš 3 ir pridėjus 6. Koks tas skaičius? (tai ir yra x)", ans:5 },
+ ],
+ /* --- VARIANTAS 3 · kodas 2587546615 --- */
+ [
+  { title:"Šliuzo kodas", eq:"4 · (x + 1) − 2 = 2 · (x + 3)", q:"Pirmas šliuzas. Įvesk x, kad atsidarytų.", ans:2 },
+  { title:"Deguonies vožtuvas", eq:"(x + 3) : 4 = 2", q:"Deguonies vožtuvas užrakintas trupmena.", ans:5 },
+  { title:"Navigacijos pultas", eq:"x : 4 + 5 = x − 1", q:"Navigacijos pulte x kartojasi abiejose pusėse.", ans:8 },
+  { title:"Reaktoriaus balansas", eq:"(3x − 1) : 4 = (x + 3) : 2", q:"Reaktorius saugus, kai dvi trupmenos lygios.", ans:7 },
+  { title:"Kuro linija", eq:"4x − 2 · (x − 3) = 16", q:"Kuro linijos skaičiavimas su skliaustais.", ans:5 },
+  { title:"Ryšio kanalas", eq:"(4x − 1) : 3 = 5", q:"Ryšio dažnis: trupmena lygi skaičiui.", ans:4 },
+  { title:"Gravitacijos jungiklis", eq:"2 · (x − 1) − (x − 3) = 7", q:"Gravitacijos jungiklis su dviem skliaustais.", ans:6 },
+  { title:"Aušinimo dalikliai", eq:"x : 3 + x : 6 = 3", q:"Aušinimas padalintas į dvi dalis.", ans:6 },
+  { title:"Kapsulės užraktas", eq:"3 · (x − 1) − (x + 2) = x − 4", q:"Kapsulės užraktas: skliaustai ir x abiejose pusėse.", ans:1 },
+  { title:"Paskutinis skydas", eq:"", q:"Paskutinė sistema! Pagalvojau skaičių, padauginau iš 6 ir atėmiau 7. Gavau tiek pat, kiek tą patį skaičių padauginus iš 4 ir pridėjus 3. Koks tas skaičius? (tai ir yra x)", ans:5 },
+ ],
+ /* --- VARIANTAS 4 · kodas 2997354634 --- */
+ [
+  { title:"Šliuzo kodas", eq:"3 · (x − 1) + 5 = 2 · (x + 2)", q:"Pirmas šliuzas. Įvesk x, kad atsidarytų.", ans:2 },
+  { title:"Deguonies vožtuvas", eq:"(x + 1) : 5 = 2", q:"Deguonies vožtuvas užrakintas trupmena.", ans:9 },
+  { title:"Navigacijos pultas", eq:"x : 3 + 2 = x − 4", q:"Navigacijos pulte x kartojasi abiejose pusėse.", ans:9 },
+  { title:"Reaktoriaus balansas", eq:"(2x + 1) : 5 = (x − 1) : 2", q:"Reaktorius saugus, kai dvi trupmenos lygios.", ans:7 },
+  { title:"Kuro linija", eq:"5x − 4 · (x − 2) = 11", q:"Kuro linijos skaičiavimas su skliaustais.", ans:3 },
+  { title:"Ryšio kanalas", eq:"(5x + 2) : 3 = 9", q:"Ryšio dažnis: trupmena lygi skaičiui.", ans:5 },
+  { title:"Gravitacijos jungiklis", eq:"3 · (x − 2) − 2 · (x − 3) = 4", q:"Gravitacijos jungiklis su dviem skliaustais.", ans:4 },
+  { title:"Aušinimo dalikliai", eq:"x : 2 + x : 6 = 4", q:"Aušinimas padalintas į dvi dalis.", ans:6 },
+  { title:"Kapsulės užraktas", eq:"4 · (x − 2) − (x + 1) = x − 3", q:"Kapsulės užraktas: skliaustai ir x abiejose pusėse.", ans:3 },
+  { title:"Paskutinis skydas", eq:"", q:"Paskutinė sistema! Pagalvojau skaičių, padauginau iš 7 ir atėmiau 6. Gavau tiek pat, kiek tą patį skaičių padauginus iš 5 ir pridėjus 2. Koks tas skaičius? (tai ir yra x)", ans:4 },
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">x =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šios sistemos skaitmuo kapsulės kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk x reikšmę.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Sistema atrakinta.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas kodas. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Kapsulė paleidžiama...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 sistemos.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis astronautas (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs astronautas";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet ištrūkai!";
+  else rank="🔦 Ištrūkai, nors oro beveik nebeliko. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>
