@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lygumo figūros — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px} .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  /* breziniai */
+  .fig{display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:flex-end; margin:14px 0 4px}
+  .fig figure{margin:0; text-align:center}
+  .fig svg{background:#fff; border:1px solid var(--linija); border-radius:6px}
+  .fig figcaption{font-size:12.5px; color:var(--pilka); margin-top:4px}
+  svg text{font-family:"Cambria Math",Cambria,Georgia,serif; font-size:14px; fill:#1c2430}
+  .s-side{stroke:var(--tema); stroke-width:2.4; fill:none}
+  .s-side2{stroke:var(--pvz); stroke-width:2.4; fill:none}
+  .s-mark{stroke:var(--demesio); stroke-width:2}
+  .s-arc{stroke:var(--taisykle); stroke-width:2; fill:none}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Lygumo figūros</h1>
+  <p class="klase">Matematika · 6 klasė · skyrius „Lygumo figūros“ (9.1) · lygūs trikampiai ir jų lygumo požymiai</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šiame skyriuje</h2>
+    <ol>
+      <li><a href="#t1">Kokios figūros vadinamos lygiomis</a></li>
+      <li><a href="#t2">Lygūs trikampiai: atitinkamos kraštinės ir kampai</a></li>
+      <li><a href="#t3">Trikampio kampų suma ir priekampis</a></li>
+      <li><a href="#t4">Kraštinės ir kampai: kas prieš ką</a></li>
+      <li><a href="#t5">Trys trikampių lygumo požymiai</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kokios figūros vadinamos lygiomis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dvi plokštumos figūros vadinamos lygiomis</span>, jei vieną galima uždėti ant kitos <b>pastumiant, pasukant ar apverčiant</b> taip, kad jos visiškai <b>sutaptų</b>.</p>
+        <p>Pavyzdžiui, iškirpę du vienodus trikampius ar apskritimus ir uždėję vieną ant kito, matome, kad jie sutampa, vadinasi, jie yra lygūs.</p>
+        <p class="pvz"><b>Svarbu.</b> Lygios figūros turi <b>lygius perimetrus</b> ir <b>lygius plotus</b>. Bet atvirkščias teiginys <b>neteisingas</b>: jei figūrų plotai (ar perimetrai) lygūs, tai <b>dar nereiškia</b>, kad figūros lygios. Pvz., kvadratas ir stačiakampis gali turėti vienodą plotą, bet lygūs nėra.</p>
+        <p class="demesio"><b>Įsidėmėk.</b> Simetriškos figūros (simetriškos ašiai) visada yra <b>lygios</b>: viena yra kitos veidrodinis atspindys.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Lygūs trikampiai: atitinkamos kraštinės ir kampai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kad trikampiai <span class="math">ABC</span> ir <span class="math">A₁B₁C₁</span> yra lygūs, rašome <span class="math"><b>△ABC = △A₁B₁C₁</b></span>. Raidės surašomos <b>atitinkama tvarka</b>: <span class="math">A</span> atitinka <span class="math">A₁</span>, <span class="math">B</span> — <span class="math">B₁</span>, <span class="math">C</span> — <span class="math">C₁</span>.</p>
+        <div class="fig">
+          <figure>
+            <svg width="230" height="150" viewBox="0 0 230 150">
+              <polygon class="s-side" points="20,125 150,125 55,35"/>
+              <!-- vienoda AB zyme (viena) -->
+              <line class="s-mark" x1="80" y1="83" x2="90" y2="77"/>
+              <!-- BC zyme (dvi) -->
+              <line class="s-mark" x1="97" y1="75" x2="104" y2="85"/>
+              <line class="s-mark" x1="103" y1="72" x2="110" y2="82"/>
+              <text x="10" y="140">A</text><text x="150" y="140">C</text><text x="50" y="28">B</text>
+            </svg>
+            <figcaption>△ABC</figcaption>
+          </figure>
+          <figure>
+            <svg width="230" height="150" viewBox="0 0 230 150">
+              <polygon class="s-side" points="75,125 205,125 110,35"/>
+              <line class="s-mark" x1="135" y1="83" x2="145" y2="77"/>
+              <line class="s-mark" x1="152" y1="75" x2="159" y2="85"/>
+              <line class="s-mark" x1="158" y1="72" x2="165" y2="82"/>
+              <text x="65" y="140">A₁</text><text x="205" y="140">C₁</text><text x="103" y="28">B₁</text>
+            </svg>
+            <figcaption>△A₁B₁C₁</figcaption>
+          </figure>
+        </div>
+        <p style="margin-top:10px"><b>Atitinkamos kraštinės</b> (lygios): <span class="math">AB = A₁B₁</span>, &nbsp;<span class="math">BC = B₁C₁</span>, &nbsp;<span class="math">AC = A₁C₁</span>.<br>
+        <b>Atitinkami kampai</b> (lygūs): <span class="math">∠A = ∠A₁</span>, &nbsp;<span class="math">∠B = ∠B₁</span>, &nbsp;<span class="math">∠C = ∠C₁</span>.</p>
+        <div class="konsp" style="margin:6px 0 0"><p><span class="zenk">Pagrindinė mintis.</span> Lygių trikampių <b>atitinkamos kraštinės lygios</b> ir <b>atitinkami kampai lygūs</b>. Brėžinyje lygios kraštinės žymimos <b>vienodu brūkšnelių skaičiumi</b>, o lygūs kampai — <b>vienodu lankelių skaičiumi</b>.</p></div>
+        <p class="pvz"><b>Pavyzdys.</b> Jei <span class="math">△ABC = △DEF</span>, tai <span class="math">AB = DE</span>, <span class="math">BC = EF</span>, <span class="math">AC = DF</span> ir <span class="math">∠A = ∠D</span>, <span class="math">∠B = ∠E</span>, <span class="math">∠C = ∠F</span>. Kraštinę <span class="math">BC</span> atitinka <span class="math">EF</span> (ne <span class="math">DF</span>!), nes <span class="math">B→E</span>, <span class="math">C→F</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Trikampio kampų suma ir priekampis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Trikampio kampų suma lygi 180°.</span></p>
+        <div class="formule math"><span class="term-a">∠A</span> + <span class="term-a">∠B</span> + <span class="term-a">∠C</span> = 180°</div>
+        <p><span class="zenk">Priekampis</span> — tai kampas, <b>gretutinis</b> trikampio kampui (jo tęsinys už kraštinės).</p>
+        <div class="fig">
+          <figure>
+            <svg width="300" height="150" viewBox="0 0 300 150">
+              <polygon class="s-side" points="40,120 200,120 95,40"/>
+              <line class="s-side" x1="200" y1="120" x2="270" y2="120"/>
+              <path class="s-arc" d="M 218,120 A 18,18 0 0 1 208,105"/>
+              <text x="30" y="135">A</text><text x="88" y="34">B</text>
+              <text x="192" y="137">C</text><text x="223" y="112">4</text>
+              <text x="70" y="115">1</text><text x="93" y="60">2</text><text x="180" y="112">3</text>
+            </svg>
+            <figcaption>∠4 — kampo C priekampis</figcaption>
+          </figure>
+        </div>
+        <div class="konsp" style="margin:6px 0 0"><p><span class="zenk">Priekampis lygus dviejų jam negretutinių trikampio kampų sumai.</span></p>
+        <div class="formule math" style="margin:8px 0 0"><span class="term-b">∠4</span> = <span class="term-a">∠1</span> + <span class="term-a">∠2</span></div></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio kampai <span class="math">∠1 = 55°</span> ir <span class="math">∠2 = 65°</span>. Tada trečias kampas <span class="math">∠3 = 180° − 55° − 65° = 60°</span>, o priekampis prie jo <span class="math">∠4 = 55° + 65° = <span class="gerai">120°</span></span>. Pastebėk: <span class="math">120° = 180° − 60°</span> — priekampis ir jo trikampio kampas yra gretutiniai (suma 180°).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kraštinės ir kampai: kas prieš ką</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kiekvienai trikampio kraštinei priešais yra <b>vienas kampas</b>, o kiekvienam kampui — <b>viena kraštinė</b>. Tarp jų yra tvarka:</p>
+        <div class="formule">Prieš <span class="term-b">ilgesnę</span> kraštinę yra <span class="term-b">didesnis</span> kampas.</div>
+        <p>Ir atvirkščiai: prieš <b>didesnį kampą</b> yra <b>ilgesnė</b> kraštinė. Prieš <b>lygias</b> kraštines yra <b>lygūs</b> kampai (tai lygiašonio trikampio pagrindo kampai).</p>
+        <p class="pvz"><b>Pavyzdys.</b> Statusis trikampis: didžiausias kampas — statusis (90°). Prieš jį — ilgiausia kraštinė (įžambinė). Lygiakraščio trikampio visos kraštinės lygios, todėl ir visi kampai lygūs po <span class="math">60°</span>.</p>
+        <p class="demesio"><b>Įsidėmėk.</b> Lygiašoniame trikampyje (dvi kraštinės lygios) <b>pagrindo kampai lygūs</b>. Jei pagrindo kampas 50°, tai kitas pagrindo kampas irgi 50°, o viršūnės kampas <span class="math">180° − 50° − 50° = 80°</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Trys trikampių lygumo požymiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kad įsitikintume, ar du trikampiai lygūs, <b>nebūtina</b> tikrinti visų šešių elementų (3 kraštinių ir 3 kampų). Užtenka patikrinti <b>tris</b> tinkamai parinktus. Yra <b>trys lygumo požymiai</b>.</p>
+
+        <p style="margin-top:12px"><b class="term-a">I požymis — pagal dvi kraštines ir kampą tarp jų</b> (KKmK):</p>
+        <div class="konsp" style="margin:4px 0 0"><p>Jei vieno trikampio <b>dvi kraštinės ir kampas tarp jų</b> lygūs kito trikampio atitinkamoms dviem kraštinėms ir kampui tarp jų, tai <b>tie trikampiai lygūs</b>.</p></div>
+
+        <p style="margin-top:12px"><b class="term-a">II požymis — pagal kraštinę ir du kampus prie jos</b> (KmKK):</p>
+        <div class="konsp" style="margin:4px 0 0"><p>Jei vieno trikampio <b>kraštinė ir du prie jos esantys kampai</b> lygūs kito trikampio atitinkamai kraštinei ir dviem prie jos esantiems kampams, tai <b>tie trikampiai lygūs</b>.</p></div>
+
+        <p style="margin-top:12px"><b class="term-a">III požymis — pagal tris kraštines</b> (KKK):</p>
+        <div class="konsp" style="margin:4px 0 0"><p>Jei vieno trikampio <b>visos trys kraštinės</b> lygios kito trikampio atitinkamoms trims kraštinėms, tai <b>tie trikampiai lygūs</b>.</p></div>
+
+        <div class="fig" style="margin-top:16px">
+          <figure>
+            <svg width="150" height="130" viewBox="0 0 150 130">
+              <polygon class="s-side" points="25,105 130,105 45,30"/>
+              <!-- dvi krastines zymes + kampas tarp ju -->
+              <line class="s-mark" x1="33" y1="70" x2="41" y2="63"/>
+              <line class="s-mark" x1="80" y1="112" x2="80" y2="120"/>
+              <line class="s-mark" x1="88" y1="112" x2="88" y2="120"/>
+              <path class="s-arc" d="M 40,105 A 16,16 0 0 1 32,92"/>
+              <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="38" y="24">B</text>
+            </svg>
+            <figcaption>I: dvi kraštinės + kampas tarp jų</figcaption>
+          </figure>
+          <figure>
+            <svg width="150" height="130" viewBox="0 0 150 130">
+              <polygon class="s-side" points="25,105 130,105 75,30"/>
+              <line class="s-mark" x1="72" y1="112" x2="72" y2="120"/>
+              <path class="s-arc" d="M 43,105 A 18,18 0 0 1 36,90"/>
+              <path class="s-arc" d="M 112,105 A 18,18 0 0 0 119,90"/>
+              <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="70" y="24">B</text>
+            </svg>
+            <figcaption>II: kraštinė + du kampai prie jos</figcaption>
+          </figure>
+          <figure>
+            <svg width="150" height="130" viewBox="0 0 150 130">
+              <polygon class="s-side" points="25,105 130,105 60,30"/>
+              <line class="s-mark" x1="38" y1="70" x2="46" y2="63"/>
+              <line class="s-mark" x1="98" y1="65" x2="106" y2="72"/>
+              <line class="s-mark" x1="103" y1="62" x2="111" y2="69"/>
+              <line class="s-mark" x1="74" y1="112" x2="74" y2="120"/>
+              <line class="s-mark" x1="80" y1="112" x2="80" y2="120"/>
+              <line class="s-mark" x1="86" y1="112" x2="86" y2="120"/>
+              <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="53" y="24">B</text>
+            </svg>
+            <figcaption>III: trys kraštinės</figcaption>
+          </figure>
+        </div>
+        <p class="pvz" style="margin-top:14px"><b>Kaip naudoti.</b> Pažiūrėk, kokie <b>trys</b> elementai duoti (ar pažymėti brėžinyje vienodomis žymėmis), ir parink tinkamą požymį. Įrodžius lygumą, gali teigti, kad ir <b>visi kiti</b> atitinkami elementai lygūs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">Vienodas plotas → figūros lygios</td><td class="gerai">Nebūtinai. Lygumui reikia sutapimo, ne tik vienodo ploto.</td></tr>
+          <tr><td class="klaida math">△ABC = △DEF → BC = DF</td><td class="gerai math">BC = EF (žiūrėk atitikimą B→E, C→F)</td></tr>
+          <tr><td class="klaida">Priekampis = trikampio kampas</td><td class="gerai">Priekampis = kitų <b>dviejų</b> kampų suma (arba 180° − kampas)</td></tr>
+          <tr><td class="klaida">Užtenka dviejų lygių kampų</td><td class="gerai">Reikia dar bent vienos <b>kraštinės</b> (I, II ar III požymis)</td></tr>
+          <tr><td class="klaida">Bet kokie du kampai ir kraštinė</td><td class="gerai">Pagal I požymį kampas turi būti <b>tarp</b> dviejų kraštinių</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Renkuosi lygumo požymį pagal tai, <b>kas duota</b>: dvi kraštinės + kampas tarp jų → I; kraštinė + du kampai prie jos → II; trys kraštinės → III.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · skyrius „Lygumo figūros“ (9.1) · lygūs trikampiai ir jų lygumo požymiai
+  </footer>
+
+</div>
+</body>
+</html>
