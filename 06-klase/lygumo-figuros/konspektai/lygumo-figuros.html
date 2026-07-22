@@ -51,8 +51,8 @@
   svg text{font-family:"Cambria Math",Cambria,Georgia,serif; font-size:14px; fill:#1c2430}
   .s-side{stroke:var(--tema); stroke-width:2.4; fill:none}
   .s-side2{stroke:var(--pvz); stroke-width:2.4; fill:none}
-  .s-mark{stroke:var(--demesio); stroke-width:2}
-  .s-arc{stroke:var(--taisykle); stroke-width:2; fill:none}
+  .s-mark{stroke:var(--demesio); stroke-width:2.4; stroke-linecap:round}
+  .s-arc{stroke:var(--taisykle); stroke-width:2.2; fill:none; stroke-linecap:round; stroke-linejoin:round}
   footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
   @page{ size:A4 portrait; margin:14mm }
   @media print{
@@ -104,11 +104,15 @@
           <figure>
             <svg width="230" height="150" viewBox="0 0 230 150">
               <polygon class="s-side" points="20,125 150,125 55,35"/>
-              <!-- vienoda AB zyme (viena) -->
-              <line class="s-mark" x1="80" y1="83" x2="90" y2="77"/>
-              <!-- BC zyme (dvi) -->
-              <line class="s-mark" x1="97" y1="75" x2="104" y2="85"/>
-              <line class="s-mark" x1="103" y1="72" x2="110" y2="82"/>
+              <!-- AB: 1 bruksnelis -->
+              <line class="s-mark" x1="32" y1="78" x2="43" y2="82"/>
+              <!-- BC: 2 bruksneliai -->
+              <line class="s-mark" x1="95" y1="81" x2="103" y2="73"/>
+              <line class="s-mark" x1="102" y1="87" x2="110" y2="79"/>
+              <!-- AC: 3 bruksneliai -->
+              <line class="s-mark" x1="76" y1="119" x2="76" y2="131"/>
+              <line class="s-mark" x1="85" y1="119" x2="85" y2="131"/>
+              <line class="s-mark" x1="94" y1="119" x2="94" y2="131"/>
               <text x="10" y="140">A</text><text x="150" y="140">C</text><text x="50" y="28">B</text>
             </svg>
             <figcaption>△ABC</figcaption>
@@ -116,9 +120,15 @@
           <figure>
             <svg width="230" height="150" viewBox="0 0 230 150">
               <polygon class="s-side" points="75,125 205,125 110,35"/>
-              <line class="s-mark" x1="135" y1="83" x2="145" y2="77"/>
-              <line class="s-mark" x1="152" y1="75" x2="159" y2="85"/>
-              <line class="s-mark" x1="158" y1="72" x2="165" y2="82"/>
+              <!-- A₁B₁: 1 -->
+              <line class="s-mark" x1="87" y1="78" x2="98" y2="82"/>
+              <!-- B₁C₁: 2 -->
+              <line class="s-mark" x1="150" y1="81" x2="158" y2="73"/>
+              <line class="s-mark" x1="157" y1="87" x2="165" y2="79"/>
+              <!-- C₁A₁: 3 -->
+              <line class="s-mark" x1="131" y1="119" x2="131" y2="131"/>
+              <line class="s-mark" x1="140" y1="119" x2="140" y2="131"/>
+              <line class="s-mark" x1="149" y1="119" x2="149" y2="131"/>
               <text x="65" y="140">A₁</text><text x="205" y="140">C₁</text><text x="103" y="28">B₁</text>
             </svg>
             <figcaption>△A₁B₁C₁</figcaption>
@@ -145,10 +155,14 @@
             <svg width="300" height="150" viewBox="0 0 300 150">
               <polygon class="s-side" points="40,120 200,120 95,40"/>
               <line class="s-side" x1="200" y1="120" x2="270" y2="120"/>
-              <path class="s-arc" d="M 218,120 A 18,18 0 0 1 208,105"/>
+              <path class="s-arc" d="M 51.9,102.7 L 55.0,105.3 L 57.6,108.5 L 59.4,112.1 L 60.6,116.0 L 61.0,120.0"/>
+              <path class="s-arc" d="M 85.4,54.0 L 90.0,56.3 L 95.1,57.0 L 100.2,56.2 L 104.8,53.9 L 108.5,50.3"/>
+              <path class="s-arc" d="M 186.5,109.7 L 185.3,111.5 L 184.3,113.5 L 183.6,115.6 L 183.1,117.8 L 183.0,120.0"/>
+              <path class="s-arc" d="M 183.3,107.3 L 191.4,100.8 L 201.6,99.1 L 211.4,102.4 L 218.4,110.0 L 221.0,120.0"/>
+              <path class="s-arc" d="M 180.1,104.8 L 189.8,97.2 L 201.9,95.1 L 213.6,99.0 L 222.0,108.1 L 225.0,120.0"/>
               <text x="30" y="135">A</text><text x="88" y="34">B</text>
-              <text x="192" y="137">C</text><text x="223" y="112">4</text>
-              <text x="70" y="115">1</text><text x="93" y="60">2</text><text x="180" y="112">3</text>
+              <text x="192" y="137">C</text><text x="228" y="112">4</text>
+              <text x="65" y="116">1</text><text x="90" y="64">2</text><text x="174" y="116">3</text>
             </svg>
             <figcaption>∠4 — kampo C priekampis</figcaption>
           </figure>
@@ -195,10 +209,10 @@
             <svg width="150" height="130" viewBox="0 0 150 130">
               <polygon class="s-side" points="25,105 130,105 45,30"/>
               <!-- dvi krastines zymes + kampas tarp ju -->
-              <line class="s-mark" x1="33" y1="70" x2="41" y2="63"/>
-              <line class="s-mark" x1="80" y1="112" x2="80" y2="120"/>
-              <line class="s-mark" x1="88" y1="112" x2="88" y2="120"/>
-              <path class="s-arc" d="M 40,105 A 16,16 0 0 1 32,92"/>
+              <line class="s-mark" x1="40" y1="69" x2="30" y2="66"/>
+              <line class="s-mark" x1="75" y1="110" x2="75" y2="100"/>
+              <line class="s-mark" x1="80" y1="110" x2="80" y2="100"/>
+              <path class="s-arc" d="M 29.4,88.6 L 33.5,90.3 L 37.0,93.0 L 39.7,96.5 L 41.4,100.6 L 42.0,105.0"/>
               <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="38" y="24">B</text>
             </svg>
             <figcaption>I: dvi kraštinės + kampas tarp jų</figcaption>
@@ -206,9 +220,9 @@
           <figure>
             <svg width="150" height="130" viewBox="0 0 150 130">
               <polygon class="s-side" points="25,105 130,105 75,30"/>
-              <line class="s-mark" x1="72" y1="112" x2="72" y2="120"/>
-              <path class="s-arc" d="M 43,105 A 18,18 0 0 1 36,90"/>
-              <path class="s-arc" d="M 112,105 A 18,18 0 0 0 119,90"/>
+              <line class="s-mark" x1="78" y1="110" x2="78" y2="100"/>
+              <path class="s-arc" d="M 34.4,90.9 L 37.0,93.0 L 39.1,95.5 L 40.7,98.5 L 41.7,101.7 L 42.0,105.0"/>
+              <path class="s-arc" d="M 119.9,91.3 L 117.6,93.4 L 115.6,95.9 L 114.2,98.8 L 113.3,101.8 L 113.0,105.0"/>
               <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="70" y="24">B</text>
             </svg>
             <figcaption>II: kraštinė + du kampai prie jos</figcaption>
@@ -216,12 +230,12 @@
           <figure>
             <svg width="150" height="130" viewBox="0 0 150 130">
               <polygon class="s-side" points="25,105 130,105 60,30"/>
-              <line class="s-mark" x1="38" y1="70" x2="46" y2="63"/>
-              <line class="s-mark" x1="98" y1="65" x2="106" y2="72"/>
-              <line class="s-mark" x1="103" y1="62" x2="111" y2="69"/>
-              <line class="s-mark" x1="74" y1="112" x2="74" y2="120"/>
-              <line class="s-mark" x1="80" y1="112" x2="80" y2="120"/>
-              <line class="s-mark" x1="86" y1="112" x2="86" y2="120"/>
+              <line class="s-mark" x1="47" y1="70" x2="38" y2="65"/>
+              <line class="s-mark" x1="89" y1="69" x2="97" y2="62"/>
+              <line class="s-mark" x1="93" y1="73" x2="101" y2="66"/>
+              <line class="s-mark" x1="72" y1="110" x2="72" y2="100"/>
+              <line class="s-mark" x1="78" y1="110" x2="78" y2="100"/>
+              <line class="s-mark" x1="82" y1="110" x2="82" y2="100"/>
               <text x="15" y="120">A</text><text x="128" y="120">C</text><text x="53" y="24">B</text>
             </svg>
             <figcaption>III: trys kraštinės</figcaption>
