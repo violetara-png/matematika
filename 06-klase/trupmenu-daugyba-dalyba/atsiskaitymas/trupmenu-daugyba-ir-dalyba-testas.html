@@ -22,6 +22,9 @@
   .q:first-child{border-top:none}
   .qnum{font-weight:700;color:var(--accent)}
   .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
   .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
     border-radius:10px;margin:7px 0;cursor:pointer}
   .opt:hover{background:#f3f6fa}
@@ -216,15 +219,15 @@ function val(id){return document.getElementById(id).value.trim();}
 function renderTest(){
   document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       ${q.options.map((o,j)=>`
         <label class="opt"><input type="radio" name="mc${i}" value="${j}">
-        <span class="letter">${LETTERS[j]}</span><span>${esc(o)}</span></label>`).join('')}
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
     </div>`).join('');
   const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
   document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
              inputmode="text" autocapitalize="off" spellcheck="false">
       <div class="editor">
@@ -234,6 +237,9 @@ function renderTest(){
     </div>`).join('');
 }
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
