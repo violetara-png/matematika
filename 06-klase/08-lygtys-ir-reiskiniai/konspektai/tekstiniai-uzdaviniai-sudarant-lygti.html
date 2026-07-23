@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tekstinių uždavinių sprendimas sudarant lygtį — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  .zingsniai{list-style:none; counter-reset:z; margin:0; padding:0}
+  .zingsniai li{position:relative; padding:10px 12px 10px 46px; margin:8px 0; background:#fff;
+    border:1px solid var(--linija); border-radius:6px; counter-increment:z}
+  .zingsniai li::before{content:counter(z); position:absolute; left:10px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; background:var(--tema); color:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px}
+  .sprend{background:#fff; border:1px solid var(--linija); border-radius:6px; padding:12px 16px; margin:10px 0 0}
+  .sprend .z{color:var(--tema); font-weight:700}
+  .sprend .lygtis{margin:8px 0; padding-left:6px; line-height:1.8}
+  .ats{color:var(--taisykle); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  table.kort td:first-child{text-align:left}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Tekstinių uždavinių sprendimas sudarant lygtį</h1>
+  <p class="klase">Matematika · 6 klasė · 8.2.4 tema · reiškiniai ir lygtys</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kada patogu spręsti sudarant lygtį</a></li>
+      <li><a href="#t2">Keturi sprendimo žingsniai</a></li>
+      <li><a href="#t3">Kaip nežinomą pažymėti raide</a></li>
+      <li><a href="#t4">Pavyzdžiai su sprendimu</a></li>
+      <li><a href="#t5">Kodėl būtina pasitikrinti</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kada patogu spręsti sudarant lygtį</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Daugelį <span class="zenk">tekstinių uždavinių</span> patogu spręsti taip: nežinomą dydį pažymime <b>raide</b> (dažniausiai <span class="math term-a">x</span>), o pagal uždavinio sąlygą sudarome ir išsprendžiame <b>lygtį</b>.</p>
+        <p>Toks būdas ypač padeda, kai uždavinyje keli dydžiai <b>susieti tarpusavyje</b> („3 kartus daugiau", „5 mažiau", „dvigubai ilgesnė") ir žinoma jų <b>suma, skirtumas</b> ar bendras rezultatas.</p>
+        <p class="pvz"><b>Pavyzdys iš gyvenimo.</b> Stalas ir 6 kėdės kartu kainuoja 1048 Eur, o kėdė 313 Eur pigesnė už stalą. Užuot spėliojus, pažymime kėdės kainą raide <span class="math">x</span> ir sudarome lygtį — atsakymą randame tiksliai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Keturi sprendimo žingsniai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kiekvieną tekstinį uždavinį sprendžiame ta pačia tvarka:</p>
+        <ol class="zingsniai">
+          <li><b>Atidžiai perskaitau sąlygą.</b> Suprantu, kas žinoma ir ko ieškoma.</li>
+          <li><b>Pažymiu nežinomą dydį raide</b> <span class="math term-a">x</span> (jei nežinomų keli — vieną jų žymiu <span class="math">x</span>, kitus išreiškiu per <span class="math">x</span>) ir <b>sudarau lygtį</b>.</li>
+          <li><b>Išsprendžiu</b> sudarytą lygtį.</li>
+          <li><b>Pasitikrinu</b>, ar sprendinys tenkina sąlygą, ir <b>parašau atsakymą</b>.</li>
+        </ol>
+        <p class="demesio"><b>Svarbiausia — 2 žingsnis.</b> Nežinomą patogiausia žymėti tą dydį, per kurį <b>lengviausiai išreiškiami kiti</b>. Paprastai tai <b>mažiausias</b> dydis (tada kiti gaunami dauginant ar pridedant, be trupmenų).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kaip nežinomą pažymėti raide</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Sąlygos žodžius verčiame į reiškinį su <span class="math term-a">x</span>. Kai pirmą dydį pažymime <span class="math">x</span>:</p>
+        <table class="kort math">
+          <tr><th>Sąlygos žodžiai</th><th>Reiškinys</th></tr>
+          <tr><td>5 <b>daugiau</b> (ilgesnis, sunkesnis) už x</td><td class="gerai">x + 5</td></tr>
+          <tr><td>5 <b>mažiau</b> (trumpesnis, pigesnis) už x</td><td class="gerai">x − 5</td></tr>
+          <tr><td>3 <b>kartus daugiau</b> (ilgesnis) už x</td><td class="gerai">3x</td></tr>
+          <tr><td><b>dvigubai</b> ilgesnis už x</td><td class="gerai">2x</td></tr>
+          <tr><td>3 kartus <b>mažiau</b> (trumpesnis) už x</td><td class="gerai">x : 3</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> „Antra kraštinė dvigubai ilgesnė už pirmą, o trečia 5 cm trumpesnė už antrą." Pirma = <span class="math">x</span>, antra = <span class="math">2x</span>, trečia = <span class="math">2x − 5</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> „3 kartus daugiau" reiškia <span class="math">3x</span> (daugyba), o „3 daugiau" — <span class="math">x + 3</span> (sudėtis). Nesupainiok <b>„kartus"</b> su paprastu skaičiumi!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Pavyzdžiai su sprendimu</h2>
+    <div class="vidus">
+
+      <div class="konsp">
+        <p class="zenk">A pavyzdys · suma ir „kartus daugiau"</p>
+        <p>Stiklainyje buvo <b>440 g</b> uogienės. Mindaugas suvalgė <b>tris kartus daugiau</b> uogienės, negu jos liko stiklainyje. Kiek gramų uogienės suvalgė Mindaugas?</p>
+        <div class="sprend math">
+          <p class="zz"><span class="zz zenk" style="font-family:'Segoe UI'">Pažymime.</span> Liko <span class="term-a">x</span> g, tada suvalgė <span class="term-b">3x</span> g. Kartu tai visa uogienė:</p>
+          <div class="lygtis">
+            x + 3x = 440<br>
+            4x = 440<br>
+            x = 110.
+          </div>
+          <p style="font-family:'Segoe UI'">Liko 110 g, suvalgė 3 · 110 = 330 g. Patikra: 110 + 330 = 440 g. <span class="ats">Atsakymas: 330 g.</span></p>
+        </div>
+      </div>
+
+      <div class="konsp">
+        <p class="zenk">B pavyzdys · dalijimas į grupes</p>
+        <p>Stovyklos vadovas <b>72 mokinius</b> suskirstė į tris grupes: pirmoje 2 kartus <b>mažiau</b> negu antroje, o trečioje <b>12 daugiau</b> negu pirmoje. Kiek mokinių kiekvienoje grupėje?</p>
+        <div class="sprend math">
+          <p style="font-family:'Segoe UI'"><span class="zenk">Pažymime</span> pirmą grupę <span class="term-a">x</span>. Antra = <span class="term-b">2x</span>, trečia = <span class="term-b">x + 12</span>.</p>
+          <div class="lygtis">
+            x + 2x + (x + 12) = 72<br>
+            4x + 12 = 72<br>
+            4x = 60<br>
+            x = 15.
+          </div>
+          <p style="font-family:'Segoe UI'">Pirma 15, antra 30, trečia 27. Patikra: 15 + 30 + 27 = 72. <span class="ats">Atsakymas: 15, 30 ir 27 mokiniai.</span></p>
+        </div>
+      </div>
+
+      <div class="konsp">
+        <p class="zenk">C pavyzdys · trikampio kraštinės (perimetras)</p>
+        <p>Trikampio antra kraštinė <b>dvigubai ilgesnė</b> už pirmą, o trečia <b>5 cm trumpesnė</b> už antrą. Raskite kraštinių ilgius, jei perimetras lygus <b>45 cm</b>.</p>
+        <div class="sprend math">
+          <p style="font-family:'Segoe UI'"><span class="zenk">Pažymime</span> pirmą kraštinę <span class="term-a">x</span> cm. Antra = <span class="term-b">2x</span>, trečia = <span class="term-b">2x − 5</span>. Perimetras — kraštinių suma:</p>
+          <div class="lygtis">
+            x + 2x + (2x − 5) = 45<br>
+            5x − 5 = 45<br>
+            5x = 50<br>
+            x = 10.
+          </div>
+          <p style="font-family:'Segoe UI'">Pirma 10 cm, antra 20 cm, trečia 15 cm. Patikra: 10 + 20 + 15 = 45 cm. <span class="ats">Atsakymas: 10, 20 ir 15 cm.</span></p>
+        </div>
+      </div>
+
+      <div class="konsp">
+        <p class="zenk">D pavyzdys · kaina</p>
+        <p>Stalas ir <b>6 kėdės</b> kainuoja <b>1048 Eur</b>. Kėdė yra <b>313 Eur pigesnė</b> už stalą. Kiek kainuoja kėdė ir kiek stalas?</p>
+        <div class="sprend math">
+          <p style="font-family:'Segoe UI'"><span class="zenk">Pažymime</span> kėdės kainą <span class="term-a">x</span> Eur. Stalas = <span class="term-b">x + 313</span>. Stalas ir 6 kėdės:</p>
+          <div class="lygtis">
+            6x + (x + 313) = 1048<br>
+            7x + 313 = 1048<br>
+            7x = 735<br>
+            x = 105.
+          </div>
+          <p style="font-family:'Segoe UI'">Kėdė 105 Eur, stalas 105 + 313 = 418 Eur. Patikra: 6 · 105 + 418 = 1048 Eur. <span class="ats">Atsakymas: kėdė 105 Eur, stalas 418 Eur.</span></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Kodėl būtina pasitikrinti</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Radus <span class="math">x</span>, <span class="zenk">visada grįžtu prie sąlygos</span> ir patikrinu: ar reikšmės atitinka duotą sumą / skirtumą? Ar atsakymas <b>prasmingas</b> (kraštinė ar mokinių skaičius negali būti neigiamas)?</p>
+        <div class="formule math">x + 2x + (x + 12) = 15 + 30 + 27 = <span class="gerai">72</span> ✓</div>
+        <p>Patikra atskleidžia klaidas sudarant ar sprendžiant lygtį. Tik po jos rašau <b>pilną atsakymą žodžiais</b> (su matavimo vienetais: g, cm, Eur, mokinių).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>„3 kartus daugiau" užrašo <span class="math klaida">x + 3</span></td><td class="math"><span class="gerai">3x</span> (daugyba, ne sudėtis)</td></tr>
+          <tr><td>Nežinomą žymi <b>didesnįjį</b> dydį → atsiranda trupmenos</td><td>Žymi <span class="gerai">mažiausią</span> dydį → kiti be trupmenų</td></tr>
+          <tr><td>Pamiršta <b>skliaustus</b>: <span class="math klaida">x + 2x + x − 5</span></td><td class="math"><span class="gerai">x + 2x + (2x − 5)</span></td></tr>
+          <tr><td>Radus <span class="math">x</span>, atsako tik <span class="math">x</span></td><td>Atsako <span class="gerai">visus</span> prašomus dydžius</td></tr>
+          <tr><td>Neparašo <b>matavimo vieneto</b></td><td class="gerai">330 g, 15 cm, 418 Eur</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pažymiu <b>mažiausią</b> dydį raide, kitus išreiškiu per jį, sudarau lygtį pagal <b>sumą arba skirtumą</b>, o gale <b>pasitikrinu</b> ir parašau atsakymą su vienetais.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · „Tekstinių uždavinių sprendimas sudarant lygtį" (8.2.4)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kortelės: Tekstiniai uždaviniai sudarant lygtį (6 klasė)</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(17px,2.6vw,25px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .tabs{display:flex; gap:8px; margin:18px 0 4px}
+  .tab{border:none; background:#e2e8f0; color:var(--ink); padding:10px 20px; border-radius:999px;
+    font-size:16px; cursor:pointer; font-weight:600}
+  .tab.active{background:var(--accent2); color:#fff}
+  .wrap{width:100%; max-width:640px; padding:16px; flex:1; display:flex; flex-direction:column}
+  .counter{text-align:center; color:var(--muted); font-size:15px; margin:6px 0}
+  .card{position:relative; width:100%; aspect-ratio:16/10; margin:10px 0; perspective:1400px; cursor:pointer}
+  .inner{position:absolute; inset:0; transition:transform .5s; transform-style:preserve-3d}
+  .card.flipped .inner{transform:rotateY(180deg)}
+  .face{position:absolute; inset:0; backface-visibility:hidden; background:var(--card); border-radius:22px;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px}
+  .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
+  .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
+  .expr{font-size:clamp(20px,4.2vw,32px); font-weight:700; text-align:center; line-height:1.3}
+  .back{transform:rotateY(180deg)}
+  .back .expr{color:var(--accent)}
+  .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
+  .controls{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:30px 22px; text-align:center; margin:10px 0}
+  .practice .q{font-size:clamp(19px,4vw,28px); font-weight:700; margin-bottom:8px; line-height:1.35}
+  .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
+    border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
+  .practice input:focus{border-color:var(--accent2)}
+  .feedback{min-height:34px; margin-top:14px; font-size:20px; font-weight:700}
+  .feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+  .score{text-align:center; color:var(--muted); margin-top:8px; font-size:15px}
+  .keys{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
+  .keys button{border:1px solid #cbd5e1; background:#fff; border-radius:8px; padding:8px 12px; font-size:18px; cursor:pointer; min-width:44px}
+  .hidden{display:none}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header><h1>Tekstiniai uždaviniai sudarant lygtį</h1><p>Interaktyvios kortelės · 12 klausim. · 6 klasė</p></header>
+<div class="tabs">
+  <button class="tab active" id="tabCards">🃏 Kortelės</button>
+  <button class="tab" id="tabPractice">✏️ Praktika</button>
+</div>
+<div class="wrap">
+  <section id="cardsMode">
+    <div class="counter" id="cardCounter"></div>
+    <div class="card" id="card" onclick="flip()">
+      <div class="inner">
+        <div class="face front"><span class="tag" id="cardNum"></span><span class="side">Klausimas</span>
+          <div class="expr" id="cardFront"></div><span class="hint">Spustelėk, kad pamatytum atsakymą</span></div>
+        <div class="face back"><span class="tag" id="cardNumB"></span><span class="side">Atsakymas</span>
+          <div class="expr" id="cardBack"></div><span class="hint">Spustelėk, kad grįžtum</span></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="ctrl" onclick="prevCard()">← Atgal</button>
+      <button class="ctrl primary" onclick="flip()">Apversti</button>
+      <button class="ctrl" onclick="nextCard()">Pirmyn →</button>
+      <button class="ctrl" onclick="shuffleCards()">🔀 Sumaišyti</button>
+    </div>
+  </section>
+  <section id="practiceMode" class="practice hidden">
+    <div class="counter" id="pCounter"></div>
+    <div class="qbox">
+      <div class="q" id="pQuestion"></div>
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (skaičių arba reiškinį)</div>
+      <input id="pInput" type="text" autocomplete="off" placeholder="atsakymas"
+             onkeydown="if(event.key==='Enter')checkAnswer()">
+      <div class="keys">
+        <button onclick="ins('x')">x</button><button onclick="ins('+')">+</button>
+        <button onclick="ins('−')">−</button><button onclick="bksp()">⌫</button>
+      </div>
+      <div class="feedback" id="pFeedback"></div>
+    </div>
+    <div class="controls">
+      <button class="ctrl primary" onclick="checkAnswer()">Tikrinti</button>
+      <button class="ctrl" onclick="revealAnswer()">Rodyti atsakymą</button>
+      <button class="ctrl" onclick="nextPractice()">Kitas →</button>
+      <button class="ctrl" onclick="restartPractice()">↻ Iš naujo</button>
+    </div>
+    <div class="score" id="pScore"></div>
+  </section>
+</div>
+<footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const CARDS = [
+  ["„7 daugiau už x“", "x + 7"],
+  ["„5 mažiau už x“", "x − 5"],
+  ["„3 kartus daugiau už x“", "3x"],
+  ["„dvigubai ilgesnis už x“", "2x"],
+  ["„4 kartus ilgesnis už x“", "4x"],
+  ["Išspręsk lygtį: x + 3x = 84. Kiek x?", "21"],
+  ["Išspręsk lygtį: x + 2x = 360. Kiek x?", "120"],
+  ["Išspręsk lygtį: 4x + 12 = 72. Kiek x?", "15"],
+  ["Buvo 440 g uogienės, suvalgė 3 k. daugiau negu liko. Kiek LIKO? (g)", "110"],
+  ["Buvo 440 g uogienės, suvalgė 3 k. daugiau negu liko. Kiek SUVALGĖ? (g)", "330"],
+  ["Stalas ir 6 kėdės = 1048 Eur, kėdė 313 pigesnė. Kėdės kaina? (Eur)", "105"],
+  ["Trikampio P = 45 cm: kraštinės x, 2x, 2x−5. Kiek pirma kraštinė? (cm)", "10"]
+];
+let order = CARDS.map((_,i)=>i); let ci = 0;
+const cardEl = document.getElementById('card');
+function renderCard(){
+  const [f,b]=CARDS[order[ci]]; cardEl.classList.remove('flipped');
+  document.getElementById('cardFront').textContent=f;
+  document.getElementById('cardBack').textContent=b;
+  document.getElementById('cardNum').textContent=order[ci]+1;
+  document.getElementById('cardNumB').textContent=order[ci]+1;
+  document.getElementById('cardCounter').textContent=`Kortelė ${ci+1} iš ${CARDS.length}`;
+}
+function flip(){cardEl.classList.toggle('flipped');}
+function nextCard(){ci=(ci+1)%CARDS.length;renderCard();}
+function prevCard(){ci=(ci-1+CARDS.length)%CARDS.length;renderCard();}
+function shuffleCards(){for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}ci=0;renderCard();}
+let porder=CARDS.map((_,i)=>i); let pi=0,correct=0,answered=0,done=false;
+function normalize(s){
+  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+function renderPractice(){
+  done=false; const q=CARDS[porder[pi]][0];
+  document.getElementById('pQuestion').textContent=q;
+  document.getElementById('pInput').value='';
+  document.getElementById('pInput').focus();
+  document.getElementById('pFeedback').textContent='';
+  document.getElementById('pFeedback').className='feedback';
+  document.getElementById('pCounter').textContent=`Klausimas ${pi+1} iš ${CARDS.length}`;
+  updateScore();
+}
+function updateScore(){document.getElementById('pScore').textContent=`Teisingai: ${correct} / ${answered}`+(answered===CARDS.length?'  · Baigta! 🎉':'');}
+function checkAnswer(){
+  if(done) return; const val=document.getElementById('pInput').value;
+  if(!val.trim()) return; const fb=document.getElementById('pFeedback');
+  const right=CARDS[porder[pi]][1]; answered++;
+  if(normalize(val)===normalize(right)){correct++;fb.textContent='✓ Teisingai!';fb.className='feedback ok';}
+  else{fb.textContent=`✗ Ne. Teisingas atsakymas: ${right}`;fb.className='feedback bad';}
+  done=true; updateScore();
+}
+function revealAnswer(){const fb=document.getElementById('pFeedback');fb.textContent=`Atsakymas: ${CARDS[porder[pi]][1]}`;fb.className='feedback';}
+function nextPractice(){if(pi<CARDS.length-1){pi++;renderPractice();}else{document.getElementById('pFeedback').textContent='Visi klausimai atlikti! 🎉';}}
+function restartPractice(){pi=0;correct=0;answered=0;for(let i=porder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[porder[i],porder[j]]=[porder[j],porder[i]];}renderPractice();}
+function ins(ch){const el=document.getElementById('pInput');el.value+=ch;el.focus();}
+function bksp(){const el=document.getElementById('pInput');el.value=el.value.slice(0,-1);el.focus();}
+document.getElementById('tabCards').onclick=()=>switchMode('cards');
+document.getElementById('tabPractice').onclick=()=>switchMode('practice');
+function switchMode(m){const c=m==='cards';
+  document.getElementById('cardsMode').classList.toggle('hidden',!c);
+  document.getElementById('practiceMode').classList.toggle('hidden',c);
+  document.getElementById('tabCards').classList.toggle('active',c);
+  document.getElementById('tabPractice').classList.toggle('active',!c);
+  if(!c) document.getElementById('pInput').focus();
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('cardsMode').classList.contains('hidden')) return;
+  if(e.key===' '){e.preventDefault();flip();}
+  else if(e.key==='ArrowRight')nextCard(); else if(e.key==='ArrowLeft')prevCard();
+});
+renderCard(); renderPractice();
+</script>
+</body>
+</html>
