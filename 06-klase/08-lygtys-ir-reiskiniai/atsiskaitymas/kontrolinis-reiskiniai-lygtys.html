@@ -22,6 +22,9 @@
   .q:first-child{border-top:none}
   .qnum{font-weight:700;color:var(--accent)}
   .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
   .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
     border-radius:10px;margin:7px 0;cursor:pointer}
   .opt:hover{background:#f3f6fa}
@@ -75,6 +78,10 @@
     <input id="vardas" type="text" placeholder="Vardas">
     <label>Pavardė</label>
     <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
     <label>Testo variantas</label>
     <select id="variantas"></select>
     <div class="warn" id="regWarn"></div>
@@ -109,18 +116,37 @@
 </div>
 
 <script>
-const CFG = {"title": "Reiškiniai ir tiesinės lygtys", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai padirbėta. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["2x · (−5)", "−x · (−2)", "−7 · 2x", "−4 · 3x"], "correct": 2}, {"q": "Sutraukite panašiuosius narius 9x − 12x − x + 5x ir nurodykite koeficientą.", "options": ["1", "0", "2", "3"], "correct": 0}, {"q": "Jei A = −4x + 7, o B = 9 − 3x, tai A − 2B =", "options": ["−10x − 25", "2x − 11", "11 − 2x", "−10x + 11"], "correct": 1}, {"q": "Išspręskite lygtį 3(x − 2) = −15.  x =", "options": ["−7", "3", "−13", "−3"], "correct": 3}, {"q": "Kurios lygties sprendinys sutampa su lygties 4 − 2x = x − 5 sprendiniu?", "options": ["−8 − 2x = 4x + 10", "6x − 12 = x − 3", "8x + 25 = −x − 2", "2x + 1 = x + 4"], "correct": 3}, {"q": "−2(3a − 7b) − (−3a − b) =", "options": ["3(a − 5b)", "−3(a − 5b)", "−3(a + 5b)", "3(a + 5b)"], "correct": 1}, {"q": "Suprastinkite 4a · 3 − 2 · a ir nurodykite koeficientą.", "options": ["6", "10", "12", "14"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 3x − 5 reikšmę, kai x = −2.", "options": ["−11", "1", "−1", "11"], "correct": 0}, {"q": "Išspręskite lygtį −x + 4 = 2x − 5.  x =", "options": ["−3", "1", "3", "9"], "correct": 2}, {"q": "Sutraukite panašiuosius narius 7a − 3b − 5a + b.", "options": ["2a − 2b", "12a − 2b", "2a − 4b", "2a + 2b"], "correct": 0}], "open": [{"q": "Suprastinkite: 5x − 12x + 4x", "a": "4oiSM3g="}, {"q": "Išspręskite lygtį: 4x − 7 = 13", "a": "NQ=="}, {"q": "Suprastinkite: 3(2a − 4) − 5a", "a": "YeKIkjEy"}, {"q": "Išspręskite lygtį: 2(x + 3) = 3x − 1", "a": "Nw=="}, {"q": "Apskaičiuokite 2a + 3b reikšmę, kai a = 4, b = −2.", "a": "Mg=="}, {"q": "Suprastinkite: −(a − 5) + 2a", "a": "YSs1"}, {"q": "72 mokiniai suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 12 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTU="}, {"q": "Trijuose krepšiuose iš viso 44 grybai. Antrame krepšyje 4 grybais mažiau negu pirmame, o trečiame — 6 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTA="}, {"q": "Stačiakampio ilgis 5 cm didesnis už plotį, o perimetras 46 cm. Koks stačiakampio plotis (cm)?", "a": "OQ=="}, {"q": "Sugalvotą skaičių padauginus iš 3 ir iš sandaugos atėmus 7, gaunama 20. Koks tas skaičius?", "a": "OQ=="}]}, {"id": 2, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["−8 · 2x", "3x · (−4)", "−2 · 5x", "−x · (−6)"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 10x − 4x − 3x + 2x ir nurodykite koeficientą.", "options": ["3", "5", "7", "9"], "correct": 1}, {"q": "Jei A = −2x + 5, o B = 6 − 4x, tai A − 2B =", "options": ["6x − 7", "−10x − 7", "6x + 17", "−6x − 7"], "correct": 0}, {"q": "Išspręskite lygtį 2(x + 4) = −6.  x =", "options": ["−5", "−1", "1", "−7"], "correct": 3}, {"q": "Kurios lygties sprendinys sutampa su lygties 5 − 3x = x − 7 sprendiniu?", "options": ["7x − 1 = 2x + 9", "x + 8 = −x", "4x − 9 = x", "2x + 5 = x + 4"], "correct": 2}, {"q": "−3(2a − 4b) − (−a − 2b) =", "options": ["5a + 14b", "−5a − 14b", "−7a + 10b", "−5a + 14b"], "correct": 3}, {"q": "Suprastinkite 5a · 2 − 3 · a ir nurodykite koeficientą.", "options": ["10", "7", "13", "2"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 4x − 3 reikšmę, kai x = −1.", "options": ["1", "−1", "−7", "7"], "correct": 2}, {"q": "Išspręskite lygtį −2x + 3 = x − 9.  x =", "options": ["−4", "4", "2", "−2"], "correct": 1}, {"q": "Sutraukite panašiuosius narius 8a − 2b − 6a + 5b.", "options": ["2a + 3b", "14a + 3b", "2a − 3b", "2a + 7b"], "correct": 0}], "open": [{"q": "Suprastinkite: 7x − 15x + 3x", "a": "4oiSNXg="}, {"q": "Išspręskite lygtį: 3x − 8 = 7", "a": "NQ=="}, {"q": "Suprastinkite: 2(3a − 5) − 4a", "a": "MmHiiJIxMA=="}, {"q": "Išspręskite lygtį: 3(x − 1) = 2x + 4", "a": "Nw=="}, {"q": "Apskaičiuokite 3a − 2b reikšmę, kai a = 5, b = −1.", "a": "MTc="}, {"q": "Suprastinkite: −(2a − 3) + 5a", "a": "M2ErMw=="}, {"q": "63 mokiniai suskirstyti į tris grupes: antroje grupėje mokinių 3 kartus daugiau negu pirmoje, o trečioje — 8 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTE="}, {"q": "Trijuose krepšiuose iš viso 42 grybai. Antrame krepšyje 5 grybais mažiau negu pirmame, o trečiame — 2 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTA="}, {"q": "Stačiakampio ilgis 7 cm didesnis už plotį, o perimetras 54 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 4 ir iš sandaugos atėmus 5, gaunama 23. Koks tas skaičius?", "a": "Nw=="}]}, {"id": 3, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["−5 · 3x", "4x · (−3)", "−x · (−4)", "−2 · 6x"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 11x − 6x − 2x − x ir nurodykite koeficientą.", "options": ["1", "3", "2", "4"], "correct": 2}, {"q": "Jei A = −3x + 8, o B = 5 − 2x, tai A − 2B =", "options": ["−7x − 2", "x + 18", "−x − 2", "x − 2"], "correct": 3}, {"q": "Išspręskite lygtį 4(x − 3) = −8.  x =", "options": ["−1", "5", "1", "−5"], "correct": 2}, {"q": "Kurios lygties sprendinys sutampa su lygties 6 − 2x = x − 9 sprendiniu?", "options": ["2x + 1 = x − 2", "3x − 7 = x + 3", "5x = 2x + 3", "x + 4 = −x"], "correct": 1}, {"q": "−4(a − 3b) − (−2a − b) =", "options": ["2a + 13b", "−2a − 13b", "−6a + 11b", "−2a + 13b"], "correct": 3}, {"q": "Suprastinkite 6a · 2 − 5 · a ir nurodykite koeficientą.", "options": ["12", "7", "17", "1"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 5x − 4 reikšmę, kai x = −2.", "options": ["6", "−14", "−6", "14"], "correct": 1}, {"q": "Išspręskite lygtį −3x + 2 = x − 10.  x =", "options": ["3", "−3", "2", "−2"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 9a − 4b − 5a + 6b.", "options": ["4a + 2b", "14a + 2b", "4a − 2b", "4a + 10b"], "correct": 0}], "open": [{"q": "Suprastinkite: 8x − 14x + 2x", "a": "4oiSNHg="}, {"q": "Išspręskite lygtį: 5x − 6 = 19", "a": "NQ=="}, {"q": "Suprastinkite: 4(2a − 3) − 6a", "a": "MmHiiJIxMg=="}, {"q": "Išspręskite lygtį: 4(x − 2) = 3x + 1", "a": "OQ=="}, {"q": "Apskaičiuokite 4a + 2b reikšmę, kai a = 3, b = −5.", "a": "Mg=="}, {"q": "Suprastinkite: −(3a − 2) + 4a", "a": "YSsy"}, {"q": "58 mokinių suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 10 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTI="}, {"q": "Trijuose krepšiuose iš viso 48 grybų. Antrame krepšyje 6 grybais mažiau negu pirmame, o trečiame — 3 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTE="}, {"q": "Stačiakampio ilgis 4 cm didesnis už plotį, o perimetras 48 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 5 ir iš sandaugos atėmus 8, gaunama 32. Koks tas skaičius?", "a": "OA=="}]}, {"id": 4, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["2x · (−7)", "−6 · 2x", "−x · (−3)", "−5 · 2x"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 12x − 5x − 4x − x ir nurodykite koeficientą.", "options": ["1", "3", "2", "4"], "correct": 2}, {"q": "Jei A = −5x + 6, o B = 4 − 3x, tai A − 2B =", "options": ["x − 2", "−11x − 2", "x + 14", "−x − 2"], "correct": 0}, {"q": "Išspręskite lygtį 5(x − 1) = −20.  x =", "options": ["3", "−3", "−5", "5"], "correct": 1}, {"q": "Kurios lygties sprendinys sutampa su lygties 7 − 3x = x − 5 sprendiniu?", "options": ["2x + 6 = x + 2", "4x − 5 = x + 4", "6x = 3x + 12", "x + 10 = −x"], "correct": 1}, {"q": "−2(4a − 5b) − (−3a − 2b) =", "options": ["5a + 12b", "−5a − 12b", "−11a + 8b", "−5a + 12b"], "correct": 3}, {"q": "Suprastinkite 3a · 4 − 7 · a ir nurodykite koeficientą.", "options": ["12", "5", "19", "7"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 6x − 2 reikšmę, kai x = −1.", "options": ["4", "−4", "8", "−8"], "correct": 3}, {"q": "Išspręskite lygtį −4x + 1 = x − 14.  x =", "options": ["3", "−3", "5", "−5"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 10a − 5b − 7a + 8b.", "options": ["17a + 3b", "3a − 3b", "3a + 3b", "3a + 13b"], "correct": 2}], "open": [{"q": "Suprastinkite: 6x − 13x + 4x", "a": "4oiSM3g="}, {"q": "Išspręskite lygtį: 6x − 5 = 19", "a": "NA=="}, {"q": "Suprastinkite: 5(2a − 2) − 7a", "a": "M2HiiJIxMA=="}, {"q": "Išspręskite lygtį: 5(x − 2) = 4x + 3", "a": "MTM="}, {"q": "Apskaičiuokite 5a + 2b reikšmę, kai a = 2, b = −4.", "a": "Mg=="}, {"q": "Suprastinkite: −(4a − 6) + 3a", "a": "4oiSYSs2"}, {"q": "66 mokinių suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 14 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTM="}, {"q": "Trijuose krepšiuose iš viso 51 grybas. Antrame krepšyje 3 grybais mažiau negu pirmame, o trečiame — 9 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTI="}, {"q": "Stačiakampio ilgis 6 cm didesnis už plotį, o perimetras 52 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 6 ir iš sandaugos atėmus 4, gaunama 38. Koks tas skaičius?", "a": "Nw=="}]}]};
+const CFG = {"title": "Reiškiniai ir tiesinės lygtys", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai padirbėta. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["2x · (−5)", "−x · (−2)", "−7 · 2x", "−4 · 3x"], "correct": 2}, {"q": "Sutraukite panašiuosius narius 9x − 12x − x + 5x ir nurodykite koeficientą.", "options": ["1", "0", "2", "3"], "correct": 0}, {"q": "Jei A = −4x + 7, o B = 9 − 3x, tai A − 2B =", "options": ["−10x − 25", "2x − 11", "11 − 2x", "−10x + 11"], "correct": 1}, {"q": "Išspręskite lygtį 3(x − 2) = −15.  x =", "options": ["−7", "3", "−13", "−3"], "correct": 3}, {"q": "Kurios lygties sprendinys sutampa su lygties 4 − 2x = x − 5 sprendiniu?", "options": ["−8 − 2x = 4x + 10", "6x − 12 = x − 3", "8x + 25 = −x − 2", "2x + 1 = x + 4"], "correct": 3}, {"q": "−2(3a − 7b) − (−3a − b) =", "options": ["3(a − 5b)", "−3(a − 5b)", "−3(a + 5b)", "3(a + 5b)"], "correct": 1}, {"q": "Suprastinkite 4a · 3 − 2 · a ir nurodykite koeficientą.", "options": ["6", "10", "12", "14"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 3x − 5 reikšmę, kai x = −2.", "options": ["−11", "1", "−1", "11"], "correct": 0}, {"q": "Išspręskite lygtį −x + 4 = 2x − 5.  x =", "options": ["−3", "1", "3", "9"], "correct": 2}, {"q": "Sutraukite panašiuosius narius 7a − 3b − 5a + b.", "options": ["2a − 2b", "12a − 2b", "2a − 4b", "2a + 2b"], "correct": 0}], "open": [{"q": "Suprastinkite: 5x − 12x + 4x", "a": "4oiSM3g="}, {"q": "Išspręskite lygtį: 4x − 7 = 13", "a": "NQ=="}, {"q": "Suprastinkite: 3(2a − 4) − 5a", "a": "YeKIkjEy"}, {"q": "Išspręskite lygtį: 2(x + 3) = 3x − 1", "a": "Nw=="}, {"q": "Apskaičiuokite 2a + 3b reikšmę, kai a = 4, b = −2.", "a": "Mg=="}, {"q": "Suprastinkite: −(a − 5) + 2a", "a": "YSs1"}, {"q": "72 mokiniai suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 12 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTU="}, {"q": "Trijuose krepšiuose iš viso 44 grybai. Antrame krepšyje 4 grybais mažiau negu pirmame, o trečiame — 6 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTA="}, {"q": "Stačiakampio ilgis 5 cm didesnis už plotį, o perimetras 46 cm. Koks stačiakampio plotis (cm)?", "a": "OQ=="}, {"q": "Sugalvotą skaičių padauginus iš 3 ir iš sandaugos atėmus 7, gaunama 20. Koks tas skaičius?", "a": "OQ=="}]}, {"id": 2, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["−8 · 2x", "3x · (−4)", "−2 · 5x", "−x · (−6)"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 10x − 4x − 3x + 2x ir nurodykite koeficientą.", "options": ["3", "5", "7", "9"], "correct": 1}, {"q": "Jei A = −2x + 5, o B = 6 − 4x, tai A − 2B =", "options": ["6x − 7", "−10x − 7", "6x + 17", "−6x − 7"], "correct": 0}, {"q": "Išspręskite lygtį 2(x + 4) = −6.  x =", "options": ["−5", "−1", "1", "−7"], "correct": 3}, {"q": "Kurios lygties sprendinys sutampa su lygties 5 − 3x = x − 7 sprendiniu?", "options": ["7x − 1 = 2x + 9", "x + 8 = −x", "4x − 9 = x", "2x + 5 = x + 4"], "correct": 2}, {"q": "−3(2a − 4b) − (−a − 2b) =", "options": ["5a + 14b", "−5a − 14b", "−7a + 10b", "−5a + 14b"], "correct": 3}, {"q": "Suprastinkite 5a · 2 − 3 · a ir nurodykite koeficientą.", "options": ["10", "7", "13", "2"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 4x − 3 reikšmę, kai x = −1.", "options": ["1", "−1", "−7", "7"], "correct": 2}, {"q": "Išspręskite lygtį −2x + 3 = x − 9.  x =", "options": ["−4", "4", "2", "−2"], "correct": 1}, {"q": "Sutraukite panašiuosius narius 8a − 2b − 6a + 5b.", "options": ["2a + 3b", "14a + 3b", "2a − 3b", "2a + 7b"], "correct": 0}], "open": [{"q": "Suprastinkite: 7x − 15x + 3x", "a": "4oiSNXg="}, {"q": "Išspręskite lygtį: 3x − 8 = 7", "a": "NQ=="}, {"q": "Suprastinkite: 2(3a − 5) − 4a", "a": "MmHiiJIxMA=="}, {"q": "Išspręskite lygtį: 3(x − 1) = 2x + 4", "a": "Nw=="}, {"q": "Apskaičiuokite 3a − 2b reikšmę, kai a = 5, b = −1.", "a": "MTc="}, {"q": "Suprastinkite: −(2a − 3) + 5a", "a": "M2ErMw=="}, {"q": "63 mokiniai suskirstyti į tris grupes: antroje grupėje mokinių 3 kartus daugiau negu pirmoje, o trečioje — 8 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTE="}, {"q": "Trijuose krepšiuose iš viso 42 grybai. Antrame krepšyje 5 grybais mažiau negu pirmame, o trečiame — 2 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTA="}, {"q": "Stačiakampio ilgis 7 cm didesnis už plotį, o perimetras 54 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 4 ir iš sandaugos atėmus 5, gaunama 23. Koks tas skaičius?", "a": "Nw=="}]}, {"id": 3, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["−5 · 3x", "4x · (−3)", "−x · (−4)", "−2 · 6x"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 11x − 6x − 2x − x ir nurodykite koeficientą.", "options": ["1", "3", "2", "4"], "correct": 2}, {"q": "Jei A = −3x + 8, o B = 5 − 2x, tai A − 2B =", "options": ["−7x − 2", "x + 18", "−x − 2", "x − 2"], "correct": 3}, {"q": "Išspręskite lygtį 4(x − 3) = −8.  x =", "options": ["−1", "5", "1", "−5"], "correct": 2}, {"q": "Kurios lygties sprendinys sutampa su lygties 6 − 2x = x − 9 sprendiniu?", "options": ["2x + 1 = x − 2", "3x − 7 = x + 3", "5x = 2x + 3", "x + 4 = −x"], "correct": 1}, {"q": "−4(a − 3b) − (−2a − b) =", "options": ["2a + 13b", "−2a − 13b", "−6a + 11b", "−2a + 13b"], "correct": 3}, {"q": "Suprastinkite 6a · 2 − 5 · a ir nurodykite koeficientą.", "options": ["12", "7", "17", "1"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 5x − 4 reikšmę, kai x = −2.", "options": ["6", "−14", "−6", "14"], "correct": 1}, {"q": "Išspręskite lygtį −3x + 2 = x − 10.  x =", "options": ["3", "−3", "2", "−2"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 9a − 4b − 5a + 6b.", "options": ["4a + 2b", "14a + 2b", "4a − 2b", "4a + 10b"], "correct": 0}], "open": [{"q": "Suprastinkite: 8x − 14x + 2x", "a": "4oiSNHg="}, {"q": "Išspręskite lygtį: 5x − 6 = 19", "a": "NQ=="}, {"q": "Suprastinkite: 4(2a − 3) − 6a", "a": "MmHiiJIxMg=="}, {"q": "Išspręskite lygtį: 4(x − 2) = 3x + 1", "a": "OQ=="}, {"q": "Apskaičiuokite 4a + 2b reikšmę, kai a = 3, b = −5.", "a": "Mg=="}, {"q": "Suprastinkite: −(3a − 2) + 4a", "a": "YSsy"}, {"q": "58 mokinių suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 10 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTI="}, {"q": "Trijuose krepšiuose iš viso 48 grybų. Antrame krepšyje 6 grybais mažiau negu pirmame, o trečiame — 3 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTE="}, {"q": "Stačiakampio ilgis 4 cm didesnis už plotį, o perimetras 48 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 5 ir iš sandaugos atėmus 8, gaunama 32. Koks tas skaičius?", "a": "OA=="}]}, {"id": 4, "mc": [{"q": "Kurio reiškinio koeficientas mažiausias?", "options": ["2x · (−7)", "−6 · 2x", "−x · (−3)", "−5 · 2x"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 12x − 5x − 4x − x ir nurodykite koeficientą.", "options": ["1", "3", "2", "4"], "correct": 2}, {"q": "Jei A = −5x + 6, o B = 4 − 3x, tai A − 2B =", "options": ["x − 2", "−11x − 2", "x + 14", "−x − 2"], "correct": 0}, {"q": "Išspręskite lygtį 5(x − 1) = −20.  x =", "options": ["3", "−3", "−5", "5"], "correct": 1}, {"q": "Kurios lygties sprendinys sutampa su lygties 7 − 3x = x − 5 sprendiniu?", "options": ["2x + 6 = x + 2", "4x − 5 = x + 4", "6x = 3x + 12", "x + 10 = −x"], "correct": 1}, {"q": "−2(4a − 5b) − (−3a − 2b) =", "options": ["5a + 12b", "−5a − 12b", "−11a + 8b", "−5a + 12b"], "correct": 3}, {"q": "Suprastinkite 3a · 4 − 7 · a ir nurodykite koeficientą.", "options": ["12", "5", "19", "7"], "correct": 1}, {"q": "Apskaičiuokite reiškinio 6x − 2 reikšmę, kai x = −1.", "options": ["4", "−4", "8", "−8"], "correct": 3}, {"q": "Išspręskite lygtį −4x + 1 = x − 14.  x =", "options": ["3", "−3", "5", "−5"], "correct": 0}, {"q": "Sutraukite panašiuosius narius 10a − 5b − 7a + 8b.", "options": ["17a + 3b", "3a − 3b", "3a + 3b", "3a + 13b"], "correct": 2}], "open": [{"q": "Suprastinkite: 6x − 13x + 4x", "a": "4oiSM3g="}, {"q": "Išspręskite lygtį: 6x − 5 = 19", "a": "NA=="}, {"q": "Suprastinkite: 5(2a − 2) − 7a", "a": "M2HiiJIxMA=="}, {"q": "Išspręskite lygtį: 5(x − 2) = 4x + 3", "a": "MTM="}, {"q": "Apskaičiuokite 5a + 2b reikšmę, kai a = 2, b = −4.", "a": "Mg=="}, {"q": "Suprastinkite: −(4a − 6) + 3a", "a": "4oiSYSs2"}, {"q": "66 mokinių suskirstyti į tris grupes: antroje grupėje mokinių 2 kartus daugiau negu pirmoje, o trečioje — 14 daugiau negu pirmoje. Kiek mokinių pirmoje grupėje?", "a": "MTM="}, {"q": "Trijuose krepšiuose iš viso 51 grybas. Antrame krepšyje 3 grybais mažiau negu pirmame, o trečiame — 9 daugiau negu pirmame. Kiek grybų antrame krepšyje?", "a": "MTI="}, {"q": "Stačiakampio ilgis 6 cm didesnis už plotį, o perimetras 52 cm. Koks stačiakampio plotis (cm)?", "a": "MTA="}, {"q": "Sugalvotą skaičių padauginus iš 6 ir iš sandaugos atėmus 4, gaunama 38. Koks tas skaičius?", "a": "Nw=="}]}], "sheet_id": "1e75C9YChOOL_NznORRjGQ9_bSQw77z8-tS1vDJ_FfHk"};
 // Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
 // siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
-const SHEETS_URL = "";
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
 function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
 document.getElementById('subj').textContent =
   (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
 
-// variantų sąrašas
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
 const vsel = document.getElementById('variantas');
-vsel.innerHTML = '<option value="">— pasirink —</option>' +
-  CFG.variants.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
 
 let student = {}, variant = null;
 let leaveCount = 0, testActive = false;
@@ -128,9 +154,20 @@ const LETTERS = ['A','B','C','D','E','F'];
 
 function startTest(){
   const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
-  if(!k||!v||!p||!vr){ document.getElementById('regWarn').textContent='Užpildyk visus laukus ir pasirink variantą.'; return; }
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
   student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
-  variant=CFG.variants.find(x=>x.id===student.variantas);
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
   renderTest();
   document.getElementById('regScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
@@ -216,15 +253,15 @@ function val(id){return document.getElementById(id).value.trim();}
 function renderTest(){
   document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       ${q.options.map((o,j)=>`
         <label class="opt"><input type="radio" name="mc${i}" value="${j}">
-        <span class="letter">${LETTERS[j]}</span><span>${esc(o)}</span></label>`).join('')}
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
     </div>`).join('');
   const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
   document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
              inputmode="text" autocapitalize="off" spellcheck="false">
       <div class="editor">
@@ -234,6 +271,9 @@ function renderTest(){
     </div>`).join('');
 }
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
@@ -293,19 +333,19 @@ function submitTest(){
     const a=sel?parseInt(sel.value):-1; mcAns.push(a);
     if(a===q.correct) correct++;
   });
-  const mcPts = correct * CFG.grading.mc_points;
-  const mcMax = variant.mc.length * CFG.grading.mc_points;
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
 
   // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
   const openPts=[]; let openCorrect=0;
   const openAns = variant.open.map((q,i)=>{
     const val=document.getElementById('open'+i).value.trim();
     let pts=0;
-    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=CFG.grading.open_points; openCorrect++; } }
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
     openPts.push(pts);
     return val;
   });
-  const openMax = variant.open.length * CFG.grading.open_points;
+  const openMax = variant.open.length * GRADING.open_points;
 
   const total = mcPts + openPts.reduce((a,b)=>a+b,0);
   const totalMax = mcMax + openMax;
@@ -374,6 +414,12 @@ function sendToSheets(){
   const inp = document.createElement('input');
   inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
   form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
   document.body.appendChild(form);
   form.submit();
   if(form.parentNode) form.parentNode.removeChild(form);
@@ -392,17 +438,18 @@ function sendToSheets(){
 
 function gradeFromPct(pct){
   // scale: [[threshold%,grade],...] mažėjančia tvarka
-  for(const [t,g] of CFG.grading.scale){ if(pct*100>=t) return g; }
-  return CFG.grading.scale[CFG.grading.scale.length-1][1];
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
 }
 function commentFromPct(pct){
-  for(const [t,c] of CFG.grading.comments){ if(pct*100>=t) return c; }
-  return CFG.grading.comments[CFG.grading.comments.length-1][1];
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
 }
 
 function showResult(r){
   document.getElementById('resultInfo').innerHTML = `
     <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
     <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
     <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
     <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>

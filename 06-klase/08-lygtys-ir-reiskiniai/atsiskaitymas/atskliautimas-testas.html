@@ -22,6 +22,9 @@
   .q:first-child{border-top:none}
   .qnum{font-weight:700;color:var(--accent)}
   .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
   .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
     border-radius:10px;margin:7px 0;cursor:pointer}
   .opt:hover{background:#f3f6fa}
@@ -75,6 +78,10 @@
     <input id="vardas" type="text" placeholder="Vardas">
     <label>Pavardė</label>
     <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
     <label>Testo variantas</label>
     <select id="variantas"></select>
     <div class="warn" id="regWarn"></div>
@@ -109,18 +116,37 @@
 </div>
 
 <script>
-const CFG = {"title": "Atskliautimas", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Atskliautimą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai su ženklais."], [45, "Patenkinamai — verta pakartoti daugybos skirstomumo dėsnį."], [0, "Reikia pakartoti temą: atskliausk kiekvieną narį ir stebėk ženklus."]]}, "variants": [{"id": 1, "mc": [{"q": "Atskliausk: 4 · (3x − 4)", "options": ["12x − 4", "12x − 16", "12x + 16", "4x − 16"], "correct": 1}, {"q": "Atskliausk: −2 · (x + 5)", "options": ["10 − 2x", "2x − 10", "−2x − 10", "−2x − 5"], "correct": 2}, {"q": "Atskliausk: −(a − 7)", "options": ["−a − 7", "a − 7", "7 − a", "a + 7"], "correct": 2}, {"q": "Sutrauk: 5x + 3x", "options": ["8x", "15x", "8", "8x^2"], "correct": 0}, {"q": "Sutrauk: 9x − 12x", "options": ["3x", "−3x", "−3", "21x"], "correct": 1}, {"q": "Atskliausk: 2 · (4 − 6y)", "options": ["8 − 12y", "8 − 6y", "12y + 8", "4 − 12y"], "correct": 0}, {"q": "Suprastink: 6a + (2a − 3)", "options": ["8a − 3", "8a + 3", "4a − 3", "6a − 3"], "correct": 0}, {"q": "Suprastink: 8x − (6x − 5)", "options": ["2x − 5", "14x + 5", "2x^2 + 5", "2x + 5"], "correct": 3}, {"q": "Atskliausk: 6 · (2a − 4b)", "options": ["12a − 4b", "12a − 24b", "12a + 24b", "2a − 24b"], "correct": 1}, {"q": "Suprastink: 6a − 7 · (3 − a)", "options": ["−a − 21", "13a + 21", "13a − 21", "6a − 21"], "correct": 2}], "open": [{"q": "Atskliausk: 4 · (−2x + 4)", "a": "MTYg4oiSIDh4"}, {"q": "Atskliausk: −2 · (5 − 4x)", "a": "OHgg4oiSIDEw"}, {"q": "Atskliausk: 2 · (5x + 4 − 3y)", "a": "MTB4IOKIkiA2eSArIDg="}, {"q": "Atskliausk: −6 · (2a − 1 − ab + 4b)", "a": "NmFiIOKIkiAxMmEg4oiSIDI0YiArIDY="}, {"q": "Suprastink: 5x + (−3x + 3)", "a": "MnggKyAz"}, {"q": "Suprastink: −9x − (12x − 5)", "a": "NSDiiJIgMjF4"}, {"q": "Suprastink: 8 − (6x − 4) − 5x", "a": "MTIg4oiSIDExeA=="}, {"q": "Suprastink: 6x + 2 · (−3x + 2)", "a": "NA=="}, {"q": "Suprastink: 6a − 7 · (3 − 2a)", "a": "MjBhIOKIkiAyMQ=="}, {"q": "Suprastink ir rask reikšmę, kai x = 4:  4·(x − 4+1) − 2·(−5 − x)", "a": "MjI="}]}, {"id": 2, "mc": [{"q": "Atskliausk: 3 · (2x − 5)", "options": ["6x − 15", "6x − 5", "6x + 15", "3x − 15"], "correct": 0}, {"q": "Atskliausk: −4 · (x + 3)", "options": ["12 − 4x", "4x − 12", "−4x − 3", "−4x − 12"], "correct": 3}, {"q": "Atskliausk: −(a − 6)", "options": ["−a − 6", "6 − a", "a − 6", "a + 6"], "correct": 1}, {"q": "Sutrauk: 7x + 4x", "options": ["28x", "11", "11x", "11x^2"], "correct": 2}, {"q": "Sutrauk: 10x − 4x", "options": ["6x", "−6x", "6", "14x"], "correct": 0}, {"q": "Atskliausk: 4 · (2 − 5y)", "options": ["8 − 5y", "20y + 8", "2 − 20y", "8 − 20y"], "correct": 3}, {"q": "Suprastink: 5a + (3a − 2)", "options": ["8a + 2", "2a − 2", "8a − 2", "5a − 2"], "correct": 2}, {"q": "Suprastink: 6x − (9x − 7)", "options": ["−3x − 7", "7 − 3x", "15x + 7", "7 − 3x^2"], "correct": 1}, {"q": "Atskliausk: 5 · (2a − 2b)", "options": ["10a − 2b", "10a + 10b", "2a − 10b", "10a − 10b"], "correct": 3}, {"q": "Suprastink: 8a − 5 · (4 − a)", "options": ["13a − 20", "3a − 20", "13a + 20", "8a − 20"], "correct": 0}], "open": [{"q": "Atskliausk: 3 · (−2x + 5)", "a": "MTUg4oiSIDZ4"}, {"q": "Atskliausk: −4 · (3 − 4x)", "a": "MTZ4IOKIkiAxMg=="}, {"q": "Atskliausk: 4 · (5x + 2 − 3y)", "a": "MjB4IOKIkiAxMnkgKyA4"}, {"q": "Atskliausk: −5 · (2a − 1 − ab + 2b)", "a": "NWFiIOKIkiAxMGEg4oiSIDEwYiArIDU="}, {"q": "Suprastink: 7x + (−4x + 2)", "a": "M3ggKyAy"}, {"q": "Suprastink: −10x − (4x − 7)", "a": "NyDiiJIgMTR4"}, {"q": "Suprastink: 4 − (5x − 5) − 7x", "a": "OSDiiJIgMTJ4"}, {"q": "Suprastink: 5x + 4 · (−3x + 2)", "a": "OCDiiJIgN3g="}, {"q": "Suprastink: 8a − 5 · (4 − 2a)", "a": "MThhIOKIkiAyMA=="}, {"q": "Suprastink ir rask reikšmę, kai x = 3:  3·(x − 5+1) − 2·(−3 − x)", "a": "OQ=="}]}, {"id": 3, "mc": [{"q": "Atskliausk: 5 · (4x − 3)", "options": ["20x − 3", "20x + 15", "20x − 15", "5x − 15"], "correct": 2}, {"q": "Atskliausk: −3 · (x + 6)", "options": ["−3x − 18", "18 − 3x", "3x − 18", "−3x − 6"], "correct": 0}, {"q": "Atskliausk: −(a − 8)", "options": ["−a − 8", "a − 8", "a + 8", "8 − a"], "correct": 3}, {"q": "Sutrauk: 6x + 5x", "options": ["30x", "11x", "11", "11x^2"], "correct": 1}, {"q": "Sutrauk: 8x − 11x", "options": ["3x", "−3", "19x", "−3x"], "correct": 3}, {"q": "Atskliausk: 3 · (5 − 4y)", "options": ["15 − 4y", "12y + 15", "15 − 12y", "5 − 12y"], "correct": 2}, {"q": "Suprastink: 7a + (4a − 6)", "options": ["11a + 6", "11a − 6", "3a − 6", "7a − 6"], "correct": 1}, {"q": "Suprastink: 9x − (5x − 4)", "options": ["4x + 4", "4x − 4", "14x + 4", "4x^2 + 4"], "correct": 0}, {"q": "Atskliausk: 4 · (2a − 3b)", "options": ["8a − 3b", "8a + 12b", "8a − 12b", "2a − 12b"], "correct": 2}, {"q": "Suprastink: 5a − 6 · (2 − a)", "options": ["−a − 12", "11a + 12", "5a − 12", "11a − 12"], "correct": 3}], "open": [{"q": "Atskliausk: 5 · (−2x + 3)", "a": "MTUg4oiSIDEweA=="}, {"q": "Atskliausk: −3 · (6 − 4x)", "a": "MTJ4IOKIkiAxOA=="}, {"q": "Atskliausk: 3 · (5x + 5 − 3y)", "a": "MTV4IOKIkiA5eSArIDE1"}, {"q": "Atskliausk: −4 · (2a − 1 − ab + 3b)", "a": "NGFiIOKIkiA4YSDiiJIgMTJiICsgNA=="}, {"q": "Suprastink: 6x + (−5x + 6)", "a": "eCArIDY="}, {"q": "Suprastink: −8x − (11x − 4)", "a": "NCDiiJIgMTl4"}, {"q": "Suprastink: 10 − (4x − 3) − 6x", "a": "MTMg4oiSIDEweA=="}, {"q": "Suprastink: 7x + 3 · (−3x + 2)", "a": "NiDiiJIgMng="}, {"q": "Suprastink: 5a − 6 · (2 − 2a)", "a": "MTdhIOKIkiAxMg=="}, {"q": "Suprastink ir rask reikšmę, kai x = 2:  5·(x − 3+1) − 2·(−6 − x)", "a": "MTY="}]}, {"id": 4, "mc": [{"q": "Atskliausk: 6 · (2x − 6)", "options": ["12x − 6", "12x + 36", "6x − 36", "12x − 36"], "correct": 3}, {"q": "Atskliausk: −5 · (x + 4)", "options": ["20 − 5x", "−5x − 20", "5x − 20", "−5x − 4"], "correct": 1}, {"q": "Atskliausk: −(a − 9)", "options": ["9 − a", "−a − 9", "a − 9", "a + 9"], "correct": 0}, {"q": "Sutrauk: 8x + 6x", "options": ["48x", "14", "14x", "14x^2"], "correct": 2}, {"q": "Sutrauk: 7x − 13x", "options": ["6x", "−6", "−6x", "20x"], "correct": 2}, {"q": "Atskliausk: 5 · (3 − 2y)", "options": ["15 − 2y", "15 − 10y", "10y + 15", "3 − 10y"], "correct": 1}, {"q": "Suprastink: 4a + (5a − 7)", "options": ["9a + 7", "−a − 7", "4a − 7", "9a − 7"], "correct": 3}, {"q": "Suprastink: 7x − (8x − 6)", "options": ["6 − x", "−x − 6", "15x + 6", "6 − x^2"], "correct": 0}, {"q": "Atskliausk: 3 · (2a − 5b)", "options": ["6a − 5b", "6a − 15b", "6a + 15b", "2a − 15b"], "correct": 1}, {"q": "Suprastink: 9a − 4 · (5 − a)", "options": ["5a − 20", "13a + 20", "13a − 20", "9a − 20"], "correct": 2}], "open": [{"q": "Atskliausk: 6 · (−2x + 6)", "a": "MzYg4oiSIDEyeA=="}, {"q": "Atskliausk: −5 · (4 − 4x)", "a": "MjB4IOKIkiAyMA=="}, {"q": "Atskliausk: 5 · (5x + 3 − 3y)", "a": "MjV4IOKIkiAxNXkgKyAxNQ=="}, {"q": "Atskliausk: −3 · (2a − 1 − ab + 5b)", "a": "M2FiIOKIkiA2YSDiiJIgMTViICsgMw=="}, {"q": "Suprastink: 8x + (−6x + 7)", "a": "MnggKyA3"}, {"q": "Suprastink: −7x − (13x − 6)", "a": "NiDiiJIgMjB4"}, {"q": "Suprastink: 6 − (2x − 6) − 8x", "a": "MTIg4oiSIDEweA=="}, {"q": "Suprastink: 4x + 5 · (−3x + 2)", "a": "MTAg4oiSIDExeA=="}, {"q": "Suprastink: 9a − 4 · (5 − 2a)", "a": "MTdhIOKIkiAyMA=="}, {"q": "Suprastink ir rask reikšmę, kai x = 5:  6·(x − 6+1) − 2·(−4 − x)", "a": "MTg="}]}], "trukme_min": 20};
+const CFG = {"title": "Atskliautimas", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Atskliautimą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai su ženklais."], [45, "Patenkinamai — verta pakartoti daugybos skirstomumo dėsnį."], [0, "Reikia pakartoti temą: atskliausk kiekvieną narį ir stebėk ženklus."]]}, "variants": [{"id": 1, "mc": [{"q": "Atskliausk: 4 · (3x − 4)", "options": ["12x − 4", "12x − 16", "12x + 16", "4x − 16"], "correct": 1}, {"q": "Atskliausk: −2 · (x + 5)", "options": ["10 − 2x", "2x − 10", "−2x − 10", "−2x − 5"], "correct": 2}, {"q": "Atskliausk: −(a − 7)", "options": ["−a − 7", "a − 7", "7 − a", "a + 7"], "correct": 2}, {"q": "Sutrauk: 5x + 3x", "options": ["8x", "15x", "8", "8x^2"], "correct": 0}, {"q": "Sutrauk: 9x − 12x", "options": ["3x", "−3x", "−3", "21x"], "correct": 1}, {"q": "Atskliausk: 2 · (4 − 6y)", "options": ["8 − 12y", "8 − 6y", "12y + 8", "4 − 12y"], "correct": 0}, {"q": "Suprastink: 6a + (2a − 3)", "options": ["8a − 3", "8a + 3", "4a − 3", "6a − 3"], "correct": 0}, {"q": "Suprastink: 8x − (6x − 5)", "options": ["2x − 5", "14x + 5", "2x^2 + 5", "2x + 5"], "correct": 3}, {"q": "Atskliausk: 6 · (2a − 4b)", "options": ["12a − 4b", "12a − 24b", "12a + 24b", "2a − 24b"], "correct": 1}, {"q": "Suprastink: 6a − 7 · (3 − a)", "options": ["−a − 21", "13a + 21", "13a − 21", "6a − 21"], "correct": 2}], "open": [{"q": "Atskliausk: 4 · (−2x + 4)", "a": "MTYg4oiSIDh4"}, {"q": "Atskliausk: −2 · (5 − 4x)", "a": "OHgg4oiSIDEw"}, {"q": "Atskliausk: 2 · (5x + 4 − 3y)", "a": "MTB4IOKIkiA2eSArIDg="}, {"q": "Atskliausk: −6 · (2a − 1 − ab + 4b)", "a": "NmFiIOKIkiAxMmEg4oiSIDI0YiArIDY="}, {"q": "Suprastink: 5x + (−3x + 3)", "a": "MnggKyAz"}, {"q": "Suprastink: −9x − (12x − 5)", "a": "NSDiiJIgMjF4"}, {"q": "Suprastink: 8 − (6x − 4) − 5x", "a": "MTIg4oiSIDExeA=="}, {"q": "Suprastink: 6x + 2 · (−3x + 2)", "a": "NA=="}, {"q": "Suprastink: 6a − 7 · (3 − 2a)", "a": "MjBhIOKIkiAyMQ=="}, {"q": "Suprastink ir rask reikšmę, kai x = 4:  4·(x − 4+1) − 2·(−5 − x)", "a": "MjI="}]}, {"id": 2, "mc": [{"q": "Atskliausk: 3 · (2x − 5)", "options": ["6x − 15", "6x − 5", "6x + 15", "3x − 15"], "correct": 0}, {"q": "Atskliausk: −4 · (x + 3)", "options": ["12 − 4x", "4x − 12", "−4x − 3", "−4x − 12"], "correct": 3}, {"q": "Atskliausk: −(a − 6)", "options": ["−a − 6", "6 − a", "a − 6", "a + 6"], "correct": 1}, {"q": "Sutrauk: 7x + 4x", "options": ["28x", "11", "11x", "11x^2"], "correct": 2}, {"q": "Sutrauk: 10x − 4x", "options": ["6x", "−6x", "6", "14x"], "correct": 0}, {"q": "Atskliausk: 4 · (2 − 5y)", "options": ["8 − 5y", "20y + 8", "2 − 20y", "8 − 20y"], "correct": 3}, {"q": "Suprastink: 5a + (3a − 2)", "options": ["8a + 2", "2a − 2", "8a − 2", "5a − 2"], "correct": 2}, {"q": "Suprastink: 6x − (9x − 7)", "options": ["−3x − 7", "7 − 3x", "15x + 7", "7 − 3x^2"], "correct": 1}, {"q": "Atskliausk: 5 · (2a − 2b)", "options": ["10a − 2b", "10a + 10b", "2a − 10b", "10a − 10b"], "correct": 3}, {"q": "Suprastink: 8a − 5 · (4 − a)", "options": ["13a − 20", "3a − 20", "13a + 20", "8a − 20"], "correct": 0}], "open": [{"q": "Atskliausk: 3 · (−2x + 5)", "a": "MTUg4oiSIDZ4"}, {"q": "Atskliausk: −4 · (3 − 4x)", "a": "MTZ4IOKIkiAxMg=="}, {"q": "Atskliausk: 4 · (5x + 2 − 3y)", "a": "MjB4IOKIkiAxMnkgKyA4"}, {"q": "Atskliausk: −5 · (2a − 1 − ab + 2b)", "a": "NWFiIOKIkiAxMGEg4oiSIDEwYiArIDU="}, {"q": "Suprastink: 7x + (−4x + 2)", "a": "M3ggKyAy"}, {"q": "Suprastink: −10x − (4x − 7)", "a": "NyDiiJIgMTR4"}, {"q": "Suprastink: 4 − (5x − 5) − 7x", "a": "OSDiiJIgMTJ4"}, {"q": "Suprastink: 5x + 4 · (−3x + 2)", "a": "OCDiiJIgN3g="}, {"q": "Suprastink: 8a − 5 · (4 − 2a)", "a": "MThhIOKIkiAyMA=="}, {"q": "Suprastink ir rask reikšmę, kai x = 3:  3·(x − 5+1) − 2·(−3 − x)", "a": "OQ=="}]}, {"id": 3, "mc": [{"q": "Atskliausk: 5 · (4x − 3)", "options": ["20x − 3", "20x + 15", "20x − 15", "5x − 15"], "correct": 2}, {"q": "Atskliausk: −3 · (x + 6)", "options": ["−3x − 18", "18 − 3x", "3x − 18", "−3x − 6"], "correct": 0}, {"q": "Atskliausk: −(a − 8)", "options": ["−a − 8", "a − 8", "a + 8", "8 − a"], "correct": 3}, {"q": "Sutrauk: 6x + 5x", "options": ["30x", "11x", "11", "11x^2"], "correct": 1}, {"q": "Sutrauk: 8x − 11x", "options": ["3x", "−3", "19x", "−3x"], "correct": 3}, {"q": "Atskliausk: 3 · (5 − 4y)", "options": ["15 − 4y", "12y + 15", "15 − 12y", "5 − 12y"], "correct": 2}, {"q": "Suprastink: 7a + (4a − 6)", "options": ["11a + 6", "11a − 6", "3a − 6", "7a − 6"], "correct": 1}, {"q": "Suprastink: 9x − (5x − 4)", "options": ["4x + 4", "4x − 4", "14x + 4", "4x^2 + 4"], "correct": 0}, {"q": "Atskliausk: 4 · (2a − 3b)", "options": ["8a − 3b", "8a + 12b", "8a − 12b", "2a − 12b"], "correct": 2}, {"q": "Suprastink: 5a − 6 · (2 − a)", "options": ["−a − 12", "11a + 12", "5a − 12", "11a − 12"], "correct": 3}], "open": [{"q": "Atskliausk: 5 · (−2x + 3)", "a": "MTUg4oiSIDEweA=="}, {"q": "Atskliausk: −3 · (6 − 4x)", "a": "MTJ4IOKIkiAxOA=="}, {"q": "Atskliausk: 3 · (5x + 5 − 3y)", "a": "MTV4IOKIkiA5eSArIDE1"}, {"q": "Atskliausk: −4 · (2a − 1 − ab + 3b)", "a": "NGFiIOKIkiA4YSDiiJIgMTJiICsgNA=="}, {"q": "Suprastink: 6x + (−5x + 6)", "a": "eCArIDY="}, {"q": "Suprastink: −8x − (11x − 4)", "a": "NCDiiJIgMTl4"}, {"q": "Suprastink: 10 − (4x − 3) − 6x", "a": "MTMg4oiSIDEweA=="}, {"q": "Suprastink: 7x + 3 · (−3x + 2)", "a": "NiDiiJIgMng="}, {"q": "Suprastink: 5a − 6 · (2 − 2a)", "a": "MTdhIOKIkiAxMg=="}, {"q": "Suprastink ir rask reikšmę, kai x = 2:  5·(x − 3+1) − 2·(−6 − x)", "a": "MTY="}]}, {"id": 4, "mc": [{"q": "Atskliausk: 6 · (2x − 6)", "options": ["12x − 6", "12x + 36", "6x − 36", "12x − 36"], "correct": 3}, {"q": "Atskliausk: −5 · (x + 4)", "options": ["20 − 5x", "−5x − 20", "5x − 20", "−5x − 4"], "correct": 1}, {"q": "Atskliausk: −(a − 9)", "options": ["9 − a", "−a − 9", "a − 9", "a + 9"], "correct": 0}, {"q": "Sutrauk: 8x + 6x", "options": ["48x", "14", "14x", "14x^2"], "correct": 2}, {"q": "Sutrauk: 7x − 13x", "options": ["6x", "−6", "−6x", "20x"], "correct": 2}, {"q": "Atskliausk: 5 · (3 − 2y)", "options": ["15 − 2y", "15 − 10y", "10y + 15", "3 − 10y"], "correct": 1}, {"q": "Suprastink: 4a + (5a − 7)", "options": ["9a + 7", "−a − 7", "4a − 7", "9a − 7"], "correct": 3}, {"q": "Suprastink: 7x − (8x − 6)", "options": ["6 − x", "−x − 6", "15x + 6", "6 − x^2"], "correct": 0}, {"q": "Atskliausk: 3 · (2a − 5b)", "options": ["6a − 5b", "6a − 15b", "6a + 15b", "2a − 15b"], "correct": 1}, {"q": "Suprastink: 9a − 4 · (5 − a)", "options": ["5a − 20", "13a + 20", "13a − 20", "9a − 20"], "correct": 2}], "open": [{"q": "Atskliausk: 6 · (−2x + 6)", "a": "MzYg4oiSIDEyeA=="}, {"q": "Atskliausk: −5 · (4 − 4x)", "a": "MjB4IOKIkiAyMA=="}, {"q": "Atskliausk: 5 · (5x + 3 − 3y)", "a": "MjV4IOKIkiAxNXkgKyAxNQ=="}, {"q": "Atskliausk: −3 · (2a − 1 − ab + 5b)", "a": "M2FiIOKIkiA2YSDiiJIgMTViICsgMw=="}, {"q": "Suprastink: 8x + (−6x + 7)", "a": "MnggKyA3"}, {"q": "Suprastink: −7x − (13x − 6)", "a": "NiDiiJIgMjB4"}, {"q": "Suprastink: 6 − (2x − 6) − 8x", "a": "MTIg4oiSIDEweA=="}, {"q": "Suprastink: 4x + 5 · (−3x + 2)", "a": "MTAg4oiSIDExeA=="}, {"q": "Suprastink: 9a − 4 · (5 − 2a)", "a": "MTdhIOKIkiAyMA=="}, {"q": "Suprastink ir rask reikšmę, kai x = 5:  6·(x − 6+1) − 2·(−4 − x)", "a": "MTg="}]}], "trukme_min": 20, "sheet_id": "18yzcAwokLfEUBYyYn9qcQRGPZPcErNVHoJsGU5CPM-0"};
 // Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
 // siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxGnTeziWZZxy11ZrUwaWkL776H2kjZzx8MCzt6rt9T3ILvUWGSss2Jk1bVitis2OQ_jg/exec";
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
 function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
 document.getElementById('subj').textContent =
   (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
 
-// variantų sąrašas
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
 const vsel = document.getElementById('variantas');
-vsel.innerHTML = '<option value="">— pasirink —</option>' +
-  CFG.variants.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
 
 let student = {}, variant = null;
 let leaveCount = 0, testActive = false;
@@ -128,9 +154,20 @@ const LETTERS = ['A','B','C','D','E','F'];
 
 function startTest(){
   const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
-  if(!k||!v||!p||!vr){ document.getElementById('regWarn').textContent='Užpildyk visus laukus ir pasirink variantą.'; return; }
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
   student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
-  variant=CFG.variants.find(x=>x.id===student.variantas);
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
   renderTest();
   document.getElementById('regScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
@@ -216,15 +253,15 @@ function val(id){return document.getElementById(id).value.trim();}
 function renderTest(){
   document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       ${q.options.map((o,j)=>`
         <label class="opt"><input type="radio" name="mc${i}" value="${j}">
-        <span class="letter">${LETTERS[j]}</span><span>${esc(o)}</span></label>`).join('')}
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
     </div>`).join('');
   const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
   document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
     <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${esc(q.q)}</span></div>
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
       <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
              inputmode="text" autocapitalize="off" spellcheck="false">
       <div class="editor">
@@ -234,6 +271,9 @@ function renderTest(){
     </div>`).join('');
 }
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
@@ -293,19 +333,19 @@ function submitTest(){
     const a=sel?parseInt(sel.value):-1; mcAns.push(a);
     if(a===q.correct) correct++;
   });
-  const mcPts = correct * CFG.grading.mc_points;
-  const mcMax = variant.mc.length * CFG.grading.mc_points;
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
 
   // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
   const openPts=[]; let openCorrect=0;
   const openAns = variant.open.map((q,i)=>{
     const val=document.getElementById('open'+i).value.trim();
     let pts=0;
-    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=CFG.grading.open_points; openCorrect++; } }
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
     openPts.push(pts);
     return val;
   });
-  const openMax = variant.open.length * CFG.grading.open_points;
+  const openMax = variant.open.length * GRADING.open_points;
 
   const total = mcPts + openPts.reduce((a,b)=>a+b,0);
   const totalMax = mcMax + openMax;
@@ -374,6 +414,12 @@ function sendToSheets(){
   const inp = document.createElement('input');
   inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
   form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
   document.body.appendChild(form);
   form.submit();
   if(form.parentNode) form.parentNode.removeChild(form);
@@ -392,17 +438,18 @@ function sendToSheets(){
 
 function gradeFromPct(pct){
   // scale: [[threshold%,grade],...] mažėjančia tvarka
-  for(const [t,g] of CFG.grading.scale){ if(pct*100>=t) return g; }
-  return CFG.grading.scale[CFG.grading.scale.length-1][1];
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
 }
 function commentFromPct(pct){
-  for(const [t,c] of CFG.grading.comments){ if(pct*100>=t) return c; }
-  return CFG.grading.comments[CFG.grading.comments.length-1][1];
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
 }
 
 function showResult(r){
   document.getElementById('resultInfo').innerHTML = `
     <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
     <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
     <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
     <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
