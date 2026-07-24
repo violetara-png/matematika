@@ -216,72 +216,74 @@
 <script>
 /* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
 const HINTS = [
-  "Ženklai skirtingi. Iš didesnio modulio atimk mažesnį, o rezultatui parašyk to skaičiaus ženklą, kurio modulis didesnis.",
-  "Pliusas prieš skliaustą nieko nekeičia: skaičių iš skliausto perrašyk su jo paties ženklu. Kokie tada lieka du dėmenys ir jų ženklai?",
-  "Įsižiūrėk: skaičiai vienodi, o ženklai priešingi. Prisimink, kam lygi priešingų skaičių suma.",
-  "Atimti neigiamą skaičių — tai tas pats, kas pridėti jam priešingą. Du minusai iš eilės virsta pliusu.",
-  "Vėl atimtis „minus (minus)“. Pakeisk atimtį sudėtimi su priešingu skaičiumi ir stebėk, kurio dėmens modulis didesnis.",
-  "Algebrinė suma. Atskirai sudėk teigiamus, atskirai neigiamus, o tada abi sumas sudėk tarpusavyje.",
-  "Neigiamą dėmenį skliaustuose užrašyk paprastai. Sugrupuok abu neigiamus kartu, tada pridėk teigiamą.",
-  "Kiekvieną atimtį paversk sudėtimi su priešingu skaičiumi. Tada eik iš eilės arba grupuok teigiamus su teigiamais.",
-  "Pirma sutvarkyk ženklus: −(−9) tampa +9. Toliau tvarkyk kaip įprastą algebrinę sumą.",
-  "Užuomina, ne atsakymas: temperatūros kritimas — tai atimtis, kilimas — sudėtis. Užrašyk visą kelią kaip vieną algebrinę sumą ir suskaičiuok pats.",
+  "Skaičiai su kableliais, ženklai skirtingi. Iš didesnio modulio atimk mažesnį, o rezultatui parašyk to skaičiaus ženklą, kurio modulis didesnis. Kablelis po kableliu.",
+  "Pliusas prieš skliaustą nieko nekeičia: neigiamą dešimtainį iš skliausto perrašyk su jo minusu. Liko sudėtis su neigiamu skaičiumi — tai atimtis.",
+  "Įsižiūrėk: skaičiai su kableliais vienodi, o ženklai priešingi. Prisimink, kam lygi priešingų skaičių suma.",
+  "Atimti neigiamą skaičių — tai tas pats, kas pridėti jam priešingą. Du minusai iš eilės virsta pliusu, net su kableliais.",
+  "Trupmenos su tuo pačiu vardikliu. −(−trupmena) tampa +trupmena; du minusai — pliusas. Tada skaitiklius sudėk, vardiklį palik tą patį ir sutrumpink.",
+  "Algebrinė suma su kableliais. Atskirai sudėk neigiamus dėmenis, tada pridėk teigiamąjį sveikąjį.",
+  "Abi trupmenas skliaustuose užrašyk su jų minusais. Sugrupuok abi neigiamas trupmenas kartu (vardiklis tas pats), gausi sveiką neigiamą — tada pridėk sveikąjį.",
+  "Kiekvieną atimtį paversk sudėtimi su priešingu skaičiumi: −(−1,8) tampa +1,8. Tada eik iš eilės.",
+  "Pirma sutvarkyk ženklus: −(−7,5) tampa +7,5. Toliau tvarkyk kaip įprastą algebrinę sumą su kableliu.",
+  "Užuomina, ne atsakymas: temperatūros kritimas — tai atimtis, kilimas — sudėtis. Užrašyk visą kelią kaip vieną algebrinę sumą su kableliais ir suskaičiuok pats.",
 ];
 
 /* ============ 4 VARIANTAI · racionaliųjų skaičių sudėtis ir atimtis ============ */
-/* Kiekvienos spynos atsakymas — vienaženklis skaičius (0–9). Atsakymai sympy-patikrinti. */
+/* Sunkesnis lygis: dešimtainiai (kableliai) ir trupmenos. */
+/* Kiekvienos spynos atsakymas vis tiek — vienaženklis sveikas skaičius (0–9), nes tai kodo skaitmuo. */
+const F=(n,d)=>`<span class="frac"><span class="tn">${n}</span><span class="td">${d}</span></span>`;
 const VARIANTS = [
- /* --- VARIANTAS 1 · kodas 5507132354 --- */
+ /* --- VARIANTAS 1 · kodas 5307245334 --- */
  [
-  { title:"Įėjimo durų kodas", eq:"−3 + 8", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:5 },
-  { title:"Šaldiklio skląstis", eq:"9 + (−4)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dėmeniu.", ans:5 },
-  { title:"Priešnuodžių spinta", eq:"−6 + 6", q:"Du priešingi skaičiai saugo spintą su priešnuodžiu.", ans:0 },
-  { title:"Ventiliacijos liukas", eq:"2 − (−5)", q:"Ant liuko užrašyta atimtis su neigiamu skaičiumi. Nesuklysk su ženklais.", ans:7 },
-  { title:"Cheminė spyna", eq:"−8 − (−9)", q:"Du minusai iš eilės. Atsargiai.", ans:1 },
-  { title:"Elektros skydinė", eq:"−5 + 12 − 4", q:"Skydinę atrakina algebrinė suma.", ans:3 },
-  { title:"Seifo ratukas", eq:"−4 + (−3) + 9", q:"Du neigiami dėmenys ir vienas teigiamas.", ans:2 },
-  { title:"Archyvo durys", eq:"4 − (−2) − 3", q:"Dvi atimtys iš eilės, viena su neigiamu skaičiumi.", ans:3 },
-  { title:"Signalizacijos pultas", eq:"−7 + 3 − (−9)", q:"Sudėtis ir atimtis kartu. Pirma sutvarkyk ženklus.", ans:5 },
-  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −6 °C. Naktį temperatūra nukrito dar 3 °C, o rytą pakilo 13 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
+  { title:"Įėjimo durų kodas", eq:"−4,6 + 9,6", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:5 },
+  { title:"Šaldiklio skląstis", eq:"7,3 + (−4,3)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dešimtainiu dėmeniu.", ans:3 },
+  { title:"Priešnuodžių spinta", eq:"−5,8 + 5,8", q:"Du priešingi skaičiai su kableliais saugo spintą su priešnuodžiu.", ans:0 },
+  { title:"Ventiliacijos liukas", eq:"2,5 − (−4,5)", q:"Ant liuko užrašyta atimtis su neigiamu dešimtainiu. Nesuklysk su ženklais.", ans:7 },
+  { title:"Cheminė spyna", eq:"−"+F(1,2)+" − (−"+F(5,2)+")", q:"Trupmenos su tuo pačiu vardikliu, du minusai iš eilės. Atsargiai.", ans:2 },
+  { title:"Elektros skydinė", eq:"−5,5 + 12 − 2,5", q:"Skydinę atrakina algebrinė suma su kableliais.", ans:4 },
+  { title:"Seifo ratukas", eq:"−"+F(3,4)+" + (−"+F(1,4)+") + 6", q:"Dvi neigiamos trupmenos ir vienas sveikasis.", ans:5 },
+  { title:"Archyvo durys", eq:"4,2 − (−1,8) − 3", q:"Dvi atimtys iš eilės, viena su neigiamu dešimtainiu.", ans:3 },
+  { title:"Signalizacijos pultas", eq:"−7 + 2,5 − (−7,5)", q:"Sudėtis ir atimtis su kableliais kartu. Pirma sutvarkyk ženklus.", ans:3 },
+  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −4,5 °C. Naktį temperatūra nukrito dar 2,5 °C, o rytą pakilo 11 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
  ],
- /* --- VARIANTAS 2 · kodas 7307262234 --- */
+ /* --- VARIANTAS 2 · kodas 6405233254 --- */
  [
-  { title:"Įėjimo durų kodas", eq:"−2 + 9", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:7 },
-  { title:"Šaldiklio skląstis", eq:"8 + (−5)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dėmeniu.", ans:3 },
-  { title:"Priešnuodžių spinta", eq:"−4 + 4", q:"Du priešingi skaičiai saugo spintą su priešnuodžiu.", ans:0 },
-  { title:"Ventiliacijos liukas", eq:"1 − (−6)", q:"Ant liuko užrašyta atimtis su neigiamu skaičiumi. Nesuklysk su ženklais.", ans:7 },
-  { title:"Cheminė spyna", eq:"−7 − (−9)", q:"Du minusai iš eilės. Atsargiai.", ans:2 },
-  { title:"Elektros skydinė", eq:"−6 + 15 − 3", q:"Skydinę atrakina algebrinė suma.", ans:6 },
-  { title:"Seifo ratukas", eq:"−5 + (−2) + 9", q:"Du neigiami dėmenys ir vienas teigiamas.", ans:2 },
-  { title:"Archyvo durys", eq:"5 − (−1) − 4", q:"Dvi atimtys iš eilės, viena su neigiamu skaičiumi.", ans:2 },
-  { title:"Signalizacijos pultas", eq:"−8 + 2 − (−9)", q:"Sudėtis ir atimtis kartu. Pirma sutvarkyk ženklus.", ans:3 },
-  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −5 °C. Naktį temperatūra nukrito dar 2 °C, o rytą pakilo 11 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
+  { title:"Įėjimo durų kodas", eq:"−3,7 + 9,7", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:6 },
+  { title:"Šaldiklio skląstis", eq:"8,4 + (−4,4)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dešimtainiu dėmeniu.", ans:4 },
+  { title:"Priešnuodžių spinta", eq:"−6,2 + 6,2", q:"Du priešingi skaičiai su kableliais saugo spintą su priešnuodžiu.", ans:0 },
+  { title:"Ventiliacijos liukas", eq:"1,5 − (−3,5)", q:"Ant liuko užrašyta atimtis su neigiamu dešimtainiu. Nesuklysk su ženklais.", ans:5 },
+  { title:"Cheminė spyna", eq:"−"+F(3,2)+" − (−"+F(7,2)+")", q:"Trupmenos su tuo pačiu vardikliu, du minusai iš eilės. Atsargiai.", ans:2 },
+  { title:"Elektros skydinė", eq:"−6,5 + 14 − 4,5", q:"Skydinę atrakina algebrinė suma su kableliais.", ans:3 },
+  { title:"Seifo ratukas", eq:"−"+F(5,4)+" + (−"+F(3,4)+") + 5", q:"Dvi neigiamos trupmenos ir vienas sveikasis.", ans:3 },
+  { title:"Archyvo durys", eq:"3,6 − (−2,4) − 4", q:"Dvi atimtys iš eilės, viena su neigiamu dešimtainiu.", ans:2 },
+  { title:"Signalizacijos pultas", eq:"−8 + 3,5 − (−9,5)", q:"Sudėtis ir atimtis su kableliais kartu. Pirma sutvarkyk ženklus.", ans:5 },
+  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −3,5 °C. Naktį temperatūra nukrito dar 3,5 °C, o rytą pakilo 11 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
  ],
- /* --- VARIANTAS 3 · kodas 4407152334 --- */
+ /* --- VARIANTAS 3 · kodas 4306253334 --- */
  [
-  { title:"Įėjimo durų kodas", eq:"−5 + 9", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:4 },
-  { title:"Šaldiklio skląstis", eq:"7 + (−3)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dėmeniu.", ans:4 },
-  { title:"Priešnuodžių spinta", eq:"−8 + 8", q:"Du priešingi skaičiai saugo spintą su priešnuodžiu.", ans:0 },
-  { title:"Ventiliacijos liukas", eq:"3 − (−4)", q:"Ant liuko užrašyta atimtis su neigiamu skaičiumi. Nesuklysk su ženklais.", ans:7 },
-  { title:"Cheminė spyna", eq:"−6 − (−7)", q:"Du minusai iš eilės. Atsargiai.", ans:1 },
-  { title:"Elektros skydinė", eq:"−4 + 11 − 2", q:"Skydinę atrakina algebrinė suma.", ans:5 },
-  { title:"Seifo ratukas", eq:"−6 + (−1) + 9", q:"Du neigiami dėmenys ir vienas teigiamas.", ans:2 },
-  { title:"Archyvo durys", eq:"6 − (−2) − 5", q:"Dvi atimtys iš eilės, viena su neigiamu skaičiumi.", ans:3 },
-  { title:"Signalizacijos pultas", eq:"−9 + 4 − (−8)", q:"Sudėtis ir atimtis kartu. Pirma sutvarkyk ženklus.", ans:3 },
-  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −7 °C. Naktį temperatūra nukrito dar 1 °C, o rytą pakilo 12 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
+  { title:"Įėjimo durų kodas", eq:"−5,4 + 9,4", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:4 },
+  { title:"Šaldiklio skląstis", eq:"6,7 + (−3,7)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dešimtainiu dėmeniu.", ans:3 },
+  { title:"Priešnuodžių spinta", eq:"−7,1 + 7,1", q:"Du priešingi skaičiai su kableliais saugo spintą su priešnuodžiu.", ans:0 },
+  { title:"Ventiliacijos liukas", eq:"3,5 − (−2,5)", q:"Ant liuko užrašyta atimtis su neigiamu dešimtainiu. Nesuklysk su ženklais.", ans:6 },
+  { title:"Cheminė spyna", eq:"−"+F(5,2)+" − (−"+F(9,2)+")", q:"Trupmenos su tuo pačiu vardikliu, du minusai iš eilės. Atsargiai.", ans:2 },
+  { title:"Elektros skydinė", eq:"−4,5 + 11 − 1,5", q:"Skydinę atrakina algebrinė suma su kableliais.", ans:5 },
+  { title:"Seifo ratukas", eq:"−"+F(1,4)+" + (−"+F(3,4)+") + 4", q:"Dvi neigiamos trupmenos ir vienas sveikasis.", ans:3 },
+  { title:"Archyvo durys", eq:"5,3 − (−1,7) − 4", q:"Dvi atimtys iš eilės, viena su neigiamu dešimtainiu.", ans:3 },
+  { title:"Signalizacijos pultas", eq:"−9 + 4,5 − (−7,5)", q:"Sudėtis ir atimtis su kableliais kartu. Pirma sutvarkyk ženklus.", ans:3 },
+  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −6,5 °C. Naktį temperatūra nukrito dar 1,5 °C, o rytą pakilo 12 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:4 },
  ],
- /* --- VARIANTAS 4 · kodas 6405332233 --- */
+ /* --- VARIANTAS 4 · kodas 6405232333 --- */
  [
-  { title:"Įėjimo durų kodas", eq:"−1 + 7", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:6 },
-  { title:"Šaldiklio skląstis", eq:"6 + (−2)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dėmeniu.", ans:4 },
-  { title:"Priešnuodžių spinta", eq:"−3 + 3", q:"Du priešingi skaičiai saugo spintą su priešnuodžiu.", ans:0 },
-  { title:"Ventiliacijos liukas", eq:"4 − (−1)", q:"Ant liuko užrašyta atimtis su neigiamu skaičiumi. Nesuklysk su ženklais.", ans:5 },
-  { title:"Cheminė spyna", eq:"−5 − (−8)", q:"Du minusai iš eilės. Atsargiai.", ans:3 },
-  { title:"Elektros skydinė", eq:"−7 + 14 − 4", q:"Skydinę atrakina algebrinė suma.", ans:3 },
-  { title:"Seifo ratukas", eq:"−3 + (−4) + 9", q:"Du neigiami dėmenys ir vienas teigiamas.", ans:2 },
-  { title:"Archyvo durys", eq:"7 − (−1) − 6", q:"Dvi atimtys iš eilės, viena su neigiamu skaičiumi.", ans:2 },
-  { title:"Signalizacijos pultas", eq:"−6 + 1 − (−8)", q:"Sudėtis ir atimtis kartu. Pirma sutvarkyk ženklus.", ans:3 },
-  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −4 °C. Naktį temperatūra nukrito dar 5 °C, o rytą pakilo 12 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:3 },
+  { title:"Įėjimo durų kodas", eq:"−2,8 + 8,8", q:"Pirmoji spyna ant laboratorijos durų. Suskaičiuok reiškinio reikšmę.", ans:6 },
+  { title:"Šaldiklio skląstis", eq:"5,6 + (−1,6)", q:"Ant šaldiklio užrakinta sudėtis su neigiamu dešimtainiu dėmeniu.", ans:4 },
+  { title:"Priešnuodžių spinta", eq:"−4,9 + 4,9", q:"Du priešingi skaičiai su kableliais saugo spintą su priešnuodžiu.", ans:0 },
+  { title:"Ventiliacijos liukas", eq:"4,5 − (−0,5)", q:"Ant liuko užrašyta atimtis su neigiamu dešimtainiu. Nesuklysk su ženklais.", ans:5 },
+  { title:"Cheminė spyna", eq:"−"+F(7,2)+" − (−"+F(11,2)+")", q:"Trupmenos su tuo pačiu vardikliu, du minusai iš eilės. Atsargiai.", ans:2 },
+  { title:"Elektros skydinė", eq:"−7,5 + 15 − 4,5", q:"Skydinę atrakina algebrinė suma su kableliais.", ans:3 },
+  { title:"Seifo ratukas", eq:"−"+F(7,4)+" + (−"+F(1,4)+") + 4", q:"Dvi neigiamos trupmenos ir vienas sveikasis.", ans:2 },
+  { title:"Archyvo durys", eq:"6,4 − (−1,6) − 5", q:"Dvi atimtys iš eilės, viena su neigiamu dešimtainiu.", ans:3 },
+  { title:"Signalizacijos pultas", eq:"−6 + 1,5 − (−7,5)", q:"Sudėtis ir atimtis su kableliais kartu. Pirma sutvarkyk ženklus.", ans:3 },
+  { title:"Avarinis išėjimas", eq:"", q:"Paskutinė spyna! Laboratorijos šaldiklis rodė −4,5 °C. Naktį temperatūra nukrito dar 4,5 °C, o rytą pakilo 12 °C. Kiek laipsnių rodo dabar? (tai ir yra kodo skaitmuo)", ans:3 },
  ],
 ];
 
