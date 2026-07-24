@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greitosios daugybos formulės — 8 klasė</title>
+<style>
+  :root {
+    --a: #1f6feb;      /* pirmasis narys a */
+    --b: #d1495b;      /* antrasis narys b */
+    --ink: #1a1a2e;
+    --muted: #5c6370;
+    --line: #d8dee9;
+    --bg-card: #ffffff;
+    --accent: #f6a821;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+    color: var(--ink);
+    background: #eef1f6;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 14mm 13mm 10mm;
+    background: #fff;
+  }
+
+  /* ---------- ANTRAŠTĖ ---------- */
+  header {
+    text-align: center;
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+  header .kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  header h1 {
+    font-size: 32px;
+    line-height: 1.05;
+    margin: 4px 0 2px;
+  }
+  header .sub {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ---------- LEGENDA ---------- */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    margin: 10px 0 16px;
+    font-size: 13px;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .chip {
+    display: inline-block;
+    width: 15px; height: 15px;
+    border-radius: 4px;
+  }
+  .chip.a { background: var(--a); }
+  .chip.b { background: var(--b); }
+
+  .a { color: var(--a); font-weight: 700; }
+  .b { color: var(--b); font-weight: 700; }
+
+  /* ---------- FORMULIŲ KORTELĖS ---------- */
+  .card {
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 13px 16px 14px;
+    margin-bottom: 13px;
+    background: var(--bg-card);
+    box-shadow: 0 1px 0 rgba(0,0,0,.03);
+    page-break-inside: avoid;
+  }
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .num {
+    flex: 0 0 auto;
+    width: 26px; height: 26px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+  }
+  .card-head h2 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .formula {
+    font-family: "Cambria Math", "Times New Roman", Georgia, serif;
+    font-size: 26px;
+    text-align: center;
+    padding: 8px 0 6px;
+    letter-spacing: .5px;
+  }
+  .formula sup { font-size: 60%; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .box {
+    border-radius: 8px;
+    padding: 8px 11px;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .box .lbl {
+    display: block;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .box.words { background: #f3f6fb; }
+  .box.ex    { background: #fff7e9; }
+  .box .calc {
+    font-family: "Cambria Math", "Times New Roman", Georgia, serif;
+    font-size: 15px;
+  }
+  .box .calc sup { font-size: 65%; }
+
+  /* ---------- TAIKYMAS (skaidymas) ---------- */
+  .apply {
+    border: 1.5px dashed var(--accent);
+    border-radius: 12px;
+    padding: 12px 16px 13px;
+    background: #fffdf7;
+    page-break-inside: avoid;
+  }
+  .apply h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .apply h2::before {
+    content: "★";
+    color: var(--accent);
+    font-size: 18px;
+  }
+  .apply-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .apply-grid .item {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .apply-grid .item .t {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .apply-grid .calc {
+    font-family: "Cambria Math", "Times New Roman", Georgia, serif;
+    font-size: 15px;
+  }
+  .apply-grid .calc sup { font-size: 65%; }
+
+  footer {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+  }
+
+  /* ---------- SPAUSDINIMAS ---------- */
+  @media print {
+    html, body { background: #fff; }
+    .page { margin: 0; width: auto; min-height: auto; padding: 8mm 10mm; }
+    @page { size: A4 portrait; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="kicker">Matematika · 8 klasė · Reiškiniai</div>
+    <h1>Greitosios daugybos formulės</h1>
+    <div class="sub">Trys pagrindinės formulės ir jų taikymas</div>
+  </header>
+
+  <div class="legend">
+    <span><i class="chip a"></i> <b class="a">a</b> — pirmasis narys</span>
+    <span><i class="chip b"></i> <b class="b">b</b> — antrasis narys</span>
+  </div>
+
+  <!-- 1 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">1</div>
+      <h2>Sumos kvadratas</h2>
+    </div>
+    <div class="formula">
+      (<span class="a">a</span> + <span class="b">b</span>)<sup>2</sup> =
+      <span class="a">a</span><sup>2</sup> + 2<span class="a">a</span><span class="b">b</span> + <span class="b">b</span><sup>2</sup>
+    </div>
+    <div class="row">
+      <div class="box words">
+        <span class="lbl">Taisyklė žodžiais</span>
+        Pirmojo nario kvadratas <b>plius</b> du kartus pirmasis kart antrasis <b>plius</b> antrojo nario kvadratas.
+      </div>
+      <div class="box ex">
+        <span class="lbl">Pavyzdys</span>
+        <div class="calc">
+          (<span class="a">x</span> + <span class="b">3</span>)<sup>2</sup> =<br>
+          = <span class="a">x</span><sup>2</sup> + 2·<span class="a">x</span>·<span class="b">3</span> + <span class="b">3</span><sup>2</sup> =<br>
+          = <b>x<sup>2</sup> + 6x + 9</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">2</div>
+      <h2>Skirtumo kvadratas</h2>
+    </div>
+    <div class="formula">
+      (<span class="a">a</span> − <span class="b">b</span>)<sup>2</sup> =
+      <span class="a">a</span><sup>2</sup> − 2<span class="a">a</span><span class="b">b</span> + <span class="b">b</span><sup>2</sup>
+    </div>
+    <div class="row">
+      <div class="box words">
+        <span class="lbl">Taisyklė žodžiais</span>
+        Pirmojo nario kvadratas <b>minus</b> du kartus pirmasis kart antrasis <b>plius</b> antrojo nario kvadratas.
+      </div>
+      <div class="box ex">
+        <span class="lbl">Pavyzdys</span>
+        <div class="calc">
+          (<span class="a">2y</span> − <span class="b">5</span>)<sup>2</sup> =<br>
+          = (<span class="a">2y</span>)<sup>2</sup> − 2·<span class="a">2y</span>·<span class="b">5</span> + <span class="b">5</span><sup>2</sup> =<br>
+          = <b>4y<sup>2</sup> − 20y + 25</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">3</div>
+      <h2>Dviejų narių sumos ir skirtumo sandauga — kvadratų skirtumas</h2>
+    </div>
+    <div class="formula">
+      (<span class="a">a</span> + <span class="b">b</span>)(<span class="a">a</span> − <span class="b">b</span>) =
+      <span class="a">a</span><sup>2</sup> − <span class="b">b</span><sup>2</sup>
+    </div>
+    <div class="row">
+      <div class="box words">
+        <span class="lbl">Taisyklė žodžiais</span>
+        Sumos ir skirtumo sandauga lygi pirmojo nario kvadratui <b>minus</b> antrojo nario kvadratas. Vidurinis narys išnyksta.
+      </div>
+      <div class="box ex">
+        <span class="lbl">Pavyzdys</span>
+        <div class="calc">
+          (<span class="a">x</span> + <span class="b">7</span>)(<span class="a">x</span> − <span class="b">7</span>) =<br>
+          = <span class="a">x</span><sup>2</sup> − <span class="b">7</span><sup>2</sup> =<br>
+          = <b>x<sup>2</sup> − 49</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAIKYMAS -->
+  <div class="apply">
+    <h2>Taikymas atvirkščiai — skaidymas dauginamaisiais</h2>
+    <div class="apply-grid">
+      <div class="item">
+        <span class="t">Kvadratų skirtumas</span>
+        <div class="calc">
+          x<sup>2</sup> − 25 =<br>
+          = x<sup>2</sup> − 5<sup>2</sup> =<br>
+          = <b>(x − 5)(x + 5)</b>
+        </div>
+      </div>
+      <div class="item">
+        <span class="t">Pilnas kvadratas</span>
+        <div class="calc">
+          a<sup>2</sup> + 8a + 16 =<br>
+          = a<sup>2</sup> + 2·a·4 + 4<sup>2</sup> =<br>
+          = <b>(a + 4)<sup>2</sup></b>
+        </div>
+      </div>
+      <div class="item">
+        <span class="t">Greitas skaičiavimas</span>
+        <div class="calc">
+          98 · 102 =<br>
+          = (100 − 2)(100 + 2) =<br>
+          = 100<sup>2</sup> − 2<sup>2</sup> = <b>9996</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Įsimink: kai matai <b>kvadratą</b> arba <b>sandaugą su ta pačia pora narių</b>, pirmiausia patikrink, ar tinka greitosios daugybos formulė.
+  </footer>
+
+</div>
+</body>
+</html>
