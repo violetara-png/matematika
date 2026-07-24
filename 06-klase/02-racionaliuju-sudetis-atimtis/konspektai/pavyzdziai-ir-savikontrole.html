@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Racionaliųjų skaičių sudėtis ir atimtis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Racionaliųjų skaičių sudėtis ir atimtis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 2 tema · teigiamų ir neigiamų skaičių sudėtis ir atimtis</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Sudėtis, kai ženklai vienodi</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> parašome bendrą dėmenų ženklą, po jo sudedame skaičių modulius.</div>
+    <div class="ex">
+      <div class="q">−8 + (−7)</div>
+      <div class="line">abu neigiami → ženklas „−“, moduliai 8 + 7 = 15 &nbsp;&rArr;&nbsp; <span class="res">−15</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">12 + 9</div>
+      <div class="line">abu teigiami → <span class="res">21</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−30 + (−90)</div>
+      <div class="line">ženklas „−“, moduliai 30 + 90 = 120 &nbsp;&rArr;&nbsp; <span class="res">−120</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sudėtis, kai ženklai skirtingi</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> iš didesnio modulio atimame mažesnį, o sumai rašome to dėmens ženklą, kurio modulis didesnis.</div>
+    <div class="ex">
+      <div class="q">−8 + 3</div>
+      <div class="line">|−8| &gt; |3|, ženklas „−“, 8 − 3 = 5 &nbsp;&rArr;&nbsp; <span class="res">−5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−17 + 37</div>
+      <div class="line">|37| &gt; |−17|, ženklas „+“, 37 − 17 = 20 &nbsp;&rArr;&nbsp; <span class="res">20</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">15 + (−40)</div>
+      <div class="line">|−40| &gt; |15|, ženklas „−“, 40 − 15 = 25 &nbsp;&rArr;&nbsp; <span class="res">−25</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−7 + 7</div>
+      <div class="line">priešingų skaičių suma &nbsp;&rArr;&nbsp; <span class="res">0</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Atimtis: atimti = pridėti priešingą</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> <span class="math">a − b = a + (−b)</span>. Du minusai iš eilės virsta pliusu: <span class="math">a − (−b) = a + b</span>.</div>
+    <div class="ex">
+      <div class="q">5 − 8</div>
+      <div class="line">= 5 + (−8) = <span class="res">−3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−3 − 7</div>
+      <div class="line">= −3 + (−7) = <span class="res">−10</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−3 − (−7)</div>
+      <div class="line">= −3 + 7 = <span class="res">4</span> &nbsp;<span class="muted2">(du minusai → pliusas)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">6 − (−9)</div>
+      <div class="line">= 6 + 9 = <span class="res">15</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Algebrinė suma</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Idėja:</b> kiekvieną atimtį pakeičiame sudėtimi, tada patogiai grupuojame — atskirai teigiamus, atskirai neigiamus.</div>
+    <div class="ex">
+      <div class="q">−20 − 15 + 25 − 10</div>
+      <div class="line">= 25 + (−20 − 15 − 10) = 25 + (−45) = <span class="res">−20</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−14 + 20 − 8 − (−5)</div>
+      <div class="line">= −14 + 20 − 8 + 5 = 25 + (−22) = <span class="res">3</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirma sutvarkyk ženklus (du minusai → pliusas), tada žiūrėk: vienodi ženklai — modulius sudedi, skirtingi — atimi. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Sudėk</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>−6 + (−9)</li>
+        <li>−13 + 5</li>
+        <li>24 + (−30)</li>
+        <li>−50 + (−45)</li>
+        <li>−8 + 8</li>
+        <li>19 + (−7)</li>
+      </ol>
+    </div>
+
+    <div class="grp">Atimk</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>4 − 10</li>
+        <li>−9 − 6</li>
+        <li>7 − (−5)</li>
+        <li>−6 − (−15)</li>
+        <li>−20 − 8</li>
+        <li>3 − 11</li>
+      </ol>
+    </div>
+
+    <div class="grp">Algebrinės sumos</div>
+    <div class="two">
+      <ol class="tasks math" start="13">
+        <li>−12 + 25 − 30</li>
+        <li>−8 − 7 + 20 − 5</li>
+        <li>14 − (−6) − 25</li>
+        <li>−30 + 12 − (−8) − 4</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir lygtys</div>
+    <ol class="tasks" start="17">
+      <li>Vakare oro temperatūra buvo <span class="math">−5 °C</span>, per naktį nukrito dar <span class="math">8 °C</span>. Kokia temperatūra buvo ryte?</li>
+      <li>Rask <span class="math">x</span>: <span class="math">x + 12 = 5</span>.</li>
+      <li>Rask <span class="math">x</span>: <span class="math">x − 7 = −3</span>.</li>
+      <li>Termometras rodė <span class="math">0 °C</span>. Iš pradžių temperatūra nukrito <span class="math">6 °C</span>, o tada pakilo <span class="math">9 °C</span>. Kiek rodo termometras dabar?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> −15 &nbsp;&nbsp; <b>2.</b> −8 &nbsp;&nbsp; <b>3.</b> −6 &nbsp;&nbsp; <b>4.</b> −95</div>
+    <div class="row math"><b>5.</b> 0 &nbsp;&nbsp; <b>6.</b> 12 &nbsp;&nbsp; <b>7.</b> −6 &nbsp;&nbsp; <b>8.</b> −15</div>
+    <div class="row math"><b>9.</b> 12 &nbsp;&nbsp; <b>10.</b> 9 &nbsp;&nbsp; <b>11.</b> −28 &nbsp;&nbsp; <b>12.</b> −8</div>
+    <div class="row math"><b>13.</b> −17 &nbsp;&nbsp; <b>14.</b> 0 &nbsp;&nbsp; <b>15.</b> −5 &nbsp;&nbsp; <b>16.</b> −14</div>
+    <div class="row math"><b>17.</b> −5 − 8 = −13 °C</div>
+    <div class="row math"><b>18.</b> x = −7 &nbsp;&nbsp; <b>19.</b> x = 4</div>
+    <div class="row math"><b>20.</b> 0 − 6 + 9 = 3 °C</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Racionaliųjų skaičių sudėtis ir atimtis“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
