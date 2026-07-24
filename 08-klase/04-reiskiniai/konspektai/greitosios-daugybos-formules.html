@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greitosios daugybos formulės — 8 klasė (konspektas)</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:22px; margin:12px 0; padding:12px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Greitosios daugybos formulės</h1>
+  <p class="klase">Matematika · 8 klasė · 4 skyrius „Reiškiniai" · dvinario kvadratas ir kvadratų skirtumas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kam reikia greitosios daugybos formulių</a></li>
+      <li><a href="#t2">Sumos kvadratas (a + b)²</a></li>
+      <li><a href="#t3">Skirtumo kvadratas (a − b)²</a></li>
+      <li><a href="#t4">Kvadratų skirtumas a² − b²</a></li>
+      <li><a href="#t5">Taikymas: greitas skaičiavimas ir skaidymas daugikliais</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kam reikia greitosios daugybos formulių</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Greitosios daugybos formulės</span> — tai pastebėti dėsningumai, leidžiantys <b>iškart</b> užrašyti dažnai pasitaikančių sandaugų rezultatą, be ilgo daugybos „nariais iš narių".</p>
+        <p>Trys pagrindinės formulės:</p>
+        <div class="formule math">(a + b)² = a² + 2ab + b²<br>(a − b)² = a² − 2ab + b²<br>(a − b)(a + b) = a² − b²</div>
+        <p class="pvz"><b>Kam to reikia?</b> Jos pagreitina reiškinių pertvarkymą, padeda <b>skaidyti daugikliais</b> ir mintinai suskaičiuoti tokius pavyzdžius kaip <span class="math">52²</span> ar <span class="math">49 · 51</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Sumos kvadratas (a + b)²</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dviejų dėmenų sumos kvadratas lygus pirmojo kvadratui, pridėjus dvigubą pirmojo ir antrojo sandaugą, ir pridėjus antrojo kvadratą.</span></p>
+        <div class="formule math">(<span class="term-a">a</span> + <span class="term-b">b</span>)² = <span class="term-a">a</span>² + 2·<span class="term-a">a</span>·<span class="term-b">b</span> + <span class="term-b">b</span>²</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(x + 5)² = x² + 2·x·5 + 5² = <span class="gerai">x² + 10x + 25</span></span><br>
+        <span class="math">(2x + 3)² = (2x)² + 2·2x·3 + 3² = <span class="gerai">4x² + 12x + 9</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Vidurinis narys <b>2ab</b> — dažniausiai pamirštamas. <span class="math">(x + 5)² ≠ x² + 25</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Skirtumo kvadratas (a − b)²</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dviejų dėmenų skirtumo kvadratas lygus pirmojo kvadratui, atėmus dvigubą sandaugą, ir pridėjus antrojo kvadratą.</span> Skiriasi tik vidurinio nario ženklas.</p>
+        <div class="formule math">(<span class="term-a">a</span> − <span class="term-b">b</span>)² = <span class="term-a">a</span>² − 2·<span class="term-a">a</span>·<span class="term-b">b</span> + <span class="term-b">b</span>²</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(a − 4)² = a² − 2·a·4 + 4² = <span class="gerai">a² − 8a + 16</span></span><br>
+        <span class="math">(5x − 2)² = 25x² − 20x + 4</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Paskutinis narys <b>+b²</b> visada <b>teigiamas</b> (nes <span class="math">(−b)² = b²</span>). <span class="math">(a − 4)² = a² − 8a <b>+</b> 16</span>, ne <span class="math">− 16</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kvadratų skirtumas a² − b²</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dviejų dėmenų sumos ir skirtumo sandauga lygi jų kvadratų skirtumui.</span> Vidurinių narių čia nelieka — jie susinaikina.</p>
+        <div class="formule math">(<span class="term-a">a</span> − <span class="term-b">b</span>)(<span class="term-a">a</span> + <span class="term-b">b</span>) = <span class="term-a">a</span>² − <span class="term-b">b</span>²</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(y − 3)(y + 3) = y² − 9</span><br>
+        <span class="math">(3a − 1)(3a + 1) = 9a² − 1</span></p>
+        <p>Ši formulė veikia <b>abiem kryptimis</b>: iš dešinės į kairę ji leidžia <b>skaidyti daugikliais</b>: <span class="math gerai">x² − 16 = (x − 4)(x + 4)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Taikymas: greitas skaičiavimas ir skaidymas daugikliais</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>1) Greitas skaičiavimas mintinai.</b> Skaičių išskaidome į patogią sumą ar skirtumą:</p>
+        <p class="pvz math"><b>52² =</b> (50 + 2)² = 2500 + 2·50·2 + 4 = <span class="gerai">2704</span><br>
+        <b>49 · 51 =</b> (50 − 1)(50 + 1) = 50² − 1² = 2500 − 1 = <span class="gerai">2499</span></p>
+        <p><b>2) Skaidymas daugikliais</b> (kvadratų skirtumas atgal):</p>
+        <p class="pvz math"><b>x² − 25 =</b> x² − 5² = <span class="gerai">(x − 5)(x + 5)</span><br>
+        <b>9a² − 1 =</b> (3a)² − 1² = <span class="gerai">(3a − 1)(3a + 1)</span></p>
+        <p class="demesio"><b>Naudinga.</b> Kvadratą atpažinti padeda „lyginė laipsnio galia + tikslus kvadratas": <span class="math">16 = 4², 25 = 5², 9x² = (3x)²</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">(x + 5)² = x² + 25</span></td><td class="math"><span class="gerai">x² + 10x + 25</span> (nepamiršk 2ab)</td></tr>
+          <tr><td class="math"><span class="klaida">(a − 4)² = a² − 8a − 16</span></td><td class="math"><span class="gerai">a² − 8a + 16</span> (b² teigiamas)</td></tr>
+          <tr><td class="math"><span class="klaida">(2x + 3)² = 2x² + 12x + 9</span></td><td class="math"><span class="gerai">4x² + 12x + 9</span> ((2x)² = 4x²)</td></tr>
+          <tr><td class="math"><span class="klaida">x² − 16 = (x − 16)(x + 16)</span></td><td class="math"><span class="gerai">(x − 4)(x + 4)</span> (16 = 4²)</td></tr>
+          <tr><td class="math"><span class="klaida">a² + b² = (a + b)(a − b)</span></td><td class="math"><span class="gerai">skaidosi tik a² − b²</span> (sumų kvadratų — ne)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Kvadratuodamas dvinarį rašau <b>tris</b> narius (a², 2ab, b²) ir tikrinu <b>vidurinio nario ženklą</b>. Koeficientą kelk į kvadratą kartu su raide: <span class="math">(2x)² = 4x²</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · tema „Greitosios daugybos formulės" (4 skyrius)
+  </footer>
+
+</div>
+</body>
+</html>
