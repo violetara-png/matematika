@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Panašiosios figūros (6 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.35rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.3px;
+    font-family:"Cambria Math",Cambria,Georgia,serif}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📐 Mokymosi asistentas „Greta“</h1>
+    <p>Tema: <b>Panašiosios figūros</b> · 6 klasė · mastelis, panašumas, koeficientas</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">G<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Greta</div>
+        Sveikas! Aš — Greta, tavo mokymosi asistentė. Kartu pasitreniruosime <b>panašiąsias figūras</b>: mastelį, panašumo koeficientą, panašių figūrų kraštines bei plotų ir perimetrų santykius.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Atsakymą rašyk skaičiumi, trupmenas — kableliu (pvz. <b>1,5</b>). Pabaigoje bus 10 klausimų testas.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">G<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Greta</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">G<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Greta</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymą rašyk skaičiumi, trupmenas — kableliu (pvz. <b>1,5</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+ {"intro":"Pradėkim nuo <b>mastelio</b>. Žemėlapyje viskas sumažinta, mastelis pasako, kiek kartų.",
+  "expr":"Mastelis 1 : 200 000,&nbsp; žemėlapyje 6 cm",
+  "q":"Koks realus atstumas kilometrais?",
+  "accepted":["12","12km","12 km"],
+  "hints":["Mastelis 1 : n reiškia, kad realybėje viskas n kartų didesnė nei žemėlapyje. Ką tada daryti su 6 cm?",
+           "Realų atstumą centimetrais gauni žemėlapio ilgį padaugindamas iš mastelio skaičiaus (200 000).",
+           "Padauginęs gausi centimetrus — paversk juos kilometrais: 1 km = 100 000 cm, tad dalink iš 100 000."]},
+
+ {"intro":"Dabar — <b>panašumo koeficientas k</b>. Jis pasako, kiek kartų viena figūra didesnė už kitą.",
+  "expr":"△ABC ∼ △A₁B₁C₁,&nbsp; AB = 5,&nbsp; A₁B₁ = 15",
+  "q":"Koks panašumo koeficientas k = A₁B₁ : AB?",
+  "accepted":["3"],
+  "hints":["Koeficientas k parodo, kiek kartų antroji figūra didesnė už pirmąją.",
+           "k randi didesnę atitinkamą kraštinę padalijęs iš mažesnės.",
+           "Užrašyk dalmenį A₁B₁ : AB su duotais skaičiais ir suskaičiuok."]},
+
+ {"intro":"Jei žinai k, gali rasti <b>atitinkamą kraštinę</b>.",
+  "expr":"k = 2,&nbsp; AB = 7 cm",
+  "q":"Kam lygi atitinkama didesnės figūros kraštinė A₁B₁ (cm)?",
+  "accepted":["14","14cm","14 cm"],
+  "hints":["Koeficientas k rodo, kiek kartų didesnė antroji figūra.",
+           "Atitinkamą didesnės figūros kraštinę gauni mažesniąją padaugindamas iš k.",
+           "Padaugink 7 iš koeficiento k."]},
+
+ {"intro":"Sudėtingiau — <b>plotų santykis</b>. Plotas keičiasi kitaip nei kraštinės.",
+  "expr":"Panašumo koeficientas k = 3",
+  "q":"Koks panašiųjų figūrų plotų santykis?",
+  "accepted":["9"],
+  "hints":["Plotą lemia du matmenys, todėl padidinus kraštines k kartų, plotas didėja daugiau.",
+           "Panašiųjų figūrų plotų santykis lygus koeficiento kvadratui k².",
+           "Pakelk 3 kvadratu (3 · 3)."]},
+
+ {"intro":"Paskutinė ir gyvenimiška — <b>panašūs trikampiai ir šešėliai</b>.",
+  "expr":"Stulpas 2 m → šešėlis 3 m,&nbsp; medis → šešėlis 12 m",
+  "q":"Koks medžio aukštis (m)?",
+  "accepted":["8","8m","8 m"],
+  "hints":["Stulpas ir medis su savo šešėliais sudaro du panašius trikampius (saulė šviečia vienodu kampu).",
+           "Sudaryk proporciją: aukštis dalinti iš šešėlio abiem vienodas — 2 : 3 = h : 12.",
+           "Iš proporcijos: h = 2 · 12 : 3."]}
+];
+
+let si = 0;
+let hintIdx = 0;
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6;
+const testVariants = [
+ {"label":"A variantas","qs":[
+   {"t":"Mastelis 1 : 100 000, žemėlapyje 4 cm. Koks realus atstumas (km)?","acc":["4","4km","4 km"],"hint":"4 cm · 100 000 = cm; paversk į km (dalink iš 100 000)."},
+   {"t":"Mastelis 1 : 500 000, žemėlapyje 3 cm. Koks realus atstumas (km)?","acc":["15","15km","15 km"],"hint":"3 · 500 000 cm, paversk į km."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 4, A₁B₁ = 12. Koks k = A₁B₁ : AB?","acc":["3"],"hint":"Padalink didesnę kraštinę iš mažesnės."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 6, A₁B₁ = 9. Koks k = A₁B₁ : AB?","acc":["1,5"],"hint":"9 : 6."},
+   {"t":"k = 2, AB = 5 cm. Kam lygi A₁B₁ (cm)?","acc":["10","10cm","10 cm"],"hint":"Mažesniąją padaugink iš k."},
+   {"t":"k = 3, AB = 4 cm. Kam lygi A₁B₁ (cm)?","acc":["12","12cm","12 cm"],"hint":"4 · 3."},
+   {"t":"Kvadrato kraštinę padidinom 2 kartus. Kiek kartų didesnis plotas?","acc":["4"],"hint":"Plotas didėja k² kartų."},
+   {"t":"k = 2. Koks figūrų plotų santykis?","acc":["4"],"hint":"k² = 2²."},
+   {"t":"k = 4. Koks figūrų perimetrų santykis?","acc":["4"],"hint":"Perimetrų santykis lygus pačiam k."},
+   {"t":"Stulpas 1,5 m meta 2 m šešėlį; namas meta 8 m šešėlį. Namo aukštis (m)?","acc":["6","6m","6 m"],"hint":"Proporcija: 1,5 : 2 = h : 8; h = 1,5 · 8 : 2."}
+ ]},
+ {"label":"B variantas","qs":[
+   {"t":"Mastelis 1 : 200 000, žemėlapyje 5 cm. Koks realus atstumas (km)?","acc":["10","10km","10 km"],"hint":"5 · 200 000 cm, paversk į km."},
+   {"t":"Mastelis 1 : 300 000, žemėlapyje 6 cm. Koks realus atstumas (km)?","acc":["18","18km","18 km"],"hint":"6 · 300 000 cm, paversk į km."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 5, A₁B₁ = 10. Koks k = A₁B₁ : AB?","acc":["2"],"hint":"10 : 5."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 8, A₁B₁ = 12. Koks k = A₁B₁ : AB?","acc":["1,5"],"hint":"12 : 8."},
+   {"t":"k = 3, AB = 5 cm. Kam lygi A₁B₁ (cm)?","acc":["15","15cm","15 cm"],"hint":"5 · 3."},
+   {"t":"k = 2,5, AB = 4 cm. Kam lygi A₁B₁ (cm)?","acc":["10","10cm","10 cm"],"hint":"4 · 2,5."},
+   {"t":"Kvadrato kraštinę padidinom 3 kartus. Kiek kartų didesnis plotas?","acc":["9"],"hint":"Plotas didėja k² kartų."},
+   {"t":"k = 3. Koks figūrų plotų santykis?","acc":["9"],"hint":"k² = 3²."},
+   {"t":"k = 2,5. Koks figūrų perimetrų santykis?","acc":["2,5"],"hint":"Perimetrų santykis lygus pačiam k."},
+   {"t":"Stulpas 2 m meta 2,5 m šešėlį; medis meta 10 m šešėlį. Medžio aukštis (m)?","acc":["8","8m","8 m"],"hint":"2 : 2,5 = h : 10; h = 2 · 10 : 2,5."}
+ ]},
+ {"label":"C variantas","qs":[
+   {"t":"Mastelis 1 : 400 000, žemėlapyje 4 cm. Koks realus atstumas (km)?","acc":["16","16km","16 km"],"hint":"4 · 400 000 cm, paversk į km."},
+   {"t":"Realus atstumas 20 km, mastelis 1 : 500 000. Atstumas žemėlapyje (cm)?","acc":["4","4cm","4 cm"],"hint":"20 km = 2 000 000 cm; dalink iš 500 000."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 6, A₁B₁ = 18. Koks k = A₁B₁ : AB?","acc":["3"],"hint":"18 : 6."},
+   {"t":"△ABC ∼ △A₁B₁C₁, AB = 10, A₁B₁ = 15. Koks k = A₁B₁ : AB?","acc":["1,5"],"hint":"15 : 10."},
+   {"t":"k = 4, AB = 3 cm. Kam lygi A₁B₁ (cm)?","acc":["12","12cm","12 cm"],"hint":"3 · 4."},
+   {"t":"Trikampis 3, 5, 7; panašaus k = 2. Kokia ilgiausia kraštinė (cm)?","acc":["14","14cm","14 cm"],"hint":"Ilgiausią kraštinę (7) padaugink iš k."},
+   {"t":"Kvadrato kraštinę padidinom 4 kartus. Kiek kartų didesnis plotas?","acc":["16"],"hint":"Plotas didėja k² kartų."},
+   {"t":"k = 4. Koks figūrų plotų santykis?","acc":["16"],"hint":"k² = 4²."},
+   {"t":"k = 3. Koks figūrų perimetrų santykis?","acc":["3"],"hint":"Perimetrų santykis lygus pačiam k."},
+   {"t":"Stulpas 1,8 m meta 2 m šešėlį; bokštas meta 20 m šešėlį. Bokšto aukštis (m)?","acc":["18","18m","18 m"],"hint":"1,8 : 2 = h : 20; h = 1,8 · 20 : 2."}
+ ]}
+];
+
+let vi = 0;
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
