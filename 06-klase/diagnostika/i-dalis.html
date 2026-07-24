@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: 6 klasės I dalies žinių diagnostinis testas (temos 1–6)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="6-diagnostika-i-dalis",WANT="19pqerj",LABEL="Diagnostinis testas · I dalis · temos 1–6";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>6 klasės I dalies žinių diagnostinis testas (temos 1–6)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "6 klasės I dalies žinių diagnostinis testas (temos 1–6)", "dalykas": "Matematika", "trukme_min": 60, "grading": {"mc_points": 1, "open_points": 2, "scale": [[92, 10], [83, 9], [74, 8], [64, 7], [54, 6], [44, 5], [34, 4], [24, 3], [14, 2], [0, 1]], "comments": [[88, "Puikiai! Aukštą sudėtingumą įveiki labai gerai."], [70, "Labai gerai. Keliose vietose dar galima patikslinti."], [50, "Gerai — pagrindus valdai; peržiūrėk sunkesnius uždavinius."], [0, "Verta grįžti prie skyrių 1–6 ir pasitreniruoti."]]}, "levels": [{"id": "lengvas", "label": "Lengvas lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Kuris iš duotų skaičių dalijasi iš 2 (yra lyginis)?", "options": ["24", "13", "35", "47"], "correct": 0}, {"q": "Kuris iš duotų skaičių dalijasi iš 5?", "options": ["12", "34", "47", "25"], "correct": 3}, {"q": "Koks yra skaičių 4 ir 8 didžiausias bendras daliklis (DBD)?", "options": ["2", "1", "4", "8"], "correct": 2}, {"q": "Koks yra skaičių 2 ir 3 mažiausias bendras kartotinis (MBK)?", "options": ["5", "6", "1", "2"], "correct": 1}, {"q": "Kuri trupmena didesnė: 3/5 ar 2/5?", "options": ["3/5", "2/5", "Jos lygios", "Negalima palyginti"], "correct": 0}, {"q": "Apskaičiuokite: 1/5 + 2/5.", "options": ["3/10", "2/5", "1/5", "3/5"], "correct": 3}, {"q": "Apskaičiuokite 1/2 iš 10.", "options": ["10", "20", "5", "2"], "correct": 2}, {"q": "Apskaičiuokite: 1/2 · 1/2.", "options": ["1", "1/4", "2/4", "1/2"], "correct": 1}, {"q": "Apskaičiuokite: 1/2 : 1/2.", "options": ["1", "0", "2", "1/4"], "correct": 0}, {"q": "Kiek yra 1/3 iš 12?", "options": ["36", "3", "6", "4"], "correct": 3}, {"q": "Apskaičiuokite: 2,3 + 1,4.", "options": ["3,1", "0,9", "3,7", "37"], "correct": 2}, {"q": "Apskaičiuokite: 5,6 − 2,3.", "options": ["7,9", "3,3", "3,7", "33"], "correct": 1}, {"q": "Apskaičiuokite: 3,5 · 10.", "options": ["35", "3,5", "0,35", "350"], "correct": 0}, {"q": "Kuris skaičius didesnis: 0,5 ar 0,45?", "options": ["0,45", "Jie lygūs", "Negalima palyginti", "0,5"], "correct": 3}, {"q": "Kiek yra 10% skaičiaus 60?", "options": ["600", "0,6", "6", "16"], "correct": 2}, {"q": "Kaip dešimtaine trupmena užrašomi 50%?", "options": ["5", "0,5", "0,05", "50"], "correct": 1}, {"q": "Kiek procentų sudaro trupmena 1/2?", "options": ["50", "25", "5", "2"], "correct": 0}, {"q": "Apskaičiuokite: −3 + 7.", "options": ["−4", "10", "−10", "4"], "correct": 3}, {"q": "Apskaičiuokite: −2 − 5.", "options": ["3", "7", "−7", "−3"], "correct": 2}, {"q": "Apskaičiuokite: −3 · 2.", "options": ["6", "−6", "−1", "1"], "correct": 1}], "open": [{"q": "Koks yra skaičių 6 ir 8 didžiausias bendras daliklis (DBD)?", "a": "Mg=="}, {"q": "Koks yra skaičių 2 ir 3 mažiausias bendras kartotinis (MBK)?", "a": "Ng=="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 6?", "a": "NA=="}, {"q": "Apskaičiuokite 1/2 iš 8.", "a": "NA=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/4 + 1/4.", "a": "MCw1"}, {"q": "Užrašykite trupmeną 1/2 dešimtaine trupmena.", "a": "MCw1"}, {"q": "Apskaičiuokite 1/3 iš 15.", "a": "NQ=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 · 1/2.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite: 1/2 : 1/4.", "a": "Mg=="}, {"q": "Kiek yra 3/4 iš 8?", "a": "Ng=="}, {"q": "Apskaičiuokite: 2,5 + 1,3.", "a": "Myw4"}, {"q": "Apskaičiuokite: 6,5 − 2,4.", "a": "NCwx"}, {"q": "Apskaičiuokite: 2,5 · 100.", "a": "MjUw"}, {"q": "Kiek yra 10% skaičiaus 50?", "a": "NQ=="}, {"q": "Kaip dešimtaine trupmena užrašomi 20%?", "a": "MCwy"}, {"q": "Kiek procentų sudaro trupmena 1/2? (Įrašykite tik skaičių.)", "a": "NTA="}, {"q": "Kiek yra 50% skaičiaus 20?", "a": "MTA="}, {"q": "Apskaičiuokite: −4 + 6.", "a": "Mg=="}, {"q": "Apskaičiuokite: 2 − 6.", "a": "4oiSNA=="}, {"q": "Apskaičiuokite: −5 · 2.", "a": "4oiSMTA="}]}, {"id": 2, "mc": [{"q": "Kuris iš duotų skaičių dalijasi iš 2 (yra lyginis)?", "options": ["51", "70", "63", "89"], "correct": 1}, {"q": "Kuris iš duotų skaičių dalijasi iš 5?", "options": ["40", "13", "26", "51"], "correct": 0}, {"q": "Koks yra skaičių 6 ir 9 didžiausias bendras daliklis (DBD)?", "options": ["2", "1", "18", "3"], "correct": 3}, {"q": "Koks yra skaičių 3 ir 4 mažiausias bendras kartotinis (MBK)?", "options": ["7", "1", "12", "24"], "correct": 2}, {"q": "Kuri trupmena didesnė: 1/4 ar 3/4?", "options": ["1/4", "3/4", "Jos lygios", "Negalima palyginti"], "correct": 1}, {"q": "Apskaičiuokite: 1/4 + 1/4.", "options": ["1/2", "2/8", "1/8", "3/4"], "correct": 0}, {"q": "Apskaičiuokite 1/3 iš 9.", "options": ["9", "27", "6", "3"], "correct": 3}, {"q": "Apskaičiuokite: 1/3 · 1/2.", "options": ["1/5", "2/6", "1/6", "2/3"], "correct": 2}, {"q": "Apskaičiuokite: 3/4 : 3/4.", "options": ["0", "1", "9/16", "2"], "correct": 1}, {"q": "Kiek yra 1/2 iš 14?", "options": ["7", "28", "2", "4"], "correct": 0}, {"q": "Apskaičiuokite: 3,5 + 2,1.", "options": ["5,4", "1,4", "56", "5,6"], "correct": 3}, {"q": "Apskaičiuokite: 7,8 − 3,5.", "options": ["11,3", "4,7", "4,3", "43"], "correct": 2}, {"q": "Apskaičiuokite: 1,2 · 10.", "options": ["1,2", "12", "0,12", "120"], "correct": 1}, {"q": "Kuris skaičius didesnis: 0,7 ar 0,68?", "options": ["0,7", "0,68", "Jie lygūs", "Negalima palyginti"], "correct": 0}, {"q": "Kiek yra 50% skaičiaus 40?", "options": ["80", "4", "45", "20"], "correct": 3}, {"q": "Kaip dešimtaine trupmena užrašomi 25%?", "options": ["2,5", "0,025", "0,25", "25"], "correct": 2}, {"q": "Kiek procentų sudaro trupmena 1/4?", "options": ["50", "25", "4", "75"], "correct": 1}, {"q": "Apskaičiuokite: −5 + 2.", "options": ["−3", "−7", "7", "3"], "correct": 0}, {"q": "Apskaičiuokite: 3 − 8.", "options": ["11", "−11", "5", "−5"], "correct": 3}, {"q": "Apskaičiuokite: −4 · (−2).", "options": ["−8", "6", "8", "−6"], "correct": 2}], "open": [{"q": "Koks yra skaičių 9 ir 12 didžiausias bendras daliklis (DBD)?", "a": "Mw=="}, {"q": "Koks yra skaičių 3 ir 6 mažiausias bendras kartotinis (MBK)?", "a": "Ng=="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 8?", "a": "NA=="}, {"q": "Apskaičiuokite 1/3 iš 12.", "a": "NA=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/10 + 3/10.", "a": "MCw0"}, {"q": "Užrašykite trupmeną 1/4 dešimtaine trupmena.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite 1/2 iš 18.", "a": "OQ=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 · 1/5.", "a": "MCwx"}, {"q": "Apskaičiuokite: 3/4 : 1/4.", "a": "Mw=="}, {"q": "Kiek yra 2/3 iš 6?", "a": "NA=="}, {"q": "Apskaičiuokite: 3,4 + 2,2.", "a": "NSw2"}, {"q": "Apskaičiuokite: 8,3 − 1,1.", "a": "Nywy"}, {"q": "Apskaičiuokite: 0,7 · 100.", "a": "NzA="}, {"q": "Kiek yra 50% skaičiaus 30?", "a": "MTU="}, {"q": "Kaip dešimtaine trupmena užrašomi 50%?", "a": "MCw1"}, {"q": "Kiek procentų sudaro trupmena 1/4? (Įrašykite tik skaičių.)", "a": "MjU="}, {"q": "Kiek yra 10% skaičiaus 40?", "a": "NA=="}, {"q": "Apskaičiuokite: −3 + 3.", "a": "MA=="}, {"q": "Apskaičiuokite: −3 − 4.", "a": "4oiSNw=="}, {"q": "Apskaičiuokite: −3 · (−4).", "a": "MTI="}]}, {"id": 3, "mc": [{"q": "Kuris iš duotų skaičių dalijasi iš 2 (yra lyginis)?", "options": ["15", "27", "38", "49"], "correct": 2}, {"q": "Kuris iš duotų skaičių dalijasi iš 5?", "options": ["18", "35", "23", "42"], "correct": 1}, {"q": "Koks yra skaičių 10 ir 15 didžiausias bendras daliklis (DBD)?", "options": ["5", "2", "1", "30"], "correct": 0}, {"q": "Koks yra skaičių 2 ir 5 mažiausias bendras kartotinis (MBK)?", "options": ["7", "1", "20", "10"], "correct": 3}, {"q": "Kuri trupmena didesnė: 5/8 ar 3/8?", "options": ["3/8", "Jos lygios", "5/8", "Negalima palyginti"], "correct": 2}, {"q": "Apskaičiuokite: 2/7 + 3/7.", "options": ["5/14", "5/7", "6/7", "1/7"], "correct": 1}, {"q": "Apskaičiuokite 1/4 iš 8.", "options": ["2", "8", "32", "4"], "correct": 0}, {"q": "Apskaičiuokite: 1/2 · 1/4.", "options": ["1/6", "2/8", "1/2", "1/8"], "correct": 3}, {"q": "Apskaičiuokite: 1/4 : 1/2.", "options": ["1/8", "2", "1/2", "1/6"], "correct": 2}, {"q": "Kiek yra 1/4 iš 20?", "options": ["80", "5", "4", "10"], "correct": 1}, {"q": "Apskaičiuokite: 4,2 + 0,5.", "options": ["4,7", "4,3", "3,7", "47"], "correct": 0}, {"q": "Apskaičiuokite: 6,4 − 1,2.", "options": ["7,6", "5,6", "52", "5,2"], "correct": 3}, {"q": "Apskaičiuokite: 4,8 · 10.", "options": ["4,8", "0,48", "48", "480"], "correct": 2}, {"q": "Kuris skaičius didesnis: 0,3 ar 0,35?", "options": ["0,3", "0,35", "Jie lygūs", "Negalima palyginti"], "correct": 1}, {"q": "Kiek yra 25% skaičiaus 80?", "options": ["20", "320", "8", "55"], "correct": 0}, {"q": "Kaip dešimtaine trupmena užrašomi 10%?", "options": ["1", "0,01", "10", "0,1"], "correct": 3}, {"q": "Kiek procentų sudaro trupmena 1/10?", "options": ["100", "1", "10", "20"], "correct": 2}, {"q": "Apskaičiuokite: 4 + (−9).", "options": ["−13", "−5", "13", "5"], "correct": 1}, {"q": "Apskaičiuokite: −4 − 1.", "options": ["−5", "−3", "3", "5"], "correct": 0}, {"q": "Apskaičiuokite: 5 · (−2).", "options": ["10", "3", "−3", "−10"], "correct": 3}], "open": [{"q": "Koks yra skaičių 10 ir 15 didžiausias bendras daliklis (DBD)?", "a": "NQ=="}, {"q": "Koks yra skaičių 4 ir 5 mažiausias bendras kartotinis (MBK)?", "a": "MjA="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 10?", "a": "NA=="}, {"q": "Apskaičiuokite 1/4 iš 16.", "a": "NA=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 + 1/2.", "a": "MQ=="}, {"q": "Užrašykite trupmeną 1/5 dešimtaine trupmena.", "a": "MCwy"}, {"q": "Apskaičiuokite 2/3 iš 12.", "a": "OA=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/4 · 1/2.", "a": "MCwxMjU="}, {"q": "Apskaičiuokite: 1/3 : 1/6.", "a": "Mg=="}, {"q": "Kiek yra 1/2 iš 20?", "a": "MTA="}, {"q": "Apskaičiuokite: 1,6 + 0,7.", "a": "Miwz"}, {"q": "Apskaičiuokite: 4,9 − 2,6.", "a": "Miwz"}, {"q": "Apskaičiuokite: 1,3 · 100.", "a": "MTMw"}, {"q": "Kiek yra 25% skaičiaus 40?", "a": "MTA="}, {"q": "Kaip dešimtaine trupmena užrašomi 25%?", "a": "MCwyNQ=="}, {"q": "Kiek procentų sudaro trupmena 3/4? (Įrašykite tik skaičių.)", "a": "NzU="}, {"q": "Kiek yra 25% skaičiaus 16?", "a": "NA=="}, {"q": "Apskaičiuokite: −7 + 2.", "a": "4oiSNQ=="}, {"q": "Apskaičiuokite: 5 − 9.", "a": "4oiSNA=="}, {"q": "Apskaičiuokite: 6 · (−2).", "a": "4oiSMTI="}]}, {"id": 4, "mc": [{"q": "Kuris iš duotų skaičių dalijasi iš 2 (yra lyginis)?", "options": ["21", "33", "45", "56"], "correct": 3}, {"q": "Kuris iš duotų skaičių dalijasi iš 5?", "options": ["16", "29", "50", "31"], "correct": 2}, {"q": "Koks yra skaičių 8 ir 12 didžiausias bendras daliklis (DBD)?", "options": ["2", "4", "1", "24"], "correct": 1}, {"q": "Koks yra skaičių 4 ir 6 mažiausias bendras kartotinis (MBK)?", "options": ["12", "24", "2", "10"], "correct": 0}, {"q": "Kuri trupmena didesnė: 2/7 ar 5/7?", "options": ["2/7", "Jos lygios", "Negalima palyginti", "5/7"], "correct": 3}, {"q": "Apskaičiuokite: 1/6 + 2/6.", "options": ["3/12", "1/3", "1/2", "2/6"], "correct": 2}, {"q": "Apskaičiuokite 1/5 iš 20.", "options": ["20", "4", "100", "5"], "correct": 1}, {"q": "Apskaičiuokite: 2/3 · 1/2.", "options": ["1/3", "2/5", "3/6", "1/6"], "correct": 0}, {"q": "Apskaičiuokite: 2/3 : 2/3.", "options": ["0", "4/9", "2", "1"], "correct": 3}, {"q": "Kiek yra 2/3 iš 9?", "options": ["27", "3", "6", "2"], "correct": 2}, {"q": "Apskaičiuokite: 1,6 + 2,2.", "options": ["3,2", "3,8", "0,6", "38"], "correct": 1}, {"q": "Apskaičiuokite: 9,5 − 4,1.", "options": ["5,4", "13,6", "5,6", "54"], "correct": 0}, {"q": "Apskaičiuokite: 0,6 · 10.", "options": ["0,6", "0,06", "60", "6"], "correct": 3}, {"q": "Kuris skaičius didesnis: 0,9 ar 0,89?", "options": ["0,89", "Jie lygūs", "0,9", "Negalima palyginti"], "correct": 2}, {"q": "Kiek yra 10% skaičiaus 90?", "options": ["900", "9", "0,9", "19"], "correct": 1}, {"q": "Kaip dešimtaine trupmena užrašomi 20%?", "options": ["0,2", "2", "0,02", "20"], "correct": 0}, {"q": "Kiek procentų sudaro trupmena 3/4?", "options": ["25", "34", "30", "75"], "correct": 3}, {"q": "Apskaičiuokite: −6 + 6.", "options": ["−12", "12", "0", "6"], "correct": 2}, {"q": "Apskaičiuokite: 2 − 9.", "options": ["11", "−7", "−11", "7"], "correct": 1}, {"q": "Apskaičiuokite: −6 · 1.", "options": ["−6", "6", "−5", "5"], "correct": 0}], "open": [{"q": "Koks yra skaičių 8 ir 20 didžiausias bendras daliklis (DBD)?", "a": "NA=="}, {"q": "Koks yra skaičių 2 ir 8 mažiausias bendras kartotinis (MBK)?", "a": "OA=="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 9?", "a": "Mw=="}, {"q": "Apskaičiuokite 1/5 iš 15.", "a": "Mw=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 2/5 + 1/5.", "a": "MCw2"}, {"q": "Užrašykite trupmeną 3/4 dešimtaine trupmena.", "a": "MCw3NQ=="}, {"q": "Apskaičiuokite 1/4 iš 24.", "a": "Ng=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 · 2/5.", "a": "MCwy"}, {"q": "Apskaičiuokite: 2/5 : 1/5.", "a": "Mg=="}, {"q": "Kiek yra 1/5 iš 25?", "a": "NQ=="}, {"q": "Apskaičiuokite: 5,1 + 0,8.", "a": "NSw5"}, {"q": "Apskaičiuokite: 7,2 − 3,5.", "a": "Myw3"}, {"q": "Apskaičiuokite: 4,6 · 100.", "a": "NDYw"}, {"q": "Kiek yra 10% skaičiaus 70?", "a": "Nw=="}, {"q": "Kaip dešimtaine trupmena užrašomi 10%?", "a": "MCwx"}, {"q": "Kiek procentų sudaro trupmena 1/10? (Įrašykite tik skaičių.)", "a": "MTA="}, {"q": "Kiek yra 50% skaičiaus 50?", "a": "MjU="}, {"q": "Apskaičiuokite: −1 + 8.", "a": "Nw=="}, {"q": "Apskaičiuokite: −2 − 5.", "a": "4oiSNw=="}, {"q": "Apskaičiuokite: −4 · 3.", "a": "4oiSMTI="}]}]}, {"id": "vidutinis", "label": "Vidutinis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Skyrius 1–6 supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti silpnesnes temas."], [0, "Reikia pakartoti skyrius 1–6 ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Apskaičiuokite skaičių 12 ir 18 didžiausią bendrą daliklį (DBD).", "options": ["6", "3", "2", "36"], "correct": 0}, {"q": "Apskaičiuokite skaičių 4 ir 6 mažiausią bendrą kartotinį (MBK).", "options": ["24", "2", "10", "12"], "correct": 3}, {"q": "Kuris iš duotų skaičių dalijasi iš 3?", "options": ["124", "415", "231", "502"], "correct": 2}, {"q": "Kuris iš duotų skaičių yra pirminis?", "options": ["21", "23", "22", "24"], "correct": 1}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["3/4", "2/3", "3/5", "1/2"], "correct": 0}, {"q": "Apskaičiuokite: 1/4 + 1/4.", "options": ["2/8", "1/4", "1/16", "1/2"], "correct": 3}, {"q": "Apskaičiuokite 2/3 iš 36.", "options": ["18", "54", "24", "12"], "correct": 2}, {"q": "Apskaičiuokite: 2/3 · 3/4.", "options": ["5/7", "1/2", "7/12", "1/4"], "correct": 1}, {"q": "Apskaičiuokite: 1/2 : 1/4.", "options": ["2", "1/8", "1/2", "4"], "correct": 0}, {"q": "Kiek yra 3/4 iš 12?", "options": ["16", "3", "4", "9"], "correct": 3}, {"q": "Apskaičiuokite: 3,6 + 2,45.", "options": ["6,5", "5,05", "6,05", "2,81"], "correct": 2}, {"q": "Apskaičiuokite: 1,2 · 3.", "options": ["36", "3,6", "0,36", "4,2"], "correct": 1}, {"q": "Apskaičiuokite: 4,8 : 4.", "options": ["1,2", "0,12", "12", "1,25"], "correct": 0}, {"q": "Suapvalinkite skaičių 4,37 iki dešimtųjų.", "options": ["4,3", "4,40", "5", "4,4"], "correct": 3}, {"q": "Kiek yra 10% skaičiaus 80?", "options": ["800", "0,8", "8", "18"], "correct": 2}, {"q": "50% skaičiaus yra lygu 30. Koks tas skaičius?", "options": ["15", "60", "150", "45"], "correct": 1}, {"q": "Kiek procentų skaičius 15 sudaro nuo skaičiaus 60?", "options": ["25", "15", "4", "30"], "correct": 0}, {"q": "Apskaičiuokite: −8 + 15.", "options": ["−7", "23", "−23", "7"], "correct": 3}, {"q": "Apskaičiuokite: −6 · 4.", "options": ["24", "−2", "−24", "2"], "correct": 2}, {"q": "Kuris iš skaičių yra mažiausias?", "options": ["−3", "−7", "0", "5"], "correct": 1}], "open": [{"q": "Apskaičiuokite skaičių 24 ir 36 didžiausią bendrą daliklį (DBD).", "a": "MTI="}, {"q": "Apskaičiuokite skaičių 6 ir 9 mažiausią bendrą kartotinį (MBK).", "a": "MTg="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 12?", "a": "Ng=="}, {"q": "Apskaičiuokite 3/5 iš 40.", "a": "MjQ="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 3/4 − 1/4.", "a": "MCw1"}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/4 + 1/2.", "a": "MCw3NQ=="}, {"q": "Užrašykite trupmeną 3/4 dešimtaine trupmena.", "a": "MCw3NQ=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 · 1/2.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite: 3/4 : 1/4.", "a": "Mw=="}, {"q": "Apskaičiuokite 5/6 iš 42.", "a": "MzU="}, {"q": "Apskaičiuokite: 2,4 · 3.", "a": "Nywy"}, {"q": "Apskaičiuokite: 9,6 : 4.", "a": "Miw0"}, {"q": "Apskaičiuokite: 5,6 + 3,45.", "a": "OSwwNQ=="}, {"q": "Kiek yra 20% skaičiaus 150?", "a": "MzA="}, {"q": "10% skaičiaus yra lygu 8. Koks tas skaičius?", "a": "ODA="}, {"q": "Kiek procentų skaičius 12 sudaro nuo skaičiaus 48?", "a": "MjU="}, {"q": "Prekė kainuoja 50 Eur. Pritaikius 20% nuolaidą, kokia bus prekės kaina (Eur)?", "a": "NDA="}, {"q": "Apskaičiuokite: −9 + 4.", "a": "4oiSNQ=="}, {"q": "Apskaičiuokite: −7 · 3.", "a": "4oiSMjE="}, {"q": "Apskaičiuokite: −3 · 5 + 8.", "a": "4oiSNw=="}]}, {"id": 2, "mc": [{"q": "Apskaičiuokite skaičių 16 ir 24 didžiausią bendrą daliklį (DBD).", "options": ["4", "8", "2", "48"], "correct": 1}, {"q": "Apskaičiuokite skaičių 6 ir 8 mažiausią bendrą kartotinį (MBK).", "options": ["24", "48", "2", "14"], "correct": 0}, {"q": "Kuris iš duotų skaičių dalijasi iš 3?", "options": ["143", "250", "701", "624"], "correct": 3}, {"q": "Kuris iš duotų skaičių yra pirminis?", "options": ["27", "28", "29", "30"], "correct": 2}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["4/5", "5/6", "2/3", "7/10"], "correct": 1}, {"q": "Apskaičiuokite: 1/6 + 1/3.", "options": ["1/2", "2/9", "1/6", "1/18"], "correct": 0}, {"q": "Apskaičiuokite 3/4 iš 40.", "options": ["10", "53", "20", "30"], "correct": 3}, {"q": "Apskaičiuokite: 3/5 · 5/6.", "options": ["3/5", "8/11", "1/2", "5/6"], "correct": 2}, {"q": "Apskaičiuokite: 2/3 : 1/3.", "options": ["2/9", "2", "1/2", "3"], "correct": 1}, {"q": "Kiek yra 2/3 iš 18?", "options": ["12", "27", "6", "9"], "correct": 0}, {"q": "Apskaičiuokite: 7,2 − 3,85.", "options": ["4,35", "3,25", "3,55", "3,35"], "correct": 3}, {"q": "Apskaičiuokite: 0,4 · 5.", "options": ["20", "0,2", "2", "2,5"], "correct": 2}, {"q": "Apskaičiuokite: 6,5 : 5.", "options": ["0,13", "1,3", "13", "1,35"], "correct": 1}, {"q": "Suapvalinkite skaičių 8,62 iki dešimtųjų.", "options": ["8,6", "8,7", "8,60", "9"], "correct": 0}, {"q": "Kiek yra 25% skaičiaus 60?", "options": ["240", "6", "35", "15"], "correct": 3}, {"q": "10% skaičiaus yra lygu 7. Koks tas skaičius?", "options": ["0,7", "7", "70", "17"], "correct": 2}, {"q": "Kiek procentų skaičius 9 sudaro nuo skaičiaus 36?", "options": ["9", "25", "4", "20"], "correct": 1}, {"q": "Apskaičiuokite: −6 + (−9).", "options": ["−15", "3", "15", "−3"], "correct": 0}, {"q": "Apskaičiuokite: −5 · (−7).", "options": ["−35", "12", "−12", "35"], "correct": 3}, {"q": "Kuris iš skaičių yra didžiausias?", "options": ["−9", "−2", "6", "4"], "correct": 2}], "open": [{"q": "Apskaičiuokite skaičių 18 ir 30 didžiausią bendrą daliklį (DBD).", "a": "Ng=="}, {"q": "Apskaičiuokite skaičių 4 ir 10 mažiausią bendrą kartotinį (MBK).", "a": "MjA="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 18?", "a": "Ng=="}, {"q": "Apskaičiuokite 2/3 iš 27.", "a": "MTg="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 5/6 − 1/6.", "a": "MCw2NjY2Njc="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/5 + 3/10.", "a": "MCw1"}, {"q": "Užrašykite trupmeną 1/4 dešimtaine trupmena.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 2/3 · 3/4.", "a": "MCw1"}, {"q": "Apskaičiuokite: 5/6 : 1/6.", "a": "NQ=="}, {"q": "Apskaičiuokite 3/7 iš 56.", "a": "MjQ="}, {"q": "Apskaičiuokite: 1,5 · 6.", "a": "OQ=="}, {"q": "Apskaičiuokite: 7,5 : 5.", "a": "MSw1"}, {"q": "Apskaičiuokite: 10 − 2,75.", "a": "NywyNQ=="}, {"q": "Kiek yra 10% skaičiaus 240?", "a": "MjQ="}, {"q": "25% skaičiaus yra lygu 15. Koks tas skaičius?", "a": "NjA="}, {"q": "Kiek procentų skaičius 21 sudaro nuo skaičiaus 70?", "a": "MzA="}, {"q": "Prekė kainuoja 80 Eur. Pritaikius 10% nuolaidą, kokia bus prekės kaina (Eur)?", "a": "NzI="}, {"q": "Apskaičiuokite: −7 − 5.", "a": "4oiSMTI="}, {"q": "Apskaičiuokite: −24 : (−6).", "a": "NA=="}, {"q": "Apskaičiuokite: 20 − 6 · 4.", "a": "4oiSNA=="}]}, {"id": 3, "mc": [{"q": "Apskaičiuokite skaičių 20 ir 30 didžiausią bendrą daliklį (DBD).", "options": ["5", "2", "10", "60"], "correct": 2}, {"q": "Apskaičiuokite skaičių 3 ir 5 mažiausią bendrą kartotinį (MBK).", "options": ["8", "15", "1", "30"], "correct": 1}, {"q": "Kuris iš duotų skaičių dalijasi iš 9?", "options": ["234", "145", "610", "821"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra pirminis?", "options": ["15", "16", "18", "17"], "correct": 3}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["3/8", "2/5", "1/2", "5/12"], "correct": 2}, {"q": "Apskaičiuokite: 2/5 + 1/10.", "options": ["3/15", "1/2", "3/10", "2/50"], "correct": 1}, {"q": "Apskaičiuokite 2/5 iš 45.", "options": ["18", "90", "9", "22,5"], "correct": 0}, {"q": "Apskaičiuokite: 2/7 · 7/8.", "options": ["9/56", "2/7", "7/8", "1/4"], "correct": 3}, {"q": "Apskaičiuokite: 3/4 : 1/2.", "options": ["3/8", "2/3", "3/2", "1"], "correct": 2}, {"q": "Kiek yra 4/5 iš 25?", "options": ["5", "20", "32", "15"], "correct": 1}, {"q": "Apskaičiuokite: 5,4 + 1,75.", "options": ["7,15", "6,15", "7,05", "6,95"], "correct": 0}, {"q": "Apskaičiuokite: 2,5 · 4.", "options": ["100", "1", "12,5", "10"], "correct": 3}, {"q": "Apskaičiuokite: 9,6 : 8.", "options": ["0,12", "12", "1,2", "1,25"], "correct": 2}, {"q": "Suapvalinkite skaičių 3,451 iki dešimtųjų.", "options": ["3,4", "3,5", "3,45", "3"], "correct": 1}, {"q": "Kiek yra 50% skaičiaus 44?", "options": ["22", "88", "4,4", "24"], "correct": 0}, {"q": "25% skaičiaus yra lygu 20. Koks tas skaičius?", "options": ["5", "500", "45", "80"], "correct": 3}, {"q": "Kiek procentų skaičius 14 sudaro nuo skaičiaus 70?", "options": ["14", "5", "20", "25"], "correct": 2}, {"q": "Apskaičiuokite: 12 + (−5).", "options": ["17", "7", "−7", "−17"], "correct": 1}, {"q": "Apskaičiuokite: 8 · (−3).", "options": ["−24", "24", "5", "−5"], "correct": 0}, {"q": "Kam lygus skaičiaus −8 modulis |−8|?", "options": ["−8", "0", "16", "8"], "correct": 3}], "open": [{"q": "Apskaičiuokite skaičių 28 ir 42 didžiausią bendrą daliklį (DBD).", "a": "MTQ="}, {"q": "Apskaičiuokite skaičių 8 ir 12 mažiausią bendrą kartotinį (MBK).", "a": "MjQ="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 20?", "a": "Ng=="}, {"q": "Apskaičiuokite 3/8 iš 48.", "a": "MTg="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 7/10 − 1/5.", "a": "MCw1"}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 + 1/4.", "a": "MCw3NQ=="}, {"q": "Užrašykite trupmeną 1/2 dešimtaine trupmena.", "a": "MCw1"}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/4 · 2/5.", "a": "MCwx"}, {"q": "Apskaičiuokite: 4/5 : 2/5.", "a": "Mg=="}, {"q": "Apskaičiuokite 5/9 iš 54.", "a": "MzA="}, {"q": "Apskaičiuokite: 0,8 · 9.", "a": "Nywy"}, {"q": "Apskaičiuokite: 8,4 : 6.", "a": "MSw0"}, {"q": "Apskaičiuokite: 4,2 + 5,8.", "a": "MTA="}, {"q": "Kiek yra 25% skaičiaus 80?", "a": "MjA="}, {"q": "50% skaičiaus yra lygu 21. Koks tas skaičius?", "a": "NDI="}, {"q": "Kiek procentų skaičius 16 sudaro nuo skaičiaus 40?", "a": "NDA="}, {"q": "Prekė kainuoja 60 Eur. Pritaikius 25% nuolaidą, kokia bus prekės kaina (Eur)?", "a": "NDU="}, {"q": "Apskaičiuokite: 6 − 13.", "a": "4oiSNw=="}, {"q": "Apskaičiuokite: −5 · (−8).", "a": "NDA="}, {"q": "Apskaičiuokite: −2 · (−6) − 5.", "a": "Nw=="}]}, {"id": 4, "mc": [{"q": "Apskaičiuokite skaičių 15 ir 25 didžiausią bendrą daliklį (DBD).", "options": ["3", "1", "75", "5"], "correct": 3}, {"q": "Apskaičiuokite skaičių 4 ir 10 mažiausią bendrą kartotinį (MBK).", "options": ["40", "2", "20", "14"], "correct": 2}, {"q": "Kuris iš duotų skaičių dalijasi iš 4?", "options": ["318", "516", "713", "905"], "correct": 1}, {"q": "Kuris iš duotų skaičių yra pirminis?", "options": ["31", "32", "33", "34"], "correct": 0}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["3/4", "7/12", "2/3", "5/6"], "correct": 3}, {"q": "Apskaičiuokite: 1/2 + 1/6.", "options": ["2/8", "1/3", "2/3", "1/12"], "correct": 2}, {"q": "Apskaičiuokite 5/6 iš 48.", "options": ["8", "40", "58", "10"], "correct": 1}, {"q": "Apskaičiuokite: 4/5 · 5/8.", "options": ["1/2", "4/5", "9/13", "5/8"], "correct": 0}, {"q": "Apskaičiuokite: 5/6 : 1/6.", "options": ["5/36", "6/5", "1", "5"], "correct": 3}, {"q": "Kiek yra 5/8 iš 16?", "options": ["25", "8", "10", "2"], "correct": 2}, {"q": "Apskaičiuokite: 8,3 − 2,6.", "options": ["6,7", "5,7", "5,3", "10,9"], "correct": 1}, {"q": "Apskaičiuokite: 0,6 · 7.", "options": ["4,2", "42", "0,42", "5,2"], "correct": 0}, {"q": "Apskaičiuokite: 7,2 : 6.", "options": ["0,12", "12", "1,25", "1,2"], "correct": 3}, {"q": "Suapvalinkite skaičių 12,78 iki dešimtųjų.", "options": ["12,7", "12,80", "12,8", "13"], "correct": 2}, {"q": "Kiek yra 20% skaičiaus 90?", "options": ["450", "18", "9", "20"], "correct": 1}, {"q": "20% skaičiaus yra lygu 15. Koks tas skaičius?", "options": ["75", "3", "300", "35"], "correct": 0}, {"q": "Kiek procentų skaičius 12 sudaro nuo skaičiaus 48?", "options": ["12", "4", "30", "25"], "correct": 3}, {"q": "Apskaičiuokite: −20 + 8.", "options": ["−28", "28", "−12", "12"], "correct": 2}, {"q": "Apskaičiuokite: −9 · (−2).", "options": ["−18", "18", "11", "−11"], "correct": 1}, {"q": "Kuris iš skaičių yra mažiausias?", "options": ["−10", "−4", "−1", "2"], "correct": 0}], "open": [{"q": "Apskaičiuokite skaičių 20 ir 50 didžiausią bendrą daliklį (DBD).", "a": "MTA="}, {"q": "Apskaičiuokite skaičių 6 ir 15 mažiausią bendrą kartotinį (MBK).", "a": "MzA="}, {"q": "Kiek natūraliųjų daliklių turi skaičius 16?", "a": "NQ=="}, {"q": "Apskaičiuokite 4/9 iš 36.", "a": "MTY="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 1/2 − 1/4.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 3/10 + 2/5.", "a": "MCw3"}, {"q": "Užrašykite trupmeną 1/5 dešimtaine trupmena.", "a": "MCwy"}, {"q": "Apskaičiuokite ir pateikite dešimtaine trupmena: 3/5 · 5/6.", "a": "MCw1"}, {"q": "Apskaičiuokite: 7/8 : 1/8.", "a": "Nw=="}, {"q": "Apskaičiuokite 7/10 iš 80.", "a": "NTY="}, {"q": "Apskaičiuokite: 3,2 · 4.", "a": "MTIsOA=="}, {"q": "Apskaičiuokite: 6,3 : 9.", "a": "MCw3"}, {"q": "Apskaičiuokite: 12,5 − 4,7.", "a": "Nyw4"}, {"q": "Kiek yra 50% skaičiaus 36?", "a": "MTg="}, {"q": "20% skaičiaus yra lygu 14. Koks tas skaičius?", "a": "NzA="}, {"q": "Kiek procentų skaičius 15 sudaro nuo skaičiaus 75?", "a": "MjA="}, {"q": "Prekė kainuoja 40 Eur. Pritaikius 50% nuolaidą, kokia bus prekės kaina (Eur)?", "a": "MjA="}, {"q": "Apskaičiuokite: −8 + 20.", "a": "MTI="}, {"q": "Apskaičiuokite: 42 : (−7).", "a": "4oiSNg=="}, {"q": "Apskaičiuokite: 15 : (−3) + 9.", "a": "NA=="}]}]}, {"id": "aukstesnysis", "label": "Aukštesnysis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[92, 10], [83, 9], [74, 8], [64, 7], [54, 6], [44, 5], [34, 4], [24, 3], [14, 2], [0, 1]], "comments": [[88, "Puikiai! Aukštą sudėtingumą įveiki labai gerai."], [70, "Labai gerai. Keliose vietose dar galima patikslinti."], [50, "Gerai — pagrindus valdai; peržiūrėk sunkesnius uždavinius."], [0, "Verta grįžti prie skyrių 1–6 ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Apskaičiuokite skaičių 48 ir 72 didžiausią bendrą daliklį (DBD).", "options": ["24", "12", "36", "6"], "correct": 0}, {"q": "Apskaičiuokite skaičių 12 ir 18 mažiausią bendrą kartotinį (MBK).", "options": ["72", "6", "54", "36"], "correct": 3}, {"q": "Kuris iš duotų skaičių dalijasi iš 6?", "options": ["4351", "5023", "2358", "7141"], "correct": 2}, {"q": "Kiek natūraliųjų daliklių turi skaičius 36?", "options": ["6", "9", "8", "12"], "correct": 1}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["5/6", "3/4", "7/12", "2/3"], "correct": 0}, {"q": "Apskaičiuokite: 5/6 − 1/4.", "options": ["1/2", "4/10", "6/10", "7/12"], "correct": 3}, {"q": "Apskaičiuokite 3/8 iš 56.", "options": ["24", "7", "21", "18"], "correct": 2}, {"q": "Apskaičiuokite: 4/9 · 3/8.", "options": ["1/8", "1/6", "7/17", "12/17"], "correct": 1}, {"q": "Apskaičiuokite: 5/6 : 2/3.", "options": ["5/4", "10/18", "5/9", "15/12"], "correct": 0}, {"q": "Apskaičiuokite: 3/4 · 8/9.", "options": ["3/4", "11/13", "24/13", "2/3"], "correct": 3}, {"q": "Apskaičiuokite: 3,6 : 0,9.", "options": ["0,4", "40", "4", "4,5"], "correct": 2}, {"q": "Suapvalinkite skaičių 3,4567 iki šimtųjų.", "options": ["3,45", "3,46", "3,5", "3,457"], "correct": 1}, {"q": "Apskaičiuokite: 0,25 · 0,4.", "options": ["0,1", "1", "0,01", "0,4"], "correct": 0}, {"q": "Apskaičiuokite: 12,5 − 3,75.", "options": ["8,25", "9,25", "8,85", "8,75"], "correct": 3}, {"q": "Kiek yra 35% skaičiaus 80?", "options": ["24", "2800", "28", "30"], "correct": 2}, {"q": "40% skaičiaus yra lygu 30. Koks tas skaičius?", "options": ["12", "75", "120", "70"], "correct": 1}, {"q": "Prekė kainuoja 120 Eur. Pritaikius 15% nuolaidą, kokia bus prekės kaina (Eur)?", "options": ["102", "18", "138", "105"], "correct": 0}, {"q": "Apskaičiuokite: −4 · 3 + 10.", "options": ["−22", "2", "22", "−2"], "correct": 3}, {"q": "Apskaičiuokite: −7 − (−12).", "options": ["−19", "−5", "5", "19"], "correct": 2}, {"q": "Apskaičiuokite: −48 : (−6).", "options": ["−8", "8", "42", "−42"], "correct": 1}], "open": [{"q": "Apskaičiuokite skaičių 72 ir 120 didžiausią bendrą daliklį (DBD).", "a": "MjQ="}, {"q": "Apskaičiuokite skaičių 6, 8 ir 9 mažiausią bendrą kartotinį (MBK).", "a": "NzI="}, {"q": "Kiek skaitmenų a (nuo 0 iki 9) tinka, kad skaičius 5a2 dalytųsi iš 3?", "a": "Mw=="}, {"q": "Apskaičiuokite 5/12 iš 144.", "a": "NjA="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 5/6 − 1/3.", "a": "MCw1"}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 3/4 + 7/20.", "a": "MSwx"}, {"q": "Užrašykite trupmeną 7/8 dešimtaine trupmena.", "a": "MCw4NzU="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 5/8 · 4/5.", "a": "MCw1"}, {"q": "Apskaičiuokite: 7/8 : 7/16.", "a": "Mg=="}, {"q": "Apskaičiuokite 3/5 iš 2/3 iš 150.", "a": "NjA="}, {"q": "Apskaičiuokite: 1,25 · 0,8.", "a": "MQ=="}, {"q": "Apskaičiuokite: 4,8 : 0,16.", "a": "MzA="}, {"q": "Apskaičiuokite: 2,5 · 4 − 3,6.", "a": "Niw0"}, {"q": "Kiek yra 12,5% skaičiaus 320?", "a": "NDA="}, {"q": "Koks skaičius, kurio 15% lygu 54?", "a": "MzYw"}, {"q": "Prekės kaina pabrango nuo 40 Eur iki 50 Eur. Keliais procentais pabrango prekė?", "a": "MjU="}, {"q": "Kiek procentų skaičius 18 sudaro nuo skaičiaus 45?", "a": "NDA="}, {"q": "Apskaičiuokite: −5 · (−4) + (−12) : 4.", "a": "MTc="}, {"q": "Apskaičiuokite: −6 − 3 · (−4).", "a": "Ng=="}, {"q": "Apskaičiuokite: −2 · (−3) · (−4).", "a": "4oiSMjQ="}]}, {"id": 2, "mc": [{"q": "Apskaičiuokite skaičių 54 ir 90 didžiausią bendrą daliklį (DBD).", "options": ["9", "18", "27", "6"], "correct": 1}, {"q": "Apskaičiuokite skaičių 8 ir 12 mažiausią bendrą kartotinį (MBK).", "options": ["24", "48", "4", "96"], "correct": 0}, {"q": "Kuris iš duotų skaičių dalijasi iš 9?", "options": ["4526", "6110", "7203", "3852"], "correct": 3}, {"q": "Kiek natūraliųjų daliklių turi skaičius 48?", "options": ["8", "12", "10", "9"], "correct": 2}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["7/10", "4/5", "3/4", "5/8"], "correct": 1}, {"q": "Apskaičiuokite: 3/4 − 2/5.", "options": ["7/20", "1/2", "5/9", "1/20"], "correct": 0}, {"q": "Apskaičiuokite 5/9 iš 63.", "options": ["28", "7", "45", "35"], "correct": 3}, {"q": "Apskaičiuokite: 2/3 · 9/10.", "options": ["2/5", "11/13", "3/5", "18/13"], "correct": 2}, {"q": "Apskaičiuokite: 3/4 : 9/8.", "options": ["27/32", "2/3", "8/27", "4/3"], "correct": 1}, {"q": "Apskaičiuokite: 5/6 · 9/10.", "options": ["3/4", "1/2", "7/8", "45/16"], "correct": 0}, {"q": "Apskaičiuokite: 4,8 : 0,6.", "options": ["0,8", "80", "7", "8"], "correct": 3}, {"q": "Suapvalinkite skaičių 7,8153 iki šimtųjų.", "options": ["7,81", "7,8", "7,82", "7,815"], "correct": 2}, {"q": "Apskaičiuokite: 0,5 · 0,06.", "options": ["0,3", "0,03", "0,012", "0,11"], "correct": 1}, {"q": "Apskaičiuokite: 20 − 4,6 · 2.", "options": ["10,8", "30,8", "9,2", "20,8"], "correct": 0}, {"q": "Kiek yra 15% skaičiaus 240?", "options": ["360", "3600", "30", "36"], "correct": 3}, {"q": "25% skaičiaus yra lygu 45. Koks tas skaičius?", "options": ["11,25", "225", "180", "20"], "correct": 2}, {"q": "Prekė kainuoja 80 Eur. Pritaikius 25% nuolaidą, kokia bus prekės kaina (Eur)?", "options": ["20", "60", "100", "55"], "correct": 1}, {"q": "Apskaičiuokite: −5 · 2 − 6.", "options": ["−16", "−4", "4", "16"], "correct": 0}, {"q": "Apskaičiuokite: −5 − (−9).", "options": ["−14", "−4", "14", "4"], "correct": 3}, {"q": "Apskaičiuokite: −54 : (9).", "options": ["6", "−45", "−6", "45"], "correct": 2}], "open": [{"q": "Apskaičiuokite skaičių 84 ir 126 didžiausią bendrą daliklį (DBD).", "a": "NDI="}, {"q": "Apskaičiuokite skaičių 4, 6 ir 10 mažiausią bendrą kartotinį (MBK).", "a": "NjA="}, {"q": "Kiek skaitmenų a (nuo 0 iki 9) tinka, kad skaičius 3a1 dalytųsi iš 3?", "a": "Mw=="}, {"q": "Apskaičiuokite 7/15 iš 90.", "a": "NDI="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 7/10 − 1/5.", "a": "MCw1"}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 2/5 + 3/10.", "a": "MCw3"}, {"q": "Užrašykite trupmeną 3/8 dešimtaine trupmena.", "a": "MCwzNzU="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 3/4 · 2/3.", "a": "MCw1"}, {"q": "Apskaičiuokite: 5/6 : 5/12.", "a": "Mg=="}, {"q": "Apskaičiuokite 3/4 iš 4/5 iš 200.", "a": "MTIw"}, {"q": "Apskaičiuokite: 2,5 · 1,4.", "a": "Myw1"}, {"q": "Apskaičiuokite: 6,3 : 0,09.", "a": "NzA="}, {"q": "Apskaičiuokite: 1,5 · 6 + 2,4.", "a": "MTEsNA=="}, {"q": "Kiek yra 15% skaičiaus 180?", "a": "Mjc="}, {"q": "Koks skaičius, kurio 20% lygu 63?", "a": "MzE1"}, {"q": "Prekės kaina pabrango nuo 50 Eur iki 65 Eur. Keliais procentais pabrango prekė?", "a": "MzA="}, {"q": "Kiek procentų skaičius 21 sudaro nuo skaičiaus 60?", "a": "MzU="}, {"q": "Apskaičiuokite: −6 · 3 − (−20) : 5.", "a": "4oiSMTQ="}, {"q": "Apskaičiuokite: −20 : (−4) − 9.", "a": "4oiSNA=="}, {"q": "Apskaičiuokite: −5 · (2) · (−3).", "a": "MzA="}]}, {"id": 3, "mc": [{"q": "Apskaičiuokite skaičių 60 ir 84 didžiausią bendrą daliklį (DBD).", "options": ["6", "24", "12", "4"], "correct": 2}, {"q": "Apskaičiuokite skaičių 9 ir 15 mažiausią bendrą kartotinį (MBK).", "options": ["135", "45", "3", "90"], "correct": 1}, {"q": "Kuris iš duotų skaičių dalijasi iš 4?", "options": ["7148", "3526", "9013", "2350"], "correct": 0}, {"q": "Kiek natūraliųjų daliklių turi skaičius 24?", "options": ["6", "4", "12", "8"], "correct": 3}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["5/8", "7/12", "2/3", "3/5"], "correct": 2}, {"q": "Apskaičiuokite: 7/8 − 1/3.", "options": ["1/2", "13/24", "6/5", "8/11"], "correct": 1}, {"q": "Apskaičiuokite 7/12 iš 96.", "options": ["56", "48", "8", "63"], "correct": 0}, {"q": "Apskaičiuokite: 5/6 · 3/10.", "options": ["1/8", "8/16", "15/8", "1/4"], "correct": 3}, {"q": "Apskaičiuokite: 7/10 : 7/5.", "options": ["49/50", "2", "1/2", "5/2"], "correct": 2}, {"q": "Apskaičiuokite: 2/3 · 6/7.", "options": ["3/7", "4/7", "8/10", "4/21"], "correct": 1}, {"q": "Apskaičiuokite: 5,6 : 0,7.", "options": ["8", "0,8", "80", "7"], "correct": 0}, {"q": "Suapvalinkite skaičių 12,3849 iki šimtųjų.", "options": ["12,39", "12,385", "12,4", "12,38"], "correct": 3}, {"q": "Apskaičiuokite: 1,2 · 0,05.", "options": ["0,6", "0,25", "0,06", "0,65"], "correct": 2}, {"q": "Apskaičiuokite: 3,2 + 1,5 · 4.", "options": ["18,8", "9,2", "6,7", "9,8"], "correct": 1}, {"q": "Kiek yra 45% skaičiaus 120?", "options": ["54", "540", "5400", "60"], "correct": 0}, {"q": "20% skaičiaus yra lygu 36. Koks tas skaičius?", "options": ["7,2", "720", "56", "180"], "correct": 3}, {"q": "Prekė kainuoja 60 Eur. Pritaikius 20% antkainį, kokia bus prekės kaina (Eur)?", "options": ["12", "48", "72", "80"], "correct": 2}, {"q": "Apskaičiuokite: 18 − 4 · 5.", "options": ["70", "−2", "2", "−70"], "correct": 1}, {"q": "Apskaičiuokite: 3 − (−8).", "options": ["11", "−5", "−11", "5"], "correct": 0}, {"q": "Apskaičiuokite: 36 : (−4).", "options": ["9", "32", "−32", "−9"], "correct": 3}], "open": [{"q": "Apskaičiuokite skaičių 90 ir 150 didžiausią bendrą daliklį (DBD).", "a": "MzA="}, {"q": "Apskaičiuokite skaičių 6, 9 ir 12 mažiausią bendrą kartotinį (MBK).", "a": "MzY="}, {"q": "Kiek skaitmenų a (nuo 0 iki 9) tinka, kad skaičius 7a4 dalytųsi iš 3?", "a": "Mw=="}, {"q": "Apskaičiuokite 5/8 iš 128.", "a": "ODA="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 3/4 − 1/2.", "a": "MCwyNQ=="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 5/8 + 1/4.", "a": "MCw4NzU="}, {"q": "Užrašykite trupmeną 5/8 dešimtaine trupmena.", "a": "MCw2MjU="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 5/6 · 3/5.", "a": "MCw1"}, {"q": "Apskaičiuokite: 9/10 : 3/10.", "a": "Mw=="}, {"q": "Apskaičiuokite 2/3 iš 3/4 iš 120.", "a": "NjA="}, {"q": "Apskaičiuokite: 0,75 · 0,4.", "a": "MCwz"}, {"q": "Apskaičiuokite: 2,4 : 0,15.", "a": "MTY="}, {"q": "Apskaičiuokite: 10 − 3,2 · 2,5.", "a": "Mg=="}, {"q": "Kiek yra 35% skaičiaus 140?", "a": "NDk="}, {"q": "Koks skaičius, kurio 12% lygu 42?", "a": "MzUw"}, {"q": "Prekės kaina pabrango nuo 80 Eur iki 100 Eur. Keliais procentais pabrango prekė?", "a": "MjU="}, {"q": "Kiek procentų skaičius 27 sudaro nuo skaičiaus 90?", "a": "MzA="}, {"q": "Apskaičiuokite: (−15) : 3 + 4 · (−2).", "a": "4oiSMTM="}, {"q": "Apskaičiuokite: 2 · (−7) + 5 · 3.", "a": "MQ=="}, {"q": "Apskaičiuokite: 4 · (−2) · (−3).", "a": "MjQ="}]}, {"id": 4, "mc": [{"q": "Apskaičiuokite skaičių 72 ir 120 didžiausią bendrą daliklį (DBD).", "options": ["12", "48", "8", "24"], "correct": 3}, {"q": "Apskaičiuokite skaičių 10 ir 14 mažiausią bendrą kartotinį (MBK).", "options": ["140", "2", "70", "35"], "correct": 2}, {"q": "Kuris iš duotų skaičių dalijasi iš 15?", "options": ["3521", "4290", "6817", "5044"], "correct": 1}, {"q": "Kiek natūraliųjų daliklių turi skaičius 60?", "options": ["12", "10", "8", "6"], "correct": 0}, {"q": "Kuri iš duotų trupmenų yra didžiausia?", "options": ["7/9", "11/18", "2/3", "5/6"], "correct": 3}, {"q": "Apskaičiuokite: 5/6 − 3/8.", "options": ["5/8", "2/2", "11/24", "1/24"], "correct": 2}, {"q": "Apskaičiuokite 4/15 iš 75.", "options": ["15", "20", "5", "24"], "correct": 1}, {"q": "Apskaičiuokite: 4/7 · 7/8.", "options": ["1/2", "3/4", "11/15", "28/15"], "correct": 0}, {"q": "Apskaičiuokite: 5/8 : 15/16.", "options": ["75/128", "3/2", "16/75", "2/3"], "correct": 3}, {"q": "Apskaičiuokite: 7/8 · 4/5.", "options": ["1/2", "11/13", "7/10", "28/13"], "correct": 2}, {"q": "Apskaičiuokite: 2,4 : 0,8.", "options": ["0,3", "3", "30", "2"], "correct": 1}, {"q": "Suapvalinkite skaičių 5,6725 iki šimtųjų.", "options": ["5,67", "5,68", "5,673", "5,7"], "correct": 0}, {"q": "Apskaičiuokite: 0,75 · 0,8.", "options": ["0,06", "6", "0,68", "0,6"], "correct": 3}, {"q": "Apskaičiuokite: 15,4 − 2,7 · 3.", "options": ["38,1", "12,7", "7,3", "7,9"], "correct": 2}, {"q": "Kiek yra 12% skaičiaus 150?", "options": ["180", "18", "1800", "20"], "correct": 1}, {"q": "60% skaičiaus yra lygu 54. Koks tas skaičius?", "options": ["90", "32,4", "324", "45"], "correct": 0}, {"q": "Prekė kainuoja 150 Eur. Pritaikius 30% nuolaidą, kokia bus prekės kaina (Eur)?", "options": ["45", "195", "120", "105"], "correct": 3}, {"q": "Apskaičiuokite: −3 · 4 + 20.", "options": ["−8", "32", "8", "−32"], "correct": 2}, {"q": "Apskaičiuokite: −4 − (−11).", "options": ["−15", "7", "−7", "15"], "correct": 1}, {"q": "Apskaičiuokite: −72 : (−8).", "options": ["9", "−9", "64", "−64"], "correct": 0}], "open": [{"q": "Apskaičiuokite skaičių 96 ir 144 didžiausią bendrą daliklį (DBD).", "a": "NDg="}, {"q": "Apskaičiuokite skaičių 8, 10 ir 12 mažiausią bendrą kartotinį (MBK).", "a": "MTIw"}, {"q": "Kiek skaitmenų a (nuo 0 iki 9) tinka, kad skaičius 2a6 dalytųsi iš 3?", "a": "Mw=="}, {"q": "Apskaičiuokite 7/18 iš 108.", "a": "NDI="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 9/10 − 2/5.", "a": "MCw1"}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 3/5 + 3/20.", "a": "MCw3NQ=="}, {"q": "Užrašykite trupmeną 1/8 dešimtaine trupmena.", "a": "MCwxMjU="}, {"q": "Apskaičiuokite ir atsakymą pateikite dešimtaine trupmena: 7/10 · 5/7.", "a": "MCw1"}, {"q": "Apskaičiuokite: 4/9 : 2/9.", "a": "Mg=="}, {"q": "Apskaičiuokite 5/6 iš 3/5 iš 144.", "a": "NzI="}, {"q": "Apskaičiuokite: 1,6 · 0,5.", "a": "MCw4"}, {"q": "Apskaičiuokite: 9,6 : 0,24.", "a": "NDA="}, {"q": "Apskaičiuokite: 0,8 · 5 + 1,25.", "a": "NSwyNQ=="}, {"q": "Kiek yra 7,5% skaičiaus 200?", "a": "MTU="}, {"q": "Koks skaičius, kurio 25% lygu 55?", "a": "MjIw"}, {"q": "Prekės kaina pabrango nuo 60 Eur iki 75 Eur. Keliais procentais pabrango prekė?", "a": "MjU="}, {"q": "Kiek procentų skaičius 33 sudaro nuo skaičiaus 55?", "a": "NjA="}, {"q": "Apskaičiuokite: −7 · (−2) − 18 : (−3).", "a": "MjA="}, {"q": "Apskaičiuokite: −30 : 5 − (−8).", "a": "Mg=="}, {"q": "Apskaičiuokite: −6 · (−1) · (−5).", "a": "4oiSMzA="}]}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

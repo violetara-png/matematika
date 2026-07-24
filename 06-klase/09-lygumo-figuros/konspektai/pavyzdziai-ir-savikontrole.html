@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Lygumo figūros — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:6px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:3px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Lygumo figūros — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 9 tema · lygūs trikampiai, kampų suma, priekampis ir lygumo požymiai</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Lygūs trikampiai: atitinkami elementai</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> lygių trikampių atitinkamos kraštinės lygios, o atitinkami kampai lygūs. Raidės surašomos ta pačia tvarka.</div>
+    <div class="ex">
+      <div class="q math">△ABC = △DEF. Kuri kraštinė lygi BC ir kuris kampas lygus ∠A?</div>
+      <div class="line">Atitikimas: A→D, B→E, C→F. Todėl <span class="math">BC</span> atitinka <span class="res">EF</span> (ne DF!), o <span class="math">∠A</span> = <span class="res">∠D</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Kampų suma ir priekampis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> trikampio kampų suma 180°. Priekampis lygus dviejų jam negretutinių trikampio kampų sumai (arba 180° − to kampo).</div>
+    <div class="ex">
+      <div class="q math">Trikampio du kampai 40° ir 75°. Rask trečią kampą ir priekampį prie jo.</div>
+      <div class="line math">Trečias kampas = 180° − 40° − 75° = <span class="res">65°</span>.</div>
+      <div class="line math">Priekampis prie jo = 40° + 75° = <span class="res">115°</span> &nbsp;<span class="muted2">(patikra: 180° − 65° = 115°)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q math">Lygiašonio trikampio pagrindo kampas 70°. Rask viršūnės kampą.</div>
+      <div class="line math">Pagrindo kampai lygūs po 70°, tad viršūnės = 180° − 70° − 70° = <span class="res">40°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Lygumo požymio parinkimas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> požymį renku pagal tai, kas duota. Dvi kraštinės + kampas <b>tarp</b> jų → I; kraštinė + du kampai prie jos → II; trys kraštinės → III.</div>
+    <div class="ex">
+      <div class="q">Trikampiuose pažymėta: dvi lygios kraštinės ir lygus kampas tarp jų. Koks tai požymis?</div>
+      <div class="line">Kampas yra <b>tarp</b> dviejų kraštinių &rArr; <span class="res">I požymis</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kampų sumą ir priekampį skaičiuok iš 180°; atitinkamus elementus nustatyk pagal raidžių tvarką; požymį parink pagal duotus elementus. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Kampai, kampų suma ir priekampis</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Trikampio du kampai 50° ir 60°. Rask trečią kampą.</li>
+        <li>Stačiojo trikampio smailusis kampas 35°. Rask kitą smailųjį kampą.</li>
+        <li>Trikampio du kampai 42° ir 78°. Rask priekampį prie trečiojo kampo.</li>
+        <li>Lygiašonio trikampio pagrindo kampas 55°. Rask viršūnės kampą.</li>
+        <li>Lygiašonio trikampio viršūnės kampas 100°. Rask pagrindo kampą.</li>
+        <li>Kokie yra lygiakraščio trikampio kampai?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Atitinkami elementai (lygūs trikampiai)</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>△ABC = △MNP. Kuriai kraštinei lygi BC?</li>
+        <li>△ABC = △MNP. Kuris kampas lygus ∠A?</li>
+        <li>△KLM = △DEF, KL = 5 cm. Kam lygi DE?</li>
+        <li>△KLM = △DEF, ∠E = 48°. Kam lygus ∠L?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Kuris lygumo požymis</div>
+    <div class="two">
+      <ol class="tasks" start="11">
+        <li>Duota: dvi kraštinės ir kampas tarp jų.</li>
+        <li>Duota: kraštinė ir du kampai prie jos.</li>
+        <li>Duota: trys kraštinės.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Taikymas</div>
+    <ol class="tasks math" start="14">
+      <li>Trikampio kampas ∠A = 80°, o kiti du kampai lygūs. Rask ∠B.</li>
+      <li>Priekampis prie trikampio kampo lygus 130°. Koks yra tas trikampio kampas?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 70° &nbsp;&nbsp; <b>2.</b> 55° &nbsp;&nbsp; <b>3.</b> 120° &nbsp;&nbsp; <b>4.</b> 70°</div>
+    <div class="row math"><b>5.</b> 40° &nbsp;&nbsp; <b>6.</b> po 60° &nbsp;&nbsp; <b>7.</b> NP &nbsp;&nbsp; <b>8.</b> ∠M</div>
+    <div class="row math"><b>9.</b> 5 cm &nbsp;&nbsp; <b>10.</b> 48° &nbsp;&nbsp; <b>11.</b> I požymis &nbsp;&nbsp; <b>12.</b> II požymis</div>
+    <div class="row math"><b>13.</b> III požymis &nbsp;&nbsp; <b>14.</b> ∠B = (180° − 80°) : 2 = 50°</div>
+    <div class="row math"><b>15.</b> 180° − 130° = 50°</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Lygumo figūros“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
