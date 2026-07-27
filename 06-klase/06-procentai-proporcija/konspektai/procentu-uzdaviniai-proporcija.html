@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procentų uždaviniai sudarant proporciją — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  .schema{margin:12px auto; border-collapse:collapse; font-size:17px}
+  .schema td{border:1px solid var(--tema); padding:8px 18px; text-align:center}
+  .schema td.h{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .frac{display:inline-block; text-align:center; vertical-align:middle; font-size:.9em}
+  .frac span{display:block; line-height:1.05}
+  .frac .virsus{border-bottom:1.4px solid currentColor; padding:0 3px}
+  .frac .apacia{padding:0 3px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Procentų uždavinių sprendimas sudarant proporciją</h1>
+  <p class="klase">Matematika · 6 klasė · 6.2.2 tema · Procentai ir proporcija</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kodėl procentų uždavinius galima spręsti proporcija</a></li>
+      <li><a href="#t2">Rasti dalį sudarant proporciją</a></li>
+      <li><a href="#t3">Rasti visą dydį sudarant proporciją</a></li>
+      <li><a href="#t4">Rasti, kiek procentų (x %), sudarant proporciją</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kodėl procentų uždavinius galima spręsti proporcija</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Visas dydis visada atitinka 100 %.</span> Todėl bet kurią dalį galima susieti su visu dydžiu proporcija: kiek procentų sudaro dalis, tiek pat kartų ji mažesnė už visą dydį.</p>
+        <p>Užrašom trumpą schemą. Vienoje eilutėje, kas atitinka <b>100 %</b> (visas dydis), kitoje, kas atitinka <b>p %</b> (ieškoma dalis x):</p>
+        <table class="schema math">
+          <tr><td class="h">100 %</td><td>visas dydis</td></tr>
+          <tr><td class="h">p %</td><td>x</td></tr>
+        </table>
+        <div class="formule math"><span class="frac"><span class="virsus">visas dydis</span><span class="apacia">x</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">p</span></span></div>
+        <p>Toliau spręsime <span class="zenk">pagrindine proporcijos savybe</span>: kraštinių narių sandauga lygi vidurinių narių sandaugai (dauginame „kryžmai“).</p>
+        <p class="pvz"><b>Pavyzdys.</b> 1 % nuo 150 Eur. Visas dydis 150 Eur atitinka 100 %, o 1 % atitinka x. Proporcija <span class="math"><span class="frac"><span class="virsus">150</span><span class="apacia">x</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">1</span></span></span>, iš čia <span class="math">100 · x = 150 · 1</span>, tad <span class="gerai">x = 1,5 Eur</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Rasti dalį sudarant proporciją</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kai žinomas visas dydis ir procentai, ieškome dalies x.</span> Visas dydis atitinka 100 %, dalis x atitinka p %.</p>
+        <div class="formule math"><span class="frac"><span class="virsus">visas dydis</span><span class="apacia">x</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">p</span></span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Lukas turi 75 knygas, iš jų 16 % yra apie gamtą. Kiek knygų apie gamtą?<br>
+        <table class="schema math" style="margin:10px 0">
+          <tr><td class="h">100 %</td><td>75 knygos</td></tr>
+          <tr><td class="h">16 %</td><td>x knygų</td></tr>
+        </table>
+        <span class="math"><span class="frac"><span class="virsus">75</span><span class="apacia">x</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">16</span></span></span>, dauginam kryžmai: <span class="math">100 · x = 75 · 16</span>, <span class="math">100x = 1200</span>, <span class="gerai">x = 12 knygos</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Į tą pačią proporcijos pusę rašyk tos pačios rūšies dydžius: procentus po procentais, knygas po knygomis. Visas dydis (75) visada eina prieš 100 %.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Rasti visą dydį sudarant proporciją</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kai žinoma dalis ir kiek procentų ji sudaro, ieškome viso dydžio x.</span> Visas dydis x atitinka 100 %, žinoma dalis atitinka p %.</p>
+        <div class="formule math"><span class="frac"><span class="virsus">x</span><span class="apacia">dalis</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">p</span></span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Rasa suskaičiavo, kad 12 jos eilėraščių knygų sudaro 15 % visų jos knygų. Kiek iš viso knygų turi Rasa?<br>
+        <table class="schema math" style="margin:10px 0">
+          <tr><td class="h">100 %</td><td>x knygų</td></tr>
+          <tr><td class="h">15 %</td><td>12 knygų</td></tr>
+        </table>
+        <span class="math"><span class="frac"><span class="virsus">x</span><span class="apacia">12</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">15</span></span></span>, dauginam kryžmai: <span class="math">15 · x = 12 · 100</span>, <span class="math">15x = 1200</span>, <span class="gerai">x = 80 knygos</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Ieškant viso dydžio, x rašyk prie 100 %, o žinomą dalį prie jos procentų. Nesumaišyk, kas ieškoma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Rasti, kiek procentų (x %), sudarant proporciją</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kai žinomas visas dydis ir dalis, ieškome, kiek procentų x % sudaro dalis.</span> Visas dydis atitinka 100 %, dalis atitinka x %.</p>
+        <div class="formule math"><span class="frac"><span class="virsus">visas dydis</span><span class="apacia">dalis</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">x</span></span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Kiek procentų sudaro 420 nuo 600?<br>
+        <table class="schema math" style="margin:10px 0">
+          <tr><td class="h">100 %</td><td>600</td></tr>
+          <tr><td class="h">x %</td><td>420</td></tr>
+        </table>
+        <span class="math"><span class="frac"><span class="virsus">600</span><span class="apacia">420</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">x</span></span></span>, dauginam kryžmai: <span class="math">600 · x = 420 · 100</span>, <span class="math">600x = 42000</span>, <span class="gerai">x = 70 %</span>.</p>
+        <p class="pvz"><b>Antras pavyzdys (pokytis).</b> Prekė kainavo 30 Eur, dabar kainuoja 24 Eur. Keliais procentais atpigo? Nuolaida yra <span class="math">30 − 24 = 6</span> Eur. Kiek procentų 6 sudaro nuo pradinės 30 Eur? <span class="math"><span class="frac"><span class="virsus">30</span><span class="apacia">6</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">x</span></span></span> → <span class="math">30x = 600</span> → <span class="gerai">x = 20 %</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort math">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">Prie 100 % rašau dalį, ne visą dydį</span></td><td><span class="gerai">Prie 100 % visada rašau visą dydį</span></td></tr>
+          <tr><td><span class="klaida">Sukeičiu proporcijos puses: <span class="frac"><span class="virsus">x</span><span class="apacia">75</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">16</span></span></span></td><td><span class="gerai"><span class="frac"><span class="virsus">75</span><span class="apacia">x</span></span> = <span class="frac"><span class="virsus">100</span><span class="apacia">16</span></span></span> (visas dydis viršuje su 100)</td></tr>
+          <tr><td><span class="klaida">Ieškant viso dydžio dalinu 12 : 100</span></td><td><span class="gerai">12 · 100 : 15 = 80</span> (kryžminė daugyba)</td></tr>
+          <tr><td><span class="klaida">Skaičiuodamas pokytį imu galutinę kainą</span></td><td><span class="gerai">Procentus skaičiuoju nuo pradinio dydžio</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> 100 % ↔ visas dydis; p % ↔ ieškoma dalis x. Sudarau proporciją, dauginu <b>kryžmai</b> ir randu x.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Procentų uždavinių sprendimas sudarant proporciją“ (6.2.2)
+  </footer>
+
+</div>
+</body>
+</html>

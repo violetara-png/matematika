@@ -1,0 +1,52 @@
+const HINTS = ["Kai dalijame santykiu, viena dalelė = dydis padalytas iš dalelių sumos (a + b). Sudėk santykio skaičius ir tuo padalink dydį.","Pirma rask vieną dalelę (dydis : (a + b)). Mažesnę dalį atitinka mažesnysis santykio skaičius, tad vieną dalelę padaugink iš jo.","Rask vieną dalelę, tada didesnę dalį atitinka didesnysis santykio skaičius. Padaugink vieną dalelę iš jo.","Ta pati mintis: sudėk santykio skaičius (dalelių suma) ir tuo padalink dydį, gausi vieną dalelę.","Trys dalys, tad dalelių suma dabar iš trijų skaičių. Sudėk visus tris ir tuo padalink dydį.","Rask vieną dalelę (dydis : dalelių suma), o didžiausią dalį atitinka didžiausias santykio skaičius. Padaugink.","Vėl viena dalelė: sudėk santykio skaičius ir dydį padalink iš tos sumos.","Dalelių suma, tada dalyba. Nepamiršk: dalini iš santykio skaičių SUMOS, ne iš dalių skaičiaus.","Rask vieną dalelę, tada mažesnę dalį gauni padauginęs vieną dalelę iš mažesniojo santykio skaičiaus.","Užrašyk uždavinį kaip dalijimą santykiu: sudėk santykio skaičius, dydį padalink iš sumos, mažesnę dalį atitinka mažesnysis skaičius. Skaičiuok pats."];
+
+const VARIANTS = [
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"20 : (2 + 3) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"20 : (2+3) = 20 : 5 = 4" },
+  { title:"Mažesnės dalies spyna", eq:"15 santykiu 2 : 3", q:"15 padalyk santykiu 2 : 3. Kokia mažesnė dalis?", ans:6, sol:"viena dalelė 15:5=3; mažesnė dalis 3·2 = 6" },
+  { title:"Didesnės dalies spyna", eq:"15 santykiu 2 : 3", q:"15 padalyk santykiu 2 : 3. Kokia didesnė dalis?", ans:9, sol:"viena dalelė 15:5=3; didesnė dalis 3·3 = 9" },
+  { title:"Seifo ratukas Nr. 2", eq:"21 : (3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:3, sol:"21 : (3+4) = 21 : 7 = 3" },
+  { title:"Trijų dalių užraktas", eq:"18 : (2 + 3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei (trys dalys).", ans:2, sol:"18 : (2+3+4) = 18 : 9 = 2" },
+  { title:"Didžiausios dalies spyna", eq:"18 santykiu 2 : 3 : 4", q:"18 padalyk santykiu 2 : 3 : 4. Kokia didžiausia dalis?", ans:8, sol:"viena dalelė 18:9=2; didžiausia dalis 2·4 = 8" },
+  { title:"Seifo ratukas Nr. 3", eq:"40 : (3 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:5, sol:"40 : (3+5) = 40 : 8 = 5" },
+  { title:"Sargybos ratukas", eq:"28 : (3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"28 : (3+4) = 28 : 7 = 4" },
+  { title:"Priešpaskutinė spyna", eq:"16 santykiu 3 : 5", q:"16 padalyk santykiu 3 : 5. Kokia mažesnė dalis?", ans:6, sol:"viena dalelė 16:8=2; mažesnė dalis 2·3 = 6" },
+  { title:"Pabėgimo mįslė", eq:"", q:"Du agentai pasidalijo 10 slaptų raktų santykiu 2 : 3. Kiek gavo tas, kuriam teko mažiau?", ans:4, sol:"dalelių 2+3=5; 10:5=2; mažesnė dalis 2·2 = 4" },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"24 : (5 + 1) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"24 : (5+1) = 24 : 6 = 4" },
+  { title:"Mažesnės dalies spyna", eq:"12 santykiu 1 : 3", q:"12 padalyk santykiu 1 : 3. Kokia mažesnė dalis?", ans:3, sol:"viena dalelė 12:4=3; mažesnė dalis 3·1 = 3" },
+  { title:"Didesnės dalies spyna", eq:"12 santykiu 1 : 3", q:"12 padalyk santykiu 1 : 3. Kokia didesnė dalis?", ans:9, sol:"viena dalelė 12:4=3; didesnė dalis 3·3 = 9" },
+  { title:"Seifo ratukas Nr. 2", eq:"35 : (3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:5, sol:"35 : (3+4) = 35 : 7 = 5" },
+  { title:"Trijų dalių užraktas", eq:"9 : (2 + 3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei (trys dalys).", ans:1, sol:"9 : (2+3+4) = 9 : 9 = 1" },
+  { title:"Didžiausios dalies spyna", eq:"9 santykiu 2 : 3 : 4", q:"9 padalyk santykiu 2 : 3 : 4. Kokia didžiausia dalis?", ans:4, sol:"viena dalelė 9:9=1; didžiausia dalis 1·4 = 4" },
+  { title:"Seifo ratukas Nr. 3", eq:"40 : (3 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:5, sol:"40 : (3+5) = 40 : 8 = 5" },
+  { title:"Sargybos ratukas", eq:"28 : (3 + 4) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"28 : (3+4) = 28 : 7 = 4" },
+  { title:"Priešpaskutinė spyna", eq:"18 santykiu 4 : 5", q:"18 padalyk santykiu 4 : 5. Kokia mažesnė dalis?", ans:8, sol:"viena dalelė 18:9=2; mažesnė dalis 2·4 = 8" },
+  { title:"Pabėgimo mįslė", eq:"", q:"Dvi seserys pasidalijo 15 saldainių santykiu 2 : 3. Kiek gavo ta, kuriai teko mažiau?", ans:6, sol:"dalelių 2+3=5; 15:5=3; mažesnė dalis 3·2 = 6" },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"18 : (2 + 4) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:3, sol:"18 : (2+4) = 18 : 6 = 3" },
+  { title:"Mažesnės dalies spyna", eq:"10 santykiu 2 : 3", q:"10 padalyk santykiu 2 : 3. Kokia mažesnė dalis?", ans:4, sol:"viena dalelė 10:5=2; mažesnė dalis 2·2 = 4" },
+  { title:"Didesnės dalies spyna", eq:"10 santykiu 2 : 3", q:"10 padalyk santykiu 2 : 3. Kokia didesnė dalis?", ans:6, sol:"viena dalelė 10:5=2; didesnė dalis 2·3 = 6" },
+  { title:"Seifo ratukas Nr. 2", eq:"16 : (1 + 3) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"16 : (1+3) = 16 : 4 = 4" },
+  { title:"Trijų dalių užraktas", eq:"12 : (1 + 2 + 3) = ?", q:"Rask, kiek tenka vienai dalelei (trys dalys).", ans:2, sol:"12 : (1+2+3) = 12 : 6 = 2" },
+  { title:"Didžiausios dalies spyna", eq:"12 santykiu 1 : 2 : 3", q:"12 padalyk santykiu 1 : 2 : 3. Kokia didžiausia dalis?", ans:6, sol:"viena dalelė 12:6=2; didžiausia dalis 2·3 = 6" },
+  { title:"Seifo ratukas Nr. 3", eq:"45 : (4 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:5, sol:"45 : (4+5) = 45 : 9 = 5" },
+  { title:"Sargybos ratukas", eq:"24 : (3 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:3, sol:"24 : (3+5) = 24 : 8 = 3" },
+  { title:"Priešpaskutinė spyna", eq:"14 santykiu 2 : 5", q:"14 padalyk santykiu 2 : 5. Kokia mažesnė dalis?", ans:4, sol:"viena dalelė 14:7=2; mažesnė dalis 2·2 = 4" },
+  { title:"Pabėgimo mįslė", eq:"", q:"Du draugai pasidalijo 20 Eur santykiu 1 : 3. Kiek eurų gavo tas, kuriam teko mažiau?", ans:5, sol:"dalelių 1+3=4; 20:4=5; mažesnė dalis 5·1 = 5" },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"35 : (2 + 3) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:7, sol:"35 : (2+3) = 35 : 5 = 7" },
+  { title:"Mažesnės dalies spyna", eq:"12 santykiu 1 : 2", q:"12 padalyk santykiu 1 : 2. Kokia mažesnė dalis?", ans:4, sol:"viena dalelė 12:3=4; mažesnė dalis 4·1 = 4" },
+  { title:"Didesnės dalies spyna", eq:"12 santykiu 1 : 2", q:"12 padalyk santykiu 1 : 2. Kokia didesnė dalis?", ans:8, sol:"viena dalelė 12:3=4; didesnė dalis 4·2 = 8" },
+  { title:"Seifo ratukas Nr. 2", eq:"27 : (4 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:3, sol:"27 : (4+5) = 27 : 9 = 3" },
+  { title:"Trijų dalių užraktas", eq:"15 : (1 + 2 + 2) = ?", q:"Rask, kiek tenka vienai dalelei (trys dalys).", ans:3, sol:"15 : (1+2+2) = 15 : 5 = 3" },
+  { title:"Didžiausios dalies spyna", eq:"15 santykiu 1 : 2 : 2", q:"15 padalyk santykiu 1 : 2 : 2. Kokia didžiausia dalis?", ans:6, sol:"viena dalelė 15:5=3; didžiausia dalis 3·2 = 6" },
+  { title:"Seifo ratukas Nr. 3", eq:"45 : (4 + 5) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:5, sol:"45 : (4+5) = 45 : 9 = 5" },
+  { title:"Sargybos ratukas", eq:"16 : (3 + 1) = ?", q:"Rask, kiek tenka vienai dalelei.", ans:4, sol:"16 : (3+1) = 16 : 4 = 4" },
+  { title:"Priešpaskutinė spyna", eq:"18 santykiu 5 : 4", q:"18 padalyk santykiu 5 : 4. Kokia mažesnė dalis?", ans:8, sol:"viena dalelė 18:9=2; mažesnė dalis 2·4 = 8" },
+  { title:"Pabėgimo mįslė", eq:"", q:"Du sargybiniai pasidalijo 24 monetas santykiu 1 : 5. Kiek gavo tas, kuriam teko mažiau?", ans:4, sol:"dalelių 1+5=6; 24:6=4; mažesnė dalis 4·1 = 4" },
+ ]
+];

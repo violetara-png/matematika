@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trupmenos, dešimtainiai skaičiai, procentai — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .frac{display:inline-block; text-align:center; vertical-align:middle; font-size:.9em}
+  .frac span{display:block; line-height:1.05}
+  .frac .virsus{border-bottom:1.4px solid currentColor; padding:0 3px}
+  .frac .apacia{padding:0 3px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Trupmenos, dešimtainiai skaičiai, procentai</h1>
+  <p class="klase">Matematika · 6 klasė · 6.1.1 tema · Procentai ir proporcija</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra procentas</a></li>
+      <li><a href="#t2">Trupmeną ar dešimtainį skaičių paverčiame procentais</a></li>
+      <li><a href="#t3">Procentus paverčiame dešimtainiu skaičiumi ir trupmena</a></li>
+      <li><a href="#t4">Trys to paties dydžio užrašymo formos</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra procentas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Viena šimtoji</span> kurio nors dydžio dalis vadinama <b>vienu procentu</b> to dydžio.</p>
+        <div class="formule math">1 % = <span class="frac"><span class="virsus">1</span><span class="apacia">100</span></span> = 0,01 dydžio</div>
+        <p>Visas dydis atitinka <b>100 %</b>. Todėl pusė dydžio yra 50 %, ketvirtis — 25 %, o penktadalis — 20 %.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Justas parduotuvėje išleido <span class="math"><span class="frac"><span class="virsus">1</span><span class="apacia">5</span></span></span> turėtų pinigų. Kadangi <span class="math"><span class="frac"><span class="virsus">1</span><span class="apacia">5</span></span> · 100 = 20</span>, tai Justas išleido <span class="gerai">20 %</span> turėtų pinigų.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Trupmeną ar dešimtainį skaičių paverčiame procentais</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Ieškodami, kiek procentų dydžio dalis sudaro, tą trupmeną (arba dešimtainį skaičių) dauginame iš 100.</span></p>
+        <div class="formule math">dalis · 100 = <span class="term-a">tiek procentų</span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">0,17 · 100 = <span class="gerai">17 %</span></span><br>
+        <span class="math"><span class="frac"><span class="virsus">3</span><span class="apacia">8</span></span> · 100 = <span class="frac"><span class="virsus">300</span><span class="apacia">8</span></span> = 37<span class="frac"><span class="virsus">1</span><span class="apacia">2</span></span> % = <span class="gerai">37,5 %</span></span><br>
+        <span class="math"><span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> · 100 = <span class="frac"><span class="virsus">100</span><span class="apacia">3</span></span> = <span class="gerai">33<span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> %</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Dauginant iš 100 kablelis dešimtainiame skaičiuje pasislenka <b>per du skaitmenis į dešinę</b>: 0,17 → 17; &nbsp; 0,3 → 30; &nbsp; 0,045 → 4,5.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Procentus paverčiame dešimtainiu skaičiumi ir trupmena</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Norėdami procentais nurodytą dalį užrašyti dešimtainiu skaičiumi (arba paprastąja trupmena), procentų skaičių daliname iš 100.</span></p>
+        <div class="formule math"><span class="term-b">tiek procentų</span> : 100 = dalis</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">32 % = 32 : 100 = 0,32 = <span class="frac"><span class="virsus">32</span><span class="apacia">100</span></span> = <span class="gerai"><span class="frac"><span class="virsus">8</span><span class="apacia">25</span></span></span></span><br>
+        <span class="math">15,2 % = 0,152 = <span class="frac"><span class="virsus">152</span><span class="apacia">1000</span></span> = <span class="gerai"><span class="frac"><span class="virsus">19</span><span class="apacia">125</span></span></span></span><br>
+        <span class="math">33<span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> % = 33<span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> : 100 = <span class="gerai"><span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span></span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Trupmeną visada <b>suprastink iki galo</b>: <span class="math"><span class="frac"><span class="virsus">32</span><span class="apacia">100</span></span> = <span class="frac"><span class="virsus">8</span><span class="apacia">25</span></span></span> (dalijome iš 4).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Trys to paties dydžio užrašymo formos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Tą pačią dalį galima užrašyti <b>trimis būdais</b>: paprastąja trupmena, dešimtainiu skaičiumi ir procentais. Verta įsiminti dažniausiai pasitaikančias:</p>
+        <table class="kort math">
+          <tr><th>Paprastoji trupmena</th><th>Dešimtainis skaičius</th><th>Procentai</th></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">2</span></span></td><td>0,5</td><td>50 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">4</span></span></td><td>0,25</td><td>25 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">3</span><span class="apacia">4</span></span></td><td>0,75</td><td>75 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">5</span></span></td><td>0,2</td><td>20 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">10</span></span></td><td>0,1</td><td>10 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">20</span></span></td><td>0,05</td><td>5 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">100</span></span></td><td>0,01</td><td>1 %</td></tr>
+          <tr><td><span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span></td><td>0,3&#772; (0,333…)</td><td>33<span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> %</td></tr>
+        </table>
+        <p class="pvz" style="margin-top:14px"><b>Kelias tarp formų.</b> trupmena <span class="term-a">→ dalyba →</span> dešimtainis <span class="term-a">→ ·100 →</span> procentai; &nbsp; ir atgal: procentai <span class="term-b">→ :100 →</span> dešimtainis <span class="term-b">→ trupmena →</span> suprastinam.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort math">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">0,17 = 1,7 %</span></td><td><span class="gerai">0,17 = 17 %</span> (·100, ne ·10)</td></tr>
+          <tr><td><span class="klaida">7 % = 0,7</span></td><td><span class="gerai">7 % = 0,07</span> (:100)</td></tr>
+          <tr><td><span class="klaida">32 % = <span class="frac"><span class="virsus">32</span><span class="apacia">100</span></span></span> ir palieku</td><td><span class="gerai"><span class="frac"><span class="virsus">32</span><span class="apacia">100</span></span> = <span class="frac"><span class="virsus">8</span><span class="apacia">25</span></span></span> (suprastinu)</td></tr>
+          <tr><td><span class="klaida"><span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> = 33 %</span></td><td><span class="gerai">33<span class="frac"><span class="virsus">1</span><span class="apacia">3</span></span> %</span> (ne apvalinu savavališkai)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Į procentus — <b>dauginu iš 100</b>; iš procentų — <b>dalinu iš 100</b>. Kablelis šokteli per du skaitmenis.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Trupmenos, dešimtainiai skaičiai, procentai“ (6.1.1)
+  </footer>
+
+</div>
+</body>
+</html>

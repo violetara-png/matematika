@@ -1,0 +1,52 @@
+const HINTS = ["Sudaryk proporciją: 100 % atitinka visą dydį, p % atitinka x. Iš visas/x = 100/p rask x (visas · p : 100).","Proporcija: visas dydis atitinka 100 %, dalis atitinka x %. Dalis · 100 : visas duoda procentus.","Atbulai: 100 % atitinka visą dydį x, p % atitinka duotą dalį. Dalis · 100 : p duoda visą dydį.","Vėl dalis: visas · p : 100. Pirma užrašyk schemą, kas atitinka 100 %.","Kiek procentų? Dalis · 100 : visas dydis. Atsakymą užrašyk vienu skaitmeniu.","Dalis: p % nuo viso dydžio. Padaugink visą dydį iš p ir padalink iš 100.","Ieškai viso dydžio: duotą dalį daugink iš 100 ir dalink iš procentų.","Kiek procentų sudaro dalis? Sudaryk proporciją ir rask x % (dalis · 100 : visas).","Dar viena dalis: visas · p : 100. Kablelio nebus, atsakymas vienaženklis.","Paskutinė spyna, ieškai viso dydžio: dalis · 100 : p. Įrašyk gautą skaitmenį."];
+
+const VARIANTS = [
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"10 % nuo 40 = ?", q:"Kiek yra 10 % nuo 40? Sudaryk proporciją (100 % atitinka 40) ir įrašyk atsakymą.", ans:4 },
+  { title:"Seifo ratukas Nr. 2", eq:"3 iš 60 = ? %", q:"Kiek procentų sudaro 3 nuo 60? Sudaryk proporciją (60 atitinka 100 %) ir įrašyk skaičių.", ans:5 },
+  { title:"Atbulinė spyna", eq:"50 % nuo ? = 4", q:"Atbulinė spyna: jei 50 % viso dydžio yra 4, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+  { title:"Ratukas Nr. 4", eq:"25 % nuo 20 = ?", q:"Kiek yra 25 % nuo 20? Sudaryk proporciją (100 % atitinka 20) ir įrašyk atsakymą.", ans:5 },
+  { title:"Procentų spyna", eq:"4 iš 50 = ? %", q:"Kiek procentų sudaro 4 nuo 50? Sudaryk proporciją (50 atitinka 100 %) ir įrašyk skaičių.", ans:8 },
+  { title:"Ratukas Nr. 6", eq:"20 % nuo 30 = ?", q:"Kiek yra 20 % nuo 30? Sudaryk proporciją (100 % atitinka 30) ir įrašyk atsakymą.", ans:6 },
+  { title:"Antra atbulinė spyna", eq:"25 % nuo ? = 2", q:"Atbulinė spyna: jei 25 % viso dydžio yra 2, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+  { title:"Dalies užraktas", eq:"3 iš 50 = ? %", q:"Kiek procentų sudaro 3 nuo 50? Sudaryk proporciją (50 atitinka 100 %) ir įrašyk skaičių.", ans:6 },
+  { title:"Priešpaskutinis ratukas", eq:"40 % nuo 20 = ?", q:"Kiek yra 40 % nuo 20? Sudaryk proporciją (100 % atitinka 20) ir įrašyk atsakymą.", ans:8 },
+  { title:"Pabėgimo spyna", eq:"20 % nuo ? = 1", q:"Atbulinė spyna: jei 20 % viso dydžio yra 1, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:5 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"50 % nuo 8 = ?", q:"Kiek yra 50 % nuo 8? Sudaryk proporciją (100 % atitinka 8) ir įrašyk atsakymą.", ans:4 },
+  { title:"Seifo ratukas Nr. 2", eq:"2 iš 40 = ? %", q:"Kiek procentų sudaro 2 nuo 40? Sudaryk proporciją (40 atitinka 100 %) ir įrašyk skaičių.", ans:5 },
+  { title:"Atbulinė spyna", eq:"50 % nuo ? = 3", q:"Atbulinė spyna: jei 50 % viso dydžio yra 3, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:6 },
+  { title:"Ratukas Nr. 4", eq:"5 % nuo 60 = ?", q:"Kiek yra 5 % nuo 60? Sudaryk proporciją (100 % atitinka 60) ir įrašyk atsakymą.", ans:3 },
+  { title:"Procentų spyna", eq:"6 iš 75 = ? %", q:"Kiek procentų sudaro 6 nuo 75? Sudaryk proporciją (75 atitinka 100 %) ir įrašyk skaičių.", ans:8 },
+  { title:"Ratukas Nr. 6", eq:"30 % nuo 20 = ?", q:"Kiek yra 30 % nuo 20? Sudaryk proporciją (100 % atitinka 20) ir įrašyk atsakymą.", ans:6 },
+  { title:"Antra atbulinė spyna", eq:"25 % nuo ? = 1", q:"Atbulinė spyna: jei 25 % viso dydžio yra 1, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:4 },
+  { title:"Dalies užraktas", eq:"3 iš 50 = ? %", q:"Kiek procentų sudaro 3 nuo 50? Sudaryk proporciją (50 atitinka 100 %) ir įrašyk skaičių.", ans:6 },
+  { title:"Priešpaskutinis ratukas", eq:"10 % nuo 70 = ?", q:"Kiek yra 10 % nuo 70? Sudaryk proporciją (100 % atitinka 70) ir įrašyk atsakymą.", ans:7 },
+  { title:"Pabėgimo spyna", eq:"75 % nuo ? = 6", q:"Atbulinė spyna: jei 75 % viso dydžio yra 6, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"20 % nuo 45 = ?", q:"Kiek yra 20 % nuo 45? Sudaryk proporciją (100 % atitinka 45) ir įrašyk atsakymą.", ans:9 },
+  { title:"Seifo ratukas Nr. 2", eq:"2 iš 25 = ? %", q:"Kiek procentų sudaro 2 nuo 25? Sudaryk proporciją (25 atitinka 100 %) ir įrašyk skaičių.", ans:8 },
+  { title:"Atbulinė spyna", eq:"50 % nuo ? = 2", q:"Atbulinė spyna: jei 50 % viso dydžio yra 2, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:4 },
+  { title:"Ratukas Nr. 4", eq:"25 % nuo 8 = ?", q:"Kiek yra 25 % nuo 8? Sudaryk proporciją (100 % atitinka 8) ir įrašyk atsakymą.", ans:2 },
+  { title:"Procentų spyna", eq:"7 iš 100 = ? %", q:"Kiek procentų sudaro 7 nuo 100? Sudaryk proporciją (100 atitinka 100 %) ir įrašyk skaičių.", ans:7 },
+  { title:"Ratukas Nr. 6", eq:"10 % nuo 40 = ?", q:"Kiek yra 10 % nuo 40? Sudaryk proporciją (100 % atitinka 40) ir įrašyk atsakymą.", ans:4 },
+  { title:"Antra atbulinė spyna", eq:"75 % nuo ? = 6", q:"Atbulinė spyna: jei 75 % viso dydžio yra 6, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+  { title:"Dalies užraktas", eq:"4 iš 50 = ? %", q:"Kiek procentų sudaro 4 nuo 50? Sudaryk proporciją (50 atitinka 100 %) ir įrašyk skaičių.", ans:8 },
+  { title:"Priešpaskutinis ratukas", eq:"20 % nuo 30 = ?", q:"Kiek yra 20 % nuo 30? Sudaryk proporciją (100 % atitinka 30) ir įrašyk atsakymą.", ans:6 },
+  { title:"Pabėgimo spyna", eq:"50 % nuo ? = 4", q:"Atbulinė spyna: jei 50 % viso dydžio yra 4, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"25 % nuo 20 = ?", q:"Kiek yra 25 % nuo 20? Sudaryk proporciją (100 % atitinka 20) ir įrašyk atsakymą.", ans:5 },
+  { title:"Seifo ratukas Nr. 2", eq:"6 iš 200 = ? %", q:"Kiek procentų sudaro 6 nuo 200? Sudaryk proporciją (200 atitinka 100 %) ir įrašyk skaičių.", ans:3 },
+  { title:"Atbulinė spyna", eq:"20 % nuo ? = 1", q:"Atbulinė spyna: jei 20 % viso dydžio yra 1, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:5 },
+  { title:"Ratukas Nr. 4", eq:"50 % nuo 8 = ?", q:"Kiek yra 50 % nuo 8? Sudaryk proporciją (100 % atitinka 8) ir įrašyk atsakymą.", ans:4 },
+  { title:"Procentų spyna", eq:"4 iš 50 = ? %", q:"Kiek procentų sudaro 4 nuo 50? Sudaryk proporciją (50 atitinka 100 %) ir įrašyk skaičių.", ans:8 },
+  { title:"Ratukas Nr. 6", eq:"20 % nuo 45 = ?", q:"Kiek yra 20 % nuo 45? Sudaryk proporciją (100 % atitinka 45) ir įrašyk atsakymą.", ans:9 },
+  { title:"Antra atbulinė spyna", eq:"50 % nuo ? = 3", q:"Atbulinė spyna: jei 50 % viso dydžio yra 3, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:6 },
+  { title:"Dalies užraktas", eq:"3 iš 60 = ? %", q:"Kiek procentų sudaro 3 nuo 60? Sudaryk proporciją (60 atitinka 100 %) ir įrašyk skaičių.", ans:5 },
+  { title:"Priešpaskutinis ratukas", eq:"10 % nuo 70 = ?", q:"Kiek yra 10 % nuo 70? Sudaryk proporciją (100 % atitinka 70) ir įrašyk atsakymą.", ans:7 },
+  { title:"Pabėgimo spyna", eq:"25 % nuo ? = 2", q:"Atbulinė spyna: jei 25 % viso dydžio yra 2, koks visas dydis? Sudaryk proporciją (100 % atitinka x).", ans:8 },
+ ]
+];

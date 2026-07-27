@@ -1,0 +1,52 @@
+const HINTS = ["Į procentus einama dauginant iš 100. Kai skaičius mažas (0,0…), dauginant iš 100 kablelis pašoka per du skaitmenis į dešinę.","Ta pati mintis: 0,0□ padaugink iš 100. Kur atsidurs skaitmuo po dviejų nulių?","Procentai virsta dešimtainiu daliant iš 100. □0 % : 100 — kur nukeliaus kablelis?","Trupmeną pavesk į procentus (dauginu iš 100). Gausi sveiką dešimtį procentų — tavęs prašo tik dešimčių skaitmens.","Vėl: iš procentų į dešimtainį — dalink iš 100. Įsivaizduok kablelį, slenkantį per du skaitmenis kairėn.","Pavesk trupmeną į procentus. Prisimink dažnas formas: 3/5, 7/10 ir panašios duoda apvalias dešimtis procentų.","0,0□ · 100. Skaitmuo, buvęs šimtųjų vietoje, atsistos vienetų vietoje.","Prisimink patį apibrėžimą: 1 % — tai viena šimtoji dydžio. Tad kiek procentų sudaro 1/100 dalis?","Trupmeną · 100. Atsakymas — sveika dešimtis procentų; parašyk tik dešimčių skaitmenį.","Užrašyk žodžius kaip veiksmą: „dalis · 100 = procentai“. Susidaryk lygtį ir suskaičiuok pats — atsakymas vienaženklis."];
+
+const VARIANTS = [
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"0,03 = ? %", q:"Pirmasis seifo ratukas. Kiek procentų sudaro šis dešimtainis skaičius? Įrašyk skaitmenį.", ans:3 },
+  { title:"Seifo ratukas Nr. 2", eq:"0,07 = ? %", q:"Antras ratukas. Pavesk dešimtainį į procentus.", ans:7 },
+  { title:"Atbulinė spyna", eq:"40 % = 0,?", q:"Ši spyna dirba atbulai: procentus pavesk į dešimtainį skaičių. Koks skaitmuo po kablelio?", ans:4 },
+  { title:"Trupmenos kodas", eq:"1/2 = ?0 %", q:"Pavesk trupmeną į procentus. Įrašyk gautų procentų dešimčių skaitmenį.", ans:5 },
+  { title:"Antra atbulinė spyna", eq:"60 % = 0,?", q:"Vėl atbulai: procentus — į dešimtainį skaičių. Skaitmuo po kablelio?", ans:6 },
+  { title:"Dalininko užraktas", eq:"4/5 = ?0 %", q:"Trupmena į procentus. Įrašyk dešimčių skaitmenį.", ans:8 },
+  { title:"Skaitmenų grotelės", eq:"0,09 = ? %", q:"Dar vienas mažas dešimtainis. Kiek procentų? Įrašyk skaitmenį.", ans:9 },
+  { title:"Sargybos mįslė", eq:"1/100 = ? %", q:"Sargybos klausimas: kiek procentų sudaro viena šimtoji (1/100) dydžio dalis?", ans:1 },
+  { title:"Priešpaskutinė spyna", eq:"9/10 = ?0 %", q:"Trupmeną pavesk į procentus ir įrašyk dešimčių skaitmenį.", ans:9 },
+  { title:"Pabėgimo mįslė", eq:"50 % = 0,?", q:"Paskutinis ratukas! Užrašyk 50 % dešimtainiu skaičiumi ir įrašyk skaitmenį po kablelio — tai paskutinis kodo skaitmuo.", ans:5 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"0,02 = ? %", q:"Pirmasis seifo ratukas. Kiek procentų sudaro šis dešimtainis skaičius? Įrašyk skaitmenį.", ans:2 },
+  { title:"Seifo ratukas Nr. 2", eq:"0,08 = ? %", q:"Antras ratukas. Pavesk dešimtainį į procentus.", ans:8 },
+  { title:"Atbulinė spyna", eq:"50 % = 0,?", q:"Ši spyna dirba atbulai: procentus pavesk į dešimtainį skaičių. Koks skaitmuo po kablelio?", ans:5 },
+  { title:"Trupmenos kodas", eq:"3/5 = ?0 %", q:"Pavesk trupmeną į procentus. Įrašyk gautų procentų dešimčių skaitmenį.", ans:6 },
+  { title:"Antra atbulinė spyna", eq:"30 % = 0,?", q:"Vėl atbulai: procentus — į dešimtainį skaičių. Skaitmuo po kablelio?", ans:3 },
+  { title:"Dalininko užraktas", eq:"7/10 = ?0 %", q:"Trupmena į procentus. Įrašyk dešimčių skaitmenį.", ans:7 },
+  { title:"Skaitmenų grotelės", eq:"0,06 = ? %", q:"Dar vienas mažas dešimtainis. Kiek procentų? Įrašyk skaitmenį.", ans:6 },
+  { title:"Sargybos mįslė", eq:"1/100 = ? %", q:"Sargybos klausimas: kiek procentų sudaro viena šimtoji (1/100) dydžio dalis?", ans:1 },
+  { title:"Priešpaskutinė spyna", eq:"1/2 = ?0 %", q:"Trupmeną pavesk į procentus ir įrašyk dešimčių skaitmenį.", ans:5 },
+  { title:"Pabėgimo mįslė", eq:"40 % = 0,?", q:"Paskutinis ratukas! Užrašyk 40 % dešimtainiu skaičiumi ir įrašyk skaitmenį po kablelio — tai paskutinis kodo skaitmuo.", ans:4 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"0,04 = ? %", q:"Pirmasis seifo ratukas. Kiek procentų sudaro šis dešimtainis skaičius? Įrašyk skaitmenį.", ans:4 },
+  { title:"Seifo ratukas Nr. 2", eq:"0,09 = ? %", q:"Antras ratukas. Pavesk dešimtainį į procentus.", ans:9 },
+  { title:"Atbulinė spyna", eq:"70 % = 0,?", q:"Ši spyna dirba atbulai: procentus pavesk į dešimtainį skaičių. Koks skaitmuo po kablelio?", ans:7 },
+  { title:"Trupmenos kodas", eq:"2/5 = ?0 %", q:"Pavesk trupmeną į procentus. Įrašyk gautų procentų dešimčių skaitmenį.", ans:4 },
+  { title:"Antra atbulinė spyna", eq:"20 % = 0,?", q:"Vėl atbulai: procentus — į dešimtainį skaičių. Skaitmuo po kablelio?", ans:2 },
+  { title:"Dalininko užraktas", eq:"3/5 = ?0 %", q:"Trupmena į procentus. Įrašyk dešimčių skaitmenį.", ans:6 },
+  { title:"Skaitmenų grotelės", eq:"0,05 = ? %", q:"Dar vienas mažas dešimtainis. Kiek procentų? Įrašyk skaitmenį.", ans:5 },
+  { title:"Sargybos mįslė", eq:"1/100 = ? %", q:"Sargybos klausimas: kiek procentų sudaro viena šimtoji (1/100) dydžio dalis?", ans:1 },
+  { title:"Priešpaskutinė spyna", eq:"4/5 = ?0 %", q:"Trupmeną pavesk į procentus ir įrašyk dešimčių skaitmenį.", ans:8 },
+  { title:"Pabėgimo mįslė", eq:"70 % = 0,?", q:"Paskutinis ratukas! Užrašyk 70 % dešimtainiu skaičiumi ir įrašyk skaitmenį po kablelio — tai paskutinis kodo skaitmuo.", ans:7 },
+ ],
+ [
+  { title:"Seifo ratukas Nr. 1", eq:"0,06 = ? %", q:"Pirmasis seifo ratukas. Kiek procentų sudaro šis dešimtainis skaičius? Įrašyk skaitmenį.", ans:6 },
+  { title:"Seifo ratukas Nr. 2", eq:"0,03 = ? %", q:"Antras ratukas. Pavesk dešimtainį į procentus.", ans:3 },
+  { title:"Atbulinė spyna", eq:"40 % = 0,?", q:"Ši spyna dirba atbulai: procentus pavesk į dešimtainį skaičių. Koks skaitmuo po kablelio?", ans:4 },
+  { title:"Trupmenos kodas", eq:"1/2 = ?0 %", q:"Pavesk trupmeną į procentus. Įrašyk gautų procentų dešimčių skaitmenį.", ans:5 },
+  { title:"Antra atbulinė spyna", eq:"90 % = 0,?", q:"Vėl atbulai: procentus — į dešimtainį skaičių. Skaitmuo po kablelio?", ans:9 },
+  { title:"Dalininko užraktas", eq:"9/10 = ?0 %", q:"Trupmena į procentus. Įrašyk dešimčių skaitmenį.", ans:9 },
+  { title:"Skaitmenų grotelės", eq:"0,08 = ? %", q:"Dar vienas mažas dešimtainis. Kiek procentų? Įrašyk skaitmenį.", ans:8 },
+  { title:"Sargybos mįslė", eq:"1/100 = ? %", q:"Sargybos klausimas: kiek procentų sudaro viena šimtoji (1/100) dydžio dalis?", ans:1 },
+  { title:"Priešpaskutinė spyna", eq:"7/10 = ?0 %", q:"Trupmeną pavesk į procentus ir įrašyk dešimčių skaitmenį.", ans:7 },
+  { title:"Pabėgimo mįslė", eq:"50 % = 0,?", q:"Paskutinis ratukas! Užrašyk 50 % dešimtainiu skaičiumi ir įrašyk skaitmenį po kablelio — tai paskutinis kodo skaitmuo.", ans:5 },
+ ]
+];
