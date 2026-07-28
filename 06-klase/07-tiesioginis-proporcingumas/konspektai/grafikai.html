@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grafikai — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .brez{text-align:center; margin:14px 0 4px}
+  .brez svg{max-width:100%; height:auto; border:1px solid var(--linija); border-radius:8px; background:#fff; padding:6px}
+  .cap{font-size:12.5px; color:var(--pilka); text-align:center; margin:2px 0 0}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Grafikai</h1>
+  <p class="klase">Matematika · 6 klasė · 7.1.2 tema · susiję dydžiai. Proporcingumas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra grafikas</a></li>
+      <li><a href="#t2">Taško žymėjimas koordinačių plokštumoje</a></li>
+      <li><a href="#t3">Reikšmių skaitymas iš grafiko</a></li>
+      <li><a href="#t4">Grafiko braižymas iš lentelės</a></li>
+      <li><a href="#t5">Ką grafikas pasako</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra grafikas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Grafikas</span> — tai dydžių priklausomybės vaizdas <b>koordinačių plokštumoje</b>. Kiekviena lentelės pora (pvz. laikas ir kelias) tampa <b>tašku</b>.</p>
+        <p>Kai taškų daug ir dydis kinta tolygiai, taškus sujungę gauname <b>liniją</b> arba <b>kreivę</b> — patį grafiką. Iš jo iškart matyti, kaip vienas dydis keičiasi priklausomai nuo kito.</p>
+        <p class="pvz"><b>Kam to reikia?</b> Grafikas leidžia <b>vienu žvilgsniu</b> pamatyti, kada dydis didėja, mažėja ar nekinta — greičiau nei žiūrint į lentelę.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Taško žymėjimas koordinačių plokštumoje</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kiekvieną porą užrašome <span class="zenk">(x; y)</span>: pirmas skaičius rodo, kiek eiti <b>dešinėn</b> (horizontalioji ašis), antras — kiek <b>aukštyn</b> (vertikalioji ašis).</p>
+        <p>Pavyzdžiui, taškas <span class="math">(3; 12)</span>: nuo 0 einame 3 langelius dešinėn, tada 12 aukštyn ir pažymime tašką.</p>
+        <p class="demesio"><b>Dėmesio.</b> Tvarka svarbi! <span class="math">(3; 12)</span> ir <span class="math">(12; 3)</span> — visai skirtingi taškai. Pirmas skaičius visada horizontaliai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Reikšmių skaitymas iš grafiko</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Norėdami rasti reikšmę iš grafiko:</span> nuo žinomos ašies reikšmės brėžiame <b>statmenį</b> iki grafiko, o nuo grafiko — iki kitos ašies. Ten ir yra atsakymas.</p>
+        <div class="brez"><svg viewBox="0 0 238 224" width="238" height="224" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math,Georgia,serif" font-size="12"><line x1="42" y1="194" x2="42" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="72" y1="194" x2="72" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="102" y1="194" x2="102" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="132" y1="194" x2="132" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="162" y1="194" x2="162" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="192" y1="194" x2="192" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="222" y1="194" x2="222" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="194" x2="222" y2="194" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="164" x2="222" y2="164" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="134" x2="222" y2="134" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="104" x2="222" y2="104" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="74" x2="222" y2="74" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="44" x2="222" y2="44" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="14" x2="222" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="194" x2="232" y2="194" stroke="#33465e" stroke-width="1.8"/><line x1="42" y1="194" x2="42" y2="4" stroke="#33465e" stroke-width="1.8"/><polygon points="232,194 225,190 225,198" fill="#33465e"/><polygon points="42,4 38,11 46,11" fill="#33465e"/><text x="72" y="209" text-anchor="middle" fill="#33465e">1</text><text x="102" y="209" text-anchor="middle" fill="#33465e">2</text><text x="132" y="209" text-anchor="middle" fill="#33465e">3</text><text x="162" y="209" text-anchor="middle" fill="#33465e">4</text><text x="192" y="209" text-anchor="middle" fill="#33465e">5</text><text x="222" y="209" text-anchor="middle" fill="#33465e">6</text><text x="35" y="168" text-anchor="end" fill="#33465e">4</text><text x="35" y="138" text-anchor="end" fill="#33465e">8</text><text x="35" y="108" text-anchor="end" fill="#33465e">12</text><text x="35" y="78" text-anchor="end" fill="#33465e">16</text><text x="35" y="48" text-anchor="end" fill="#33465e">20</text><text x="35" y="18" text-anchor="end" fill="#33465e">24</text><text x="35" y="209" text-anchor="end" fill="#33465e">0</text><text x="234" y="210" fill="#1e5fa8" font-style="italic" font-weight="700">t (h)</text><text x="28" y="2" fill="#1e5fa8" font-style="italic" font-weight="700">s (km)</text><line x1="132" y1="194" x2="132" y2="104" stroke="#c62828" stroke-width="1.3" stroke-dasharray="4 3"/><line x1="42" y1="104" x2="132" y2="104" stroke="#c62828" stroke-width="1.3" stroke-dasharray="4 3"/><polyline points="72,164 102,134 132,104 162,74 192,44 222,14" fill="none" stroke="#0a7d52" stroke-width="2.4"/><circle cx="72" cy="164" r="4" fill="#0a7d52"/><circle cx="102" cy="134" r="4" fill="#0a7d52"/><circle cx="132" cy="104" r="4" fill="#0a7d52"/><circle cx="162" cy="74" r="4" fill="#0a7d52"/><circle cx="192" cy="44" r="4" fill="#0a7d52"/><circle cx="222" cy="14" r="4" fill="#0a7d52"/></svg></div>
+        <p class="cap">Kelio s (km) priklausomybė nuo laiko t (h). Kai t = 3 h, statmuo veda į s = 12 km.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Iš grafiko: kai <span class="math">t = 3</span> h, tai <span class="math">s = 12</span> km. Atvirkščiai — kai <span class="math">s = 20</span> km, tai <span class="math">t = 5</span> h.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Grafiko braižymas iš lentelės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Iš lentelės grafiką braižome trimis žingsniais: <b>1)</b> kiekvieną porą pažymime tašku, <b>2)</b> patikriname, ar taškai išsidėstę tvarkingai, <b>3)</b> sujungiame juos.</p>
+        <table class="kort math">
+          <tr><th>t (h)</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          <tr><th>s (km)</th><td>4</td><td>8</td><td>12</td><td>16</td><td>20</td><td>24</td></tr>
+        </table>
+        <div class="brez"><svg viewBox="0 0 238 224" width="238" height="224" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math,Georgia,serif" font-size="12"><line x1="42" y1="194" x2="42" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="72" y1="194" x2="72" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="102" y1="194" x2="102" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="132" y1="194" x2="132" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="162" y1="194" x2="162" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="192" y1="194" x2="192" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="222" y1="194" x2="222" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="194" x2="222" y2="194" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="164" x2="222" y2="164" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="134" x2="222" y2="134" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="104" x2="222" y2="104" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="74" x2="222" y2="74" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="44" x2="222" y2="44" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="14" x2="222" y2="14" stroke="#c9d6e6" stroke-width="1"/><line x1="42" y1="194" x2="232" y2="194" stroke="#33465e" stroke-width="1.8"/><line x1="42" y1="194" x2="42" y2="4" stroke="#33465e" stroke-width="1.8"/><polygon points="232,194 225,190 225,198" fill="#33465e"/><polygon points="42,4 38,11 46,11" fill="#33465e"/><text x="72" y="209" text-anchor="middle" fill="#33465e">1</text><text x="102" y="209" text-anchor="middle" fill="#33465e">2</text><text x="132" y="209" text-anchor="middle" fill="#33465e">3</text><text x="162" y="209" text-anchor="middle" fill="#33465e">4</text><text x="192" y="209" text-anchor="middle" fill="#33465e">5</text><text x="222" y="209" text-anchor="middle" fill="#33465e">6</text><text x="35" y="168" text-anchor="end" fill="#33465e">4</text><text x="35" y="138" text-anchor="end" fill="#33465e">8</text><text x="35" y="108" text-anchor="end" fill="#33465e">12</text><text x="35" y="78" text-anchor="end" fill="#33465e">16</text><text x="35" y="48" text-anchor="end" fill="#33465e">20</text><text x="35" y="18" text-anchor="end" fill="#33465e">24</text><text x="35" y="209" text-anchor="end" fill="#33465e">0</text><text x="234" y="210" fill="#1e5fa8" font-style="italic" font-weight="700">t (h)</text><text x="28" y="2" fill="#1e5fa8" font-style="italic" font-weight="700">s (km)</text><polyline points="72,164 102,134 132,104 162,74 192,44 222,14" fill="none" stroke="#0a7d52" stroke-width="2.4"/><circle cx="72" cy="164" r="4" fill="#0a7d52"/><circle cx="102" cy="134" r="4" fill="#0a7d52"/><circle cx="132" cy="104" r="4" fill="#0a7d52"/><circle cx="162" cy="74" r="4" fill="#0a7d52"/><circle cx="192" cy="44" r="4" fill="#0a7d52"/><circle cx="222" cy="14" r="4" fill="#0a7d52"/></svg></div>
+        <p class="cap">Lentelės poros (1; 4), (2; 8), … pažymėtos taškais ir sujungtos — gavome tiesę.</p>
+        <p class="pvz"><b>Pastebėk.</b> Šie taškai išsidėstė <b>tiesia linija</b> — tai bus svarbu vėliau, nagrinėjant tiesiogiai proporcingus dydžius.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Ką grafikas pasako</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Iš grafiko formos matyti dydžio elgesys:</p>
+        <table class="kort">
+          <tr><th>Grafikas</th><th>Ką reiškia</th></tr>
+          <tr><td>kyla aukštyn</td><td class="gerai">dydis <b>didėja</b></td></tr>
+          <tr><td>leidžiasi žemyn</td><td>dydis <b>mažėja</b></td></tr>
+          <tr><td>eina horizontaliai</td><td>dydis <b>nekinta</b></td></tr>
+          <tr><td>statesnė linija</td><td>dydis kinta <b>greičiau</b></td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> Baseino takeliu plaukiko atstumo grafikas: kyla — plaukia tolyn, leidžiasi — grįžta atgal, horizontali dalis — sustojo pailsėti.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">Tašką (3; 12) žymi 12 dešinėn, 3 aukštyn</span></td><td class="math"><span class="gerai">3 dešinėn, 12 aukštyn</span> (pirmas skaičius horizontaliai)</td></tr>
+          <tr><td>Skaitant reikšmę žiūri tik į vieną ašį</td><td class="gerai">Brėžiu statmenį iki grafiko, tada iki kitos ašies</td></tr>
+          <tr><td>Taškų nesujungia arba jungia netvarkingai</td><td class="gerai">Sujungiu iš eilės, nuo mažiausio x</td></tr>
+          <tr><td>Nepažymi, ką reiškia ašys</td><td class="gerai">Visada užrašau, kas ant kurios ašies (t, s…)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmas skaičius poroje — <b>horizontaliai</b>, antras — <b>vertikaliai</b>. Skaitydamas reikšmę visada einu <b>ašis → grafikas → ašis</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Grafikai“ (7.1.2)
+  </footer>
+
+</div>
+</body>
+</html>
