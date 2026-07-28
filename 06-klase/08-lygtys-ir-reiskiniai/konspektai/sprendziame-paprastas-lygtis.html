@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Tiesinės lygtys — konspektas</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:23pt;margin:0 0 6px;font-weight:800;letter-spacing:.2px;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .intro{background:var(--lav);border-radius:12px;padding:16px 20px;margin-bottom:22px;
+         border:1px solid #dfe4f6;}
+  .intro h2{color:var(--blue);font-size:9.5pt;letter-spacing:1.2px;text-transform:uppercase;
+            margin:0 0 8px;font-weight:800;}
+  .intro ol{margin:0;padding-left:22px;}
+  .intro li{margin:3px 0;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:20px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:11px 18px;font-weight:700;font-size:12.6pt;
+          display:flex;align-items:center;gap:12px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:10pt;font-weight:800;}
+  .body{padding:16px 18px;}
+  .box{border-radius:10px;padding:12px 15px;margin:0 0 12px;}
+  .box:last-child{margin-bottom:0;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);}
+  .green b.kw{color:var(--green-tx);}
+  .note{background:#fff7ea;border-left:4px solid var(--orange-bd);padding:9px 13px;border-radius:8px;
+        margin-top:10px;font-size:10.6pt;}
+  .note b{color:var(--orange-tx);}
+  .formula{border:1.6px dashed #9aa9c9;border-radius:10px;text-align:center;padding:11px 10px;
+           margin:12px 0;font-size:13pt;color:var(--blue);font-weight:700;background:#fbfcfe;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:11px 15px;}
+  .ex .h{color:var(--orange-tx);font-weight:800;margin-bottom:6px;}
+  .ex .line{margin:4px 0;font-size:11pt;}
+  .warn{background:var(--red-bg);border-left:5px solid var(--red-bd);border-radius:10px;padding:11px 15px;}
+  .warn b.t{color:var(--red-tx);}
+  .res{color:var(--green-tx);font-weight:800;}
+  .neg{color:var(--red-tx);font-weight:700;}
+  table{border-collapse:collapse;width:100%;margin:4px 0 2px;font-size:10.8pt;}
+  th{background:var(--tblh);color:var(--blue);border:1px solid #cdd5ea;padding:8px 10px;font-weight:700;}
+  td{border:1px solid var(--bd);padding:8px 10px;vertical-align:middle;}
+  .err{color:var(--red-tx);text-decoration:line-through;}
+  .ok{color:var(--green-tx);font-weight:700;}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+        vertical-align:middle;margin:0 .12em;line-height:1.02;font-size:.94em;}
+  .frac>.n{padding:0 .4em 1px;border-bottom:2px solid currentColor;}
+  .frac>.d{padding:1px .4em 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;
+          border-top:1px solid #eceff5;}
+  .steps{margin:6px 0 0;padding-left:20px;}
+  .steps li{margin:3px 0;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Tiesinės lygtys</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 8.2 tema · lygčių sprendimas</p>
+
+<div class="intro">
+  <h2>Ką išmoksi šioje pamokoje</h2>
+  <ol>
+    <li>Kas yra lygtis ir jos sprendinys</li>
+    <li>Pagrindinės lygčių savybės ir perkėlimo taisyklė</li>
+    <li>Kaip spręsti paprastas ir sudėtingesnes lygtis</li>
+    <li>Lygtys su skliaustais ir trupmenomis</li>
+    <li>Kaip lygtimi išspręsti žodinį uždavinį</li>
+    <li>Dažniausios klaidos</li>
+  </ol>
+</div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kas yra lygtis ir jos sprendinys</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Lygtis</b> — tai lygybė, kurioje yra <b>nežinomasis</b> (raidė, dažniausiai <em class="v">x</em>).<br>
+      <b class="kw">Lygties sprendinys</b> (arba <b>šaknis</b>) — skaičius, kurį įrašę vietoje raidės,
+      gauname <b>teisingą</b> skaitinę lygybę.
+      <div class="note"><b>Kam to reikia?</b> Išspręsti lygtį — reiškia rasti visus jos sprendinius
+      (arba įsitikinti, kad jų nėra).</div>
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdys.</div>
+      <div class="line">Lygties <em class="v">x</em> − 6 = −9 sprendinys yra <span class="res">x = −3</span>,
+      nes −3 − 6 = −9 — gauname teisingą lygybę.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Pagrindinės savybės ir perkėlimo taisyklė</div>
+  <div class="body">
+    <div class="box green">
+      Sprendžiant lygtis remiamasi dviem savybėmis:
+      <ol class="steps">
+        <li><b>Prie abiejų</b> lygties pusių pridėjus (arba <b>iš abiejų</b> atėmus) tą patį skaičių,
+            sprendiniai <b>nepasikeičia</b>.</li>
+        <li><b>Abi</b> puses padauginus (arba padalijus) iš to paties <b>nelygaus nuliui</b> skaičiaus,
+            sprendiniai <b>nepasikeičia</b>.</li>
+      </ol>
+    </div>
+    <div class="formula">Perkėlimo taisyklė: &nbsp; <span class="res">narį perkeliame į kitą pusę pakeisdami jo ženklą</span></div>
+    <div class="ex">
+      <div class="h">Pavyzdys.</div>
+      <div class="line">x − 6 = −9 &nbsp;&rArr;&nbsp; x = −9 <span class="res">+ 6</span> &nbsp;&rArr;&nbsp; <span class="res">x = −3</span>.</div>
+      <div class="line">(skaičių −6 perkėlėme į dešinę kaip +6)</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Paprastos ir sudėtingesnės lygtys</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Bendras planas:</b> visus narius su <em class="v">x</em> perkeliame į vieną pusę,
+      skaičius — į kitą, sutraukiame panašiuosius narius ir padaliname iš koeficiento prie <em class="v">x</em>.
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdžiai.</div>
+      <div class="line">−6x = 3 &nbsp;|&nbsp; : (−6) &nbsp;&rArr;&nbsp; <span class="res">x = −<span class="frac"><span class="n">1</span><span class="d">2</span></span></span></div>
+      <div class="line">3x = x − 8 &nbsp;&rArr;&nbsp; 3x − x = −8 &nbsp;&rArr;&nbsp; 2x = −8 &nbsp;&rArr;&nbsp; <span class="res">x = −4</span></div>
+      <div class="line">−6x + 5 = 3 − 2x &nbsp;&rArr;&nbsp; −6x + 2x = 3 − 5 &nbsp;&rArr;&nbsp; −4x = −2 &nbsp;&rArr;&nbsp; <span class="res">x = <span class="frac"><span class="n">1</span><span class="d">2</span></span></span></div>
+    </div>
+    <div class="note"><b>Pasitikrink!</b> Rastą x įrašyk į pradinę lygtį. Pvz. x = −4: &nbsp; 3·(−4) = −12 &nbsp;ir&nbsp; −4 − 8 = −12 &nbsp;— pusės lygios.</div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Lygtys su skliaustais ir trupmenomis</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Tvarka:</b>
+      <ol class="steps">
+        <li>Jei yra <b>trupmenų</b> — abi puses padaugink iš bendro vardiklio (jų nebeliks).</li>
+        <li><b>Atskleisk skliaustus</b> (kiekvieną narį daugink iš daugiklio).</li>
+        <li>Sutrauk panašiuosius narius.</li>
+        <li>Perkelk narius ir rask <em class="v">x</em>.</li>
+      </ol>
+    </div>
+    <div class="formula">a · (b + c) = a·b + a·c &nbsp;&nbsp;&nbsp; a − (b − c) = a − b <span class="res">+ c</span></div>
+    <div class="ex">
+      <div class="h">Pavyzdžiai.</div>
+      <div class="line">2(3 + x) = −4 &nbsp;&rArr;&nbsp; 6 + 2x = −4 &nbsp;&rArr;&nbsp; 2x = −10 &nbsp;&rArr;&nbsp; <span class="res">x = −5</span></div>
+      <div class="line">4(5 − x) − 3(2x − 4) = −1 &nbsp;&rArr;&nbsp; 20 − 4x − 6x + 12 = −1 &nbsp;&rArr;&nbsp; 32 − 10x = −1 &nbsp;&rArr;&nbsp; <span class="res">x = 3,3</span></div>
+      <div class="line"><span class="frac"><span class="n">x</span><span class="d">3</span></span> − 6 = −x + 1 &nbsp;|&nbsp; · 3 &nbsp;&rArr;&nbsp; x − 18 = −3x + 3 &nbsp;&rArr;&nbsp; 4x = 21 &nbsp;&rArr;&nbsp; <span class="res">x = 5,25</span></div>
+    </div>
+    <div class="box warn"><b class="t">Dėmesio.</b> Minusas <b>prieš skliaustus</b> keičia <b>visų</b> skliaustuose esančių narių ženklus: −(2x − 5) = −2x + 5.</div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Žodinio uždavinio sprendimas lygtimi</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Kelias:</b> nežinomą dydį pažymime raide <em class="v">x</em> &rarr; likusius dydžius užrašome per <em class="v">x</em>
+      &rarr; pagal sąlygą sudarome lygtį &rarr; išsprendžiame &rarr; atsakome į klausimą.
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdys.</div>
+      <div class="line">Į tris lentynas sudėta 157 knygos: pirmoje 8 knygomis mažiau negu antroje,
+        trečioje 5 knygomis daugiau negu pirmoje. Kiek knygų antroje lentynoje?</div>
+      <div class="line">Antroje: <em class="v">x</em>. Pirmoje: x − 8. Trečioje: (x − 8) + 5 = x − 3.</div>
+      <div class="line">(x − 8) + x + (x − 3) = 157 &nbsp;&rArr;&nbsp; 3x − 11 = 157 &nbsp;&rArr;&nbsp; 3x = 168 &nbsp;&rArr;&nbsp; x = 56.</div>
+      <div class="line"><b>Atsakymas:</b> antroje lentynoje <span class="res">56 knygos</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Dažniausios klaidos</div>
+  <div class="body">
+    <table>
+      <tr><th style="width:50%">Klaida</th><th>Teisingai</th></tr>
+      <tr><td><span class="err">x − 6 = −9 &rArr; x = −9 − 6</span></td><td><span class="ok">x = −9 + 6 = −3</span> &nbsp;(perkeliant keičiam ženklą)</td></tr>
+      <tr><td><span class="err">2(3 + x) = 6 + x</span></td><td><span class="ok">6 + 2x</span> &nbsp;(daugini kiekvieną narį)</td></tr>
+      <tr><td><span class="err">−(2x − 5) = −2x − 5</span></td><td><span class="ok">−2x + 5</span> &nbsp;(keiti visų ženklus)</td></tr>
+      <tr><td><span class="err">−4x = −2 &rArr; x = 2</span></td><td><span class="ok">x = <span class="frac"><span class="n">1</span><span class="d">2</span></span></span> &nbsp;(−2 : (−4) = 0,5)</td></tr>
+    </table>
+    <div class="box warn" style="margin-top:12px"><b class="t">Auksinė taisyklė.</b> Perkeldamas narį — <b>keisk ženklą</b>; atskleisdamas skliaustus — <b>daugink kiekvieną</b> narį ir atidžiai stebėk ženklus.</div>
+  </div>
+</div>
+
+<div class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · tema „Tiesinės lygtys" (8.2)</div>
+
+</body>
+</html>

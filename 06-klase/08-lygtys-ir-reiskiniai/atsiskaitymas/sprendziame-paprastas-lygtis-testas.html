@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Tiesinės lygtys</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+
+.frac{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;vertical-align:middle;margin:0 .14em;line-height:1.02;font-size:.96em;}
+.frac>.fn{padding:0 .4em 1px;border-bottom:2px solid currentColor;}
+.frac>.fd{padding:1px .4em 0;}
+.qtext{white-space:normal;}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="6-08-lygtys-ir-reiskiniai-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 8. Reiškiniai. Lygtys";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>Tiesinės lygtys</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <button class="primary dl" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Tiesinės lygtys", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Tiesines lygtis sprendi labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai, ir pasitreniruok."], [45, "Patenkinamai — verta pakartoti temą ir daugiau spręsti."], [0, "Reikia pakartoti temą ir pasitreniruoti su konspektu."]]}, "variants": [{"id": 1, "mc": [{"q": "4(x + 2) = −12", "options": ["5", "−4", "−5", "−6"], "correct": 2}, {"q": "5x − 3 = 2x + 9", "options": ["4", "−4", "5", "3"], "correct": 0}, {"q": "−3x/5 = 6", "options": ["10", "−9", "−11", "−10"], "correct": 3}, {"q": "3(4 − x) = 21", "options": ["3", "−3", "−2", "−4"], "correct": 1}, {"q": "(x − 1)/2 = 4", "options": ["−9", "10", "9", "8"], "correct": 2}, {"q": "2(x − 5) + 7 = −3", "options": ["0", "1", "−1", "0,5"], "correct": 0}, {"q": "7x − 4 = 3x + 8", "options": ["−3", "4", "2", "3"], "correct": 3}, {"q": "0,5x + 1,5 = −2", "options": ["7", "−7", "−6", "−8"], "correct": 1}, {"q": "3(x + 1) = 2(x − 4)", "options": ["−11", "11", "−10", "−12"], "correct": 0}, {"q": "(2x − 1)/3 = 5", "options": ["−8", "9", "8", "7"], "correct": 2}], "open": [{"q": "6x + 5 = 2x − 7", "a": "4oiSMw=="}, {"q": "4(x − 3) = −16", "a": "4oiSMQ=="}, {"q": "x/3 − 2 = −x + 6", "a": "Ng=="}, {"q": "1,2x − 3 = 0,6", "a": "Mw=="}, {"q": "2(x + 4) − 3(x − 1) = 5", "a": "Ng=="}, {"q": "(x + 5)/4 = 3", "a": "Nw=="}, {"q": "(3x − 2)/5 = 2", "a": "NA=="}, {"q": "5(2 − x) − 4 = 11", "a": "4oiSMQ=="}, {"q": "(2x − 1)/3 = (x + 4)/2 − 1", "a": "OA=="}, {"q": "4(x − 2) = 2(x + 3)", "a": "Nw=="}, {"q": "Į tris lentynas sudėta 157 knygų taip, kad pirmoje lentynoje buvo 8 knygomis mažiau negu antroje, o trečioje – 5 knygomis daugiau negu pirmoje. Kiek knygų yra antroje lentynoje?", "a": "NTY="}, {"q": "Stovyklos vadovas 72 mokinius suskirstė į tris grupes taip, kad pirmoje grupėje mokinių buvo 2 kartus mažiau negu antroje, o trečioje – 12 mokiniais daugiau negu pirmoje. Kiek mokinių buvo antroje grupėje?", "a": "MzA="}, {"q": "Monika surinktus baravykus sudėjo į tris krepšius taip, kad pirmame krepšyje jų buvo dvigubai daugiau negu antrame, o trečiame – 7 baravykais daugiau negu antrame. Kiek iš viso baravykų surinko Monika, jei pirmame krepšyje buvo 8 baravykais daugiau negu trečiame?", "a": "Njc="}]}, {"id": 2, "mc": [{"q": "3(x + 4) = −6", "options": ["6", "−6", "−5", "−7"], "correct": 1}, {"q": "6x − 2 = 3x + 10", "options": ["−4", "5", "3", "4"], "correct": 3}, {"q": "−2x/3 = 8", "options": ["−12", "12", "−11", "−13"], "correct": 0}, {"q": "2(7 − x) = 20", "options": ["3", "−2", "−3", "−4"], "correct": 2}, {"q": "(x − 2)/3 = 3", "options": ["−11", "11", "12", "10"], "correct": 1}, {"q": "3(x − 2) + 5 = −4", "options": ["−1", "1", "0", "−2"], "correct": 0}, {"q": "8x − 5 = 4x + 7", "options": ["−3", "4", "3", "2"], "correct": 2}, {"q": "0,4x + 2 = −1,2", "options": ["8", "−7", "−9", "−8"], "correct": 3}, {"q": "2(x + 3) = 4(x − 2)", "options": ["−7", "7", "8", "6"], "correct": 1}, {"q": "(3x − 4)/2 = 7", "options": ["6", "−6", "7", "5"], "correct": 0}], "open": [{"q": "7x + 3 = 3x − 9", "a": "4oiSMw=="}, {"q": "5(x − 2) = −25", "a": "4oiSMw=="}, {"q": "x/2 − 4 = −x + 5", "a": "Ng=="}, {"q": "1,5x − 2 = 2,5", "a": "Mw=="}, {"q": "3(x + 2) − 2(x − 4) = 9", "a": "4oiSNQ=="}, {"q": "(x + 7)/3 = 4", "a": "NQ=="}, {"q": "(2x − 3)/4 = 2", "a": "NSw1"}, {"q": "4(3 − x) − 2 = 14", "a": "4oiSMQ=="}, {"q": "(4x − 1)/2 = (x + 4)/3 + 1", "a": "MSw3"}, {"q": "5(x − 1) = 3(x + 3)", "a": "Nw=="}, {"q": "Į tris lentynas sudėta 180 knygų taip, kad pirmoje lentynoje buvo 6 knygomis mažiau negu antroje, o trečioje – 9 knygomis daugiau negu pirmoje. Kiek knygų yra antroje lentynoje?", "a": "NjE="}, {"q": "Stovyklos vadovas 90 mokinius suskirstė į tris grupes taip, kad pirmoje grupėje mokinių buvo 2 kartus mažiau negu antroje, o trečioje – 6 mokiniais daugiau negu pirmoje. Kiek mokinių buvo antroje grupėje?", "a": "NDI="}, {"q": "Monika surinktus baravykus sudėjo į tris krepšius taip, kad pirmame krepšyje jų buvo dvigubai daugiau negu antrame, o trečiame – 5 baravykais daugiau negu antrame. Kiek iš viso baravykų surinko Monika, jei pirmame krepšyje buvo 6 baravykais daugiau negu trečiame?", "a": "NDk="}]}, {"id": 3, "mc": [{"q": "5(x + 1) = −20", "options": ["−5", "5", "−4", "−6"], "correct": 0}, {"q": "7x − 6 = 4x + 6", "options": ["−4", "5", "4", "3"], "correct": 2}, {"q": "−4x/5 = 8", "options": ["10", "−9", "−11", "−10"], "correct": 3}, {"q": "2(9 − x) = 26", "options": ["4", "−4", "−3", "−5"], "correct": 1}, {"q": "(x − 3)/2 = 5", "options": ["−13", "14", "13", "12"], "correct": 2}, {"q": "4(x − 1) + 3 = −5", "options": ["−1", "1", "0", "−2"], "correct": 0}, {"q": "9x − 4 = 5x + 12", "options": ["−4", "5", "3", "4"], "correct": 3}, {"q": "0,5x − 1 = −3,5", "options": ["5", "−5", "−4", "−6"], "correct": 1}, {"q": "4(x + 1) = 2(x − 3)", "options": ["−5", "5", "−4", "−6"], "correct": 0}, {"q": "(2x − 5)/3 = 3", "options": ["−7", "8", "7", "6"], "correct": 2}], "open": [{"q": "8x + 4 = 4x − 8", "a": "4oiSMw=="}, {"q": "6(x − 2) = −30", "a": "4oiSMw=="}, {"q": "x/4 − 3 = −x + 2", "a": "NA=="}, {"q": "1,4x − 1 = 1,8", "a": "Mg=="}, {"q": "4(x + 1) − 3(x − 2) = 7", "a": "4oiSMw=="}, {"q": "(x + 9)/4 = 3", "a": "Mw=="}, {"q": "(3x − 5)/2 = 5", "a": "NQ=="}, {"q": "3(5 − x) − 4 = 8", "a": "MQ=="}, {"q": "(2x − 3)/2 = (x + 2)/3 + 1", "a": "NCw3NQ=="}, {"q": "5(x − 2) = 3(x + 2)", "a": "OA=="}, {"q": "Į tris lentynas sudėta 171 knygų taip, kad pirmoje lentynoje buvo 6 knygomis mažiau negu antroje, o trečioje – 3 knygomis daugiau negu pirmoje. Kiek knygų yra antroje lentynoje?", "a": "NjA="}, {"q": "Stovyklos vadovas 84 mokinius suskirstė į tris grupes taip, kad pirmoje grupėje mokinių buvo 2 kartus mažiau negu antroje, o trečioje – 8 mokiniais daugiau negu pirmoje. Kiek mokinių buvo antroje grupėje?", "a": "Mzg="}, {"q": "Monika surinktus baravykus sudėjo į tris krepšius taip, kad pirmame krepšyje jų buvo dvigubai daugiau negu antrame, o trečiame – 9 baravykais daugiau negu antrame. Kiek iš viso baravykų surinko Monika, jei pirmame krepšyje buvo 4 baravykais daugiau negu trečiame?", "a": "NjE="}]}, {"id": 4, "mc": [{"q": "3(x + 5) = −9", "options": ["8", "−7", "−9", "−8"], "correct": 3}, {"q": "8x − 3 = 5x + 9", "options": ["4", "−4", "5", "3"], "correct": 0}, {"q": "−3x/4 = 9", "options": ["12", "−12", "−11", "−13"], "correct": 1}, {"q": "2(6 − x) = 22", "options": ["5", "−4", "−5", "−6"], "correct": 2}, {"q": "(x − 4)/3 = 3", "options": ["13", "−13", "14", "12"], "correct": 0}, {"q": "5(x − 1) + 2 = −8", "options": ["1", "−1", "0", "−2"], "correct": 1}, {"q": "6x − 7 = 2x + 5", "options": ["−3", "4", "2", "3"], "correct": 3}, {"q": "0,6x + 1 = −0,8", "options": ["−3", "3", "−2", "−4"], "correct": 0}, {"q": "3(x + 2) = 5(x − 2)", "options": ["−8", "9", "8", "7"], "correct": 2}, {"q": "(3x − 2)/4 = 4", "options": ["−6", "6", "7", "5"], "correct": 1}], "open": [{"q": "9x + 2 = 5x − 14", "a": "4oiSNA=="}, {"q": "4(x − 5) = −24", "a": "4oiSMQ=="}, {"q": "x/3 − 5 = −x + 3", "a": "Ng=="}, {"q": "1,6x − 2 = 1,6", "a": "MiwyNQ=="}, {"q": "5(x + 1) − 4(x − 2) = 10", "a": "4oiSMw=="}, {"q": "(x + 6)/5 = 2", "a": "NA=="}, {"q": "(4x − 3)/3 = 3", "a": "Mw=="}, {"q": "2(7 − x) − 5 = 7", "a": "MQ=="}, {"q": "(3x − 2)/2 = (x + 5)/4 + 1", "a": "Miw2"}, {"q": "6(x − 1) = 4(x + 2)", "a": "Nw=="}, {"q": "Į tris lentynas sudėta 204 knygų taip, kad pirmoje lentynoje buvo 9 knygomis mažiau negu antroje, o trečioje – 6 knygomis daugiau negu pirmoje. Kiek knygų yra antroje lentynoje?", "a": "NzI="}, {"q": "Stovyklos vadovas 100 mokinius suskirstė į tris grupes taip, kad pirmoje grupėje mokinių buvo 2 kartus mažiau negu antroje, o trečioje – 4 mokiniais daugiau negu pirmoje. Kiek mokinių buvo antroje grupėje?", "a": "NDg="}, {"q": "Monika surinktus baravykus sudėjo į tris krepšius taip, kad pirmame krepšyje jų buvo dvigubai daugiau negu antrame, o trečiame – 6 baravykais daugiau negu antrame. Kiek iš viso baravykų surinko Monika, jei pirmame krepšyje buvo 9 baravykais daugiau negu trečiame?", "a": "NjY="}]}]};
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// variantų sąrašas
+const vsel = document.getElementById('variantas');
+vsel.innerHTML = '<option value="">— pasirink —</option>' +
+  CFG.variants.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  if(!k||!v||!p||!vr){ document.getElementById('regWarn').textContent='Užpildyk visus laukus ir pasirink variantą.'; return; }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  variant=CFG.variants.find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  document.addEventListener('visibilitychange', onLeave);
+  window.addEventListener('blur', onLeave);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+function onLeave(){
+  if(!testActive) return;
+  if(document.hidden || !document.hasFocus()){
+    leaveCount++;
+    const w=document.getElementById('testWarn');
+    if(w) w.textContent = `⚠ Išėjai iš testo lango. Tai užfiksuota (kartų: ${leaveCount}). Grįžk į testą.`;
+  }
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${mfmt(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${mfmt(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${mfmt(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function mfmt(s){
+  s = esc(s);
+  s = s.replace(/\(([^()]+?)\)\s*\/\s*(\d+)/g,
+      '<span class="frac"><span class="fn">$1</span><span class="fd">$2</span></span>');
+  s = s.replace(/([0-9A-Za-z\u2212\u00b7]+)\s*\/\s*(\d+)/g,
+      '<span class="frac"><span class="fn">$1</span><span class="fd">$2</span></span>');
+  return s;
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * CFG.grading.mc_points;
+  const mcMax = variant.mc.length * CFG.grading.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=CFG.grading.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * CFG.grading.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of CFG.grading.scale){ if(pct*100>=t) return g; }
+  return CFG.grading.scale[CFG.grading.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of CFG.grading.comments){ if(pct*100>=t) return c; }
+  return CFG.grading.comments[CFG.grading.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    <div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą Excel).</div>`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

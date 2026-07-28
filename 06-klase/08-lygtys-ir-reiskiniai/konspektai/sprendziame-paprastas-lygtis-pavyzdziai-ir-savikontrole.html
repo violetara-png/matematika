@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Tiesinės lygtys — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:22pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+        vertical-align:middle;margin:0 .12em;line-height:1.02;font-size:.94em;}
+  .frac>.n{padding:0 .4em 1px;border-bottom:2px solid currentColor;}
+  .frac>.d{padding:1px .4em 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+</style>
+</head>
+<body>
+
+<h1>Tiesinės lygtys — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 8.2 tema · lygčių sprendimas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- Paprastos -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Paprastos lygtys</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">x − 6 = −9</div>
+      <div class="line">x = −9 + 6 &nbsp;&rArr;&nbsp; <span class="res">x = −3</span> &nbsp;<span style="color:#8a93a6">(−6 perkeliame kaip +6)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−5x = 20</div>
+      <div class="line">x = 20 : (−5) &nbsp;&rArr;&nbsp; <span class="res">x = −4</span></div>
+    </div>
+    <div class="ex">
+      <div class="q"><span class="frac"><span class="n">x</span><span class="d">3</span></span> = −4</div>
+      <div class="line">x = −4 · 3 &nbsp;&rArr;&nbsp; <span class="res">x = −12</span> &nbsp;<span style="color:#8a93a6">(abi puses dauginame iš 3)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Sudėtingesnės -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sudėtingesnės lygtys (nežinomasis abiejose pusėse)</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">3x = x − 8</div>
+      <div class="line">3x − x = −8 &nbsp;&rArr;&nbsp; 2x = −8 &nbsp;&rArr;&nbsp; <span class="res">x = −4</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">6x + 5 = 2x − 7</div>
+      <div class="line">6x − 2x = −7 − 5 &nbsp;&rArr;&nbsp; 4x = −12 &nbsp;&rArr;&nbsp; <span class="res">x = −3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">−6x + 5 = 3 − 2x</div>
+      <div class="line">−6x + 2x = 3 − 5 &nbsp;&rArr;&nbsp; −4x = −2 &nbsp;&rArr;&nbsp; <span class="res">x = 0,5</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Skliaustai ir trupmenos -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Lygtys su skliaustais ir trupmenomis</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">2(3 + x) = −4</div>
+      <div class="line">6 + 2x = −4 &nbsp;&rArr;&nbsp; 2x = −10 &nbsp;&rArr;&nbsp; <span class="res">x = −5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">4(5 − x) − 3(2x − 4) = −1</div>
+      <div class="line">20 − 4x − 6x + 12 = −1 &nbsp;&rArr;&nbsp; 32 − 10x = −1</div>
+      <div class="line">−10x = −33 &nbsp;&rArr;&nbsp; <span class="res">x = 3,3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q"><span class="frac"><span class="n">x</span><span class="d">3</span></span> − 6 = −x + 1</div>
+      <div class="line">| · 3: &nbsp; x − 18 = −3x + 3 &nbsp;&rArr;&nbsp; 4x = 21 &nbsp;&rArr;&nbsp; <span class="res">x = 5,25</span></div>
+    </div>
+    <div class="ex">
+      <div class="q"><span class="frac"><span class="n">2x − 1</span><span class="d">3</span></span> = <span class="frac"><span class="n">x + 4</span><span class="d">2</span></span> − 1</div>
+      <div class="line">| · 6: &nbsp; 2(2x − 1) = 3(x + 4) − 6 &nbsp;&rArr;&nbsp; 4x − 2 = 3x + 6 &nbsp;&rArr;&nbsp; <span class="res">x = 8</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Žodiniai -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Žodiniai uždaviniai (sprendimas lygtimi)</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">Į tris lentynas sudėta 157 knygos: pirmoje 8 knygomis mažiau negu antroje, trečioje 5 daugiau negu pirmoje. Kiek knygų antroje lentynoje?</div>
+      <div class="line">Antra: <em class="v">x</em>; pirma: x − 8; trečia: (x − 8) + 5 = x − 3.</div>
+      <div class="line">(x − 8) + x + (x − 3) = 157 &nbsp;&rArr;&nbsp; 3x − 11 = 157 &nbsp;&rArr;&nbsp; 3x = 168 &nbsp;&rArr;&nbsp; x = 56.</div>
+      <div class="line"><b>Ats.:</b> antroje <span class="res">56 knygos</span> (pirmoje 48, trečioje 53).</div>
+    </div>
+    <div class="ex">
+      <div class="q">72 mokiniai suskirstyti į tris grupes: pirmoje 2 kartus mažiau negu antroje, trečioje 12 daugiau negu pirmoje. Kiek mokinių antroje grupėje?</div>
+      <div class="line">Antra: <em class="v">x</em>; pirma: <span class="frac"><span class="n">x</span><span class="d">2</span></span>; trečia: <span class="frac"><span class="n">x</span><span class="d">2</span></span> + 12.</div>
+      <div class="line"><span class="frac"><span class="n">x</span><span class="d">2</span></span> + x + <span class="frac"><span class="n">x</span><span class="d">2</span></span> + 12 = 72 &nbsp;&rArr;&nbsp; 2x + 12 = 72 &nbsp;&rArr;&nbsp; 2x = 60 &nbsp;&rArr;&nbsp; x = 30.</div>
+      <div class="line"><b>Ats.:</b> antroje <span class="res">30 mokinių</span> (pirmoje 15, trečioje 27).</div>
+    </div>
+    <div class="ex">
+      <div class="q">Baravykai sudėti į tris krepšius: pirmame dvigubai daugiau negu antrame, trečiame 7 daugiau negu antrame. Kiek iš viso, jei pirmame 8 daugiau negu trečiame?</div>
+      <div class="line">Antra: <em class="v">x</em>; pirma: 2x; trečia: x + 7. Kadangi pirmame 8 daugiau negu trečiame:</div>
+      <div class="line">2x = (x + 7) + 8 &nbsp;&rArr;&nbsp; 2x = x + 15 &nbsp;&rArr;&nbsp; x = 15.</div>
+      <div class="line">Iš viso: 2·15 + 15 + (15 + 7) = 30 + 15 + 22 = <span class="res">67 baravykai</span>.</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> spręsk žingsnis po žingsnio, o gautą <em class="v">x</em> įrašyk į pradinę lygtį patikrinimui. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Lygtys</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>x + 7 = −2</li>
+        <li>−4x = 12</li>
+        <li><span class="frac"><span class="n">x</span><span class="d">5</span></span> = −3</li>
+        <li>5x − 3 = 2x + 9</li>
+        <li>7x + 4 = 3x − 8</li>
+        <li>3(x + 4) = −6</li>
+        <li>2(7 − x) = 20</li>
+        <li>4(x − 1) − 2(x + 3) = −4</li>
+        <li><span class="frac"><span class="n">x − 1</span><span class="d">2</span></span> = 4</li>
+        <li><span class="frac"><span class="n">2x − 3</span><span class="d">4</span></span> = 2</li>
+        <li><span class="frac"><span class="n">x</span><span class="d">3</span></span> − 2 = −x + 6</li>
+        <li>1,2x − 3 = 0,6</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai</div>
+    <ol class="tasks" start="13">
+      <li>Į tris dėžes sudėta 144 obuoliai: pirmoje 5 obuoliais mažiau negu antroje, o trečioje 4 obuoliais daugiau negu pirmoje. Kiek obuolių antroje dėžėje?</li>
+      <li>Stovykloje 90 vaikų suskirstyti į tris būrius: pirmame 2 kartus mažiau negu antrame, o trečiame 6 vaikais daugiau negu pirmame. Kiek vaikų antrame būryje?</li>
+      <li>Monika baravykus sudėjo į tris krepšius: pirmame dvigubai daugiau negu antrame, o trečiame 5 baravykais daugiau negu antrame. Kiek iš viso baravykų surinko Monika, jei pirmame krepšyje buvo 6 baravykais daugiau negu trečiame?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai (savikontrolei)</h3>
+  <div class="row"><b>1.</b> x = −9 &nbsp;·&nbsp; <b>2.</b> x = −3 &nbsp;·&nbsp; <b>3.</b> x = −15 &nbsp;·&nbsp; <b>4.</b> x = 4 &nbsp;·&nbsp; <b>5.</b> x = −3 &nbsp;·&nbsp; <b>6.</b> x = −6</div>
+  <div class="row"><b>7.</b> x = −3 &nbsp;·&nbsp; <b>8.</b> x = 3 &nbsp;·&nbsp; <b>9.</b> x = 9 &nbsp;·&nbsp; <b>10.</b> x = 5,5 &nbsp;·&nbsp; <b>11.</b> x = 6 &nbsp;·&nbsp; <b>12.</b> x = 3</div>
+  <div class="row"><b>13.</b> antroje dėžėje 50 obuolių &nbsp;·&nbsp; <b>14.</b> antrame būryje 42 vaikai &nbsp;·&nbsp; <b>15.</b> iš viso 49 baravykai</div>
+</div>
+
+<div class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · tema „Tiesinės lygtys" (8.2)</div>
+
+</body>
+</html>
