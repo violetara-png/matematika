@@ -283,7 +283,12 @@ function b64utf8(s){
 }
 // Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
 function normalize(s){
-  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
   if(!/^[+-]/.test(s)) s='+'+s;
