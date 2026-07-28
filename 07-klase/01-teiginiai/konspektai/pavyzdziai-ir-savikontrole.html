@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Teiginiai ir įrodymai — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Teiginiai ir įrodymai — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Geometrijos pradmenys · teiginiai, aksioma, apibrėžimas, teorema, įrodymas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Teiginys ar ne? Teisingas ar klaidingas?</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> teiginys yra tvirtinimas, apie kurį galima pasakyti, kad jis <b>teisingas</b> arba <b>klaidingas</b>. Klausimai, prašymai ir nuomonės („gražesnis“, „įdomi“) NĖRA teiginiai, nes apie juos negalima pasakyti T ar K.</div>
+    <div class="ex">
+      <div class="q">Sakinys: „−2 &lt; 5“</div>
+      <div class="line">Galima pasakyti, ar tiesa? Taip. &nbsp;&rArr;&nbsp; <span class="res">teiginys, teisingas</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Sakinys: „Kvadratas turi 6 viršūnes“</div>
+      <div class="line">Galima pasakyti, ar tiesa? Taip, bet kvadratas turi 4 viršūnes. &nbsp;&rArr;&nbsp; <span class="res">teiginys, klaidingas</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Sakinys: „Ši knyga įdomi“</div>
+      <div class="line">Tai nuomonė, negalima vienareikšmiai pasakyti T ar K. &nbsp;&rArr;&nbsp; <span class="res">ne teiginys</span> &nbsp;<span class="muted2">(nuomonė)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sąlyga, išvada, atvirkštinis teiginys</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> teiginyje „<b>jei</b> …, <b>tai</b> …“ dalis po žodžio „jei“ yra <b>sąlyga</b>, o dalis po žodžio „tai“ yra <b>išvada</b>. Atvirkštinį teiginį gauname sukeitę sąlygą ir išvadą vietomis. Dėmesio: net teisingo teiginio atvirkštinis nebūtinai teisingas.</div>
+    <div class="ex">
+      <div class="q">Teiginys: „Jei skaičius dalijasi iš 6, tai jis dalijasi iš 3.“</div>
+      <div class="line">Sąlyga (po „jei“) &nbsp;&rArr;&nbsp; <span class="res">skaičius dalijasi iš 6</span></div>
+      <div class="line">Išvada (po „tai“) &nbsp;&rArr;&nbsp; <span class="res">jis dalijasi iš 3</span></div>
+      <div class="line">Atvirkštinis &nbsp;&rArr;&nbsp; <span class="res">„Jei skaičius dalijasi iš 3, tai jis dalijasi iš 6.“</span></div>
+      <div class="line">Ar atvirkštinis teisingas? &nbsp;&rArr;&nbsp; <span class="res">Ne</span> &nbsp;<span class="muted2">(9 dalijasi iš 3, bet ne iš 6)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Aksioma, apibrėžimas, teorema</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> <b>aksioma</b> priimama teisinga be įrodymo (akivaizdi tiesa); <b>apibrėžimas</b> tiksliai apibūdina sąvoką; <b>teorema</b> yra teiginys, kurio teisingumu reikia įsitikinti (įrodyti). Pirminės (neapibrėžiamos) sąvokos: taškas, tiesė, plokštuma.</div>
+    <div class="ex">
+      <div class="q">„Per du taškus galima nubrėžti tik vieną tiesę.“</div>
+      <div class="line">Priimama be įrodymo. &nbsp;&rArr;&nbsp; <span class="res">aksioma</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">„Stačiakampis, kurio visos kraštinės lygios, vadinamas kvadratu.“</div>
+      <div class="line">Tiksliai apibūdina sąvoką. &nbsp;&rArr;&nbsp; <span class="res">apibrėžimas</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">„Keturkampio kampų dydžių suma lygi 360°.“</div>
+      <div class="line">Teisingumu reikia įsitikinti (įrodyti). &nbsp;&rArr;&nbsp; <span class="res">teorema</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Įrodymas: keturkampio kampų suma 360°</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> įrodymas remiasi <b>loginiais samprotavimais</b> (ne brėžiniu ir ne matavimu). Užrašome <b>Duota</b> (sąlyga) ir <b>Įrodyti</b> (išvada).</div>
+    <div class="ex">
+      <div class="q">Įrodyti, kad keturkampio kampų dydžių suma lygi 360°.</div>
+      <div class="line"><b>Duota:</b> keturkampis su viršūnėmis A, B, C, D.</div>
+      <div class="line"><b>Įrodyti:</b> ∠A + ∠B + ∠C + ∠D = 360°.</div>
+      <div class="line">1 žingsnis. Nubrėžiame įstrižainę AC. Ji padalija keturkampį į du trikampius: ABC ir ACD.</div>
+      <div class="line">2 žingsnis. Kiekvieno trikampio kampų dydžių suma lygi 180°.</div>
+      <div class="line">3 žingsnis. Abiejų trikampių kampai kartu sudaro visus keturkampio kampus.</div>
+      <div class="line">Todėl 180° + 180° &nbsp;&rArr;&nbsp; <span class="res">360°</span> &nbsp;<span class="muted2">(ką ir reikėjo įrodyti)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> prisimink, kad teiginys — tai sakinys, apie kurį galima pasakyti T ar K. Sąlyga eina po „jei“, išvada po „tai“. Skirk aksiomą (be įrodymo), apibrėžimą (apibūdina sąvoką) ir teoremą (reikia įrodyti). Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Ar teiginys? Jei taip — teisingas (T) ar klaidingas (K)?</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>„Skaičius 15 dalijasi iš 3.“</li>
+        <li>„Ši užduotis sunki.“</li>
+        <li>„Trikampis turi 3 viršūnes.“</li>
+        <li>„5 yra didesnis už 9.“</li>
+        <li>„Nubrėžk atkarpą.“</li>
+        <li>„Kvadratas yra stačiakampis.“</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Sąlyga, išvada, atvirkštinis teiginys</div>
+    <div style="margin:2px 0 4px">Teiginys: „Jei skaičius dalijasi iš 10, tai jis dalijasi iš 5.“</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Nurodyk sąlygą.</li>
+        <li>Nurodyk išvadą.</li>
+        <li>Užrašyk atvirkštinį teiginį.</li>
+        <li>Ar atvirkštinis teiginys teisingas?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Klasifikuok (aksioma / apibrėžimas / teorema): a) „Per du taškus galima nubrėžti tik vieną tiesę.“ &nbsp; b) „Trikampio kampų dydžių suma lygi 180°.“ &nbsp; c) „Lygiakraštis trikampis — trikampis, kurio visos kraštinės lygios.“</li>
+      <li>Trikampio du kampai lygūs 45° ir 85°. Rask trečią kampą ir nurodyk, kokia teorema naudojiesi.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> teiginys, T &nbsp;&nbsp; <b>2.</b> ne teiginys (nuomonė) &nbsp;&nbsp; <b>3.</b> teiginys, T &nbsp;&nbsp; <b>4.</b> teiginys, K</div>
+    <div class="row"><b>5.</b> ne teiginys (prašymas) &nbsp;&nbsp; <b>6.</b> teiginys, T</div>
+    <div class="row"><b>7.</b> skaičius dalijasi iš 10 &nbsp;&nbsp; <b>8.</b> jis dalijasi iš 5</div>
+    <div class="row"><b>9.</b> „Jei skaičius dalijasi iš 5, tai jis dalijasi iš 10.“ &nbsp;&nbsp; <b>10.</b> Ne (15 dalijasi iš 5, bet ne iš 10)</div>
+    <div class="row"><b>11.</b> a) aksioma; &nbsp; b) teorema; &nbsp; c) apibrėžimas</div>
+    <div class="row"><b>12.</b> 180° − 45° − 85° = <span class="res">50°</span>; teorema „trikampio kampų dydžių suma lygi 180°“</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Teiginiai ir įrodymai“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
