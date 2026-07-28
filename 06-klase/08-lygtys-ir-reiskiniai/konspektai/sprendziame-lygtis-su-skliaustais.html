@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lygtys su skliaustais — konspektas</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:23pt;margin:0 0 6px;font-weight:800;letter-spacing:.2px;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .intro{background:var(--lav);border-radius:12px;padding:16px 20px;margin-bottom:22px;border:1px solid #dfe4f6;}
+  .intro h2{color:var(--blue);font-size:9.5pt;letter-spacing:1.2px;text-transform:uppercase;margin:0 0 8px;font-weight:800;}
+  .intro ol{margin:0;padding-left:22px;}
+  .intro li{margin:3px 0;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:20px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:11px 18px;font-weight:700;font-size:12.6pt;
+          display:flex;align-items:center;gap:12px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:10pt;font-weight:800;}
+  .body{padding:16px 18px;}
+  .box{border-radius:10px;padding:12px 15px;margin:0 0 12px;}
+  .box:last-child{margin-bottom:0;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);}
+  .green b.kw{color:var(--green-tx);}
+  .note{background:#fff7ea;border-left:4px solid var(--orange-bd);padding:9px 13px;border-radius:8px;margin-top:10px;font-size:10.6pt;}
+  .note b{color:var(--orange-tx);}
+  .formula{border:1.6px dashed #9aa9c9;border-radius:10px;text-align:center;padding:11px 10px;margin:12px 0;font-size:13pt;color:var(--blue);font-weight:700;background:#fbfcfe;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;padding:11px 15px;}
+  .ex .h{color:var(--orange-tx);font-weight:800;margin-bottom:6px;}
+  .ex .line{margin:4px 0;font-size:11pt;}
+  .warn{background:var(--red-bg);border-left:5px solid var(--red-bd);border-radius:10px;padding:11px 15px;}
+  .warn b.t{color:var(--red-tx);}
+  .res{color:var(--green-tx);font-weight:800;}
+  .op{color:var(--blue);font-weight:700;}
+  table{border-collapse:collapse;width:100%;margin:4px 0 2px;font-size:10.8pt;}
+  th{background:var(--tblh);color:var(--blue);border:1px solid #cdd5ea;padding:8px 10px;font-weight:700;}
+  td{border:1px solid var(--bd);padding:8px 10px;vertical-align:middle;}
+  .err{color:var(--red-tx);text-decoration:line-through;}
+  .ok{color:var(--green-tx);font-weight:700;}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;vertical-align:middle;margin:0 .12em;line-height:1.02;font-size:.94em;}
+  .frac>.n{padding:0 .4em 1px;border-bottom:2px solid currentColor;}
+  .frac>.d{padding:1px .4em 0;}
+  .cols{display:flex;gap:12px;flex-wrap:wrap;}
+  .cols .box{flex:1;min-width:240px;margin:0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .steps{margin:6px 0 0;padding-left:20px;}
+  .steps li{margin:3px 0;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Lygtys su skliaustais</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 8.2.3 tema · lygčių sprendimas</p>
+
+<div class="intro">
+  <h2>Ką išmoksi šioje pamokoje</h2>
+  <ol>
+    <li>Du būdai spręsti lygtį su skliaustais</li>
+    <li>I būdas — atskleidžiame skliaustus</li>
+    <li>II būdas — dalijame abi puses iš skaičiaus prieš skliaustus</li>
+    <li>Kai skliaustai yra abiejose lygties pusėse</li>
+    <li>Lygtys su trupmenomis (naikiname vardiklius)</li>
+    <li>Kaip iš sakinio sudaryti lygtį su skliaustais</li>
+    <li>Dažniausios klaidos</li>
+  </ol>
+</div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Du būdai spręsti lygtį su skliaustais</div>
+  <div class="body">
+    <div class="box green">
+      Lygtį, kurioje yra <b>skliaustai</b>, galima spręsti <b class="kw">dviem būdais</b>:
+      <ol class="steps">
+        <li><b>I būdas.</b> <b>Atskleidžiame skliaustus</b> (kiekvieną skliaustų narį dauginame iš daugiklio) ir sprendžiame įprastą lygtį.</li>
+        <li><b>II būdas.</b> Jei prieš skliaustus yra <b>skaičius</b>, galime iš karto <b>abi puses padalyti</b> iš to skaičiaus — skliaustų nebeliks.</li>
+      </ol>
+      <div class="note"><b>Kaip pasirinkti?</b> Jei dešinioji pusė gerai dalijasi iš skaičiaus prieš skliaustus — patogesnis II būdas. Kitu atveju renkamės I būdą.</div>
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdys. Tą pačią lygtį du būdai:</div>
+      <div class="line math"><b>I būdas.</b> 2·(3 + x) = −4 &nbsp;&rArr;&nbsp; 6 + 2x = −4 &nbsp;<span class="op">| − 6</span>&nbsp; &rArr; &nbsp;2x = −10 &nbsp;<span class="op">| : 2</span>&nbsp; &rArr; &nbsp;<span class="res">x = −5</span></div>
+      <div class="line math"><b>II būdas.</b> 2·(3 + x) = −4 &nbsp;<span class="op">| : 2</span>&nbsp; &rArr; &nbsp;3 + x = −2 &nbsp;<span class="op">| − 3</span>&nbsp; &rArr; &nbsp;<span class="res">x = −5</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> I būdas — atskleidžiame skliaustus</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Planas:</b>
+      <ol class="steps">
+        <li>Atskleidžiame visus skliaustus (daugybos skirstomumo dėsnis: kiekvieną narį daugini iš daugiklio).</li>
+        <li>Sutraukiame panašiuosius narius.</li>
+        <li>Narius su <em class="v">x</em> perkeliame į vieną pusę, skaičius — į kitą (keisdami ženklą).</li>
+        <li>Dalijame iš koeficiento prie <em class="v">x</em>.</li>
+      </ol>
+    </div>
+    <div class="formula math">a · (b + c) = a·b + a·c &nbsp;&nbsp;&nbsp; a · (b − c) = a·b − a·c</div>
+    <div class="ex">
+      <div class="h">Pavyzdys.</div>
+      <div class="line math">4·(5 − x) − 3·(2x − 4) = −1</div>
+      <div class="line math">20 − 4x − 6x + 12 = −1 &nbsp;<span class="muted2">(atskleidėme skliaustus)</span></div>
+      <div class="line math">−10x + 32 = −1 &nbsp;<span class="op">| − 32</span>&nbsp; &rArr; &nbsp;−10x = −33 &nbsp;<span class="op">| : (−10)</span></div>
+      <div class="line math">&rArr;&nbsp; <span class="res">x = 3,3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> II būdas — dalijame abi puses iš skaičiaus prieš skliaustus</div>
+  <div class="body">
+    <div class="box green">
+      Jei lygtis yra formos <b class="math">skaičius · (skliaustai) = skaičius</b>, tai <b class="kw">abi puses dalijame</b> iš skaičiaus, esančio prieš skliaustus. Tada lieka paprasta lygtis be skliaustų.
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdžiai.</div>
+      <div class="line math">(3 − x)·(−2) = −8 &nbsp;<span class="op">| : (−2)</span>&nbsp; &rArr; &nbsp;3 − x = 4 &nbsp;&rArr;&nbsp; −x = 1 &nbsp;&rArr;&nbsp; <span class="res">x = −1</span></div>
+      <div class="line math">(2x − 5)·3 = −3 &nbsp;<span class="op">| : 3</span>&nbsp; &rArr; &nbsp;2x − 5 = −1 &nbsp;&rArr;&nbsp; 2x = 4 &nbsp;&rArr;&nbsp; <span class="res">x = 2</span></div>
+    </div>
+    <div class="note"><b>Atsargiai su ženklu!</b> Dalijant iš neigiamo skaičiaus, dešinės pusės ženklas pasikeičia: −8 : (−2) = 4.</div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Skliaustai abiejose lygties pusėse</div>
+  <div class="body">
+    <div class="box green">
+      Kai skliaustai yra <b>ir kairėje, ir dešinėje</b> pusėje, pirmiausia <b class="kw">atskleidžiame visus skliaustus</b>, o tik paskui perkeliame narius.
+    </div>
+    <div class="formula math">Minusas prieš skliaustus keičia <span class="res">visų</span> narių ženklus: −(3x − 3) = −3x + 3</div>
+    <div class="ex">
+      <div class="h">Pavyzdžiai.</div>
+      <div class="line math">−(3x − 3) = 1 − (4x − 4)</div>
+      <div class="line math">−3x + 3 = 1 − 4x + 4 &nbsp;&rArr;&nbsp; −3x + 3 = −4x + 5</div>
+      <div class="line math">−3x + 4x = 5 − 3 &nbsp;&rArr;&nbsp; x = 2 &nbsp;&rArr;&nbsp; <span class="res">x = 2</span></div>
+      <div class="line math" style="margin-top:8px">x − 1 − (x − 3) = −4 − (x − 2)</div>
+      <div class="line math">x − 1 − x + 3 = −4 − x + 2 &nbsp;&rArr;&nbsp; 2 = −2 − x &nbsp;&rArr;&nbsp; <span class="res">x = −4</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Lygtys su trupmenomis</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Tvarka:</b>
+      <ol class="steps">
+        <li>Abi puses padauginame iš <b>bendrojo mažiausio vardiklio</b> — trupmenų nebeliks.</li>
+        <li>Atskleidžiame skliaustus (jei atsirado) ir sutraukiame panašiuosius.</li>
+        <li>Perkeliame narius ir randame <em class="v">x</em>.</li>
+      </ol>
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdžiai.</div>
+      <div class="line math"><span class="frac"><span class="n">x</span><span class="d">3</span></span> − 6 = −x + 1 &nbsp;<span class="op">| · 3</span>&nbsp; &rArr; &nbsp;x − 18 = −3x + 3 &nbsp;&rArr;&nbsp; 4x = 21 &nbsp;&rArr;&nbsp; <span class="res">x = 5<span class="frac"><span class="n">1</span><span class="d">4</span></span></span> = 5,25</div>
+      <div class="line math"><span class="frac"><span class="n">2x − 1</span><span class="d">3</span></span> = <span class="frac"><span class="n">2 + x</span><span class="d">2</span></span> − 1 &nbsp;<span class="op">| · 6</span>&nbsp; &rArr; &nbsp;2·(2x − 1) = 3·(2 + x) − 6</div>
+      <div class="line math">4x − 2 = 6 + 3x − 6 &nbsp;&rArr;&nbsp; 4x − 2 = 3x &nbsp;&rArr;&nbsp; <span class="res">x = 2</span></div>
+    </div>
+    <div class="note"><b>Bendrasis vardiklis</b> — mažiausias skaičius, kuris dalijasi iš visų vardiklių. Trupmenoms su vardikliais 3 ir 2 tai yra 6.</div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Žodinio uždavinio sprendimas lygtimi</div>
+  <div class="body">
+    <div class="box green">
+      <b class="kw">Kelias:</b> nežinomą dydį žymime <em class="v">x</em> &rarr; pagal sąlygą sudarome lygtį (dažnai su <b>skliaustais</b>) &rarr; išsprendžiame &rarr; atsakome į klausimą.
+    </div>
+    <div class="ex">
+      <div class="h">Pavyzdys.</div>
+      <div class="line">Sumanytą skaičių padidinus 5 ir gautą sumą padauginus iš 3, gauta 12. Koks skaičius sumanytas?</div>
+      <div class="line math">3·(x + 5) = 12 &nbsp;<span class="op">| : 3</span>&nbsp; &rArr; &nbsp;x + 5 = 4 &nbsp;&rArr;&nbsp; x = −1.</div>
+      <div class="line"><b>Atsakymas:</b> sumanytas skaičius <span class="res">−1</span> &nbsp;<span class="muted2">(patikra: 3·(−1 + 5) = 3·4 = 12)</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="card">
+  <div class="banner"><span class="badge">7</span> Dažniausios klaidos</div>
+  <div class="body">
+    <table>
+      <tr><th style="width:50%">Klaida</th><th>Teisingai</th></tr>
+      <tr><td class="math"><span class="err">2·(3 + x) = 6 + x</span></td><td class="math"><span class="ok">6 + 2x</span> &nbsp;(daugini kiekvieną narį)</td></tr>
+      <tr><td class="math"><span class="err">−(3x − 3) = −3x − 3</span></td><td class="math"><span class="ok">−3x + 3</span> &nbsp;(keiti visų ženklus)</td></tr>
+      <tr><td class="math"><span class="err">−8 : (−2) = −4</span></td><td class="math"><span class="ok">4</span> &nbsp;((−):(−) = +)</td></tr>
+      <tr><td class="math"><span class="err"><span class="frac"><span class="n">x</span><span class="d">3</span></span> − 6 = −x &nbsp;&rArr;&nbsp; x − 6 = −3x</span></td><td class="math"><span class="ok">x − 18 = −3x</span> &nbsp;(daugini <b>kiekvieną</b> narį iš 3)</td></tr>
+    </table>
+    <div class="box warn" style="margin-top:12px"><b class="t">Auksinė taisyklė.</b> Atskleisdamas skliaustus — <b>daugink kiekvieną</b> narį; minusą prieš skliaustus — <b>keisk visų ženklus</b>; perkeldamas narį — <b>keisk jo ženklą</b>. Visada <b>pasitikrink</b> įrašydamas rastą <em class="v">x</em> į pradinę lygtį.</div>
+  </div>
+</div>
+
+<div class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · tema „Sprendžiame lygtis su skliaustais" (8.2.3)</div>
+
+</body>
+</html>

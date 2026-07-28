@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raidinio reiškinio koeficientas — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Raidinio reiškinio koeficientas</h1>
+  <p class="klase">Matematika · 6 klasė · 8.1.1 tema · reiškiniai ir lygtys</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra koeficientas</a></li>
+      <li><a href="#t2">Kaip rasti koeficientą</a></li>
+      <li><a href="#t3">Koeficientai 1 ir −1</a></li>
+      <li><a href="#t4">Kai reiškinyje yra dalyba</a></li>
+      <li><a href="#t5">Koeficientų palyginimas ir ryšiai</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra koeficientas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Sandaugoje dažnai yra ir <b>raidinių</b>, ir <b>skaitinių</b> dauginamųjų. Skaitinius sudauginę, gauname <b>vieną skaitinį dauginamąjį</b>, kuris rašomas <b>priekyje</b>.</p>
+        <p><span class="zenk">Koeficientas</span> — tai skaitinis dauginamasis raidinio reiškinio priekyje.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Reiškinyje <span class="math">−8ab</span> koeficientas yra <span class="gerai">−8</span>, o raidinė dalis — <span class="math">ab</span>. Reiškinyje <span class="math">12x</span> koeficientas yra <span class="gerai">12</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Kaip rasti koeficientą</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Naudojamės daugybos perstatomumo ir jungiamumo dėsniais:</span> dauginamuosius perstatome ir sugrupuojame taip, kad <b>pirmiausia būtų skaitiniai</b>, o po jų — <b>raidiniai</b>. Skaitinius sudauginame — tai ir yra koeficientas.</p>
+        <div class="formule math"><span class="term-a">3</span> · a · <span class="term-a">(−4)</span> · <span class="term-a">⅔</span> · b = <span class="term-a">3 · ⅔ · (−4)</span> · a · b = <span class="gerai">−8ab</span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">6 · a · (−2,5) · a = 6 · (−2,5) · a · a = <span class="gerai">−15a²</span></span> &nbsp;<span class="term-a">(koeficientas −15)</span><br>
+        <span class="math">3a · 7 = 3 · 7 · a = <span class="gerai">21a</span></span> &nbsp;<span class="term-a">(koeficientas 21)</span><br>
+        <span class="math">c · (−3) · (−8) = (−3)·(−8) · c = <span class="gerai">24c</span></span> &nbsp;<span class="term-a">(koeficientas 24)</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Sudaugindami skaičius, taikome <b>ženklų daugybos taisyklę</b>: <span class="math">(−)·(−)=+</span>, <span class="math">(−)·(+)=−</span>. Todėl du minusai duoda teigiamą koeficientą.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Koeficientai 1 ir −1</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Yra du ypatingi koeficientai, kurie <b>nerašomi visi</b>:</p>
+        <table class="kort">
+          <tr><th>Koeficientas</th><th>Ką rašome</th><th>Pavyzdys</th></tr>
+          <tr><td><span class="gerai">1</span></td><td>skaičiaus 1 <b>nerašome</b></td><td class="math">1 · a = a &nbsp;&nbsp; mn</td></tr>
+          <tr><td><span class="term-b">−1</span></td><td>rašome tik <b>minuso ženklą</b></td><td class="math">−1 · a = −a &nbsp;&nbsp; −bc</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">−5x · (−0,2y) = (−5) · (−0,2) · x · y = 1 · xy = <span class="gerai">xy</span></span> &nbsp;<span class="term-a">(koeficientas 1)</span><br>
+        <span class="math">−6m · n · ⅙ = −6 · ⅙ · m · n = −1 · mn = <span class="gerai">−mn</span></span> &nbsp;<span class="term-b">(koeficientas −1)</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Reiškinio <span class="math">mn</span> koeficientas nėra „nulis" ir ne „nėra" — jis lygus <b>1</b>. Reiškinio <span class="math">−bc</span> koeficientas lygus <b>−1</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kai reiškinyje yra dalyba</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalybą pakeičiame daugyba</span> iš daliklio <b>atvirkštinio skaičiaus</b>. Tada vėl sudauginame skaitinius dauginamuosius.</p>
+        <div class="formule math">: (−2) &nbsp; = &nbsp; · <span class="term-b">(−½)</span></div>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        <span class="math">4 · (−a) · 0,3 · b : (−2) = 4 · (−a) · 0,3 · b · (−½) = <span class="gerai">0,6ab</span></span> &nbsp;<span class="term-a">(koeficientas 0,6)</span></p>
+        <p>Skaitiniai: <span class="math">4 · 0,3 · (−1) · (−½) = 0,6</span> &nbsp;(minusas iš <span class="math">−a</span> ir minusas iš <span class="math">−½</span> duoda pliusą).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Koeficientų palyginimas ir ryšiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Koeficientus galima <b>palyginti</b> kaip įprastus skaičius: rasti didžiausią, mažiausią, teigiamą ar neigiamą.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Reiškinių <span class="math">−8ab</span>, <span class="math">5xy</span>, <span class="math">−15a²</span>, <span class="math">0,6ab</span> koeficientai yra <span class="math">−8; 5; −15; 0,6</span>.<br>
+        Didžiausias — <span class="gerai">5</span>, mažiausias — <span class="term-b">−15</span>, teigiami — <span class="math">5</span> ir <span class="math">0,6</span>.</p>
+        <table class="kort">
+          <tr><th>Ryšys</th><th>Kada</th><th>Pavyzdys</th></tr>
+          <tr><td><b>lygūs</b></td><td>koeficientai vienodi</td><td class="math">7a ir 7b → 7 ir 7</td></tr>
+          <tr><td><b>priešingi</b></td><td>skiriasi tik ženklu</td><td class="math">−5a ir 5b → −5 ir 5</td></tr>
+          <tr><td><b>atvirkštiniai</b></td><td>sandauga lygi 1</td><td class="math">¼x ir 4y → ¼ ir 4</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">mn koeficientas = 0</span></td><td class="math"><span class="gerai">mn koeficientas = 1</span></td></tr>
+          <tr><td class="math"><span class="klaida">−bc koeficientas = 1</span></td><td class="math"><span class="gerai">−bc koeficientas = −1</span></td></tr>
+          <tr><td class="math"><span class="klaida">5a · 2a = 10a</span></td><td class="math"><span class="gerai">10a²</span> (a · a = a²)</td></tr>
+          <tr><td class="math"><span class="klaida">c · (−3) · (−8) = −24c</span></td><td class="math"><span class="gerai">24c</span> ((−)·(−)=+)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirma sudauginu <b>visus skaičius</b> (stebėdamas ženklus), tada užrašau <b>raides</b>. Koeficientą 1 praleidžiu, o koeficientą −1 rašau tik minuso ženklu.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Raidinio reiškinio koeficientas“ (8.1.1)
+  </footer>
+
+</div>
+</body>
+</html>

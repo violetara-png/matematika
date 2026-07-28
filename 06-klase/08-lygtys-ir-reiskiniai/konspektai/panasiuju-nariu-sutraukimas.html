@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panašiųjų narių sutraukimas — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .pabr-x{border-bottom:2px solid var(--tema); padding-bottom:1px}
+  .pabr-y{border-bottom:2px dashed var(--demesio); padding-bottom:1px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Panašiųjų narių sutraukimas</h1>
+  <p class="klase">Matematika · 6 klasė · 8.1.2 tema · reiškinių prastinimas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra panašieji nariai</a></li>
+      <li><a href="#t2">Kaip sutraukti panašiuosius narius</a></li>
+      <li><a href="#t3">Keli teigiami ir keli neigiami nariai</a></li>
+      <li><a href="#t4">Kai reiškinyje keli kintamieji</a></li>
+      <li><a href="#t5">Laipsniai ir dešimtainiai koeficientai</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra panašieji nariai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Panašieji nariai</span> — tai reiškinio dėmenys (arba turiniai, atėminiai), kurie turi <b>vienodą raidinę dalį</b>.</p>
+        <p>Pavyzdžiui, <span class="math">−8a</span> ir <span class="math">15a</span> yra panašieji nariai — abu turi tą pačią raidinę dalį <span class="math">a</span>. Skaičius prieš raidę vadinamas <b>koeficientu</b> (čia <span class="math">−8</span> ir <span class="math">15</span>).</p>
+        <p class="pvz"><b>Panašūs:</b> <span class="math">5x</span> ir <span class="math">−2x</span>; &nbsp; <span class="math">3ab</span> ir <span class="math">7ab</span>. &nbsp; <b>Nepanašūs:</b> <span class="math">3a</span> ir <span class="math">5b</span> (skirtingos raidės); &nbsp; <span class="math">4x</span> ir <span class="math">4x²</span> (skirtingi laipsniai).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Kaip sutraukti panašiuosius narius</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Panašiuosius narius galima <b>sutraukti</b> į vieną narį. Naudojamės daugybos skirstomumo dėsniu „atbulai" — iškeliame bendrą raidinę dalį:</p>
+        <div class="formule math"><b>Suma:</b> &nbsp; <span class="term-b">−8a</span> + <span class="term-b">15a</span> = (−8 + 15)·<span class="math">a</span> = <span class="gerai">7a</span></div>
+        <div class="formule math"><b>Skirtumas:</b> &nbsp; <span class="term-b">−8a</span> − <span class="term-b">15a</span> = (−8 − 15)·<span class="math">a</span> = <span class="gerai">−23a</span></div>
+        <p><span class="zenk">Taisyklė.</span> Sudėdami (atimdami) panašiuosius narius, <b>sudedame (atimame) jų koeficientus</b>, o <b>raidinę dalį paliekame tą pačią</b>. Sakoma, kad panašiuosius narius <b>sutraukėme</b>.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">7a + 4a = <span class="gerai">11a</span></span> &nbsp;·&nbsp; <span class="math">9a − 7a = <span class="gerai">2a</span></span><br>
+        <span class="math">10a − 12a = <span class="gerai">−2a</span></span> &nbsp;·&nbsp; <span class="math">−6a + a = <span class="gerai">−5a</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Kai raidė parašyta be skaičiaus, jos koeficientas yra <b>1</b>: <span class="math">a = 1a</span>. Todėl <span class="math">−6a + a = −6a + 1a = −5a</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Keli teigiami ir keli neigiami nariai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai reiškinyje yra keli teigiami ir keli neigiami panašieji nariai, patogu <b>atskirai sudėti teigiamuosius</b>, atskirai — <b>neigiamuosius</b>, o gale juos sutraukti:</p>
+        <div class="formule math">5x − 12x + 4x + 10x − 8x = (5x + 4x + 10x) + (−12x − 8x) = 19x + (−20x) = <span class="gerai">−x</span></div>
+        <p class="pvz"><b>Dar pavyzdžiai.</b><br>
+        <span class="math">13x + 5x − 8x = <span class="gerai">10x</span></span> &nbsp;·&nbsp; <span class="math">4x − 10x + 7x = <span class="gerai">x</span></span> &nbsp;·&nbsp; <span class="math">6x − x − 11x = <span class="gerai">−6x</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kai reiškinyje keli kintamieji</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai reiškinyje yra daugiau nei vienas kintamasis, panašiuosius narius patogu <b>pabraukti skirtingais brūkšneliais</b> ir sutraukti kiekvieną grupę atskirai.</p>
+        <div class="formule math">
+          <span class="pabr-x">−2x</span> + <span class="pabr-y">4y</span> + <span class="pabr-x">7x</span> − <span class="pabr-y">9y</span> − <span class="pabr-x">8x</span> + <span class="pabr-y">y</span> = (−2x + 7x − 8x) + (4y − 9y + y) = <span class="gerai">−3x − 4y</span>
+        </div>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        <span class="math">12a − 10b − 6a − 7a − 5b + 16b = (12a − 6a − 7a) + (−10b − 5b + 16b) = <span class="gerai">−a + b</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Nariai su <b>skirtingomis raidėmis</b> nesutraukiami: <span class="math">−3x</span> ir <span class="math">−4y</span> lieka atskirai. Atsakyme jie tiesiog užrašomi vienas šalia kito.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Laipsniai ir dešimtainiai koeficientai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Panašieji nariai gali turėti ir <b>laipsnius</b>. Sutraukiami tik tie, kurių raidinė dalis <b>visiškai vienoda</b> (ir raidė, ir laipsnis):</p>
+        <div class="formule math">2a² − 5a² + 7a² = (2 − 5 + 7)·a² = <span class="gerai">4a²</span></div>
+        <p>Koeficientai gali būti ir <b>dešimtainiai</b> ar <b>trupmenos</b>. Skaičiuojame taip pat — sudedame koeficientus, raidę paliekame:</p>
+        <div class="formule math">5,4a − 9,2 − 3,6a + 3,8 = (5,4a − 3,6a) + (−9,2 + 3,8) = <span class="gerai">1,8a − 5,4</span></div>
+        <p class="demesio"><b>Dėmesio.</b> Skaičiai be raidės (<span class="math">−9,2</span> ir <span class="math">3,8</span>) yra tarpusavyje panašieji nariai (laisvieji nariai) — juos irgi sutraukiame atskirai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">5x + 3y = 8xy</span></td><td class="math"><span class="gerai">nesutraukiama</span> (skirtingos raidės)</td></tr>
+          <tr><td class="math"><span class="klaida">2a² + 3a² = 5a⁴</span></td><td class="math"><span class="gerai">5a²</span> (laipsnis nesikeičia)</td></tr>
+          <tr><td class="math"><span class="klaida">−6a + a = −6a</span></td><td class="math"><span class="gerai">−5a</span> (nes a = 1a)</td></tr>
+          <tr><td class="math"><span class="klaida">7a + 4a = 11a²</span></td><td class="math"><span class="gerai">11a</span> (raidė lieka a)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Sudedu tik <b>koeficientus</b>, o <b>raidinę dalį palieku tokią pačią</b>. Skirtingos raidinės dalys — nesutraukiamos.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Panašiųjų narių sutraukimas“ (8.1.2)
+  </footer>
+
+</div>
+</body>
+</html>
