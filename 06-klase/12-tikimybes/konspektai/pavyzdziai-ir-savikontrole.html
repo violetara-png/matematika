@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Tikimybės: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .frac{display:inline-block; vertical-align:middle; text-align:center; margin:0 1px}
+  .frac .n{display:block; padding:0 4px; border-bottom:1.5px solid currentColor; line-height:1.12}
+  .frac .d{display:block; padding:0 4px; line-height:1.12}
+  .ovl{text-decoration:overline}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Tikimybės: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 12 skyrius · galimybės ir įvykio tikimybė</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1: galimybių medis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Galimybių medis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> iš pradžios taško braižomos šakos pirmam pasirinkimui, iš kiekvienos šakos, antram. Kiekvienas kelias, vienas rinkinys.</div>
+    <div class="ex">
+      <div class="q">Metamos dvi monetos (S, skaičius; H, herbas). Surašyk visus rinkinius.</div>
+      <div class="line">Pirmoji: S arba H. Antroji: S arba H.</div>
+      <div class="line">S &rarr; SS, SH &nbsp;·&nbsp; H &rarr; HS, HH &nbsp;&rArr;&nbsp; <span class="res">SS, SH, HS, HH, iš viso 4 rinkiniai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2: galimybių lentelė ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Galimybių lentelė</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> vieno bandymo baigtys, eilutės; kito, stulpeliai. Kiekvienas langelis, vienas rinkinys.</div>
+    <div class="ex">
+      <div class="q">Moneta (S, H) ir kauliukas (1–6). Sudaryk lentelę ir suskaičiuok rinkinius.</div>
+      <table class="mini">
+        <tr><th>&nbsp;</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+        <tr><th>S</th><td>S1</td><td>S2</td><td>S3</td><td>S4</td><td>S5</td><td>S6</td></tr>
+        <tr><th>H</th><td>H1</td><td>H2</td><td>H3</td><td>H4</td><td>H5</td><td>H6</td></tr>
+      </table>
+      <div class="line">Langelių: 2 · 6 &rArr; <span class="res">12 rinkinių</span> &nbsp;<span class="muted2">(tiek pat, kiek ir medyje)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3: daugybos taisyklė ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Daugybos taisyklė</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei pirmo pasirinkimo n galimybių, antro, m galimybių, tai rinkinių yra n · m. Dauginame, kai imame po vieną iš kiekvienos aibės.</div>
+    <div class="ex">
+      <div class="q">Ledai 8 rūšys, kava 4 rūšys. Kiek skirtingų porų?</div>
+      <div class="line">8 · 4 &rArr; <span class="res">32 poros</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek yra dviženklių skaičių?</div>
+      <div class="line">Dešimčių skaitmuo 1–9 (9 galimybės), vienetų 0–9 (10 galimybių): 9 · 10 &rArr; <span class="res">90</span> &nbsp;<span class="muted2">(dešimčių ne 0)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4: įvykis, aibė E ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Įvykis. Elementariųjų įvykių aibė E</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> elementarusis įvykis, tai nebeskaidoma baigtis. Visos jos sudaro aibę E. Įvykiui palankūs tie elementarieji, kuriems įvykus įvyksta ir įvykis.</div>
+    <div class="ex">
+      <div class="q">Metamas kauliukas. Kokia aibė E? Kurie elementarieji palankūs įvykiui „atvirto lyginis“?</div>
+      <div class="line">E = {1, 2, 3, 4, 5, 6}, elementariųjų 6.</div>
+      <div class="line">Palankūs lyginiam: 2, 4, 6 &rArr; <span class="res">jų 3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 5: įvykio tikimybė ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Įvykio tikimybė</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai visos n baigčių vienodai tikėtinos ir įvykiui palankios m iš jų, tai P(A) = <span class="frac math"><span class="n">m</span><span class="d">n</span></span>. Trupmeną sutrauk. Visada 0 ≤ P ≤ 1.</div>
+    <div class="ex">
+      <div class="q">Kauliukas. Rask P(atvirto lyginis).</div>
+      <div class="line">Palankūs 2, 4, 6, taigi m = 3, n = 6: P(A) = <span class="frac"><span class="n">3</span><span class="d">6</span></span> = <span class="res"><span class="frac"><span class="n">1</span><span class="d">2</span></span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kauliukas. Rask P(atvirto daugiau nei 4).</div>
+      <div class="line">Palankūs 5, 6, taigi m = 2, n = 6: P(A) = <span class="frac"><span class="n">2</span><span class="d">6</span></span> = <span class="res"><span class="frac"><span class="n">1</span><span class="d">3</span></span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">P(atvirto 7) ir P(atvirto mažiau nei 7)?</div>
+      <div class="line">„7“ nepalankus nė vienam &rArr; <span class="res">P = 0</span> (negalimasis). „Mažiau nei 7“ palankūs visi &rArr; <span class="res">P = 1</span> (būtinasis).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 6: priešingas įvykis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Priešingas įvykis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> įvykiui A priešingas <span class="ovl">A</span> įvyksta, kai A neįvyksta. P(A) + P(<span class="ovl">A</span>) = 1, todėl P(<span class="ovl">A</span>) = 1 − P(A).</div>
+    <div class="ex">
+      <div class="q">Kauliukas. A, „atvirto 3“. Rask P(<span class="ovl">A</span>).</div>
+      <div class="line">P(A) = <span class="frac"><span class="n">1</span><span class="d">6</span></span>, taigi P(<span class="ovl">A</span>) = 1 − <span class="frac"><span class="n">1</span><span class="d">6</span></span> = <span class="res"><span class="frac"><span class="n">5</span><span class="d">6</span></span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Prekė kokybiška su tikimybe 0,998. Kokia nekokybiškos prekės tikimybė?</div>
+      <div class="line">P(<span class="ovl">A</span>) = 1 − 0,998 = <span class="res">0,002</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> rinkinius skaičiuok daugybos taisykle (n · m), tikimybę, P = <span class="frac math"><span class="n">palankūs</span><span class="d">visi</span></span> (sutrauk), priešingą įvykį, 1 − P(A). Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Rinkiniai ir daugybos taisyklė</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Moneta (S, H) ir kauliukas (1–6). Kiek rinkinių?</li>
+        <li>Metamos dvi monetos. Kiek rinkinių?</li>
+        <li>Ledai 8 rūšys × kava 4 rūšys. Kiek porų?</li>
+        <li>Kiek yra dviženklių skaičių?</li>
+        <li>Dviženkliai iš skaitmenų 0, 3, 6 (dešimčių ne 0). Kiek jų?</li>
+        <li>Pirmasis patiekalas 3 × desertas 4. Kiek rinkinių?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Įvykio tikimybė ir priešingas įvykis (kauliukas, E = {1,…,6})</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>P(atvirto pirminis skaičius)? &nbsp;<span class="muted2">(pirminiai: 2, 3, 5)</span></li>
+        <li>P(atvirto mažiau nei 4)?</li>
+        <li>P(atvirto daugiau nei 4)?</li>
+        <li>A, „atvirto 3“. Rask P(<span class="ovl">A</span>).</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Dėžėje 12 saldainių: 5 šokoladiniai, 7 kiti. Traukiamas vienas. Rask P(šokoladinis) ir P(ne šokoladinis).</li>
+      <li>Lemputė veikia su tikimybe 0,997. Kokia tikimybė, kad lemputė neveikia?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 2 · 6 = 12 &nbsp;&nbsp; <b>2.</b> 4 (SS, SH, HS, HH) &nbsp;&nbsp; <b>3.</b> 8 · 4 = 32</div>
+    <div class="row math"><b>4.</b> 9 · 10 = 90 &nbsp;&nbsp; <b>5.</b> 2 · 3 = 6 (30, 33, 36, 60, 63, 66) &nbsp;&nbsp; <b>6.</b> 3 · 4 = 12</div>
+    <div class="row math"><b>7.</b> palankūs 2, 3, 5; <span class="frac"><span class="n">3</span><span class="d">6</span></span> = <span class="frac"><span class="n">1</span><span class="d">2</span></span> &nbsp;&nbsp; <b>8.</b> palankūs 1, 2, 3; <span class="frac"><span class="n">3</span><span class="d">6</span></span> = <span class="frac"><span class="n">1</span><span class="d">2</span></span></div>
+    <div class="row math"><b>9.</b> palankūs 5, 6; <span class="frac"><span class="n">2</span><span class="d">6</span></span> = <span class="frac"><span class="n">1</span><span class="d">3</span></span> &nbsp;&nbsp; <b>10.</b> P(A) = <span class="frac"><span class="n">1</span><span class="d">6</span></span>, P(<span class="ovl">A</span>) = 1 − <span class="frac"><span class="n">1</span><span class="d">6</span></span> = <span class="frac"><span class="n">5</span><span class="d">6</span></span></div>
+    <div class="row math"><b>11.</b> P(šokoladinis) = <span class="frac"><span class="n">5</span><span class="d">12</span></span>, P(ne šokoladinis) = 1 − <span class="frac"><span class="n">5</span><span class="d">12</span></span> = <span class="frac"><span class="n">7</span><span class="d">12</span></span></div>
+    <div class="row math"><b>12.</b> P(neveikia) = 1 − 0,997 = 0,003</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Tikimybės“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
