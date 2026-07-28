@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kortelės: Panašiosios plokštumos figūros (10.2.1)</title>
+<title>Kortelės: Didiname ir mažiname (6 klasė)</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -26,24 +26,24 @@
   .inner{position:absolute; inset:0; transition:transform .5s; transform-style:preserve-3d}
   .card.flipped .inner{transform:rotateY(180deg)}
   .face{position:absolute; inset:0; backface-visibility:hidden; background:var(--card); border-radius:22px;
-    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 26px}
+    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center}
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
-  .expr{font-size:clamp(17px,3.1vw,24px); font-weight:700; text-align:center; line-height:1.4}
+  .expr{font-size:clamp(19px,3.4vw,26px); font-weight:700; line-height:1.35}
   .back{transform:rotateY(180deg)}
-  .back .expr{color:var(--accent); font-size:clamp(26px,6vw,46px)}
+  .back .expr{color:var(--accent); font-size:clamp(26px,6vw,48px)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
   .controls{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
   button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
     font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
   button.ctrl:hover{background:#eef2f7}
   button.primary{background:var(--accent2); color:#fff}
-  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 24px; text-align:center; margin:10px 0}
-  .practice .q{font-size:clamp(17px,3.1vw,24px); font-weight:700; margin-bottom:8px; line-height:1.4}
+  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 20px; text-align:center; margin:10px 0}
+  .practice .q{font-size:clamp(19px,3.4vw,26px); font-weight:700; margin-bottom:8px; line-height:1.35}
   .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
     border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
   .practice input:focus{border-color:var(--accent2)}
-  .feedback{min-height:34px; margin-top:14px; font-size:19px; font-weight:700}
+  .feedback{min-height:34px; margin-top:14px; font-size:20px; font-weight:700}
   .feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
   .score{text-align:center; color:var(--muted); margin-top:8px; font-size:15px}
   .keys{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
@@ -53,7 +53,7 @@
 </style>
 </head>
 <body>
-<header><h1>Panašiosios plokštumos figūros</h1><p>Interaktyvios kortelės · 12 klausim. · 6 klasė · 10.2.1</p></header>
+<header><h1>Didiname ir mažiname</h1><p>Interaktyvios kortelės · 6 klasė · 18 klausim.</p></header>
 <div class="tabs">
   <button class="tab active" id="tabCards">🃏 Kortelės</button>
   <button class="tab" id="tabPractice">✏️ Praktika</button>
@@ -80,13 +80,12 @@
     <div class="counter" id="pCounter"></div>
     <div class="qbox">
       <div class="q" id="pQuestion"></div>
-      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (tik skaičių, be vienetų)</div>
-      <input id="pInput" type="text" inputmode="decimal" autocomplete="off" placeholder="atsakymas"
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (tik skaičių)</div>
+      <input id="pInput" type="text" autocomplete="off" placeholder="atsakymas"
              onkeydown="if(event.key==='Enter')checkAnswer()">
       <div class="keys">
-        <button onclick="ins('1')">1</button><button onclick="ins('2')">2</button>
-        <button onclick="ins('3')">3</button><button onclick="ins('4')">4</button>
-        <button onclick="ins('5')">5</button><button onclick="ins('0')">0</button>
+        <button onclick="ins('0')">0</button><button onclick="ins('1')">1</button>
+        <button onclick="ins('2')">2</button><button onclick="ins('5')">5</button>
         <button onclick="ins(',')">,</button><button onclick="bksp()">⌫</button>
       </div>
       <div class="feedback" id="pFeedback"></div>
@@ -100,22 +99,9 @@
     <div class="score" id="pScore"></div>
   </section>
 </div>
-<footer>Mokytoja Violeta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
-const CARDS = [
-  ["△ABC ∼ △A₁B₁C₁. BC = 2 cm, B₁C₁ = 14 cm. Koeficientas k = B₁C₁ : BC?", "7"],
-  ["△ABC ∼ △A₁B₁C₁, k = 2 (iš ABC į A₁B₁C₁). AB = 4 cm. Kam lygi A₁B₁ (cm)?", "2"],
-  ["△ABC ∼ △A₁B₁C₁, k = 2 (iš ABC į A₁B₁C₁). BC = 5 cm. Kam lygi B₁C₁ (cm)?", "2,5"],
-  ["Keturkampiai ABCD ∼ A₁B₁C₁D₁. AB = 6 cm, A₁B₁ = 9 cm. Koeficientas k = A₁B₁ : AB?", "1,5"],
-  ["ABCD ∼ A₁B₁C₁D₁, k = A₁B₁ : AB = 1,5. CD = 4 cm. Kam lygi C₁D₁ (cm)?", "6"],
-  ["△ABC ∼ △A₁B₁C₁, k = 4 (iš ABC į A₁B₁C₁). Perimetras P(ABC) = 6,5 cm. Koks P(A₁B₁C₁) (cm)?", "26"],
-  ["△ABC∼△A₁B₁C₁ (k=2), △A₁B₁C₁∼△A₂B₂C₂ (k=3). Koks △ABC∼△A₂B₂C₂ koeficientas?", "6"],
-  ["△ABC ∼ △A₁B₁C₁. AC = 8 cm, A₁C₁ = 4 cm. Koeficientas k = AC : A₁C₁?", "2"],
-  ["△ABC ∼ △A₁B₁C₁, k = A₁B₁ : AB = 3. A₁B₁ = 21 cm. Kam lygi AB (cm)?", "7"],
-  ["△ABC ∼ △A₁B₁C₁. BC = 3 cm, B₁C₁ = 15 cm. Koeficientas k = B₁C₁ : BC?", "5"],
-  ["△ABC ∼ △A₁B₁C₁, k = A₁B₁ : AB = 2,5. AB = 4 cm. Kam lygi A₁B₁ (cm)?", "10"],
-  ["△ABC ∼ △A₁B₁C₁, k = 1,5. Perimetras P(A₁B₁C₁) = 30 cm. Koks P(ABC) (cm)?", "20"]
-];
+const CARDS = [["Atkarpa 6 cm, padidink 4 kartus. Naujas ilgis (cm)?", "24"], ["Kraštinė 30 cm, sumažink 5 kartų. Naujas ilgis (cm)?", "6"], ["Atkarpa 7 cm, padidink 3 kartus. Naujas ilgis (cm)?", "21"], ["Kraštinė 28 cm, sumažink 4 kartus. Naujas ilgis (cm)?", "7"], ["Spindulys 1 cm, sumažink 2 kartus. Naujas spindulys (cm)?", "0,5"], ["Spindulys 4,8 cm, sumažink 4 kartus (cm)?", "1,2"], ["Buvo 3 cm, tapo 12 cm. Kiek kartų padidinta?", "4"], ["Buvo 24 cm, tapo 3 cm. Kiek kartų sumažinta?", "8"], ["AB = 2 cm, A₁B₁ = 8 cm. Kiek kartų didesnis?", "4"], ["Apskritimai 4,5 cm ir 1,5 cm. Kiek kartų mažesnis?", "3"], ["Žirafa 6 m (600 cm), knygoje 4 cm. Kiek kartų mažesnis?", "150"], ["Namas 12 m (1200 cm), brėžinyje 6 cm. Kiek kartų mažesnis?", "200"], ["Trikampio kampai 74° ir 86°. Trečias kampas (laipsniais)?", "20"], ["Trikampio kampai 65° ir 85°. Trečias kampas (laipsniais)?", "30"], ["Kvadrato kraštinę padidinom 3 kartus. Kiek kartų padidėjo plotas?", "9"], ["Kvadrato kraštinę padidinom 4 kartus. Plotas kiek kartų padidėjo?", "16"], ["Vabalas 2 mm, mikroskopas didina 9 kartus. Ilgis (mm)?", "18"], ["Stačiakampis 3 cm × 6 cm, padidink 5 kartus. Ilgesnės kraštinės ilgis (cm)?", "30"]];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');
 function renderCard(){

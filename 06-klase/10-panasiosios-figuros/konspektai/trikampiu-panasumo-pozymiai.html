@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trikampių panašumo požymiai — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:19px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  /* figūros */
+  .fig{display:block; margin:10px auto 2px; max-width:100%; height:auto}
+  .tri{fill:#eef4fb; stroke:var(--tema); stroke-width:2.5; stroke-linejoin:round}
+  .aA{fill:none; stroke:var(--tema); stroke-width:2.5}
+  .aB{fill:none; stroke:var(--demesio); stroke-width:2.5}
+  .tk{stroke:var(--taisykle); stroke-width:2.5; stroke-linecap:round}
+  .vlab{font-family:"Cambria Math",Cambria,Georgia,serif; font-size:16px; font-weight:700; fill:#1c2430}
+  .figcap{text-align:center; font-size:13px; color:var(--pilka); margin:0 0 4px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Trikampių panašumo požymiai</h1>
+  <p class="klase">Matematika · 6 klasė · 10.2.2 tema · panašiosios figūros</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kada trikampiai yra panašūs</a></li>
+      <li><a href="#t2">1 požymis: pagal du kampus</a></li>
+      <li><a href="#t3">2 požymis: pagal dvi kraštines ir kampą tarp jų</a></li>
+      <li><a href="#t4">3 požymis: pagal tris kraštines</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kada trikampiai yra panašūs</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Panašūs trikampiai</span> — tai vienodos formos, bet skirtingo dydžio trikampiai: jų <b>atitinkami kampai lygūs</b>, o <b>atitinkamos kraštinės proporcingos</b> (visų santykiai lygūs tam pačiam skaičiui).</p>
+        <p>Panašumą žymime ženklu <span class="math">∼</span>. Užrašas <span class="math">△ABC ∼ △A₁B₁C₁</span> reiškia, kad viršūnės <span class="math">A</span> ir <span class="math">A₁</span>, <span class="math">B</span> ir <span class="math">B₁</span>, <span class="math">C</span> ir <span class="math">C₁</span> yra atitinkamos.</p>
+        <p><b>Ar reikia tikrinti viską?</b> Ne. Yra <b>trys požymiai</b>, ir pakanka patikrinti bent vieną iš jų, kad būtume tikri: trikampiai panašūs.</p>
+        <p class="pvz"><b>Skaičius k.</b> Skaičių, rodantį, kiek kartų vienas trikampis didesnis už kitą, vadiname <b>panašumo koeficientu</b> ir žymime <span class="math">k</span>. Jis lygus bet kurių dviejų atitinkamų kraštinių santykiui.</p>
+        <p class="demesio"><b>Pastaba.</b> 6 klasėje šiuos požymius tik <b>išbandome praktiškai</b> (matuodami, braižydami). Griežtai juos įrodysi vyresnėse klasėse.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> 1 požymis: pagal du kampus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei vieno trikampio du kampai lygūs kito trikampio dviem kampams, tai tie trikampiai panašūs.</span></p>
+        <svg viewBox="0 0 480 200" class="fig" width="480">
+          <polygon class="tri" points="30,155 185,155 85,50"/>
+          <polygon class="tri" points="255,172 464,172 329,30"/>
+          <path class="aA" d="M56.0,155.0 A26,26 0 0 0 42.1,132.0"/>
+          <path class="aB" d="M159.0,155.0 A26,26 0 0 1 167.1,136.2"/>
+          <path class="aB" d="M154.0,155.0 A31,31 0 0 1 163.6,132.6"/>
+          <path class="aA" d="M281.0,171.8 A26,26 0 0 0 267.1,148.7"/>
+          <path class="aB" d="M438.2,171.8 A26,26 0 0 1 446.3,152.9"/>
+          <path class="aB" d="M433.2,171.8 A31,31 0 0 1 442.9,149.3"/>
+          <text class="vlab" x="14" y="162">A</text>
+          <text class="vlab" x="188" y="168">B</text>
+          <text class="vlab" x="79" y="42">C</text>
+          <text class="vlab" x="236" y="185">A₁</text>
+          <text class="vlab" x="468" y="185">B₁</text>
+          <text class="vlab" x="320" y="24">C₁</text>
+        </svg>
+        <p class="figcap">Vienodai pažymėti kampai lygūs: <span class="math">∠A = ∠A₁</span> ir <span class="math">∠B = ∠B₁</span>.</p>
+        <div class="formule math">Jei <span class="term-a">∠A = ∠A₁</span> ir <span class="term-b">∠B = ∠B₁</span>, tai <span class="gerai">△ABC ∼ △A₁B₁C₁</span></div>
+        <p class="pvz"><b>Kodėl pakanka dviejų kampų?</b> Visų trikampio kampų suma visada <span class="math">180°</span>. Jei du kampai lygūs, tai ir <b>trečias</b> kampas savaime lygus (<span class="math">180° − ∠A − ∠B</span>).</p>
+        <p class="pvz"><b>Pavyzdys.</b> Viename trikampyje <span class="math">∠B = 96°</span>, <span class="math">∠A = 51°</span>, tada <span class="math">∠C = 180° − 96° − 51° = 33°</span>. Jei kito trikampio du kampai irgi <span class="math">96°</span> ir <span class="math">51°</span>, trikampiai panašūs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> 2 požymis: pagal dvi kraštines ir kampą tarp jų</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei vieno trikampio dviejų kraštinių santykiai lygūs atitinkamų kito trikampio dviejų kraštinių santykiams, o kampai tarp tų kraštinių lygūs, tai trikampiai panašūs.</span></p>
+        <svg viewBox="0 0 480 200" class="fig" width="480">
+          <polygon class="tri" points="30,155 185,155 85,50"/>
+          <polygon class="tri" points="255,172 464,172 329,30"/>
+          <path class="aA" d="M56.0,155.0 A26,26 0 0 0 42.1,132.0"/>
+          <path class="aA" d="M281.0,171.8 A26,26 0 0 0 267.1,148.7"/>
+          <g class="tk">
+            <line x1="104.0" y1="149.0" x2="104.0" y2="161.0"/><line x1="111.0" y1="149.0" x2="111.0" y2="161.0"/>
+            <line x1="52.2" y1="99.7" x2="62.8" y2="105.3"/>
+            <line x1="356.1" y1="165.8" x2="356.1" y2="177.8"/><line x1="363.1" y1="165.8" x2="363.1" y2="177.8"/>
+            <line x1="286.8" y1="98.1" x2="297.4" y2="103.7"/>
+          </g>
+          <text class="vlab" x="14" y="162">A</text>
+          <text class="vlab" x="188" y="168">B</text>
+          <text class="vlab" x="79" y="42">C</text>
+          <text class="vlab" x="236" y="185">A₁</text>
+          <text class="vlab" x="468" y="185">B₁</text>
+          <text class="vlab" x="320" y="24">C₁</text>
+        </svg>
+        <p class="figcap">Kampai <span class="math">∠A = ∠A₁</span> (tarp pažymėtų kraštinių) lygūs, o kraštinių poros proporcingos.</p>
+        <div class="formule math">Jei <span class="term-a">∠A = ∠A₁</span> ir <span class="gerai">AB : A₁B₁ = AC : A₁C₁</span>, tai <span class="gerai">△ABC ∼ △A₁B₁C₁</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Jei <span class="math">AB = 4</span>, <span class="math">A₁B₁ = 8</span> ir <span class="math">AC = 3</span>, <span class="math">A₁C₁ = 6</span>, tai abu santykiai lygūs: <span class="math">4 : 8 = 3 : 6 = 0,5</span>. Kai dar <span class="math">∠A = ∠A₁</span>, trikampiai panašūs (koeficientas <span class="math">k = 2</span>).</p>
+        <p class="demesio"><b>Dėmesio.</b> Kampas turi būti būtent <b>tarp</b> tų dviejų kraštinių. Kitoje vietoje esantis lygus kampas panašumo negarantuoja.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> 3 požymis: pagal tris kraštines</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei vieno trikampio visų trijų kraštinių santykiai lygūs atitinkamų kito trikampio kraštinių santykiams, tai trikampiai panašūs.</span></p>
+        <svg viewBox="0 0 480 200" class="fig" width="480">
+          <polygon class="tri" points="30,155 185,155 85,50"/>
+          <polygon class="tri" points="255,172 464,172 329,30"/>
+          <g class="tk">
+            <line x1="107.5" y1="149.0" x2="107.5" y2="161.0"/>
+            <line x1="133.1" y1="109.2" x2="141.8" y2="100.9"/><line x1="128.2" y1="104.1" x2="136.9" y2="95.8"/>
+            <line x1="66.1" y1="99.1" x2="55.4" y2="93.5"/><line x1="62.8" y1="105.3" x2="52.2" y2="99.7"/><line x1="59.6" y1="111.5" x2="48.9" y2="105.9"/>
+            <line x1="359.6" y1="165.8" x2="359.6" y2="177.8"/>
+            <line x1="394.8" y1="107.5" x2="403.5" y2="99.3"/><line x1="390.0" y1="102.5" x2="398.7" y2="94.2"/>
+            <line x1="300.7" y1="97.5" x2="290.1" y2="91.9"/><line x1="297.4" y1="103.7" x2="286.8" y2="98.1"/><line x1="294.2" y1="109.9" x2="283.6" y2="104.3"/>
+          </g>
+          <text class="vlab" x="14" y="162">A</text>
+          <text class="vlab" x="188" y="168">B</text>
+          <text class="vlab" x="79" y="42">C</text>
+          <text class="vlab" x="236" y="185">A₁</text>
+          <text class="vlab" x="468" y="185">B₁</text>
+          <text class="vlab" x="320" y="24">C₁</text>
+        </svg>
+        <p class="figcap">Vienodu skaičiumi brūkšnelių pažymėtos kraštinės yra atitinkamos.</p>
+        <div class="formule math">Jei <span class="gerai">AB : A₁B₁ = BC : B₁C₁ = AC : A₁C₁</span>, tai <span class="gerai">△ABC ∼ △A₁B₁C₁</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Vieno trikampio kraštinės <span class="math">3, 4, 5</span> cm, kito — <span class="math">6, 8, 10</span> cm. Tada <span class="math">6 : 3 = 8 : 4 = 10 : 5 = 2</span> — visi santykiai lygūs, tad trikampiai panašūs, koeficientas <span class="math">k = 2</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Vieno lygaus kampo <span class="klaida">pakanka</span> panašumui</td><td class="gerai">Reikia dviejų lygių kampų porų (arba kraštinių santykių)</td></tr>
+          <tr><td>Lygios kraštinės = <span class="klaida">panašūs</span></td><td class="gerai">Svarbu ne lygumas, o <b>santykių lygybė</b></td></tr>
+          <tr><td class="math"><span class="klaida">2 : 8 = 3 : 6</span> (netikrinta)</td><td class="math"><span class="gerai">0,25 ≠ 0,5</span> — nepanašūs</td></tr>
+          <tr><td>Kampas <span class="klaida">bet kur</span> (2 požymis)</td><td class="gerai">Kampas būtinai <b>tarp</b> tų dviejų kraštinių</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš sakydamas „panašūs", <b>patikrinu bent vieną požymį</b>: arba du lygius kampus, arba kraštinių santykių lygybę. Santykius visada suprastinu iki skaičiaus ir palyginu.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Trikampių panašumo požymiai“ (10.2.2)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mastelis · 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Mastelis</h1>
+  <p class="klase">Matematika · 6 klasė · 10.1.2 tema · panašiosios figūros</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra mastelis</a></li>
+      <li><a href="#t2">Mastelio žymėjimas: M 1:n ir M n:1</a></li>
+      <li><a href="#t3">Ilgio vienetų vertimas</a></li>
+      <li><a href="#t4">Trys uždavinių tipai</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra mastelis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Mastelis</span> rodo, kiek kartų realios figūros matmenys yra didesni (arba mažesni) už tuos, kurie pavaizduoti brėžinyje, žemėlapyje ar plane.</p>
+        <p>Mastelis užrašomas dviejų skaičių santykiu ir žymimas raide <b>M</b>: pavyzdžiui, <span class="math">M 1:500</span> (skaitoma „vienas su penkiais šimtais“).</p>
+        <p class="pvz"><b>Kam to reikia?</b> Didelio objekto (šalies, namo, aikštės) neįmanoma pavaizduoti tikruoju dydžiu, o labai mažo (mikroschemos, vabalo) sunku įžiūrėti. Mastelis leidžia sumažinti arba padidinti vaizdą ir vis tiek tiksliai skaičiuoti tikrus atstumus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Mastelio žymėjimas: M 1:n ir M n:1</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Mastelyje pirmasis skaičius rodo brėžinį (vaizdą), antrasis, tikrovę.</span></p>
+        <table class="kort">
+          <tr><th>Užrašas</th><th>Ką reiškia</th><th>Pavyzdys</th></tr>
+          <tr><td class="math"><span class="term-a">M 1:n</span></td><td><b>Sumažintas.</b> Vaizdas <b>n kartų mažesnis</b> už tikrovę</td><td>žemėlapiai, planai</td></tr>
+          <tr><td class="math"><span class="term-b">M n:1</span></td><td><b>Padidintas.</b> Vaizdas <b>n kartų didesnis</b> už tikrovę</td><td>mikroschemos, vabzdžiai</td></tr>
+        </table>
+        <p class="pvz"><b>Kaip skaityti.</b><br>
+        <span class="math">M 1:9 000 000</span>: 1 cm žemėlapyje atitinka 9 000 000 cm, t. y. 90 km tikrovėje.<br>
+        <span class="math">M 5:1</span>: 5 cm brėžinyje atitinka 1 cm tikrovėje, vadinasi brėžinys 5 kartus didesnis už detalę.</p>
+        <p class="demesio"><b>Dėmesio.</b> Jei antrasis skaičius <b>didesnis</b> už pirmą (<span class="math">M 1:100</span>), vaizdas <b>sumažintas</b>. Jei pirmasis skaičius didesnis (<span class="math">M 10:1</span>), vaizdas <b>padidintas</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Ilgio vienetų vertimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Mastelio uždaviniuose atsakymus dažnai reikia paversti į kilometrus ar metrus. Tam būtina laisvai versti ilgio vienetus:</p>
+        <div class="formule math">1 km = 1 000 m = 100 000 cm &nbsp;·&nbsp; 1 m = 100 cm &nbsp;·&nbsp; 1 cm = 10 mm</div>
+        <table class="kort">
+          <tr><th>Iš</th><th>Į</th><th>Veiksmas</th><th>Pavyzdys</th></tr>
+          <tr><td>km</td><td>cm</td><td class="math">· 100 000</td><td class="math">4 km = 400 000 cm</td></tr>
+          <tr><td>m</td><td>cm</td><td class="math">· 100</td><td class="math">7 m = 700 cm</td></tr>
+          <tr><td>cm</td><td>km</td><td class="math">: 100 000</td><td class="math">300 000 cm = 3 km</td></tr>
+          <tr><td>mm</td><td>cm</td><td class="math">: 10</td><td class="math">60 mm = 6 cm</td></tr>
+        </table>
+        <p class="demesio"><b>Dėmesio.</b> Skaičiuodami mastelį <b>abu dydžius išreiškiame tais pačiais vienetais</b> (dažniausiai centimetrais). Kilometrą į centimetrus verčiame dauginant iš 100 000.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Trys uždavinių tipai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Mastelio uždaviniuose visada dalyvauja trys dydžiai: <b>vaizdo ilgis</b>, <b>tikras ilgis</b> ir <b>mastelis M 1:n</b>. Žinodami du iš jų, randame trečią.</p>
+        <div class="formule math"><span class="term-a">tikras ilgis</span> = vaizdo ilgis <b>·</b> n &nbsp;&nbsp;|&nbsp;&nbsp; <span class="term-a">vaizdo ilgis</span> = tikras ilgis <b>:</b> n &nbsp;&nbsp;|&nbsp;&nbsp; <span class="term-a">n</span> = tikras ilgis <b>:</b> vaizdo ilgis</div>
+        <p class="pvz"><b>A tipas. Rasti tikrą atstumą.</b> <span class="math">M 1:500 000</span>, žemėlapyje 6 cm.<br>
+        <span class="math">6 · 500 000 = 3 000 000 cm = <span class="gerai">30 km</span></span>.</p>
+        <p class="pvz"><b>B tipas. Rasti vaizdo ilgį.</b> Tikras kelias 24 km, <span class="math">M 1:400 000</span>.<br>
+        <span class="math">24 km = 2 400 000 cm; &nbsp; 2 400 000 : 400 000 = <span class="gerai">6 cm</span></span>.</p>
+        <p class="pvz"><b>C tipas. Rasti mastelį.</b> Tikras kelias 60 km, žemėlapyje 4 cm.<br>
+        <span class="math">60 km = 6 000 000 cm; &nbsp; 6 000 000 : 4 = 1 500 000 → <span class="gerai">M 1:1 500 000</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">4 km = 400 cm</span></td><td class="math"><span class="gerai">4 km = 400 000 cm</span></td></tr>
+          <tr><td class="math"><span class="klaida">M 1:100 padidina</span></td><td><span class="gerai">M 1:100 sumažina</span> 100 kartų</td></tr>
+          <tr><td>Randant tikrą ilgį <span class="klaida">dalija</span> iš n</td><td>tikrą ilgį <span class="gerai">dauginame</span> iš n</td></tr>
+          <tr><td>Atsakymą palieka centimetrais</td><td class="math"><span class="gerai">3 000 000 cm = 30 km</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmiausia <b>viską paverčiu tais pačiais vienetais</b>, tik tada dauginu arba dalinu, o atsakymą <b>išreiškiu prašomu vienetu</b> (km, m ar cm).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Mastelis“ (10.1.2)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Panašiosios plokštumos figūros — 6 klasė</title>
+<title>Panašiosios plokštumos figūros — konspektas (6 klasė)</title>
 <style>
   :root{
     --tema:#1e5fa8; --tema-sv:#e8f1fb;
@@ -44,6 +44,8 @@
   table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
   .klaida{color:var(--demesio); text-decoration:line-through}
   .gerai{color:var(--taisykle); font-weight:700}
+  svg{display:block; margin:14px auto 4px}
+  .cap{text-align:center; font-size:13px; color:var(--pilka); margin:0 0 4px}
   footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
   @page{ size:A4 portrait; margin:14mm }
   @media print{
@@ -58,105 +60,112 @@
 <div class="lapas">
 
   <h1>Panašiosios plokštumos figūros</h1>
-  <p class="klase">Matematika · 6 klasė · geometrija · panašumas ir mastelis</p>
+  <p class="klase">Matematika · 6 klasė · 10 tema · potemė 10.2.1</p>
 
   <nav class="turinys">
     <h2>Ką išmoksi šioje pamokoje</h2>
     <ol>
-      <li><a href="#t1">Figūros didinimas ir mažinimas</a></li>
-      <li><a href="#t2">Mastelis: 1 : n ir n : 1</a></li>
-      <li><a href="#t3">Panašiosios figūros ir panašumo koeficientas</a></li>
-      <li><a href="#t4">Trikampių panašumo požymiai</a></li>
-      <li><a href="#t5">Perimetrų ir plotų santykiai</a></li>
+      <li><a href="#t1">Kas yra panašiosios figūros</a></li>
+      <li><a href="#t2">Atitinkami kampai ir atitinkamos kraštinės</a></li>
+      <li><a href="#t3">Panašieji trikampiai ir žymėjimas △ABC ∼ △A₁B₁C₁</a></li>
+      <li><a href="#t4">Panašumo koeficientas k</a></li>
+      <li><a href="#t5">Panašieji keturkampiai ir daugiakampiai</a></li>
       <li><a href="#t6">Dažniausios klaidos</a></li>
     </ol>
   </nav>
 
   <!-- 1 -->
   <section class="potema" id="t1">
-    <h2><span class="nr">1</span> Figūros didinimas ir mažinimas</h2>
+    <h2><span class="nr">1</span> Kas yra panašiosios figūros</h2>
     <div class="vidus">
       <div class="konsp">
-        <p><span class="zenk">Didinant arba mažinant figūrą</span> jos <b>forma nekinta</b>, o keičiasi tik <b>matmenys</b> (visų kraštinių ilgiai) — visi tiek pat kartų.</p>
-        <p>Jei figūros matmenys <span class="term-a">n</span> kartų didesni už kitos, tai atitinkamų kraštinių ilgių santykis lygus <span class="term-a">n</span>:</p>
-        <div class="formule math"><sup>didesnės kraštinė</sup>&frasl;<sub>mažesnės kraštinė</sub> = <span class="term-a">n</span></div>
-        <p class="pvz"><b>Pavyzdys.</b> Stačiakampio <span class="math">ABCD</span> ilgis <span class="math">2</span> cm, plotis <span class="math">0,75</span> cm. Stačiakampio <span class="math">A₁B₁C₁D₁</span> ilgis <span class="math">4</span> cm, plotis <span class="math">1,5</span> cm.<br>
-        <span class="math">4 : 2 = 2</span> &nbsp; ir &nbsp; <span class="math">1,5 : 0,75 = 2</span> → antrasis stačiakampis <b>2 kartus didesnis</b> už pirmąjį.</p>
-        <p class="demesio"><b>Svarbu.</b> Kai figūrą padidiname <span class="math">n</span> kartų, <b>kiekvienas</b> jos matmuo padidėja <span class="math">n</span> kartų, o kampai <b>nesikeičia</b>. Kampų didinti negalima — tai jau kita forma.</p>
+        <p><span class="zenk">Panašiosios figūros</span> — tai figūros, kurių <b>forma ta pati</b>, o <b>matmenys skirtingi</b>. Viena figūra yra kitos padidinimas arba sumažinimas.</p>
+        <p>Pavyzdžiui, du trikampiai <span class="math">ABC</span> ir <span class="math">A₁B₁C₁</span> gali atrodyti visiškai vienodos formos, tik vienas didesnis už kitą — visos jo kraštinės tiek pat kartų ilgesnės.</p>
+        <svg width="440" height="150" viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math, Georgia, serif" font-size="13">
+          <!-- mažas trikampis ABC -->
+          <polygon points="30,120 130,120 60,50" fill="#e8f1fb" stroke="#1e5fa8" stroke-width="2"/>
+          <text x="24" y="134">A</text><text x="132" y="134">B</text><text x="52" y="44">C</text>
+          <text x="72" y="136" fill="#5b6472">4 cm</text>
+          <!-- didelis trikampis A1B1C1 (k=2) -->
+          <polygon points="230,130 430,130 290,10" fill="#e6f6ee" stroke="#0a7d52" stroke-width="2"/>
+          <text x="222" y="144">A₁</text><text x="432" y="144">B₁</text><text x="278" y="8">C₁</text>
+          <text x="315" y="146" fill="#5b6472">8 cm</text>
+        </svg>
+        <p class="cap">Ta pati forma, kraštinės 2 kartus ilgesnės → figūros panašiosios.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio <span class="math">ABC</span> kraštinė <span class="math">BC = 4</span> cm, o panašaus trikampio <span class="math">A₁B₁C₁</span> atitinkama kraštinė <span class="math">B₁C₁ = 8</span> cm. Kadangi <span class="math">8 : 4 = 2</span>, antrasis trikampis <b>2 kartus didesnis</b> už pirmąjį.</p>
+        <p class="demesio"><b>Svarbu.</b> Keičiantis dydžiui, figūros <b>kampai nesikeičia</b>. Keičiasi tik kraštinių ilgiai — visi tiek pat kartų.</p>
       </div>
     </div>
   </section>
 
   <!-- 2 -->
   <section class="potema" id="t2">
-    <h2><span class="nr">2</span> Mastelis: 1 : n ir n : 1</h2>
+    <h2><span class="nr">2</span> Atitinkami kampai ir atitinkamos kraštinės</h2>
     <div class="vidus">
       <div class="konsp">
-        <p><span class="zenk">Mastelis</span> parodo, kiek kartų realios figūros matmenys yra didesni (ar mažesni) už pavaizduotus brėžinyje ar žemėlapyje.</p>
-        <table class="kort">
-          <tr><th>Mastelis</th><th>Reiškia</th><th>Kur naudojama</th></tr>
-          <tr><td class="math"><b class="term-a">1 : n</b></td><td>vaizdas <b>n kartų mažesnis</b> už realų objektą</td><td>žemėlapiai, planai</td></tr>
-          <tr><td class="math"><b class="term-b">n : 1</b></td><td>vaizdas <b>n kartų didesnis</b> už realų objektą</td><td>mikroschemos, smulkios detalės</td></tr>
-        </table>
-        <div class="formule math">realus atstumas = atstumas žemėlapyje · <span class="term-a">n</span></div>
-        <p class="pvz"><b>Pavyzdys (žemėlapis).</b> Mastelis <span class="math">1 : 200 000</span>. Atstumas žemėlapyje <span class="math">6</span> cm.<br>
-        Realus atstumas <span class="math">= 6 · 200 000 = 1 200 000</span> cm <span class="math">= <span class="gerai">12 km</span></span>.<br>
-        <span class="pilka">(1 km = 100 000 cm, todėl cm dalijame iš 100 000.)</span></p>
-        <p class="pvz"><b>Pavyzdys (detalė).</b> Mastelis <span class="math">2 : 1</span>. Reali detalė <span class="math">3</span> cm. Brėžinyje ji pavaizduota <span class="math">3 · 2 = <span class="gerai">6 cm</span></span> ilgio.</p>
-        <p class="demesio"><b>Dėmesio.</b> <span class="math">1 : n</span> — <b>mažiname</b> (žemėlapis), <span class="math">n : 1</span> — <b>didiname</b> (mikroschema). Nesupainiok, kuris skaičius rodo realų objektą.</p>
+        <p>Kai lyginame dvi panašias figūras, jų viršūnes suporuojame: <span class="math">A ↔ A₁</span>, <span class="math">B ↔ B₁</span>, <span class="math">C ↔ C₁</span>.</p>
+        <p>• <b class="term-a">Atitinkami kampai</b> — kampai prie suporuotų viršūnių. Jie <b>lygūs</b>:</p>
+        <div class="formule math">∠A = ∠A₁,&nbsp;&nbsp; ∠B = ∠B₁,&nbsp;&nbsp; ∠C = ∠C₁</div>
+        <p>• <b class="term-a">Atitinkamos kraštinės</b> — kraštinės, esančios <b>prieš lygius kampus</b>. Trikampyje prieš kampą <span class="math">A</span> yra kraštinė <span class="math">BC</span>, prieš <span class="math">A₁</span> — kraštinė <span class="math">B₁C₁</span>, tad <span class="math">BC</span> ir <span class="math">B₁C₁</span> yra atitinkamos.</p>
+        <p class="demesio"><b>Dėmesio.</b> Rašydamas kraštinių santykį, viršuje ir apačioje dėk <b>atitinkamas</b> kraštines (prieš lygius kampus), o ne bet kurias.</p>
       </div>
     </div>
   </section>
 
   <!-- 3 -->
   <section class="potema" id="t3">
-    <h2><span class="nr">3</span> Panašiosios figūros ir panašumo koeficientas</h2>
+    <h2><span class="nr">3</span> Panašieji trikampiai ir žymėjimas</h2>
     <div class="vidus">
       <div class="konsp">
-        <p><span class="zenk">Panašiosios figūros</span> — tai vienodos <b>formos</b>, bet skirtingų <b>matmenų</b> figūros (viena yra kitos padidinimas arba sumažinimas).</p>
-        <p>Du trikampiai <span class="math">ABC</span> ir <span class="math">A₁B₁C₁</span> yra <b>panašieji</b>, jei:</p>
-        <p>• jų <b class="term-a">atitinkami kampai lygūs</b>: <span class="math">∠A = ∠A₁, ∠B = ∠B₁, ∠C = ∠C₁</span>;<br>
-           • <b class="term-a">atitinkamų kraštinių ilgių santykiai lygūs</b>.</p>
-        <div class="formule math"><sup>AB</sup>&frasl;<sub>A₁B₁</sub> = <sup>BC</sup>&frasl;<sub>B₁C₁</sub> = <sup>CA</sup>&frasl;<sub>C₁A₁</sub> = <span class="term-a">k</span></div>
-        <p>Šis skaičius <span class="term-a">k</span> vadinamas <b>panašumo koeficientu</b>. Žymima: <span class="math">△ABC ∼ △A₁B₁C₁</span> (skaitoma „trikampis ABC panašus į trikampį A₁B₁C₁").</p>
-        <p class="pvz"><b>Pavyzdys.</b> <span class="math">△ABC ∼ △A₁B₁C₁</span>. Žinoma: <span class="math">AB = 6</span> cm, <span class="math">A₁B₁ = 9</span> cm, <span class="math">BC = 8</span> cm.<br>
-        Panašumo koeficientas <span class="math">k = A₁B₁ : AB = 9 : 6 = 1,5</span>.<br>
-        Tada <span class="math">B₁C₁ = BC · k = 8 · 1,5 = <span class="gerai">12 cm</span></span>.</p>
-        <p class="demesio"><b>Atitinkamos kraštinės</b> — tos, kurios yra <b>prieš lygius kampus</b>. Rašydamas santykį, viršuje ir apačioje dėk <b>atitinkamas</b> kraštines, o ne bet kurias.</p>
+        <p><span class="zenk">Du trikampiai vadinami panašiaisiais</span>, kai tenkinamos <b>abi</b> sąlygos:</p>
+        <p>1) jų <b class="term-a">atitinkami kampai lygūs</b>: <span class="math">∠A = ∠A₁, ∠B = ∠B₁, ∠C = ∠C₁</span>;<br>
+           2) jų <b class="term-a">atitinkamų kraštinių santykiai lygūs</b>.</p>
+        <div class="formule math"><sup>AB</sup>&frasl;<sub>A₁B₁</sub> = <sup>BC</sup>&frasl;<sub>B₁C₁</sub> = <sup>CA</sup>&frasl;<sub>C₁A₁</sub></div>
+        <p>Panašumas žymimas ženklu <b class="term-a">∼</b>:</p>
+        <div class="formule math">△ABC ∼ △A₁B₁C₁</div>
+        <p>Skaitoma: „trikampis <span class="math">ABC</span> panašus į trikampį <span class="math">A₁B₁C₁</span>". <b>Atitinkamos viršūnės rašomos tose pačiose vietose</b>: <span class="math">A</span> po <span class="math">A₁</span>, <span class="math">B</span> po <span class="math">B₁</span>, <span class="math">C</span> po <span class="math">C₁</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Užrašo tvarka svarbi. Jei parašysi <span class="math">△ABC ∼ △B₁A₁C₁</span>, suporuosi netinkamas viršūnes ir suklysi.</p>
       </div>
     </div>
   </section>
 
   <!-- 4 -->
   <section class="potema" id="t4">
-    <h2><span class="nr">4</span> Trikampių panašumo požymiai</h2>
+    <h2><span class="nr">4</span> Panašumo koeficientas k</h2>
     <div class="vidus">
       <div class="konsp">
-        <p>Kad įsitikintume, jog du trikampiai panašūs, <b>nebūtina</b> tikrinti visų kampų ir visų kraštinių. Užtenka vieno iš trijų požymių:</p>
+        <p>Bendra atitinkamų kraštinių santykio reikšmė vadinama <span class="zenk">panašumo koeficientu</span> ir žymima <b class="term-a">k</b>:</p>
+        <div class="formule math"><span class="term-a">k</span> = <sup>AB</sup>&frasl;<sub>A₁B₁</sub> = <sup>BC</sup>&frasl;<sub>B₁C₁</sub> = <sup>CA</sup>&frasl;<sub>C₁A₁</sub></div>
+        <p class="pvz"><b>Pavyzdys (rasti k).</b> <span class="math">△ABC ∼ △A₁B₁C₁</span>. Žinoma: <span class="math">BC = 2</span> cm, <span class="math">B₁C₁ = 14</span> cm.<br>
+        <span class="math">k = B₁C₁ : BC = 14 : 2 = <span class="gerai">7</span></span> → antrasis trikampis 7 kartus didesnis.</p>
+        <p class="pvz"><b>Pavyzdys (rasti kraštinę).</b> <span class="math">△ABC ∼ △A₁B₁C₁</span>, <span class="math">∠A = ∠A₁, ∠C = ∠C₁</span>. <span class="math">AC = 8</span> cm, <span class="math">A₁C₁ = 4</span> cm.<br>
+        Koeficientas (iš <span class="math">ABC</span> į <span class="math">A₁B₁C₁</span>) <span class="math">k = AC : A₁C₁ = 8 : 4 = 2</span>.<br>
+        Jei <span class="math">AB = 4</span> cm, tai <span class="math">A₁B₁ = AB : k = 4 : 2 = <span class="gerai">2 cm</span></span>;<br>
+        jei <span class="math">BC = 5</span> cm, tai <span class="math">B₁C₁ = BC : k = 5 : 2 = <span class="gerai">2,5 cm</span></span>.</p>
+        <p>Iš panašumo koeficiento gaunami ir kiti sąryšiai:</p>
         <table class="kort">
-          <tr><th>Požymis</th><th>Ko užtenka</th></tr>
-          <tr><td><b class="term-a">Pagal du kampus</b></td><td>vieno trikampio du kampai lygūs kito dviem kampams</td></tr>
-          <tr><td><b class="term-a">Pagal dvi kraštines ir kampą</b></td><td>dviejų atitinkamų kraštinių santykiai lygūs ir kampai tarp jų lygūs</td></tr>
-          <tr><td><b class="term-a">Pagal tris kraštines</b></td><td>visų trijų atitinkamų kraštinių ilgių santykiai lygūs</td></tr>
+          <tr><th>Dydis</th><th>Kaip kinta</th></tr>
+          <tr><td>Perimetrų santykis</td><td class="math">lygus <b class="term-a">k</b></td></tr>
+          <tr><td>Koeficientų sudėtis: <span class="math">△ABC ∼ △A₁B₁C₁ (k₁)</span> ir <span class="math">△A₁B₁C₁ ∼ △A₂B₂C₂ (k₂)</span></td><td class="math"><span class="math">△ABC ∼ △A₂B₂C₂</span> koeficientas <b class="term-a">k₁ · k₂</b></td></tr>
         </table>
-        <p class="pvz"><b>Pavyzdys.</b> Trikampio <span class="math">ABC</span> kampai <span class="math">∠A = 50°, ∠B = 60°</span>; trikampio <span class="math">A₁B₁C₁</span> kampai <span class="math">∠A₁ = 50°, ∠B₁ = 60°</span>.<br>
-        Du kampai lygūs → <span class="math">△ABC ∼ △A₁B₁C₁</span> <b>pagal du kampus</b>. (Trečias kampas irgi lygus, nes <span class="math">180° − 50° − 60° = 70°</span> abiejuose.)</p>
-        <p class="demesio"><b>Dėmesio.</b> Vieno lygaus kampo <b>neužtenka</b>! Ir vienodos formos, bet skirtingo dydžio kampai — negalima. Turi būti <b>du</b> lygūs kampai arba tinkamas kraštinių santykis.</p>
+        <p class="pvz"><b>Pavyzdys (perimetrai).</b> <span class="math">△ABC ∼ △A₁B₁C₁</span>, <span class="math">k = 4</span> (iš <span class="math">ABC</span> į <span class="math">A₁B₁C₁</span>). Jei <span class="math">P(ABC) = 6,5</span> cm, tai <span class="math">P(A₁B₁C₁) = 6,5 · 4 = <span class="gerai">26 cm</span></span>.</p>
       </div>
     </div>
   </section>
 
   <!-- 5 -->
   <section class="potema" id="t5">
-    <h2><span class="nr">5</span> Perimetrų ir plotų santykiai</h2>
+    <h2><span class="nr">5</span> Panašieji keturkampiai ir daugiakampiai</h2>
     <div class="vidus">
       <div class="konsp">
-        <p>Jei figūrų panašumo koeficientas lygus <span class="term-a">k</span>, tai:</p>
-        <div class="formule math"><sup>perimetrai</sup>&frasl;<sub></sub> santykis = <span class="term-a">k</span> &nbsp;&nbsp;·&nbsp;&nbsp; <sup>plotai</sup>&frasl;<sub></sub> santykis = <span class="term-b">k²</span></div>
-        <p>Perimetras — tiesinis dydis, todėl kinta <b>tiek pat kartų</b> (<span class="math">k</span>). Plotas — dvimatis, todėl kinta <b class="term-b">k² kartų</b>.</p>
-        <p class="pvz"><b>Pavyzdys.</b> Kvadrato kraštinę padidinome <span class="math">3</span> kartus <span class="math">(k = 3)</span>.<br>
-        Perimetras padidėja <span class="math">3</span> kartus, o plotas — <span class="math">3² = <span class="gerai">9 kartų</span></span>.</p>
-        <p class="pvz"><b>Pavyzdys.</b> Panašumo koeficientas <span class="math">k = 1,5</span>. Plotų santykis <span class="math">= 1,5² = <span class="gerai">2,25</span></span>.</p>
+        <p>Panašumas tinka ne tik trikampiams. <span class="zenk">Du keturkampiai (ar kiti daugiakampiai) yra panašūs</span>, kai:</p>
+        <p>• jų <b class="term-a">atitinkami kampai lygūs</b> ir<br>
+           • jų <b class="term-a">atitinkamų kraštinių santykiai lygūs</b>.</p>
+        <p>Žymima <span class="math">ABCD ∼ A₁B₁C₁D₁</span>. Kaip ir trikampiuose, <b>atitinkamos viršūnės rašomos tose pačiose vietose</b>: <span class="math">A ↔ A₁, B ↔ B₁, C ↔ C₁, D ↔ D₁</span>.</p>
+        <div class="formule math"><sup>AB</sup>&frasl;<sub>A₁B₁</sub> = <sup>BC</sup>&frasl;<sub>B₁C₁</sub> = <sup>CD</sup>&frasl;<sub>C₁D₁</sub> = <sup>DA</sup>&frasl;<sub>D₁A₁</sub> = <span class="term-a">k</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Keturkampiai <span class="math">ABCD ∼ A₁B₁C₁D₁</span>. <span class="math">AB = 6</span> cm, <span class="math">A₁B₁ = 9</span> cm → <span class="math">k = 9 : 6 = 1,5</span>.<br>
+        Jei <span class="math">CD = 4</span> cm, tai <span class="math">C₁D₁ = CD · k = 4 · 1,5 = <span class="gerai">6 cm</span></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Vien vienodos kraštinių proporcijos <b>neužtenka</b> — būtinai turi sutapti ir kampai. Pavyzdžiui, kvadratas ir stačiakampis nėra panašūs, nors visų kampų po <span class="math">90°</span>: skiriasi kraštinių santykiai.</p>
       </div>
     </div>
   </section>
@@ -168,18 +177,18 @@
       <div class="konsp">
         <table class="kort">
           <tr><th>Klaida</th><th>Teisingai</th></tr>
-          <tr><td class="math"><span class="klaida">1 : 200 000, 6 cm → 6 · 200 000 = 12 cm</span></td><td class="math"><span class="gerai">1 200 000 cm = 12 km</span> (paversk į km!)</td></tr>
-          <tr><td>plotą didinu <span class="math"><span class="klaida">k</span></span> kartų</td><td>plotą didinu <span class="math"><span class="gerai">k²</span></span> kartų</td></tr>
-          <tr><td>panašūs, nes turi <span class="klaida">vieną lygų kampą</span></td><td>reikia <span class="gerai">dviejų</span> lygių kampų (arba kraštinių santykio)</td></tr>
-          <tr><td class="math">santykyje maišau <span class="klaida">bet kurias kraštines</span></td><td>tik <span class="gerai">atitinkamas</span> (prieš lygius kampus)</td></tr>
+          <tr><td>santykyje maišau <span class="klaida">bet kurias kraštines</span></td><td>tik <span class="gerai">atitinkamas</span> (prieš lygius kampus)</td></tr>
+          <tr><td>panašios, nes tik <span class="klaida">kraštinių santykiai lygūs</span></td><td>reikia <span class="gerai">ir lygių kampų</span> (pvz. kvadratas ≠ stačiakampis)</td></tr>
+          <tr><td class="math">k rašau <span class="klaida">bet kuria tvarka</span></td><td>užrašau viršūnes <span class="gerai">tose pačiose vietose</span> (A po A₁)</td></tr>
+          <tr><td>perimetrą didinu <span class="math"><span class="klaida">k²</span></span> kartų</td><td>perimetras kinta <span class="math"><span class="gerai">k</span></span> kartų (tiek pat, kiek kraštinės)</td></tr>
         </table>
-        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Panašumas = <b>ta pati forma</b>, kiti matmenys. Kraštinės keičiasi <b>k</b> kartų, plotas — <b>k²</b>, o kampai <b>nesikeičia niekada</b>.</p>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Panašumas = <b>ta pati forma</b>, kiti matmenys. Kampai <b>lygūs</b>, atitinkamų kraštinių santykiai <b>lygūs</b> ir lygūs koeficientui <b>k</b>.</p>
       </div>
     </div>
   </section>
 
   <footer>
-    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Panašiosios plokštumos figūros" (panašumas ir mastelis)
+    Mokytoja Violeta · 6 klasės matematikos kursas · potemė 10.2.1 „Panašiosios plokštumos figūros"
   </footer>
 
 </div>

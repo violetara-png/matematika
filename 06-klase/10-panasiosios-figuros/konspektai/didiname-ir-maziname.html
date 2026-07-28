@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Didiname ir mažiname — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .fig{display:flex; gap:22px; align-items:center; flex-wrap:wrap; justify-content:center; margin:10px 0 0}
+  .fig svg{background:#fff; border:1px solid var(--linija); border-radius:6px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Didiname ir mažiname</h1>
+  <p class="klase">Matematika · 6 klasė · 10 skyrius „Panašiosios figūros" · 10.1.1 potemė</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Ką reiškia figūrą didinti ir mažinti</a></li>
+      <li><a href="#t2">Matmenys keičiasi n kartų</a></li>
+      <li><a href="#t3">Kampai ir forma nekinta</a></li>
+      <li><a href="#t4">Kiek kartų figūra didesnė ar mažesnė</a></li>
+      <li><a href="#t5">Plotas keičiasi n · n kartų</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Ką reiškia figūrą didinti ir mažinti</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Figūrą padidinti (arba sumažinti) <span class="math">n</span> kartų</span> reiškia nubraižyti tokios pat <b>formos</b> figūrą, kurios visi matmenys (kraštinės, atstumai tarp taškų, įstrižainės, spinduliai) yra <span class="math">n</span> kartų didesni (arba mažesni).</p>
+        <p>Nauja figūra atrodo <b>lygiai tokia pati, tik kitokio dydžio</b>, kaip nuotrauka, padidinta arba sumažinta ekrane. Ji nei ištęsiama, nei suspaudžiama į vieną pusę.</p>
+        <div class="fig">
+          <svg width="120" height="90" viewBox="0 0 120 90"><rect x="30" y="45" width="60" height="30" fill="#e8f1fb" stroke="#1e5fa8" stroke-width="2"/><text x="60" y="86" font-size="11" text-anchor="middle" fill="#5b6472" font-family="Segoe UI">2 cm × 1 cm</text></svg>
+          <span style="font-size:26px; color:#0a7d52">→</span>
+          <svg width="170" height="120" viewBox="0 0 170 120"><rect x="25" y="30" width="120" height="60" fill="#e6f6ee" stroke="#0a7d52" stroke-width="2"/><text x="85" y="108" font-size="11" text-anchor="middle" fill="#5b6472" font-family="Segoe UI">4 cm × 2 cm (2 kartus didesnis)</text></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Matmenys keičiasi n kartų</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Didinant figūrą <span class="math">n</span> kartų, kiekvieną matmenį dauginame iš <span class="math">n</span>. Mažinant <span class="math">n</span> kartų, kiekvieną matmenį daliname iš <span class="math">n</span>.</span></p>
+        <div class="formule math">didinant: naujas ilgis = <span class="term-a">senas ilgis</span> · <span class="term-b">n</span> &nbsp;&nbsp;|&nbsp;&nbsp; mažinant: naujas ilgis = <span class="term-a">senas ilgis</span> : <span class="term-b">n</span></div>
+        <p class="pvz"><b>Pavyzdys (stačiakampis).</b><br>
+        Stačiakampio <span class="math">ABCD</span> kraštinės <span class="math">AB = 2 cm</span> ir <span class="math">BC = 0,75 cm</span>. Padidinę <b>2 kartus</b> gauname:<br>
+        <span class="math">A₁B₁ = 2 · 2 = <span class="gerai">4 cm</span></span> &nbsp;ir&nbsp; <span class="math">B₁C₁ = 0,75 · 2 = <span class="gerai">1,5 cm</span></span>.</p>
+        <p class="pvz"><b>Pavyzdys (apskritimas).</b><br>
+        Apskritimo spindulys <span class="math">OA = 1 cm</span>. Sumažinę <b>2 kartus</b> gauname apskritimą, kurio spindulys <span class="math">O₁A₁ = 1 : 2 = <span class="gerai">0,5 cm</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kampai ir forma nekinta</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Didinant ar mažinant figūrą, jos kampai nekinta.</span> Keičiasi tik ilgiai. Todėl figūros forma išlieka ta pati.</p>
+        <div class="formule math">kampai <span class="term-b">nekinta</span> &nbsp;·&nbsp; ilgiai <span class="term-a">keičiasi n kartų</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio du kampai lygūs <span class="math">74°</span> ir <span class="math">86°</span>. Trečias kampas: <span class="math">180° − 74° − 86° = <span class="gerai">20°</span></span>.<br>
+        Sumažinę tą trikampį <b>2 kartus</b>, gauname mažesnį trikampį, bet jo kampai lieka tie patys: <span class="math">74°, 86°</span> ir <span class="gerai">20°</span>. Mažiausias kampas ir toliau <span class="math">20°</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Kraštinės sumažėjo, o kampai <b>nepasikeitė</b>. Kampas nepriklauso nuo to, kokio ilgio jo kraštinės.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kiek kartų figūra didesnė ar mažesnė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kiek kartų viena figūra didesnė (ar mažesnė) už kitą, sužinome dalindami atitinkamų matmenų ilgius.</span> Didesnįjį ilgį daliname iš mažesniojo.</p>
+        <div class="formule math">kiek kartų = <span class="term-a">didesnis ilgis</span> : <span class="term-b">mažesnis ilgis</span></div>
+        <p class="pvz"><b>Pavyzdys (stačiakampiai).</b> <span class="math">AB = 2 cm</span>, o <span class="math">A₁B₁ = 4 cm</span>. Tada <span class="math">4 : 2 = 2</span> — figūra padidinta <b>2 kartus</b>. Patikriname kita kraštine: <span class="math">1,5 : 0,75 = 2</span> — tas pats skaičius.</p>
+        <p class="pvz"><b>Pavyzdys (žirafa).</b> Tikra žirafa <span class="math">6 m</span> aukščio, o knygos paveikslėlyje ji <span class="math">4 cm</span>. Pirmiausia paverčiame tais pačiais vienetais: <span class="math">6 m = 600 cm</span>. Tada <span class="math">600 : 4 = <span class="gerai">150</span></span> — paveikslėlyje žirafa <b>150 kartų</b> mažesnė už tikrą.</p>
+        <p class="demesio"><b>Dėmesio.</b> Prieš dalybą abu dydžius užrašyk <b>tais pačiais matavimo vienetais</b> (pvz. abu centimetrais). Kitaip gausi klaidingą skaičių.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Plotas keičiasi n · n kartų</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kai figūros matmenis padidiname <span class="math">n</span> kartų, jos plotas padidėja <span class="math">n · n</span> kartų</span> (nes plotą sudaro du matmenys, ir kiekvienas išaugo <span class="math">n</span> kartų).</p>
+        <div class="formule math">ilgiai · <span class="term-a">n</span> &nbsp;→&nbsp; plotas · <span class="term-b">n · n</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Kvadrato kraštinę padidinome <b>3 kartus</b>. Tada jo plotas padidėja <span class="math">3 · 3 = <span class="gerai">9</span></span> kartų.<br>
+        Jei kraštinė buvo <span class="math">2 cm</span> (plotas <span class="math">4 cm²</span>), tai nauja kraštinė <span class="math">6 cm</span>, o naujas plotas <span class="math">36 cm²</span>, tikrai <span class="math">9</span> kartų didesnis.</p>
+        <p class="demesio"><b>Dėmesio.</b> Padidinus figūrą <span class="math">3</span> kartus, plotas išauga ne <span class="math">3</span>, o <span class="math">9</span> kartų. Ilgiai ir plotas kinta skirtingai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Padidinus <span class="math">3</span> kartus, plotas <span class="klaida">tampa 3 kartus didesnis</span></td><td class="math"><span class="gerai">3 · 3 = 9 kartus didesnis</span></td></tr>
+          <tr><td>Sumažinus figūrą, <span class="klaida">kampai irgi sumažėja</span></td><td><span class="gerai">kampai nekinta</span></td></tr>
+          <tr><td class="math"><span class="klaida">6 m : 4 cm = 1,5</span></td><td class="math"><span class="gerai">600 cm : 4 cm = 150</span> (vienodi vienetai!)</td></tr>
+          <tr><td>Didinant, <span class="klaida">pailginama tik viena kraštinė</span></td><td><span class="gerai">visi matmenys dauginami iš n</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Didinu ar mažinu <b>visus</b> ilgius vienodai; <b>kampų neliečiu</b>; dydžius lyginu <b>tais pačiais vienetais</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · „Didiname ir mažiname" (10.1.1)
+  </footer>
+
+</div>
+</body>
+</html>

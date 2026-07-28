@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kortelės: Panašiosios plokštumos figūros (10.2.1)</title>
+<title>Kortelės: Trikampių panašumo požymiai (6 kl.)</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -26,24 +26,24 @@
   .inner{position:absolute; inset:0; transition:transform .5s; transform-style:preserve-3d}
   .card.flipped .inner{transform:rotateY(180deg)}
   .face{position:absolute; inset:0; backface-visibility:hidden; background:var(--card); border-radius:22px;
-    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 26px}
+    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center}
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
-  .expr{font-size:clamp(17px,3.1vw,24px); font-weight:700; text-align:center; line-height:1.4}
+  .expr{font-size:clamp(20px,4.4vw,32px); font-weight:700; line-height:1.3}
   .back{transform:rotateY(180deg)}
-  .back .expr{color:var(--accent); font-size:clamp(26px,6vw,46px)}
+  .back .expr{color:var(--accent)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
   .controls{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
   button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
     font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
   button.ctrl:hover{background:#eef2f7}
   button.primary{background:var(--accent2); color:#fff}
-  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 24px; text-align:center; margin:10px 0}
-  .practice .q{font-size:clamp(17px,3.1vw,24px); font-weight:700; margin-bottom:8px; line-height:1.4}
+  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 20px; text-align:center; margin:10px 0}
+  .practice .q{font-size:clamp(20px,4.2vw,30px); font-weight:700; margin-bottom:8px; line-height:1.3}
   .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
     border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
   .practice input:focus{border-color:var(--accent2)}
-  .feedback{min-height:34px; margin-top:14px; font-size:19px; font-weight:700}
+  .feedback{min-height:34px; margin-top:14px; font-size:20px; font-weight:700}
   .feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
   .score{text-align:center; color:var(--muted); margin-top:8px; font-size:15px}
   .keys{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
@@ -53,7 +53,7 @@
 </style>
 </head>
 <body>
-<header><h1>Panašiosios plokštumos figūros</h1><p>Interaktyvios kortelės · 12 klausim. · 6 klasė · 10.2.1</p></header>
+<header><h1>Trikampių panašumo požymiai</h1><p>Interaktyvios kortelės · 6 klasė · 12 klausim.</p></header>
 <div class="tabs">
   <button class="tab active" id="tabCards">🃏 Kortelės</button>
   <button class="tab" id="tabPractice">✏️ Praktika</button>
@@ -80,8 +80,8 @@
     <div class="counter" id="pCounter"></div>
     <div class="qbox">
       <div class="q" id="pQuestion"></div>
-      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (tik skaičių, be vienetų)</div>
-      <input id="pInput" type="text" inputmode="decimal" autocomplete="off" placeholder="atsakymas"
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (tik skaičių)</div>
+      <input id="pInput" type="text" autocomplete="off" inputmode="decimal" placeholder="atsakymas"
              onkeydown="if(event.key==='Enter')checkAnswer()">
       <div class="keys">
         <button onclick="ins('1')">1</button><button onclick="ins('2')">2</button>
@@ -100,21 +100,21 @@
     <div class="score" id="pScore"></div>
   </section>
 </div>
-<footer>Mokytoja Violeta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<footer>Mokytoja Violeta · sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
 const CARDS = [
-  ["△ABC ∼ △A₁B₁C₁. BC = 2 cm, B₁C₁ = 14 cm. Koeficientas k = B₁C₁ : BC?", "7"],
-  ["△ABC ∼ △A₁B₁C₁, k = 2 (iš ABC į A₁B₁C₁). AB = 4 cm. Kam lygi A₁B₁ (cm)?", "2"],
-  ["△ABC ∼ △A₁B₁C₁, k = 2 (iš ABC į A₁B₁C₁). BC = 5 cm. Kam lygi B₁C₁ (cm)?", "2,5"],
-  ["Keturkampiai ABCD ∼ A₁B₁C₁D₁. AB = 6 cm, A₁B₁ = 9 cm. Koeficientas k = A₁B₁ : AB?", "1,5"],
-  ["ABCD ∼ A₁B₁C₁D₁, k = A₁B₁ : AB = 1,5. CD = 4 cm. Kam lygi C₁D₁ (cm)?", "6"],
-  ["△ABC ∼ △A₁B₁C₁, k = 4 (iš ABC į A₁B₁C₁). Perimetras P(ABC) = 6,5 cm. Koks P(A₁B₁C₁) (cm)?", "26"],
-  ["△ABC∼△A₁B₁C₁ (k=2), △A₁B₁C₁∼△A₂B₂C₂ (k=3). Koks △ABC∼△A₂B₂C₂ koeficientas?", "6"],
-  ["△ABC ∼ △A₁B₁C₁. AC = 8 cm, A₁C₁ = 4 cm. Koeficientas k = AC : A₁C₁?", "2"],
-  ["△ABC ∼ △A₁B₁C₁, k = A₁B₁ : AB = 3. A₁B₁ = 21 cm. Kam lygi AB (cm)?", "7"],
-  ["△ABC ∼ △A₁B₁C₁. BC = 3 cm, B₁C₁ = 15 cm. Koeficientas k = B₁C₁ : BC?", "5"],
-  ["△ABC ∼ △A₁B₁C₁, k = A₁B₁ : AB = 2,5. AB = 4 cm. Kam lygi A₁B₁ (cm)?", "10"],
-  ["△ABC ∼ △A₁B₁C₁, k = 1,5. Perimetras P(A₁B₁C₁) = 30 cm. Koks P(ABC) (cm)?", "20"]
+  ["Kokia trikampio kampų suma (laipsniais)?", "180"],
+  ["Kampai 96° ir 51°. Koks trečiasis kampas?", "33"],
+  ["Kampai 72° ir 40°. Koks trečiasis kampas?", "68"],
+  ["BC = 18, B₁C₁ = 6. Koks koeficientas k?", "3"],
+  ["AB = 20, A₁B₁ = 5. Koks koeficientas k?", "4"],
+  ["k = 3, mažoji kraštinė 5. Kam lygi didžioji?", "15"],
+  ["k = 2, mažoji kraštinė 7. Kam lygi didžioji?", "14"],
+  ["Kraštinės 3, 4, 5 ir 6, 8, 10. Koeficientas?", "2"],
+  ["Statusis trikampis, vienas smailusis 35°. Kitas?", "55"],
+  ["Lygiašonis, kampai prie pagrindo po 50°. Viršūnės kampas?", "80"],
+  ["Kiek porų lygių kampų pakanka panašumui?", "2"],
+  ["Kiek iš viso yra trikampių panašumo požymių?", "3"]
 ];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');
@@ -134,7 +134,7 @@ let porder=CARDS.map((_,i)=>i); let pi=0,correct=0,answered=0,done=false;
 function normalize(s){
   s=(s||'').toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
-  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,'').replace(/²/g,'^2').replace(/³/g,'^3');
   if(!/^[+-]/.test(s)) s='+'+s;
   const tokens=s.match(/[+-][^+-]+/g)||[];
   const terms=tokens.map(t=>{
