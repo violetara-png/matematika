@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Stulpelinė diagrama (6 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.15rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.3px}
+  .expr svg{max-width:100%;height:auto}
+  .expr table{border-collapse:collapse;margin:0 auto;font-size:1rem}
+  .expr th,.expr td{border:1px solid #cdd8e6;padding:5px 12px;text-align:center}
+  .expr th{background:#dfe9f5;color:var(--brand-dark)}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  svg text{font-family:"Segoe UI",system-ui,sans-serif}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📊 Mokymosi asistentas „Stulpis“</h1>
+    <p>Tema: <b>Stulpelinė diagrama</b> · 6 klasė · EDUKA 11 skyrius</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">S<small>t</small></div>
+      <div class="bubble">
+        <div class="name">Stulpis</div>
+        Sveikas! Aš — Stulpis, tavo mokymosi asistentas. Kartu mokysimės <b>stulpelinę diagramą</b>: nustatysime stulpelių aukščius iš dažnių, nuskaitysime diagramą atgal į skaičius, palyginsime dvi grupes dviguboje diagramoje ir rasime „kiek daugiau“.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 8 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">S<small>t</small></div>
+        <div class="bubble">
+          <div class="name">Stulpis</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">S<small>t</small></div>
+        <div class="bubble">
+          <div class="name">Stulpis</div>
+          Šaunuolis! Dabar — <b>8 klausimai</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br>Rašyk tik skaičių (pvz. <b>12</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* mažas stulpelinės diagramos SVG (klaidų diagrama 3,2,9,4,5) */
+const CHART_KLAIDOS = `
+<svg viewBox="0 0 320 195" width="320" height="195" role="img" aria-label="Klaidų stulpelinė diagrama">
+  <line x1="30" y1="12" x2="30" y2="165" stroke="#8a94a3" stroke-width="1.4"/>
+  <line x1="30" y1="165" x2="305" y2="165" stroke="#8a94a3" stroke-width="1.4"/>
+  <line x1="30" y1="88"  x2="305" y2="88"  stroke="#e2e8f1" stroke-dasharray="3 3"/>
+  <line x1="30" y1="12"  x2="305" y2="12"  stroke="#e2e8f1" stroke-dasharray="3 3"/>
+  <text x="24" y="169" text-anchor="end" fill="#5b6472" font-size="10">0</text>
+  <text x="24" y="92"  text-anchor="end" fill="#5b6472" font-size="10">5</text>
+  <text x="24" y="16"  text-anchor="end" fill="#5b6472" font-size="10">10</text>
+  <rect x="43"  y="119" width="30" height="46"  fill="#1e5fa8"/><text x="58"  y="114" text-anchor="middle" fill="#1c2430" font-size="11" font-weight="700">3</text><text x="58"  y="180" text-anchor="middle" fill="#1c2430" font-size="11">0</text>
+  <rect x="98"  y="134" width="30" height="31"  fill="#1e5fa8"/><text x="113" y="129" text-anchor="middle" fill="#1c2430" font-size="11" font-weight="700">2</text><text x="113" y="180" text-anchor="middle" fill="#1c2430" font-size="11">1</text>
+  <rect x="153" y="27"  width="30" height="138" fill="#1e5fa8"/><text x="168" y="22"  text-anchor="middle" fill="#1c2430" font-size="11" font-weight="700">9</text><text x="168" y="180" text-anchor="middle" fill="#1c2430" font-size="11">2</text>
+  <rect x="208" y="104" width="30" height="61"  fill="#1e5fa8"/><text x="223" y="99"  text-anchor="middle" fill="#1c2430" font-size="11" font-weight="700">4</text><text x="223" y="180" text-anchor="middle" fill="#1c2430" font-size="11">3</text>
+  <rect x="263" y="88"  width="30" height="77"  fill="#1e5fa8"/><text x="278" y="83"  text-anchor="middle" fill="#1c2430" font-size="11" font-weight="700">5</text><text x="278" y="180" text-anchor="middle" fill="#1c2430" font-size="11">4</text>
+  <text x="167" y="193" text-anchor="middle" fill="#5b6472" font-size="10">klaidų skaičius</text>
+</svg>`;
+
+/* mažas dvigubos diagramos SVG (fantastiniai 4 berniukai / 6 mergaitės ir kt.) */
+const CHART_DVIGUBA = `
+<svg viewBox="0 0 340 200" width="340" height="200" role="img" aria-label="Dviguba stulpelinė diagrama">
+  <line x1="30" y1="12" x2="30" y2="165" stroke="#8a94a3" stroke-width="1.4"/>
+  <line x1="30" y1="165" x2="325" y2="165" stroke="#8a94a3" stroke-width="1.4"/>
+  <text x="24" y="169" text-anchor="end" fill="#5b6472" font-size="10">0</text>
+  <text x="24" y="93"  text-anchor="end" fill="#5b6472" font-size="10">3</text>
+  <text x="24" y="17"  text-anchor="end" fill="#5b6472" font-size="10">6</text>
+  <line x1="30" y1="89" x2="325" y2="89" stroke="#e2e8f1" stroke-dasharray="3 3"/>
+  <line x1="30" y1="13" x2="325" y2="13" stroke="#e2e8f1" stroke-dasharray="3 3"/>
+  <!-- Anim (4,4) -->
+  <rect x="52"  y="63"  width="20" height="102" fill="#1e5fa8"/><rect x="74"  y="63"  width="20" height="102" fill="#b25c00"/><text x="73"  y="180" text-anchor="middle" fill="#1c2430" font-size="10">Anim.</text>
+  <!-- Fant (4,6) -->
+  <rect x="124" y="63"  width="20" height="102" fill="#1e5fa8"/><rect x="146" y="13"  width="20" height="152" fill="#b25c00"/><text x="145" y="180" text-anchor="middle" fill="#1c2430" font-size="10">Fant.</text>
+  <!-- Nuot (6,2) -->
+  <rect x="196" y="13"  width="20" height="152" fill="#1e5fa8"/><rect x="218" y="114" width="20" height="51"  fill="#b25c00"/><text x="217" y="180" text-anchor="middle" fill="#1c2430" font-size="10">Nuot.</text>
+  <!-- Ist (2,0) -->
+  <rect x="268" y="114" width="20" height="51"  fill="#1e5fa8"/><text x="289" y="162" text-anchor="middle" fill="#1c2430" font-size="10">0</text><text x="289" y="180" text-anchor="middle" fill="#1c2430" font-size="10">Ist.</text>
+  <rect x="52"  y="192" width="12" height="8" fill="#1e5fa8"/><text x="68" y="199" fill="#5b6472" font-size="10">berniukai</text>
+  <rect x="150" y="192" width="12" height="8" fill="#b25c00"/><text x="166" y="199" fill="#5b6472" font-size="10">mergaitės</text>
+</svg>`;
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {
+    intro:"Pradėkim nuo <b>stulpelio aukščio</b>. Stulpelinėje diagramoje kiekvienos kategorijos stulpelio aukštis lygus jos <b>dažniui</b> iš dažnių lentelės.",
+    expr:`<table><tr><th>Žanras</th><th>Anim.</th><th>Fant.</th><th>Nuot.</th><th>Ist.</th></tr><tr><td>Dažnis</td><td>8</td><td>10</td><td>8</td><td>2</td></tr></table>`,
+    q:"Koks bus fantastinių žanro stulpelio aukštis?",
+    accepted:["10"],
+    hints:["Stulpelio aukštis, tai tos reikšmės dažnis. Susirask lentelėje eilutę „Fant.“","Prie „Fant.“ dažnių eilutėje parašyta viena reikšmė, tai ir yra stulpelio aukštis.","Perskaityk skaičių po „Fant.“ dažnių eilutėje."]
+  },
+  {
+    intro:"Dabar <b>nuskaitysime diagramą</b> atgal į skaičius. Kiekvieno stulpelio aukštis, tai dažnis; „iš viso“, tai visų aukščių <b>suma</b>.",
+    expr:CHART_KLAIDOS,
+    q:"Kiek iš viso mokinių parodo ši klaidų diagrama? (sudėk visų stulpelių aukščius)",
+    accepted:["23"],
+    hints:["Nuskaityk kiekvieno stulpelio aukštį: 3, 2, 9, 4, 5.","„Iš viso“, tai suma. Sudėk visus penkis skaičius.","3 + 2 + 9 + 4 + 5 — suskaičiuok po vieną."]
+  },
+  {
+    intro:"Kartais reikia <b>pirma apskaičiuoti dažnius</b>, o tik paskui braižyti. Dalinam palaipsniui: pusė, ketvirtadalis likusiųjų, likę.",
+    expr:`24 mokiniai · mėlynakiai = pusė · žaliaakiai = ketvirtadalis likusiųjų · kiti = rudaakiai`,
+    q:"Kiek klasėje rudaakių?",
+    accepted:["9"],
+    hints:["Pirma rask mėlynakius: pusė iš 24, tai 24 : 2.","Mėlynakių 12, liko 12. Žaliaakiai, ketvirtadalis šių 12: 12 : 4 = 3.","Rudaakiai, visi likę: 24 − 12 − 3."]
+  },
+  {
+    intro:"Pereinam prie <b>dvigubos diagramos</b>. Prie kiekvienos kategorijos stovi du stulpeliai: mėlynas (berniukai) ir oranžinis (mergaitės).",
+    expr:CHART_DVIGUBA,
+    q:"Kiek iš viso mokinių mėgsta fantastinius (berniukai ir mergaitės kartu)?",
+    accepted:["10"],
+    hints:["Ties „Fant.“ nuskaityk mėlyno (berniukų) ir oranžinio (mergaičių) stulpelių aukščius.","Berniukų 4, mergaičių 6. „Iš viso“, tai suma.","4 + 6 — suskaičiuok."]
+  },
+  {
+    intro:"Diagramoje dažnai reikia palyginti, <b>kiek daugiau</b>. Tai skirtumas: iš didesnio atimk mažesnį.",
+    expr:CHART_DVIGUBA,
+    q:"Ties „Nuot.“: kiek daugiau berniukų nei mergaičių mėgsta nuotykių žanrą?",
+    accepted:["4"],
+    hints:["Ties „Nuot.“ nuskaityk abu stulpelius: berniukų ir mergaičių.","Berniukų 6, mergaičių 2. „Kiek daugiau“, tai skirtumas.","6 − 2 — suskaičiuok."]
+  },
+  {
+    intro:"Paskutinė užduotis. Iš žodinių duomenų rasime <b>„iš viso“</b>, tai visų dažnių suma (tarsi visų stulpelių aukščių).",
+    expr:`Šeštokai į mokyklą: automobiliu 12 · autobusu 9 · pėsčiomis 24 · dviračiu 3`,
+    q:"Kiek iš viso šeštokų?",
+    accepted:["48"],
+    hints:["Kiekvienas skaičius, tai vieno stulpelio aukštis. „Iš viso“, tai suma.","Sudėk visus keturis: 12 + 9 + 24 + 3.","12 + 9 = 21; 21 + 24 = 45; 45 + 3 = ?"]
+  }
+];
+
+let si = 0;
+let hintIdx = 0;
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6;
+const testVariants = [
+  {label:"variantas A", qs:[
+    {t:"Žanrų diagrama: 8, 10, 8, 2. Kiek iš viso mokinių?", acc:["28"], hint:"Sudėk visų stulpelių aukščius: 8 + 10 + 8 + 2."},
+    {t:"Koks stulpelio aukštis, jei reikšmės dažnis lentelėje yra 7?", acc:["7"], hint:"Aukštis lygus dažniui."},
+    {t:"Klaidų diagrama 3, 2, 9, 4, 5. Kiek iš viso mokinių?", acc:["23"], hint:"„Iš viso“, tai suma: 3 + 2 + 9 + 4 + 5."},
+    {t:"24 klasėje mėlynakių pusė. Kiek mėlynakių?", acc:["12"], hint:"Pusė iš 24, tai 24 : 2."},
+    {t:"Žaliaakių ketvirtadalis iš likusių 12. Kiek žaliaakių?", acc:["3"], hint:"12 : 4."},
+    {t:"Dviguba: fantastinius mėgsta 4 berniukai ir 6 mergaitės. Iš viso?", acc:["10"], hint:"Suma: 4 + 6."},
+    {t:"Nuotykių: 6 berniukai, 2 mergaitės. Kiek daugiau berniukų?", acc:["4"], hint:"Skirtumas: 6 − 2."},
+    {t:"Kiek skirtingų spalvų yra dviguboje stulpelinėje diagramoje?", acc:["2"], hint:"Lyginami du dalykai, tad ir spalvų dvi."}
+  ]},
+  {label:"variantas B", qs:[
+    {t:"Augintinių diagrama: 2, 7, 5, 4, 2. Kiek iš viso mokinių?", acc:["20"], hint:"Sudėk: 2 + 7 + 5 + 4 + 2."},
+    {t:"Koks stulpelio aukštis, jei reikšmės dažnis lentelėje yra 5?", acc:["5"], hint:"Aukštis lygus dažniui."},
+    {t:"Įvarčių diagrama 3, 5, 4, 2, 1. Kiek iš viso rungtynių?", acc:["15"], hint:"Suma: 3 + 5 + 4 + 2 + 1."},
+    {t:"16 klasėje šviesiaplaukių pusė. Kiek jų?", acc:["8"], hint:"16 : 2."},
+    {t:"Rudaplaukių ketvirtadalis iš likusių 8. Kiek jų?", acc:["2"], hint:"8 : 4."},
+    {t:"Dviguba: dailę renkasi 2 berniukai ir 8 mergaitės. Iš viso?", acc:["10"], hint:"Suma: 2 + 8."},
+    {t:"Sportas: 7 berniukai, 4 mergaitės. Kiek daugiau berniukų?", acc:["3"], hint:"Skirtumas: 7 − 4."},
+    {t:"Kiek krypčių gali turėti stulpelinė diagrama?", acc:["2"], hint:"Vertikalioji ir horizontalioji."}
+  ]},
+  {label:"variantas C", qs:[
+    {t:"Knygų diagrama: 5, 6, 4, 3, 2. Kiek iš viso mokinių?", acc:["20"], hint:"Sudėk: 5 + 6 + 4 + 3 + 2."},
+    {t:"Koks stulpelio aukštis, jei reikšmės dažnis 0?", acc:["0"], hint:"Jei dažnis 0, stulpelio nėra, aukštis 0."},
+    {t:"Vaisiai 8, 5, 12, 3. Kiek iš viso?", acc:["28"], hint:"Suma: 8 + 5 + 12 + 3."},
+    {t:"24 klasėje autobusu važiuoja pusė. Kiek jų?", acc:["12"], hint:"24 : 2."},
+    {t:"Dviračiu ketvirtadalis iš likusių 12. Kiek jų?", acc:["3"], hint:"12 : 4."},
+    {t:"Dviguba: fantastinius mėgsta 5 berniukai ir 7 mergaitės. Iš viso?", acc:["12"], hint:"Suma: 5 + 7."},
+    {t:"Bananų 12, kriaušių 5. Kiek daugiau bananų?", acc:["7"], hint:"Skirtumas: 12 − 5."},
+    {t:"Ką rodo dažnių ašis? (įrašyk skaičių: 1 = dažnį, 2 = laiką)", acc:["1"], hint:"Dažnių ašyje žymimas dažnis, tai atsakymas 1."}
+  ]}
+];
+
+let vi = 0;
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===8) return {g:10, c:"Nuostabu! Stulpelines diagramas moki puikiai. 🌟"};
+  if(score===7) return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===6) return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===5) return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===4) return {g:6,  c:"Pusė teisingų — verta dar patreniruoti."};
+  if(score===3) return {g:5,  c:"Grįžk prie asistento užduočių ir pakartok."};
+  if(score>=1)  return {g:score+1, c:"Reikia dar treniruotis. Peržiūrėk užuominas ir pabandyk iš naujo."};
+  return {g:1, c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 8. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 8</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

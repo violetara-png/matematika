@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linijinė diagrama: 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  /* diagramos */
+  .chart{display:block; margin:14px auto 4px; max-width:100%}
+  .chart .axis{stroke:#334; stroke-width:1.6}
+  .chart .grid{stroke:#e2e8f0; stroke-width:1}
+  .chart .datl{fill:none; stroke:var(--tema); stroke-width:2.6; stroke-linejoin:round; stroke-linecap:round}
+  .chart .dot{fill:#fff; stroke:var(--tema); stroke-width:2.4}
+  .chart .lbl{fill:var(--pilka); font-size:12px; font-family:"Segoe UI",sans-serif}
+  .chart .vlbl{fill:var(--tema); font-size:12px; font-weight:700; font-family:"Segoe UI",sans-serif}
+  .chart .ttl{fill:#1c2430; font-size:13px; font-weight:700; font-family:"Segoe UI",sans-serif}
+  .cap{text-align:center; font-size:13px; color:var(--pilka); margin:2px 0 4px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Linijinė diagrama</h1>
+  <p class="klase">Matematika · 6 klasė · 11 skyrius · duomenų vaizdavimas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra linijinė diagrama</a></li>
+      <li><a href="#t2">Kaip braižoma linijinė diagrama</a></li>
+      <li><a href="#t3">Ką galima nuskaityti iš diagramos</a></li>
+      <li><a href="#t4">Statesnė linija: spartesnis pokytis</a></li>
+      <li><a href="#t5">Pavyzdys: temperatūra ir vaistai</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">11.1.3</span> Kas yra linijinė diagrama</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Linijinė diagrama</span> patogi tada, kai duomenys <b>kinta bėgant laikui</b>, pavyzdžiui, oro temperatūra per savaitę, ligonio temperatūra per dieną, šeimos išlaidos per pusmetį, upės vandens lygis.</p>
+        <p>Kiekvienas matavimas žymimas <b>tašku</b> su dviem skaičiais: <b class="term-a">laikas</b> (kada) ir <b class="term-b">reikšmė</b> (kiek). Gretimi taškai <b>sujungiami atkarpomis</b>, ir gaunama laužtė, rodanti, kaip reikšmė keitėsi.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Vienos savaitės vidutinė paros temperatūra (°C):</p>
+        <table class="kort math">
+          <tr><th>Diena</th><th>P</th><th>A</th><th>T</th><th>K</th><th>Pn</th><th>Š</th><th>S</th></tr>
+          <tr><th>t, °C</th><td>18</td><td>20</td><td>19</td><td>19</td><td>21</td><td>17</td><td>20</td></tr>
+        </table>
+        <svg class="chart" viewBox="0 0 460 240" role="img" aria-label="Savaitės temperatūros linijinė diagrama">
+          <text class="ttl" x="230" y="16" text-anchor="middle">Savaitės temperatūra, °C</text>
+          <!-- horizontalus tinklelis + vertikalios reikšmės -->
+          <line class="grid" x1="50" y1="30"  x2="430" y2="30"/>
+          <line class="grid" x1="50" y1="60"  x2="430" y2="60"/>
+          <line class="grid" x1="50" y1="90"  x2="430" y2="90"/>
+          <line class="grid" x1="50" y1="120" x2="430" y2="120"/>
+          <line class="grid" x1="50" y1="150" x2="430" y2="150"/>
+          <line class="grid" x1="50" y1="180" x2="430" y2="180"/>
+          <text class="lbl" x="44" y="34"  text-anchor="end">22</text>
+          <text class="lbl" x="44" y="64"  text-anchor="end">21</text>
+          <text class="lbl" x="44" y="94"  text-anchor="end">20</text>
+          <text class="lbl" x="44" y="124" text-anchor="end">19</text>
+          <text class="lbl" x="44" y="154" text-anchor="end">18</text>
+          <text class="lbl" x="44" y="184" text-anchor="end">17</text>
+          <!-- ašys -->
+          <line class="axis" x1="50" y1="20" x2="50" y2="210"/>
+          <line class="axis" x1="50" y1="210" x2="440" y2="210"/>
+          <!-- laužtė -->
+          <polyline class="datl" points="60,150 112,90 164,120 216,120 268,60 320,180 372,90"/>
+          <circle class="dot" cx="60"  cy="150" r="4"/>
+          <circle class="dot" cx="112" cy="90"  r="4"/>
+          <circle class="dot" cx="164" cy="120" r="4"/>
+          <circle class="dot" cx="216" cy="120" r="4"/>
+          <circle class="dot" cx="268" cy="60"  r="4"/>
+          <circle class="dot" cx="320" cy="180" r="4"/>
+          <circle class="dot" cx="372" cy="90"  r="4"/>
+          <!-- dienų žymės -->
+          <text class="lbl" x="60"  y="226" text-anchor="middle">P</text>
+          <text class="lbl" x="112" y="226" text-anchor="middle">A</text>
+          <text class="lbl" x="164" y="226" text-anchor="middle">T</text>
+          <text class="lbl" x="216" y="226" text-anchor="middle">K</text>
+          <text class="lbl" x="268" y="226" text-anchor="middle">Pn</text>
+          <text class="lbl" x="320" y="226" text-anchor="middle">Š</text>
+          <text class="lbl" x="372" y="226" text-anchor="middle">S</text>
+        </svg>
+        <p class="cap">Taškai (diena; temperatūra) sujungti atkarpomis. Iš karto matyti, kada šilta, kada šalta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">11.1.3</span> Kaip braižoma linijinė diagrama</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Braižymo žingsniai:</span></p>
+        <p>1. <b>Horizontaliojoje ašyje</b> žymime <b class="term-a">laiką</b> (dienas, valandas, mėnesius) vienodais tarpais.</p>
+        <p>2. <b>Vertikaliojoje ašyje</b> žymime <b class="term-b">reikšmę</b> (temperatūrą, išlaidas, lygį), pasirenkame vienodą padalą.</p>
+        <p>3. Kiekvienam matavimui pažymime <b>tašką</b> (laikas; reikšmė).</p>
+        <p>4. Gretimus taškus iš eilės <b>sujungiame atkarpomis</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> 7 dienų savaitei reikia <b class="gerai">7 taškų</b> (po vieną kiekvienai dienai). Diagrama turi <b>dvi ašis</b>: laiko ir reikšmės.</p>
+        <p class="demesio"><b>Dėmesio.</b> Taškai jungiami <b>atkarpomis</b> ta pačia tvarka, kaip eina laikas. Laikas visada <b>horizontalioje</b> ašyje, ne vertikalioje.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">11.1.3</span> Ką galima nuskaityti iš diagramos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Iš linijinės diagramos greitai matome:</p>
+        <table class="kort">
+          <tr><th>Klausimas</th><th>Kaip randame</th></tr>
+          <tr><td>Kada reikšmė <b>didžiausia</b>?</td><td>aukščiausias taškas</td></tr>
+          <tr><td>Kada reikšmė <b>mažiausia</b>?</td><td>žemiausias taškas</td></tr>
+          <tr><td>Kada reikšmė <b>didėja / mažėja</b>?</td><td>linija kyla / krenta</td></tr>
+          <tr><td>Koks reikšmių <b>plotis</b>?</td><td>didžiausioji − mažiausioji reikšmė</td></tr>
+        </table>
+        <p class="pvz" style="margin-top:12px"><b>Pavyzdys (ta pati savaitės temperatūra).</b><br>
+        Aukščiausia temperatūra <b class="gerai">21 °C</b> (penktadienį), žemiausia <b class="gerai">17 °C</b> (šeštadienį).<br>
+        Reikšmių plotis: <span class="math">21 − 17 = <span class="gerai">4</span></span> (°C).<br>
+        Dienų, kai temperatūra buvo aukštesnė nei 18 °C: <b class="gerai">5</b> (A 20, T 19, K 19, Pn 21, S 20).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">11.1.3</span> Statesnė linija: spartesnis pokytis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kuo statesnė atkarpa, tuo spartesnis reikšmės pokytis.</span> Beveik horizontali atkarpa reiškia, kad reikšmė kito mažai; stati atkarpa, kad kito daug.</p>
+        <p>Norint palyginti du gretimus matavimus, žiūrime jų <b>skirtumą</b>. Pavyzdžiui, nuo pirmadienio (18 °C) iki antradienio (20 °C) temperatūra <b>pakilo</b> <span class="math">20 − 18 = <span class="gerai">2</span></span> (°C); nuo ketvirtadienio (19 °C) iki penktadienio (21 °C) taip pat <span class="math">21 − 19 = <span class="gerai">2</span></span> (°C).</p>
+        <p class="demesio"><b>Dėmesio.</b> Linija, kylanti į viršų, rodo <b>didėjimą</b>; krentanti žemyn, <b>mažėjimą</b>. Vienoda linija (horizontali atkarpa), reikšmė nepakito.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">11.1.3</span> Pavyzdys: temperatūra ir vaistai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Simona sirgo. Jos temperatūra buvo matuojama kas valandą nuo <b>10</b> iki <b>14</b> val. (iš viso <b class="gerai">5</b> matavimai). 13 val. ji išgėrė vaistų.</p>
+        <table class="kort math">
+          <tr><th>Laikas</th><th>10 val.</th><th>11 val.</th><th>12 val.</th><th>13 val.</th><th>14 val.</th></tr>
+          <tr><th>t, °C</th><td>37,8</td><td>38</td><td>38,4</td><td>37,2</td><td>36,8</td></tr>
+        </table>
+        <svg class="chart" viewBox="0 0 460 240" role="img" aria-label="Simonos temperatūros linijinė diagrama">
+          <text class="ttl" x="230" y="16" text-anchor="middle">Simonos temperatūra, °C</text>
+          <line class="grid" x1="55" y1="30"  x2="430" y2="30"/>
+          <line class="grid" x1="55" y1="75"  x2="430" y2="75"/>
+          <line class="grid" x1="55" y1="120" x2="430" y2="120"/>
+          <line class="grid" x1="55" y1="165" x2="430" y2="165"/>
+          <text class="lbl" x="49" y="34"  text-anchor="end">38,5</text>
+          <text class="lbl" x="49" y="79"  text-anchor="end">38,0</text>
+          <text class="lbl" x="49" y="124" text-anchor="end">37,5</text>
+          <text class="lbl" x="49" y="169" text-anchor="end">37,0</text>
+          <line class="axis" x1="55" y1="20" x2="55" y2="210"/>
+          <line class="axis" x1="55" y1="210" x2="440" y2="210"/>
+          <polyline class="datl" points="80,93 155,75 230,39 305,147 380,183"/>
+          <circle class="dot" cx="80"  cy="93"  r="4"/>
+          <circle class="dot" cx="155" cy="75"  r="4"/>
+          <circle class="dot" cx="230" cy="39"  r="4"/>
+          <circle class="dot" cx="305" cy="147" r="4"/>
+          <circle class="dot" cx="380" cy="183" r="4"/>
+          <text class="lbl" x="80"  y="226" text-anchor="middle">10 val.</text>
+          <text class="lbl" x="155" y="226" text-anchor="middle">11 val.</text>
+          <text class="lbl" x="230" y="226" text-anchor="middle">12 val.</text>
+          <text class="lbl" x="305" y="226" text-anchor="middle">13 val.</text>
+          <text class="lbl" x="380" y="226" text-anchor="middle">14 val.</text>
+        </svg>
+        <p class="pvz"><b>Skaitome diagramą.</b><br>
+        Iki 12 val. temperatūra <b>kilo</b> (linija kyla), aukščiausia buvo 38,4 °C.<br>
+        Po vaistų (nuo 13 val.) temperatūra <b>krito</b>: nuo 38,4 iki 37,2 nukrito <span class="math">38,4 − 37,2 = <span class="gerai">1,2</span></span> (°C).<br>
+        Nuo 10 iki 11 val. pakilo <span class="math">38 − 37,8 = <span class="gerai">0,2</span></span> (°C).<br>
+        Stačiausia atkarpa (didžiausias pokytis) yra nuo 12 iki 13 val., kai temperatūra staiga nukrito.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">!</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Laiką deda į <span class="klaida">vertikaliąją</span> ašį</td><td class="gerai">laikas visada horizontalioje ašyje</td></tr>
+          <tr><td>Taškus palieka <span class="klaida">nesujungtus</span></td><td class="gerai">gretimi taškai jungiami atkarpomis</td></tr>
+          <tr><td>Plotį skaičiuoja <span class="klaida">sudėdami</span> reikšmes</td><td class="gerai">plotis = didžiausioji − mažiausioji</td></tr>
+          <tr><td>Statesnę liniją laiko <span class="klaida">lėtesniu</span> pokyčiu</td><td class="gerai">statesnė linija = spartesnis pokytis</td></tr>
+          <tr><td>Linijinę diagramą braižo <span class="klaida">kategorijoms</span> (žanrai, spalvos)</td><td class="gerai">linijinė, tik kai duomenys kinta laike</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Laikas, <b>horizontaliai</b>. Taškus, <b>sujungiu</b>. Plotis, <b>didžiausioji minus mažiausioji</b>. Statesnė linija, <b>greitesnis pokytis</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Linijinė diagrama“ (11 skyrius)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Imties vidurkis: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .frac{display:inline-block; vertical-align:middle; text-align:center; margin:0 1px}
+  .frac .n{display:block; padding:0 4px; border-bottom:1.5px solid currentColor; line-height:1.12}
+  .frac .d{display:block; padding:0 4px; line-height:1.12}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Imties vidurkis: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 11 skyrius „Duomenys“ · 11.2.1 imties vidurkis</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1: imtis, dydis -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Imtis ir imties dydis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> imtis — surinktų duomenų rinkinys; imties dydis — duomenų skaičius (kiek iš viso reikšmių).</div>
+    <div class="ex">
+      <div class="q">Daumantas per savaitę nubėgo (km): 13, 18, 18, 17, 18, 15, 13. Koks imties dydis?</div>
+      <div class="line">Duomenų surašyta 7 (po vieną kiekvienai savaitės dienai) &rArr; <span class="res">imties dydis 7</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2: sutvarkyta imtis -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sutvarkyta imtis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> sutvarkyta imtis surašyta nemažėjančia tvarka; pasikartojančias reikšmes surašome tiek kartų, kiek jų yra.</div>
+    <div class="ex">
+      <div class="q">Sutvarkyk imtį 13, 18, 18, 17, 18, 15, 13.</div>
+      <div class="line"><span class="res">13, 13, 15, 17, 18, 18, 18</span> &nbsp;<span class="muted2">(reikšmių skaičius nepasikeitė — vis dar 7)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3: plotis -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Imties plotis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> imties plotis r = didžiausia − mažiausia reikšmė. Rodo, kaip plačiai išsibarstę duomenys.</div>
+    <div class="ex">
+      <div class="q">Rask imties 13, 13, 15, 17, 18, 18, 18 plotį.</div>
+      <div class="line">Didžiausia 18, mažiausia 13: r = 18 − 13 &rArr; <span class="res">5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Krepšininkas pelnė 21, 16, 4, 27, 16, 12 taškų. Koks plotis?</div>
+      <div class="line">r = 27 − 4 &rArr; <span class="res">23</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4: vidurkis -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Imties vidurkis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> imties vidurkis = visų duomenų suma : imties dydis. Vidurkis gali būti su kableliu ir nesutapti su jokia imties reikšme.</div>
+    <div class="ex">
+      <div class="q">Daumanto imtis 13, 18, 18, 17, 18, 15, 13. Rask vidurkį.</div>
+      <div class="line">Suma 13 + 18 + 18 + 17 + 18 + 15 + 13 = 112, dydis 7: <span class="frac"><span class="n">112</span><span class="d">7</span></span> &rArr; <span class="res">16 km</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Karpių masės (kg): 1,5; 3,05; 1,8; 2,14; 2,01. Rask vidurkį.</div>
+      <div class="line">Suma 10,5, dydis 5: <span class="frac"><span class="n">10,5</span><span class="d">5</span></span> &rArr; <span class="res">2,1 kg</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5: vidurkis su dažniais -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Vidurkis su dažnių lentele</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kiekvieną reikšmę padaugink iš jos dažnio, sandaugas sudėk ir padalyk iš dažnių sumos (imties dydžio).</div>
+    <div class="ex">
+      <div class="q">Justo atsispaudimai: 27, 25, 27, 30, 27, 30, 30. Rask vidurkį.</div>
+      <table class="mini">
+        <tr><th>Reikšmė</th><td>25</td><td>27</td><td>30</td></tr>
+        <tr><th>Dažnis</th><td>1</td><td>3</td><td>3</td></tr>
+      </table>
+      <div class="line"><span class="frac"><span class="n">25·1 + 27·3 + 30·3</span><span class="d">7</span></span> = <span class="frac"><span class="n">196</span><span class="d">7</span></span> &rArr; <span class="res">28</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6: suma iš vidurkio -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Suma iš vidurkio. Trūkstamas narys</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> suma = vidurkis · dydis. Trūkstamą narį randame iš visų narių sumos atėmę žinomus.</div>
+    <div class="ex">
+      <div class="q">Savaitės bėgimo vidurkis 16 km, dydis 7. Rask visų kilometrų sumą.</div>
+      <div class="line">suma = 16 · 7 &rArr; <span class="res">112 km</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Paulius 4 dienas prisirinko 63 zylutes, 5 dienų vidurkis 18. Kiek penktą dieną?</div>
+      <div class="line">5 dienų suma = 18 · 5 = 90; penktą dieną: 90 − 63 &rArr; <span class="res">27</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> plotis = didžiausia − mažiausia; vidurkis = <span class="frac math"><span class="n">suma</span><span class="d">dydis</span></span>; suma = vidurkis · dydis. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Dydis, plotis, vidurkis</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Imtis 8, 12, 10, 6, 14. Rask dydį, plotį ir vidurkį.</li>
+        <li>Imtis 13, 18, 18, 17, 18, 15, 13. Rask plotį ir vidurkį.</li>
+        <li>Krepšininkas 21, 16, 4, 27, 16, 12. Rask vidurkį.</li>
+        <li>7 pakuočių masių suma 1400 g. Rask vidurkį.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Su dažnių lentele ir suma iš vidurkio</div>
+    <div class="two">
+      <ol class="tasks math" start="5">
+        <li>Pažymiai: 6 → 2, 8 → 3, 9 → 5. Rask vidurkį.</li>
+        <li>Vidurkis 15, dydis 6. Rask sumą.</li>
+        <li>Imtis 5, 5, 5, 8, 12. Rask vidurkį.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Trūkstamas narys ir taikymas</div>
+    <ol class="tasks" start="8">
+      <li>Justas 4 dienas atsispaudė 88 kartus, o 5 dienų vidurkis 24. Kiek kartų penktą dieną?</li>
+      <li>Ežerų gyliai (m): 12,5; 8,4; 15,2; 12,3; 13,6. Rask vidurkį.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> dydis 5; plotis 14 − 6 = 8; vidurkis 50 : 5 = 10</div>
+    <div class="row math"><b>2.</b> plotis 18 − 13 = 5; vidurkis 112 : 7 = 16</div>
+    <div class="row math"><b>3.</b> 96 : 6 = 16</div>
+    <div class="row math"><b>4.</b> 1400 : 7 = 200</div>
+    <div class="row math"><b>5.</b> (6·2 + 8·3 + 9·5) : 10 = 81 : 10 = 8,1</div>
+    <div class="row math"><b>6.</b> suma = 15 · 6 = 90</div>
+    <div class="row math"><b>7.</b> 35 : 5 = 7</div>
+    <div class="row math"><b>8.</b> 24 · 5 − 88 = 120 − 88 = 32</div>
+    <div class="row math"><b>9.</b> 62 : 5 = 12,4</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Imties vidurkis“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

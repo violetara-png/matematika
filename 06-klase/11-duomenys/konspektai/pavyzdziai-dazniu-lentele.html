@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Dažnių lentelė: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .zym{font-family:"Consolas","Courier New",monospace;letter-spacing:1px;}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Dažnių lentelė: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 11 skyrius „Duomenys“ · 11.1.1</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Duomenys, reikšmės, dažnis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> reikšmė, tai ką parodo vienas atsakymas; dažnis, tai kiek kartų ta reikšmė pasikartoja.</div>
+    <div class="ex">
+      <div class="q">Paklausus draugų mėgstamiausio žanro, gauta: animaciniai, fantastiniai, animaciniai, nuotykių, animaciniai. Koks žanro „animaciniai“ dažnis?</div>
+      <div class="line">Suskaičiuojame, kiek kartų pasitaiko „animaciniai“: 1, 2, 3 kartai.</div>
+      <div class="line">&rArr; <span class="res">dažnis 3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Dažnių lentelė</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> dažnių lentelėje vienoje eilutėje surašytos reikšmės, kitoje, jų dažniai.</div>
+    <div class="ex">
+      <div class="q">Sudaryk žanrų dažnių lentelę: animaciniai 8, fantastiniai 10, nuotykių 8, istoriniai 2.</div>
+      <table class="mini">
+        <tr><th>Žanras</th><td>animaciniai</td><td>fantastiniai</td><td>nuotykių</td><td>istoriniai</td></tr>
+        <tr><th>Dažnis</th><td>8</td><td>10</td><td>8</td><td>2</td></tr>
+      </table>
+      <div class="line">Populiariausi &rArr; <span class="res">fantastiniai (10)</span>, rečiausiai renkasi &rArr; <span class="res">istorinius (2)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Registravimas brūkšneliais</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kiekvienas atsakymas, vienas brūkšnelis; grupuojame po penkis (<span class="zym">IIIII</span>).</div>
+    <div class="ex">
+      <div class="q">Kiek pažymėta, jei žymėjimas <span class="zym">IIIII IIIII II</span>?</div>
+      <div class="line">Dvi pilnos grupės po 5 ir dar 2: 5 + 5 + 2 &rArr; <span class="res">12</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Dažnių suma</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> visų dažnių suma lygi tirtų objektų skaičiui.</div>
+    <div class="ex">
+      <div class="q">Kontrolinio pažymių dažniai: 4→2, 6→7, 7→11, 8→9, 9→7, 10→5. Kiek mokinių rašė?</div>
+      <div class="line math">2 + 7 + 11 + 9 + 7 + 5 &rArr; <span class="res">41 mokinys</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Vėjo krypčių dažniai: Š2, ŠR8, ŠV6, P0, PR2, PV1, R5, V4. Kiek dienų iš viso?</div>
+      <div class="line math">2 + 8 + 6 + 0 + 2 + 1 + 5 + 4 &rArr; <span class="res">28 dienos</span> &nbsp;<span class="muted2">(P dažnis 0, sumai prideda 0)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Trūkstamas dažnis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> trūkstamą dažnį randame iš bendro skaičiaus atimdami žinomus dažnius.</div>
+    <div class="ex">
+      <div class="q">Ledainėje 377 pirkėjai: šokoladinių 78, vaninių 243. Kiek vaisinių?</div>
+      <div class="line math">377 − 78 − 243 &rArr; <span class="res">56 pirkėjai</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Iš viso apklausta 25 draugai apie augintinius: 0→2, 1→12, 2→6, 4 ir daugiau→1. Koks „3 gyvūnų“ dažnis?</div>
+      <div class="line math">25 − 2 − 12 − 6 − 1 &rArr; <span class="res">4</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Daugiausia, mažiausiai</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> didžiausias dažnis rodo dažniausią reikšmę, mažiausias, rečiausią.</div>
+    <div class="ex">
+      <div class="q">Marškinėlių dažniai: XS 48, S 75, M 189, L 92, XL 64. Kurio dydžio reikės daugiausia, kurio mažiausiai?</div>
+      <div class="line">Didžiausias dažnis 189 &rArr; <span class="res">M</span>. Mažiausias 48 &rArr; <span class="res">XS</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> dažnių sumą skaičiuok sudėdami visus dažnius (net ir 0); trūkstamą dažnį rask atimdamas žinomus dažnius iš bendro skaičiaus. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Dažnių suma</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Pažymių dažniai 3, 8, 10, 9, 6, 4. Kokia dažnių suma?</li>
+        <li>Vėjo dienos 3, 8, 5, 1, 2, 1, 6, 4. Kiek iš viso?</li>
+        <li>Augintiniai 0→2, 1→11, 2→8, 3→4, 4+→2. Kiek apklausta?</li>
+        <li>Batų dažniai 30, 60, 140, 80, 50. Kiek iš viso?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Trūkstamas dažnis</div>
+    <div class="two">
+      <ol class="tasks math" start="5">
+        <li>Sultys: iš viso 300, apelsinų 90, obuolių 150. Kiek vynuogių?</li>
+        <li>Gėrimai: iš viso 350, kolos 80, limonado 190. Kiek sulčių?</li>
+        <li>Iš viso 26 mokiniai: 0→3, 1→9, 3→5, 4+→1. Koks „2 gyvūnų“ dažnis?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Daugiausia, mažiausiai, žodiniai</div>
+    <ol class="tasks" start="8">
+      <li>Batų dažniai XS 30, S 60, M 140, L 80, XL 50. Kurio dydžio reikės daugiausia, kurio mažiausiai?</li>
+      <li>Žūklė: lydekų 80, karpių dvigubai mažiau. Kiek karpių?</li>
+      <li>Kada reikšmės dažnis lygus 0? Kiek reikšmių yra lentelėje, jei jų pavadinimai: rytą, dieną, vakarą, naktį?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 3 + 8 + 10 + 9 + 6 + 4 = 40 &nbsp;&nbsp; <b>2.</b> 3 + 8 + 5 + 1 + 2 + 1 + 6 + 4 = 30</div>
+    <div class="row math"><b>3.</b> 2 + 11 + 8 + 4 + 2 = 27 &nbsp;&nbsp; <b>4.</b> 30 + 60 + 140 + 80 + 50 = 360</div>
+    <div class="row math"><b>5.</b> 300 − 90 − 150 = 60 &nbsp;&nbsp; <b>6.</b> 350 − 80 − 190 = 80</div>
+    <div class="row math"><b>7.</b> 26 − 3 − 9 − 5 − 1 = 8</div>
+    <div class="row math"><b>8.</b> daugiausia M (140), mažiausiai XS (30) &nbsp;&nbsp; <b>9.</b> 80 : 2 = 40 karpiai</div>
+    <div class="row math"><b>10.</b> kai tokios reikšmės tarp duomenų nepasitaiko nė karto; reikšmių lentelėje 4</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Dažnių lentelė“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

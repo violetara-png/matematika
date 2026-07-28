@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Linijinė diagrama: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+  .chart{display:block;margin:6px 0}
+  .chart .axis{stroke:#334;stroke-width:1.5}
+  .chart .grid{stroke:#e2e8f0;stroke-width:1}
+  .chart .datl{fill:none;stroke:var(--blue);stroke-width:2.4;stroke-linejoin:round}
+  .chart .dot{fill:#fff;stroke:var(--blue);stroke-width:2.2}
+  .chart .lbl{fill:var(--muted);font-size:10px;font-family:"Segoe UI",sans-serif}
+</style>
+</head>
+<body>
+
+<h1>Linijinė diagrama: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 11 skyrius · duomenų vaizdavimas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Aukščiausia ir žemiausia reikšmė, plotis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> aukščiausias diagramos taškas rodo didžiausią reikšmę, žemiausias, mažiausią. Plotis = didžiausioji − mažiausioji.</div>
+    <div class="ex">
+      <div class="q">Vienos savaitės temperatūra (°C): P 18, A 20, T 19, K 19, Pn 21, Š 17, S 20.</div>
+      <svg class="chart" viewBox="0 0 420 190" role="img" aria-label="Savaitės temperatūra">
+        <line class="grid" x1="46" y1="24" x2="400" y2="24"/><line class="grid" x1="46" y1="54" x2="400" y2="54"/>
+        <line class="grid" x1="46" y1="84" x2="400" y2="84"/><line class="grid" x1="46" y1="114" x2="400" y2="114"/>
+        <line class="grid" x1="46" y1="144" x2="400" y2="144"/>
+        <text class="lbl" x="40" y="28" text-anchor="end">22</text><text class="lbl" x="40" y="58" text-anchor="end">20</text>
+        <text class="lbl" x="40" y="88" text-anchor="end">19</text><text class="lbl" x="40" y="118" text-anchor="end">18</text>
+        <text class="lbl" x="40" y="148" text-anchor="end">17</text>
+        <line class="axis" x1="46" y1="18" x2="46" y2="150"/><line class="axis" x1="46" y1="150" x2="405" y2="150"/>
+        <polyline class="datl" points="60,114 112,54 164,84 216,84 268,24 320,144 372,54"/>
+        <circle class="dot" cx="60" cy="114" r="3.5"/><circle class="dot" cx="112" cy="54" r="3.5"/>
+        <circle class="dot" cx="164" cy="84" r="3.5"/><circle class="dot" cx="216" cy="84" r="3.5"/>
+        <circle class="dot" cx="268" cy="24" r="3.5"/><circle class="dot" cx="320" cy="144" r="3.5"/><circle class="dot" cx="372" cy="54" r="3.5"/>
+        <text class="lbl" x="60" y="164" text-anchor="middle">P</text><text class="lbl" x="112" y="164" text-anchor="middle">A</text>
+        <text class="lbl" x="164" y="164" text-anchor="middle">T</text><text class="lbl" x="216" y="164" text-anchor="middle">K</text>
+        <text class="lbl" x="268" y="164" text-anchor="middle">Pn</text><text class="lbl" x="320" y="164" text-anchor="middle">Š</text>
+        <text class="lbl" x="372" y="164" text-anchor="middle">S</text>
+      </svg>
+      <div class="line">Aukščiausias taškas, penktadienį: <span class="res">21 °C</span>. Žemiausias, šeštadienį: <span class="res">17 °C</span>.</div>
+      <div class="line math">Plotis: 21 − 17 = <span class="res">4</span> (°C).</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Reikšmės virš slenksčio</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> norint suskaičiuoti, kiek reikšmių viršija slenkstį, žiūrime, kurie taškai yra aukščiau nustatytos ribos.</div>
+    <div class="ex">
+      <div class="q">Kiek dienų temperatūra buvo aukštesnė nei 18 °C? (P 18, A 20, T 19, K 19, Pn 21, Š 17, S 20)</div>
+      <div class="line">Aukštesnės nei 18: A 20, T 19, K 19, Pn 21, S 20 &rArr; <span class="res">5 dienos</span> <span class="muted2">(pati 18 °C neįskaitoma, nes reikia „aukštesnė nei“)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Pokytis. Statesnė linija</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> gretimų reikšmių pokytis = jų skirtumas. Kuo statesnė atkarpa, tuo spartesnis pokytis.</div>
+    <div class="ex">
+      <div class="q">Kiek pakilo temperatūra nuo pirmadienio iki antradienio ir nuo ketvirtadienio iki penktadienio?</div>
+      <div class="line">P&rarr;A: 20 − 18 = <span class="res">2</span> &nbsp;·&nbsp; K&rarr;Pn: 21 − 19 = <span class="res">2</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Tarp kurių gretimų dienų temperatūra labiausiai (stačiausiai) nukrito?</div>
+      <div class="line">Pn&rarr;Š: 21 − 17 = 4 &rArr; <span class="res">nuo penktadienio iki šeštadienio</span> (stačiausia krentanti atkarpa)</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Ligonio temperatūra ir vaistai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> linija, kylanti į viršų, rodo didėjimą, krentanti, mažėjimą. Skirtumas parodo, kiek pakito reikšmė.</div>
+    <div class="ex">
+      <div class="q">Simonos temperatūra kas valandą (13 val. vaistai):</div>
+      <table class="mini">
+        <tr><th>Laikas</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th></tr>
+        <tr><th>t, °C</th><td>37,8</td><td>38</td><td>38,4</td><td>37,2</td><td>36,8</td></tr>
+      </table>
+      <div class="line">Aukščiausia 12 val.: 38,4 °C. Po vaistų krito: 38,4 − 37,2 = <span class="res">1,2</span> (°C).</div>
+      <div class="line">Matavimų iš viso: <span class="res">5</span> (10, 11, 12, 13, 14 val.).</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Braižymas ir ašys</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> laikas, horizontalioje ašyje; reikšmė, vertikalioje. Taškai (laikas; reikšmė) sujungiami atkarpomis.</div>
+    <div class="ex">
+      <div class="q">Kiek taškų reikia 7 dienų savaitės diagramai? Kurioje ašyje žymime laiką?</div>
+      <div class="line">Po vieną tašką kiekvienai dienai &rArr; <span class="res">7 taškai</span>. Laikas, <span class="res">horizontalioje</span> ašyje.</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> aukščiausia reikšmė, aukščiausias taškas; plotis, didžiausioji − mažiausioji; pokytis, gretimų reikšmių skirtumas. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Upės vandens lygis (cm): P 40, A 55, T 50, K 65, Pn 60</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Kuri diena turi aukščiausią vandens lygį ir kokį?</li>
+        <li>Kuri diena turi žemiausią lygį ir kokį?</li>
+        <li>Koks reikšmių plotis?</li>
+        <li>Kiek pakilo lygis nuo pirmadienio iki antradienio?</li>
+        <li>Nuo antradienio (55) iki trečiadienio (50): pakilo ar nukrito ir kiek?</li>
+        <li>Kiek taškų reikia šiai 5 dienų diagramai?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Bendri klausimai apie linijinę diagramą</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Kada renkamės linijinę, o ne stulpelinę diagramą?</li>
+        <li>Kurioje ašyje žymime laiką?</li>
+        <li>Ką reiškia statesnė linijos atkarpa?</li>
+        <li>Kiek ašių turi linijinė diagrama?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Ligonio temperatūra (°C): 9 val. 37,4; 10 val. 38; 11 val. 38,5; 12 val. 37,9</div>
+    <ol class="tasks" start="11">
+      <li>Kada temperatūra buvo aukščiausia ir kokia?</li>
+      <li>Kiek nukrito temperatūra nuo 11 iki 12 val.?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> ketvirtadienis, 65 cm &nbsp;&nbsp; <b>2.</b> pirmadienis, 40 cm &nbsp;&nbsp; <b>3.</b> 65 − 40 = 25</div>
+    <div class="row math"><b>4.</b> 55 − 40 = 15 (pakilo) &nbsp;&nbsp; <b>5.</b> nukrito, 55 − 50 = 5 &nbsp;&nbsp; <b>6.</b> 5 taškai</div>
+    <div class="row"><b>7.</b> kai duomenys kinta bėgant laikui &nbsp;&nbsp; <b>8.</b> horizontalioje ašyje</div>
+    <div class="row"><b>9.</b> spartesnį (greitesnį) reikšmės pokytį &nbsp;&nbsp; <b>10.</b> dvi</div>
+    <div class="row math"><b>11.</b> 11 val., 38,5 °C &nbsp;&nbsp; <b>12.</b> 38,5 − 37,9 = 0,6</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Linijinė diagrama“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Stulpelinė diagrama: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Stulpelinė diagrama: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 11 skyrius · duomenų vaizdavimas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Stulpelio aukštis, tai dažnis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> stulpelinė diagrama vaizduoja duomenis vienodo pločio stulpeliais; stulpelio aukštis rodo reikšmės dažnį.</div>
+    <div class="ex">
+      <div class="q">Žanrų diagrama: animaciniai 8, fantastiniai 10, nuotykių 8, istoriniai 2. Kiek iš viso mokinių apklausta?</div>
+      <div class="line math">Sudedu stulpelių aukščius: 8 + 10 + 8 + 2 &rArr; <span class="res">28 mokiniai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Nuskaitymas iš diagramos</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> diagramą galima nuskaityti atgal į dažnių lentelę; „iš viso“, tai visų stulpelių aukščių suma.</div>
+    <div class="ex">
+      <div class="q">Klaidų diagrama: 0 → 3, 1 → 2, 2 → 9, 3 → 4, 4 → 5. Kiek iš viso mokinių rašė?</div>
+      <div class="line math">3 + 2 + 9 + 4 + 5 &rArr; <span class="res">23 mokiniai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Dalių radimas ir diagrama</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia randame kiekvienos grupės dažnį, tada braižome po vieną stulpelį.</div>
+    <div class="ex">
+      <div class="q">24 mokinių klasėje mėlynakių pusė, žaliaakių ketvirtadalis likusiųjų, kiti rudaakiai. Kiek kurių?</div>
+      <div class="line math">Mėlynakiai: 24 : 2 = <span class="res">12</span></div>
+      <div class="line math">Liko 24 − 12 = 12; žaliaakiai: 12 : 4 = <span class="res">3</span></div>
+      <div class="line math">Rudaakiai: 24 − 12 − 3 = <span class="res">9</span> &nbsp;<span class="muted2">(patikra: 12 + 3 + 9 = 24)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Dviguba stulpelinė diagrama</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> dvigubą diagramą braižome, kai ties kiekviena reikšme lyginami du duomenys (du skirtingų spalvų stulpeliai + legenda).</div>
+    <div class="ex">
+      <div class="q">Berniukų ir mergaičių pomėgiai pagal žanrą:</div>
+      <table class="mini">
+        <tr><th>&nbsp;</th><th>Anim.</th><th>Fant.</th><th>Nuot.</th><th>Ist.</th></tr>
+        <tr><th>Berniukai</th><td>4</td><td>4</td><td>6</td><td>2</td></tr>
+        <tr><th>Mergaitės</th><td>4</td><td>6</td><td>2</td><td>0</td></tr>
+      </table>
+      <div class="line math">Fantastinius iš viso: 4 + 6 &rArr; <span class="res">10</span></div>
+      <div class="line math">Nuotykių berniukų daugiau nei mergaičių: 6 − 2 &rArr; <span class="res">4</span></div>
+      <div class="line">Istorinių mergaičių dažnis 0 &rArr; <span class="res">stulpelio nėra</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Žodinis uždavinys</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">Šeštokai į mokyklą: automobiliu 12, autobusu 9, pėsčiomis 24, dviračiu 3. Kiek iš viso ir kiek daugiau pėsčiomis nei autobusu?</div>
+      <div class="line math">Iš viso: 12 + 9 + 24 + 3 &rArr; <span class="res">48</span></div>
+      <div class="line math">Pėsčiomis daugiau: 24 − 9 &rArr; <span class="res">15</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> „iš viso“ skaičiuok sudėdamas visų stulpelių aukščius; dalis rask dalydamas; „kiek daugiau“, tai skirtumas. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Nuskaitymas ir suma</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Augintinių dažniai 2, 7, 5, 4, 2. Kiek iš viso mokinių?</li>
+        <li>Įvarčių dažniai 3, 5, 4, 2, 1. Kiek iš viso rungtynių?</li>
+        <li>Knygų dažniai 5, 6, 4, 3, 2. Kiek iš viso mokinių?</li>
+        <li>Vaisiai: 8 obuoliai, 5 kriaušės, 12 bananų, 3 apelsinai. Kiek iš viso?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Dalys ir palyginimas</div>
+    <div class="two">
+      <ol class="tasks math" start="5">
+        <li>16 klasėje šviesiaplaukių pusė. Kiek jų?</li>
+        <li>Rudaplaukių ketvirtadalis iš likusių 8. Kiek jų?</li>
+        <li>Tamsiaplaukiai = 16 − 8 − 2. Kiek jų?</li>
+        <li>Bananų 12, kriaušių 5. Kiek daugiau bananų?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Dviguba diagrama</div>
+    <ol class="tasks" start="9">
+      <li>Fantastinius mėgsta 5 berniukai ir 7 mergaitės. Kiek iš viso?</li>
+      <li>Nuotykių mėgsta 8 berniukai ir 3 mergaitės. Kiek daugiau berniukų?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 2 + 7 + 5 + 4 + 2 = 20 &nbsp;&nbsp; <b>2.</b> 3 + 5 + 4 + 2 + 1 = 15</div>
+    <div class="row math"><b>3.</b> 5 + 6 + 4 + 3 + 2 = 20 &nbsp;&nbsp; <b>4.</b> 8 + 5 + 12 + 3 = 28</div>
+    <div class="row math"><b>5.</b> 16 : 2 = 8 &nbsp;&nbsp; <b>6.</b> 8 : 4 = 2 &nbsp;&nbsp; <b>7.</b> 16 − 8 − 2 = 6</div>
+    <div class="row math"><b>8.</b> 12 − 5 = 7 &nbsp;&nbsp; <b>9.</b> 5 + 7 = 12 &nbsp;&nbsp; <b>10.</b> 8 − 3 = 5</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Stulpelinė diagrama“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

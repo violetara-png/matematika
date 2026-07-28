@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Imties mediana: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.4pt;}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center;}
+  table.mini th{background:var(--tblh);color:var(--blue);font-weight:700;}
+</style>
+</head>
+<body>
+
+<h1>Imties mediana: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · 11 skyrius „Duomenys“ · imties mediana</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1: nelyginis dydis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Nelyginis imties dydis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pirmiausia sutvarkyk imtį nemažėjančia tvarka. Kai dydis nelyginis, mediana yra vidurinysis duomuo (vieta (m + 1) : 2).</div>
+    <div class="ex">
+      <div class="q">Imtis 18, 13, 15, 18, 13, 17, 18. Rask medianą.</div>
+      <div class="line">Sutvarkyta: 13, 13, 15, <span class="res">17</span>, 18, 18, 18. Dydis m = 7, vieta (7 + 1) : 2 = 4.</div>
+      <div class="line">Ketvirtas duomuo &rArr; <span class="res">Md = 17</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2: lyginis dydis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Lyginis imties dydis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai dydis lyginis, per vidurį stovi du duomenys. Mediana yra jų vidurkis (sudėk ir dalyk iš 2).</div>
+    <div class="ex">
+      <div class="q">Imtis 13, 13, 15, 17, 18, 18, 18, 20. Rask medianą.</div>
+      <div class="line">Dydis m = 8, per vidurį 17 ir 18.</div>
+      <div class="line">Md = (17 + 18) : 2 = 35 : 2 &rArr; <span class="res">17,5</span> &nbsp;<span class="muted2">(mediana nebūtinai imties duomuo)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3: trumpas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Trumpa imtis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> ir mažoms imtims tvarka ta pati: sutvarkyti, rasti vidurį.</div>
+    <div class="ex">
+      <div class="q">Imtis 5, 3, 7, 9. Rask medianą.</div>
+      <div class="line">Sutvarkyta: 3, 5, 7, 9 (m = 4, lyginis). Md = (5 + 7) : 2 &rArr; <span class="res">6</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4: dažnių lentelė ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Mediana iš dažnių lentelės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> iš viso duomenų = dažnių suma. Rask vidurinio duomens vietą ir pagal dažnius nustatyk reikšmę.</div>
+    <div class="ex">
+      <div class="q">Įvarčiai per 12 rungtynių. Rask medianą.</div>
+      <table class="mini">
+        <tr><th>Įvarčių</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+        <tr><th>Dažnis</th><td>2</td><td>3</td><td>4</td><td>2</td><td>1</td></tr>
+      </table>
+      <div class="line">Iš viso 12 (lyginis). Vidurinės vietos 6-oji ir 7-oji. Pagal dažnius jos abi patenka į reikšmę 2.</div>
+      <div class="line">Md = (2 + 2) : 2 &rArr; <span class="res">2</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 5: nežinomas narys ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Nežinomo nario radimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> užrašyk medianos sąlygą kaip lygybę ir rask nežinomąjį.</div>
+    <div class="ex">
+      <div class="q">Sutvarkyta imtis 2, 4, x, 12, mediana Md = 5. Rask x.</div>
+      <div class="line">m = 4 (lyginis), mediana = dviejų vidurinių (4 ir x) vidurkis: (4 + x) : 2 = 5.</div>
+      <div class="line">4 + x = 10 &rArr; <span class="res">x = 6</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 6: žodinis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">6</span> Žodinis uždavinys</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> mediana rodo imties „vidurį“ ir yra atsparesnė kraštinėms reikšmėms nei vidurkis.</div>
+    <div class="ex">
+      <div class="q">Krepšininkas per 5 rungtynes pelnė 12, 8, 15, 10, 8 taškus. Rask taškų medianą.</div>
+      <div class="line">Sutvarkyta: 8, 8, 10, 12, 15 (m = 5). Vidurinis (3-ias) &rArr; <span class="res">Md = 10</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> visada pirma <b>sutvarkyk</b> imtį. Nelyginis dydis, imk vidurinį; lyginis, imk dviejų vidurinių vidurkį. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Sutvarkyk ir rask medianą (nelyginis dydis)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>7, 6, 9, 4, 9</li>
+        <li>140, 138, 135, 136, 135</li>
+        <li>3, 5, 7</li>
+      </ol>
+    </div>
+
+    <div class="grp">Lyginis dydis (dviejų vidurinių vidurkis)</div>
+    <div class="two">
+      <ol class="tasks math" start="4">
+        <li>5, 3, 7, 9</li>
+        <li>40, 36, 35, 38, 40, 38</li>
+        <li>10, 20, 30, 40</li>
+      </ol>
+    </div>
+
+    <div class="grp">Dažnių lentelė, žodiniai ir nežinomas narys</div>
+    <ol class="tasks" start="7">
+      <li>Įvarčiai per 12 rungtynių, dažniai 2, 3, 4, 2, 1 (reikšmės 0, 1, 2, 3, 4). Rask medianą.</li>
+      <li>Sutvarkytos imties dydis 7. Kelinta reikšmė yra mediana?</li>
+      <li>Sutvarkyta imtis 2, 4, x, 12, mediana 7. Rask x.</li>
+      <li>100 m bėgimo laikai (s): 16,1; 18,2; 16,6; 20,3; 16,3; 18,2; 16,1. Rask medianą.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 4, 6, 7, 9, 9 &rArr; Md = 7 &nbsp;&nbsp; <b>2.</b> 135, 135, 136, 138, 140 &rArr; Md = 136</div>
+    <div class="row math"><b>3.</b> 3, 5, 7 &rArr; Md = 5 &nbsp;&nbsp; <b>4.</b> 3, 5, 7, 9 &rArr; (5 + 7) : 2 = 6</div>
+    <div class="row math"><b>5.</b> 35, 36, 38, 38, 40, 40 &rArr; (38 + 38) : 2 = 38 &nbsp;&nbsp; <b>6.</b> 10, 20, 30, 40 &rArr; (20 + 30) : 2 = 25</div>
+    <div class="row math"><b>7.</b> iš viso 12; 6-as ir 7-as = 2 ir 2 &rArr; Md = 2 &nbsp;&nbsp; <b>8.</b> (7 + 1) : 2 = 4-oji reikšmė</div>
+    <div class="row math"><b>9.</b> (4 + x) : 2 = 7 &rArr; x = 10 &nbsp;&nbsp; <b>10.</b> 16,1; 16,1; 16,3; 16,6; 18,2; 18,2; 20,3 &rArr; Md = 16,6</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · „Imties mediana“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

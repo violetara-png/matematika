@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imties vidurkis: 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  /* laiptuota trupmena */
+  .frac{display:inline-block; vertical-align:middle; text-align:center; margin:0 1px}
+  .frac .n{display:block; padding:0 5px; border-bottom:1.6px solid currentColor; line-height:1.15}
+  .frac .d{display:block; padding:0 5px; line-height:1.15}
+  .ovl{text-decoration:overline}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Imties vidurkis</h1>
+  <p class="klase">Matematika · 6 klasė · 11 skyrius „Duomenys“ · 11.2.1 potemė</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Imtis ir imties dydis</a></li>
+      <li><a href="#t2">Sutvarkyta imtis</a></li>
+      <li><a href="#t3">Imties plotis</a></li>
+      <li><a href="#t4">Imties vidurkis</a></li>
+      <li><a href="#t5">Vidurkis su dažnių lentele. Suma iš vidurkio</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">11.2.1</span> Imtis ir imties dydis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Imtis</span>, tai surinktų duomenų rinkinys. Pavyzdžiui, kiek kilometrų Daumantas nubėgo kiekvieną savaitės dieną, kiek sveria kiekvienas obuolys dėžėje, kiek taškų per rungtynes pelnė krepšininkas.</p>
+        <p><span class="zenk">Imties dydis</span>, tai imties duomenų skaičius, tai yra kiek iš viso reikšmių surinkta.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Daumantas per savaitę kasdien nubėgo (km): <span class="math">13, 18, 18, 17, 18, 15, 13</span>. Duomenų yra <b class="gerai">7</b>, taigi imties dydis lygus <b class="gerai">7</b> (tiek, kiek dienų savaitėje).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">11.2.1</span> Sutvarkyta imtis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Sutvarkyta imtis</span>, tai imtis, surašyta <b>nemažėjančia</b> tvarka (nuo mažiausios reikšmės iki didžiausios). Tvarkant tas pačias reikšmes surašome tiek kartų, kiek jų yra.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Imtį <span class="math">13, 18, 18, 17, 18, 15, 13</span> sutvarkome:<br>
+        <span class="math"><b class="gerai">13, 13, 15, 17, 18, 18, 18</b></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Sutvarkydami reikšmių <b>nemetame</b> ir <b>neprijungiame</b> naujų. Reikšmių skaičius (imties dydis) nesikeičia, tik pakeičiama jų tvarka. Sutvarkyta imtis padeda greičiau matyti mažiausią, didžiausią reikšmę ir plotį.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">11.2.1</span> Imties plotis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Imties plotis r</span>, tai didžiausios ir mažiausios imties reikšmių <b>skirtumas</b>. Jis rodo, kaip <b>plačiai išsibarstę</b> duomenys.</p>
+        <div class="formule math">r = <span class="term-a">didžiausia</span> − <span class="term-b">mažiausia</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Imtyje <span class="math">13, 13, 15, 17, 18, 18, 18</span> didžiausia reikšmė 18, mažiausia 13:<br>
+        <span class="math">r = 18 − 13 = <span class="gerai">5</span></span></p>
+        <p class="pvz"><b>Dar pavyzdys.</b> Krepšininkas pelnė <span class="math">21, 16, 4, 27, 16, 12</span> taškų. Didžiausia 27, mažiausia 4:<br>
+        <span class="math">r = 27 − 4 = <span class="gerai">23</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">11.2.1</span> Imties vidurkis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Imties vidurkis</span>, tai visų imties duomenų <b>suma</b>, padalyta iš imties <b>dydžio</b>.</p>
+        <div class="formule math">vidurkis = <span class="frac"><span class="n">visų duomenų suma</span><span class="d">imties dydis</span></span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Daumanto imtis <span class="math">13, 18, 18, 17, 18, 15, 13</span>. Suma: <span class="math">13 + 18 + 18 + 17 + 18 + 15 + 13 = 112</span>. Dydis 7:<br>
+        <span class="math">vidurkis = <span class="frac"><span class="n">112</span><span class="d">7</span></span> = <span class="gerai">16</span> (km)</span></p>
+        <p class="pvz"><b>Dar pavyzdys.</b> 8 obuolių masės (g): <span class="math">120, 210, 145, 140, 180, 200, 145, 180</span>. Suma 1320, dydis 8:<br>
+        <span class="math">vidurkis = <span class="frac"><span class="n">1320</span><span class="d">8</span></span> = <span class="gerai">165</span> (g)</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Vidurkis nebūtinai lygus kuriai nors imties reikšmei ir gali būti su kableliu. Pavyzdžiui, karpių masių <span class="math">1,5; 3,05; 1,8; 2,14; 2,01</span> kg vidurkis yra <span class="math"><span class="frac"><span class="n">10,5</span><span class="d">5</span></span> = 2,1</span> kg, nors tokios reikšmės imtyje nėra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">11.2.1</span> Vidurkis su dažnių lentele. Suma iš vidurkio</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai ta pati reikšmė kartojasi, patogu naudoti <span class="zenk">dažnių lentelę</span>. Vidurkis skaičiuojamas kiekvieną reikšmę padauginus iš jos dažnio, gautas sandaugas sudėjus ir padalijus iš visų dažnių sumos (imties dydžio).</p>
+        <div class="formule math">vidurkis = <span class="frac"><span class="n">a₁·n₁ + a₂·n₂ + …</span><span class="d">n₁ + n₂ + …</span></span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Justo atsispaudimai per 7 dienas: <span class="math">27, 25, 27, 30, 27, 30, 30</span>.</p>
+        <table class="kort math">
+          <tr><th>Reikšmė a</th><td>25</td><td>27</td><td>30</td></tr>
+          <tr><th>Dažnis n</th><td>1</td><td>3</td><td>3</td></tr>
+        </table>
+        <p class="math" style="margin-top:10px">vidurkis = <span class="frac"><span class="n">25·1 + 27·3 + 30·3</span><span class="d">1 + 3 + 3</span></span> = <span class="frac"><span class="n">25 + 81 + 90</span><span class="d">7</span></span> = <span class="frac"><span class="n">196</span><span class="d">7</span></span> = <span class="gerai">28</span></p>
+        <p style="margin-top:14px">Jei žinome <b>vidurkį</b> ir <b>dydį</b>, atvirkščiai galime rasti visų duomenų <b>sumą</b>:</p>
+        <div class="formule math">suma = <span class="term-a">vidurkis</span> · <span class="term-b">dydis</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Daumanto savaitės vidurkis 16 km, dydis 7. Visų kilometrų suma:<br>
+        <span class="math">suma = 16 · 7 = <span class="gerai">112</span> (km)</span></p>
+        <p class="pvz"><b>Trūkstamas narys.</b> Paulius per 4 dienas prisirinko 63 zylutes, o 5 dienų vidurkis yra 18. Penktos dienos skaičius: <span class="math">5 dienų suma = 18 · 5 = 90</span>, tada <span class="math">90 − 63 = <span class="gerai">27</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">!</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Painioja plotį su vidurkiu</td><td class="gerai">plotis rodo išsibarstymą (didž. − maž.), vidurkis — vidutinę reikšmę (suma / dydis)</td></tr>
+          <tr><td class="math">dalija iš <span class="klaida">reikšmių, o ne iš dydžio</span></td><td class="math"><span class="gerai">visada dalija iš imties dydžio</span> (kiek duomenų iš viso)</td></tr>
+          <tr><td>Skaičiuodamas su dažniais pamiršta padauginti iš dažnio</td><td class="gerai">kiekvieną reikšmę dauginu iš jos dažnio: a·n</td></tr>
+          <tr><td>Ieškodamas sumos <span class="klaida">dalija</span> vidurkį iš dydžio</td><td class="math"><span class="gerai">suma = vidurkis · dydis</span> (dauginu)</td></tr>
+          <tr><td>Sutvarkydamas imtį pameta pasikartojančias reikšmes</td><td class="gerai">kiekvieną reikšmę surašau tiek kartų, kiek jos yra</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Plotis, <b>didžiausia minus mažiausia</b>. Vidurkis, <b><span class="frac math"><span class="n">suma</span><span class="d">dydis</span></span></b>. Suma atgal, <b>vidurkis kart dydis</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Duomenys“ (11 skyrius) · „Imties vidurkis“
+  </footer>
+
+</div>
+</body>
+</html>

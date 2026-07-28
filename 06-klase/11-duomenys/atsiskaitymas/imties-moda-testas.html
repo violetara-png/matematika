@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Imties moda</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="6-11-duomenys-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 11. Duomenys";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>Imties moda</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Imties moda", "dalykas": "Matematika", "trukme_min": 0, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Imties modą randi ir atpažįsti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Kas yra imties moda?", "options": ["Vidurinis duomuo", "Dažniausiai pasikartojanti reikšmė", "Suma, dalijama iš dydžio", "Didžiausias duomuo"], "correct": 1}, {"q": "Imtis: 13, 13, 15, 17, 18, 18, 18. Kokia moda?", "options": ["13", "15", "17", "18"], "correct": 3}, {"q": "Kada imtis modos neturi?", "options": ["Kai visos reikšmės kartojasi vienodai dažnai", "Kai yra vidurkis", "Kai dydis lyginis", "Niekada"], "correct": 0}, {"q": "Batų dydžių dažniai: 37 → 3, 38 → 4, 39 → 3, 40 → 2, 41 → 1. Kokia moda?", "options": ["37", "38", "39", "40"], "correct": 1}, {"q": "Imtis: 2, 5, 6, 4, 5, 5, 6. Kokia moda?", "options": ["5", "6", "4", "2"], "correct": 0}, {"q": "Imtis: 4, 7, 3, 8, 5, 6, 3, 7. Kokia moda?", "options": ["3 ir 7", "tik 3", "tik 7", "modos nėra"], "correct": 0}, {"q": "Knygyne parduota: pasakų 37, vadovėlių 120, fantastikos 68, detektyvų 54. Kuri knygų rūšis yra moda?", "options": ["pasakos", "vadovėliai", "fantastika", "detektyvai"], "correct": 1}, {"q": "Prekės kainų dažniai: 30 → 2, 34 → 3, 35 → 1, 36 → 4, 37 → 3. Kokia kainų moda?", "options": ["34", "35", "36", "37"], "correct": 2}, {"q": "Kainų dažniai: 30 → 2, 34 → 3, 35 → 1, 36 → 4, 37 → 3. Kiek iš viso parduotuvių tirta?", "options": ["12", "13", "14", "11"], "correct": 1}, {"q": "Batų dydžiai: 37 → 3, 38 → 4, 39 → 3, 40 → 2, 41 → 1. Kokia dydžių mediana?", "options": ["37", "38", "39", "40"], "correct": 1}], "open": [{"q": "Imtis: 13, 13, 15, 17, 18, 18, 18. Kokia moda? (tik skaičių)", "a": "MTg="}, {"q": "Imtis: 2, 5, 6, 4, 5, 5, 6. Kokia moda? (tik skaičių)", "a": "NQ=="}, {"q": "Batų dydžiai: 37 → 3, 38 → 4, 39 → 3, 40 → 2, 41 → 1. Kokia moda? (tik skaičių)", "a": "Mzg="}, {"q": "Kainų dažniai: 30 → 2, 34 → 3, 35 → 1, 36 → 4, 37 → 3. Kokia moda? (tik skaičių)", "a": "MzY="}, {"q": "Kainų dažniai: 30 → 2, 34 → 3, 35 → 1, 36 → 4, 37 → 3. Kiek iš viso parduotuvių? (tik skaičių)", "a": "MTM="}, {"q": "Batų dydžių dažniai 3, 4, 3, 2, 1. Kiek iš viso porų? (tik skaičių)", "a": "MTM="}, {"q": "Ekrano laikas (val.): 10, 21, 14, 10, 32, 14, 18, 15. Koks imties plotis? (tik skaičių)", "a": "MjI="}, {"q": "Ekrano laikas: 10, 21, 14, 10, 32, 14, 18, 15. Koks vidurkis? (skaičius su kableliu)", "a": "MTYsNzU="}, {"q": "Ekrano laikas: 10, 21, 14, 10, 32, 14, 18, 15. Kokia mediana? (skaičius su kableliu)", "a": "MTQsNQ=="}, {"q": "Žodžiai eilutėje: 12, 14, 20, 11, 14, 16, 24, 14, 11, 16. Kokia moda? (tik skaičių)", "a": "MTQ="}]}, {"id": 2, "mc": [{"q": "Kas yra imties moda?", "options": ["Dažniausiai pasikartojanti reikšmė", "Vidurinis duomuo", "Mažiausias duomuo", "Reikšmių suma"], "correct": 0}, {"q": "Imtis: 4, 4, 6, 7, 9, 9, 9. Kokia moda?", "options": ["4", "6", "7", "9"], "correct": 3}, {"q": "Kada imtis modos neturi?", "options": ["Kai dydis nelyginis", "Kai visos reikšmės kartojasi vienodai dažnai", "Kai yra mediana", "Niekada"], "correct": 1}, {"q": "Dydžių dažniai: 41 → 2, 42 → 5, 43 → 3, 44 → 2, 45 → 1. Kokia moda?", "options": ["41", "42", "43", "44"], "correct": 1}, {"q": "Imtis: 3, 8, 3, 5, 3, 7, 8. Kokia moda?", "options": ["3", "8", "5", "7"], "correct": 0}, {"q": "Imtis: 2, 6, 4, 9, 6, 1, 4. Kokia moda?", "options": ["4 ir 6", "tik 4", "tik 6", "modos nėra"], "correct": 0}, {"q": "Rungtynėse įvarčiai: krepšinis 45, futbolas 88, tinklinis 32, plaukimas 40 (žiūrovų šimtai). Kuri sporto šaka yra moda?", "options": ["krepšinis", "futbolas", "tinklinis", "plaukimas"], "correct": 1}, {"q": "Kainų dažniai: 20 → 3, 22 → 2, 24 → 5, 25 → 3, 26 → 1. Kokia moda?", "options": ["22", "24", "25", "26"], "correct": 1}, {"q": "Kainų dažniai: 20 → 3, 22 → 2, 24 → 5, 25 → 3, 26 → 1. Kiek iš viso parduotuvių tirta?", "options": ["12", "13", "14", "15"], "correct": 2}, {"q": "Kainos: 20 → 3, 22 → 2, 24 → 5, 25 → 3, 26 → 1. Kokia kainų mediana?", "options": ["22", "24", "25", "26"], "correct": 1}], "open": [{"q": "Imtis: 4, 4, 6, 7, 9, 9, 9. Kokia moda? (tik skaičių)", "a": "OQ=="}, {"q": "Imtis: 3, 8, 3, 5, 3, 7, 8. Kokia moda? (tik skaičių)", "a": "Mw=="}, {"q": "Dydžių dažniai: 41 → 2, 42 → 5, 43 → 3, 44 → 2, 45 → 1. Kokia moda? (tik skaičių)", "a": "NDI="}, {"q": "Kainų dažniai: 20 → 3, 22 → 2, 24 → 5, 25 → 3, 26 → 1. Kokia moda? (tik skaičių)", "a": "MjQ="}, {"q": "Kainų dažniai: 20 → 3, 22 → 2, 24 → 5, 25 → 3, 26 → 1. Kiek iš viso parduotuvių? (tik skaičių)", "a": "MTQ="}, {"q": "Dydžių dažniai 2, 5, 3, 2, 1. Kiek iš viso? (tik skaičių)", "a": "MTM="}, {"q": "Duomenys: 12, 25, 16, 12, 38, 16, 20, 17. Koks imties plotis? (tik skaičių)", "a": "MjY="}, {"q": "Duomenys: 12, 25, 16, 12, 38, 16, 20, 17. Koks vidurkis? (skaičius su kableliu)", "a": "MTksNQ=="}, {"q": "Duomenys: 12, 25, 16, 12, 38, 16, 20, 17. Kokia mediana? (skaičius su kableliu)", "a": "MTYsNQ=="}, {"q": "Žodžiai eilutėje: 21, 17, 21, 14, 17, 21, 19, 23, 17, 21. Kokia moda? (tik skaičių)", "a": "MjE="}]}, {"id": 3, "mc": [{"q": "Kas yra imties moda?", "options": ["Suma, dalijama iš dydžio", "Didžiausias duomuo", "Dažniausiai pasikartojanti reikšmė", "Vidurinis duomuo"], "correct": 2}, {"q": "Imtis: 1, 3, 3, 3, 5, 8, 8. Kokia moda?", "options": ["3", "8", "5", "1"], "correct": 0}, {"q": "Kada imtis modos neturi?", "options": ["Niekada", "Kai yra vidurkis", "Kai visos reikšmės skirtingos", "Kai dydis lyginis"], "correct": 2}, {"q": "Dydžių dažniai: 35 → 1, 36 → 2, 37 → 6, 38 → 3, 39 → 2. Kokia moda?", "options": ["36", "37", "38", "39"], "correct": 1}, {"q": "Imtis: 6, 9, 6, 2, 6, 9, 4. Kokia moda?", "options": ["6", "9", "2", "4"], "correct": 0}, {"q": "Imtis: 5, 8, 3, 8, 5, 1, 7. Kokia moda?", "options": ["5 ir 8", "tik 5", "tik 8", "modos nėra"], "correct": 0}, {"q": "Gyvūnų prieglaudoje: šunys 54, katės 96, triušiai 28, papūgos 35. Kuris gyvūnas yra moda?", "options": ["šunys", "katės", "triušiai", "papūgos"], "correct": 1}, {"q": "Kainų dažniai: 40 → 2, 45 → 4, 48 → 1, 50 → 5, 52 → 2. Kokia moda?", "options": ["45", "48", "50", "52"], "correct": 2}, {"q": "Kainų dažniai: 40 → 2, 45 → 4, 48 → 1, 50 → 5, 52 → 2. Kiek iš viso parduotuvių tirta?", "options": ["13", "14", "15", "16"], "correct": 1}, {"q": "Kainos: 40 → 2, 45 → 4, 48 → 1, 50 → 5, 52 → 2. Kokia kainų mediana?", "options": ["48", "49", "50", "52"], "correct": 1}], "open": [{"q": "Imtis: 1, 3, 3, 3, 5, 8, 8. Kokia moda? (tik skaičių)", "a": "Mw=="}, {"q": "Imtis: 6, 9, 6, 2, 6, 9, 4. Kokia moda? (tik skaičių)", "a": "Ng=="}, {"q": "Dydžių dažniai: 35 → 1, 36 → 2, 37 → 6, 38 → 3, 39 → 2. Kokia moda? (tik skaičių)", "a": "Mzc="}, {"q": "Kainų dažniai: 40 → 2, 45 → 4, 48 → 1, 50 → 5, 52 → 2. Kokia moda? (tik skaičių)", "a": "NTA="}, {"q": "Kainų dažniai: 40 → 2, 45 → 4, 48 → 1, 50 → 5, 52 → 2. Kiek iš viso parduotuvių? (tik skaičių)", "a": "MTQ="}, {"q": "Dydžių dažniai 1, 2, 6, 3, 2. Kiek iš viso? (tik skaičių)", "a": "MTQ="}, {"q": "Duomenys: 22, 35, 28, 22, 45, 28, 30, 26. Koks imties plotis? (tik skaičių)", "a": "MjM="}, {"q": "Duomenys: 22, 35, 28, 22, 45, 28, 30, 26. Koks vidurkis? (skaičius su kableliu)", "a": "MjksNQ=="}, {"q": "Duomenys: 22, 35, 28, 22, 45, 28, 30, 26. Kokia mediana? (tik skaičių)", "a": "Mjg="}, {"q": "Žodžiai eilutėje: 30, 26, 30, 24, 26, 30, 28, 22, 26, 30. Kokia moda? (tik skaičių)", "a": "MzA="}]}, {"id": 4, "mc": [{"q": "Kas yra imties moda?", "options": ["Vidurinis sutvarkytos imties duomuo", "Dažniausiai pasikartojanti reikšmė", "Didžiausio ir mažiausio skirtumas", "Visų reikšmių suma"], "correct": 1}, {"q": "Imtis: 2, 2, 2, 7, 9, 9, 11. Kokia moda?", "options": ["2", "9", "7", "11"], "correct": 0}, {"q": "Kada imtis modos neturi?", "options": ["Kai visos reikšmės kartojasi vienodai dažnai", "Kai yra mediana", "Kai dydis nelyginis", "Kai reikšmių daug"], "correct": 0}, {"q": "Dydžių dažniai: 24 → 3, 25 → 2, 26 → 5, 27 → 3, 28 → 1. Kokia moda?", "options": ["24", "25", "26", "27"], "correct": 2}, {"q": "Imtis: 7, 4, 7, 1, 7, 4, 9. Kokia moda?", "options": ["7", "4", "1", "9"], "correct": 0}, {"q": "Imtis: 3, 9, 6, 9, 3, 2, 8. Kokia moda?", "options": ["3 ir 9", "tik 3", "tik 9", "modos nėra"], "correct": 0}, {"q": "Turguje parduota: braškių 62, aviečių 30, mėlynių 105, serbentų 48 (kg). Kuri uoga yra moda?", "options": ["braškės", "avietės", "mėlynės", "serbentai"], "correct": 2}, {"q": "Kainų dažniai: 15 → 2, 18 → 3, 19 → 1, 20 → 6, 21 → 2. Kokia moda?", "options": ["18", "19", "20", "21"], "correct": 2}, {"q": "Kainų dažniai: 15 → 2, 18 → 3, 19 → 1, 20 → 6, 21 → 2. Kiek iš viso parduotuvių tirta?", "options": ["12", "13", "14", "15"], "correct": 2}, {"q": "Kainos: 15 → 2, 18 → 3, 19 → 1, 20 → 6, 21 → 2. Kokia kainų mediana?", "options": ["18", "19", "20", "21"], "correct": 2}], "open": [{"q": "Imtis: 2, 2, 2, 7, 9, 9, 11. Kokia moda? (tik skaičių)", "a": "Mg=="}, {"q": "Imtis: 7, 4, 7, 1, 7, 4, 9. Kokia moda? (tik skaičių)", "a": "Nw=="}, {"q": "Dydžių dažniai: 24 → 3, 25 → 2, 26 → 5, 27 → 3, 28 → 1. Kokia moda? (tik skaičių)", "a": "MjY="}, {"q": "Kainų dažniai: 15 → 2, 18 → 3, 19 → 1, 20 → 6, 21 → 2. Kokia moda? (tik skaičių)", "a": "MjA="}, {"q": "Kainų dažniai: 15 → 2, 18 → 3, 19 → 1, 20 → 6, 21 → 2. Kiek iš viso parduotuvių? (tik skaičių)", "a": "MTQ="}, {"q": "Dydžių dažniai 3, 2, 5, 3, 1. Kiek iš viso? (tik skaičių)", "a": "MTQ="}, {"q": "Duomenys: 14, 28, 19, 14, 40, 19, 22, 20. Koks imties plotis? (tik skaičių)", "a": "MjY="}, {"q": "Duomenys: 14, 28, 19, 14, 40, 19, 22, 20. Koks vidurkis? (tik skaičių)", "a": "MjI="}, {"q": "Duomenys: 14, 28, 19, 14, 40, 19, 22, 20. Kokia mediana? (skaičius su kableliu)", "a": "MTksNQ=="}, {"q": "Žodžiai eilutėje: 19, 23, 19, 16, 23, 19, 21, 25, 23, 19. Kokia moda? (tik skaičių)", "a": "MTk="}]}], "sheet_id": "1E2PD47NPu2rYDcFuHRBOVWe0vSfhSTFEgybke6LMLZ8"};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

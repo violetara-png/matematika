@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Linijinė diagrama (6 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.2rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;line-height:1.4}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🌡️ Mokymosi asistentas „Linas“</h1>
+    <p>Tema: <b>Linijinė diagrama</b> · 6 klasė · EDUKA 11 skyrius</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">L<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Linas</div>
+        Sveikas! Aš — Linas, tavo mokymosi asistentas. Kartu mokysimės skaityti <b>linijinę diagramą</b>: rasime aukščiausią ir žemiausią tašką, apskaičiuosime <b>plotį</b>, žiūrėsime, kur linija kyla ir krenta, ir suskaičiuosime reikšmes, viršijančias slenkstį.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 8 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">L<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Linas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins(',')">,</button><button onclick="ins('−')">−</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">L<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Linas</div>
+          Šaunuolis! Dabar — <b>8 klausimai</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br>Kur atsakymas — sveikas skaičius, rašyk skaičių (pvz. <b>4</b>). Kur laipsnių dalis — rašyk su kableliu (pvz. <b>0,6</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/°c/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {intro:"Pradėkim nuo diagramos skaitymo. Linijinėje diagramoje <b>aukščiausias taškas</b> rodo didžiausią reikšmę.",
+   expr:"Savaitės temperatūra (°C):<br>P 18 · A 20 · T 19 · K 19 · Pn 21 · Š 17 · S 20",
+   q:"Kokia aukščiausia savaitės temperatūra?",
+   accepted:["21"],
+   hints:["Ieškok aukščiausio taško — didžiausio skaičiaus tarp reikšmių.","Palygink visas: 18, 20, 19, 19, 21, 17, 20. Kuri didžiausia?","Didžiausia reikšmė buvo penktadienį."]},
+  {intro:"Dabar rask kitą kraštą — <b>žemiausią tašką</b>, t. y. mažiausią reikšmę.",
+   expr:"P 18 · A 20 · T 19 · K 19 · Pn 21 · Š 17 · S 20",
+   q:"Kokia žemiausia savaitės temperatūra?",
+   accepted:["17"],
+   hints:["Ieškok žemiausio taško — mažiausio skaičiaus.","Palygink visas reikšmes. Kuri mažiausia?","Mažiausia reikšmė buvo šeštadienį."]},
+  {intro:"Kai žinai didžiausią ir mažiausią reikšmę, gali rasti <b>plotį</b>. Plotis parodo, kaip plačiai išsibarstę duomenys.",
+   expr:"Didžiausioji 21 · Mažiausioji 17",
+   q:"Koks reikšmių plotis?",
+   accepted:["4"],
+   hints:["Plotis = didžiausioji − mažiausioji reikšmė.","Įrašyk: 21 − 17.","Atimk 17 iš 21."]},
+  {intro:"Linija, kylanti į viršų, rodo, kad reikšmė <b>didėja</b>. Pokytis = dviejų reikšmių skirtumas.",
+   expr:"Pirmadienį 18 °C → antradienį 20 °C",
+   q:"Kiek laipsnių temperatūra pakilo nuo pirmadienio iki antradienio?",
+   accepted:["2"],
+   hints:["Iš vėlesnės reikšmės atimk ankstesnę.","Įrašyk: 20 − 18.","20 − 18 = ?"]},
+  {intro:"Kuo <b>statesnė</b> atkarpa, tuo spartesnis pokytis. Simona 13 val. išgėrė vaistų, ir temperatūra staiga krito.",
+   expr:"12 val. 38,4 °C → 13 val. 37,2 °C (po vaistų)",
+   q:"Kiek laipsnių nukrito temperatūra nuo 38,4 iki 37,2? (su kableliu)",
+   accepted:["1,2","1.2"],
+   hints:["Tai irgi skirtumas: iš didesnės atimk mažesnę.","Įrašyk: 38,4 − 37,2.","38,4 − 37,2 = ? (atmink kablelį)"]},
+  {intro:"Paskutinė — reikšmės, <b>viršijančios slenkstį</b>. Skaičiuok tik tuos taškus, kurie yra aukščiau ribos.",
+   expr:"Slenkstis: aukštesnė nei 18 °C<br>P 18 · A 20 · T 19 · K 19 · Pn 21 · Š 17 · S 20",
+   q:"Kiek dienų temperatūra buvo aukštesnė nei 18 °C?",
+   accepted:["5"],
+   hints:["„Aukštesnė nei 18“ — pati 18 (pirmadienis) neįskaitoma.","Aukštesnės nei 18: 20, 19, 19, 21, 20.","Suskaičiuok tas dienas: A, T, K, Pn, S."]}
+];
+
+let si = 0;
+let hintIdx = 0;
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6;
+const testVariants = [
+ {label:"variantas A", qs:[
+   {t:"Savaitės temperatūra: P 15, A 17, T 16, K 19, Pn 22, Š 20, S 14. Kokia aukščiausia temperatūra?", acc:["22"], hint:"Rask didžiausią reikšmę tarp visų dienų."},
+   {t:"Ta pati savaitė. Kokia žemiausia temperatūra?", acc:["14"], hint:"Rask mažiausią reikšmę."},
+   {t:"Koks reikšmių plotis (22 ir 14)?", acc:["8"], hint:"Plotis = didžiausioji − mažiausioji = 22 − 14."},
+   {t:"Kiek dienų temperatūra buvo aukštesnė nei 18 °C?", acc:["3"], hint:"Aukštesnės nei 18: 19, 22, 20 — suskaičiuok."},
+   {t:"Kiek pakilo temperatūra nuo pirmadienio (15) iki antradienio (17)?", acc:["2"], hint:"17 − 15."},
+   {t:"Ketvirtadienį 19 °C, penktadienį 22 °C. Koks skirtumas?", acc:["3"], hint:"22 − 19."},
+   {t:"Nojaus temperatūra nuo 38,2 iki 37,6 nukrito. Kiek laipsnių? (su kableliu)", acc:["0,6","0.6"], hint:"38,2 − 37,6."},
+   {t:"Kiek taškų reikia 7 dienų savaitės diagramai?", acc:["7"], hint:"Po vieną tašką kiekvienai dienai."}
+ ]},
+ {label:"variantas B", qs:[
+   {t:"Savaitės temperatūra: P 17, A 21, T 23, K 18, Pn 24, Š 16, S 22. Kokia aukščiausia temperatūra?", acc:["24"], hint:"Rask didžiausią reikšmę."},
+   {t:"Ta pati savaitė. Kokia žemiausia temperatūra?", acc:["16"], hint:"Rask mažiausią reikšmę."},
+   {t:"Koks reikšmių plotis (24 ir 16)?", acc:["8"], hint:"24 − 16."},
+   {t:"Kiek dienų temperatūra buvo aukštesnė nei 18 °C?", acc:["4"], hint:"Aukštesnės nei 18: 21, 23, 24, 22 (18 neįskaitoma)."},
+   {t:"Kiek pakilo temperatūra nuo pirmadienio (17) iki antradienio (21)?", acc:["4"], hint:"21 − 17."},
+   {t:"Ketvirtadienį 18 °C, penktadienį 24 °C. Koks skirtumas?", acc:["6"], hint:"24 − 18."},
+   {t:"Emilijos temperatūra nuo 38,6 iki 37,9 nukrito. Kiek laipsnių? (su kableliu)", acc:["0,7","0.7"], hint:"38,6 − 37,9."},
+   {t:"Kiek taškų reikia 7 dienų savaitės diagramai?", acc:["7"], hint:"Po vieną tašką kiekvienai dienai."}
+ ]},
+ {label:"variantas C", qs:[
+   {t:"Savaitės temperatūra: P 16, A 19, T 20, K 22, Pn 18, Š 23, S 21. Kokia aukščiausia temperatūra?", acc:["23"], hint:"Rask didžiausią reikšmę."},
+   {t:"Ta pati savaitė. Kokia žemiausia temperatūra?", acc:["16"], hint:"Rask mažiausią reikšmę."},
+   {t:"Koks reikšmių plotis (23 ir 16)?", acc:["7"], hint:"23 − 16."},
+   {t:"Kiek dienų temperatūra buvo aukštesnė nei 18 °C?", acc:["5"], hint:"Aukštesnės nei 18: 19, 20, 22, 23, 21 (18 neįskaitoma)."},
+   {t:"Kiek pakilo temperatūra nuo pirmadienio (16) iki antradienio (19)?", acc:["3"], hint:"19 − 16."},
+   {t:"Ketvirtadienį 22 °C, penktadienį 18 °C. Koks skirtumas?", acc:["4"], hint:"22 − 18."},
+   {t:"Luko temperatūra nuo 38,5 iki 38,0 nukrito. Kiek laipsnių? (su kableliu)", acc:["0,5","0.5"], hint:"38,5 − 38,0."},
+   {t:"Kiek taškų reikia 7 dienų savaitės diagramai?", acc:["7"], hint:"Po vieną tašką kiekvienai dienai."}
+ ]}
+];
+
+let vi = 0;
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  // 8 klausimai → perskaičiuojam į 10 balų skalę
+  showResult(score);
+}
+function gradeFrom8(score){
+  const pct = score/8*100;
+  let g;
+  if(pct>=95) g=10; else if(pct>=85) g=9; else if(pct>=75) g=8; else if(pct>=65) g=7;
+  else if(pct>=55) g=6; else if(pct>=45) g=5; else if(pct>=35) g=4; else if(pct>=25) g=3;
+  else if(pct>=15) g=2; else g=1;
+  let c;
+  if(g>=9) c="Nuostabu! Linijinę diagramą skaitai puikiai. 🌟";
+  else if(g>=8) c="Gerai! Tema aiški, liko šiek tiek patobulinti.";
+  else if(g>=6) c="Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus.";
+  else if(g>=4) c="Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo.";
+  else c="Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks.";
+  return {g,c};
+}
+function showResult(score){
+  const {g,c} = gradeFrom8(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 8. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 8</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
