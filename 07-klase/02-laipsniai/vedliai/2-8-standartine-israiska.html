@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Standartinė skaičiaus išraiška (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧭 Mokymosi asistentas „Eilius“</h1>
+    <p>Tema: <b>Standartinė skaičiaus išraiška</b> · 7 klasė · Laipsniai</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">E<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Eilius</div>
+        Sveikas! Aš — Eilius, tavo mokymosi asistentas. Kartu pasitreniruosime užrašyti skaičius <b>standartine išraiška</b> a·10ⁿ: kada koeficientas a tinka, kaip rasti skaičiaus <b>eilę</b> ir kaip pereiti iš standartinės į įprastą formą.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus trumpas testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Eilius</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('−')">−</button><button onclick="ins(',')">,</button><button onclick="ins('·10')">·10</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Eilius</div>
+          Šaunuolis! Dabar — <b>8 klausimai</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Rašyk trumpai: <b>taip / ne</b>, eilę su ženklu (pvz. <b>−5</b>), koeficientą su kableliu (pvz. <b>4,5</b>) arba įprastą skaičių (pvz. <b>30000</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+ {"intro":"Pradėkime nuo esmės — <b>kada užrašas yra standartinė išraiška</b>. Standartinė išraiška yra a·10ⁿ, kur koeficientas a tenkina 1 ≤ a &lt; 10.",
+  "expr":"45 · 10⁷",
+  "q":"Ar šis užrašas yra standartinė išraiška? (taip/ne)",
+  "accepted":["ne"],
+  "hints":["Pažiūrėk į koeficientą prieš dešimties laipsnį. Koks jis?",
+    "Koeficientas a turi būti nemažesnis už 1 ir mažesnis už 10 (vienas skaitmuo prieš kablelį).",
+    "Čia koeficientas 45. Palygink jį su 10 ir nuspręsk, ar sąlyga 1 ≤ a &lt; 10 tenkinama."]},
+
+ {"intro":"Dabar — <b>skaičiaus eilė</b> dideliam skaičiui. Eilė yra dešimties laipsnio rodiklis, kai skaičių užrašome kaip a·10ⁿ.",
+  "expr":"40 000",
+  "q":"Kokia šio skaičiaus eilė?",
+  "accepted":["4"],
+  "hints":["Perkelk kablelį taip, kad prieš jį liktų vienas skaitmuo: 40 000 = 4,0 · 10ⁿ.",
+    "Suskaičiuok, per kiek vietų perkėlei kablelį nuo 40 000 iki 4.",
+    "Skaičiuje 40 000 po ketverto yra 4 nuliai. Tiek ir yra eilė."]},
+
+ {"intro":"Toliau — <b>koeficientas a</b> mažam skaičiui. Kai skaičius yra tarp 0 ir 1, kablelį stumiame į dešinę iki pirmo nenulinio skaitmens.",
+  "expr":"0,0006",
+  "q":"Užrašius 0,0006 kaip a·10ⁿ, koks koeficientas a?",
+  "accepted":["6"],
+  "hints":["Koeficientas a turi tenkinti 1 ≤ a &lt; 10, tad prieš kablelį turi likti pirmas nenulinis skaitmuo.",
+    "Kuris yra pirmas nenulinis skaitmuo skaičiuje 0,0006?",
+    "Perkėlus kablelį po pirmo nenulinio skaitmens gauni būtent koeficientą a."]},
+
+ {"intro":"Kylame — <b>mažo skaičiaus eilė</b>. Mažiems skaičiams (0 &lt; x &lt; 1) eilė yra neigiama.",
+  "expr":"0,0006",
+  "q":"Kokia skaičiaus 0,0006 eilė? (su ženklu)",
+  "accepted":["−4","-4"],
+  "hints":["0,0006 = 6 · 10ⁿ. Per kiek vietų perkėlei kablelį į dešinę?",
+    "Nuo 0,0006 iki 6 kablelis pajuda per 4 vietas.",
+    "Kadangi skaičius mažesnis už 1, eilė neigiama. Prie 4 pridėk minuso ženklą."]},
+
+ {"intro":"Paskutinė — <b>iš standartinės į įprastą formą</b>. Teigiama eilė reiškia, kad kablelį perkeliame į dešinę.",
+  "expr":"3 · 10⁴",
+  "q":"Užrašyk šį skaičių įprasta forma.",
+  "accepted":["30000","30 000"],
+  "hints":["Eilė 4 teigiama, todėl kablelį perkeliame į dešinę per 4 vietas.",
+    "Prie trejeto prirašyk tiek nulių, kiek nurodo eilė.",
+    "3 · 10⁴ = 3 su keturiais nuliais."]}
+];
+
+let si = 0;
+let hintIdx = 0;
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = '<span class="math">'+s.expr+'</span>';
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6;
+const testVariants = [
+ {"label":"variantas A","qs":[
+   {"t":"Ar 3,2·10⁵ yra standartinė išraiška? (taip/ne)","acc":["taip"],"hint":"Patikrink, ar koeficientas 3,2 tenkina 1 ≤ a &lt; 10."},
+   {"t":"Kokia skaičiaus 500 000 eilė?","acc":["5"],"hint":"500 000 = 5 · 10ⁿ. Per kiek vietų perkeltas kablelis?"},
+   {"t":"60 000 = 6 · 10▢. Koks rodiklis (eilė)?","acc":["4"],"hint":"Suskaičiuok nulius po šešeto skaičiuje 60 000."},
+   {"t":"Užrašyk 8 · 10³ įprasta forma.","acc":["8000","8 000"],"hint":"Prie 8 prirašyk 3 nulius."},
+   {"t":"Kokia skaičiaus 0,004 eilė? (su ženklu)","acc":["−3","-3"],"hint":"0,004 = 4 · 10ⁿ; skaičius mažesnis už 1, tad eilė neigiama."},
+   {"t":"Užrašius 0,00009 standartine, koks koeficientas a?","acc":["9"],"hint":"Pirmas nenulinis skaitmuo tampa koeficientu a."},
+   {"t":"Ar neigiama eilė reiškia, kad pats skaičius neigiamas? (taip/ne)","acc":["ne"],"hint":"0,00003 yra teigiamas skaičius, tik mažas. Ką rodo neigiama eilė?"},
+   {"t":"Užrašyk 2 · 10⁻³ įprasta forma.","acc":["0,002","0.002"],"hint":"Eilė −3: kablelį perkelk į kairę per 3 vietas."}
+ ]},
+ {"label":"variantas B","qs":[
+   {"t":"Ar 12·10⁴ yra standartinė išraiška? (taip/ne)","acc":["ne"],"hint":"Koeficientas 12. Ar jis mažesnis už 10?"},
+   {"t":"Kokia skaičiaus 7 000 eilė?","acc":["3"],"hint":"7 000 = 7 · 10ⁿ. Suskaičiuok nulius."},
+   {"t":"90 000 = 9 · 10▢. Koks rodiklis (eilė)?","acc":["4"],"hint":"Per kiek vietų kablelis pajuda nuo 90 000 iki 9?"},
+   {"t":"Užrašyk 5 · 10⁴ įprasta forma.","acc":["50000","50 000"],"hint":"Prie 5 prirašyk 4 nulius."},
+   {"t":"Kokia skaičiaus 0,0002 eilė? (su ženklu)","acc":["−4","-4"],"hint":"0,0002 = 2 · 10ⁿ; skaičius mažesnis už 1."},
+   {"t":"Užrašius 0,0007 standartine, koks koeficientas a?","acc":["7"],"hint":"Pirmas nenulinis skaitmuo yra koeficientas a."},
+   {"t":"Koeficientas a standartinėje išraiškoje turi tenkinti 1 ≤ a &lt; ? (įrašyk skaičių)","acc":["10"],"hint":"Viršutinė riba, kurios a niekada nepasiekia."},
+   {"t":"Užrašyk 3 · 10⁻² įprasta forma.","acc":["0,03","0.03"],"hint":"Eilė −2: kablelį perkelk į kairę per 2 vietas."}
+ ]}
+];
+
+let vi = 0;
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

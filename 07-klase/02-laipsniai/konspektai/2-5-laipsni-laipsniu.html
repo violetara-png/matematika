@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laipsnį keliame laipsniu · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Laipsnį keliame laipsniu</h1>
+  <p class="klase">Matematika · 7 klasė · Laipsniai · potemė 2.5</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Pagrindinė taisyklė: (aᵐ)ⁿ = aᵐ·ⁿ</a></li>
+      <li><a href="#t2">Sandaugos su koeficientu ir kintamaisiais laipsnis</a></li>
+      <li><a href="#t3">Skaičių užrašome laipsnio laipsniu (atbulas veiksmas)</a></li>
+      <li><a href="#t4">Reikšmių skaičiavimas ir palyginimas</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Pagrindinė taisyklė: <span class="math">(aᵐ)ⁿ = aᵐ·ⁿ</span></h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai <span class="zenk">laipsnį keliame laipsniu</span>, <span class="term-a">pagrindą paliekame tą patį</span>, o <span class="term-b">rodiklius sudauginame</span>.</p>
+        <div class="formule"><span class="math">(a<sup>m</sup>)<sup>n</sup> = a<sup>m·n</sup></span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(7²)³ = 7<sup>2·3</sup> = <span class="gerai">7⁶</span></span><br>
+        <span class="math">(a⁴)⁵ = a<sup>4·5</sup> = <span class="gerai">a²⁰</span></span><br>
+        <span class="math">((−4)³)⁶ = (−4)<sup>3·6</sup> = <span class="gerai">(−4)¹⁸</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Nesupainiok su sandaugos taisykle <span class="math">aᵐ · aⁿ = aᵐ⁺ⁿ</span> (ten rodiklius <b>sudedame</b>). Keliant <b>laipsnį laipsniu</b> rodiklius <b>sudauginame</b>: <span class="math">(a⁵)² = a¹⁰</span>, o ne <span class="math">a⁷</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Sandaugos su koeficientu ir kintamaisiais laipsnis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Keliant sandaugą laipsniu, <b>kiekvieną dauginamąjį</b> keliame tuo laipsniu:</p>
+        <div class="formule"><span class="math">(a · b)<sup>n</sup> = a<sup>n</sup> · b<sup>n</sup></span></div>
+        <p>Jei dauginamieji patys yra laipsniai, jų rodiklius <span class="term-b">sudauginame</span>:</p>
+        <div class="formule"><span class="math">(k · a<sup>m</sup> · b<sup>k</sup>)<sup>n</sup> = k<sup>n</sup> · a<sup>m·n</sup> · b<sup>k·n</sup></span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(2a⁵b⁴)³ = 2³ · a<sup>5·3</sup> · b<sup>4·3</sup> = <span class="gerai">8a¹⁵b¹²</span></span><br>
+        <span class="math">(3a²)³ = 3³ · a<sup>2·3</sup> = <span class="gerai">27a⁶</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> <span class="term-b">Koeficientą</span> (skaičių prieš raidę) irgi būtina pakelti laipsniu: <span class="math">(2a³)² = <span class="gerai">4a⁶</span></span>, o ne <span class="klaida">2a⁶</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Skaičių užrašome laipsnio laipsniu (atbulas veiksmas)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kartais skaičių ar laipsnį patogu užrašyti <b>nurodytu pagrindu</b>. Pirmiausia skaičių išreiškiame kaip laipsnį, o paskui, jei reikia, taikome taisyklę <span class="math">(aᵐ)ⁿ = aᵐ·ⁿ</span>.</p>
+        <table class="kort">
+          <tr><th>Skaičius</th><th>Kaip laipsnis</th></tr>
+          <tr><td><span class="math">81</span></td><td><span class="math">3⁴</span></td></tr>
+          <tr><td><span class="math">64</span></td><td><span class="math">2⁶</span> (arba <span class="math">4³</span>, <span class="math">8²</span>)</td></tr>
+          <tr><td><span class="math">125</span></td><td><span class="math">5³</span></td></tr>
+        </table>
+        <p class="pvz" style="margin-top:14px"><b>Pavyzdžiai.</b><br>
+        <span class="math">81⁵ = (3⁴)⁵ = <span class="gerai">3²⁰</span></span><br>
+        <span class="math">6⁸ = (6²)⁴ = (6⁴)²</span> (tą patį laipsnį galima suskaidyti keliais būdais)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Reikšmių skaičiavimas ir palyginimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Norėdami apskaičiuoti reikšmę, <b>pirmiausia sudauginame rodiklius</b>, o tik tada skaičiuojame laipsnį.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(2²)³ = 2⁶ = <span class="gerai">64</span></span><br>
+        <span class="math">(3²)² = 3⁴ = <span class="gerai">81</span></span><br>
+        <span class="math">(2²)⁴ = 2⁸ = <span class="gerai">256</span></span></p>
+        <p><span class="zenk">Palyginimas.</span> Du reiškinius palyginame užrašę juos vienu laipsniu:</p>
+        <p class="pvz"><span class="math">(6³)² = 6⁶</span> &nbsp;ir&nbsp; <span class="math">(6²)³ = 6⁶</span> &nbsp;&rArr;&nbsp; <span class="gerai">reiškiniai lygūs</span> (abu <span class="math">6⁶</span>).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">(a⁵)² = a⁷</td><td class="gerai">(a⁵)² = a¹⁰ (rodiklius sudauginame)</td></tr>
+          <tr><td class="klaida">(aᵐ)ⁿ = aᵐ⁺ⁿ</td><td class="gerai">(aᵐ)ⁿ = aᵐ·ⁿ</td></tr>
+          <tr><td class="klaida">(2a³)² = 2a⁶</td><td class="gerai">(2a³)² = 4a⁶ (koeficientą irgi keliame)</td></tr>
+          <tr><td class="klaida">(a⁴)² sutapatinama su a⁴·a²</td><td class="gerai">(a⁴)² = a⁸, o a⁴·a² = a⁶</td></tr>
+          <tr><td class="klaida">((−2)²)³ = −2⁶</td><td class="gerai">((−2)²)³ = (−2)⁶ = 64 (pagrindas su skliaustais)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš rašydamas atsakymą pasitikrinu: laipsnį keliu laipsniu &rArr; <b>pagrindą palieku</b>, <b>rodiklius sudauginu</b>, o koeficientą ir kiekvieną dauginamąjį pakeliu nurodytu laipsniu.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Laipsnį keliame laipsniu“
+  </footer>
+
+</div>
+</body>
+</html>

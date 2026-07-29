@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Standartinė skaičiaus išraiška — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Standartinė skaičiaus išraiška — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Laipsniai · skaičiaus užrašymas pavidalu a·10ⁿ (1 ≤ a &lt; 10)</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Didelius skaičius užrašome standartine išraiška</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kablelį perkeliame į kairę taip, kad prieš jį liktų <b>vienas skaitmuo</b> (koeficientas 1 ≤ a &lt; 10). Per kiek vietų perkėlėme kablelį, tokia ir yra <b>eilė n</b> (didesniems už 1 skaičiams ji teigiama).</div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 450 000 000</div>
+      <div class="line">Reikšmingi skaitmenys 4 ir 5, kablelį perkeliame per 8 vietas. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">4,5 · 10⁸</span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 40 000</div>
+      <div class="line">Reikšmingas skaitmuo 4, kablelį perkeliame per 4 vietas. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">4 · 10⁴</span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 130</div>
+      <div class="line">1,30 &rarr; koeficientas 1,3, kablelį perkeliame per 2 vietas. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">1,3 · 10²</span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 80 045</div>
+      <div class="line">Koeficientas 8,0045, kablelį perkeliame per 4 vietas. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">8,0045 · 10⁴</span></span> &nbsp;<span class="muted2">(eilė 4)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Mažus skaičius (0 &lt; x &lt; 1) užrašome standartine išraiška</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kablelį perkeliame į dešinę taip, kad prieš jį liktų <b>pirmas nenulinis skaitmuo</b>. Per kiek vietų perkėlėme, tiek ir yra eilė, tik su <b>minuso ženklu</b>. Dėmesio: neigiama eilė NEreiškia, kad skaičius neigiamas.</div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 0,00003</div>
+      <div class="line">Kablelį perkeliame per 5 vietas į dešinę. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">3 · 10⁻⁵</span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 0,0000072</div>
+      <div class="line">Koeficientas 7,2, kablelį perkeliame per 6 vietas į dešinę. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">7,2 · 10⁻⁶</span></span> &nbsp;<span class="muted2">(eilė −6)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk standartine išraiška: 0,316</div>
+      <div class="line">Koeficientas 3,16, kablelį perkeliame per 1 vietą į dešinę. &nbsp;&rArr;&nbsp; <span class="res"><span class="math">3,16 · 10⁻¹</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Iš standartinės į įprastą formą</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei eilė <b>teigiama</b> (n &gt; 0) — kablelį perkeliame į dešinę per n vietų; jei eilė <b>neigiama</b> (n &lt; 0) — į kairę per |n| vietų. Pritrūkus skaitmenų, rašome nulius.</div>
+    <div class="ex">
+      <div class="q">Užrašyk įprasta forma: <span class="math">3,43 · 10⁵</span></div>
+      <div class="line">Kablelį perkeliame per 5 vietas į dešinę. &nbsp;&rArr;&nbsp; <span class="res">343 000</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk įprasta forma: <span class="math">1,23 · 10⁻²</span></div>
+      <div class="line">Kablelį perkeliame per 2 vietas į kairę. &nbsp;&rArr;&nbsp; <span class="res">0,0123</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk įprasta forma: <span class="math">5 · 10⁴</span></div>
+      <div class="line">Prie 5 prirašome 4 nulius. &nbsp;&rArr;&nbsp; <span class="res">50 000</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Eilė ir trūkstamas rodiklis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> eilė yra dešimties laipsnio rodiklis n standartinėje išraiškoje a·10ⁿ. Trūkstamą rodiklį randame suskaičiavę, per kiek vietų perkeltas kablelis nuo koeficiento iki įprasto skaičiaus.</div>
+    <div class="ex">
+      <div class="q">Rask trūkstamą rodiklį: <span class="math">2,3 · 10▢ = 23 000</span></div>
+      <div class="line">Nuo 2,3 iki 23 000 kablelį perkeliame per 4 vietas į dešinę. &nbsp;&rArr;&nbsp; <span class="res">▢ = 4</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Nurodyk skaičiaus 0,0000072 eilę.</div>
+      <div class="line">0,0000072 = 7,2 · 10⁻⁶. &nbsp;&rArr;&nbsp; eilė <span class="res">−6</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Nurodyk skaičiaus 37 000 000 eilę.</div>
+      <div class="line">37 000 000 = 3,7 · 10⁷. &nbsp;&rArr;&nbsp; eilė <span class="res">7</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> standartinė išraiška yra a·10ⁿ, kur 1 ≤ a &lt; 10. Dideliems skaičiams (&gt; 1) eilė teigiama, mažiems (0 &lt; x &lt; 1) — neigiama. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Užrašyk standartine išraiška</div>
+    <div class="two">
+      <ol class="tasks">
+        <li><span class="math">6000</span></li>
+        <li><span class="math">250 000</span></li>
+        <li><span class="math">1 200 000 000</span></li>
+        <li><span class="math">0,0007</span></li>
+        <li><span class="math">0,000045</span></li>
+        <li><span class="math">7,5</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Užrašyk įprasta forma</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li><span class="math">4 · 10³</span></li>
+        <li><span class="math">2,5 · 10⁵</span></li>
+        <li><span class="math">9 · 10⁻⁴</span></li>
+        <li><span class="math">6,02 · 10⁻²</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">Eilė, trūkstamas rodiklis ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Nurodyk skaičių eiles: a) 540 000 &nbsp; b) 0,0032 &nbsp; c) 8 000 000</li>
+      <li>Rask trūkstamą rodiklį: a) <span class="math">3,1 · 10▢ = 31 000</span> &nbsp; b) <span class="math">5 · 10▢ = 0,05</span></li>
+      <li>Šviesos greitis apytiksliai 300 000 km/s. Užrašyk šį skaičių standartine išraiška.</li>
+      <li>Bakterijos ilgis 0,000002 m. Užrašyk šį skaičių standartine išraiška ir nurodyk jo eilę.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> <span class="math">6 · 10³</span> &nbsp;&nbsp; <b>2.</b> <span class="math">2,5 · 10⁵</span> &nbsp;&nbsp; <b>3.</b> <span class="math">1,2 · 10⁹</span></div>
+    <div class="row"><b>4.</b> <span class="math">7 · 10⁻⁴</span> &nbsp;&nbsp; <b>5.</b> <span class="math">4,5 · 10⁻⁵</span> &nbsp;&nbsp; <b>6.</b> <span class="math">7,5 · 10⁰</span></div>
+    <div class="row"><b>7.</b> 4000 &nbsp;&nbsp; <b>8.</b> 250 000 &nbsp;&nbsp; <b>9.</b> 0,0009 &nbsp;&nbsp; <b>10.</b> 0,0602</div>
+    <div class="row"><b>11.</b> a) 5; &nbsp; b) −3; &nbsp; c) 6</div>
+    <div class="row"><b>12.</b> a) ▢ = 4; &nbsp; b) ▢ = −2</div>
+    <div class="row"><b>13.</b> <span class="math">3 · 10⁵</span> km/s</div>
+    <div class="row"><b>14.</b> <span class="math">2 · 10⁻⁶</span> m; eilė <span class="res">−6</span></div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Standartinė skaičiaus išraiška“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

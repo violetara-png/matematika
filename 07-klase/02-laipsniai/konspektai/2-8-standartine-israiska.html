@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standartinė skaičiaus išraiška · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:22px; margin:12px 0; padding:12px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Standartinė skaičiaus išraiška</h1>
+  <p class="klase">Matematika · 7 klasė · Laipsniai · skaičiaus užrašymas pavidalu a·10ⁿ</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra standartinė išraiška</a></li>
+      <li><a href="#t2">Didelius skaičius užrašome standartine išraiška</a></li>
+      <li><a href="#t3">Mažus skaičius užrašome standartine išraiška</a></li>
+      <li><a href="#t4">Iš standartinės į įprastą formą</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra standartinė išraiška</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Standartinė skaičiaus išraiška</span> yra skaičiaus užrašymas pavidalu</p>
+        <div class="formule"><span class="math"><span class="term-a">a</span> · 10<sup><span class="term-b">n</span></sup></span></div>
+        <p>kur <span class="term-a">a</span> tenkina sąlygą <b>1 ≤ a &lt; 10</b> (vienas skaitmuo prieš kablelį), o <span class="term-b">n</span> yra <b>sveikasis skaičius</b>.</p>
+        <p>Skaičius <span class="term-b">n</span> vadinamas <span class="zenk">skaičiaus eile</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">4,5 · 10⁸</span>: koeficientas <span class="term-a">a = 4,5</span> (tinka, nes 1 ≤ 4,5 &lt; 10), eilė <span class="term-b">n = 8</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Koeficientas a turi būti <b>ne mažesnis už 1 ir mažesnis už 10</b>. Užrašas <span class="klaida">45 · 10⁷</span> nėra standartinė išraiška (45 ≥ 10); teisingai <span class="gerai">4,5 · 10⁸</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Didelius skaičius užrašome standartine išraiška</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skaičiaus, <b>didesnio už 1</b>, eilė yra <span class="zenk">teigiama</span>.</p>
+        <p>Perkeliame kablelį į kairę taip, kad prieš jį liktų <b>vienas skaitmuo</b>. Per kiek vietų perkėlėme kablelį, tokia ir yra eilė <span class="term-b">n</span> (teigiama).</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">450 000 000 = 4,5 · 10⁸</span> (kablelį perkėlėme per 8 vietas)<br>
+        <span class="math">40 000 = 4 · 10⁴</span><br>
+        <span class="math">130 = 1,3 · 10²</span><br>
+        <span class="math">37 000 000 = 3,7 · 10⁷</span><br>
+        <span class="math">80 045 = 8,0045 · 10⁴</span> (eilė 4).</p>
+        <div class="formule" style="font-size:18px"><span class="math">4<span class="term-b">5 0 0 0 0 0 0 0</span> ⟶ perkeliame kablelį per 8 vietas ⟶ 4,5 · 10⁸</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Mažus skaičius užrašome standartine išraiška</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skaičiaus, esančio <b>tarp 0 ir 1</b> (0 &lt; x &lt; 1), eilė yra <span class="zenk">neigiama</span>.</p>
+        <p>Perkeliame kablelį į dešinę taip, kad prieš jį liktų <b>pirmas nenulinis skaitmuo</b>. Per kiek vietų perkėlėme, tiek ir yra eilė, tik su <b>minuso ženklu</b>.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">0,00003 = 3 · 10⁻⁵</span> (kablelį perkėlėme per 5 vietas į dešinę)<br>
+        <span class="math">0,0000072 = 7,2 · 10⁻⁶</span> (eilė −6)<br>
+        <span class="math">0,316 = 3,16 · 10⁻¹</span><br>
+        <span class="math">0,0004 = 4 · 10⁻⁴</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Neigiama eilė NEreiškia, kad skaičius neigiamas. 0,00003 yra teigiamas, tik mažas, todėl eilė −5.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Iš standartinės į įprastą formą</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kad iš standartinės išraiškos gautume įprastą skaičių, perkeliame kablelį:</p>
+        <p>jei eilė <b>teigiama</b> (n &gt; 0) — kablelį perkeliame į <span class="term-a">dešinę</span> per n vietų (pritrūkus skaitmenų, rašome nulius);</p>
+        <p>jei eilė <b>neigiama</b> (n &lt; 0) — kablelį perkeliame į <span class="term-b">kairę</span> per n vietų.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">3,43 · 10⁵ = 343 000</span> (kablelį perkėlėme per 5 vietas į dešinę)<br>
+        <span class="math">1,23 · 10⁻² = 0,0123</span> (kablelį perkėlėme per 2 vietas į kairę)<br>
+        <span class="math">5 · 10⁴ = 50 000</span>.</p>
+        <table class="kort">
+          <tr><th>Standartinė išraiška</th><th>Įprasta forma</th><th>Eilė</th></tr>
+          <tr><td>4 · 10⁴</td><td>40 000</td><td>4</td></tr>
+          <tr><td>2,5 · 10²</td><td>250</td><td>2</td></tr>
+          <tr><td>7 · 10⁻³</td><td>0,007</td><td>−3</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">45 · 10⁷</td><td class="gerai">4,5 · 10⁸ (a turi būti 1 ≤ a &lt; 10)</td></tr>
+          <tr><td class="klaida">0,5 · 10³</td><td class="gerai">5 · 10² (a turi būti ne mažesnis už 1)</td></tr>
+          <tr><td class="klaida">0,00003 → eilė −5, todėl skaičius neigiamas</td><td class="gerai">Skaičius teigiamas; neigiama tik eilė</td></tr>
+          <tr><td class="klaida">6000 = 6 · 10⁴</td><td class="gerai">6000 = 6 · 10³ (3 nuliai — eilė 3)</td></tr>
+          <tr><td class="klaida">3,43 · 10⁵ = 34 300</td><td class="gerai">3,43 · 10⁵ = 343 000 (kablelis per 5 vietas)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirma padarau koeficientą 1 ≤ a &lt; 10 (vienas skaitmuo prieš kablelį), tada suskaičiuoju, per kiek vietų perkėliau kablelį — tai ir yra eilė. Didelis skaičius — eilė teigiama, mažas (0 &lt; x &lt; 1) — neigiama.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Standartinė skaičiaus išraiška“
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laipsnio su neigiamuoju rodikliu savybės · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  .frac{display:inline-flex; flex-direction:column; text-align:center; vertical-align:middle; font-size:.9em; line-height:1.06; margin:0 2px}
+  .frac .num{border-bottom:1.6px solid currentColor; padding:0 5px}
+  .frac .den{padding:0 5px}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Laipsnio su neigiamuoju rodikliu savybės</h1>
+  <p class="klase">Matematika · 7 klasė · Laipsniai · 2.7 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Prisiminkime: a⁰ ir a⁻ⁿ</a></li>
+      <li><a href="#t2">Laipsnių savybės galioja ir neigiamiems rodikliams</a></li>
+      <li><a href="#t3">Papildoma savybė ir raidinių reiškinių prastinimas</a></li>
+      <li><a href="#t4">Kaip taikyti: išspręsti pavyzdžiai</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Prisiminkime: a⁰ ir a⁻ⁿ</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Iš praėjusios temos (2.6) žinome dvi taisykles, kai <span class="math">a ≠ 0</span> ir <span class="math">n</span> yra natūralusis skaičius:</p>
+        <div class="formule">
+          <span class="math">a⁰ = <span class="gerai">1</span></span> &nbsp;&nbsp;·&nbsp;&nbsp;
+          <span class="math">a⁻ⁿ = <span class="frac"><span class="num">1</span><span class="den">aⁿ</span></span></span>
+        </div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">7⁰ = 1</span> &nbsp;&nbsp; <span class="math">(−5)⁰ = 1</span><br>
+        <span class="math">2⁻³ = <span class="frac"><span class="num">1</span><span class="den">2³</span></span> = <span class="frac"><span class="num">1</span><span class="den">8</span></span></span> &nbsp;&nbsp;
+        <span class="math">10⁻² = <span class="frac"><span class="num">1</span><span class="den">10²</span></span> = <span class="frac"><span class="num">1</span><span class="den">100</span></span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Neigiamas <b>rodiklis</b> nereiškia, kad laipsnis neigiamas. <span class="math">2⁻³</span> yra <span class="gerai">teigiamas</span> skaičius <span class="math"><span class="frac"><span class="num">1</span><span class="den">8</span></span></span>, o ne <span class="klaida">−8</span> ir ne <span class="klaida">−6</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Laipsnių savybės galioja ir neigiamiems rodikliams</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Svarbiausia mintis.</span> Visos laipsnių savybės, kurias mokėmės su natūraliaisiais rodikliais, galioja ir <b>visiems sveikiesiems</b> rodikliams, tarp jų ir <b>neigiamiems</b>. Čia <span class="math">a ≠ 0</span>, <span class="math">b ≠ 0</span>, o <span class="math">m</span> ir <span class="math">n</span> yra sveikieji skaičiai.</p>
+        <div class="formule">
+          <span class="math"><span class="term-a">aᵐ · aⁿ</span> = aᵐ⁺ⁿ</span> &nbsp;&nbsp;&nbsp;
+          <span class="math"><span class="term-a">aᵐ : aⁿ</span> = aᵐ⁻ⁿ</span>
+        </div>
+        <div class="formule">
+          <span class="math"><span class="term-a">(aᵐ)ⁿ</span> = aᵐ·ⁿ</span> &nbsp;&nbsp;&nbsp;
+          <span class="math"><span class="term-a">aⁿ · bⁿ</span> = (a·b)ⁿ</span> &nbsp;&nbsp;&nbsp;
+          <span class="math"><span class="term-a">aⁿ : bⁿ</span> = (a : b)ⁿ</span>
+        </div>
+        <p>Dauginant laipsnius su ta pačia baze <b>rodikliai sudedami</b>, dalijant <b>atimami</b>, keliant laipsnį laipsniu <b>dauginami</b>. Su neigiamais rodikliais dirbame kaip su bet kuriais sveikaisiais skaičiais.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">4⁻³ · 4⁵ = 4⁻³⁺⁵ = <span class="gerai">4²</span></span> &nbsp;&nbsp;(sudedu: −3 + 5 = 2)<br>
+        <span class="math">3⁶ : 3⁻³ = 3⁶⁻⁽⁻³⁾ = <span class="gerai">3⁹</span></span> &nbsp;&nbsp;(atimu: 6 − (−3) = 9)<br>
+        <span class="math">(7⁻³)² = 7⁻³·² = <span class="gerai">7⁻⁶</span></span> &nbsp;&nbsp;(dauginu: −3 · 2 = −6)<br>
+        <span class="math">(3⁻²)⁻⁴ = 3⁽⁻²⁾·⁽⁻⁴⁾ = <span class="gerai">3⁸</span></span> &nbsp;&nbsp;(du minusai duoda pliusą)</p>
+        <p class="demesio"><b>Dėmesio.</b> Atimdamas neigiamą rodiklį, nepamiršk ženklo: <span class="math">6⁹ : 6⁻⁷ = 6⁹⁻⁽⁻⁷⁾ = 6⁹⁺⁷ = <span class="gerai">6¹⁶</span></span>, o <span class="klaida">ne 6²</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Papildoma savybė ir raidinių reiškinių prastinimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Naudinga savybė.</span> Iš savybių išplaukia:</p>
+        <div class="formule"><span class="math">a⁻ⁿ · bⁿ = <span class="frac"><span class="num">bⁿ</span><span class="den">aⁿ</span></span> = (b : a)ⁿ</span></div>
+        <p>Ji padeda greitai prastinti reiškinius su raidėmis. Su raidinėmis bazėmis savybės taikomos lygiai taip pat, kaip su skaičiais.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">x⁻⁶ · x⁻³ = x⁻⁶⁺⁽⁻³⁾ = <span class="gerai">x⁻⁹</span></span><br>
+        <span class="math">a⁵ · a⁻³ = a⁵⁺⁽⁻³⁾ = <span class="gerai">a²</span></span><br>
+        <span class="math">(x⁵)⁻⁴ = x⁵·⁽⁻⁴⁾ = <span class="gerai">x⁻²⁰</span></span></p>
+        <p class="pvz"><b>Trūkstamas rodiklis.</b> Jei <span class="math">aᵐ · aⁿ = a⁻³</span> ir <span class="math">m = 4</span>, tai <span class="math">4 + n = −3</span>, taigi <span class="math">n = <span class="gerai">−7</span></span>.</p>
+        <p class="demesio"><b>Atmink.</b> Laipsnių savybes taikome tik tada, kai <b>bazės vienodos</b> (arba vienodi rodikliai). <span class="math">2³ · 5³ = (2·5)³ = 10³</span>, bet <span class="math">2³ · 5²</span> vienu laipsniu paprastai neužrašomas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kaip taikyti: išspręsti pavyzdžiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p class="pvz"><b>1. Užrašyk vienu laipsniu:</b> <span class="math">2⁻⁵ · 2⁻³</span>.<br>
+        Sudedu rodiklius: <span class="math">−5 + (−3) = −8</span>. &nbsp;⇒&nbsp; <span class="math"><span class="gerai">2⁻⁸</span></span>.</p>
+        <p class="pvz"><b>2. Apskaičiuok:</b> <span class="math">2⁻⁵ · 2⁷</span>.<br>
+        Sudedu rodiklius: <span class="math">−5 + 7 = 2</span>. &nbsp;⇒&nbsp; <span class="math">2² = <span class="gerai">4</span></span>.</p>
+        <p class="pvz"><b>3. Apskaičiuok:</b> <span class="math">5³ · 5⁻³</span>.<br>
+        <span class="math">3 + (−3) = 0</span>, taigi <span class="math">5⁰ = <span class="gerai">1</span></span>.</p>
+        <p class="pvz"><b>4. Užrašyk vienu laipsniu:</b> <span class="math">(5⁴)⁻⁵</span>.<br>
+        Dauginu rodiklius: <span class="math">4 · (−5) = −20</span>. &nbsp;⇒&nbsp; <span class="math"><span class="gerai">5⁻²⁰</span></span>.</p>
+        <p class="pvz"><b>5. Užrašyk vienu laipsniu:</b> <span class="math">(−2)⁻⁶ · (−2)⁻⁷</span>.<br>
+        Bazė ta pati <span class="math">(−2)</span>, sudedu rodiklius: <span class="math">−6 + (−7) = −13</span>. &nbsp;⇒&nbsp; <span class="math"><span class="gerai">(−2)⁻¹³</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">2⁻⁵ · 2⁻³ = 2¹⁵ (rodiklius sudauginu)</td><td class="gerai">2⁻⁵ · 2⁻³ = 2⁻⁸ (rodiklius sudedu)</td></tr>
+          <tr><td class="klaida">3⁶ : 3⁻³ = 3² (−3 pamirštas)</td><td class="gerai">3⁶ : 3⁻³ = 3⁶⁻⁽⁻³⁾ = 3⁹</td></tr>
+          <tr><td class="klaida">(7⁻³)² = 7⁻¹ (rodiklius sudedu)</td><td class="gerai">(7⁻³)² = 7⁻⁶ (rodiklius dauginu)</td></tr>
+          <tr><td class="klaida">2⁻³ = −8</td><td class="gerai">2⁻³ = 1/2³ = 1/8</td></tr>
+          <tr><td class="klaida">(3⁻²)⁻⁴ = 3⁻⁸</td><td class="gerai">(3⁻²)⁻⁴ = 3⁸ (minusas × minusas = pliusas)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Dauginu laipsnius su ta pačia baze &rArr; rodiklius <b>sudedu</b>. Dalinu &rArr; <b>atimu</b>. Keliu laipsnį laipsniu &rArr; <b>dauginu</b>. Su neigiamais rodikliais viskas taip pat, tik atidžiai su ženklais.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Laipsnio su neigiamuoju rodikliu savybės“
+  </footer>
+
+</div>
+</body>
+</html>

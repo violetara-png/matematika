@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Laipsnį keliame laipsniu — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Laipsnį keliame laipsniu — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Laipsniai (2.5) · laipsnio kėlimas laipsniu, sandaugos laipsnis, skaičius nurodytu pagrindu</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Pagrindinė taisyklė: <span class="math">(aᵐ)ⁿ = aᵐ·ⁿ</span></div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> keliant laipsnį laipsniu, <b>pagrindą paliekame</b>, o <b>rodiklius sudauginame</b>. Nepainiok su <span class="math">aᵐ·aⁿ = aᵐ⁺ⁿ</span> (ten rodiklius sudedame).</div>
+    <div class="ex">
+      <div class="q">Užrašyk vienu laipsniu: <span class="math">(7²)³</span></div>
+      <div class="line"><span class="math">7<sup>2·3</sup></span> &nbsp;&rArr;&nbsp; <span class="res">7⁶</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk vienu laipsniu: <span class="math">(a⁴)⁵</span></div>
+      <div class="line"><span class="math">a<sup>4·5</sup></span> &nbsp;&rArr;&nbsp; <span class="res">a²⁰</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk vienu laipsniu: <span class="math">((−4)³)⁶</span></div>
+      <div class="line"><span class="math">(−4)<sup>3·6</sup></span> &nbsp;&rArr;&nbsp; <span class="res">(−4)¹⁸</span> &nbsp;<span class="muted2">(lyginis rodiklis → reikšmė teigiama)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sandaugos su koeficientu laipsnis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> <span class="math">(k·aᵐ·bᵏ)ⁿ = kⁿ·a<sup>m·n</sup>·b<sup>k·n</sup></span>. Koeficientą (skaičių) ir kiekvieną dauginamąjį keliame tuo pačiu laipsniu.</div>
+    <div class="ex">
+      <div class="q">Pakelk laipsniu: <span class="math">(2a⁵b⁴)³</span></div>
+      <div class="line"><span class="math">2³ · a<sup>5·3</sup> · b<sup>4·3</sup> = 8 · a¹⁵ · b¹²</span> &nbsp;&rArr;&nbsp; <span class="res">8a¹⁵b¹²</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Pakelk laipsniu: <span class="math">(2a³)²</span></div>
+      <div class="line"><span class="math">2² · a<sup>3·2</sup> = 4 · a⁶</span> &nbsp;&rArr;&nbsp; <span class="res">4a⁶</span> &nbsp;<span class="muted2">(o ne 2a⁶!)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Skaičių užrašome nurodytu pagrindu</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia skaičių išreiškiame kaip laipsnį (<span class="math">81 = 3⁴</span>, <span class="math">64 = 2⁶</span>, <span class="math">125 = 5³</span>), o paskui, jei reikia, taikome <span class="math">(aᵐ)ⁿ = aᵐ·ⁿ</span>.</div>
+    <div class="ex">
+      <div class="q">Užrašyk <span class="math">81⁵</span> kaip skaičiaus 3 laipsnį.</div>
+      <div class="line"><span class="math">81 = 3⁴</span>, todėl <span class="math">81⁵ = (3⁴)⁵ = 3<sup>4·5</sup></span> &nbsp;&rArr;&nbsp; <span class="res">3²⁰</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk <span class="math">6⁸</span> kaip laipsnio laipsnį (pagrindas 6²).</div>
+      <div class="line"><span class="math">6⁸ = (6²)ⁿ</span>, kur <span class="math">2·n = 8</span>, taigi <span class="math">n = 4</span> &nbsp;&rArr;&nbsp; <span class="res">(6²)⁴</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Reikšmių skaičiavimas ir palyginimas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia sudauginame rodiklius, tada skaičiuojame reikšmę. Du reiškinius palyginame užrašę juos vienu laipsniu.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok <span class="math">(2²)³</span> ir <span class="math">(3²)²</span>.</div>
+      <div class="line"><span class="math">(2²)³ = 2⁶</span> &nbsp;&rArr;&nbsp; <span class="res">64</span></div>
+      <div class="line"><span class="math">(3²)² = 3⁴</span> &nbsp;&rArr;&nbsp; <span class="res">81</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Palygink <span class="math">(6²)³</span> ir <span class="math">(6³)²</span>.</div>
+      <div class="line"><span class="math">(6²)³ = 6⁶</span> &nbsp; ir &nbsp; <span class="math">(6³)² = 6⁶</span> &nbsp;&rArr;&nbsp; <span class="res">lygūs</span> &nbsp;<span class="muted2">(2·3 = 3·2 = 6)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> keliant laipsnį laipsniu rodiklius sudauginame, koeficientą irgi keliame laipsniu, o skaičių prireikus išreiškiame nurodytu pagrindu. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Užrašyk vienu laipsniu</div>
+    <div class="two">
+      <ol class="tasks">
+        <li><span class="math">(4³)²</span></li>
+        <li><span class="math">(x⁵)⁴</span></li>
+        <li><span class="math">((−5)²)³</span></li>
+        <li><span class="math">(10²)⁵</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Apskaičiuok reikšmę</div>
+    <div class="two">
+      <ol class="tasks" start="5">
+        <li><span class="math">(2²)²</span></li>
+        <li><span class="math">(3²)²</span></li>
+        <li><span class="math">(2³)²</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">C grupė · Užrašyk skaičių nurodytu pagrindu</div>
+    <div class="two">
+      <ol class="tasks" start="8">
+        <li>27 kaip skaičiaus 3 laipsnį.</li>
+        <li>16 kaip skaičiaus 2 laipsnį.</li>
+        <li>125 kaip skaičiaus 5 laipsnį.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Pakelk sandaugą laipsniu: <span class="math">(2a⁴b³)³</span>.</li>
+      <li>Palygink <span class="math">(5²)³</span> ir <span class="math">(5³)²</span>: ar jie lygūs? Atsakymą pagrįsk.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> <span class="math">4⁶</span> &nbsp;&nbsp; <b>2.</b> <span class="math">x²⁰</span> &nbsp;&nbsp; <b>3.</b> <span class="math">(−5)⁶</span> &nbsp;&nbsp; <b>4.</b> <span class="math">10¹⁰</span></div>
+    <div class="row"><b>5.</b> <span class="math">2⁴ = 16</span> &nbsp;&nbsp; <b>6.</b> <span class="math">3⁴ = 81</span> &nbsp;&nbsp; <b>7.</b> <span class="math">2⁶ = 64</span></div>
+    <div class="row"><b>8.</b> <span class="math">3³</span> &nbsp;&nbsp; <b>9.</b> <span class="math">2⁴</span> &nbsp;&nbsp; <b>10.</b> <span class="math">5³</span></div>
+    <div class="row"><b>11.</b> <span class="math">(2a⁴b³)³ = 2³a¹²b⁹ = </span><span class="res">8a¹²b⁹</span></div>
+    <div class="row"><b>12.</b> <span class="math">(5²)³ = 5⁶</span>, <span class="math">(5³)² = 5⁶</span> → <span class="res">lygūs</span> (abu 5⁶)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Laipsnį keliame laipsniu“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
