@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Paprastosios palūkanos — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Paprastosios palūkanos — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 3.3 procentai · palūkanos, norma p, grąžintina suma</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Metinės palūkanos</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> vienerių metų palūkanos P₁ = S · p : 100 (tai p procentų nuo sumos S).</div>
+    <div class="ex">
+      <div class="q">S = 10 000 Eur, p = 5 %. Kokios metinės palūkanos?</div>
+      <div class="line">P = 10 000 · 5 : 100 &nbsp;&rArr;&nbsp; <span class="res">500 Eur</span> &nbsp;<span class="muted2">(5 % nuo 10 000)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">S = 5000 Eur, p = 7 %. Kokios metinės palūkanos?</div>
+      <div class="line">P = 5000 · 7 : 100 = <span class="res">350 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Palūkanos per kelerius metus</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> per t metų Pₜ = S · p : 100 · t. Metines dauginame iš metų skaičiaus t (bazė — tik pradinė S).</div>
+    <div class="ex">
+      <div class="q">Goda: S = 5000 Eur, p = 2 %, t = 3 metai. Kiek palūkanų?</div>
+      <div class="line">P = 5000 · 2 : 100 · 3 = 100 · 3 = <span class="res">300 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ignas: S = 3000 Eur, p = 3 %, t = 4 metai. Kiek palūkanų?</div>
+      <div class="line">P = 3000 · 3 : 100 · 4 = 90 · 4 = <span class="res">360 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Grąžintina (sukaupta) suma</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> grąžintina suma Sₜ = S + Pₜ, arba viena formule Sₜ = S · (1 + p : 100 · t).</div>
+    <div class="ex">
+      <div class="q">Goda pasiskolino 5000 Eur, p = 2 %, t = 3 metai. Kokią sumą grąžins?</div>
+      <div class="line">Palūkanos P = 300 Eur, tad Sₜ = 5000 + 300 = <span class="res">5300 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Simonas padėjo 10 000 Eur, p = 5 %, t = 1 metai. Kiek bus sąskaitoje?</div>
+      <div class="line">P = 500 Eur, Sₜ = 10 000 + 500 = <span class="res">10 500 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmiausia rask metines palūkanas (S · p : 100), tada, jei reikia, padaugink iš metų skaičiaus t. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Metinės palūkanos (t = 1 metai)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>S = 1000 Eur, p = 5 %. P = ?</li>
+        <li>S = 2000 Eur, p = 4 %. P = ?</li>
+        <li>S = 5000 Eur, p = 3 %. P = ?</li>
+        <li>S = 4000 Eur, p = 5 %. P = ?</li>
+        <li>S = 2000 Eur, p = 5 %. P = ?</li>
+        <li>S = 6000 Eur, p = 2 %. P = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Palūkanos per t metų</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>S = 5000 Eur, p = 3 %, t = 2 m. P = ?</li>
+        <li>S = 3000 Eur, p = 4 %, t = 5 m. P = ?</li>
+        <li>S = 10 000 Eur, p = 2 %, t = 3 m. P = ?</li>
+        <li>S = 2000 Eur, p = 4 %, t = 2 m. P = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Elena pasiskolino <span class="math">1000</span> Eur vieneriems metams, metinė norma <span class="math">5 %</span>. Kiek palūkanų sumokės ir kokią sumą grąžins?</li>
+      <li>Į banką padėta <span class="math">5000</span> Eur, metinė norma <span class="math">2 %</span>, terminas <span class="math">3</span> metai. Kiek palūkanų priskaičiuos bankas ir kiek pinigų bus sąskaitoje?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 50 Eur &nbsp;&nbsp; <b>2.</b> 80 Eur &nbsp;&nbsp; <b>3.</b> 150 Eur &nbsp;&nbsp; <b>4.</b> 200 Eur</div>
+    <div class="row math"><b>5.</b> 100 Eur &nbsp;&nbsp; <b>6.</b> 120 Eur &nbsp;&nbsp; <b>7.</b> 300 Eur &nbsp;&nbsp; <b>8.</b> 600 Eur</div>
+    <div class="row math"><b>9.</b> 600 Eur &nbsp;&nbsp; <b>10.</b> 160 Eur</div>
+    <div class="row math"><b>11.</b> P = 1000·5:100 = 50 Eur; grąžins 1050 Eur &nbsp;&nbsp; <b>12.</b> P = 5000·2:100·3 = 300 Eur; sąskaitoje 5300 Eur</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Paprastosios palūkanos“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

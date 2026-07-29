@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Sudėtinės palūkanos — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Sudėtinės palūkanos — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 3.4 procentai · daugiklis, sukaupta suma, palūkanos</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kaip suma auga kasmet</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kasmet sumą dauginame iš daugiklio (1 + p : 100). Kitų metų palūkanos skaičiuojamos jau nuo naujos sumos.</div>
+    <div class="ex">
+      <div class="q">Matas: S = 5000 Eur, p = 2 % (daugiklis 1,02). Kaip auga suma per 3 metus?</div>
+      <div class="line">Po 1 m.: 5000 · 1,02 = 5100 &nbsp;&rArr;&nbsp; po 2 m.: 5100 · 1,02 = 5202 &nbsp;&rArr;&nbsp; po 3 m.: 5202 · 1,02 = <span class="res">5306,04 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">S = 50 000 Eur, p = 3 % (daugiklis 1,03). Kaip auga suma per 3 metus?</div>
+      <div class="line">51 500 &rArr; 53 045 &rArr; 53 045 · 1,03 = <span class="res">54 636,35 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sukaupta suma po t metų</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> Sₜ = S · (1 + p : 100)ᵗ. Daugiklį keliame laipsniu t (metų skaičius).</div>
+    <div class="ex">
+      <div class="q">S = 5000 Eur, p = 4 %, t = 2 metai. Kokia sukaupta suma?</div>
+      <div class="line">Sₜ = 5000 · 1,04² = 5000 · 1,0816 = <span class="res">5408 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Emilija: S = 8000 Eur, p = 5 %, t = 2 metai. Kokia sukaupta suma?</div>
+      <div class="line">Sₜ = 8000 · 1,05² = 8000 · 1,1025 = <span class="res">8820 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">S = 1000 Eur, p = 10 %, t = 3 metai. Kokia sukaupta suma?</div>
+      <div class="line">Sₜ = 1000 · 1,1³ = 1000 · 1,331 = <span class="res">1331 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Kiek uždirbome (palūkanos)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> uždirbtos palūkanos P = Sₜ − S (sukaupta suma minus pradinė).</div>
+    <div class="ex">
+      <div class="q">S = 5000 Eur, p = 4 %, t = 2 metai. Kiek palūkanų uždirbta?</div>
+      <div class="line">Sₜ = 5408 Eur, tad P = 5408 − 5000 = <span class="res">408 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">S = 1000 Eur, p = 10 %, t = 2 metai. Kiek palūkanų uždirbta?</div>
+      <div class="line">Sₜ = 1000 · 1,1² = 1210 Eur, tad P = 1210 − 1000 = <span class="res">210 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> rask daugiklį (1 + p : 100), kelk jį laipsniu t ir padaugink iš S — gausi sukauptą sumą Sₜ. Palūkanos P = Sₜ − S. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Sukaupta suma po t = 2 metų (Sₜ)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>S = 1000 Eur, p = 10 %. Sₜ = ?</li>
+        <li>S = 2000 Eur, p = 5 %. Sₜ = ?</li>
+        <li>S = 5000 Eur, p = 2 %. Sₜ = ?</li>
+        <li>S = 5000 Eur, p = 4 %. Sₜ = ?</li>
+        <li>S = 10 000 Eur, p = 3 %. Sₜ = ?</li>
+        <li>S = 2000 Eur, p = 10 %. Sₜ = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Palūkanos per t = 2 metus (P = Sₜ − S)</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>S = 1000 Eur, p = 10 %. P = ?</li>
+        <li>S = 5000 Eur, p = 4 %. P = ?</li>
+        <li>S = 2000 Eur, p = 5 %. P = ?</li>
+        <li>S = 10 000 Eur, p = 2 %. P = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Antanas padėjo į banką <span class="math">1000</span> Eur, metinė norma <span class="math">10 %</span>, terminas <span class="math">3</span> metai (sudėtinės palūkanos). Kokia suma bus sąskaitoje ir kiek palūkanų jis uždirbs?</li>
+      <li>Į banką padėta <span class="math">5000</span> Eur, metinė norma <span class="math">2 %</span>, terminas <span class="math">3</span> metai. Kokia bus sukaupta suma ir kiek palūkanų priskaičiuota?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 1210 Eur &nbsp;&nbsp; <b>2.</b> 2205 Eur &nbsp;&nbsp; <b>3.</b> 5202 Eur &nbsp;&nbsp; <b>4.</b> 5408 Eur</div>
+    <div class="row math"><b>5.</b> 10 609 Eur &nbsp;&nbsp; <b>6.</b> 2420 Eur &nbsp;&nbsp; <b>7.</b> 210 Eur &nbsp;&nbsp; <b>8.</b> 408 Eur</div>
+    <div class="row math"><b>9.</b> 205 Eur &nbsp;&nbsp; <b>10.</b> 404 Eur</div>
+    <div class="row math"><b>11.</b> Sₜ = 1000 · 1,1³ = 1331 Eur; palūkanos 331 Eur &nbsp;&nbsp; <b>12.</b> Sₜ = 5000 · 1,02³ = 5306,04 Eur; palūkanos 306,04 Eur</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Sudėtinės palūkanos“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

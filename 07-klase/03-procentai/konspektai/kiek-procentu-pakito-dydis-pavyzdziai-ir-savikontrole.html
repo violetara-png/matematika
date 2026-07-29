@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiek procentų pakito dydis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px;}
+  .frac .virs{display:block;padding:0 6px 1px;border-bottom:1.6px solid currentColor;}
+  .frac .apac{display:block;padding:1px 6px 0;}
+  @page{size:A4 portrait;margin:13mm;}
+</style>
+</head>
+<body>
+
+<h1>Kiek procentų pakito dydis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 3 skyrius „Procentai“ · 3.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1: padidėjimas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Keliais procentais dydis padidėjo</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai dydis A padidėjo iki B (B &gt; A), pokytį <b>(B − A)</b> dalijame iš <b>pradinės</b> vertės A ir dauginame iš 100 %.</div>
+    <div class="ex">
+      <div class="q">Dviratis pabrango 800 → 920 Eur. Keliais procentais pabrango?</div>
+      <div class="line"><span class="frac"><span class="virs">920 − 800</span><span class="apac">800</span></span> · 100 % = <span class="frac"><span class="virs">120</span><span class="apac">800</span></span> · 100 % &nbsp;&rArr;&nbsp; <span class="res">15 %</span> &nbsp;<span class="muted2">(pokytį lyginame su pradiniais 800)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Mokinių skaičius pakito 200 → 260. Keliais procentais padaugėjo?</div>
+      <div class="line"><span class="frac"><span class="virs">260 − 200</span><span class="apac">200</span></span> · 100 % = <span class="frac"><span class="virs">60</span><span class="apac">200</span></span> · 100 % = <span class="res">30 %</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2: sumažėjimas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Keliais procentais dydis sumažėjo</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai dydis A sumažėjo iki B (B &lt; A), pokytį <b>(A − B)</b> dalijame iš <b>pradinės</b> vertės A ir dauginame iš 100 %.</div>
+    <div class="ex">
+      <div class="q">Paltas atpigo 400 → 320 Eur. Keliais procentais atpigo?</div>
+      <div class="line"><span class="frac"><span class="virs">400 − 320</span><span class="apac">400</span></span> · 100 % = <span class="frac"><span class="virs">80</span><span class="apac">400</span></span> · 100 % &nbsp;&rArr;&nbsp; <span class="res">20 %</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kaina krito 500 → 400 Eur. Keliais procentais sumažėjo?</div>
+      <div class="line"><span class="frac"><span class="virs">500 − 400</span><span class="apac">500</span></span> · 100 % = <span class="frac"><span class="virs">100</span><span class="apac">500</span></span> · 100 % = <span class="res">20 %</span> &nbsp;<span class="muted2">(dalijame iš pradinių 500, ne iš 400)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3: proporcija ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Tas pats sprendimas proporcija</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pradinė vertė A atitinka 100 %, pokytis |B − A| atitinka ieškomus x %. Tada x = <span class="math">|B − A| · 100 : A</span>.</div>
+    <div class="ex">
+      <div class="q">Striukė pabrango 250 → 300 Eur. Keliais procentais?</div>
+      <div class="line">Pokytis: 300 − 250 = 50 Eur.</div>
+      <div class="line">250 — 100 %, &nbsp; 50 — x % &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="virs">50 · 100</span><span class="apac">250</span></span> = <span class="res">20 %</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4: taikymas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Taikymas: kainos, pajamos, indėliai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> svarbu teisingai atpažinti <b>pradinę vertę</b> ir <b>pokyčio kryptį</b> (pabrango ar atpigo). Skaičiuojame vienodai.</div>
+    <div class="ex">
+      <div class="q">Į banką įdėta 2500 Eur, po metų sąskaitoje 2675 Eur. Keliais procentais paaugo indėlis?</div>
+      <div class="line"><span class="frac"><span class="virs">2675 − 2500</span><span class="apac">2500</span></span> · 100 % = <span class="frac"><span class="virs">175</span><span class="apac">2500</span></span> · 100 % = <span class="res">7 %</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Alga pakilo 1000 → 1150 Eur. Keliais procentais padidėjo?</div>
+      <div class="line"><span class="frac"><span class="virs">1150 − 1000</span><span class="apac">1000</span></span> · 100 % = <span class="frac"><span class="virs">150</span><span class="apac">1000</span></span> · 100 % = <span class="res">15 %</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pokytį (skirtumą) visada dalink iš <b>pradinės</b> vertės ir daugink iš 100 %. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Keliais procentais dydis padidėjo</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>200 → 260</li>
+        <li>400 → 500</li>
+        <li>1000 → 1150</li>
+        <li>600 → 720</li>
+        <li>50 → 65</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Keliais procentais dydis sumažėjo</div>
+    <div class="two">
+      <ol class="tasks math" start="6">
+        <li>500 → 400</li>
+        <li>80 → 60</li>
+        <li>260 → 208</li>
+        <li>200 → 150</li>
+        <li>1000 → 900</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Dviratis kainavo 400 Eur, pabrango iki 500 Eur. Keliais procentais pabrango?</li>
+      <li>Kuprinė kainavo 50 Eur, išpardavime kainuoja 40 Eur. Keliais procentais atpigo?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 30 % &nbsp;&nbsp; <b>2.</b> 25 % &nbsp;&nbsp; <b>3.</b> 15 % &nbsp;&nbsp; <b>4.</b> 20 %</div>
+    <div class="row math"><b>5.</b> 30 % &nbsp;&nbsp; <b>6.</b> 20 % &nbsp;&nbsp; <b>7.</b> 25 % &nbsp;&nbsp; <b>8.</b> 20 %</div>
+    <div class="row math"><b>9.</b> 25 % &nbsp;&nbsp; <b>10.</b> 10 %</div>
+    <div class="row math"><b>11.</b> (500 − 400) : 400 · 100 % = 25 % &nbsp;&nbsp; <b>12.</b> (50 − 40) : 50 · 100 % = 20 %</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Kiek procentų pakito dydis“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Sudėtinės palūkanos (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>💶 Mokymosi asistentas „Rūta“</h1>
+    <p>Tema: <b>Sudėtinės palūkanos</b> · 7 klasė · 3.4</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rūta</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu suprasime <b>sudėtines palūkanas</b>.<br><br>Yra dvi palūkanų rūšys. <b>Paprastosios</b> palūkanos kasmet skaičiuojamos tik nuo pradinės sumos. O <b>sudėtinės</b> palūkanos skaičiuojamos ir nuo priaugusių palūkanų — tad pinigai auga vis greičiau. Pagrindinė formulė: <b>Sₜ = S · (1 + p/100)ᵗ</b>, kur S — pradinė suma, p — metinės palūkanos (%), t — metų skaičius.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rūta</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(',')">,</button><button onclick="ins('·')">·</button><button onclick="ins('%')">%</button><button onclick="ins('(')">(</button><button onclick="ins(')')">)</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rūta</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Sumą rašyk skaičiumi, pvz. <b>5408</b> arba <b>5408 Eur</b>; jei atsakymas su trupmena — su kableliu, pvz. <b>5306,04</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo <b>vienų metų</b>. Kai suma padidinama tam tikru procentu, ją padauginame iš daugiklio (1 + p/100).", "expr": "S = 1000 Eur,&nbsp;&nbsp;p = 10 %,&nbsp;&nbsp;t = 1 metai", "q": "Kiek pinigų bus po vienų metų? (Eur)", "accepted": ["1100", "1100 Eur", "1100eur"], "hints": ["Sudėtinės palūkanos: kiekvienais metais suma dauginama iš daugiklio <b>(1 + p/100)</b>. Čia p = 10.", "1 + 10/100 = <b>1,1</b>. Vadinasi, po vienų metų suma = 1000 · 1,1.", "Dabar padaugink 1000 iš 1,1 — tiek pinigų bus po pirmų metų."]}, {"intro": "Dabar — <b>dveji metai</b>. Po kiekvienų metų dauginame iš to paties daugiklio dar kartą.", "expr": "S = 1000 Eur,&nbsp;&nbsp;p = 10 %,&nbsp;&nbsp;t = 2 metai", "q": "Kiek pinigų bus po dvejų metų? (Eur)", "accepted": ["1210", "1210 Eur", "1210eur"], "hints": ["Po 2 metų dauginame iš daugiklio DU kartus, tad naudojame laipsnį <b>t = 2</b>: Sₜ = S · (1 + p/100)².", "Daugiklis vėl <b>1,1</b>. Reiškia Sₜ = 1000 · 1,1².", "1,1² = 1,21. Dabar padaugink 1000 iš 1,21."]}, {"intro": "Pakeiskime skaičius. Metodas tas pats — svarbu teisingas daugiklis.", "expr": "S = 5000 Eur,&nbsp;&nbsp;p = 2 %,&nbsp;&nbsp;t = 2 metai", "q": "Kiek pinigų bus po dvejų metų? (Eur)", "accepted": ["5202", "5202 Eur", "5202eur"], "hints": ["Daugiklis 1 + 2/100 = <b>1,02</b>. Metų 2, tad laipsnis 2.", "Sₜ = 5000 · 1,02².", "1,02² = 1,0404. Dabar padaugink 5000 iš 1,0404."]}, {"intro": "Dažnai reikia rasti ne galutinę sumą, o <b>kiek uždirbta palūkanų</b> (kiek pinigų priaugo).", "expr": "S = 1000 Eur,&nbsp;&nbsp;po 2 metų&nbsp;&nbsp;Sₜ = 1210 Eur", "q": "Kiek palūkanų uždirbta per 2 metus? (Eur)", "accepted": ["210", "210 Eur", "210eur"], "hints": ["Palūkanos — tai kiek pinigų PRIAUGO. Jas randame atimtimi: palūkanos = Sₜ − S.", "Galutinė suma Sₜ = 1210 Eur, pradinė S = 1000 Eur.", "Iš 1210 atimk 1000."]}, {"intro": "Paskutinė — <b>tekstinis uždavinys, treji metai</b>. Būk atidus: atsakymas gali būti su trupmena.", "expr": "Matas įdėjo 5000 Eur,&nbsp;&nbsp;p = 2 %,&nbsp;&nbsp;t = 3 metai", "q": "Kiek pinigų Matas turės po 3 metų? (Eur; su kableliu)", "accepted": ["5306,04", "5306,04 Eur", "5306.04", "5306,04eur"], "hints": ["Daugiklis 1 + 2/100 = <b>1,02</b>. Metų 3, tad laipsnis <b>t = 3</b>: Sₜ = 5000 · 1,02³.", "1,02³ = 1,02 · 1,02 · 1,02 = 1,061208.", "Padaugink 5000 iš 1,061208. Atsakymą užrašyk su kableliu, du skaitmenys po kablelio."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Įdėta <span>1000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["1210", "1210 Eur", "1210eur"], "hint": "Daugiklis 1,1. Metų 2: 1000 · 1,1²."}, {"t": "Įdėta <span>2000 Eur</span>, metinės palūkanos <span>5 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["2205", "2205 Eur", "2205eur"], "hint": "Daugiklis 1,05. Metų 2: 2000 · 1,05²."}, {"t": "Įdėta <span>1000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>3 metų</span>?", "acc": ["1331", "1331 Eur", "1331eur"], "hint": "Daugiklis 1,1. Metų 3: 1000 · 1,1³."}, {"t": "Įdėta <span>10000 Eur</span>, metinės palūkanos <span>3 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["10609", "10609 Eur", "10609eur"], "hint": "Daugiklis 1,03. Metų 2: 10000 · 1,03²."}, {"t": "Įdėta <span>5000 Eur</span>, metinės palūkanos <span>4 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["5408", "5408 Eur", "5408eur"], "hint": "Daugiklis 1,04. Metų 2: 5000 · 1,04²."}, {"t": "Įdėta <span>8000 Eur</span>, metinės palūkanos <span>5 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["8820", "8820 Eur", "8820eur"], "hint": "Daugiklis 1,05. Metų 2: 8000 · 1,05²."}, {"t": "Įdėta <span>5000 Eur</span>, metinės palūkanos <span>2 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["5202", "5202 Eur", "5202eur"], "hint": "Daugiklis 1,02. Metų 2: 5000 · 1,02²."}, {"t": "Įdėta <span>2000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["2420", "2420 Eur", "2420eur"], "hint": "Daugiklis 1,1. Metų 2: 2000 · 1,1²."}, {"t": "Įdėta <span>1000 Eur</span>, metinės palūkanos <span>20 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["1440", "1440 Eur", "1440eur"], "hint": "Daugiklis 1,2. Metų 2: 1000 · 1,2²."}, {"t": "Įdėta <span>3000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["3630", "3630 Eur", "3630eur"], "hint": "Daugiklis 1,1. Metų 2: 3000 · 1,1²."}]}, {"label": "variantas B", "qs": [{"t": "Įdėta <span>4000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["4840", "4840 Eur", "4840eur"], "hint": "Daugiklis 1,1. Metų 2: 4000 · 1,1²."}, {"t": "Įdėta <span>4000 Eur</span>, metinės palūkanos <span>5 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["4410", "4410 Eur", "4410eur"], "hint": "Daugiklis 1,05. Metų 2: 4000 · 1,05²."}, {"t": "Įdėta <span>2000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>3 metų</span>?", "acc": ["2662", "2662 Eur", "2662eur"], "hint": "Daugiklis 1,1. Metų 3: 2000 · 1,1³."}, {"t": "Įdėta <span>20000 Eur</span>, metinės palūkanos <span>3 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["21218", "21218 Eur", "21218eur"], "hint": "Daugiklis 1,03. Metų 2: 20000 · 1,03²."}, {"t": "Įdėta <span>2500 Eur</span>, metinės palūkanos <span>4 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["2704", "2704 Eur", "2704eur"], "hint": "Daugiklis 1,04. Metų 2: 2500 · 1,04²."}, {"t": "Įdėta <span>2000 Eur</span>, metinės palūkanos <span>20 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["2880", "2880 Eur", "2880eur"], "hint": "Daugiklis 1,2. Metų 2: 2000 · 1,2²."}, {"t": "Įdėta <span>10000 Eur</span>, metinės palūkanos <span>2 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["10404", "10404 Eur", "10404eur"], "hint": "Daugiklis 1,02. Metų 2: 10000 · 1,02²."}, {"t": "Įdėta <span>5000 Eur</span>, metinės palūkanos <span>20 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["7200", "7200 Eur", "7200eur"], "hint": "Daugiklis 1,2. Metų 2: 5000 · 1,2²."}, {"t": "Įdėta <span>6000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["7260", "7260 Eur", "7260eur"], "hint": "Daugiklis 1,1. Metų 2: 6000 · 1,1²."}, {"t": "Įdėta <span>4800 Eur</span>, metinės palūkanos <span>5 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["5292", "5292 Eur", "5292eur"], "hint": "Daugiklis 1,05. Metų 2: 4800 · 1,05²."}]}, {"label": "variantas C", "qs": [{"t": "Įdėta <span>7000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["8470", "8470 Eur", "8470eur"], "hint": "Daugiklis 1,1. Metų 2: 7000 · 1,1²."}, {"t": "Įdėta <span>1200 Eur</span>, metinės palūkanos <span>5 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["1323", "1323 Eur", "1323eur"], "hint": "Daugiklis 1,05. Metų 2: 1200 · 1,05²."}, {"t": "Įdėta <span>3000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>3 metų</span>?", "acc": ["3993", "3993 Eur", "3993eur"], "hint": "Daugiklis 1,1. Metų 3: 3000 · 1,1³."}, {"t": "Įdėta <span>7500 Eur</span>, metinės palūkanos <span>2 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["7803", "7803 Eur", "7803eur"], "hint": "Daugiklis 1,02. Metų 2: 7500 · 1,02²."}, {"t": "Įdėta <span>10000 Eur</span>, metinės palūkanos <span>4 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["10816", "10816 Eur", "10816eur"], "hint": "Daugiklis 1,04. Metų 2: 10000 · 1,04²."}, {"t": "Įdėta <span>2500 Eur</span>, metinės palūkanos <span>20 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["3600", "3600 Eur", "3600eur"], "hint": "Daugiklis 1,2. Metų 2: 2500 · 1,2²."}, {"t": "Įdėta <span>10000 Eur</span>, metinės palūkanos <span>1 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["10201", "10201 Eur", "10201eur"], "hint": "Daugiklis 1,01. Metų 2: 10000 · 1,01²."}, {"t": "Įdėta <span>2500 Eur</span>, metinės palūkanos <span>2 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["2601", "2601 Eur", "2601eur"], "hint": "Daugiklis 1,02. Metų 2: 2500 · 1,02²."}, {"t": "Įdėta <span>5000 Eur</span>, metinės palūkanos <span>10 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["6050", "6050 Eur", "6050eur"], "hint": "Daugiklis 1,1. Metų 2: 5000 · 1,1²."}, {"t": "Įdėta <span>1250 Eur</span>, metinės palūkanos <span>4 %</span>. Kiek bus po <span>2 metų</span>?", "acc": ["1352", "1352 Eur", "1352eur"], "hint": "Daugiklis 1,04. Metų 2: 1250 · 1,04²."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
