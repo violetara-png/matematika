@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Antras treniruoklis · 8 kl. NMPP</title>
+<title>Antras kontrolinis testas · 8 kl. NMPP</title>
 <style>
   :root{
     --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
@@ -107,7 +107,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1 id="antraste">Antras treniruoklis · 8 kl. NMPP</h1>
+    <h1 id="antraste">Antras kontrolinis testas · 8 kl. NMPP</h1>
     <p id="paantraste">2026 m. NMPP bandomasis patikrinimas · pirmi 20 uždavinių · treniruokis, kol būsi pasiruošęs</p>
   </header>
 
@@ -506,11 +506,11 @@ const GENERATORIAI = [
   { label: "15. Skirtumo kvadratas", gen() {
       const k = choice([2, 3, 4, 5]);
       const m = choice([2, 3, 4, 5].filter(x => (2 * k) % x === 0));
-      const mid = 2 * k / m;
-      const correct = `${sup(k, 2)}a² − ${mid === 1 ? '' : mid}a + ${fr(1, m * m)}`.replace('²²', '²');
+      const mid = 2 * k / m, k2 = k * k;
+      const correct = `${k2}a² − ${mid === 1 ? '' : mid}a + ${fr(1, m * m)}`;
       const c2 = `${k}a² − ${mid === 1 ? '' : mid}a + ${fr(1, m)}`;
-      const c3 = `${sup(k, 2)}a² + ${mid === 1 ? '' : mid}a + ${fr(1, m * m)}`;
-      const c4 = `${sup(k, 2)}a² − ${fr(1, m * m)}`;
+      const c3 = `${k2}a² + ${mid === 1 ? '' : mid}a + ${fr(1, m * m)}`;
+      const c4 = `${k2}a² − ${fr(1, m * m)}`;
       const pool = new Set([correct]); const opts = [];
       for (const h of [c2, c3, c4]) { if (!pool.has(h)) { pool.add(h); opts.push(h); } }
       const options = shuffle([{ html: correct, ok: true }, ...opts.slice(0, 3).map(h => ({ html: h, ok: false }))]);
@@ -518,7 +518,7 @@ const GENERATORIAI = [
         type: 'mc', label: "15. Skirtumo kvadratas",
         q: `Kurį iš pateiktų reiškinių gausime, pakėlę kvadratu reiškinį <span class="nowrap">(${k}a − ${fr(1, m)})</span>? Pažymėkite teisingą atsakymą.`,
         mc: { options },
-        steps: [`(x − y)² = x² − 2xy + y²`, `(${k}a − ${fr(1, m)})² = ${sup(k, 2)}a² − 2·${k}a·${fr(1, m)} + ${fr(1, m * m)} = ${sup(k, 2)}a² − ${mid}a + ${fr(1, m * m)}`],
+        steps: [`(x − y)² = x² − 2xy + y²`, `(${k}a)² − 2·${k}a·${fr(1, m)} + (${fr(1, m)})² = ${k2}a² − ${mid}a + ${fr(1, m * m)}`],
         dbg: { options }
       };
   }},
@@ -537,9 +537,13 @@ const GENERATORIAI = [
 
   // 17. Lygiagretainio aukštinė (atviras, SVG)
   { label: "17. Lygiagretainio aukštinė", gen() {
-      const a = choice([4, 5, 6, 8]), ha = choice([2, 3, 4]), b = choice([2, 4]);
-      const S = a * ha, hb = S / b;
-      if (!Number.isInteger(hb * 2)) return this.gen();
+      // Geometrinis realumas: kraštinė b ≥ aukštinei ha, pagrindas a ≥ aukštinei hb.
+      let a, ha, hb, b, S, tries = 0;
+      do {
+        ha = choice([2, 3, 4]); hb = choice([2, 3, 4]); a = choice([4, 5, 6, 8, 9, 10, 12]);
+        S = a * ha; b = S / hb; tries++;
+      } while (!(Number.isInteger(b) && b >= ha && a >= hb && b >= 2 && b <= 14) && tries < 300);
+      if (!(Number.isInteger(b) && b >= ha)) { a = 6; ha = 2; b = 4; hb = 3; S = 12; }
       return {
         type: 'input', label: "17. Lygiagretainio aukštinė",
         q: `Apskaičiuokite lygiagretainio aukštinės, nubrėžtos į ${nf(b)} cm kraštinę, ilgį (cm). Brėžinyje pagrindas ${a} cm ir jo aukštinė ${ha} cm.<br>${pgramSVG(a + ' cm', ha + ' cm', nf(b) + ' cm')}`,
@@ -617,7 +621,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Antras treniruoklis · 8 kl. NMPP", "subtitle": "2026 m. NMPP bandomasis patikrinimas · pirmi 20 uždavinių · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9};
+const META = {"title": "Antras kontrolinis testas · 8 kl. NMPP", "subtitle": "2026 m. NMPP bandomasis patikrinimas · pirmi 20 uždavinių · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9};
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false, pasirinkta:null };
 const $ = id => document.getElementById(id);
 const LANGO = META.lango||10, RIBA = META.riba||9;
