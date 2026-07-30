@@ -48,9 +48,12 @@
   .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 .12em; line-height:1.05;}
   .fr>span:first-child{border-bottom:1.6px solid currentColor; padding:0 .28em;}
   .fr>span:last-child{padding:1px .28em 0;}
-  .sqrt{display:inline-flex; align-items:flex-start; margin:0 .1em;}
-  .sqrt .rc{border-top:1.6px solid currentColor; padding:2px .18em 0; margin-left:1px;}
+  .sqrt{display:inline-block; position:relative; margin-left:.66em; padding:3px 4px 0 3px; border-top:1.7px solid currentColor;}
+  .sqrt::before{content:"√"; position:absolute; left:-.58em; top:-.30em; font-size:1.34em; line-height:1;}
   sup{font-size:.72em;}
+  .sistema{display:inline-flex; align-items:center; gap:6px; margin:8px 0; font-size:24px;}
+  .sistema .brace{font-size:2.3em; font-weight:300; line-height:1;}
+  .sistema .eqs{display:inline-flex; flex-direction:column; gap:6px; text-align:left;}
   table.lentele{border-collapse:collapse; margin:12px auto;}
   table.lentele th,table.lentele td{border:1.4px solid var(--pilka); padding:7px 16px; text-align:center; font-size:18px; min-width:34px;}
   table.lentele th{font-style:italic; background:var(--geltona);}
@@ -170,7 +173,7 @@ function fr(n, d) {
   }
   return `<span class="fr"><span>${n}</span><span>${d}</span></span>`;
 }
-function sq(inner) { return `<span class="sqrt">√<span class="rc">${inner}</span></span>`; }
+function sq(inner) { return `<span class="sqrt">${inner}</span>`; }
 function sup(b, e) { return `${b}<sup>${e}</sup>`; }
 function xcoef(a) { return a === 1 ? 'x' : (a === -1 ? '−x' : `${a}x`); }
 
@@ -210,12 +213,27 @@ function triMedianSVG(adL, dcL) {
     <text x="215" y="205" font-size="15">${dcL}</text>
   </svg>`;
 }
-function rightTriSVG(pL, qL) {
-  return `<svg viewBox="0 0 220 180" width="200" style="max-width:100%">
-    <polygon points="40,20 40,150 200,150" fill="none" stroke="#222" stroke-width="2"/>
-    <rect x="40" y="135" width="15" height="15" fill="none" stroke="#222" stroke-width="1.5"/>
-    <text x="16" y="90" font-size="16">${pL}</text>
-    <text x="110" y="170" font-size="16">${qL}</text>
+// SVG-native reikšmė: {s:n} → √n (su brūkšniu virš), {t:'3'} → paprastas skaičius/tekstas
+function svgVal(x, y, spec, anchor) {
+  anchor = anchor || 'middle';
+  if (spec.s !== undefined) {
+    const d = String(spec.s), w = d.length * 9;
+    return `<g font-size="16">
+      <text x="${x}" y="${y}" text-anchor="${anchor}">√</text>
+      <text x="${x + 11}" y="${y}" text-anchor="start">${d}</text>
+      <line x1="${x + 9}" y1="${y - 13}" x2="${x + 12 + w}" y2="${y - 13}" stroke="currentColor" stroke-width="1.3"/>
+    </g>`;
+  }
+  return `<text x="${x}" y="${y}" font-size="16" text-anchor="${anchor}">${spec.t}</text>`;
+}
+function specHTML(spec) { return spec.s !== undefined ? sq(spec.s) : spec.t; }
+function specVal(spec) { return spec.s !== undefined ? Math.sqrt(spec.s) : Number(spec.t); }
+function rightTriSVG(pSpec, qSpec) {
+  return `<svg viewBox="0 0 230 188" width="205" style="max-width:100%">
+    <polygon points="48,22 48,154 206,154" fill="none" stroke="#222" stroke-width="2"/>
+    <rect x="48" y="139" width="15" height="15" fill="none" stroke="#222" stroke-width="1.5"/>
+    ${svgVal(22, 94, pSpec, 'middle')}
+    ${svgVal(122, 178, qSpec, 'middle')}
   </svg>`;
 }
 function trapSVG(top, bottom) {
@@ -233,45 +251,79 @@ function trapSVG(top, bottom) {
     <text x="278" y="110" font-style="italic" font-size="13">F</text>
   </svg>`;
 }
-function areaTriSVG(hL, bL) {
-  return `<svg viewBox="0 0 200 160" width="180" style="max-width:100%">
-    <polygon points="70,20 20,140 180,140" fill="none" stroke="#222" stroke-width="2"/>
-    <line x1="70" y1="20" x2="70" y2="140" stroke="#222" stroke-width="1.5" stroke-dasharray="3,3"/>
-    <rect x="70" y="125" width="13" height="15" fill="none" stroke="#222" stroke-width="1.2"/>
-    <text x="78" y="88" font-style="italic" font-size="16">${hL}</text>
-    <text x="100" y="156" font-style="italic" font-size="16" text-anchor="middle">${bL}</text>
+// SVG koeficiento žymė: '1'→v, '2'→2v, '0.5'→laiptuota ½ su kintamuoju (renderinama SVG viduje)
+function svgCoef(x, y, key, v, anchor) {
+  anchor = anchor || 'middle';
+  if (key === '1') return `<text x="${x}" y="${y}" font-style="italic" font-size="16" text-anchor="${anchor}">${v}</text>`;
+  if (key === '2') return `<text x="${x}" y="${y}" font-style="italic" font-size="16" text-anchor="${anchor}">2${v}</text>`;
+  return `<g text-anchor="middle">
+    <text x="${x - 7}" y="${y - 4}" font-size="12">1</text>
+    <line x1="${x - 14}" y1="${y - 1}" x2="${x}" y2="${y - 1}" stroke="currentColor" stroke-width="1.1"/>
+    <text x="${x - 7}" y="${y + 11}" font-size="12">2</text>
+    <text x="${x + 8}" y="${y + 4}" font-style="italic" font-size="16">${v}</text>
+  </g>`;
+}
+function areaTriSVG(hKey, bKey) {
+  return `<svg viewBox="0 0 210 178" width="185" style="max-width:100%">
+    <polygon points="78,22 28,142 188,142" fill="none" stroke="#222" stroke-width="2"/>
+    <line x1="78" y1="22" x2="78" y2="142" stroke="#222" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <rect x="78" y="128" width="13" height="14" fill="none" stroke="#222" stroke-width="1.2"/>
+    ${svgCoef(95, 88, hKey, 'm', 'start')}
+    ${svgCoef(108, 165, bKey, 'n', 'middle')}
   </svg>`;
 }
 function parLinesSVG(alpha) {
-  return `<svg viewBox="0 0 320 200" width="300" style="max-width:100%">
-    <line x1="10" y1="70" x2="310" y2="70" stroke="#222" stroke-width="2"/>
-    <line x1="10" y1="150" x2="310" y2="150" stroke="#222" stroke-width="2"/>
-    <line x1="120" y1="20" x2="240" y2="195" stroke="#222" stroke-width="2"/>
-    <text x="300" y="64" font-style="italic" font-size="15">a</text>
-    <text x="300" y="144" font-style="italic" font-size="15">b</text>
-    <text x="118" y="16" font-style="italic" font-size="15">c</text>
-    <text x="176" y="63" font-size="14">${alpha}°</text>
-    <text x="150" y="145" font-size="14">x</text>
-    <text x="205" y="168" font-size="14">y</text>
+  // Teisinga geometrija: transversalė pasvyra tikru kampu alpha; žymės dedamos
+  // pagal realias kampų vietas. alpha — smailusis kampas prie tiesės a (apačioje-dešinėje).
+  const th = alpha * Math.PI / 180;
+  const ya = 72, yb = 152, ax = 40, bx = 330;
+  const Px = 150, Qx = 150 + (yb - ya) / Math.tan(th), Qy = yb;
+  const dx = Math.cos(th), dy = Math.sin(th);
+  const topX = Px - 48 * dx, topY = ya - 48 * dy;
+  const botX = Qx + 44 * dx, botY = Qy + 44 * dy;
+  const half = th / 2;
+  const aX = Px + 36 * Math.cos(half), aY = ya + 36 * Math.sin(half); // alpha: smailusis, po a dešinėje
+  const xX = Qx + 30 * Math.cos(half), xY = Qy + 30 * Math.sin(half); // x: atitinkamasis (=alpha), po b dešinėje
+  let lx = dx - 1, ly = dy; const ln = Math.hypot(lx, ly); lx /= ln; ly /= ln;
+  const yX = Qx + 34 * lx, yY = Qy + 34 * ly; // y: gretutinis (=180−alpha), po b kairėje
+  return `<svg viewBox="0 0 360 222" width="330" style="max-width:100%">
+    <line x1="${ax}" y1="${ya}" x2="${bx}" y2="${ya}" stroke="#222" stroke-width="2"/>
+    <line x1="${ax}" y1="${yb}" x2="${bx}" y2="${yb}" stroke="#222" stroke-width="2"/>
+    <line x1="${topX.toFixed(1)}" y1="${topY.toFixed(1)}" x2="${botX.toFixed(1)}" y2="${botY.toFixed(1)}" stroke="#222" stroke-width="2"/>
+    <text x="${bx + 4}" y="${ya - 5}" font-style="italic" font-size="15">a</text>
+    <text x="${bx + 4}" y="${yb - 5}" font-style="italic" font-size="15">b</text>
+    <text x="${(topX - 12).toFixed(1)}" y="${(topY - 2).toFixed(1)}" font-style="italic" font-size="15">c</text>
+    <text x="${aX.toFixed(1)}" y="${(aY + 4).toFixed(1)}" font-size="13" text-anchor="middle">${alpha}°</text>
+    <text x="${xX.toFixed(1)}" y="${(xY + 4).toFixed(1)}" font-size="14" text-anchor="middle">x</text>
+    <text x="${yX.toFixed(1)}" y="${(yY + 4).toFixed(1)}" font-size="14" text-anchor="middle">y</text>
   </svg>`;
 }
 function speedGraphSVG(mV, jV) {
-  const ox = 40, oy = 170, sx = 24, sy = 16;
+  const ox = 46, oy = 175, sx = 26, sy = 15, top = 18;
   const P = (v) => `${ox + v[0] * sx},${oy - v[1] * sy}`;
-  let grid = '';
-  for (let t = 0; t <= 10; t++) grid += `<line x1="${ox + t * sx}" y1="20" x2="${ox + t * sx}" y2="${oy}" stroke="#eee" stroke-width="1"/>`;
-  for (let v = 1; v <= 9; v++) grid += `<line x1="${ox}" y1="${oy - v * sy}" x2="${ox + 10 * sx}" y2="${oy - v * sy}" stroke="#eee" stroke-width="1"/>`;
+  let grid = '', ticks = '';
+  for (let t = 0; t <= 10; t++) {
+    grid += `<line x1="${ox + t * sx}" y1="${top}" x2="${ox + t * sx}" y2="${oy}" stroke="#eee" stroke-width="1"/>`;
+    if (t >= 1) ticks += `<text x="${ox + t * sx}" y="${oy + 15}" font-size="11" text-anchor="middle">${t}</text>`;
+  }
+  for (let v = 1; v <= 9; v++) {
+    grid += `<line x1="${ox}" y1="${oy - v * sy}" x2="${ox + 10 * sx}" y2="${oy - v * sy}" stroke="#eee" stroke-width="1"/>`;
+    ticks += `<text x="${ox - 8}" y="${oy - v * sy + 4}" font-size="11" text-anchor="end">${v}</text>`;
+  }
   const mPts = mV.map(P).join(' '), jPts = jV.map(P).join(' ');
-  return `<svg viewBox="0 0 320 200" width="320" style="max-width:100%">
-    ${grid}
-    <line x1="${ox}" y1="20" x2="${ox}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
-    <line x1="${ox}" y1="${oy}" x2="${ox + 10 * sx}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
+  const dots = (V, dash) => V.map(v => `<circle cx="${ox + v[0] * sx}" cy="${oy - v[1] * sy}" r="2.6" fill="#222"/>`).join('');
+  return `<svg viewBox="0 0 340 210" width="330" style="max-width:100%">
+    ${grid}${ticks}
+    <line x1="${ox}" y1="${top}" x2="${ox}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
+    <line x1="${ox}" y1="${oy}" x2="${ox + 10 * sx + 6}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
     <polyline points="${mPts}" fill="none" stroke="#222" stroke-width="2"/>
     <polyline points="${jPts}" fill="none" stroke="#222" stroke-width="2" stroke-dasharray="6,4"/>
-    <text x="${ox + 10 * sx - 4}" y="${oy - mV[mV.length - 1][1] * sy - 4}" font-size="12">Mantas</text>
-    <text x="${ox + 10 * sx - 4}" y="${oy - jV[jV.length - 1][1] * sy + 12}" font-size="12">Jonas</text>
-    <text x="14" y="30" font-size="11">m/s</text>
-    <text x="${ox + 10 * sx}" y="${oy + 14}" font-size="11">s</text>
+    ${dots(mV)}${dots(jV)}
+    <text x="${ox + 10 * sx + 2}" y="${oy - mV[mV.length - 1][1] * sy - 5}" font-size="11">Mantas</text>
+    <text x="${ox + 10 * sx + 2}" y="${oy - jV[jV.length - 1][1] * sy + 13}" font-size="11">Jonas</text>
+    <text x="10" y="${top + 10}" font-size="11">Greitis</text>
+    <text x="14" y="${top + 22}" font-size="11">(m/s)</text>
+    <text x="${ox + 10 * sx + 8}" y="${oy + 15}" font-size="11">Laikas (s)</text>
   </svg>`;
 }
 function pieSVG(vals, colors) {
@@ -511,23 +563,23 @@ const GENERATORIAI = [
   // 11. Statusis trikampis, įžambinė (MC, SVG)
   { label: "11. Įžambinė (Pitagoras)", gen() {
       const bank = [
-        { p: '1', q: '1', hyp: sq(2), hv: Math.SQRT2, dist: ['2', sq(3), '1'] },
-        { p: '1', q: sq(3), hyp: '2', hv: 2, dist: [sq(2), sq(3), '4'] },
-        { p: sq(2), q: sq(2), hyp: '2', hv: 2, dist: [sq(2), '4', sq(6)] },
-        { p: '3', q: '4', hyp: '5', hv: 5, dist: ['7', sq(7), '6'] },
-        { p: '6', q: '8', hyp: '10', hv: 10, dist: ['14', sq(28), '12'] },
-        { p: '5', q: '12', hyp: '13', hv: 13, dist: ['17', sq(17), '15'] },
-        { p: '2', q: sq(5), hyp: '3', hv: 3, dist: [sq(7), sq(9) + '?', '9'] },
-        { p: '1', q: sq(8), hyp: '3', hv: 3, dist: [sq(7), sq(10), '9'] }
+        { p: { s: 2 }, q: { s: 2 }, hyp: { t: '2' }, dist: [{ s: 2 }, { t: '4' }, { s: 6 }] },
+        { p: { t: '1' }, q: { s: 3 }, hyp: { t: '2' }, dist: [{ s: 2 }, { s: 3 }, { t: '4' }] },
+        { p: { t: '1' }, q: { t: '1' }, hyp: { s: 2 }, dist: [{ t: '2' }, { s: 3 }, { t: '1' }] },
+        { p: { t: '3' }, q: { t: '4' }, hyp: { t: '5' }, dist: [{ t: '7' }, { s: 7 }, { t: '6' }] },
+        { p: { t: '6' }, q: { t: '8' }, hyp: { t: '10' }, dist: [{ t: '14' }, { s: 28 }, { t: '12' }] },
+        { p: { t: '5' }, q: { t: '12' }, hyp: { t: '13' }, dist: [{ t: '17' }, { s: 17 }, { t: '15' }] },
+        { p: { t: '2' }, q: { s: 5 }, hyp: { t: '3' }, dist: [{ s: 7 }, { t: '9' }, { s: 13 }] },
+        { p: { t: '1' }, q: { s: 8 }, hyp: { t: '3' }, dist: [{ s: 7 }, { s: 10 }, { t: '9' }] }
       ];
       const it = choice(bank);
-      const options = shuffle([{ html: it.hyp, ok: true }, ...it.dist.slice(0, 3).map(h => ({ html: h, ok: false }))]);
+      const options = shuffle([{ html: specHTML(it.hyp), ok: true }, ...it.dist.slice(0, 3).map(s => ({ html: specHTML(s), ok: false }))]);
       return {
         type: 'mc', label: "11. Įžambinė (Pitagoras)",
-        q: `Pavaizduoto stačiojo trikampio statinių ilgiai lygūs ${it.p} ir ${it.q}. Kam lygus šio trikampio įžambinės ilgis?<br>${rightTriSVG(it.p, it.q)}`,
+        q: `Pavaizduoto stačiojo trikampio statinių ilgiai lygūs ${specHTML(it.p)} ir ${specHTML(it.q)}. Kam lygus šio trikampio įžambinės ilgis?<br>${rightTriSVG(it.p, it.q)}`,
         mc: { options },
-        steps: [`Pagal Pitagoro teoremą: įžambinė = ${sq(it.p + '² + ' + it.q + '²')}`, `= ${sq('(' + it.p + ')² + (' + it.q + ')²')} = ${it.hyp}`],
-        dbg: { hv: it.hv, options }
+        steps: [`Pagal Pitagoro teoremą: įžambinė = ${sq(specHTML(it.p) + '² + ' + specHTML(it.q) + '²')}`, `= ${sq(specVal(it.p) ** 2 + ' + ' + specVal(it.q) ** 2)} = ${sq(specVal(it.p) ** 2 + specVal(it.q) ** 2)} = ${specHTML(it.hyp)}`],
+        dbg: { hv: specVal(it.hyp), options }
       };
   }},
 
@@ -572,13 +624,13 @@ const GENERATORIAI = [
 
   // 14. Lygiagrečios tiesės, kampai x ir y (multi, SVG)
   { label: "14. Kampai prie lygiagrečių", gen() {
-      const alpha = randint(35, 80);
-      const x = 180 - alpha, y = alpha;
+      const alpha = randint(35, 70);
+      const x = alpha, y = 180 - alpha;
       return {
         type: 'multi', label: "14. Kampai prie lygiagrečių",
         q: `Tiesės a ir b yra lygiagrečios. Tiesė c kerta tieses a ir b. Duotas kampas ${alpha}°. Rask raidėmis x ir y pažymėtų kampų didumą (laipsniais).<br>${parLinesSVG(alpha)}`,
         multi: { fields: [{ pre: 'x =', ans: x, ansText: x + '°' }, { pre: 'y =', ans: y, ansText: y + '°' }] },
-        steps: [`y ir ${alpha}° — atitinkamieji kampai, todėl y = ${alpha}°`, `x ir ${alpha}° — gretutiniai, todėl x = 180° − ${alpha}° = ${x}°`],
+        steps: [`x ir ${alpha}° — atitinkamieji kampai (ta pati padėtis prie abiejų lygiagrečių tiesių), todėl x = ${alpha}°`, `y ir x — gretutiniai kampai (bendra tiesė b), todėl y = 180° − ${alpha}° = ${y}°`],
         dbg: { x, y }
       };
   }},
@@ -598,10 +650,12 @@ const GENERATORIAI = [
       else correctLabel = 'Nė vieno sprendinio';
       const labels = ['Vieną sprendinį', 'Du sprendinius', 'Be galo daug sprendinių', 'Nė vieno sprendinio'];
       const options = labels.map(l => ({ html: l, ok: l === correctLabel }));
-      const eq = (a, b, c) => `${xcoef(a)} ${b >= 0 ? '+ ' + xcoef(Math.abs(b)).replace('x', 'y') : '− ' + xcoef(Math.abs(b)).replace('x', 'y')} = ${c}`;
+      const t1 = a => a === 1 ? 'x' : (a === -1 ? '−x' : `${a < 0 ? '−' : ''}${Math.abs(a)}x`);
+      const t2 = b => `${b < 0 ? '− ' : '+ '}${Math.abs(b) === 1 ? '' : Math.abs(b)}y`;
+      const eq = (a, b, c) => `${t1(a)} ${t2(b)} = ${nf(c)}`;
       return {
         type: 'mc', label: "15. Sistemos sprendiniai",
-        q: `Kiek sprendinių turi tiesinių lygčių sistema?<br><span class="big">${'{'} ${eq(a1, b1, c1)}; &nbsp; ${eq(a2, b2, c2)} ${'}'}</span>`,
+        q: `Kiek sprendinių turi tiesinių lygčių sistema?<br><span class="sistema"><span class="brace">{</span><span class="eqs"><span>${eq(a1, b1, c1)}</span><span>${eq(a2, b2, c2)}</span></span></span>`,
         mc: { options },
         steps: [
           det !== 0 ? `Kryptys skirtingos (${a1}·${b2} − ${a2}·${b1} = ${det} ≠ 0) — viena susikirtimo vieta.`
@@ -688,15 +742,13 @@ const GENERATORIAI = [
   // 20. Trikampio plotas S = m·n (MC, SVG)
   { label: "20. Trikampio plotas", gen() {
       // plotas = ½·pagrindas·aukštinė; koef. sandauga turi būti 2, kad būtų m·n
-      const hOpts = { '0.5': fr(1, 2) + 'm', '1': 'm', '2': '2m' };
-      const bOpts = { '0.5': fr(1, 2) + 'n', '1': 'n', '2': '2n' };
       const correctCombos = [[1, 2], [2, 1]];
       const [hc, bc] = choice(correctCombos);
       const used = new Set([hc + 'x' + bc]);
       const distractPool = [[0.5, 1], [1, 1], [1, 0.5], [0.5, 2], [2, 0.5]];
       const dist = [];
       for (const [dh, db] of shuffle(distractPool)) { if (dh * db === 2) continue; const k = dh + 'x' + db; if (!used.has(k)) { used.add(k); dist.push([dh, db]); } if (dist.length >= 2) break; }
-      const mk = ([h, b]) => ({ html: areaTriSVG(hOpts[String(h)], bOpts[String(b)]), ok: h * b === 2 });
+      const mk = ([h, b]) => ({ html: areaTriSVG(String(h), String(b)), ok: h * b === 2 });
       const options = shuffle([mk([hc, bc]), ...dist.map(mk)]);
       return {
         type: 'mc', label: "20. Trikampio plotas",
