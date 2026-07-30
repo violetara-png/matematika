@@ -254,8 +254,11 @@ function trapSVG(top, bottom) {
 // SVG koeficiento žymė: '1'→v, '2'→2v, '0.5'→laiptuota ½ su kintamuoju (renderinama SVG viduje)
 function svgCoef(x, y, key, v, anchor) {
   anchor = anchor || 'middle';
-  if (key === '1') return `<text x="${x}" y="${y}" font-style="italic" font-size="16" text-anchor="${anchor}">${v}</text>`;
-  if (key === '2') return `<text x="${x}" y="${y}" font-style="italic" font-size="16" text-anchor="${anchor}">2${v}</text>`;
+  const k = Number(key);
+  if (Number.isInteger(k)) {
+    const t = (k === 1) ? v : (k + v);
+    return `<text x="${x}" y="${y}" font-style="italic" font-size="16" text-anchor="${anchor}">${t}</text>`;
+  }
   return `<g text-anchor="middle">
     <text x="${x - 7}" y="${y - 4}" font-size="12">1</text>
     <line x1="${x - 14}" y1="${y - 1}" x2="${x}" y2="${y - 1}" stroke="currentColor" stroke-width="1.1"/>
@@ -745,7 +748,7 @@ const GENERATORIAI = [
       const correctCombos = [[1, 2], [2, 1]];
       const [hc, bc] = choice(correctCombos);
       const used = new Set([hc + 'x' + bc]);
-      const distractPool = [[0.5, 1], [1, 1], [1, 0.5], [0.5, 2], [2, 0.5]];
+      const distractPool = [[1, 1], [2, 2], [1, 3], [3, 1], [2, 3], [3, 2]];
       const dist = [];
       for (const [dh, db] of shuffle(distractPool)) { if (dh * db === 2) continue; const k = dh + 'x' + db; if (!used.has(k)) { used.add(k); dist.push([dh, db]); } if (dist.length >= 2) break; }
       const mk = ([h, b]) => ({ html: areaTriSVG(String(h), String(b)), ok: h * b === 2 });
