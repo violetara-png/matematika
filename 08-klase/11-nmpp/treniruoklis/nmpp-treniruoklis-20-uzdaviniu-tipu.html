@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMPP treniruoklis · 8 klasė</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --smelis:#171b23; --popierius:#20262f; --rasalas:#e7ecf3; --pilka:#9aa6b6;
+      --linija:#333c49; --geltona:#2a2f26; --zalia-f:#1b2a1c; --raudona-f:#2c1c1c; --sildyta-t:#2a211d; }
+    svg{background:#f3efe7; border-radius:8px;}
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:660px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:17px; text-align:center; margin:6px 0 18px; line-height:1.5;}
+  .klausimas .big{display:block; font-size:25px; margin:14px 0; letter-spacing:.3px;}
+  .klausimas svg{margin:10px auto 2px; display:block;}
+
+  /* trupmena / šaknis */
+  .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 .12em; line-height:1.05;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor; padding:0 .28em;}
+  .fr>span:last-child{padding:1px .28em 0;}
+  .sqrt{display:inline-flex; align-items:flex-start; margin:0 .1em;}
+  .sqrt .rc{border-top:1.6px solid currentColor; padding:2px .18em 0; margin-left:1px;}
+  sup{font-size:.72em;}
+  table.lentele{border-collapse:collapse; margin:12px auto;}
+  table.lentele th,table.lentele td{border:1.4px solid var(--pilka); padding:7px 16px; text-align:center; font-size:18px; min-width:34px;}
+  table.lentele th{font-style:italic; background:var(--geltona);}
+
+  /* atsakymo sritis */
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px; flex-wrap:wrap;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:150px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit; background:var(--popierius); color:var(--rasalas);}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer; color:var(--rasalas);}
+  .simboliai button:hover{background:var(--geltona);}
+
+  .parinktys{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:6px 0 4px;}
+  .parinktis{border:2px solid var(--linija); background:var(--popierius); border-radius:12px;
+    padding:14px 16px; font-size:20px; cursor:pointer; text-align:center; color:var(--rasalas);
+    display:flex; align-items:center; justify-content:center; min-height:56px; transition:.12s;}
+  .parinktis:hover{border-color:var(--sildyta);}
+  .parinktis.pasirinkta{border-color:var(--sildyta); background:var(--sildyta-t);}
+  .parinktis.teisinga{border-color:var(--zalia); background:var(--zalia-f);}
+  .parinktis.klaidinga{border-color:var(--raudona); background:var(--raudona-f);}
+  .zenklai{display:flex; gap:10px; justify-content:center; margin:6px 0;}
+  .zenklai .parinktis{width:64px; min-height:52px; font-size:24px;}
+
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.5; cursor:default;}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:rgba(127,127,127,.06); border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:16px; margin:6px 0; line-height:1.55;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">NMPP treniruoklis · 8 klasė</h1>
+    <p id="paantraste">Aštuntokų pasiekimų patikra (NMPP) · 20 uždavinių tipų · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs patikrai! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div id="atsakymoSritis"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs aštuntokų patikrai (NMPP).<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais. Veikia be interneto, nieko nerenka ir niekur nesiunčia — tai treniruotė, ne atsiskaitymas.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// NMPP (aštuntokų pasiekimų patikros) treniruoklio generatoriai.
+// 20 uždavinių tipų iš NMPP testo — kiekvieno TIPAS išlaikytas, skaičiai keičiami procedūriškai.
+//
+// Kiekvienas generatorius grąžina objektą su lauku `type`:
+//   'input'  — vienas atsakymo laukelis (skaičius/trupmena). {ans, ansText, pre, simboliai}
+//   'mc'     — pasirinkimai. {options:[{html, ok}]}  (tiksliai vienas ok:true)
+//   'multi'  — keli laukeliai. {fields:[{pre, ans, ansText}]}
+//   'select' — ženklo pasirinkimas. {options:[...], correct}
+// Visi turi: label, q (HTML), steps ([HTML]).
+// `dbg` — tik Node-patikrai (variklis ignoruoja).
+
+// ---- Pagalbininkai ----
+function randint(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function nz(a, b) { let n = 0; do { n = randint(a, b); } while (n === 0); return n; }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a || 1; }
+function simp(n, d) { const g = gcd(n, d); return [n / g, d / g]; }
+function nf(n) { n = Math.round(n * 1000) / 1000; const s = Math.abs(n).toString().replace('.', ','); return (n < 0 ? '−' : '') + s; }
+function pm(n) { n = Math.round(n * 1000) / 1000; const s = Math.abs(n).toString().replace('.', ','); return (n < 0 ? '− ' : '+ ') + s; }
+
+// ---- HTML rodymo pagalbininkai ----
+function fr(n, d) {
+  if (d === undefined || d === 1) return String(n);
+  if (typeof n === 'number') {
+    const neg = (n < 0) !== (d < 0); n = Math.abs(n); d = Math.abs(d);
+    return `${neg ? '−' : ''}<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+  }
+  return `<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+}
+function sq(inner) { return `<span class="sqrt">√<span class="rc">${inner}</span></span>`; }
+function sup(b, e) { return `${b}<sup>${e}</sup>`; }
+function xcoef(a) { return a === 1 ? 'x' : (a === -1 ? '−x' : `${a}x`); }
+
+// ---- SVG pagalbininkai ----
+function polySVG(cells) {
+  const s = 22, pad = 6;
+  const rs = cells.map(c => c[0]), cs = cells.map(c => c[1]);
+  const maxR = Math.max(...rs), maxC = Math.max(...cs);
+  const w = (maxC + 1) * s + pad * 2, h = (maxR + 1) * s + pad * 2;
+  let g = '';
+  for (const [r, c] of cells) {
+    g += `<rect x="${pad + c * s}" y="${pad + r * s}" width="${s}" height="${s}" fill="#7d7d7d" stroke="#333" stroke-width="1.5"/>`;
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" width="${Math.min(w, 150)}" style="max-width:100%">${g}</svg>`;
+}
+function perim(cells) {
+  const set = new Set(cells.map(c => c[0] + ',' + c[1]));
+  let p = 0;
+  for (const [r, c] of cells) {
+    for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+      if (!set.has((r + dr) + ',' + (c + dc))) p++;
+    }
+  }
+  return p;
+}
+function triMedianSVG(adL, dcL) {
+  return `<svg viewBox="0 0 340 210" width="320" style="max-width:100%">
+    <polygon points="30,180 310,180 150,25" fill="none" stroke="#222" stroke-width="2"/>
+    <line x1="170" y1="180" x2="150" y2="25" stroke="#222" stroke-width="2"/>
+    <line x1="95" y1="176" x2="95" y2="184" stroke="#222" stroke-width="2"/>
+    <line x1="243" y1="176" x2="243" y2="184" stroke="#222" stroke-width="2"/>
+    <text x="18" y="197" font-style="italic" font-size="16">A</text>
+    <text x="315" y="197" font-style="italic" font-size="16">C</text>
+    <text x="150" y="18" font-style="italic" font-size="16">B</text>
+    <text x="168" y="199" font-style="italic" font-size="15">D</text>
+    <text x="70" y="205" font-size="15">${adL}</text>
+    <text x="215" y="205" font-size="15">${dcL}</text>
+  </svg>`;
+}
+function rightTriSVG(pL, qL) {
+  return `<svg viewBox="0 0 220 180" width="200" style="max-width:100%">
+    <polygon points="40,20 40,150 200,150" fill="none" stroke="#222" stroke-width="2"/>
+    <rect x="40" y="135" width="15" height="15" fill="none" stroke="#222" stroke-width="1.5"/>
+    <text x="16" y="90" font-size="16">${pL}</text>
+    <text x="110" y="170" font-size="16">${qL}</text>
+  </svg>`;
+}
+function trapSVG(top, bottom) {
+  return `<svg viewBox="0 0 340 200" width="320" style="max-width:100%">
+    <polygon points="70,40 250,40 300,170 20,170" fill="none" stroke="#222" stroke-width="2"/>
+    <line x1="45" y1="105" x2="275" y2="105" stroke="#222" stroke-width="2"/>
+    <text x="150" y="30" font-size="15" text-anchor="middle">${top} cm</text>
+    <text x="160" y="190" font-size="15" text-anchor="middle">${bottom} cm</text>
+    <text x="150" y="99" font-size="14" text-anchor="middle" fill="#4a6d8c">EF</text>
+    <text x="58" y="40" font-style="italic" font-size="14">B</text>
+    <text x="252" y="40" font-style="italic" font-size="14">C</text>
+    <text x="4" y="176" font-style="italic" font-size="14">A</text>
+    <text x="304" y="176" font-style="italic" font-size="14">D</text>
+    <text x="28" y="110" font-style="italic" font-size="13">E</text>
+    <text x="278" y="110" font-style="italic" font-size="13">F</text>
+  </svg>`;
+}
+function areaTriSVG(hL, bL) {
+  return `<svg viewBox="0 0 200 160" width="180" style="max-width:100%">
+    <polygon points="70,20 20,140 180,140" fill="none" stroke="#222" stroke-width="2"/>
+    <line x1="70" y1="20" x2="70" y2="140" stroke="#222" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <rect x="70" y="125" width="13" height="15" fill="none" stroke="#222" stroke-width="1.2"/>
+    <text x="78" y="88" font-style="italic" font-size="16">${hL}</text>
+    <text x="100" y="156" font-style="italic" font-size="16" text-anchor="middle">${bL}</text>
+  </svg>`;
+}
+function parLinesSVG(alpha) {
+  return `<svg viewBox="0 0 320 200" width="300" style="max-width:100%">
+    <line x1="10" y1="70" x2="310" y2="70" stroke="#222" stroke-width="2"/>
+    <line x1="10" y1="150" x2="310" y2="150" stroke="#222" stroke-width="2"/>
+    <line x1="120" y1="20" x2="240" y2="195" stroke="#222" stroke-width="2"/>
+    <text x="300" y="64" font-style="italic" font-size="15">a</text>
+    <text x="300" y="144" font-style="italic" font-size="15">b</text>
+    <text x="118" y="16" font-style="italic" font-size="15">c</text>
+    <text x="176" y="63" font-size="14">${alpha}°</text>
+    <text x="150" y="145" font-size="14">x</text>
+    <text x="205" y="168" font-size="14">y</text>
+  </svg>`;
+}
+function speedGraphSVG(mV, jV) {
+  const ox = 40, oy = 170, sx = 24, sy = 16;
+  const P = (v) => `${ox + v[0] * sx},${oy - v[1] * sy}`;
+  let grid = '';
+  for (let t = 0; t <= 10; t++) grid += `<line x1="${ox + t * sx}" y1="20" x2="${ox + t * sx}" y2="${oy}" stroke="#eee" stroke-width="1"/>`;
+  for (let v = 1; v <= 9; v++) grid += `<line x1="${ox}" y1="${oy - v * sy}" x2="${ox + 10 * sx}" y2="${oy - v * sy}" stroke="#eee" stroke-width="1"/>`;
+  const mPts = mV.map(P).join(' '), jPts = jV.map(P).join(' ');
+  return `<svg viewBox="0 0 320 200" width="320" style="max-width:100%">
+    ${grid}
+    <line x1="${ox}" y1="20" x2="${ox}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
+    <line x1="${ox}" y1="${oy}" x2="${ox + 10 * sx}" y2="${oy}" stroke="#222" stroke-width="1.5"/>
+    <polyline points="${mPts}" fill="none" stroke="#222" stroke-width="2"/>
+    <polyline points="${jPts}" fill="none" stroke="#222" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="${ox + 10 * sx - 4}" y="${oy - mV[mV.length - 1][1] * sy - 4}" font-size="12">Mantas</text>
+    <text x="${ox + 10 * sx - 4}" y="${oy - jV[jV.length - 1][1] * sy + 12}" font-size="12">Jonas</text>
+    <text x="14" y="30" font-size="11">m/s</text>
+    <text x="${ox + 10 * sx}" y="${oy + 14}" font-size="11">s</text>
+  </svg>`;
+}
+function pieSVG(vals, colors) {
+  const cx = 60, cy = 60, r = 50, tot = vals.reduce((a, b) => a + b, 0);
+  let ang = -Math.PI / 2, out = '';
+  vals.forEach((v, i) => {
+    const a2 = ang + (v / tot) * 2 * Math.PI;
+    const x1 = cx + r * Math.cos(ang), y1 = cy + r * Math.sin(ang);
+    const x2 = cx + r * Math.cos(a2), y2 = cy + r * Math.sin(a2);
+    const large = (a2 - ang) > Math.PI ? 1 : 0;
+    out += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${colors[i]}"/>`;
+    ang = a2;
+  });
+  return `<svg viewBox="0 0 120 120" width="110" style="max-width:100%">${out}</svg>`;
+}
+function barSVG(heights, labels, colors) {
+  const bw = 26, gap = 18, base = 90, maxH = 70, mx = Math.max(...heights);
+  let out = '';
+  heights.forEach((h, i) => {
+    const bh = Math.round(h / mx * maxH), x = 14 + i * (bw + gap);
+    out += `<rect x="${x}" y="${base - bh}" width="${bw}" height="${bh}" fill="${colors[i]}"/>`;
+    out += `<text x="${x + bw / 2}" y="${base + 14}" font-size="11" text-anchor="middle">${labels[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 150 110" width="150" style="max-width:100%"><line x1="10" y1="90" x2="145" y2="90" stroke="#999" stroke-width="1"/>${out}</svg>`;
+}
+
+// ---------------------------------------------------------------- GENERATORIAI
+const GENERATORIAI = [
+
+  // 1. Trupmenų atimtis su skirtingais vardikliais (MC)
+  { label: "1. Trupmenų atimtis", gen() {
+      const d2 = choice([3, 4, 5, 6]), k = choice([2, 3]), d1 = d2 * k;
+      let a, b, resN;
+      do { a = randint(1, d1 - 1); b = randint(1, d2 - 1); resN = a - b * k; } while (resN <= 0);
+      const [cn, cd] = simp(resN, d1);
+      const seen = new Set(); const cand = [];
+      const add = (n, d) => { if (n <= 0 || d <= 0) return; const [s1, s2] = simp(n, d); if (s1 / s2 >= 1) return; const key = s1 + '/' + s2; if (!seen.has(key)) { seen.add(key); cand.push([s1, s2]); } };
+      add(cn, cd);
+      add(Math.abs(a - b), d1);
+      add(a * d2 - b * d1 > 0 ? a * d2 - b * d1 : b * d1 - a * d2, d1 * d2);
+      add(resN + b, d1);
+      add(a, d1);
+      let guard = 0; while (cand.length < 4 && guard++ < 40) add(randint(1, d1 - 1), d1);
+      const four = [cand[0], ...shuffle(cand.slice(1)).slice(0, 3)];
+      const options = shuffle(four.map(([n, d]) => ({ html: fr(n, d), ok: n === cn && d === cd })));
+      return {
+        type: 'mc', label: "1. Trupmenų atimtis",
+        q: `Apskaičiuok reiškinio reikšmę. Pažymėk teisingą atsakymą.<br><span class="big">${fr(a, d1)} − ${fr(b, d2)} =</span>`,
+        mc: { options },
+        steps: [
+          `Bendras vardiklis — ${d1}: ${fr(b, d2)} = ${fr(b * k, d1)}`,
+          `${fr(a, d1)} − ${fr(b * k, d1)} = ${fr(resN, d1)}`,
+          `Suprastinę: ${fr(cn, cd)}`
+        ],
+        dbg: { cn, cd, options }
+      };
+  }},
+
+  // 2. Šaknis + neigiamas laipsnis (atviras)
+  { label: "2. Šaknis ir laipsnis", gen() {
+      const a = choice([4, 9, 16, 25, 36, 49, 64, 81, 100]), ra = Math.sqrt(a), b = randint(2, 5);
+      const ans = ra + b * b;
+      return {
+        type: 'input', label: "2. Šaknis ir laipsnis",
+        q: `Apskaičiuok reiškinio reikšmę:<br><span class="big">${sq(a)} + ${sup('(' + fr(1, b) + ')', '−2')} =</span>`,
+        input: { ans, ansText: String(ans), pre: 'atsakymas =' },
+        steps: [`${sq(a)} = ${ra}`, `${sup('(' + fr(1, b) + ')', '−2')} = ${sup(b, 2)} = ${b * b}`, `${ra} + ${b * b} = ${ans}`],
+        dbg: { ans }
+      };
+  }},
+
+  // 3. Rasti trupmeną tarp dviejų (MC)
+  { label: "3. Trupmena tarp dviejų", gen() {
+      const base = choice([8, 12, 16]);
+      let lk, hk;
+      do { lk = randint(1, base - 4); hk = lk + randint(3, base - lk - 1); } while (hk >= base || hk - lk < 3);
+      const lo = lk / base, hi = hk / base;
+      const mk = randint(lk + 1, hk - 1);
+      const [cn, cd] = simp(mk, base);
+      const seen = new Set([cn + '/' + cd]); const dist = [];
+      const pool = [];
+      for (let i = 1; i <= lk; i++) pool.push(i);
+      for (let i = hk; i < base; i++) pool.push(i);
+      for (const i of shuffle(pool)) { const [n, d] = simp(i, base); const key = n + '/' + d; if (!seen.has(key)) { seen.add(key); dist.push([n, d]); } if (dist.length >= 3) break; }
+      let guard = 0; while (dist.length < 3 && guard++ < 50) { const i = randint(1, base - 1); const v = i / base; if (v <= lo || v >= hi) { const [n, d] = simp(i, base); const key = n + '/' + d; if (!seen.has(key)) { seen.add(key); dist.push([n, d]); } } }
+      const options = shuffle([[cn, cd, true], ...dist.map(([n, d]) => [n, d, false])].map(([n, d, ok]) => ({ html: fr(n, d), ok, val: n / d })));
+      return {
+        type: 'mc', label: "3. Trupmena tarp dviejų",
+        q: `Pažymėk trupmeną, kuri yra didesnė už ${fr(...simp(lk, base))} , bet mažesnė už ${fr(...simp(hk, base))}.`,
+        mc: { options: options.map(o => ({ html: o.html, ok: o.ok })) },
+        steps: [
+          `Ieškome trupmenos tarp ${fr(...simp(lk, base))} ≈ ${lo.toFixed(3)} ir ${fr(...simp(hk, base))} ≈ ${hi.toFixed(3)}.`,
+          `Tinka ${fr(cn, cd)} ≈ ${(cn / cd).toFixed(3)}.`
+        ],
+        dbg: { lo, hi, options }
+      };
+  }},
+
+  // 4. Keliamieji metai (MC)
+  { label: "4. Keliamieji metai", gen() {
+      const start = randint(2027, 2090);
+      const years = [start, start + 1, start + 2, start + 3];
+      const correct = years.find(y => y % 4 === 0);
+      const options = shuffle(years.map(y => ({ html: y + ' m.', ok: y === correct })));
+      return {
+        type: 'mc', label: "4. Keliamieji metai",
+        q: `Keliamųjų metų skaičius dalijasi iš 4 be liekanos. Kurie iš šių metų bus keliamieji?`,
+        mc: { options },
+        steps: [`Keliamieji metai dalijasi iš 4 be liekanos.`, `${correct} : 4 = ${correct / 4} (be liekanos)`, `Atsakymas: ${correct} m.`],
+        dbg: { correct, options }
+      };
+  }},
+
+  // 5. Palyginti √(a²+b²) su c (<,>,=)
+  { label: "5. Palyginimas su šaknimi", gen() {
+      const a = randint(3, 12), b = randint(3, 12), s = a * a + b * b, rs = Math.sqrt(s);
+      const c = choice([Math.floor(rs), Math.round(rs), Math.ceil(rs)]);
+      const correct = s < c * c ? '<' : (s > c * c ? '>' : '=');
+      return {
+        type: 'select', label: "5. Palyginimas su šaknimi",
+        q: `Palygink skaitinius reiškinius — pasirink ženklą.<br><span class="big">${sq(sup(a, 2) + ' + ' + sup(b, 2))} <span id="selslot"></span> ${c}</span>`,
+        select: { options: ['<', '=', '>'], correct },
+        steps: [`${sup(a, 2)} + ${sup(b, 2)} = ${s}`, `${sq(s)} ≈ ${rs.toFixed(2)},  ${c} = ${sq(c * c)}`, `${s} ${correct} ${c * c}, todėl ${sq(sup(a, 2) + ' + ' + sup(b, 2))} ${correct} ${c}`],
+        dbg: { correct, s, c }
+      };
+  }},
+
+  // 6. Didžiausias perimetras (MC, SVG)
+  { label: "6. Didžiausias perimetras", gen() {
+      const shapes = [
+        [[0,0],[0,1],[0,2],[1,0],[2,0],[3,0],[3,1],[3,2]],
+        [[0,0],[0,1],[1,0],[1,1],[2,0],[2,1],[2,2],[2,3]],
+        [[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3]],
+        [[0,2],[1,2],[1,3],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]],
+        [[0,0],[1,0],[1,1],[2,0],[2,1],[2,2],[3,0],[3,1],[3,2],[3,3]],
+        [[0,0],[0,1],[0,2],[0,3],[0,4],[1,0],[1,4]],
+        [[0,0],[0,1],[1,0],[1,1],[0,2],[0,3]],
+        [[0,0],[0,1],[0,2],[1,1],[2,0],[2,1],[2,2]]
+      ];
+      const withP = shapes.map(s => ({ s, p: perim(s) }));
+      let pick;
+      do { pick = shuffle(withP).slice(0, 4); } while (pick.filter(x => x.p === Math.max(...pick.map(y => y.p))).length !== 1);
+      const maxP = Math.max(...pick.map(x => x.p));
+      const options = shuffle(pick.map(x => ({ html: polySVG(x.s), ok: x.p === maxP, p: x.p })));
+      return {
+        type: 'mc', label: "6. Didžiausias perimetras",
+        q: `Kiekviena figūra sudaryta iš vienodo dydžio mažų kvadratėlių (kraštinė 1). Pažymėk figūrą, kurios perimetras didžiausias.`,
+        mc: { options: options.map(o => ({ html: o.html, ok: o.ok })) },
+        steps: [`Perimetras — figūros kraštinės ilgis (išorinių briaunų skaičius).`, `Didžiausias perimetras = ${maxP}.`],
+        dbg: { maxP, options }
+      };
+  }},
+
+  // 7. Dėsningumas lentelėje y = x : k (atviras)
+  { label: "7. Dėsningumas lentelėje", gen() {
+      const k = choice([2, 3, 4, 5]);
+      const xs = []; while (xs.length < 4) { const m = randint(2, 12) * k; if (!xs.includes(m)) xs.push(m); }
+      xs.sort((a, b) => a - b);
+      const ys = xs.map(x => x / k);
+      const hide = randint(1, 3);
+      const row = (name, arr, hideMe) => `<tr><th>${name}</th>${arr.map((v, i) => `<td>${hideMe && i === hide ? '<b>?</b>' : v}</td>`).join('')}</tr>`;
+      const table = `<table class="lentele"><tbody>${row('x', xs, false)}${row('y', ys, true)}</tbody></table>`;
+      return {
+        type: 'input', label: "7. Dėsningumas lentelėje",
+        q: `Pastebėk dėsningumą ir įrašyk trūkstamą lentelės skaičių.<br>${table}`,
+        input: { ans: ys[hide], pre: 'y =' },
+        steps: [`Kiekvienas y = x : ${k}`, `${xs[hide]} : ${k} = ${ys[hide]}`],
+        dbg: { ans: ys[hide] }
+      };
+  }},
+
+  // 8. Pusiaukraštinė AD = DC, rasti AC (MC, SVG)
+  { label: "8. Pusiaukraštinė", gen() {
+      let a, c, b, d, x0, AD;
+      do {
+        x0 = randint(2, 9); a = randint(1, 4); c = randint(1, 4); b = randint(2, 12);
+        d = (a - c) * x0 + b; AD = a * x0 + b;
+      } while (a === c || d <= 0 || AD <= 0);
+      const AC = 2 * AD;
+      const expr = (co, ct) => `${xcoef(co)} + ${ct}`;
+      const dset = new Set([AC]); const dist = [];
+      for (const v of [AD, x0, AD * 3, AC + AD]) { if (!dset.has(v) && v > 0) { dset.add(v); dist.push(v); } if (dist.length >= 3) break; }
+      const options = shuffle([{ v: AC, ok: true }, ...dist.map(v => ({ v, ok: false }))].map(o => ({ html: String(o.v), ok: o.ok })));
+      return {
+        type: 'mc', label: "8. Pusiaukraštinė",
+        q: `BD yra trikampio ABC pusiaukraštinė, kuri kraštinę AC dalija į dvi atkarpas: AD = ${expr(a, b)} ir DC = ${expr(c, d)}. Apskaičiuok kraštinės AC ilgį.<br>${triMedianSVG(expr(a, b), expr(c, d))}`,
+        mc: { options },
+        steps: [
+          `Pusiaukraštinė dalija kraštinę pusiau: AD = DC.`,
+          `${expr(a, b)} = ${expr(c, d)} → ${xcoef(a - c)} = ${d - b} → x = ${x0}`,
+          `AD = ${a}·${x0} + ${b} = ${AD}`,
+          `AC = 2 · AD = ${AC}`
+        ],
+        dbg: { AC, options }
+      };
+  }},
+
+  // 9. Kuri lygtis turi sprendinį n (MC)
+  { label: "9. Lygtis su sprendiniu", gen() {
+      const n = randint(3, 12);
+      const a = randint(2, 5), b = nz(-9, 9), c = a * n + b;
+      const correct = `${xcoef(a)} ${pm(b)} = ${c}`;
+      const dist = new Set([correct]); const opts = [];
+      let guard = 0;
+      while (opts.length < 3 && guard++ < 200) {
+        const t = randint(1, 4);
+        let html, sol;
+        if (t === 1) { const p = randint(2, 5), q = randint(1, 9), r = randint(1, 20); html = `${xcoef(p)} − ${q} = ${r}`; sol = (r + q) / p; }
+        else if (t === 2) { const p = randint(1, 5), q = randint(5, 20), r = randint(1, 12); html = `${q} − ${xcoef(p)} = ${r}`; sol = (q - r) / p; }
+        else if (t === 3) { const p = randint(2, 5), q = nz(-6, 6), r = randint(1, 8); html = `${fr('x', p)} ${pm(q)} = ${r}`; sol = (r - q) * p; }
+        else { const p = randint(2, 6), r = randint(2, 6); html = `${p} − ${fr('x', 1)} = ${r}`; sol = p - r; }
+        if (Math.abs(sol - n) < 1e-9 || !Number.isFinite(sol)) continue;
+        if (dist.has(html)) continue; dist.add(html); opts.push(html);
+      }
+      const options = shuffle([{ html: correct, ok: true }, ...opts.map(h => ({ html: h, ok: false }))]);
+      return {
+        type: 'mc', label: "9. Lygtis su sprendiniu",
+        q: `Pažymėk lygtį, kurios sprendinys yra skaičius ${n}.`,
+        mc: { options },
+        steps: [`Įstatome x = ${n} į ${correct}: ${a}·${n} ${pm(b)} = ${c} ✓`, `Atsakymas: ${correct}`],
+        dbg: { n, correct, options }
+      };
+  }},
+
+  // 10. Laipsnių lygybė p^a · b = p^n (atviras)
+  { label: "10. Laipsnių lygybė", gen() {
+      const p = choice([2, 3, 5]), a = randint(2, 6), m = randint(1, 3), b = Math.pow(p, m), n = a + m;
+      return {
+        type: 'input', label: "10. Laipsnių lygybė",
+        q: `Duota lygybė ${sup(p, a)} · ${b} = ${sup(p, 'n')}.<br>Kokį skaičių reikia parašyti vietoje n, kad lygybė būtų teisinga?`,
+        input: { ans: n, pre: 'n =' },
+        steps: [`${b} = ${sup(p, m)}`, `${sup(p, a)} · ${sup(p, m)} = ${sup(p, a + '+' + m)} = ${sup(p, n)}`, `n = ${n}`],
+        dbg: { ans: n }
+      };
+  }},
+
+  // 11. Statusis trikampis, įžambinė (MC, SVG)
+  { label: "11. Įžambinė (Pitagoras)", gen() {
+      const bank = [
+        { p: '1', q: '1', hyp: sq(2), hv: Math.SQRT2, dist: ['2', sq(3), '1'] },
+        { p: '1', q: sq(3), hyp: '2', hv: 2, dist: [sq(2), sq(3), '4'] },
+        { p: sq(2), q: sq(2), hyp: '2', hv: 2, dist: [sq(2), '4', sq(6)] },
+        { p: '3', q: '4', hyp: '5', hv: 5, dist: ['7', sq(7), '6'] },
+        { p: '6', q: '8', hyp: '10', hv: 10, dist: ['14', sq(28), '12'] },
+        { p: '5', q: '12', hyp: '13', hv: 13, dist: ['17', sq(17), '15'] },
+        { p: '2', q: sq(5), hyp: '3', hv: 3, dist: [sq(7), sq(9) + '?', '9'] },
+        { p: '1', q: sq(8), hyp: '3', hv: 3, dist: [sq(7), sq(10), '9'] }
+      ];
+      const it = choice(bank);
+      const options = shuffle([{ html: it.hyp, ok: true }, ...it.dist.slice(0, 3).map(h => ({ html: h, ok: false }))]);
+      return {
+        type: 'mc', label: "11. Įžambinė (Pitagoras)",
+        q: `Pavaizduoto stačiojo trikampio statinių ilgiai lygūs ${it.p} ir ${it.q}. Kam lygus šio trikampio įžambinės ilgis?<br>${rightTriSVG(it.p, it.q)}`,
+        mc: { options },
+        steps: [`Pagal Pitagoro teoremą: įžambinė = ${sq(it.p + '² + ' + it.q + '²')}`, `= ${sq('(' + it.p + ')² + (' + it.q + ')²')} = ${it.hyp}`],
+        dbg: { hv: it.hv, options }
+      };
+  }},
+
+  // 12. Greičio grafikai, skirtumas (atviras, SVG)
+  { label: "12. Greičio grafikai", gen() {
+      const cfgs = [
+        { m: [[0,0],[1,6],[4,4],[10,9]], j: [[0,0],[4,8],[10,8]], t: 4 },
+        { m: [[0,0],[2,8],[5,3],[10,9]], j: [[0,0],[5,7],[10,7]], t: 5 },
+        { m: [[0,0],[1,6],[6,2],[10,9]], j: [[0,0],[3,9],[10,9]], t: 6 },
+        { m: [[0,0],[2,7],[6,3],[10,8]], j: [[0,0],[4,6],[10,6]], t: 2 }
+      ];
+      const c = choice(cfgs);
+      const val = (verts, t) => { for (let i = 0; i < verts.length - 1; i++) { const [x1, y1] = verts[i], [x2, y2] = verts[i + 1]; if (t >= x1 && t <= x2) return y1 + (y2 - y1) * (t - x1) / (x2 - x1); } return verts[verts.length - 1][1]; };
+      const vm = val(c.m, c.t), vj = val(c.j, c.t), ans = Math.abs(vm - vj);
+      return {
+        type: 'input', label: "12. Greičio grafikai",
+        q: `Grafikai rodo dviejų vaikų greičio priklausomybę nuo laiko (ištisinė — Mantas, punktyrinė — Jonas). Koks buvo Manto ir Jono greičių skirtumas praėjus ${c.t} s po starto? (m/s)<br>${speedGraphSVG(c.m, c.j)}`,
+        input: { ans, pre: 'skirtumas =' },
+        steps: [`Praėjus ${c.t} s: Manto greitis ${vm} m/s, Jono greitis ${vj} m/s.`, `Skirtumas = |${vm} − ${vj}| = ${ans} m/s`],
+        dbg: { ans }
+      };
+  }},
+
+  // 13. Nelygybių pora su vienodais sprendiniais (MC)
+  { label: "13. Nelygybių pora", gen() {
+      const c = randint(1, 5), d = randint(c + 2, 12), sol = c - d; // c − x ≥ d → x ≤ c−d
+      const correct = `${c} − x ≥ ${d}  ir  x ≤ ${nf(sol)}`;
+      const dist = [
+        `${c} − x ≥ ${d}  ir  x ≥ ${nf(sol)}`,
+        `${c} − x ≥ ${d}  ir  x ≤ ${nf(-sol)}`,
+        `${c} − x ≥ ${d}  ir  x ≥ ${nf(d - c)}`
+      ];
+      const options = shuffle([{ html: correct, ok: true }, ...dist.map(h => ({ html: h, ok: false }))]);
+      return {
+        type: 'mc', label: "13. Nelygybių pora",
+        q: `Pažymėk tą nelygybių porą, kurioje abiejų nelygybių visi sprendiniai sutampa.`,
+        mc: { options },
+        steps: [`${c} − x ≥ ${d}`, `−x ≥ ${d - c}`, `x ≤ ${nf(sol)} (dalijant iš −1 ženklas keičiasi)`],
+        dbg: { sol, correct, options }
+      };
+  }},
+
+  // 14. Lygiagrečios tiesės, kampai x ir y (multi, SVG)
+  { label: "14. Kampai prie lygiagrečių", gen() {
+      const alpha = randint(35, 80);
+      const x = 180 - alpha, y = alpha;
+      return {
+        type: 'multi', label: "14. Kampai prie lygiagrečių",
+        q: `Tiesės a ir b yra lygiagrečios. Tiesė c kerta tieses a ir b. Duotas kampas ${alpha}°. Rask raidėmis x ir y pažymėtų kampų didumą (laipsniais).<br>${parLinesSVG(alpha)}`,
+        multi: { fields: [{ pre: 'x =', ans: x, ansText: x + '°' }, { pre: 'y =', ans: y, ansText: y + '°' }] },
+        steps: [`y ir ${alpha}° — atitinkamieji kampai, todėl y = ${alpha}°`, `x ir ${alpha}° — gretutiniai, todėl x = 180° − ${alpha}° = ${x}°`],
+        dbg: { x, y }
+      };
+  }},
+
+  // 15. Tiesinių lygčių sistema — kiek sprendinių (MC)
+  { label: "15. Sistemos sprendiniai", gen() {
+      const cse = choice(['one', 'inf', 'none']);
+      let a1, b1, c1, a2, b2, c2;
+      a1 = nz(-4, 4); b1 = nz(-4, 4); c1 = randint(-6, 6);
+      if (cse === 'one') { do { a2 = nz(-4, 4); b2 = nz(-4, 4); } while (a1 * b2 - a2 * b1 === 0); c2 = randint(-6, 6); }
+      else if (cse === 'inf') { const m = choice([2, 3, -2]); a2 = a1 * m; b2 = b1 * m; c2 = c1 * m; }
+      else { const m = choice([2, 3, -2]); a2 = a1 * m; b2 = b1 * m; do { c2 = randint(-6, 6); } while (c2 === c1 * m); }
+      const det = a1 * b2 - a2 * b1;
+      let correctLabel;
+      if (det !== 0) correctLabel = 'Vieną sprendinį';
+      else if (a1 * c2 - a2 * c1 === 0 && b1 * c2 - b2 * c1 === 0) correctLabel = 'Be galo daug sprendinių';
+      else correctLabel = 'Nė vieno sprendinio';
+      const labels = ['Vieną sprendinį', 'Du sprendinius', 'Be galo daug sprendinių', 'Nė vieno sprendinio'];
+      const options = labels.map(l => ({ html: l, ok: l === correctLabel }));
+      const eq = (a, b, c) => `${xcoef(a)} ${b >= 0 ? '+ ' + xcoef(Math.abs(b)).replace('x', 'y') : '− ' + xcoef(Math.abs(b)).replace('x', 'y')} = ${c}`;
+      return {
+        type: 'mc', label: "15. Sistemos sprendiniai",
+        q: `Kiek sprendinių turi tiesinių lygčių sistema?<br><span class="big">${'{'} ${eq(a1, b1, c1)}; &nbsp; ${eq(a2, b2, c2)} ${'}'}</span>`,
+        mc: { options },
+        steps: [
+          det !== 0 ? `Kryptys skirtingos (${a1}·${b2} − ${a2}·${b1} = ${det} ≠ 0) — viena susikirtimo vieta.`
+            : (correctLabel.startsWith('Be') ? `Lygtys proporcingos — tos pačios tiesės, be galo daug sprendinių.` : `Kryptys vienodos, bet laisvieji nariai ne — tiesės lygiagrečios, sprendinių nėra.`),
+          `Atsakymas: ${correctLabel.toLowerCase()}`
+        ],
+        dbg: { correctLabel, options }
+      };
+  }},
+
+  // 16. Greitosios daugybos formulė — teisinga lygybė (MC)
+  { label: "16. Kvadratų skirtumas", gen() {
+      const k = choice([3, 4, 5, 6, 7, 8, 9, 10, 11, 12]), k2 = k * k, v = choice(['x', 'y', 'a', 'm']);
+      const correct = `${sup(v, 2)} − ${k2} = (${v} − ${k})(${v} + ${k})`;
+      const dist = [
+        `${sup(v, 2)} − ${k2} = ${sup('(' + v + ' − ' + k + ')', 2)}`,
+        `${sup(v, 2)} − ${k2} = ${sup(v, 2)} − ${2 * k}${v} + ${k2}`,
+        `${sup(v, 2)} − ${k2} = (${k} + ${v})(${k} − ${v})`
+      ];
+      const options = shuffle([{ html: correct, ok: true }, ...dist.map(h => ({ html: h, ok: false }))]);
+      return {
+        type: 'mc', label: "16. Kvadratų skirtumas",
+        q: `Kuri iš šių lygybių yra teisinga? Pažymėk tą lygybę.`,
+        mc: { options },
+        steps: [`Kvadratų skirtumas: ${sup('a', 2)} − ${sup('b', 2)} = (a − b)(a + b)`, `${sup(v, 2)} − ${k2} = ${sup(v, 2)} − ${sup(k, 2)} = (${v} − ${k})(${v} + ${k})`],
+        dbg: { correct, options }
+      };
+  }},
+
+  // 17. Trapecijos vidurio linija (atviras, SVG)
+  { label: "17. Vidurio linija", gen() {
+      let b1, b2; do { b1 = randint(4, 14); b2 = randint(4, 16); } while (b1 === b2 || (b1 + b2) % 2 !== 0);
+      const ans = (b1 + b2) / 2;
+      const top = Math.min(b1, b2), bot = Math.max(b1, b2);
+      return {
+        type: 'input', label: "17. Vidurio linija",
+        q: `Apskaičiuok trapecijos ABCD vidurio linijos EF ilgį, jei pagrindų ilgiai yra ${top} cm ir ${bot} cm.<br>${trapSVG(top, bot)}`,
+        input: { ans, pre: 'EF =', ansText: ans + ' cm' },
+        steps: [`Vidurio linija = (pagrindų suma) : 2`, `EF = (${top} + ${bot}) : 2 = ${ans} cm`],
+        dbg: { ans }
+      };
+  }},
+
+  // 18. Stulpelinė vs skritulinė diagrama (MC, SVG)
+  { label: "18. Diagramų atitikmuo", gen() {
+      const labels = ['8a', '8b', '8c'], colors = ['#29a3d5', '#e8843c', '#2e8b3d'];
+      let v; do { v = [randint(2, 9), randint(2, 9), randint(2, 9)]; } while (new Set(v).size < 3);
+      const perms = [];
+      const all = [[0,1,2],[1,0,2],[2,1,0],[0,2,1],[2,0,1]];
+      const key = p => p.map(i => v[i]).join(',');
+      const correctKey = v.join(',');
+      const chosen = [v]; const usedKeys = new Set([correctKey]);
+      for (const p of shuffle(all)) { const k = key(p); if (!usedKeys.has(k)) { usedKeys.add(k); chosen.push(p.map(i => v[i])); } if (chosen.length >= 3) break; }
+      const options = shuffle(chosen.map(h => ({ html: barSVG(h, labels, colors), ok: h.join(',') === correctKey })));
+      return {
+        type: 'mc', label: "18. Diagramų atitikmuo",
+        q: `Skritulinėje diagramoje pavaizduoti klasių 8a, 8b, 8c duomenys. Pažymėk stulpelinę diagramą, kurioje pavaizduoti tie patys duomenys.<br>${pieSVG(v, colors)}<div style="font-size:13px;margin-top:4px">🔵 8a &nbsp; 🟠 8b &nbsp; 🟢 8c</div>`,
+        mc: { options: options.map(o => ({ html: o.html, ok: o.ok })) },
+        steps: [`Didžiausią skritulio dalį atitinka aukščiausias stulpelis.`, `Tvarka pagal dydį: 8a=${v[0]}, 8b=${v[1]}, 8c=${v[2]}.`],
+        dbg: { correctKey, options }
+      };
+  }},
+
+  // 19. Darbo našumas — atvirkštinis proporcingumas (MC)
+  { label: "19. Darbo našumas", gen() {
+      const pairs = [[8, 6], [6, 8], [10, 8], [12, 8], [9, 6], [6, 9], [8, 12], [15, 10]];
+      const [n1, n2] = choice(pairs);
+      const L = n1 * n2 / gcd(n1, n2);
+      const W = L * randint(2, 4);
+      const t1 = W / n1, t2 = W / n2;
+      const dset = new Set([t2]); const dist = [];
+      for (const v of [t1, Math.round(t1 * n2 / n1), t1 + (t1 - t2), Math.round(W / (n2 + 1))]) { if (!dset.has(v) && v > 0 && Number.isInteger(v)) { dset.add(v); dist.push(v); } if (dist.length >= 3) break; }
+      let guard = 0; while (dist.length < 3 && guard++ < 30) { const v = t2 + randint(1, 8); if (!dset.has(v)) { dset.add(v); dist.push(v); } }
+      const options = shuffle([{ html: t2 + ' val.', ok: true }, ...dist.map(v => ({ html: v + ' val.', ok: false }))]);
+      return {
+        type: 'mc', label: "19. Darbo našumas",
+        q: `${n1} vienodi 3D spausdintuvai, dirbdami kartu, visas reikalingas detales atspausdina per ${t1} valandas. Per kiek valandų visas šias detales atspausdintų ${n2} tokie patys spausdintuvai, dirbdami kartu?`,
+        mc: { options },
+        steps: [`Visas darbas = ${n1} · ${t1} = ${W} (spausdintuvo-valandų).`, `Su ${n2} spausdintuvais: ${W} : ${n2} = ${t2} val.`],
+        dbg: { t2, options }
+      };
+  }},
+
+  // 20. Trikampio plotas S = m·n (MC, SVG)
+  { label: "20. Trikampio plotas", gen() {
+      // plotas = ½·pagrindas·aukštinė; koef. sandauga turi būti 2, kad būtų m·n
+      const hOpts = { '0.5': fr(1, 2) + 'm', '1': 'm', '2': '2m' };
+      const bOpts = { '0.5': fr(1, 2) + 'n', '1': 'n', '2': '2n' };
+      const correctCombos = [[1, 2], [2, 1]];
+      const [hc, bc] = choice(correctCombos);
+      const used = new Set([hc + 'x' + bc]);
+      const distractPool = [[0.5, 1], [1, 1], [1, 0.5], [0.5, 2], [2, 0.5]];
+      const dist = [];
+      for (const [dh, db] of shuffle(distractPool)) { if (dh * db === 2) continue; const k = dh + 'x' + db; if (!used.has(k)) { used.add(k); dist.push([dh, db]); } if (dist.length >= 2) break; }
+      const mk = ([h, b]) => ({ html: areaTriSVG(hOpts[String(h)], bOpts[String(b)]), ok: h * b === 2 });
+      const options = shuffle([mk([hc, bc]), ...dist.map(mk)]);
+      return {
+        type: 'mc', label: "20. Trikampio plotas",
+        q: `Pažymėk trikampį, kurio plotas yra S = m · n.`,
+        mc: { options: options.map(o => ({ html: o.html, ok: o.ok })) },
+        steps: [`Trikampio plotas S = ½ · pagrindas · aukštinė.`, `Reikia, kad ½ · pagrindas · aukštinė = m · n, t. y. koeficientų sandauga = 2 (pvz. aukštinė m, pagrindas 2n).`],
+        dbg: { options }
+      };
+  }}
+];
+
+function makeProblem(){
+  const g = GENERATORIAI[Math.floor(Math.random()*GENERATORIAI.length)];
+  const p = g.gen();
+  p.label = p.label || g.label;
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "NMPP treniruoklis · 8 klasė", "subtitle": "Aštuntokų pasiekimų patikra (NMPP) · 20 uždavinių tipų · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9};
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false, pasirinkta:null };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'NMPP treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'NMPP treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+
+function naujas(){
+  const p = S.dabartinis = makeProblem();
+  S.atsakyta = false; S.pasirinkta = null;
+  $('tipas').textContent = p.label;
+  $('klausimas').innerHTML = p.q;
+  const sr = $('atsakymoSritis'); sr.innerHTML = '';
+
+  if(p.type==='input' || p.type==='multi'){
+    const fields = p.type==='multi' ? p.multi.fields : [{pre:p.input.pre, _single:true}];
+    fields.forEach((f,idx)=>{
+      const row=document.createElement('div'); row.className='ivestis';
+      const lab=document.createElement('label'); lab.textContent=f.pre||'atsakymas ='; row.appendChild(lab);
+      const inp=document.createElement('input'); inp.type='text'; inp.autocomplete='off'; inp.placeholder='?';
+      inp.id='ats'+idx; inp.addEventListener('keydown',e=>{ if(e.key==='Enter') tikrinti(); });
+      row.appendChild(inp); sr.appendChild(row);
+    });
+    // simbolių mygtukai
+    const sk = (p.type==='input' && p.input.simboliai) ? p.input.simboliai : ['−',','];
+    const cont=document.createElement('div'); cont.className='simboliai';
+    sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s;
+      b.addEventListener('click',()=>{ const el=document.activeElement; const t=(el&&el.id&&el.id.startsWith('ats'))?el:$('ats0'); t.value+=s; t.focus(); }); cont.appendChild(b); });
+    const c=document.createElement('button'); c.textContent='C';
+    c.addEventListener('click',()=>{ fields.forEach((f,i)=>$('ats'+i).value=''); $('ats0').focus(); }); cont.appendChild(c);
+    sr.appendChild(cont);
+    setTimeout(()=>{ const el=$('ats0'); if(el) el.focus(); },0);
+  } else if(p.type==='mc'){
+    const grid=document.createElement('div'); grid.className='parinktys';
+    p.mc.options.forEach((o,i)=>{
+      const d=document.createElement('div'); d.className='parinktis'; d.innerHTML=o.html; d.dataset.i=i;
+      d.addEventListener('click',()=>{ if(S.atsakyta) return; grid.querySelectorAll('.parinktis').forEach(x=>x.classList.remove('pasirinkta')); d.classList.add('pasirinkta'); S.pasirinkta=i; });
+      grid.appendChild(d);
+    });
+    sr.appendChild(grid);
+  } else if(p.type==='select'){
+    const row=document.createElement('div'); row.className='zenklai';
+    p.select.options.forEach((o,i)=>{
+      const d=document.createElement('div'); d.className='parinktis'; d.textContent=o; d.dataset.v=o;
+      d.addEventListener('click',()=>{ if(S.atsakyta) return; row.querySelectorAll('.parinktis').forEach(x=>x.classList.remove('pasirinkta')); d.classList.add('pasirinkta'); S.pasirinkta=o; });
+      row.appendChild(d);
+    });
+    const slot=$('selslot'); if(slot){ slot.innerHTML=''; slot.appendChild(document.createTextNode('▢')); }
+    sr.appendChild(row);
+  }
+
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display=''; $('tikrinti').disabled=false;
+  $('kitas').style.display='none';
+}
+
+function ivertink(){
+  const p=S.dabartinis;
+  if(p.type==='input') return { ok: Math.abs(parseVal($('ats0').value)-p.input.ans)<1e-6, ats: p.input.ansText||nfAts(p.input.ans) };
+  if(p.type==='multi'){
+    let ok=true; p.multi.fields.forEach((f,i)=>{ if(Math.abs(parseVal($('ats'+i).value)-f.ans)>=1e-6) ok=false; });
+    return { ok, ats: p.multi.fields.map(f=>f.pre+' '+(f.ansText||f.ans)).join(', ') };
+  }
+  if(p.type==='mc'){
+    if(S.pasirinkta===null) return null;
+    return { ok: !!p.mc.options[S.pasirinkta].ok, ats: null };
+  }
+  if(p.type==='select'){
+    if(S.pasirinkta===null) return null;
+    return { ok: S.pasirinkta===p.select.correct, ats: p.select.correct };
+  }
+}
+function nfAts(n){ const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+
+function pazymekTeisinga(){
+  const p=S.dabartinis, sr=$('atsakymoSritis');
+  if(p.type==='mc'){
+    sr.querySelectorAll('.parinktis').forEach((d,i)=>{ d.classList.remove('pasirinkta');
+      if(p.mc.options[i].ok) d.classList.add('teisinga');
+      else if(i===S.pasirinkta) d.classList.add('klaidinga'); });
+  } else if(p.type==='select'){
+    sr.querySelectorAll('.parinktis').forEach(d=>{ d.classList.remove('pasirinkta');
+      if(d.dataset.v===p.select.correct) d.classList.add('teisinga');
+      else if(d.dataset.v===S.pasirinkta) d.classList.add('klaidinga'); });
+  } else {
+    p.type==='multi' ? p.multi.fields.forEach((f,i)=>$('ats'+i).disabled=true) : ($('ats0').disabled=true);
+  }
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const r = ivertink();
+  if(r===null){ return; } // MC/select be pasirinkimo
+  S.atsakyta=true; S.isviso++; S.istorija.push(r.ok);
+  const lab=S.dabartinis.label; S.byLabel[lab]=S.byLabel[lab]||{ok:0,total:0};
+  S.byLabel[lab].total++; if(r.ok) S.byLabel[lab].ok++;
+  S.serija = r.ok ? S.serija+1 : 0;
+
+  const v=$('verdiktas'); v.style.display='block';
+  if(r.ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai!'+(r.ats?' Atsakymas: '+r.ats:''); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai.'+(r.ats?' Teisingas atsakymas: '+r.ats:' Žiūrėk sprendimą.'); }
+
+  pazymekTeisinga();
+  $('zingsniai').innerHTML=(S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('sprendimas').style.display=(S.dabartinis.steps&&S.dabartinis.steps.length)?'block':'none';
+  $('tikrinti').style.display='none';
+  $('kitas').style.display=''; $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang=S.istorija.slice(-LANGO), teis=lang.filter(x=>x).length, pct=Math.round(teis/LANGO*100);
+  $('baras').style.width=pct+'%';
+  $('pctTekstas').textContent=teis+'/'+LANGO+' teisingų';
+  $('serija').textContent=S.serija; $('isviso').textContent=S.isviso;
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){ if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; } }
+  $('silpna').innerHTML = worst && worst.r<1 ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+  if(S.istorija.length>=LANGO && teis>=RIBA) S.ready=true;
+  $('pasiruoses').style.display = S.ready ? 'block':'none';
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+naujas();
+</script>
+</body>
+</html>
