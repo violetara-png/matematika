@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nelygybės sprendinys · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Nelygybės sprendinys</h1>
+  <p class="klase">Matematika · 7 klasė · Nelygybės · nelygybės sprendinys ir sprendinių aibė</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra nelygybės sprendinys</a></li>
+      <li><a href="#t2">Sprendinių aibė ir tuščioji aibė</a></li>
+      <li><a href="#t3">Ar skaičius yra sprendinys? (patikra)</a></li>
+      <li><a href="#t4">Didžiausias ir mažiausias sveikasis sprendinys</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra nelygybės sprendinys</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Nelygybės <span class="zenk">sprendinys</span> yra nežinomojo reikšmė, su kuria nelygybė virsta <b>teisinga</b> skaitine nelygybe.</p>
+        <p>Jei įstatytoji reikšmė nelygybę paverčia <b>klaidinga</b> skaitine nelygybe, tai ji <b>nėra</b> sprendinys.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">5</span> yra nelygybės <span class="math">x ≤ −2</span> sprendinys?<br>
+        Įstatome: <span class="math">5 ≤ −2</span> — tai <span class="klaida">klaidinga</span> &rArr; <span class="term-b">5 nėra sprendinys</span>.<br>
+        Ar <span class="math">−3</span>? Įstatome: <span class="math">−3 ≤ −2</span> — tai <span class="gerai">teisinga</span> &rArr; <span class="gerai">−3 yra sprendinys</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Nesvarbu, ar skaičius teigiamas, ar neigiamas: sprendžia tik tai, ar <b>įstačius</b> gaunama teisinga nelygybė.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Sprendinių aibė ir tuščioji aibė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Visi nelygybės sprendiniai kartu sudaro <span class="zenk">sprendinių aibę</span>. Ją patogu užrašyti <b>intervalu</b>.</p>
+        <div class="formule"><span class="math">x ≤ −2</span> &nbsp;&rArr;&nbsp; sprendinių aibė <span class="math">(−∞; −2]</span></div>
+        <p>Prie begalybės <span class="math">(−∞</span> arba <span class="math">+∞)</span> visada rašomas <b>paprastas</b> skliaustas. Jei riba <b>įeina</b> į aibę (yra ženklas <span class="math">≤</span> arba <span class="math">≥</span>), naudojame <b>laužtinį</b> skliaustą <span class="math">]</span> arba <span class="math">[</span>; jei riba <b>neįeina</b> (<span class="math">&lt;</span> arba <span class="math">&gt;</span>) — <b>paprastą</b>.</p>
+        <p>Jei nelygybė neturi nė vieno sprendinio, jos sprendinių aibė yra <span class="zenk">tuščioji aibė ∅</span>.</p>
+        <table class="kort">
+          <tr><th>Nelygybė</th><th>Sprendinių aibė intervalu</th></tr>
+          <tr><td><span class="math">x &gt; 5</span></td><td><span class="math">(5; +∞)</span></td></tr>
+          <tr><td><span class="math">x ≤ −2</span></td><td><span class="math">(−∞; −2]</span></td></tr>
+          <tr><td><span class="math">x ≥ −7</span></td><td><span class="math">[−7; +∞)</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Ar skaičius yra sprendinys? (patikra)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kad patikrintume, ar duotasis skaičius yra sprendinys, <b>įstatome</b> jį vietoj nežinomojo ir žiūrime, ar gaunama teisinga nelygybė. Jei nelygybė pateikta ne paprasčiausiu pavidalu, pirma ją <b>išsprendžiame</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Kurie skaičiai iš <span class="math">{−2; 4; 6; 8}</span> yra nelygybės <span class="math">8 − 2x &lt; −4</span> sprendiniai?<br>
+        Sprendžiame: <span class="math">8 − 2x &lt; −4</span> &rArr; <span class="math">−2x &lt; −12</span> &rArr; <span class="math">x &gt; 6</span> (dalijome iš neigiamo, ženklas pasikeitė).<br>
+        Iš aibės tinka tik tie, kurie <b>didesni už 6</b> &rArr; sprendinys tik <span class="gerai">8</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Kuris skaičius iš <span class="math">{1; 2; −3; 3}</span> NĖRA nelygybės <span class="math">3x − 7 ≥ −8</span> sprendinys?<br>
+        Sprendžiame: <span class="math">3x − 7 ≥ −8</span> &rArr; <span class="math">3x ≥ −1</span> &rArr; <span class="math">x ≥ −1/3</span>.<br>
+        Reikšmės 1, 2 ir 3 tenkina, o <span class="math">−3 ≥ −1/3</span> yra klaidinga &rArr; <span class="term-b">−3 nėra sprendinys</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Didžiausias ir mažiausias sveikasis sprendinys</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kartais reikia rasti <span class="term-a">didžiausią</span> arba <span class="term-b">mažiausią</span> <b>sveikąjį</b> sprendinį. Pasižiūrime į ribą ir renkamės artimiausią sveikąjį skaičių, kuris <b>dar tenkina</b> nelygybę.</p>
+        <p><span class="zenk">Didžiausias sveikasis</span> (nelygybė su <span class="math">&lt;</span> arba <span class="math">≤</span>): imame didžiausią sveikąjį, kuris <b>neviršija</b> ribos.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">x &lt; 8</span> &rArr; didžiausias sveikasis <span class="gerai">7</span>. &nbsp; <span class="math">x ≤ 6 2/7</span> &rArr; <span class="gerai">6</span>. &nbsp; <span class="math">x &lt; −7 3/5</span> &rArr; <span class="gerai">−8</span>. &nbsp; <span class="math">x ≤ 5/8</span> &rArr; <span class="gerai">0</span>.</p>
+        <p><span class="zenk">Mažiausias sveikasis</span> (nelygybė su <span class="math">&gt;</span> arba <span class="math">≥</span>): imame mažiausią sveikąjį, kuris <b>ne mažesnis</b> už ribą.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">x &gt; 5</span> &rArr; mažiausias sveikasis <span class="gerai">6</span>. &nbsp; <span class="math">x ≥ −5 2/5</span> &rArr; <span class="gerai">−5</span>. &nbsp; <span class="math">x &gt; −0,2</span> &rArr; <span class="gerai">0</span>. &nbsp; <span class="math">x ≥ 1 5/9</span> &rArr; <span class="gerai">2</span>.</p>
+        <p class="demesio"><b>Dėmesio su neigiamais.</b> <span class="math">x &lt; −7 3/5</span>: sveikieji, mažesni už −7,6, yra −8, −9, … Didžiausias iš jų yra <span class="math">−8</span> (ne −7, nes −7 už −7,6 didesnis, o reikia <b>mažesnio</b>).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">5 yra <span class="math">x ≤ −2</span> sprendinys, nes 5 teigiamas</td><td class="gerai">Įstatome: <span class="math">5 ≤ −2</span> klaidinga &rArr; ne sprendinys</td></tr>
+          <tr><td class="klaida">Prie <span class="math">∞</span> rašomas laužtinis skliaustas</td><td class="gerai">Prie <span class="math">∞</span> visada paprastas skliaustas</td></tr>
+          <tr><td class="klaida">Didžiausias sveikasis <span class="math">x &lt; −7 3/5</span> yra −7</td><td class="gerai">−8 (reikia mažesnio už −7,6)</td></tr>
+          <tr><td class="klaida">Mažiausias sveikasis <span class="math">x ≥ 1 5/9</span> yra 1</td><td class="gerai">2 (nes 1 &lt; 1 5/9, netinka)</td></tr>
+          <tr><td class="klaida">Nelygybė be sprendinių turi aibę 0</td><td class="gerai">Sprendinių aibė yra tuščioji aibė <span class="math">∅</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Norėdamas patikrinti sprendinį — įstatau ir žiūriu, ar nelygybė teisinga. Ieškodamas didžiausio ar mažiausio sveikojo — nubraižau mintyse skaičių tiesę ir renkuosi artimiausią sveikąjį, kuris <b>dar tenkina</b> nelygybę.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Nelygybės sprendinys“
+  </footer>
+
+</div>
+</body>
+</html>

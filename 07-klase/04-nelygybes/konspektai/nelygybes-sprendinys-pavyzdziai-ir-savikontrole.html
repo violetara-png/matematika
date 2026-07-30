@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Nelygybės sprendinys — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Nelygybės sprendinys — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Nelygybės · sprendinys, sprendinių aibė, didžiausias ir mažiausias sveikasis</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Ar skaičius yra sprendinys? (patikra)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> skaičius yra nelygybės sprendinys, jei <b>įstatytas</b> vietoj nežinomojo paverčia nelygybę teisinga. Priešingu atveju — nėra sprendinys.</div>
+    <div class="ex">
+      <div class="q">Ar <span class="math">5</span> yra nelygybės <span class="math">x ≤ −2</span> sprendinys?</div>
+      <div class="line">Įstatome: <span class="math">5 ≤ −2</span> — klaidinga. &nbsp;&rArr;&nbsp; <span class="res">ne</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar <span class="math">−3</span> yra nelygybės <span class="math">x ≤ −2</span> sprendinys?</div>
+      <div class="line">Įstatome: <span class="math">−3 ≤ −2</span> — teisinga. &nbsp;&rArr;&nbsp; <span class="res">taip</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Kurie skaičiai iš aibės yra sprendiniai?</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei nelygybė ne paprasčiausio pavidalo, pirma ją <b>išsprendžiame</b>, tada tikriname, kurie aibės skaičiai tenkina.</div>
+    <div class="ex">
+      <div class="q">Iš aibės <span class="math">{−2; 4; 6; 8}</span> rask nelygybės <span class="math">8 − 2x &lt; −4</span> sprendinį.</div>
+      <div class="line">Sprendžiame: <span class="math">8 − 2x &lt; −4</span> &rArr; <span class="math">−2x &lt; −12</span> &rArr; <span class="math">x &gt; 6</span> <span class="muted2">(dalijome iš neigiamo, ženklas pakito)</span>.</div>
+      <div class="line">Iš aibės didesnis už 6 yra tik 8. &nbsp;&rArr;&nbsp; <span class="res">8</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Didžiausias ir mažiausias sveikasis sprendinys</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> <b>didžiausias sveikasis</b> (su <span class="math">&lt;, ≤</span>) — didžiausias sveikasis skaičius, neviršijantis ribos. <b>Mažiausias sveikasis</b> (su <span class="math">&gt;, ≥</span>) — mažiausias sveikasis, ne mažesnis už ribą.</div>
+    <div class="ex">
+      <div class="q">Didžiausias sveikasis nelygybės <span class="math">x &lt; 8</span> sprendinys.</div>
+      <div class="line">Sveikieji, mažesni už 8: …, 6, 7. &nbsp;&rArr;&nbsp; <span class="res">7</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Mažiausias sveikasis nelygybės <span class="math">x &gt; 5</span> sprendinys.</div>
+      <div class="line">Sveikieji, didesni už 5: 6, 7, … &nbsp;&rArr;&nbsp; <span class="res">6</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Sprendinių aibė intervalu</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> prie <span class="math">±∞</span> — paprastas skliaustas. Riba įeina (<span class="math">≤, ≥</span>) → laužtinis; neįeina (<span class="math">&lt;, &gt;</span>) → paprastas.</div>
+    <div class="ex">
+      <div class="q">Užrašyk nelygybės <span class="math">x ≤ −2</span> sprendinių aibę intervalu.</div>
+      <div class="line">Riba −2 įeina (≤), prie −∞ paprastas skliaustas. &nbsp;&rArr;&nbsp; <span class="res">(−∞; −2]</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk nelygybės <span class="math">x ≥ −7</span> sprendinių aibę intervalu.</div>
+      <div class="line">Riba −7 įeina (≥), prie +∞ paprastas skliaustas. &nbsp;&rArr;&nbsp; <span class="res">[−7; +∞)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> ar skaičius sprendinys — įstatyk ir patikrink. Didžiausio/mažiausio sveikojo ieškok pasirinkdamas artimiausią sveikąjį, kuris dar tenkina nelygybę. Sprendinių aibę rašyk intervalu. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Ar skaičius yra sprendinys? (taip / ne)</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Ar <span class="math">−3</span> yra <span class="math">x ≤ 0</span> sprendinys?</li>
+        <li>Ar <span class="math">2</span> yra <span class="math">x &lt; 0,6</span> sprendinys?</li>
+        <li>Ar <span class="math">8</span> yra <span class="math">x &gt; 6</span> sprendinys?</li>
+        <li>Ar <span class="math">6</span> yra <span class="math">x &gt; 6</span> sprendinys?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Didžiausias / mažiausias sveikasis sprendinys</div>
+    <div class="two">
+      <ol class="tasks" start="5">
+        <li>Didžiausias sveikasis: <span class="math">x ≤ 6 2/7</span></li>
+        <li>Didžiausias sveikasis: <span class="math">x &lt; −4,1</span></li>
+        <li>Mažiausias sveikasis: <span class="math">x ≥ 1 5/9</span></li>
+        <li>Mažiausias sveikasis: <span class="math">x &gt; −0,2</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">Sprendinių aibė ir taikymas</div>
+    <ol class="tasks" start="9">
+      <li>Užrašyk sprendinių aibę intervalu: <span class="math">x &gt; 5</span>.</li>
+      <li>Užrašyk sprendinių aibę intervalu: <span class="math">x ≤ −2</span>.</li>
+      <li>Iš aibės <span class="math">{1; 2; −3; 3}</span> nurodyk, kuris skaičius NĖRA nelygybės <span class="math">3x − 7 ≥ −8</span> sprendinys.</li>
+      <li>Rask didžiausią sveikąjį nelygybės <span class="math">x &lt; −7 3/5</span> sprendinį.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> taip &nbsp;&nbsp; <b>2.</b> ne &nbsp;&nbsp; <b>3.</b> taip &nbsp;&nbsp; <b>4.</b> ne (6 &gt; 6 klaidinga)</div>
+    <div class="row"><b>5.</b> 6 &nbsp;&nbsp; <b>6.</b> −5 &nbsp;&nbsp; <b>7.</b> 2 &nbsp;&nbsp; <b>8.</b> 0</div>
+    <div class="row"><b>9.</b> (5; +∞) &nbsp;&nbsp; <b>10.</b> (−∞; −2]</div>
+    <div class="row"><b>11.</b> −3 (nes −3 ≥ −1/3 klaidinga) &nbsp;&nbsp; <b>12.</b> −8</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Nelygybės sprendinys“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

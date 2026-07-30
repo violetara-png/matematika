@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dauginame ir dalijame iš to paties skaičiaus · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:19px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  .formule .math{font-size:20px}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .flip{color:var(--demesio); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Dauginame ir dalijame iš to paties skaičiaus</h1>
+  <p class="klase">Matematika · 7 klasė · Nelygybės · abi puses dauginame (dalijame) iš to paties skaičiaus</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Dauginame ir dalijame iš teigiamo skaičiaus</a></li>
+      <li><a href="#t2">Dauginame ir dalijame iš neigiamo skaičiaus (ženklas keičiasi!)</a></li>
+      <li><a href="#t3">Nelygybės su nežinomuoju sprendimas</a></li>
+      <li><a href="#t4">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Dauginame ir dalijame iš teigiamo skaičiaus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Abi nelygybės puses galima <b>padauginti</b> arba <b>padalyti</b> iš to paties skaičiaus. Rezultatas priklauso nuo to, ar tas skaičius <span class="term-a">teigiamas</span>, ar <span class="term-b">neigiamas</span>.</p>
+        <p><span class="zenk">Taisyklė.</span> Jei <span class="math">a &lt; b</span> ir <span class="term-a">c &gt; 0</span> (skaičius teigiamas), tai
+          <span class="math">a · c &lt; b · c</span> ir <span class="math">a : c &lt; b : c</span>.</p>
+        <div class="formule">Dauginant (dalijant) iš <span class="term-a">TEIGIAMO</span> skaičiaus, nelygybės ženklas <span class="gerai">NEsikeičia</span>.</div>
+        <p class="pvz"><b>Pavyzdys 1.</b> <span class="math">−4 &lt; 3</span>, padauginkime abi puses iš 2:<br>
+          <span class="math">−4 · 2 &lt; 3 · 2</span> &nbsp;⇒&nbsp; <span class="math"><span class="gerai">−8 &lt; 6</span></span> (teisinga, ženklas nekito).</p>
+        <p class="pvz"><b>Pavyzdys 2.</b> <span class="math">−8 &lt; 12</span>, padalykime abi puses iš 4:<br>
+          <span class="math">−8 : 4 &lt; 12 : 4</span> &nbsp;⇒&nbsp; <span class="math"><span class="gerai">−2 &lt; 3</span></span> (ženklas nekito).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Dauginame ir dalijame iš neigiamo skaičiaus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Svarbiausia taisyklė.</span> Jei <span class="math">a &lt; b</span> ir <span class="term-b">c &lt; 0</span> (skaičius neigiamas), tai
+          <span class="math">a · c <span class="flip">&gt;</span> b · c</span> ir <span class="math">a : c <span class="flip">&gt;</span> b : c</span>.</p>
+        <div class="formule">Dauginant (dalijant) iš <span class="term-b">NEIGIAMO</span> skaičiaus, nelygybės ženklas <span class="flip">KEIČIAMAS priešingu</span>: <span class="math">&lt;</span> tampa <span class="math">&gt;</span>, o <span class="math">≤</span> tampa <span class="math">≥</span>.</div>
+        <p class="pvz"><b>Pavyzdys 3.</b> <span class="math">−4 &lt; 3</span>, padauginkime abi puses iš <span class="term-b">−2</span>:<br>
+          <span class="math">−4 · (−2)</span> ir <span class="math">3 · (−2)</span> duoda 8 ir −6, o ženklą pakeičiame į priešingą:<br>
+          &nbsp;⇒&nbsp; <span class="math"><span class="flip">8 &gt; −6</span></span> (ženklas pakeistas!).</p>
+        <p class="pvz"><b>Pavyzdys 4.</b> <span class="math">4 &gt; −6</span>, padauginkime iš <span class="term-b">−3</span>:<br>
+          <span class="math">4 · (−3) = −12</span>, <span class="math">−6 · (−3) = 18</span>, ženklą keičiame &nbsp;⇒&nbsp; <span class="math"><span class="flip">−12 &lt; 18</span></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Padauginę arba padaliję abi puses iš neigiamo skaičiaus, <b>būtinai apverčiame</b> nelygybės ženklą. Tai dažniausiai pamirštama klaida.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Nelygybės su nežinomuoju sprendimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai prie nežinomojo <span class="math">x</span> yra daugiklis (pvz. <span class="math">6x</span> arba <span class="math">−5x</span>), abi puses <b>padaliname iš to daugiklio</b>. Jei daliklis neigiamas, <span class="flip">apverčiame ženklą</span>.</p>
+        <p class="pvz"><b>Pavyzdys 5.</b> Išspręskime <span class="math">6x ≥ −24</span>. Dalijame iš <span class="term-a">6</span> (teigiamas, ženklas nekinta):<br>
+          <span class="math">x ≥ −24 : 6</span> &nbsp;⇒&nbsp; <span class="math"><span class="gerai">x ≥ −4</span></span>, tai yra intervalas <span class="math">[−4; +∞)</span>.</p>
+        <p class="pvz"><b>Pavyzdys 6.</b> Išspręskime <span class="math">−5x &lt; 15</span>. Dalijame iš <span class="term-b">−5</span> (neigiamas, ženklą keičiame):<br>
+          <span class="math">x <span class="flip">&gt;</span> 15 : (−5)</span> &nbsp;⇒&nbsp; <span class="math"><span class="flip">x &gt; −3</span></span>, tai yra intervalas <span class="math">(−3; +∞)</span>.</p>
+        <p class="pvz"><b>Pavyzdys 7.</b> Išspręskime <span class="math">−5x &lt; −20</span>. Dalijame iš <span class="term-b">−5</span>, ženklą keičiame:<br>
+          <span class="math">x <span class="flip">&gt;</span> −20 : (−5)</span> &nbsp;⇒&nbsp; <span class="math"><span class="flip">x &gt; 4</span></span>, tai yra <span class="math">(4; +∞)</span>.</p>
+        <table class="kort">
+          <tr><th>Nelygybė</th><th>Dalijame iš</th><th>Ženklas</th><th>Sprendinys</th></tr>
+          <tr><td><span class="math">6x ≥ −24</span></td><td><span class="term-a">6</span></td><td><span class="gerai">nekinta</span></td><td><span class="math">x ≥ −4</span></td></tr>
+          <tr><td><span class="math">−8x &gt; 16</span></td><td><span class="term-b">−8</span></td><td><span class="flip">keičiasi</span></td><td><span class="math">x &lt; −2</span></td></tr>
+          <tr><td><span class="math">7x ≤ −42</span></td><td><span class="term-a">7</span></td><td><span class="gerai">nekinta</span></td><td><span class="math">x ≤ −6</span></td></tr>
+          <tr><td><span class="math">−4x ≤ 20</span></td><td><span class="term-b">−4</span></td><td><span class="flip">keičiasi</span></td><td><span class="math">x ≥ −5</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">−5x &lt; 15 → x &lt; −3 (ženklas nepakeistas)</td><td class="gerai">−5x &lt; 15 → x &gt; −3 (dalijome iš neigiamo)</td></tr>
+          <tr><td class="klaida">Dauginant iš teigiamo, ženklą irgi reikia keisti</td><td class="gerai">Iš teigiamo — ženklas NEsikeičia</td></tr>
+          <tr><td class="klaida">−4 · (−2) = −8</td><td class="gerai">−4 · (−2) = 8 (minusas × minusas = pliusas)</td></tr>
+          <tr><td class="klaida">Ženklą keisti tik dauginant, o dalijant — ne</td><td class="gerai">Ir dauginant, ir dalijant iš neigiamo ženklas keičiasi</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Kai abi nelygybės puses dauginu arba dalinu iš <b>teigiamo</b> skaičiaus, ženklo <b>nekeičiu</b>. Kai iš <b>neigiamo</b>, ženklą <b>apverčiu priešingu</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Dauginame ir dalijame iš to paties skaičiaus“
+  </footer>
+
+</div>
+</body>
+</html>

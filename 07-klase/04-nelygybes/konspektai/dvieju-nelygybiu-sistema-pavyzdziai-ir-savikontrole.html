@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Dviejų nelygybių sistema — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:7px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:3px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 2px;line-height:1.05;}
+  .frac .n{border-bottom:1.5px solid currentColor;padding:0 3px;}
+  .frac .d{padding:0 3px;}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;margin:0 2px;}
+  .sys .br{font-size:1.8em;line-height:.9;margin-right:2px;color:var(--blue);}
+  .sys .rows{display:inline-flex;flex-direction:column;text-align:left;line-height:1.25;}
+</style>
+</head>
+<body>
+
+<h1>Dviejų nelygybių sistema — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Nelygybės · dviejų nelygybių su vienu nežinomuoju sistema; bendri sprendiniai (sankirta)</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kas yra sistemos sprendinys (patikrinimas)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> sistemos (riestinis skliaustas { ) sprendinys tenkina <b>abi</b> nelygybes iš karto. Užtenka, kad neatitiktų vienos — ir skaičius nebe sprendinys.</div>
+    <div class="ex">
+      <div class="q">Ar 5 yra sistemos <span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 1</span><span>x &lt; 4</span></span></span> sprendinys?</div>
+      <div class="line">5 &gt; 1 ✓, &nbsp; bet 5 &lt; 4 ✗ &nbsp;&rArr;&nbsp; <span class="res">ne</span> (netinka antrajai nelygybei)</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar −2 yra sistemos <span class="sys"><span class="br">{</span><span class="rows"><span>x ≥ −2</span><span>x − 1 &lt; 0</span></span></span> sprendinys?</div>
+      <div class="line">−2 ≥ −2 ✓, &nbsp; −2 − 1 = −3 &lt; 0 ✓ &nbsp;&rArr;&nbsp; <span class="res">taip</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sprendimas žingsniais (bendra dalis)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> 1) išspręsk kiekvieną nelygybę; 2) pažymėk skaičių tiesėje; 3) imk bendrą (persidengiančią) dalį — sankirtą.</div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>x + 1 &gt; 0</span><span>−2x + 8 ≥ −4</span></span></span></div>
+      <div class="line">x + 1 &gt; 0 &rArr; x &gt; −1; &nbsp; −2x + 8 ≥ −4 &rArr; −2x ≥ −12 &rArr; x ≤ 6 &nbsp;<span class="muted2">(ženklas keičiasi)</span></div>
+      <div class="line">Bendra dalis &nbsp;&rArr;&nbsp; <span class="res">(−1; 6]</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 1</span><span>x &gt; 4</span></span></span></div>
+      <div class="line">Abi „&gt;“, lieka siauresnioji sąlyga x &gt; 4 &nbsp;&rArr;&nbsp; <span class="res">(4; +∞)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>x &lt; 3</span><span>x ≥ −3</span></span></span></div>
+      <div class="line">−3 ≤ x &lt; 3 &nbsp;&rArr;&nbsp; <span class="res">[−3; 3)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Sveikieji sprendiniai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pirmiausia rask intervalą, paskui surašyk jame esančius sveikuosius skaičius.</div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>2x ≥ 6</span><span>3x − 12 &lt; 0</span></span></span> ir rask sveikąjį sprendinį</div>
+      <div class="line">x ≥ 3 ir x &lt; 4 &rArr; [3; 4) &nbsp;&rArr;&nbsp; vienintelis sveikasis <span class="res">3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek sveikųjų sprendinių turi <span class="sys"><span class="br">{</span><span class="rows"><span>x &lt; 5</span><span>x ≥ 0</span></span></span>?</div>
+      <div class="line">[0; 5) &rArr; 0; 1; 2; 3; 4 &nbsp;&rArr;&nbsp; <span class="res">5</span> sveikieji (didžiausias 4)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Kai sprendinių nėra ir kai atsakymas trupmeninis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei sprendinių aibės nesikerta, sistema neturi sprendinių (∅). Intervalo galai gali būti ir trupmeniniai.</div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 5</span><span>x &lt; 2</span></span></span></div>
+      <div class="line">Nėra skaičiaus, ir &gt; 5, ir &lt; 2 &nbsp;&rArr;&nbsp; <span class="res">∅</span> (sprendinių nėra)</div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk <span class="sys"><span class="br">{</span><span class="rows"><span>3x + 2 ≤ 8</span><span>−4x − 7 &lt; −5</span></span></span></div>
+      <div class="line">3x + 2 ≤ 8 &rArr; x ≤ 2; &nbsp; −4x − 7 &lt; −5 &rArr; −4x &lt; 2 &rArr; x &gt; −<span class="frac"><span class="n">1</span><span class="d">2</span></span></div>
+      <div class="line">Bendra dalis &nbsp;&rArr;&nbsp; <span class="res">(−<span class="frac"><span class="n">1</span><span class="d">2</span></span>; 2]</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> spręsk kiekvieną nelygybę atskirai, tada imk bendrą dalį (sankirtą). Ženklai &gt;, &lt; → apvalus skliaustas, ženklai ≥, ≤ → laužtinis. Jei sprendiniai nesikerta — atsakymas ∅. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Išspręsk sistemą, atsakymą užrašyk intervalu</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 1</span><span>x &gt; 4</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x &lt; 3</span><span>x ≥ −3</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x + 1 &gt; 0</span><span>−2x + 8 ≥ −4</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>2x ≥ 6</span><span>3x − 12 &lt; 0</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x ≥ 0</span><span>2x + 1 &gt; −3</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>3x + 2 ≤ 8</span><span>−4x − 7 &lt; −5</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 5</span><span>x &lt; 2</span></span></span></li>
+        <li><span class="sys"><span class="br">{</span><span class="rows"><span>x ≥ −2</span><span>x ≤ 3</span></span></span></li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Sveikieji sprendiniai</div>
+    <ol class="tasks math" start="9">
+      <li>Kiek sveikųjų sprendinių turi <span class="sys"><span class="br">{</span><span class="rows"><span>x ≥ −1</span><span>x &lt; 3</span></span></span>? Surašyk juos.</li>
+      <li>Koks didžiausias sveikasis <span class="sys"><span class="br">{</span><span class="rows"><span>x &lt; 5</span><span>x ≥ 0</span></span></span> sprendinys?</li>
+      <li>Koks mažiausias sveikasis <span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; −3</span><span>x ≤ 2</span></span></span> sprendinys?</li>
+    </ol>
+
+    <div class="grp">C grupė · Patikrinimas</div>
+    <div class="two">
+      <ol class="tasks math" start="12">
+        <li>Ar −2 yra <span class="sys"><span class="br">{</span><span class="rows"><span>x ≥ −2</span><span>x − 1 &lt; 0</span></span></span> sprendinys?</li>
+        <li>Ar 5 yra <span class="sys"><span class="br">{</span><span class="rows"><span>x &gt; 1</span><span>x &lt; 4</span></span></span> sprendinys?</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> (4; +∞) &nbsp;&nbsp; <b>2.</b> [−3; 3) &nbsp;&nbsp; <b>3.</b> (−1; 6] &nbsp;&nbsp; <b>4.</b> [3; 4)</div>
+    <div class="row math"><b>5.</b> [0; +∞) &nbsp;(x ≥ 0 ir x &gt; −2) &nbsp;&nbsp; <b>6.</b> (−<span class="frac"><span class="n">1</span><span class="d">2</span></span>; 2]</div>
+    <div class="row math"><b>7.</b> ∅ &nbsp;(nesikerta) &nbsp;&nbsp; <b>8.</b> [−2; 3]</div>
+    <div class="row math"><b>9.</b> 4 sveikieji: −1; 0; 1; 2 &nbsp;&nbsp; <b>10.</b> 4 &nbsp;([0; 5))</div>
+    <div class="row math"><b>11.</b> −2 &nbsp;((−3; 2]) &nbsp;&nbsp; <b>12.</b> taip &nbsp;(−2 ≥ −2 ir −3 &lt; 0)</div>
+    <div class="row math"><b>13.</b> ne &nbsp;(5 netenkina x &lt; 4)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Dviejų nelygybių sistema“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

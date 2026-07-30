@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pridedame ir atimame tą patį skaičių · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Pridedame ir atimame tą patį skaičių</h1>
+  <p class="klase">Matematika · 7 klasė · Nelygybės · pridedame (atimame) prie abiejų pusių tą patį skaičių</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Pagrindinė savybė: pridedame arba atimame tą patį skaičių</a></li>
+      <li><a href="#t2">Nelygybės su kintamuoju sprendimas (x ± a)</a></li>
+      <li><a href="#t3">Nario perkėlimas pakeitus ženklą</a></li>
+      <li><a href="#t4">Dar dvi savybės: apvertimas ir tranzityvumas</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Pridedame arba atimame tą patį skaičių</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pagrindinė savybė.</span> Prie abiejų nelygybės pusių pridėjus (arba iš abiejų pusių atėmus) <b>tą patį skaičių</b>, nelygybės ženklas <b>NEsikeičia</b>.</p>
+        <div class="formule">Jei <span class="math">a &gt; b</span>, tai <span class="math">a + c &gt; b + c</span> ir <span class="math">a − c &gt; b − c</span></div>
+        <p>Ta pati savybė galioja ženklams <span class="math">&lt;</span>, <span class="math">≥</span>, <span class="math">≤</span>: pridedant ar atimant tą patį skaičių, ženklo krypties nekeičiame.</p>
+        <p class="pvz"><b>1 pavyzdys.</b> Teisinga nelygybė <span class="math">−4 &lt; 9</span>. Prie abiejų pusių pridėkime <b>5</b>:<br>
+        <span class="math">−4 + 5 &lt; 9 + 5</span> &nbsp;⇒&nbsp; <span class="gerai">1 &lt; 14</span> &nbsp;(nelygybė tebėra teisinga).</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Teisinga nelygybė <span class="math">6 &gt; −3</span>. Iš abiejų pusių atimkime <b>6</b>:<br>
+        <span class="math">6 − 6 &gt; −3 − 6</span> &nbsp;⇒&nbsp; <span class="gerai">0 &gt; −9</span> &nbsp;(nelygybė tebėra teisinga).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Nelygybės su kintamuoju sprendimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Šia savybe naudojamės, kai reikia <span class="zenk">išspręsti nelygybę</span>, t. y. rasti visas <b>x</b> reikšmes. Norėdami, kad kintamasis liktų vienas, prie abiejų pusių pridedame arba iš jų atimame tinkamą skaičių.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Išspręsk <span class="math">x − 3 &gt; 2</span>.<br>
+        Prie abiejų pusių pridedame 3: <span class="math">x − 3 + 3 &gt; 2 + 3</span> &nbsp;⇒&nbsp; <span class="gerai">x &gt; 5</span>.<br>
+        Sprendinių aibė: <span class="math">(5; +∞)</span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Išspręsk <span class="math">x + 4 ≤ 1</span>.<br>
+        Iš abiejų pusių atimame 4: <span class="math">x + 4 − 4 ≤ 1 − 4</span> &nbsp;⇒&nbsp; <span class="gerai">x ≤ −3</span>.<br>
+        Sprendinių aibė: <span class="math">(−∞; −3]</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Sprendžiant <b>tik pridedant ar atimant</b>, nelygybės ženklas <b>nekinta</b>. Ženklą teks keisti tik tada, kai abi puses dauginsime ar dalysime iš neigiamo skaičiaus (kita pamoka).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Nario perkėlimas pakeitus ženklą</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Trumpesnis būdas.</span> Kaip ir lygtyse, <b>narį galima perkelti</b> iš vienos nelygybės pusės į kitą <b>pakeitus jo ženklą priešingu</b>. Nelygybės ženklas lieka tas pats.</p>
+        <div class="formule"><span class="math">x − 3 &gt; 2</span> &nbsp;⇒&nbsp; <span class="math">x &gt; 2 + 3</span> &nbsp;⇒&nbsp; <span class="math">x &gt; 5</span></div>
+        <p>Tai tas pats veiksmas, kaip pridėti 3 prie abiejų pusių — tik užrašomas greičiau: narį <span class="math">−3</span> perkėlėme į dešinę kaip <span class="math">+3</span>.</p>
+        <p class="pvz"><b>5 pavyzdys.</b> Jei <span class="math">x + 1 &lt; y + 1</span>, tai (atėmę iš abiejų pusių 1) &nbsp;⇒&nbsp; <span class="gerai">x &lt; y</span>.</p>
+        <p class="pvz"><b>6 pavyzdys.</b> Jei <span class="math">x − 10 &gt; y − 10</span>, tai (pridėję prie abiejų pusių 10) &nbsp;⇒&nbsp; <span class="gerai">x &gt; y</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Dar dvi savybės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Apvertimas.</span> Jei <span class="math">a &gt; b</span>, tai <span class="math">b &lt; a</span>. Sukeitę puses vietomis, apverčiame ir nelygybės ženklą.</p>
+        <p><span class="zenk">Tranzityvumas.</span> Jei <span class="math">a &lt; b</span> ir <span class="math">b &lt; c</span>, tai <span class="math">a &lt; c</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">2 &lt; 5</span> ir <span class="math">5 &lt; 8</span>, todėl <span class="math">2 &lt; 8</span>.</p>
+        <table class="kort">
+          <tr><th>Veiksmas su nelygybe <span class="math">a &gt; b</span></th><th>Kas nutinka ženklui</th></tr>
+          <tr><td>pridedame tą patį skaičių <span class="math">c</span></td><td><b class="gerai">nekinta</b> (<span class="math">a + c &gt; b + c</span>)</td></tr>
+          <tr><td>atimame tą patį skaičių <span class="math">c</span></td><td><b class="gerai">nekinta</b> (<span class="math">a − c &gt; b − c</span>)</td></tr>
+          <tr><td>sukeičiame puses vietomis</td><td><b class="term-b">apverčiame</b> (<span class="math">b &lt; a</span>)</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">Pridėjus tą patį skaičių, ženklą reikia pakeisti</td><td class="gerai">Pridedant ar atimant tą patį skaičių, ženklas NEsikeičia</td></tr>
+          <tr><td class="klaida"><span class="math">x − 3 &gt; 2</span> ⇒ <span class="math">x &gt; −1</span></td><td class="gerai"><span class="math">x &gt; 2 + 3 = 5</span></td></tr>
+          <tr><td class="klaida">Perkeliant narį, ženklo nekeičiu</td><td class="gerai">Perkeliamą narį rašau su priešingu ženklu</td></tr>
+          <tr><td class="klaida"><span class="math">x + 4 ≤ 1</span> ⇒ <span class="math">x ≤ 5</span></td><td class="gerai"><span class="math">x ≤ 1 − 4 = −3</span></td></tr>
+          <tr><td class="klaida">Sukeitęs puses, ženklo nekeičiu (<span class="math">a &gt; b</span> ⇒ <span class="math">b &gt; a</span>)</td><td class="gerai"><span class="math">a &gt; b</span> ⇒ <span class="math">b &lt; a</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pridedu ar atimu tą patį skaičių prie <b>abiejų</b> pusių — ženklas lieka toks pat. Perkeldamas narį per nelygybės ženklą, keičiu tik <b>to nario</b> ženklą, ne nelygybės krypties.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Pridedame ir atimame tą patį skaičių“
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių palyginimas · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; line-height:1.05}
+  .frac .n{border-bottom:1.5px solid currentColor; padding:0 3px}
+  .frac .d{padding:0 3px}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  .os{margin:14px 0 2px}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių palyginimas</h1>
+  <p class="klase">Matematika · 7 klasė · Nelygybės · skaičių palyginimas ženklais &gt;, &lt;, =, ≥, ≤</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Palyginimo ženklai ir skaičių tiesė</a></li>
+      <li><a href="#t2">Ženklai ≥ ir ≤ (ne mažiau, ne daugiau)</a></li>
+      <li><a href="#t3">Skirtumo požymis: a − b</a></li>
+      <li><a href="#t4">Neigiamų ir trupmeninių skaičių palyginimas</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Palyginimo ženklai ir skaičių tiesė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Du skaičius palyginti reiškia pasakyti, kuris iš jų <b>didesnis</b>, kuris <b>mažesnis</b> arba kad jie <b>lygūs</b>. Naudojame ženklus:</p>
+        <p><span class="zenk">&gt;</span> — daugiau; <span class="zenk">&lt;</span> — mažiau; <span class="zenk">=</span> — lygu.</p>
+        <p>Skaičių tiesėje skaičiai didėja iš <b>kairės į dešinę</b>. Didesnis yra tas skaičius, kurio taškas yra <span class="term-a">dešiniau</span>; mažesnis — kurio taškas <span class="term-b">kairiau</span>.</p>
+        <div class="formule math">−3 &lt; −1 &lt; 0 &lt; 2 &lt; 4</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">12 &gt; −2</span> (12 dešiniau už −2);<br>
+        <span class="math">−15 &lt; −3,7</span> (−15 kairiau už −3,7);<br>
+        <span class="math">3 &lt; 8</span>; &nbsp; <span class="math">0 &gt; −0,001</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Iš dviejų neigiamų skaičių didesnis yra tas, kuris <b>arčiau nulio</b> (dešiniau). Todėl <span class="math">−2 &gt; −7</span>, nors 7 &gt; 2. Kuo neigiamas skaičius „didesnis pagal skaičių“, tuo jis <b>mažesnis</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Ženklai ≥ ir ≤ (ne mažiau, ne daugiau)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kartais reikia pasakyti, kad skaičius yra didesnis <b>arba lygus</b> (mažesnis arba lygus) kitam. Tam naudojami ženklai <span class="zenk">≥</span> ir <span class="zenk">≤</span>.</p>
+        <p><span class="math">a ≥ b</span> skaitoma „<b>a daugiau arba lygu b</b>“, tai yra <span class="term-a">a ne mažesnis</span> už b.</p>
+        <p><span class="math">a ≤ b</span> skaitoma „<b>a mažiau arba lygu b</b>“, tai yra <span class="term-b">a ne didesnis</span> už b.</p>
+        <table class="kort">
+          <tr><th>Ženklas</th><th>Skaitoma</th><th>Reikšmė</th></tr>
+          <tr><td class="math">&gt;</td><td>daugiau</td><td>griežtoji nelygybė</td></tr>
+          <tr><td class="math">&lt;</td><td>mažiau</td><td>griežtoji nelygybė</td></tr>
+          <tr><td class="math">≥</td><td>daugiau arba lygu</td><td>ne mažiau (negriežtoji)</td></tr>
+          <tr><td class="math">≤</td><td>mažiau arba lygu</td><td>ne daugiau (negriežtoji)</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> „Bilietas kainuoja ne daugiau kaip 5 eurus“ užrašomas <span class="math">k ≤ 5</span>. „Klasėje ne mažiau kaip 20 mokinių“ užrašomas <span class="math">m ≥ 20</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Skirtumo požymis: a − b</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kurį skaičių palyginti galima ir apskaičiavus jų <b>skirtumą</b> <span class="math">a − b</span>. Skirtumo ženklas parodo, kuris skaičius didesnis:</p>
+        <div class="formule math">a − b &gt; 0 &nbsp;⇔&nbsp; a &gt; b</div>
+        <p>Taip pat: <span class="math">a − b &lt; 0 ⇔ a &lt; b</span> &nbsp;ir&nbsp; <span class="math">a − b = 0 ⇔ a = b</span>.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">−2 − (−7) = 5</span>, o <span class="math">5 &gt; 0</span>, todėl <span class="gerai">−2 &gt; −7</span>.<br>
+        <span class="math">3,5 − (−5,4) = 8,9 &gt; 0</span>, todėl <span class="gerai">3,5 &gt; −5,4</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Jei žinomas tik skirtumas, ženklo pakanka išvadai. Kai <span class="math">a − b = 28</span> (teigiamas), tai <span class="math">a &gt; b</span>. Kai <span class="math">b − a = −5</span> (neigiamas), tai <span class="math">b &lt; a</span>, taigi <span class="math">a &gt; b</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Neigiamų ir trupmeninių skaičių palyginimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kad palygintume trupmeną su dešimtaine ar dvi trupmenas, <b>užrašome jas vienodu pavidalu</b> (pavyzdžiui, paverčiame trupmeną dešimtaine) ir lyginame.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="frac math"><span class="n">3</span><span class="d">5</span></span> <span class="math">= 0,6</span>, todėl <span class="frac math"><span class="n">3</span><span class="d">5</span></span> <span class="gerai">= 0,6</span>.<br>
+        <span class="math">−</span><span class="frac math"><span class="n">3</span><span class="d">4</span></span> <span class="math">= −0,75</span>, o <span class="math">−0,75 &lt; −0,7</span>, todėl <span class="math">−</span><span class="frac math"><span class="n">3</span><span class="d">4</span></span> <span class="gerai">&lt; −0,7</span>.<br>
+        <span class="math">−</span><span class="frac math"><span class="n">5</span><span class="d">9</span></span> <span class="math">≈ −0,56</span>, &nbsp;<span class="math">−</span><span class="frac math"><span class="n">5</span><span class="d">8</span></span> <span class="math">= −0,625</span>; kadangi −0,56 arčiau nulio, <span class="math">−</span><span class="frac math"><span class="n">5</span><span class="d">9</span></span> <span class="gerai">&gt; −</span><span class="frac math"><span class="n">5</span><span class="d">8</span></span>.</p>
+        <p class="pvz"><b>Mišrieji skaičiai.</b> <span class="math">2</span><span class="frac math"><span class="n">5</span><span class="d">6</span></span> <span class="math">= 2,833…</span>, o <span class="math">2,833… &lt; 2,9</span>, todėl <span class="math">2</span><span class="frac math"><span class="n">5</span><span class="d">6</span></span> <span class="gerai">&lt; 2,9</span>. Teigiamas skaičius visada didesnis už neigiamą: <span class="math">4</span><span class="frac math"><span class="n">3</span><span class="d">7</span></span> <span class="gerai">&gt;</span> <span class="math">−4</span><span class="frac math"><span class="n">5</span><span class="d">8</span></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> <span class="math">−1,8 = −1,80</span> — nulis trupmenos gale reikšmės nekeičia, skaičiai <b>lygūs</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">−2 &lt; −7 (nes 2 &lt; 7)</td><td class="gerai">−2 &gt; −7 (−2 arčiau nulio, dešiniau)</td></tr>
+          <tr><td class="klaida">−0,5 &gt; −0,05</td><td class="gerai">−0,5 &lt; −0,05</td></tr>
+          <tr><td class="klaida">a − b &lt; 0, tai a &gt; b</td><td class="gerai">a − b &lt; 0, tai a &lt; b</td></tr>
+          <tr><td class="klaida">≥ reiškia „tik daugiau“</td><td class="gerai">≥ reiškia „daugiau arba lygu“</td></tr>
+          <tr><td class="klaida">−1,8 &gt; −1,80</td><td class="gerai">−1,8 = −1,80</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Neaišku, kuris didesnis? Įsivaizduok skaičių tiesę: kas dešiniau, tas didesnis. Arba apskaičiuok skirtumą <span class="math">a − b</span>: teigiamas — <span class="math">a &gt; b</span>, neigiamas — <span class="math">a &lt; b</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Skaičių palyginimas“
+  </footer>
+
+</div>
+</body>
+</html>

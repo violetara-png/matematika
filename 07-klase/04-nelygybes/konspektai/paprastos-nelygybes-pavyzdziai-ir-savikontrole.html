@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Paprastos nelygybės — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 2px}
+  .fr>span:first-child{border-bottom:1.4px solid currentColor;padding:0 3px}
+  .fr>span:last-child{padding:0 3px}
+</style>
+</head>
+<body>
+
+<h1>Paprastos nelygybės — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · Nelygybės · kaip spręsti ax + b &gt; c, ženklo keitimas, intervalas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Du žingsniai: perkeliam narį, dalijam</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> nelygybėje <b>ax + b &gt; c</b> pirma perkeliame laisvą narį <b>b</b> į kitą pusę (su priešingu ženklu), tada dalijame iš koeficiento prie x.</div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">4x + 12 &gt; 16</span></div>
+      <div class="line">Perkeliame 12: &nbsp; <span class="math">4x &gt; 16 − 12</span> &nbsp;&rArr;&nbsp; <span class="math">4x &gt; 4</span></div>
+      <div class="line">Dalijame iš 4: &nbsp; <span class="math">x &gt; 1</span> &nbsp;&rArr;&nbsp; <span class="res">(1; +∞)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">3x − 7 ≤ −10</span></div>
+      <div class="line">Perkeliame −7: &nbsp; <span class="math">3x ≤ −10 + 7</span> &nbsp;&rArr;&nbsp; <span class="math">3x ≤ −3</span></div>
+      <div class="line">Dalijame iš 3: &nbsp; <span class="math">x ≤ −1</span> &nbsp;&rArr;&nbsp; <span class="res">(−∞; −1]</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Ženklo keitimas (dalijame iš neigiamo)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kai dalijame ar dauginame iš <b>neigiamo</b> skaičiaus, nelygybės ženklą keičiame priešingu (&lt; → &gt;, ≤ → ≥).</div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">−4x + 2 &gt; −3</span></div>
+      <div class="line">Perkeliame 2: &nbsp; <span class="math">−4x &gt; −3 − 2</span> &nbsp;&rArr;&nbsp; <span class="math">−4x &gt; −5</span></div>
+      <div class="line">Dalijame iš −4, <b>ženklas keičiasi</b>: &nbsp; <span class="math">x &lt; <span class="fr"><span>5</span><span>4</span></span></span> &nbsp;&rArr;&nbsp; <span class="res">(−∞; <span class="fr"><span>5</span><span>4</span></span>)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">−5x − 2 &lt; 3</span></div>
+      <div class="line">Perkeliame −2: &nbsp; <span class="math">−5x &lt; 5</span></div>
+      <div class="line">Dalijame iš −5, <b>ženklas keičiasi</b>: &nbsp; <span class="math">x &gt; −1</span> &nbsp;&rArr;&nbsp; <span class="res">(−1; +∞)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Laisvasis narys priekyje / kitoje pusėje</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> nesvarbu, kurioje pusėje parašytas narys su x. Susirenkame narį su x į vieną pusę, skaičius — į kitą, tada dalijame.</div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">18 + 4x &lt; −18</span></div>
+      <div class="line">Perkeliame 18: &nbsp; <span class="math">4x &lt; −18 − 18</span> &nbsp;&rArr;&nbsp; <span class="math">4x &lt; −36</span></div>
+      <div class="line">Dalijame iš 4: &nbsp; <span class="math">x &lt; −9</span> &nbsp;&rArr;&nbsp; <span class="res">(−∞; −9)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išspręsk: <span class="math">−8 ≤ 11x + 14</span></div>
+      <div class="line">Perkeliame 14: &nbsp; <span class="math">−8 − 14 ≤ 11x</span> &nbsp;&rArr;&nbsp; <span class="math">−22 ≤ 11x</span></div>
+      <div class="line">Dalijame iš 11: &nbsp; <span class="math">−2 ≤ x</span>, t. y. <span class="math">x ≥ −2</span> &nbsp;&rArr;&nbsp; <span class="res">[−2; +∞)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirma perkelk laisvą narį, tada dalyk iš koeficiento prie x. Jei dalini iš neigiamo — keisk nelygybės ženklą. Sprendinį užrašyk intervalu. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · Išspręsk ir užrašyk intervalą</div>
+    <div class="two">
+      <ol class="tasks">
+        <li><span class="math">3x − 7 ≤ −10</span></li>
+        <li><span class="math">0 &lt; 6 + 6x</span></li>
+        <li><span class="math">−1 + 2x ≥ 1</span></li>
+        <li><span class="math">6 ≥ −9 + 5x</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Su ženklo keitimu</div>
+    <div class="two">
+      <ol class="tasks" start="5">
+        <li><span class="math">−5x − 2 &lt; 3</span></li>
+        <li><span class="math">−11 &gt; 9x − 11</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">Sveikieji sprendiniai ir taikymas</div>
+    <ol class="tasks" start="7">
+      <li>Nelygybės <span class="math">2x + 3 ≥ 5</span> <b>mažiausias</b> sveikasis sprendinys.</li>
+      <li>Nelygybės <span class="math">3x + 2 ≤ 17</span> <b>didžiausias</b> sveikasis sprendinys.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 3x ≤ −3 ⇒ x ≤ −1; <span class="res">(−∞; −1]</span></div>
+    <div class="row"><b>2.</b> −6 &lt; 6x ⇒ x &gt; −1; <span class="res">(−1; +∞)</span></div>
+    <div class="row"><b>3.</b> 2x ≥ 2 ⇒ x ≥ 1; <span class="res">[1; +∞)</span></div>
+    <div class="row"><b>4.</b> 15 ≥ 5x ⇒ x ≤ 3; <span class="res">(−∞; 3]</span></div>
+    <div class="row"><b>5.</b> −5x &lt; 5 ⇒ x &gt; −1 (ženklas pakito); <span class="res">(−1; +∞)</span></div>
+    <div class="row"><b>6.</b> 0 &gt; 9x ⇒ x &lt; 0; <span class="res">(−∞; 0)</span></div>
+    <div class="row"><b>7.</b> 2x ≥ 2 ⇒ x ≥ 1 ⇒ mažiausias sveikasis <span class="res">1</span></div>
+    <div class="row"><b>8.</b> 3x ≤ 15 ⇒ x ≤ 5 ⇒ didžiausias sveikasis <span class="res">5</span></div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Paprastos nelygybės“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

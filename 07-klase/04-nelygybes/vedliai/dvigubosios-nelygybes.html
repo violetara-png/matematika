@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Dvigubosios nelygybės (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧭 Mokymosi asistentas „Rita“</h1>
+    <p>Tema: <b>Dvigubosios nelygybės</b> · 7 klasė · 4 skyrius „Nelygybės“</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rita</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu išmoksime spręsti <b>dvigubąsias nelygybes</b>, tokias kaip <b>a &lt; x ≤ b</b>. Tokia nelygybė reiškia sistemą {x &gt; a; x ≤ b} ir nusako <b>intervalą</b> skaičių tiesėje.<br><br>Pagrindinė gudrybė: pertvarkome <b>visas tris dalis</b> vienodai (kairę, vidurinę ir dešinę). O jei dalijame ar dauginame iš <b>neigiamo</b> skaičiaus, visų dalių <b>ženklai keičiasi</b> ir kraštinės sukeičiamos vietomis.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o skaičių įrašysi <b>tu pats</b>. Pabaigoje bus 8 klausimų testas.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('−')">−</button><button onclick="ins(',')">,</button><button onclick="ins('≤')">≤</button><button onclick="ins('<')"><</button><button onclick="ins('>')">></button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          Šaunuolis! Dabar — <b>8 klausimai</b>. Kiekviename išspręsk dvigubąją nelygybę ir įrašyk prašomą <b>skaičių</b> (didžiausią sveikąjį, mažiausią sveikąjį arba kiek sveikųjų tenkina). Gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo paprasčiausios dvigubosios nelygybės. Ji jau išspręsta — belieka perskaityti intervalą.", "expr": "2 &lt; x ≤ 6", "q": "Koks <b>didžiausias sveikasis</b> skaičius tenkina šią nelygybę? Įrašyk skaičių.", "accepted": ["6"], "hints": ["x turi būti didesnis už 2 ir kartu ne didesnis už 6. Ties kuria riba sustoja x iš viršaus?", "Ženklas ≤ 6 reiškia, kad ir <b>pati 6 tinka</b> (x gali būti lygus 6).", "Kadangi x ≤ 6 ir 6 leidžiama, didžiausias sveikasis yra pati viršutinė riba. Parašyk ją."]}, {"intro": "Dabar suskaičiuok, kiek sveikųjų telpa intervale. Būk atidus, kuri riba įeina, o kuri ne.", "expr": "−3 ≤ x &lt; 1", "q": "<b>Kiek sveikųjų</b> skaičių tenkina šią nelygybę? Įrašyk skaičių.", "accepted": ["4"], "hints": ["Ženklas ≤ prie −3 reiškia, kad <b>−3 įeina</b>; ženklas &lt; prie 1 reiškia, kad <b>1 neįeina</b>.", "Išvardyk sveikuosius iš eilės: pradėk nuo −3 ir eik iki tokio, kuris dar mažesnis už 1.", "Tinka −3, −2, −1, 0. Suskaičiuok, kiek jų yra."]}, {"intro": "Kylame aukščiau: dabar reikia <b>pertvarkyti</b>. Su visomis trimis dalimis atlik tą patį veiksmą.", "expr": "6 &lt; x + 2 &lt; 9", "q": "Pertvarkyk nelygybę ir rask <b>didžiausią sveikąjį</b> x. Įrašyk skaičių.", "accepted": ["6"], "hints": ["Viduryje yra x + 2. Kokį veiksmą atlikti su visomis trimis dalimis, kad viduryje liktų vien x?", "Iš visų trijų dalių atimk 2: kairė tampa 6 − 2, dešinė 9 − 2. Perskaičiuok abi ribas.", "Gavai 4 &lt; x &lt; 7. Kadangi ženklas prie 7 yra &lt; (7 neįeina), didžiausias sveikasis yra vienetu mažesnis. Parašyk jį."]}, {"intro": "Dabar — pati svarbiausia dalis: dalyba iš <b>neigiamo</b> skaičiaus. Stebėk ženklus.", "expr": "−4 ≤ 3 − 2x &lt; 1", "q": "Išspręsk nelygybę ir rask <b>mažiausią sveikąjį</b> x. Įrašyk skaičių.", "accepted": ["2"], "hints": ["Pirmiausia iš visų trijų dalių atimk 3, kad viduryje liktų vien −2x.", "Gauni −7 ≤ −2x &lt; −2. Dabar dalink visas tris dalis iš −2. Kas nutinka nelygybės ženklams, kai dalijame iš neigiamo?", "Dalijant iš −2 ženklai apsiverčia ir kraštinės sukeičiamos: gauni 1 &lt; x ≤ 3,5. Kadangi x &gt; 1 (1 neįeina), mažiausias sveikasis yra vienetu didesnis. Parašyk jį."]}, {"intro": "Paskutinė — jungia pertvarkymą, dalybą ir neigiamą atsakymą. Dirbk žingsnis po žingsnio.", "expr": "−11 &lt; 3x + 7 ≤ 1", "q": "Išspręsk nelygybę ir rask <b>didžiausią sveikąjį</b> x. Įrašyk skaičių.", "accepted": ["-2", "−2"], "hints": ["Iš visų trijų dalių atimk 7, kad viduryje liktų vien 3x.", "Gauni −18 &lt; 3x ≤ −6. Dabar dalink visas tris dalis iš 3 (teigiamas — ženklai NEsikeičia).", "Gauni −6 &lt; x ≤ −2. Kadangi x ≤ −2 ir −2 leidžiama, didžiausias sveikasis yra pati viršutinė riba. Ji neigiama — nepamiršk minuso."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Koks didžiausias sveikasis tenkina <span>1 &lt; x ≤ 5</span>? Įrašyk skaičių.", "acc": ["5"], "hint": "x ≤ 5 ir 5 įeina — didžiausias sveikasis yra viršutinė riba."}, {"t": "Koks didžiausias sveikasis tenkina <span>−2 ≤ x &lt; 3</span>? Įrašyk skaičių.", "acc": ["2"], "hint": "Ženklas &lt; 3 reiškia, kad 3 neįeina, todėl imk vienetu mažesnį."}, {"t": "Kiek sveikųjų tenkina <span>−1 &lt; x ≤ 3</span>? Įrašyk skaičių.", "acc": ["4"], "hint": "Tinka 0, 1, 2, 3 (−1 neįeina, 3 įeina)."}, {"t": "Kiek sveikųjų tenkina <span>−3 &lt; x &lt; 2</span>? Įrašyk skaičių.", "acc": ["4"], "hint": "Tinka −2, −1, 0, 1 (abi ribos neįeina)."}, {"t": "Pertvarkyk <span>6 &lt; x + 2 &lt; 9</span> ir rask didžiausią sveikąjį x.", "acc": ["6"], "hint": "Atimk 2 iš visų trijų dalių: 4 &lt; x &lt; 7. Riba 7 neįeina."}, {"t": "Išspręsk <span>−6 &lt; x − 4 ≤ −1</span> ir rask mažiausią sveikąjį x.", "acc": ["-1"], "hint": "Pridėk 4 prie visų trijų dalių: −2 &lt; x ≤ 3. Riba −2 neįeina."}, {"t": "Išspręsk <span>−4 ≤ 3 − 2x &lt; 1</span> ir rask mažiausią sveikąjį x.", "acc": ["2"], "hint": "Atimk 3, dalink iš −2 (ženklai apsiverčia): 1 &lt; x ≤ 3,5."}, {"t": "Išspręsk <span>−11 &lt; 3x + 7 ≤ 1</span> ir rask didžiausią sveikąjį x.", "acc": ["-2", "−2"], "hint": "Atimk 7, dalink iš 3: −6 &lt; x ≤ −2. Viršutinė riba įeina."}]}, {"label": "variantas B", "qs": [{"t": "Koks didžiausias sveikasis tenkina <span>2 &lt; x ≤ 7</span>? Įrašyk skaičių.", "acc": ["7"], "hint": "x ≤ 7 ir 7 įeina — didžiausias sveikasis yra viršutinė riba."}, {"t": "Koks didžiausias sveikasis tenkina <span>−4 ≤ x &lt; 1</span>? Įrašyk skaičių.", "acc": ["0"], "hint": "Ženklas &lt; 1 reiškia, kad 1 neįeina, todėl imk vienetu mažesnį."}, {"t": "Kiek sveikųjų tenkina <span>0 &lt; x ≤ 4</span>? Įrašyk skaičių.", "acc": ["4"], "hint": "Tinka 1, 2, 3, 4 (0 neįeina, 4 įeina)."}, {"t": "Kiek sveikųjų tenkina <span>−2 &lt; x &lt; 3</span>? Įrašyk skaičių.", "acc": ["4"], "hint": "Tinka −1, 0, 1, 2 (abi ribos neįeina)."}, {"t": "Pertvarkyk <span>5 &lt; x + 3 &lt; 10</span> ir rask didžiausią sveikąjį x.", "acc": ["6"], "hint": "Atimk 3 iš visų trijų dalių: 2 &lt; x &lt; 7. Riba 7 neįeina."}, {"t": "Išspręsk <span>−5 &lt; x − 2 ≤ 0</span> ir rask mažiausią sveikąjį x.", "acc": ["-2"], "hint": "Pridėk 2 prie visų trijų dalių: −3 &lt; x ≤ 2. Riba −3 neįeina."}, {"t": "Išspręsk <span>−2 ≤ 5 − 3x &lt; 8</span> ir rask mažiausią sveikąjį x.", "acc": ["0"], "hint": "Atimk 5, dalink iš −3 (ženklai apsiverčia): −1 &lt; x ≤ 7/3."}, {"t": "Išspręsk <span>−7 &lt; 2x + 3 ≤ 1</span> ir rask didžiausią sveikąjį x.", "acc": ["-1", "−1"], "hint": "Atimk 3, dalink iš 2: −5 &lt; x ≤ −1. Viršutinė riba įeina."}]}, {"label": "variantas C", "qs": [{"t": "Koks didžiausias sveikasis tenkina <span>0 &lt; x ≤ 8</span>? Įrašyk skaičių.", "acc": ["8"], "hint": "x ≤ 8 ir 8 įeina — didžiausias sveikasis yra viršutinė riba."}, {"t": "Koks didžiausias sveikasis tenkina <span>−5 ≤ x &lt; 2</span>? Įrašyk skaičių.", "acc": ["1"], "hint": "Ženklas &lt; 2 reiškia, kad 2 neįeina, todėl imk vienetu mažesnį."}, {"t": "Kiek sveikųjų tenkina <span>1 ≤ x &lt; 5</span>? Įrašyk skaičių.", "acc": ["4"], "hint": "Tinka 1, 2, 3, 4 (1 įeina, 5 neįeina)."}, {"t": "Kiek sveikųjų tenkina <span>−4 &lt; x ≤ −1</span>? Įrašyk skaičių.", "acc": ["3"], "hint": "Tinka −3, −2, −1 (−4 neįeina, −1 įeina)."}, {"t": "Pertvarkyk <span>4 &lt; x + 1 &lt; 9</span> ir rask didžiausią sveikąjį x.", "acc": ["7"], "hint": "Atimk 1 iš visų trijų dalių: 3 &lt; x &lt; 8. Riba 8 neįeina."}, {"t": "Išspręsk <span>−8 &lt; x − 5 ≤ −2</span> ir rask mažiausią sveikąjį x.", "acc": ["-2"], "hint": "Pridėk 5 prie visų trijų dalių: −3 &lt; x ≤ 3. Riba −3 neįeina."}, {"t": "Išspręsk <span>−1 ≤ 4 − 2x &lt; 6</span> ir rask mažiausią sveikąjį x.", "acc": ["0"], "hint": "Atimk 4, dalink iš −2 (ženklai apsiverčia): −1 &lt; x ≤ 2,5."}, {"t": "Išspręsk <span>−13 &lt; 4x + 3 ≤ −1</span> ir rask didžiausią sveikąjį x.", "acc": ["-1", "−1"], "hint": "Atimk 3, dalink iš 4: −4 &lt; x ≤ −1. Viršutinė riba įeina."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

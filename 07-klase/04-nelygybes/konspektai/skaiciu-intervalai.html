@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių intervalai · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; line-height:1.05}
+  .frac .n{border-bottom:1.5px solid currentColor; padding:0 3px}
+  .frac .d{padding:0 3px}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  .os{margin:14px 0 2px}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  /* skaičių tiesės brėžinys */
+  .tiese{margin:12px 0 2px}
+  .tiese svg{display:block; max-width:100%; height:auto; margin:0 auto}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių intervalai</h1>
+  <p class="klase">Matematika · 7 klasė · Nelygybės · nelygybės sprendinių aibė skaičių tiesėje ir intervalo žymėjimas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Atviras ir uždaras intervalas</a></li>
+      <li><a href="#t2">Pusiau atviri intervalai</a></li>
+      <li><a href="#t3">Intervalai su begalybe ∞</a></li>
+      <li><a href="#t4">Sveikieji skaičiai intervale</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Atviras ir uždaras intervalas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Skaičių intervalas</b> — tai visi skaičių tiesės skaičiai, esantys tarp dviejų galų. Nelygybę su <span class="math">x</span> galima trumpai užrašyti <b>intervalu</b>.</p>
+        <p>Jei galai <b>NEįeina</b> (griežtoji nelygybė <span class="zenk">&lt;</span>), intervalas vadinamas <span class="term-a">atviru</span> ir žymimas <b>apvaliais</b> skliaustais. Tiesėje galai piešiami <b>tuščiaviduriais</b> (baltais) taškais.</p>
+        <div class="formule math">−2 &lt; x &lt; 5 &nbsp;→&nbsp; (−2; 5)</div>
+        <div class="tiese">
+          <svg viewBox="0 0 480 60" role="img" aria-label="Atviras intervalas nuo −2 iki 5">
+            <line x1="20" y1="34" x2="460" y2="34" stroke="#5b6472" stroke-width="2"/>
+            <polygon points="460,34 450,29 450,39" fill="#5b6472"/>
+            <line x1="150" y1="34" x2="330" y2="34" stroke="#1e5fa8" stroke-width="5"/>
+            <circle cx="150" cy="34" r="7" fill="#fff" stroke="#1e5fa8" stroke-width="3"/>
+            <circle cx="330" cy="34" r="7" fill="#fff" stroke="#1e5fa8" stroke-width="3"/>
+            <text x="150" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">−2</text>
+            <text x="330" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">5</text>
+          </svg>
+        </div>
+        <p>Jei galai <b>įeina</b> (negriežtoji nelygybė <span class="zenk">≤</span>), intervalas vadinamas <span class="term-b">uždaru</span> ir žymimas <b>laužtiniais</b> skliaustais. Tiesėje galai piešiami <b>pilnaviduriais</b> (užpildytais) taškais.</p>
+        <div class="formule math">−2 ≤ x ≤ 5 &nbsp;→&nbsp; [−2; 5]</div>
+        <div class="tiese">
+          <svg viewBox="0 0 480 60" role="img" aria-label="Uždaras intervalas nuo −2 iki 5">
+            <line x1="20" y1="34" x2="460" y2="34" stroke="#5b6472" stroke-width="2"/>
+            <polygon points="460,34 450,29 450,39" fill="#5b6472"/>
+            <line x1="150" y1="34" x2="330" y2="34" stroke="#1e5fa8" stroke-width="5"/>
+            <circle cx="150" cy="34" r="7" fill="#1e5fa8"/>
+            <circle cx="330" cy="34" r="7" fill="#1e5fa8"/>
+            <text x="150" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">−2</text>
+            <text x="330" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">5</text>
+          </svg>
+        </div>
+        <p class="demesio"><b>Atmink.</b> <b>Apvalus</b> skliaustas ( ) — galas <b>neįeina</b> (tuščiaviduris taškas). <b>Laužtinis</b> skliaustas [ ] — galas <b>įeina</b> (pilnaviduris taškas).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Pusiau atviri intervalai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Dažnai vienas galas įeina, o kitas ne. Toks intervalas vadinamas <b>pusiau atviru</b>: prie įeinančio galo rašomas laužtinis skliaustas, prie neįeinančio — apvalus.</p>
+        <table class="kort">
+          <tr><th>Nelygybė</th><th>Intervalas</th><th>Kuris galas įeina</th></tr>
+          <tr><td class="math">−2 ≤ x &lt; 5</td><td class="math">[−2; 5)</td><td>kairysis (−2)</td></tr>
+          <tr><td class="math">−2 &lt; x ≤ 5</td><td class="math">(−2; 5]</td><td>dešinysis (5)</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">−3 ≤ x &lt; 4</span> → <span class="gerai math">[−3; 4)</span>: skaičius −3 <b>įeina</b> (laužtinis), o 4 <b>neįeina</b> (apvalus).</p>
+        <div class="tiese">
+          <svg viewBox="0 0 480 60" role="img" aria-label="Pusiau atviras intervalas nuo −3 iki 4">
+            <line x1="20" y1="34" x2="460" y2="34" stroke="#5b6472" stroke-width="2"/>
+            <polygon points="460,34 450,29 450,39" fill="#5b6472"/>
+            <line x1="130" y1="34" x2="350" y2="34" stroke="#1e5fa8" stroke-width="5"/>
+            <circle cx="130" cy="34" r="7" fill="#1e5fa8"/>
+            <circle cx="350" cy="34" r="7" fill="#fff" stroke="#1e5fa8" stroke-width="3"/>
+            <text x="130" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">−3</text>
+            <text x="350" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">4</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Intervalai su begalybe ∞</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai nelygybėje tik vienas galas (pvz. <span class="math">x &gt; 3</span>), skaičių eilė tęsiasi be pabaigos. Tada rašome <b>begalybės</b> ženklą: <span class="math">+∞</span> (į dešinę) arba <span class="math">−∞</span> (į kairę).</p>
+        <table class="kort">
+          <tr><th>Nelygybė</th><th>Intervalas</th></tr>
+          <tr><td class="math">x &gt; a</td><td class="math">(a; +∞)</td></tr>
+          <tr><td class="math">x ≥ a</td><td class="math">[a; +∞)</td></tr>
+          <tr><td class="math">x &lt; a</td><td class="math">(−∞; a)</td></tr>
+          <tr><td class="math">x ≤ a</td><td class="math">(−∞; a]</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">x &gt; 3</span> → <span class="gerai math">(3; +∞)</span>; &nbsp; <span class="math">x ≤ −1</span> → <span class="gerai math">(−∞; −1]</span>.</p>
+        <div class="tiese">
+          <svg viewBox="0 0 480 60" role="img" aria-label="Intervalas nuo 3 iki begalybės">
+            <line x1="20" y1="34" x2="460" y2="34" stroke="#5b6472" stroke-width="2"/>
+            <polygon points="460,34 450,29 450,39" fill="#5b6472"/>
+            <line x1="200" y1="34" x2="455" y2="34" stroke="#1e5fa8" stroke-width="5"/>
+            <circle cx="200" cy="34" r="7" fill="#fff" stroke="#1e5fa8" stroke-width="3"/>
+            <text x="200" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">3</text>
+          </svg>
+        </div>
+        <p class="demesio"><b>Dėmesio.</b> Prie <span class="math">∞</span> <b>visada</b> rašomas <b>apvalus</b> skliaustas: begalybė nėra skaičius, jos „pasiekti“ negalima. Todėl niekada nerašome <span class="math klaida">[+∞]</span>. Visa skaičių tiesė: <span class="math">−∞ &lt; x &lt; +∞</span> → <span class="gerai math">(−∞; +∞)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Sveikieji skaičiai intervale</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Dažnai reikia nurodyti, kokie <b>sveikieji</b> skaičiai priklauso intervalui: didžiausią, mažiausią arba kiek jų iš viso. Svarbu žiūrėti, ar galas <b>įeina</b>, ar ne.</p>
+        <p class="pvz"><b>Pavyzdys 1.</b> Intervale <span class="math">(−3; 5]</span>:<br>
+        didžiausias sveikasis = <span class="gerai">5</span> (5 įeina, nes laužtinis skliaustas);<br>
+        mažiausias sveikasis = <span class="gerai">−2</span> (−3 <b>neįeina</b>, todėl imame kitą — −2).</p>
+        <p class="pvz"><b>Pavyzdys 2.</b> Intervale <span class="math">[−3; 4)</span> sveikieji skaičiai: <span class="gerai math">−3, −2, −1, 0, 1, 2, 3</span> — iš viso <b>7</b> (skaičius 4 neįeina).</p>
+        <p class="demesio"><b>Patarimas.</b> Sveikuosius patogu suskaičiuoti nubraižius skaičių tiesę arba tiesiog vardijant iš eilės nuo mažiausio įeinančio iki didžiausio įeinančio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">−2 ≤ x &lt; 5 → (−2; 5)</td><td class="gerai">−2 ≤ x &lt; 5 → [−2; 5)</td></tr>
+          <tr><td class="klaida">x &gt; 3 → [3; +∞)</td><td class="gerai">x &gt; 3 → (3; +∞)</td></tr>
+          <tr><td class="klaida">x ≤ a → (−∞; a)</td><td class="gerai">x ≤ a → (−∞; a]</td></tr>
+          <tr><td class="klaida">(3; +∞] su laužtiniu prie ∞</td><td class="gerai">(3; +∞) — prie ∞ visada apvalus</td></tr>
+          <tr><td class="klaida">maž. sveikasis (−3; 5] yra −3</td><td class="gerai">maž. sveikasis (−3; 5] yra −2</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmiausia pažiūrėk į <b>ženklą</b>: <span class="math">&lt;</span> arba <span class="math">&gt;</span> → apvalus skliaustas (galas neįeina); <span class="math">≤</span> arba <span class="math">≥</span> → laužtinis skliaustas (galas įeina). Prie <span class="math">∞</span> — visada apvalus.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Skaičių intervalai“
+  </footer>
+
+</div>
+</body>
+</html>
