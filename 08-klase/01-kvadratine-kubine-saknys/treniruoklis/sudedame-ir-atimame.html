@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: šaknų sudėtis ir atimtis (8 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: šaknų sudėtis ir atimtis (8 klasė)</h1>
+    <p id="paantraste">1.5 Sudedame ir atimame · 8 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Šakninių dėmenų sudėtis ir atimtis — generatoriai (8 kl., 1.5 tema).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Jų IŠ NAUJO NEAPIBRĖŽIU.
+//
+// ATSAKYMAS: gauto (panašaus) šaknies dėmens KOEFICIENTAS — vienas sveikas
+// skaičius. Kur lieka nepanašus dėmuo ar sveikoji dalis, jie parodomi prie
+// įvesties laukelio (pre) ir sprendime, o mokinys įrašo tik ieškomą koeficientą.
+// Kai šaknys susinaikina, atsakymas — sveikasis skaičius.
+
+const KV  = [2, 3, 5, 6, 7, 10, 11, 13, 14, 15];  // kvadratinių šaknų radikalai
+const KUB = [2, 3, 4, 5, 7, 9, 10, 11];           // kubinių šaknų radikalai
+
+// vedantis dėmuo: 5√3, −3√5, √6, −√6
+function coefRad(c, r){
+  if(c === 1)  return r;
+  if(c === -1) return '−' + r;
+  return nf(c) + r;
+}
+// tolesnis dėmuo su ženklu: „+ 3√3", „− √3", „+ 2∛5"
+function signTerm(c, r){
+  const s = c < 0 ? '− ' : '+ ';
+  const a = Math.abs(c);
+  return s + (a === 1 ? r : a + r);
+}
+// sveikasis dėmuo su ženklu: „+ 5", „− 12"
+function signInt(n){
+  return (n < 0 ? '− ' : '+ ') + Math.abs(n);
+}
+// du skirtingi radikalai iš to paties sąrašo
+function pickTwo(arr){ const x = choice(arr); let y; do{ y = choice(arr); }while(y === x); return [x, y]; }
+
+const GENERATORIAI = [
+
+  // 1) Panašūs dėmenys (du): a√k ± b√k = (a±b)√k
+  { label:"Panašūs dėmenys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 9);
+      let b, ans;
+      do{ b = nz(-9, 9); ans = a + b; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)}`,
+          `Šaknis ${R} ta pati, todėl ${b < 0 ? 'atimame' : 'sudedame'} koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 2) Nematomas koeficientas 1: √k = 1·√k
+  { label:"Nematomas koeficientas 1", gen(){
+      const k = choice(KV), R = '√' + k;
+      const forms = [
+        () => ({ a: 1,  b: 1 }),                       // √k + √k
+        () => ({ a: randint(2, 9), b: -1 }),           // c√k − √k
+        () => ({ a: 1,  b: randint(2, 9) }),           // √k + c√k
+        () => ({ a: -1, b: randint(2, 9) })            // −√k + c√k
+      ];
+      const { a, b } = choice(forms)();
+      const ans = a + b;
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)}`,
+          `Primink: ${R} = 1·${R}, todėl koeficientas prie tokio dėmens yra 1.`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 3) Trys panašūs dėmenys
+  { label:"Trys panašūs dėmenys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 9);
+      let b, c, ans;
+      do{ b = nz(-8, 8); c = nz(-8, 8); ans = a + b + c; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+          `Visi dėmenys turi tą pačią šaknį ${R} — sudedame (atimame) koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 4) Kubinės šaknys ∛
+  { label:"Kubinės šaknys ∛", gen(){
+      const k = choice(KUB), R = '∛' + k;
+      const trys = choice([false, true]);
+      if(!trys){
+        const a = randint(2, 8);
+        let b, ans;
+        do{ b = nz(-8, 8); ans = a + b; }while(ans === 0);
+        return {
+          q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+          ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+          steps: [
+            `${coefRad(a, R)} ${signTerm(b, R)}`,
+            `Ta pati taisyklė galioja ir kubinėms šaknims — sudedame koeficientus, ${R} lieka:`,
+            `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+          ]
+        };
+      }
+      const a = randint(1, 5);
+      let b, c, ans;
+      do{ b = nz(-5, 5); c = nz(-5, 5); ans = a + b + c; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+          `Visi dėmenys su ta pačia kubine šaknimi ${R} — sudedame koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 5) Mišrus: panašūs + nepanašūs (skirtingos šaknys) — nepanašios nesujungiamos
+  { label:"Panašūs ir nepanašūs", gen(){
+      const [k, m] = pickTwo(KV);
+      const R = '√' + k, Rm = '√' + m;
+      const a = randint(2, 7);
+      let c, ans;
+      do{ c = nz(-6, 6); ans = a + c; }while(ans === 0);
+      const b = randint(2, 5);  // nepanašaus dėmens koeficientas (lieka nepakeistas)
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, Rm)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} + ${b}${Rm}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, Rm)} ${signTerm(c, R)}`,
+          `${Rm} nepanaši su ${R} (skirtingos šaknys), todėl jos neliečiame.`,
+          `Sudedame tik ${R} dėmenis: (${nf(a)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`,
+          `= ${coefRad(ans, R)} + ${b}${Rm}`
+        ]
+      };
+  }},
+
+  // 6) Sveikieji ir šaknys — atskirai (ieškom šaknies koeficiento)
+  { label:"Sveikieji ir šaknys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 8);
+      let b, ans;
+      do{ b = nz(-7, 7); ans = a + b; }while(ans === 0);
+      let p, qn, intPart;
+      do{ p = nz(-12, 12); qn = nz(-12, 12); intPart = p + qn; }while(intPart === 0);
+      return {
+        q: `${coefRad(a, R)} ${signInt(p)} ${signTerm(b, R)} ${signInt(qn)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} ${signInt(intPart)}`,
+        steps: [
+          `${coefRad(a, R)} ${signInt(p)} ${signTerm(b, R)} ${signInt(qn)}`,
+          `Grupuoju atskirai: šaknis su šaknimis, sveikuosius su sveikaisiais.`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} + (${nf(p)} ${qn < 0 ? '−' : '+'} ${Math.abs(qn)})`,
+          `= ${coefRad(ans, R)} ${signInt(intPart)}`
+        ]
+      };
+  }},
+
+  // 7) Kai šaknys susinaikina — atsakymas sveikasis skaičius
+  { label:"Kai šaknys susinaikina", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 7);
+      let p, qn, ans;
+      do{ p = nz(-12, 12); qn = nz(-12, 12); ans = p + qn; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signInt(p)} ${signTerm(-a, R)} ${signInt(qn)}`,
+        ans, ansText: nf(ans), pre: `= ___`,
+        steps: [
+          `${coefRad(a, R)} ${signInt(p)} ${signTerm(-a, R)} ${signInt(qn)}`,
+          `Šaknys susinaikina: ${a}${R} − ${a}${R} = 0.`,
+          `Lieka tik sveikieji: ${nf(p)} ${qn < 0 ? '−' : '+'} ${Math.abs(qn)} = ${nf(ans)}`
+        ]
+      };
+  }},
+
+  // 8) Kvadratinės ir kubinės kartu — skirtingi laipsniai nesujungiami
+  { label:"Kvadratinės ir kubinės kartu", gen(){
+      const k = choice(KV), R = '√' + k;
+      const m = choice(KUB), Rc = '∛' + m;
+      const a = randint(2, 6);
+      let c, ans;
+      do{ c = nz(-5, 6); ans = a + c; }while(ans === 0);
+      const b = randint(2, 4);  // kubinės šaknies koeficientas (lieka nepakeistas)
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, Rc)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} + ${b}${Rc}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, Rc)} ${signTerm(c, R)}`,
+          `${Rc} yra kubinė šaknis — nepanaši su kvadratine ${R} (skirtingi laipsniai). Jos neliečiame.`,
+          `Sudedame tik ${R}: (${nf(a)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`,
+          `= ${coefRad(ans, R)} + ${b}${Rc}`
+        ]
+      };
+  }}
+
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: šaknų sudėtis ir atimtis (8 klasė)", "subtitle": "1.5 Sudedame ir atimame · 8 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "= ___", "simboliai": ["−"]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').textContent = S.dabartinis.q;
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || nf(p.ans); }
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const val = parseVal($('atsakymas').value);
+  if(isNaN(val)){ $('atsakymas').focus(); return; }
+  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
+  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
