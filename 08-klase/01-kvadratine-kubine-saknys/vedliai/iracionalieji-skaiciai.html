@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi vedlys — Iracionalieji skaičiai (8 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧭 Mokymosi vedlys „Rasa“</h1>
+    <p>Tema: <b>Iracionalieji skaičiai</b> · 8 klasė · 1 skyrius „Kvadratinė ir kubinė šaknys“</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rasa</div>
+        Sveika(s)! Aš — tavo mokymosi vedlė Rasa. Kartu suprasime <b>iracionaliuosius skaičius</b>: kada šaknis racionali, o kada ne, kaip rasti, tarp kurių gretimų sveikųjų yra šaknis, ir prie kurio sveikojo ji arčiau skaičių tiesėje.<br><br>Svarbu: <b>gatavo atsakymo aš neduosiu</b>. Vesiu tave klausimais ir vis stipresnėmis užuominomis, o atsakymą surasi <b>tu pati(s)</b>. Pabaigoje — įsivertinimo testas, kad pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rasa</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('R')">R</button><button onclick="ins('I')">I</button><button onclick="ins('√')">√</button><button onclick="ins('∛')">∛</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rasa</div>
+          Šaunu! Dabar — <b>10 klausimų</b> testas. Atsakyk pati(s), o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br>Kur klausiama „racionalu ar iracionalu“, rašyk raidę <b>R</b> arba <b>I</b>. Kitur rašyk <b>sveikąjį skaičių</b> (pvz. 7).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo <b>atpažinimo</b>. Kvadratinė šaknis √a yra <b>racionali</b> tik tada, kai a yra tikslus kvadratas (1, 4, 9, 16, 25, 36, …). Kitaip ji <b>iracionali</b>.", "expr": "√50", "q": "Ar tai racionalusis (R), ar iracionalusis (I) skaičius? Įrašyk R arba I.", "accepted": ["I", "iracionalusis", "iracionalu", "iracionalus"], "hints": ["Paklausk savęs: ar 50 yra tikslus kvadratas, t. y. ar yra sveikasis skaičius, kurį padauginus iš savęs gaunama tiksliai 50?", "Artimiausi tikslūs kvadratai yra 49 ir 64. Skaičius 50 nei vienam iš jų nelygus.", "Jei 50 nėra tikslus kvadratas, tai √50 negalima užrašyti sveikuoju skaičiumi nei trupmena. Kokie tada tokie skaičiai vadinami?"]}, {"intro": "O dabar — <b>kada šaknis racionali</b>. Jei skaičius po šaknimi yra tikslus kvadratas, šaknį galima ištraukti ir gauti sveikąjį skaičių.", "expr": "√144", "q": "Apskaičiuok šios šaknies tikslią reikšmę.", "accepted": ["12"], "hints": ["Ieškome sveikojo skaičiaus, kurį padauginus iš savęs (pakėlus kvadratu) gaunama tiksliai 144.", "Pabandyk paeiliui: 11² = 121, tai per mažai. Kitas skaičius jau bus didesnis.", "Patikrink 12 ir 13: kuris jų, pakeltas kvadratu, duoda būtent 144? Tas skaičius ir yra atsakymas."]}, {"intro": "Iracionaliosios šaknies tikslios reikšmės neužrašysim, bet galim pasakyti, <b>tarp kurių dviejų gretimų sveikųjų</b> ji yra. Ieškom artimiausių tikslių kvadratų iš abiejų pusių.", "expr": "√35", "q": "Koks yra MAŽESNYSIS iš dviejų gretimų sveikųjų, tarp kurių yra √35?", "accepted": ["5"], "hints": ["Rask tikslų kvadratą, kuris yra tik šiek tiek MAŽESNIS už 35, ir kitą, kuris tik šiek tiek DIDESNIS už 35.", "Iš apačios artimiausias tikslus kvadratas yra 25, iš viršaus — 36. Vadinasi, 25 < 35 < 36.", "Kadangi 25 < 35 < 36, tai √25 < √35 < √36. Apskaičiuok √25 — tai ir bus mažesnysis sveikasis."]}, {"intro": "Kai žinai, tarp kurių sveikųjų yra šaknis, gali pasakyti, <b>prie kurio jų ji arčiau</b> skaičių tiesėje. Žiūrim, prie kurio tikslaus kvadrato skaičius po šaknimi arčiau.", "expr": "√35", "q": "Prie kurio sveikojo skaičiaus √35 yra ARČIAU skaičių tiesėje? Įrašyk tą sveikąjį.", "accepted": ["6"], "hints": ["Jau žinom: √35 yra tarp 5 ir 6, nes 25 < 35 < 36. Reikia nuspręsti, prie kurio galo ji arčiau.", "Palygink: skaičius 35 yra arčiau 25 ar arčiau 36? Prie kurio tikslaus kvadrato jis arčiau, prie to sveikojo ir bus arčiau šaknis.", "35 yra vos per 1 nutolęs nuo 36, o nuo 25 net per 10. Vadinasi, √35 beveik prie pat viršutinio sveikojo. Kuris jis?"]}, {"intro": "Paskutinė — su <b>kubine šaknimi</b>. Čia lyginam ne su kvadratais, o su tikslaisiais kubais (1, 8, 27, 64, 125, …). Būk atidi(us)!", "expr": "∛20", "q": "Koks yra MAŽESNYSIS iš dviejų gretimų sveikųjų, tarp kurių yra ∛20?", "accepted": ["2"], "hints": ["Šįkart ieškom ne kvadratų, o tikslių KUBŲ, esančių iš abiejų 20 pusių.", "Artimiausi tikslūs kubai: 8 = 2³ (iš apačios) ir 27 = 3³ (iš viršaus). Taigi 8 < 20 < 27.", "Kadangi 8 < 20 < 27, tai ∛8 < ∛20 < ∛27. Apskaičiuok ∛8 — tai ir bus mažesnysis sveikasis."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Racionalusis (R) ar iracionalusis (I): <span>√64</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 64 tikslus kvadratas? 8·8 = 64."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>√20</span>?", "acc": ["I", "iracionalusis", "iracionalu", "iracionalus"], "hint": "20 nėra tikslus kvadratas (16 ir 25 gretimi)."}, {"t": "Apskaičiuok tikslią reikšmę: <span>√169</span>.", "acc": ["13"], "hint": "Koks skaičius kvadratu duoda 169? Tarp 12 ir 14."}, {"t": "Apskaičiuok tikslią reikšmę: <span>∛27</span>.", "acc": ["3"], "hint": "Koks skaičius kubu duoda 27? 3·3·3."}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>√50</span>?", "acc": ["7"], "hint": "49 < 50 < 64, tad √49 < √50 < √64."}, {"t": "Koks DIDESNYSIS gretimas sveikasis, tarp kurių yra <span>√30</span>?", "acc": ["6"], "hint": "25 < 30 < 36, tad √25 < √30 < √36."}, {"t": "Prie kurio sveikojo <span>√17</span> arčiau skaičių tiesėje?", "acc": ["4"], "hint": "16 < 17 < 25; 17 arti 16 ar arti 25?"}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>∛30</span>?", "acc": ["3"], "hint": "Kubai: 27 < 30 < 64, tad ∛27 < ∛30 < ∛64."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>∛64</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 64 tikslus kubas? 4·4·4 = 64."}, {"t": "Kvadrato plotas 45 cm². Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra kraštinė <span>√45</span> cm?", "acc": ["6"], "hint": "36 < 45 < 49, tad √36 < √45 < √49."}]}, {"label": "variantas B", "qs": [{"t": "Racionalusis (R) ar iracionalusis (I): <span>√81</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 81 tikslus kvadratas? 9·9 = 81."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>√35</span>?", "acc": ["I", "iracionalusis", "iracionalu", "iracionalus"], "hint": "35 nėra tikslus kvadratas (25 ir 36 gretimi)."}, {"t": "Apskaičiuok tikslią reikšmę: <span>√196</span>.", "acc": ["14"], "hint": "Koks skaičius kvadratu duoda 196? Tarp 13 ir 15."}, {"t": "Apskaičiuok tikslią reikšmę: <span>∛8</span>.", "acc": ["2"], "hint": "Koks skaičius kubu duoda 8? 2·2·2."}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>√75</span>?", "acc": ["8"], "hint": "64 < 75 < 81, tad √64 < √75 < √81."}, {"t": "Koks DIDESNYSIS gretimas sveikasis, tarp kurių yra <span>√40</span>?", "acc": ["7"], "hint": "36 < 40 < 49, tad √36 < √40 < √49."}, {"t": "Prie kurio sveikojo <span>√23</span> arčiau skaičių tiesėje?", "acc": ["5"], "hint": "16 < 23 < 25; 23 arti 16 ar arti 25?"}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>∛50</span>?", "acc": ["3"], "hint": "Kubai: 27 < 50 < 64, tad ∛27 < ∛50 < ∛64."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>∛125</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 125 tikslus kubas? 5·5·5 = 125."}, {"t": "Kvadrato plotas 55 cm². Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra kraštinė <span>√55</span> cm?", "acc": ["7"], "hint": "49 < 55 < 64, tad √49 < √55 < √64."}]}, {"label": "variantas C", "qs": [{"t": "Racionalusis (R) ar iracionalusis (I): <span>√100</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 100 tikslus kvadratas? 10·10 = 100."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>√8</span>?", "acc": ["I", "iracionalusis", "iracionalu", "iracionalus"], "hint": "8 nėra tikslus kvadratas (4 ir 9 gretimi)."}, {"t": "Apskaičiuok tikslią reikšmę: <span>√225</span>.", "acc": ["15"], "hint": "Koks skaičius kvadratu duoda 225? Tarp 14 ir 16."}, {"t": "Apskaičiuok tikslią reikšmę: <span>∛125</span>.", "acc": ["5"], "hint": "Koks skaičius kubu duoda 125? 5·5·5."}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>√90</span>?", "acc": ["9"], "hint": "81 < 90 < 100, tad √81 < √90 < √100."}, {"t": "Koks DIDESNYSIS gretimas sveikasis, tarp kurių yra <span>√55</span>?", "acc": ["8"], "hint": "49 < 55 < 64, tad √49 < √55 < √64."}, {"t": "Prie kurio sveikojo <span>√48</span> arčiau skaičių tiesėje?", "acc": ["7"], "hint": "36 < 48 < 49; 48 arti 36 ar arti 49?"}, {"t": "Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra <span>∛70</span>?", "acc": ["4"], "hint": "Kubai: 64 < 70 < 125, tad ∛64 < ∛70 < ∛125."}, {"t": "Racionalusis (R) ar iracionalusis (I): <span>∛27</span>?", "acc": ["R", "racionalusis", "racionalu", "racionalus"], "hint": "Ar 27 tikslus kubas? 3·3·3 = 27."}, {"t": "Kvadrato plotas 20 cm². Koks MAŽESNYSIS gretimas sveikasis, tarp kurių yra kraštinė <span>√20</span> cm?", "acc": ["4"], "hint": "16 < 20 < 25, tad √16 < √20 < √25."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

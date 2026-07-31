@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · Iracionalieji skaičiai · 8 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(20px,4vw,28px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:22px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:44px;height:56px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:26px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(360px,92%);padding:15px;font-size:26px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Realiųjų skaičių laboratorija · Sektorius √</span>
+    <h1>Iracionaliųjų skaičių <span class="amber">labirintas</span></h1>
+    <div class="sub">Pabėgimo kambarys · Iracionalieji skaičiai · 8 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Detektyve,</span> tave užrakino profesoriaus Šaknicko laboratorijoje,
+      kur saugomi patys keisčiausi skaičiai — tie, kurių niekaip neužrašysi tvarkinga trupmena.
+      Ant durų mirksi žinutė:</p>
+      <p style="margin:12px 0 0"><i>„Dešimt seifų skiria tave nuo laisvės. Kiekvienas atrakinamas
+      teisingu skaičiumi ir atskleidžia po vieną pabėgimo kodo skaitmenį. Neapsigauk: kartais šaknis
+      išsitraukia gražiai, o kartais lieka iracionali ir teks ieškoti, tarp kurių sveikųjų ji telpa."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės. Tyliai. Laikas bėga.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 seifų.</b> Atrakinami iš eilės sprendžiant šaknų uždavinius.</div>
+      <div class="rule"><b>🔢 Kiekvienas seifas</b> duoda po vieną pabėgimo kodo skaitmenį (0–9).</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda — jį randi pats.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis detektyvo rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti pabėgimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Pabėgimo durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 seifo):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏃💨</div>
+    <h2>Pabėgai iš laboratorijos!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, tu dingai koridoriuje.
+      Iracionalieji skaičiai tavęs nebegąsdina: tu žinai, kada šaknis „graži“, o kada — begalinė ir neperiodinė.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · matematikos pabėgimo kambarys · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Šaknis iracionali, todėl tikslios reikšmės nebus. Ieškok dviejų gretimų tikslių kvadratų — vieno mažesnio, vieno didesnio už skaičių po šaknimi. Mažesniojo kvadrato šaknis ir yra sveikoji dalis.",
+  "Šaknis „graži“: po šaknimi tikslus kvadratas. Paklausk savęs — kokį sveiką skaičių pakėlus kvadratu (padauginus iš savęs) gaunamas tas skaičius?",
+  "Vėl netikslus kvadratas. Rask du gretimus tikslius kvadratus abipus skaičiaus po šaknimi ir įrašyk mažesniojo šaknį.",
+  "Kubinė šaknis: ieškok skaičiaus, kurį padauginus tris kartus iš savęs (pvz. 3·3·3) gaunamas skaičius po kubine šaknimi.",
+  "Kuris tikslus kvadratas yra tuoj pat mažesnis už skaičių po šaknimi? Jo šaknis ir bus sveikoji dalis.",
+  "Prie kiekvieno skaičiaus paklausk: ar tai, kas po šaknimi, yra tikslus kvadratas (arba kubas)? Jei taip — jis racionalus, jo neskaičiuok. Suskaičiuok tik tuos, kurių šaknis neišsitraukia.",
+  "Tarp kurių gretimų sveikųjų telpa ši šaknis? Rask artimiausius tikslius kvadratus iš abiejų pusių ir imk mažesniojo šaknį.",
+  "Po šaknimi vėl tikslus kvadratas. Kokį skaičių padauginus iš savęs gauni tą skaičių?",
+  "Priešpaskutinis. Rask du gretimus tikslius kvadratus abipus skaičiaus po šaknimi; sveikoji dalis — mažesniojo šaknis.",
+  "Kvadrato plotas — tai kraštinė, padauginta iš savęs (kraštinė²). Kokį skaičių padauginus iš savęs gaunamas plotas? Kadangi plotas yra tikslus kvadratas, kraštinė bus sveikoji.",
+];
+
+/* ================= 4 VARIANTAI · iracionalieji skaičiai =================
+   Kiekvienas seifas → vienaženklis atsakymas (0–9).
+   Tipai: sveikoji dalis ⌊√n⌋, racionali šaknis √/∛, kiek iracionalių, plotas→kraštinė. */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 6743228975 --- */
+ [
+  { title:"Pirmasis seifas", eq:"√39", q:"Ši šaknis iracionali. Tarp kurių dviejų gretimų sveikųjų ji yra? Įrašyk mažesnįjį — tai sveikoji šaknies dalis.", ans:6 },
+  { title:"Graži šaknis", eq:"√49", q:"Skaičius po šaknimi yra tikslus kvadratas. Ištrauk šaknį.", ans:7 },
+  { title:"Tarp kurių sveikųjų", eq:"√17", q:"Vėl netikslus kvadratas. Tarp kurių sveikųjų yra šaknis? Įrašyk mažesnįjį (sveikąją dalį).", ans:4 },
+  { title:"Kubinis seifas", eq:"∛27", q:"Po kubine šaknimi tikslus kubas. Ištrauk kubinę šaknį.", ans:3 },
+  { title:"Sveikoji dalis", eq:"√5", q:"Kuris sveikasis skaičius yra tuoj pat mažesnis už šią šaknį?", ans:2 },
+  { title:"Sargybinio sąrašas", eq:"√4 · √7 · √9 · ∛8 · √10", q:"Suskaičiuok, KIEK iš šių skaičių yra iracionalūs (šaknis neišsitraukia). Įrašyk skaičių.", ans:2 },
+  { title:"Slaptas koridorius", eq:"√67", q:"Tarp kurių gretimų sveikųjų? Įrašyk mažesnįjį — sveikąją dalį.", ans:8 },
+  { title:"Dar viena graži šaknis", eq:"√81", q:"Po šaknimi tikslus kvadratas. Ištrauk.", ans:9 },
+  { title:"Priešpaskutinis seifas", eq:"√50", q:"Sveikoji šaknies dalis?", ans:7 },
+  { title:"Pabėgimo mįslė", eq:"", q:"Paskutinis seifas! Kvadrato formos plytelės plotas yra 25 cm². Kokio ilgio (sveikas skaičius, cm) yra jos kraštinė? (Kraštinė lygi √ploto, o plotas — tikslus kvadratas.)", ans:5 },
+ ],
+ /* --- VARIANTAS 2 · kodas 4854239673 --- */
+ [
+  { title:"Pirmasis seifas", eq:"√17", q:"Ši šaknis iracionali. Tarp kurių dviejų gretimų sveikųjų ji yra? Įrašyk mažesnįjį — tai sveikoji šaknies dalis.", ans:4 },
+  { title:"Graži šaknis", eq:"√64", q:"Skaičius po šaknimi yra tikslus kvadratas. Ištrauk šaknį.", ans:8 },
+  { title:"Tarp kurių sveikųjų", eq:"√30", q:"Vėl netikslus kvadratas. Tarp kurių sveikųjų yra šaknis? Įrašyk mažesnįjį (sveikąją dalį).", ans:5 },
+  { title:"Kubinis seifas", eq:"∛64", q:"Po kubine šaknimi tikslus kubas. Ištrauk kubinę šaknį.", ans:4 },
+  { title:"Sveikoji dalis", eq:"√8", q:"Kuris sveikasis skaičius yra tuoj pat mažesnis už šią šaknį?", ans:2 },
+  { title:"Sargybinio sąrašas", eq:"√16 · √2 · √5 · ∛27 · √3", q:"Suskaičiuok, KIEK iš šių skaičių yra iracionalūs (šaknis neišsitraukia). Įrašyk skaičių.", ans:3 },
+  { title:"Slaptas koridorius", eq:"√82", q:"Tarp kurių gretimų sveikųjų? Įrašyk mažesnįjį — sveikąją dalį.", ans:9 },
+  { title:"Dar viena graži šaknis", eq:"√36", q:"Po šaknimi tikslus kvadratas. Ištrauk.", ans:6 },
+  { title:"Priešpaskutinis seifas", eq:"√60", q:"Sveikoji šaknies dalis?", ans:7 },
+  { title:"Pabėgimo mįslė", eq:"", q:"Paskutinis seifas! Kvadrato formos plytelės plotas yra 9 cm². Kokio ilgio (sveikas skaičius, cm) yra jos kraštinė? (Kraštinė lygi √ploto, o plotas — tikslus kvadratas.)", ans:3 },
+ ],
+ /* --- VARIANTAS 3 · kodas 7522936438 --- */
+ [
+  { title:"Pirmasis seifas", eq:"√50", q:"Ši šaknis iracionali. Tarp kurių dviejų gretimų sveikųjų ji yra? Įrašyk mažesnįjį — tai sveikoji šaknies dalis.", ans:7 },
+  { title:"Graži šaknis", eq:"√25", q:"Skaičius po šaknimi yra tikslus kvadratas. Ištrauk šaknį.", ans:5 },
+  { title:"Tarp kurių sveikųjų", eq:"√8", q:"Vėl netikslus kvadratas. Tarp kurių sveikųjų yra šaknis? Įrašyk mažesnįjį (sveikąją dalį).", ans:2 },
+  { title:"Kubinis seifas", eq:"∛8", q:"Po kubine šaknimi tikslus kubas. Ištrauk kubinę šaknį.", ans:2 },
+  { title:"Sveikoji dalis", eq:"√90", q:"Kuris sveikasis skaičius yra tuoj pat mažesnis už šią šaknį?", ans:9 },
+  { title:"Sargybinio sąrašas", eq:"√49 · √3 · √10 · ∛64 · √6 · √25", q:"Suskaičiuok, KIEK iš šių skaičių yra iracionalūs (šaknis neišsitraukia). Įrašyk skaičių.", ans:3 },
+  { title:"Slaptas koridorius", eq:"√40", q:"Tarp kurių gretimų sveikųjų? Įrašyk mažesnįjį — sveikąją dalį.", ans:6 },
+  { title:"Dar viena graži šaknis", eq:"√16", q:"Po šaknimi tikslus kvadratas. Ištrauk.", ans:4 },
+  { title:"Priešpaskutinis seifas", eq:"√12", q:"Sveikoji šaknies dalis?", ans:3 },
+  { title:"Pabėgimo mįslė", eq:"", q:"Paskutinis seifas! Kvadrato formos plytelės plotas yra 64 cm². Kokio ilgio (sveikas skaičius, cm) yra jos kraštinė? (Kraštinė lygi √ploto, o plotas — tikslus kvadratas.)", ans:8 },
+ ],
+ /* --- VARIANTAS 4 · kodas 8345229761 --- */
+ [
+  { title:"Pirmasis seifas", eq:"√67", q:"Ši šaknis iracionali. Tarp kurių dviejų gretimų sveikųjų ji yra? Įrašyk mažesnįjį — tai sveikoji šaknies dalis.", ans:8 },
+  { title:"Graži šaknis", eq:"√9", q:"Skaičius po šaknimi yra tikslus kvadratas. Ištrauk šaknį.", ans:3 },
+  { title:"Tarp kurių sveikųjų", eq:"√22", q:"Vėl netikslus kvadratas. Tarp kurių sveikųjų yra šaknis? Įrašyk mažesnįjį (sveikąją dalį).", ans:4 },
+  { title:"Kubinis seifas", eq:"∛125", q:"Po kubine šaknimi tikslus kubas. Ištrauk kubinę šaknį.", ans:5 },
+  { title:"Sveikoji dalis", eq:"√5", q:"Kuris sveikasis skaičius yra tuoj pat mažesnis už šią šaknį?", ans:2 },
+  { title:"Sargybinio sąrašas", eq:"√8 · √9 · ∛27 · √11", q:"Suskaičiuok, KIEK iš šių skaičių yra iracionalūs (šaknis neišsitraukia). Įrašyk skaičių.", ans:2 },
+  { title:"Slaptas koridorius", eq:"√82", q:"Tarp kurių gretimų sveikųjų? Įrašyk mažesnįjį — sveikąją dalį.", ans:9 },
+  { title:"Dar viena graži šaknis", eq:"√49", q:"Po šaknimi tikslus kvadratas. Ištrauk.", ans:7 },
+  { title:"Priešpaskutinis seifas", eq:"√40", q:"Sveikoji šaknies dalis?", ans:6 },
+  { title:"Pabėgimo mįslė", eq:"", q:"Paskutinis seifas! Kvadrato formos plytelės plotas yra 1 cm². Kokio ilgio (sveikas skaičius, cm) yra jos kraštinė? (Kraštinė lygi √ploto, o plotas — tikslus kvadratas.)", ans:1 },
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">=</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šio seifo skaitmuo pabėgimo kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Seifas atsidarė.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas skaičius. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 seifo.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis detektyvas (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs detektyvas";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors laikas jau baigėsi. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

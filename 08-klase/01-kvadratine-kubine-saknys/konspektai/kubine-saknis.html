@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kubinė šaknis — 8 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; line-height:1.02; margin:0 2px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor; padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Kubinė šaknis</h1>
+  <p class="klase">Matematika · 8 klasė · 1 skyrius „Kvadratinė ir kubinė šaknys“ · 1.2 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra kubinė šaknis</a></li>
+      <li><a href="#t2">Kubinė šaknis iš tikslaus kubo</a></li>
+      <li><a href="#t3">Kubinė šaknis iš neigiamo skaičiaus</a></li>
+      <li><a href="#t4">Dešimtainės, trupmeninės šaknys ir kubo tūris</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra kubinė šaknis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Skaičiaus a kubinė šaknis</span> — tai toks skaičius <b>b</b>, kurio <b>kubas</b> lygus a. Žymima <span class="math">∛a</span>.</p>
+        <div class="formule math"><span class="term-a">∛a</span> = <span class="term-b">b</span>, &nbsp; kai &nbsp; <span class="term-b">b</span>³ = <span class="term-a">a</span></div>
+        <p>Kubinės šaknies traukimas — tai <b>atvirkštinis veiksmas kėlimui kubu</b>. Todėl visada galioja:</p>
+        <div class="formule math">(∛a)³ = a</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">∛8 = 2</span>, nes <span class="math">2³ = 8</span>.<br>
+        <span class="math">∛125 = 5</span>, nes <span class="math">5³ = 125</span>.<br>
+        <span class="math">(∛5)³ = 5</span> &nbsp; (pagal taisyklę (∛a)³ = a).</p>
+        <p class="demesio"><b>Svarbu.</b> Skirtingai nei kvadratinę šaknį, kubinę šaknį galima traukti iš <b>bet kokio</b> skaičiaus — ir teigiamo, ir neigiamo, ir nulio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Kubinė šaknis iš tikslaus kubo</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Tikslus kubas</span> — tai skaičius, gaunamas sveiką skaičių pakėlus kubu. Iš tokio skaičiaus kubinė šaknis yra sveikasis skaičius. Šitą lentelę verta atsiminti mintinai:</p>
+        <table class="kort math">
+          <tr><th>∛1</th><th>∛8</th><th>∛27</th><th>∛64</th><th>∛125</th><th>∛216</th><th>∛343</th><th>∛512</th><th>∛729</th><th>∛1000</th></tr>
+          <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+        </table>
+        <p class="pvz"><b>Kaip rasti.</b> Ieškom skaičiaus, kurio kubas lygus po šaknimi esančiam. Pvz. <span class="math">∛343</span>: <span class="math">7³ = 343</span>, todėl <span class="math">∛343 = 7</span>. Ir <span class="math">∛0 = 0</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kubinė šaknis iš neigiamo skaičiaus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Neigiamo skaičiaus kubas yra neigiamas</span> ((−)³ = −), todėl ir kubinę šaknį iš neigiamo skaičiaus galima ištraukti. Minusą galima iškelti prieš šaknį:</p>
+        <div class="formule math">∛(−a) = −∛a</div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">∛(−8) = −2</span>, nes <span class="math">(−2)³ = −8</span>.<br>
+        <span class="math">∛(−27) = −3</span>, nes <span class="math">(−3)³ = −27</span>.<br>
+        <span class="math">∛(−125) = −5</span> &nbsp; ir &nbsp; <span class="math">∛(−1000) = −10</span>.</p>
+        <p class="demesio"><b>Palyginimui.</b> <span class="math">√(−8)</span> neturi prasmės (kvadratinės šaknies iš neigiamo <b>nėra</b>), bet <span class="math">∛(−8) = −2</span> — yra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Dešimtainės, trupmeninės šaknys ir kubo tūris</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kubinę šaknį traukiame ir iš dešimtainių bei paprastųjų trupmenų — ieškome skaičiaus, kurio kubas lygus po šaknimi esančiam.</p>
+        <p class="pvz"><b>Dešimtainės.</b><br>
+        <span class="math">∛0,008 = 0,2</span>, nes <span class="math">0,2³ = 0,008</span>.<br>
+        <span class="math">∛0,343 = 0,7</span>; &nbsp; <span class="math">∛(−0,064) = −0,4</span>; &nbsp; <span class="math">∛0,000001 = 0,01</span>.</p>
+        <p class="pvz"><b>Trupmeninės.</b> Traukiame šaknį atskirai iš skaitiklio ir iš vardiklio.<br>
+        <span class="math">∛<span class="fr"><span>8</span><span>27</span></span> = <span class="fr"><span>2</span><span>3</span></span></span>, nes (<span class="fr"><span>2</span><span>3</span></span>)³ = <span class="fr"><span>8</span><span>27</span></span>. &nbsp;&nbsp;
+        <span class="math">∛(−<span class="fr"><span>1</span><span>8</span></span>) = −<span class="fr"><span>1</span><span>2</span></span></span>; &nbsp;&nbsp;
+        <span class="math">∛<span class="fr"><span>27</span><span>8</span></span> = <span class="fr"><span>3</span><span>2</span></span></span> (= 1<span class="fr"><span>1</span><span>2</span></span>).</p>
+        <div class="demesio">
+          <b>Kubo tūris → briauna.</b> Kubo tūris <span class="math">V = a³</span>, todėl briauna <span class="math">a = ∛V</span>.<br>
+          <span class="math">V = 8 cm³ → a = ∛8 = 2 cm</span>; &nbsp; <span class="math">V = 0,027 m³ → a = ∛0,027 = 0,3 m</span>; &nbsp; <span class="math">V = 125 cm³ → a = 5 cm</span>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">∛8 = 4</span> (dalyba iš 2)</td><td class="math"><span class="gerai">∛8 = 2</span>, nes 2³ = 8</td></tr>
+          <tr><td class="math"><span class="klaida">∛(−8) neturi prasmės</span></td><td class="math"><span class="gerai">∛(−8) = −2</span></td></tr>
+          <tr><td class="math"><span class="klaida">∛(−27) = 3</span></td><td class="math"><span class="gerai">∛(−27) = −3</span></td></tr>
+          <tr><td class="math"><span class="klaida">∛64 = 8</span> (sumaišo su √64)</td><td class="math"><span class="gerai">∛64 = 4</span>, o √64 = 8</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Kubinė šaknis — tai ne dalyba iš 3 ir ne kvadratinė šaknis. Klausiu savęs: <b>„koks skaičius, pakeltas kubu, duoda po šaknimi esantį?“</b></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · „Kubinė šaknis“ (1 skyrius, 1.2 tema)
+  </footer>
+
+</div>
+</body>
+</html>

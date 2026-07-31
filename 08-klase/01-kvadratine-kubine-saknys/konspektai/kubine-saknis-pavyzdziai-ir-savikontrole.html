@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Kubinė šaknis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 2px}
+  .fr>span:first-child{border-bottom:1.4px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+
+<h1>Kubinė šaknis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 8 klasė · 1 skyrius „Kvadratinė ir kubinė šaknys“ · 1.2 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kubinė šaknis iš tikslaus kubo</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> <span class="math">∛a = b</span>, kai <span class="math">b³ = a</span>. Ieškom skaičiaus, kurio kubas lygus po šaknimi esančiam.</div>
+    <div class="ex">
+      <div class="q">∛125</div>
+      <div class="line">ieškom b: b³ = 125, &nbsp; 5³ = 125 &nbsp;&rArr;&nbsp; <span class="res">∛125 = 5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">∛64</div>
+      <div class="line">4³ = 64 &nbsp;&rArr;&nbsp; <span class="res">∛64 = 4</span> &nbsp;<span class="muted2">(pastaba: √64 = 8, nesumaišyk)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Kubinė šaknis iš neigiamo skaičiaus</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> <span class="math">∛(−a) = −∛a</span>. Neigiamo skaičiaus kubas neigiamas, todėl šaknis yra ir minusas iškeliamas prieš šaknį.</div>
+    <div class="ex"><div class="q">∛(−27)</div><div class="line">(−3)³ = −27 &nbsp;&rArr;&nbsp; <span class="res">∛(−27) = −3</span></div></div>
+    <div class="ex"><div class="q">∛(−8)</div><div class="line">(−2)³ = −8 &nbsp;&rArr;&nbsp; <span class="res">∛(−8) = −2</span></div></div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Dešimtainės ir trupmeninės šaknys</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> traukiam šaknį atskirai iš skaitiklio ir vardiklio; dešimtainę patikrinam keldami kubu.</div>
+    <div class="ex"><div class="q">∛0,008</div><div class="line">0,2³ = 0,008 &nbsp;&rArr;&nbsp; <span class="res">∛0,008 = 0,2</span></div></div>
+    <div class="ex"><div class="q">∛<span class="fr"><span>8</span><span>27</span></span></div><div class="line">(<span class="fr"><span>2</span><span>3</span></span>)³ = <span class="fr"><span>8</span><span>27</span></span> &nbsp;&rArr;&nbsp; <span class="res">∛<span class="fr"><span>8</span><span>27</span></span> = <span class="fr"><span>2</span><span>3</span></span></span></div></div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Kubo tūris → briauna</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kubo tūris <span class="math">V = a³</span>, todėl briauna <span class="math">a = ∛V</span>.</div>
+    <div class="ex"><div class="q">V = 0,027 cm³</div><div class="line">a = ∛0,027 = <span class="res">0,3 cm</span> &nbsp;<span class="muted2">(0,3³ = 0,027)</span></div></div>
+    <div class="ex"><div class="q">V = 8 cm³</div><div class="line">a = ∛8 = <span class="res">2 cm</span></div></div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kiekvienoje užduotyje klausk savęs „koks skaičius, pakeltas kubu, duoda po šaknimi esantį?“. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Kubinės šaknys iš tikslių kubų</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>∛8</li>
+        <li>∛27</li>
+        <li>∛216</li>
+        <li>∛343</li>
+        <li>∛512</li>
+        <li>∛729</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Neigiamos, dešimtainės ir trupmeninės šaknys</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>∛(−1)</li>
+        <li>∛(−64)</li>
+        <li>∛(−0,216)</li>
+        <li>∛(−<span class="fr"><span>125</span><span>343</span></span>)</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Kubo tūris lygus <span class="math">125 cm³</span>. Kokio ilgio kubo briauna?</li>
+      <li>Kubo tūris lygus <span class="math">0,027 m³</span>. Kokio ilgio kubo briauna?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 2 &nbsp;&nbsp; <b>2.</b> 3 &nbsp;&nbsp; <b>3.</b> 6 &nbsp;&nbsp; <b>4.</b> 7</div>
+    <div class="row math"><b>5.</b> 8 &nbsp;&nbsp; <b>6.</b> 9 &nbsp;&nbsp; <b>7.</b> −1 &nbsp;&nbsp; <b>8.</b> −4</div>
+    <div class="row math"><b>9.</b> −0,6 &nbsp;&nbsp; <b>10.</b> −<span class="fr"><span>5</span><span>7</span></span></div>
+    <div class="row math"><b>11.</b> a = ∛125 = 5 cm &nbsp;&nbsp; <b>12.</b> a = ∛0,027 = 0,3 m</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 8 klasės matematikos kursas · „Kubinė šaknis“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
