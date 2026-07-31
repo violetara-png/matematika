@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nelygybės, nelygybių sistemos treniruoklis (4.5–4.11)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Nelygybės, nelygybių sistemos treniruoklis (4.5–4.11)</h1>
+    <p id="paantraste">4 skyrius „Nelygybės“ · 7 klasė · potemės 4.5–4.11 · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// BENDRAS kontrolinio treniruoklis — 7 klasė, 4 skyrius „Nelygybės", potemės 4.5–4.11.
+// „Nelygybių sprendimas". Sujungti 7 potemių generatoriai, kiekvienas atskirame
+// IIFE, etiketės su potemės numeriu → „silpna vieta" rodo silpną potemę.
+//
+// Šablonas jau apibrėžia globaliai: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
+
+const GENERATORIAI = [].concat(
+
+  // ============================================================
+  // 4.5 Nelygybės sprendinys
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis sprendinys: x < a", gen(){
+          const x0 = randint(-8,8), num = randint(1,9), a = x0 + num/10;
+          return { q:`x < ${nf(a)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x < ${nf(a)}`, `Didžiausias sveikasis skaičius, mažesnis už ${nf(a)}:`, `x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis sprendinys: x > a", gen(){
+          const x0 = randint(-8,8), num = randint(1,9), a = x0 - num/10;
+          return { q:`x > ${nf(a)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x > ${nf(a)}`, `Mažiausias sveikasis skaičius, didesnis už ${nf(a)}:`, `x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis sprendinys: x ≤ a", gen(){
+          const x0 = randint(-8,8), num = randint(1,9), a = x0 + num/10;
+          return { q:`x ≤ ${nf(a)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x ≤ ${nf(a)}`, `Didžiausias sveikasis skaičius, ne didesnis už ${nf(a)}:`, `x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis sprendinys: x ≥ a", gen(){
+          const x0 = randint(-8,8), num = randint(1,9), a = x0 - num/10;
+          return { q:`x ≥ ${nf(a)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x ≥ ${nf(a)}`, `Mažiausias sveikasis skaičius, ne mažesnis už ${nf(a)}:`, `x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.5 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.6 Vieno žingsnio nelygybės
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis: x + p ≤ q", gen(){
+          const x0 = randint(-8,8), p = nz(-9,9), q = x0 + p;
+          return { q:`x ${pm(p)} ≤ ${nf(q)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x ${pm(p)} ≤ ${nf(q)}`, `x ≤ ${nf(q)} ${pm(-p)}`, `x ≤ ${nf(x0)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis: x + p ≥ q", gen(){
+          const x0 = randint(-8,8), p = nz(-9,9), q = x0 + p;
+          return { q:`x ${pm(p)} ≥ ${nf(q)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `x ${pm(p)} ≥ ${nf(q)}`, `x ≥ ${nf(q)} ${pm(-p)}`, `x ≥ ${nf(x0)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis: a·x ≤ b (a > 0)", gen(){
+          const a = randint(2,6), x0 = randint(-8,8), r = randint(0,a-1), b = a*x0 + r;
+          return { q:`${a}x ≤ ${nf(b)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}x ≤ ${nf(b)}`, `x ≤ ${nf(b)} : ${a} = ${nf(b/a)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis: −a·x ≤ b (ženklas keičiasi)", gen(){
+          const a = randint(2,6), x0 = randint(-8,8), r = randint(0,a-1), negb = a*x0 + r, b = -negb;
+          return { q:`−${a}x ≤ ${nf(b)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `−${a}x ≤ ${nf(b)}`, `x ≥ ${nf(b)} : (−${a})   ⟵ dalijame iš neigiamo, ženklas keičiasi`, `x ≥ ${nf(negb/a)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.6 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.7 Paprastos nelygybės (ax + b)
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis: a·x + b ≤ c (a > 0)", gen(){
+          const a = randint(2,6), b = nz(-9,9), x0 = randint(-8,8), r = randint(0,a-1), c = a*x0 + r + b;
+          return { q:`${a}x ${pm(b)} ≤ ${nf(c)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}x ${pm(b)} ≤ ${nf(c)}`, `${a}x ≤ ${nf(c)} ${pm(-b)} = ${nf(c-b)}`, `x ≤ ${nf(c-b)} : ${a} = ${nf((c-b)/a)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis: a·x + b ≥ c (a > 0)", gen(){
+          const a = randint(2,6), b = nz(-9,9), x0 = randint(-8,8), r = randint(0,a-1), c = a*x0 - r + b;
+          return { q:`${a}x ${pm(b)} ≥ ${nf(c)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}x ${pm(b)} ≥ ${nf(c)}`, `${a}x ≥ ${nf(c)} ${pm(-b)} = ${nf(c-b)}`, `x ≥ ${nf(c-b)} : ${a} = ${nf((c-b)/a)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis: −a·x + b ≥ c (ženklas keičiasi)", gen(){
+          const a = randint(2,6), b = nz(-9,9), x0 = randint(-8,8), r = randint(0,a-1);
+          const bc = a*x0 + r;
+          const c = b - bc;
+          return { q:`−${a}x ${pm(b)} ≥ ${nf(c)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `−${a}x ${pm(b)} ≥ ${nf(c)}`, `−${a}x ≥ ${nf(c)} ${pm(-b)} = ${nf(c-b)}`, `x ≤ ${nf(c-b)} : (−${a})   ⟵ dalijame iš neigiamo, ženklas keičiasi`, `x ≤ ${nf(bc/a)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.7 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.8 Sudėtingesnės nelygybės
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis: a·x + b ≤ c·x + d", gen(){
+          const a = randint(5,9), c = randint(2,a-2), b = nz(-9,9), x0 = randint(-8,8);
+          const k = a - c, r = randint(0,k-1), d = k*x0 + r + b;
+          return { q:`${a}x ${pm(b)} ≤ ${c}x ${pm(d)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}x ${pm(b)} ≤ ${c}x ${pm(d)}`, `${a}x − ${c}x ≤ ${nf(d)} ${pm(-b)}`, `${k}x ≤ ${nf(d-b)}`, `x ≤ ${nf(d-b)} : ${k} = ${nf((d-b)/k)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis: a·x + b ≥ c·x + d", gen(){
+          const a = randint(5,9), c = randint(2,a-2), b = nz(-9,9), x0 = randint(-8,8);
+          const k = a - c, r = randint(0,k-1), d = k*x0 - r + b;
+          return { q:`${a}x ${pm(b)} ≥ ${c}x ${pm(d)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}x ${pm(b)} ≥ ${c}x ${pm(d)}`, `${a}x − ${c}x ≥ ${nf(d)} ${pm(-b)}`, `${k}x ≥ ${nf(d-b)}`, `x ≥ ${nf(d-b)} : ${k} = ${nf((d-b)/k)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis: a(x + p) ≤ q", gen(){
+          const a = randint(2,5), p = nz(-6,6), x0 = randint(-7,7), r = randint(0,a-1), q = a*x0 + r + a*p;
+          return { q:`${a}(x ${pm(p)}) ≤ ${nf(q)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${a}(x ${pm(p)}) ≤ ${nf(q)}`, `x ${pm(p)} ≤ ${nf(q)} : ${a} = ${nf(q/a)}`, `x ≤ ${nf(q/a)} ${pm(-p)} = ${nf(q/a - p)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.8 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.9 Dviejų nelygybių sistema
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis sistemos sprendinys", gen(){
+          const x0 = randint(-4,8), lo = x0 - randint(2,6), hi = x0;
+          return { q:`{ x > ${nf(lo)} ; x ≤ ${nf(hi)} }`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `1) x > ${nf(lo)}`, `2) x ≤ ${nf(hi)}`, `Bendra sprendinių dalis (sankirta): ${nf(lo)} < x ≤ ${nf(hi)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis sistemos sprendinys", gen(){
+          const x0 = randint(-8,4), lo = x0, hi = x0 + randint(2,6);
+          return { q:`{ x ≥ ${nf(lo)} ; x < ${nf(hi)} }`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `1) x ≥ ${nf(lo)}`, `2) x < ${nf(hi)}`, `Bendra sprendinių dalis (sankirta): ${nf(lo)} ≤ x < ${nf(hi)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis: {a·x ≤ b ; x > lo}", gen(){
+          const a = randint(2,5), x0 = randint(-2,7), b = a*x0, lo = x0 - randint(2,5);
+          return { q:`{ ${a}x ≤ ${nf(b)} ; x > ${nf(lo)} }`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `1) ${a}x ≤ ${nf(b)} ⇒ x ≤ ${nf(b/a)}`, `2) x > ${nf(lo)}`, `Sankirta: ${nf(lo)} < x ≤ ${nf(b/a)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.9 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.10 Dvigubosios nelygybės
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Didžiausias sveikasis: p < x + m ≤ q", gen(){
+          const x0 = randint(-5,7), hi = x0, lo = x0 - randint(2,5), m = nz(-6,6);
+          const p = lo + m, q = hi + m;
+          return { q:`${nf(p)} < x ${pm(m)} ≤ ${nf(q)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${nf(p)} < x ${pm(m)} ≤ ${nf(q)}`, `${nf(p)} ${pm(-m)} < x ≤ ${nf(q)} ${pm(-m)}`, `${nf(lo)} < x ≤ ${nf(hi)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Mažiausias sveikasis: p ≤ x + m < q", gen(){
+          const x0 = randint(-7,5), lo = x0, hi = x0 + randint(2,5), m = nz(-6,6);
+          const p = lo + m, q = hi + m;
+          return { q:`${nf(p)} ≤ x ${pm(m)} < ${nf(q)}`, ans:x0, pre:"mažiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${nf(p)} ≤ x ${pm(m)} < ${nf(q)}`, `${nf(p)} ${pm(-m)} ≤ x < ${nf(q)} ${pm(-m)}`, `${nf(lo)} ≤ x < ${nf(hi)}`, `Mažiausias sveikasis: x = ${nf(x0)}` ] };
+      }},
+      { label:"Didžiausias sveikasis: p ≤ a − k·x < q (ženklas keičiasi)", gen(){
+          const k = randint(2,4), a = randint(-4,6), x0 = randint(-4,6);
+          const hi = x0, lo = x0 - randint(1,3);
+          const p = a - k*hi, q = a - k*lo;
+          return { q:`${nf(p)} ≤ ${nf(a)} − ${k}x < ${nf(q)}`, ans:x0, pre:"didžiausias sveikasis x =", ansText:`${nf(x0)}`,
+            steps:[ `${nf(p)} ≤ ${nf(a)} − ${k}x < ${nf(q)}`, `${nf(p-a)} ≤ −${k}x < ${nf(q-a)}   (atėmėme ${nf(a)})`, `${nf((p-a)/-k)} ≥ x > ${nf((q-a)/-k)}   ⟵ dalijame iš −${k}, ženklai keičiasi`, `${nf(lo)} < x ≤ ${nf(hi)}`, `Didžiausias sveikasis: x = ${nf(x0)}` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.10 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 4.11 Tekstiniai uždaviniai
+  // ============================================================
+  (function(){
+    const G = [
+      { label:"Kvadrato kraštinė (perimetras ne mažesnis)", gen(){
+          const a = randint(3,12), P = 4*a;
+          return { q:`Kvadrato perimetras ne mažesnis už ${P} cm. Kokia mažiausia sveikoji kraštinė (cm)?`,
+            ans:a, pre:"kraštinė =", ansText:`${a}`,
+            steps:[ `Žymim kraštinę a. Perimetras 4a.`, `Sąlyga: 4a ≥ ${P}`, `a ≥ ${P} : 4 = ${a}`, `Mažiausia sveikoji kraštinė: a = ${a} cm` ] };
+      }},
+      { label:"Kelionės laikas (kelias ne ilgesnis)", gen(){
+          const v = choice([40,50,60,80,90]), t = choice([2,3,4]), s = v*t;
+          return { q:`Automobilis važiuoja ${v} km/h, kelias ne ilgesnis kaip ${s} km. Kiek daugiausiai valandų truks kelionė?`,
+            ans:t, pre:"laikas =", ansText:`${t}`,
+            steps:[ `Žymim laiką t. Kelias = greitis · laikas = ${v}·t.`, `Sąlyga: ${v}·t ≤ ${s}`, `t ≤ ${s} : ${v} = ${t}`, `Daugiausiai: t = ${t} h` ] };
+      }},
+      { label:"Pieštukų kaina (pirkinys pigesnis)", gen(){
+          const x = randint(2,6), n = randint(2,4), knyga = randint(5,15), lim = n*x + knyga + 1;
+          return { q:`${n} vienodi pieštukai ir knyga (${knyga} Eur) kainavo mažiau nei ${lim} Eur. Kokia didžiausia sveikoji vieno pieštuko kaina (Eur)?`,
+            ans:x, pre:"kaina =", ansText:`${x}`,
+            steps:[ `Žymim pieštuko kainą x. Pirkinys: ${n}x + ${knyga}.`, `Sąlyga: ${n}x + ${knyga} < ${lim}`, `${n}x < ${lim - knyga}  ⇒  x < ${nf((lim-knyga)/n)}`, `Didžiausia sveikoji kaina: x = ${x} Eur` ] };
+      }},
+      { label:"Prekių kaina (brangesnė nei…)", gen(){
+          const x = randint(3,9), n = choice([3,4,5,6]), lim = n*x - 1;
+          return { q:`${n} vienodi sąsiuviniai kainuoja daugiau nei ${lim} Eur. Kokia mažiausia sveikoji vieno kaina (Eur)?`,
+            ans:x, pre:"kaina =", ansText:`${x}`,
+            steps:[ `Žymim vieno kainą x. ${n} kainuoja ${n}x.`, `Sąlyga: ${n}x > ${lim}`, `x > ${lim} : ${n} = ${nf(lim/n)}`, `Mažiausia sveikoji kaina: x = ${x} Eur` ] };
+      }},
+      { label:"Degalai (kiek šimtų km)", gen(){
+          const h = randint(4,8), r = choice([4,5,8,10]), L = h*r/1;
+          return { q:`Bake ${L} l degalų, automobilis sunaudoja ${r} l kas 100 km. Kiek daugiausiai pilnų šimtų kilometrų nuvažiuos?`,
+            ans:h, pre:"šimtai km =", ansText:`${h}`,
+            steps:[ `Žymim šimtų km skaičių n. Degalai: ${r}·n.`, `Sąlyga: ${r}·n ≤ ${L}`, `n ≤ ${L} : ${r} = ${h}`, `Daugiausiai: n = ${h} (t. y. ${h*100} km)` ] };
+      }}
+    ];
+    return G.map(g => ({ label:"4.11 "+g.label, gen:g.gen }));
+  })()
+
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Nelygybės, nelygybių sistemos treniruoklis (4.5–4.11)", "subtitle": "4 skyrius „Nelygybės“ · 7 klasė · potemės 4.5–4.11 · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').textContent = S.dabartinis.q;
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || nf(p.ans); }
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const val = parseVal($('atsakymas').value);
+  if(isNaN(val)){ $('atsakymas').focus(); return; }
+  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
+  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
