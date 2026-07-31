@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio darbo PROCENTAI treniruoklis</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio darbo PROCENTAI treniruoklis</h1>
+    <p id="paantraste">3 skyrius „Procentai“ · 7 klasė · visos temos (3.1–3.5) · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// BENDRAS kontrolinio treniruoklis — 7 klasė, 3 skyrius „Procentai".
+// Sujungti visų 5 potemių (3.1–3.5) generatoriai. Kiekvienos potemės generatoriai
+// atskirame IIFE, kad vidiniai pagalbininkai (pickAP, PROC, SUB, r2…) nesikirstų.
+// Etiketės su potemės numeriu, kad „silpna vieta" rodytų, kuri potemė silpna.
+//
+// Šablonas jau apibrėžia globaliai: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
+
+const GENERATORIAI = [].concat(
+
+  // ============================================================
+  // 3.1 Kiek procentų pakito dydis
+  // ============================================================
+  (function(){
+    function pickAP(){
+      const A = choice([50,100,150,200,250,400,500,600,800,1000]);
+      const reikiaLyginio = (A===50 || A===150 || A===250);
+      let p = randint(1,40);
+      if(reikiaLyginio && p%2===1){ p = (p+1<=40) ? p+1 : p-1; }
+      return { A, p, pokytis: A*p/100 };
+    }
+    const G = [
+      { label:"Padidėjimas procentais", gen(){
+          const {A,p,pokytis} = pickAP();
+          const B = A + pokytis;
+          return {
+            q:`Dydis padidėjo nuo ${nf(A)} iki ${nf(B)}. Kiek procentų jis padidėjo?`,
+            ans:p,
+            steps:[
+              `Pokytis: ${nf(B)} − ${nf(A)} = ${nf(pokytis)}`,
+              `Dalijame iš pradinio dydžio: ${nf(pokytis)} : ${nf(A)} = ${nf(p/100)}`,
+              `Verčiame procentais: ${nf(p/100)} · 100 = ${p} %`
+            ]
+          };
+      }},
+      { label:"Sumažėjimas procentais", gen(){
+          const {A,p,pokytis} = pickAP();
+          const B = A - pokytis;
+          return {
+            q:`Dydis sumažėjo nuo ${nf(A)} iki ${nf(B)}. Kiek procentų jis sumažėjo?`,
+            ans:p,
+            steps:[
+              `Pokytis: ${nf(A)} − ${nf(B)} = ${nf(pokytis)}`,
+              `Dalijame iš pradinio dydžio: ${nf(pokytis)} : ${nf(A)} = ${nf(p/100)}`,
+              `Verčiame procentais: ${nf(p/100)} · 100 = ${p} %`
+            ]
+          };
+      }},
+      { label:"Žodinis uždavinys", gen(){
+          const {A,p,pokytis} = pickAP();
+          const didejo = choice([true,false]);
+          const kilo = [
+            { intro:(a,b)=>`Prekė kainavo ${nf(a)} Eur, pabrango iki ${nf(b)} Eur.`, klaus:`Kiek procentų prekė pabrango?`, veiksmas:"pabrango" },
+            { intro:(a,b)=>`Bilietas kainavo ${nf(a)} Eur, pabrango iki ${nf(b)} Eur.`, klaus:`Kiek procentų bilietas pabrango?`, veiksmas:"pabrango" },
+            { intro:(a,b)=>`Įmonės pajamos buvo ${nf(a)} Eur, išaugo iki ${nf(b)} Eur.`, klaus:`Kiek procentų pajamos išaugo?`, veiksmas:"išaugo" },
+            { intro:(a,b)=>`Medelio ūgis buvo ${nf(a)} cm, ūgtelėjo iki ${nf(b)} cm.`, klaus:`Kiek procentų medelis paaugo?`, veiksmas:"paaugo" }
+          ];
+          const krito = [
+            { intro:(a,b)=>`Prekė kainavo ${nf(a)} Eur, atpigo iki ${nf(b)} Eur.`, klaus:`Kiek procentų prekė atpigo?`, veiksmas:"atpigo" },
+            { intro:(a,b)=>`Bilietas kainavo ${nf(a)} Eur, atpigo iki ${nf(b)} Eur.`, klaus:`Kiek procentų bilietas atpigo?`, veiksmas:"atpigo" },
+            { intro:(a,b)=>`Įmonės pajamos buvo ${nf(a)} Eur, sumažėjo iki ${nf(b)} Eur.`, klaus:`Kiek procentų pajamos sumažėjo?`, veiksmas:"sumažėjo" },
+            { intro:(a,b)=>`Prekės svoris buvo ${nf(a)} g, sumažėjo iki ${nf(b)} g.`, klaus:`Kiek procentų svoris sumažėjo?`, veiksmas:"sumažėjo" }
+          ];
+          if(didejo){
+            const B = A + pokytis, k = choice(kilo);
+            return {
+              q:`${k.intro(A,B)} ${k.klaus}`,
+              ans:p,
+              steps:[
+                `Pokytis: ${nf(B)} − ${nf(A)} = ${nf(pokytis)}`,
+                `Dalijame iš pradinio dydžio: ${nf(pokytis)} : ${nf(A)} = ${nf(p/100)}`,
+                `Verčiame procentais: ${nf(p/100)} · 100 = ${p} %  (${k.veiksmas})`
+              ]
+            };
+          } else {
+            const B = A - pokytis, k = choice(krito);
+            return {
+              q:`${k.intro(A,B)} ${k.klaus}`,
+              ans:p,
+              steps:[
+                `Pokytis: ${nf(A)} − ${nf(B)} = ${nf(pokytis)}`,
+                `Dalijame iš pradinio dydžio: ${nf(pokytis)} : ${nf(A)} = ${nf(p/100)}`,
+                `Verčiame procentais: ${nf(p/100)} · 100 = ${p} %  (${k.veiksmas})`
+              ]
+            };
+          }
+      }}
+    ];
+    return G.map(g => ({ label:"3.1 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 3.2 Dydis pagal pradinę vertę ir pokytį
+  // ============================================================
+  (function(){
+    const A_AIBE = [80, 100, 150, 200, 250, 400, 500, 600, 800, 1000];
+    const P_AIBE = [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 80];
+    function pickAp(pmin, pmax){
+      const ps = P_AIBE.filter(x => x >= pmin && x <= pmax);
+      let A, p, tries = 0;
+      do { A = choice(A_AIBE); p = choice(ps); tries++; }
+      while (((A * p) % 100 !== 0) && tries < 200);
+      if ((A * p) % 100 !== 0){ A = 100; p = choice(ps); }
+      return { A, p };
+    }
+    const G = [
+      { label:"Padidink dydį p %", gen(){
+          const { A, p } = pickAp(5, 60);
+          const koef = 1 + p/100;
+          const ans = Math.round(A * koef);
+          return { q:`Kiek yra ${A}, padidinus ${p} %?`, ans, pre:"atsakymas =", steps:[
+            `${p} % → koeficientas 1 + ${p}/100 = ${nf(koef)}`,
+            `${A} · ${nf(koef)} = ${nf(ans)}`,
+            `Naujas dydis = ${nf(ans)}`
+          ]};
+      }},
+      { label:"Sumažink dydį p %", gen(){
+          const { A, p } = pickAp(5, 75);
+          const koef = 1 - p/100;
+          const ans = Math.round(A * koef);
+          return { q:`Kiek yra ${A}, sumažinus ${p} %?`, ans, pre:"atsakymas =", steps:[
+            `${p} % → koeficientas 1 − ${p}/100 = ${nf(koef)}`,
+            `${A} · ${nf(koef)} = ${nf(ans)}`,
+            `Naujas dydis = ${nf(ans)}`
+          ]};
+      }},
+      { label:"Nuolaida — galutinė kaina", gen(){
+          const { A, p } = pickAp(5, 60);
+          const koef = 1 - p/100;
+          const ans = Math.round(A * koef);
+          return { q:`Prekė kainuoja ${A} Eur. Taikoma ${p} % nuolaida. Kiek kainuoja po nuolaidos?`,
+            ans, pre:"kaina =", steps:[
+            `${p} % nuolaida → koeficientas 1 − ${p}/100 = ${nf(koef)}`,
+            `${A} · ${nf(koef)} = ${nf(ans)}`,
+            `Kaina po nuolaidos = ${nf(ans)} Eur`
+          ]};
+      }},
+      { label:"Pabrangimas — galutinė kaina", gen(){
+          const { A, p } = pickAp(5, 50);
+          const koef = 1 + p/100;
+          const ans = Math.round(A * koef);
+          return { q:`Prekė kainavo ${A} Eur ir pabrango ${p} %. Kiek kainuoja dabar?`,
+            ans, pre:"kaina =", steps:[
+            `${p} % pabrangimas → koeficientas 1 + ${p}/100 = ${nf(koef)}`,
+            `${A} · ${nf(koef)} = ${nf(ans)}`,
+            `Nauja kaina = ${nf(ans)} Eur`
+          ]};
+      }},
+      { label:"Nuolaidos dydis (Eur)", gen(){
+          const { A, p } = pickAp(5, 60);
+          const ans = Math.round(A * p / 100);
+          return { q:`Prekė kainuoja ${A} Eur. Taikoma ${p} % nuolaida. Kokio dydžio nuolaida (Eur)?`,
+            ans, pre:"nuolaida =", steps:[
+            `Nuolaidos dydis = ${p} % nuo ${A} Eur`,
+            `${A} · ${p}/100 = ${nf(ans)}`,
+            `Nuolaida = ${nf(ans)} Eur`
+          ]};
+      }}
+    ];
+    return G.map(g => ({ label:"3.2 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 3.3 Paprastosios palūkanos
+  // ============================================================
+  (function(){
+    function parametrai(){
+      const Sv=[1000,2000,3000,4000,5000,10000];
+      const pv=[1,2,3,4,5,6,7,8,10];
+      let S,p,t,tries=0;
+      do{ S=choice(Sv); p=choice(pv); t=randint(1,5); tries++; }
+      while((S*p*t)%100!==0 && tries<50);
+      return {S,p,t};
+    }
+    const G = [
+      { label:"Metinės palūkanos", gen(){
+          const {S,p}=parametrai();
+          const P1=Math.round(S*p/100);
+          return {
+            q:`Indėlis ${S} Eur, metinės palūkanos ${p} %. Kiek palūkanų priskaičiuojama per vienus metus?`,
+            ans:P1, ansText:`${P1} Eur`, pre:"P₁ =",
+            steps:[ `P₁ = S · p : 100`, `P₁ = ${S} · ${p} : 100`, `P₁ = ${S*p} : 100 = ${P1} Eur` ]};
+      }},
+      { label:"Palūkanos po t metų", gen(){
+          const {S,p,t}=parametrai();
+          const P1=Math.round(S*p/100), Pt=Math.round(S*p/100*t);
+          return {
+            q:`Indėlis ${S} Eur, metinės palūkanos ${p} %. Kiek palūkanų priskaičiuojama per ${t} m.?`,
+            ans:Pt, ansText:`${Pt} Eur`, pre:"Pₜ =",
+            steps:[
+              `Pₜ = S · p : 100 · t`, `Pₜ = ${S} · ${p} : 100 · ${t}`,
+              `P₁ = ${S*p} : 100 = ${P1} Eur`, `Pₜ = ${P1} · ${t} = ${Pt} Eur`
+            ]};
+      }},
+      { label:"Grąžintina suma", gen(){
+          const {S,p,t}=parametrai();
+          const P1=Math.round(S*p/100), Pt=Math.round(S*p/100*t), St=Math.round(S+S*p/100*t);
+          return {
+            q:`Paskola ${S} Eur, metinės palūkanos ${p} %. Kiek iš viso reikės grąžinti po ${t} m.?`,
+            ans:St, ansText:`${St} Eur`, pre:"Sₜ =",
+            steps:[
+              `Sₜ = S · (1 + p : 100 · t) = S + Pₜ`,
+              `P₁ = ${S} · ${p} : 100 = ${P1} Eur`,
+              `Pₜ = ${P1} · ${t} = ${Pt} Eur`,
+              `Sₜ = ${S} + ${Pt} = ${St} Eur`
+            ]};
+      }},
+      { label:"Skola: palūkanos", gen(){
+          const {S,p,t}=parametrai();
+          const P1=Math.round(S*p/100), Pt=Math.round(S*p/100*t);
+          const vardas=choice(["Jonas","Rūta","Tomas","Gabija","Petras","Ieva"]);
+          return {
+            q:`${vardas} pasiskolino banke ${S} Eur su ${p} % metinėmis palūkanomis ${t} metams. Kiek iš viso palūkanų sumokės?`,
+            ans:Pt, ansText:`${Pt} Eur`, pre:"Pₜ =",
+            steps:[
+              `Metinės palūkanos: P₁ = ${S} · ${p} : 100 = ${P1} Eur`,
+              `Palūkanos už ${t} m.: Pₜ = ${P1} · ${t} = ${Pt} Eur`
+            ]};
+      }},
+      { label:"Indėlis: atsiimama suma", gen(){
+          const {S,p,t}=parametrai();
+          const P1=Math.round(S*p/100), Pt=Math.round(S*p/100*t), St=Math.round(S+S*p/100*t);
+          const vardas=choice(["Ona","Mantas","Eglė","Lukas","Vilius","Austėja"]);
+          return {
+            q:`${vardas} padėjo banke ${S} Eur. Metinės palūkanos ${p} %. Po ${t} m. atsiima visą sumą su palūkanomis. Kiek pinigų gaus?`,
+            ans:St, ansText:`${St} Eur`, pre:"Sₜ =",
+            steps:[
+              `Palūkanos: Pₜ = ${S} · ${p} : 100 · ${t} = ${Pt} Eur`,
+              `Atsiimama suma: Sₜ = ${S} + ${Pt} = ${St} Eur`
+            ]};
+      }}
+    ];
+    return G.map(g => ({ label:"3.3 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 3.4 Sudėtinės palūkanos
+  // ============================================================
+  (function(){
+    function r2(x){ return Math.round(x*100)/100; }
+    const SUB = "₀₁₂₃₄₅₆₇₈₉";
+    function sub(i){ return SUB[i]; }
+    function mstr(p){ return nf(1 + p/100); }
+    function seriesOf(S, p, t){
+      const m = 1 + p/100;
+      const arr = [S];
+      let cur = S;
+      for(let i=1; i<=t; i++){ cur = r2(cur * m); arr.push(cur); }
+      return arr;
+    }
+    const SUMOS = [1000, 2000, 5000, 10000, 50000];
+    const PROC  = [2, 3, 4, 5, 10];
+    const METAI = [1, 2, 3];
+    const VARDAI = ["Rūta", "Tomas", "Greta", "Lukas", "Aistė", "Mindaugas", "Kamilė", "Dovydas"];
+    function metuZingsniai(S, p, ser, t){
+      const zs = [`S${sub(0)} = ${nf(S)} Eur;  daugiklis 1 + ${nf(p)}/100 = ${mstr(p)}`];
+      for(let i=1; i<=t; i++){ zs.push(`S${sub(i)} = ${nf(ser[i-1])} · ${mstr(p)} = ${nf(ser[i])} Eur`); }
+      return zs;
+    }
+    const G = [
+      { label:"Indėlis po t metų (Sₜ)", gen(){
+          const S = choice(SUMOS), p = choice(PROC), t = choice(METAI);
+          const ser = seriesOf(S, p, t), St = ser[t];
+          const steps = metuZingsniai(S, p, ser, t);
+          steps.push(`Po ${t} metų sąskaitoje bus ${nf(St)} Eur`);
+          return { q: `Į banką padėta ${nf(S)} Eur, metinės palūkanos ${nf(p)} %. Kiek pinigų bus sąskaitoje po ${t} metų?`,
+            ans: St, ansText: `${nf(St)} Eur`, pre: "Sₜ =", steps };
+      }},
+      { label:"Palūkanos po t metų (Sₜ − S)", gen(){
+          const S = choice(SUMOS), p = choice(PROC), t = choice(METAI);
+          const ser = seriesOf(S, p, t), St = ser[t];
+          const pal = r2(St - S);
+          const steps = metuZingsniai(S, p, ser, t);
+          steps.push(`Palūkanos = Sₜ − S = ${nf(St)} − ${nf(S)} = ${nf(pal)} Eur`);
+          return { q: `Į banką padėta ${nf(S)} Eur, metinės palūkanos ${nf(p)} %. Kiek palūkanų priskaičiuota po ${t} metų?`,
+            ans: pal, ansText: `${nf(pal)} Eur`, pre: "palūkanos =", steps };
+      }},
+      { label:"Žodinis uždavinys (bankas)", gen(){
+          const S = choice(SUMOS), p = choice(PROC), t = choice(METAI), v = choice(VARDAI);
+          const ser = seriesOf(S, p, t), St = ser[t];
+          const steps = metuZingsniai(S, p, ser, t);
+          steps.push(`Iš viso po ${t} metų ${v} turės ${nf(St)} Eur`);
+          return { q: `${v} padėjo į taupomąją sąskaitą ${nf(S)} Eur. Bankas kasmet prideda ${nf(p)} % palūkanų prie visos sumos. Kiek iš viso pinigų ${v} turės po ${t} metų?`,
+            ans: St, ansText: `${nf(St)} Eur`, pre: "atsakymas =", steps };
+      }}
+    ];
+    return G.map(g => ({ label:"3.4 "+g.label, gen:g.gen }));
+  })(),
+
+  // ============================================================
+  // 3.5 Sudėtiniai procentai
+  // ============================================================
+  (function(){
+    const BAZE   = [100, 200, 500, 800, 1000];
+    const PROC   = [5, 10, 20];
+    const KARTAI = [2, 3];
+    const SUB    = ['₀', '₁', '₂', '₃'];
+    function round2(x){ return Math.round(x * 100) / 100; }
+    function eur(n){ n = round2(n); let s = n.toFixed(2).replace('.', ','); return (n < 0 ? '−' : '') + s.replace('-', ''); }
+    function grandine(A, p, n, dir){
+      const mult = dir > 0 ? (1 + p / 100) : (1 - p / 100);
+      const vals = [A];
+      let cur = A;
+      for(let k = 1; k <= n; k++){ cur = round2(cur * mult); vals.push(cur); }
+      return { mult, vals, ans: vals[n] };
+    }
+    const G = [
+      { label:"Padidinimas n kartų (po p %)", gen(){
+          const A = choice(BAZE), p = choice(PROC), n = choice(KARTAI);
+          const { mult, vals, ans } = grandine(A, p, n, +1);
+          const steps = [ `Daugiklis: 1 + ${p}/100 = ${nf(mult)}`, `A${SUB[0]} = ${nf(A)}` ];
+          for(let k = 1; k <= n; k++){ steps.push(`A${SUB[k]} = ${nf(vals[k-1])} · ${nf(mult)} = ${nf(vals[k])}`); }
+          return { q: `${nf(A)} padidink ${n} kartus, kaskart po ${p} %`, ans, steps, pre: `A${SUB[n]} =` };
+      }},
+      { label:"Sumažinimas n kartų (po p %)", gen(){
+          const A = choice(BAZE), p = choice(PROC), n = choice(KARTAI);
+          const { mult, vals, ans } = grandine(A, p, n, -1);
+          const steps = [ `Daugiklis: 1 − ${p}/100 = ${nf(mult)}`, `A${SUB[0]} = ${nf(A)}` ];
+          for(let k = 1; k <= n; k++){ steps.push(`A${SUB[k]} = ${nf(vals[k-1])} · ${nf(mult)} = ${nf(vals[k])}`); }
+          return { q: `${nf(A)} sumažink ${n} kartus, kaskart po ${p} %`, ans, steps, pre: `A${SUB[n]} =` };
+      }},
+      { label:"Žodinis uždavinys (kaina, tiražas)", gen(){
+          const A = choice(BAZE), p = choice(PROC), n = choice(KARTAI);
+          const kartuZodis = n === 2 ? "dvejus" : "trejus";
+          const sablonai = [
+            { dir:+1, tekstas:`Prekės kaina ${nf(A)} Eur. Kainą kėlė ${n} kartus iš eilės, kaskart po ${p} %. Kokia galutinė kaina?`, pav:"kaina" },
+            { dir:+1, tekstas:`Į banką padėta ${nf(A)} Eur. Indėlis augo ${kartuZodis} metus, kasmet po ${p} %. Kiek pinigų banke po ${n} metų?`, pav:"suma" },
+            { dir:-1, tekstas:`Prekė kainavo ${nf(A)} Eur. Kaina buvo mažinama ${n} kartus iš eilės, kaskart po ${p} %. Kokia galutinė kaina?`, pav:"kaina" },
+            { dir:-1, tekstas:`Automobilis kainavo ${nf(A)} Eur. Jo vertė krito ${kartuZodis} metus, kasmet po ${p} %. Kiek jis vertas po ${n} metų?`, pav:"vertė" }
+          ];
+          const s = choice(sablonai);
+          const { mult, vals, ans } = grandine(A, p, n, s.dir);
+          const zenklas = s.dir > 0 ? '+' : '−';
+          const steps = [ `Daugiklis: 1 ${zenklas} ${p}/100 = ${nf(mult)}`, `Pradinė ${s.pav}: ${eur(A)} Eur` ];
+          for(let k = 1; k <= n; k++){ steps.push(`Po ${k}: ${eur(vals[k-1])} · ${nf(mult)} = ${eur(vals[k])} Eur`); }
+          steps.push(`Galutinė ${s.pav}: ${eur(ans)} Eur`);
+          return { q: s.tekstas, ans, steps, ansText: `${eur(ans)} Eur`, pre: "atsakymas =" };
+      }}
+    ];
+    return G.map(g => ({ label:"3.5 "+g.label, gen:g.gen }));
+  })()
+
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio darbo PROCENTAI treniruoklis", "subtitle": "3 skyrius „Procentai“ · 7 klasė · visos temos (3.1–3.5) · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').textContent = S.dabartinis.q;
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || nf(p.ans); }
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const val = parseVal($('atsakymas').value);
+  if(isNaN(val)){ $('atsakymas').focus(); return; }
+  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
+  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
