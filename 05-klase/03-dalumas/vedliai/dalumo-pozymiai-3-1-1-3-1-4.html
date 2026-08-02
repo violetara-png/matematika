@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Dalumo požymiai (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Nojus“</h1>
+    <p>Tema: <b>Dalumo požymiai</b> (dalyba iš 10, 100, 5, 2, 9, 3, 4) · 5 klasė · 3 skyrius „Dalumas“</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">N<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Nojus</div>
+        Sveikas! Aš — Nojus, tavo mokymosi asistentas. Šiandien kartu atrasime <b>dalumo požymius</b>: kaip iš karto, be dalybos, atpažinti, ar skaičius dalijasi iš 10, 100, 5, 2, 9, 3 ar 4.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o taisyklę ir atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">N<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Nojus</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">N<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Nojus</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk tiesiog skaičiumi, pvz. <b>254</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo paties paprasčiausio dalumo požymio, dalybos iš 10. Prisimink, kaip sodinami berželiai lygiomis eilėmis.", "expr": "Sodininkas augina 2540 berželių ir nori pasodinti juos po lygiai į 10 eilučių.", "q": "Kiek berželių atiteks kiekvienai eilei?", "accepted": ["254"], "hints": ["Pažiūrėk į skaičiaus 2540 paskutinį skaitmenį. Ką pastebi?", "Jei skaičiaus paskutinis skaitmuo yra 0, jis dalijasi iš 10 be liekanos, ir tokį skaičių iš 10 padalyti labai paprasta.", "Nubraukus paskutinį nulį, lieka skaičius, jis ir yra atsakymas, kiek berželių atiteks vienai eilei."]}, {"intro": "Puiku! Dabar pažiūrėkime, kas nutinka, kai reikia dalyti iš 100, panašiai, bet reikės nubraukti daugiau nulių.", "expr": "Sandėlyje sukrauta 45 600 sąsiuvinių, kuriuos reikia supakuoti po lygiai į 100 dėžių.", "q": "Kiek sąsiuvinių atiteks vienai dėžei?", "accepted": ["456"], "hints": ["Pažiūrėk į du paskutinius skaičiaus 45600 skaitmenis.", "Jei skaičiaus du paskutiniai skaitmenys yra nuliai, tas skaičius dalijasi iš 100 be liekanos.", "Nubraukus du paskutinius nulius iš 45600, lieka skaičius, jis ir yra atsakymas."]}, {"intro": "Kitas požymis, dalyba iš 5. Čia jau nebepakaks vien nulio gale.", "expr": "Ūkininkas turi 235 obuolių krepšelius sandėlyje ir nori juos sudėti į dėžes po 5 krepšelius.", "q": "Į kiek dėžių ūkininkas galės sudėti visus krepšelius, jei kiekvienoje bus tiksliai po 5?", "accepted": ["47"], "hints": ["Pažvelk į skaičiaus 235 paskutinį skaitmenį. Ar jis 0, ar galbūt kitoks?", "Skaičiai, kurių paskutinis skaitmuo yra 0 arba 5, dalijasi iš 5 be liekanos.", "Kadangi 235 dalijasi iš 5, apskaičiuok 235 : 5, gautas dalmuo ir yra dėžių skaičius."]}, {"intro": "Dabar dalyba iš 2. Šis požymis tau tikriausiai jau pažįstamas kitu vardu.", "expr": "Klasėje yra 348 pieštukai, kuriuos mokytoja nori padalyti po lygiai į 2 dėžutes.", "q": "Kiek pieštukų atiteks vienai dėžutei?", "accepted": ["174"], "hints": ["Skaičiaus 348 paskutinis skaitmuo yra 8. Ar žinai, kokie paskutiniai skaitmenys rodo, kad skaičius dalijasi iš 2?", "Skaičiai, kurių paskutinis skaitmuo yra 0, 2, 4, 6 arba 8, dalijasi iš 2 be liekanos, tokie skaičiai vadinami lyginiais (o kurie nesidalija, nelyginiais).", "Kadangi 348 yra lyginis, apskaičiuok 348 : 2, gautas dalmuo ir yra atsakymas."]}, {"intro": "Sekantis požymis nebepriklauso nuo paskutinio skaitmens, čia svarbi VISŲ skaitmenų suma.", "expr": "Skaičiuje 4★7 (žvaigždutė žymi vieną nežinomą skaitmenį) skaitmenų suma turi dalytis iš 9.", "q": "Koks skaitmuo turėtų būti vietoj žvaigždutės, kad skaičius 4★7 dalytųsi iš 9?", "accepted": ["7"], "hints": ["Sudėk visus skaičiaus 4★7 žinomus skaitmenis: 4 ir 7.", "4 + 7 = 11. Prie šios sumos reikia pridėti nežinomą skaitmenį, kad rezultatas dalytųsi iš 9.", "Artimiausias skaičiui 11 skaičius, kuris didesnis ir dalijasi iš 9, yra 18. Pagalvok, kokį skaitmenį reikia pridėti prie 11, kad gautum 18."]}, {"intro": "Analogiškas požymis, tik švelnesnis, dalyba iš 3.", "expr": "Skaičiuje 5★2 (žvaigždutė žymi vieną nežinomą skaitmenį) skaitmenų suma turi dalytis iš 3.", "q": "Koks MAŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės, kad skaičius 5★2 dalytųsi iš 3?", "accepted": ["2"], "hints": ["Sudėk žinomus skaitmenis: 5 + 2.", "5 + 2 = 7. Prie šios sumos reikia pridėti mažiausią įmanomą skaitmenį, kad rezultatas dalytųsi iš 3.", "Artimiausias skaičiui 7 skaičius, kuris didesnis ir dalijasi iš 3, yra 9. Pagalvok, kiek reikia pridėti prie 7, kad gautum 9."]}, {"intro": "Grįžkime prie paskutinių skaitmenų, bet šįkart reikės ne vieno, o DVIEJŲ paskutinių skaitmenų derinio.", "expr": "Skaičiuje 516★ paskutiniai du skaitmenys yra 6★ (žvaigždutė žymi vieną nežinomą skaitmenį).", "q": "Koks DIDŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės, kad skaičius 516★ dalytųsi iš 4?", "accepted": ["8"], "hints": ["Dalumo iš 4 požymiui svarbu ne paskutinis skaitmuo, o PASKUTINIAI DU skaitmenys, jie turi sudaryti skaičių, kuris dalijasi iš 4.", "Paskutiniai du skaičiaus 516★ skaitmenys yra 6★. Pabandyk vietoj žvaigždutės įrašyti skirtingus skaitmenis nuo 0 iki 9 ir patikrink, su kuriais dviženklis skaičius 6★ dalijasi iš 4.", "Patikrinęs pastebėsi, kad tinka keli skaitmenys, tau reikia DIDŽIAUSIO iš jų."]}, {"intro": "Paskutinė, sunkiausia užduotis, sujunkime viską, ką jau moki. Dalumo iš 6 požymio vadovėlyje nėra, bet jį galima IŠVESTI iš to, ką jau žinai.", "expr": "Sandėlyje yra 234 dėžės prekių, kurias prekybininkas nori sukrauti į vežimus po lygiai, kiekviename vežime po 6 dėžes.", "q": "Kiek vežimų prekybininkui prireiks?", "accepted": ["39"], "hints": ["Skaičius dalijasi iš 6 tada, kai jis dalijasi IR iš 2, IR iš 3 tuo pačiu metu. Patikrink abu požymius skaičiui 234.", "234 paskutinis skaitmuo yra lyginis, taigi dalijasi iš 2. Patikrink dar ir skaitmenų sumą 2+3+4, ar ji dalijasi iš 3?", "Kadangi 234 dalijasi ir iš 2, ir iš 3, jis dalijasi ir iš 6. Apskaičiuok 234 : 6, tai bus vežimų skaičius."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Ūkininkas parvežė 3800 kg bulvių ir supylė jas į 10 vienodų maišų. Kiek kilogramų bulvių yra viename maište?", "acc": ["380"], "hint": "Skaičiaus 3800 paskutinis skaitmuo yra 0, jis dalijasi iš 10. Nubraukęs vieną nulį gausi atsakymą."}, {"t": "Sandėlyje yra 27 400 sąvaržėlių, supakuotų po lygiai į 100 dėžučių. Kiek sąvaržėlių yra vienoje dėžutėje?", "acc": ["274"], "hint": "Skaičiaus 27400 du paskutiniai skaitmenys yra nuliai, jis dalijasi iš 100. Nubraukęs du nulius gausi atsakymą."}, {"t": "Sandėlyje yra 165 dėžės obuolių. Jas reikia sukrauti į vežimus po 5 dėžes. Kiek vežimų prireiks?", "acc": ["33"], "hint": "Skaičiaus 165 paskutinis skaitmuo yra 5, jis dalijasi iš 5. Apskaičiuok 165 : 5."}, {"t": "Mokykloje yra 246 sąsiuviniai, kuriuos reikia padalyti po lygiai 2 klasėms. Kiek sąsiuvinių atiteks vienai klasei?", "acc": ["123"], "hint": "Skaičius 246 yra lyginis (paskutinis skaitmuo 6), todėl dalijasi iš 2. Apskaičiuok 246 : 2."}, {"t": "Skaičiuje 5★8 skaitmenų suma turi dalytis iš 9. Koks skaitmuo turėtų būti vietoj žvaigždutės?", "acc": ["5"], "hint": "Sudėk žinomus skaitmenis 5 ir 8, gausi 13. Pagalvok, iki kokio artimiausio didesnio skaičiaus, dalijančio iš 9 (tai 18), trūksta, ir kiek tam reikia pridėti."}, {"t": "Skaičiuje 4★1 skaitmenų suma turi dalytis iš 3. Koks MAŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės?", "acc": ["1"], "hint": "4+1=5. Artimiausias didesnis skaičius, dalijantis iš 3, yra 6. Pagalvok, kiek reikia pridėti prie 5, kad gautum 6."}, {"t": "Skaičiuje 728★ paskutiniai du skaitmenys yra 8★. Koks DIDŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės, kad skaičius dalytųsi iš 4?", "acc": ["8"], "hint": "Patikrink dviženklius skaičius nuo 80 iki 89, su kuriais skaitmenimis vietoj žvaigždutės gautum skaičių, dalijantį iš 4? Tau reikia didžiausio tinkamo."}, {"t": "Iš skaičių 128, 246, 315, 500 išrinkite tą, kuris dalijasi ir iš 2, ir iš 5.", "acc": ["500"], "hint": "Skaičius, kuris dalijasi ir iš 2, ir iš 5, visada baigiasi skaitmeniu 0. Kuris iš pateiktų skaičių tuo baigiasi?"}, {"t": "Prekybos centras gavo 468 dėžes gėrimų ir nori jas sukrauti į vežimėlius po lygiai, kiekviename vežimėlyje po 6 dėžes. Kiek vežimėlių prireiks?", "acc": ["78"], "hint": "Patikrink, ar 468 dalijasi ir iš 2 (paskutinis skaitmuo lyginis), ir iš 3 (skaitmenų suma 4+6+8=18 dalijasi iš 3). Jei taip, skaičius dalijasi ir iš 6. Apskaičiuok 468 : 6."}, {"t": "Skaičius 8★2 dalijasi ir iš 4, ir iš 3. Koks skaitmuo yra vietoj žvaigždutės?", "acc": ["5"], "hint": "Patikrink paskutinius du skaitmenis (★2), su kuriais skaitmenimis vietoj žvaigždutės tas dviženklis skaičius dalijasi iš 4? Iš gautų variantų išrink tą, su kuriuo viso skaičiaus skaitmenų suma dalijasi ir iš 3."}]}, {"label": "variantas B", "qs": [{"t": "Sandėlyje yra 5670 kg cukraus, supilto į 10 vienodų maišų. Kiek kilogramų cukraus yra viename maiše?", "acc": ["567"], "hint": "Skaičiaus 5670 paskutinis skaitmuo yra 0, jis dalijasi iš 10. Nubraukęs vieną nulį gausi atsakymą."}, {"t": "Bibliotekoje yra 31 800 knygų, sudėtų po lygiai į 100 lentynų. Kiek knygų yra vienoje lentynoje?", "acc": ["318"], "hint": "Skaičiaus 31800 du paskutiniai skaitmenys yra nuliai, jis dalijasi iš 100. Nubraukęs du nulius gausi atsakymą."}, {"t": "Ūkyje yra 275 vištos, kurias reikia paskirstyti į narvelius po 5 vištas. Kiek narvelių prireiks?", "acc": ["55"], "hint": "Skaičiaus 275 paskutinis skaitmuo yra 5, jis dalijasi iš 5. Apskaičiuok 275 : 5."}, {"t": "Sandėlyje yra 362 balionai, kuriuos reikia padalyti po lygiai 2 salėms. Kiek balionų atiteks vienai salei?", "acc": ["181"], "hint": "Skaičius 362 yra lyginis (paskutinis skaitmuo 2), todėl dalijasi iš 2. Apskaičiuok 362 : 2."}, {"t": "Skaičiuje 6★7 skaitmenų suma turi dalytis iš 9. Koks skaitmuo turėtų būti vietoj žvaigždutės?", "acc": ["5"], "hint": "Sudėk žinomus skaitmenis 6 ir 7, gausi 13. Pagalvok, iki kokio artimiausio didesnio skaičiaus, dalijančio iš 9 (tai 18), trūksta, ir kiek tam reikia pridėti."}, {"t": "Skaičiuje 5★3 skaitmenų suma turi dalytis iš 3. Koks MAŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės?", "acc": ["1"], "hint": "5+3=8. Artimiausias didesnis skaičius, dalijantis iš 3, yra 9. Pagalvok, kiek reikia pridėti prie 8, kad gautum 9."}, {"t": "Skaičiuje 634★ paskutiniai du skaitmenys yra 4★. Koks DIDŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės, kad skaičius dalytųsi iš 4?", "acc": ["8"], "hint": "Patikrink dviženklius skaičius nuo 40 iki 49, su kuriais skaitmenimis vietoj žvaigždutės gautum skaičių, dalijantį iš 4? Tau reikia didžiausio tinkamo."}, {"t": "Iš skaičių 135, 246, 480, 512 išrinkite tą, kuris dalijasi ir iš 2, ir iš 5.", "acc": ["480"], "hint": "Skaičius, kuris dalijasi ir iš 2, ir iš 5, visada baigiasi skaitmeniu 0. Kuris iš pateiktų skaičių tuo baigiasi?"}, {"t": "Ūkininkas surinko 522 obuolius ir nori sudėti juos į dėžes po lygiai, kiekvienoje dėžėje po 6 obuolius. Kiek dėžių prireiks?", "acc": ["87"], "hint": "Patikrink, ar 522 dalijasi ir iš 2 (paskutinis skaitmuo lyginis), ir iš 3 (skaitmenų suma 5+2+2=9 dalijasi iš 3). Jei taip, skaičius dalijasi ir iš 6. Apskaičiuok 522 : 6."}, {"t": "Skaičius 7★4 dalijasi ir iš 4, ir iš 3. Koks skaitmuo yra vietoj žvaigždutės?", "acc": ["4"], "hint": "Patikrink paskutinius du skaitmenis (★4), su kuriais skaitmenimis vietoj žvaigždutės tas dviženklis skaičius dalijasi iš 4? Iš gautų variantų išrink tą, su kuriuo viso skaičiaus skaitmenų suma dalijasi ir iš 3."}]}, {"label": "variantas C", "qs": [{"t": "Fabrikas pagamino 4230 saldainių, supiltų į 10 vienodų dėžių. Kiek saldainių yra vienoje dėžėje?", "acc": ["423"], "hint": "Skaičiaus 4230 paskutinis skaitmuo yra 0, jis dalijasi iš 10. Nubraukęs vieną nulį gausi atsakymą."}, {"t": "Stadione yra 18 900 sėdimų vietų, suskirstytų po lygiai į 100 sektorių. Kiek vietų yra viename sektoriuje?", "acc": ["189"], "hint": "Skaičiaus 18900 du paskutiniai skaitmenys yra nuliai, jis dalijasi iš 100. Nubraukęs du nulius gausi atsakymą."}, {"t": "Sandėlyje yra 145 dėžės vaisių, kurias reikia sukrauti į vežimus po 5 dėžes. Kiek vežimų prireiks?", "acc": ["29"], "hint": "Skaičiaus 145 paskutinis skaitmuo yra 5, jis dalijasi iš 5. Apskaičiuok 145 : 5."}, {"t": "Mieste yra 428 suoliukai, kuriuos reikia padalyti po lygiai 2 parkams. Kiek suoliukų atiteks vienam parkui?", "acc": ["214"], "hint": "Skaičius 428 yra lyginis (paskutinis skaitmuo 8), todėl dalijasi iš 2. Apskaičiuok 428 : 2."}, {"t": "Skaičiuje 2★9 skaitmenų suma turi dalytis iš 9. Koks skaitmuo turėtų būti vietoj žvaigždutės?", "acc": ["7"], "hint": "Sudėk žinomus skaitmenis 2 ir 9, gausi 11. Pagalvok, iki kokio artimiausio didesnio skaičiaus, dalijančio iš 9 (tai 18), trūksta, ir kiek tam reikia pridėti."}, {"t": "Skaičiuje 6★4 skaitmenų suma turi dalytis iš 3. Koks MAŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės?", "acc": ["2"], "hint": "6+4=10. Artimiausias didesnis skaičius, dalijantis iš 3, yra 12. Pagalvok, kiek reikia pridėti prie 10, kad gautum 12."}, {"t": "Skaičiuje 815★ paskutiniai du skaitmenys yra 5★. Koks DIDŽIAUSIAS skaitmuo galėtų būti vietoj žvaigždutės, kad skaičius dalytųsi iš 4?", "acc": ["6"], "hint": "Patikrink dviženklius skaičius nuo 50 iki 59, su kuriais skaitmenimis vietoj žvaigždutės gautum skaičių, dalijantį iš 4? Tau reikia didžiausio tinkamo."}, {"t": "Iš skaičių 214, 350, 463, 128 išrinkite tą, kuris dalijasi ir iš 2, ir iš 5.", "acc": ["350"], "hint": "Skaičius, kuris dalijasi ir iš 2, ir iš 5, visada baigiasi skaitmeniu 0. Kuris iš pateiktų skaičių tuo baigiasi?"}, {"t": "Sandėlio darbuotojai turi 342 dėžes prekių ir nori sukrauti jas į vežimėlius po lygiai, kiekviename vežimėlyje po 6 dėžes. Kiek vežimėlių prireiks?", "acc": ["57"], "hint": "Patikrink, ar 342 dalijasi ir iš 2 (paskutinis skaitmuo lyginis), ir iš 3 (skaitmenų suma 3+4+2=9 dalijasi iš 3). Jei taip, skaičius dalijasi ir iš 6. Apskaičiuok 342 : 6."}, {"t": "Skaičius 9★8 dalijasi ir iš 4, ir iš 3. Koks skaitmuo yra vietoj žvaigždutės?", "acc": ["4"], "hint": "Patikrink paskutinius du skaitmenis (★8), su kuriais skaitmenimis vietoj žvaigždutės tas dviženklis skaičius dalijasi iš 4? Iš gautų variantų išrink tą, su kuriuo viso skaičiaus skaitmenų suma dalijasi ir iš 3."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

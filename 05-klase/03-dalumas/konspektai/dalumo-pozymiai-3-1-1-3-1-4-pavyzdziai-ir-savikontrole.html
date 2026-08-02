@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Dalumo požymiai — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Dalumo požymiai — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 3 skyrius „Dalumas“ · 3.1.1–3.1.4 temos</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Dalijame iš 10 ir iš 100</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> paskutinis skaitmuo 0 → dalijasi iš 10; du paskutiniai skaitmenys nuliai → dalijasi iš 100.</div>
+    <div class="ex">
+      <div class="q">Ar 830 dalijasi iš 10? Iš 100?</div>
+      <div class="line">Paskutinis skaitmuo 0 &rArr; iš 10 <span class="res">taip</span>. Du paskutiniai „30“ (ne „00“) &rArr; iš 100 <span class="res">ne</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 4 500 dalijasi iš 10? Iš 100?</div>
+      <div class="line">Du paskutiniai skaitmenys „00“ &rArr; dalijasi <span class="res">ir iš 10, ir iš 100</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Dalijame iš 5 ir iš 2</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> paskutinis skaitmuo 0 arba 5 → dalijasi iš 5; paskutinis skaitmuo 0, 2, 4, 6 arba 8 (lyginis) → dalijasi iš 2.</div>
+    <div class="ex">
+      <div class="q">Ar 645 dalijasi iš 5? Ar lyginis?</div>
+      <div class="line">Baigiasi 5 &rArr; iš 5 <span class="res">taip</span>. Paskutinis skaitmuo 5 nelyginis &rArr; iš 2 <span class="res">ne</span> (skaičius nelyginis).</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 638 dalijasi iš 2? Iš 5?</div>
+      <div class="line">Baigiasi 8 (lyginis) &rArr; iš 2 <span class="res">taip</span>. Iš 5 <span class="res">ne</span> (nebaigiasi 0 ar 5).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Dalijame iš 9 ir iš 3</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> skaitmenų suma dalijasi iš 9 (atitinkamai iš 3) → ir pats skaičius dalijasi iš 9 (atitinkamai iš 3).</div>
+    <div class="ex">
+      <div class="q">Ar 471 dalijasi iš 3? Iš 9?</div>
+      <div class="line">Skaitmenų suma: 4+7+1 = 12. 12 dalijasi iš 3 &rArr; iš 3 <span class="res">taip</span>. 12 iš 9 nesidalija &rArr; iš 9 <span class="res">ne</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 5 823 dalijasi iš 9?</div>
+      <div class="line">Skaitmenų suma: 5+8+2+3 = 18. 18 dalijasi iš 9 &rArr; <span class="res">taip</span> (kartu ir iš 3).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Dalijame iš 4</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> paskutiniai du skaitmenys nuliai arba jų sudarytas skaičius dalijasi iš 4 → ir pats skaičius dalijasi iš 4.</div>
+    <div class="ex">
+      <div class="q">Ar 316 dalijasi iš 4?</div>
+      <div class="line">Paskutiniai du skaitmenys „16“, 16 : 4 = 4 &rArr; <span class="res">taip</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 318 dalijasi iš 4?</div>
+      <div class="line">Paskutiniai du skaitmenys „18“, 18 : 4 nesveikas &rArr; <span class="res">ne</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 5 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Kelių požymių derinimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> dalijasi iš 6 → tikrinu ir iš 2, ir iš 3 (6 = 2·3). Dalijasi iš 15 → tikrinu ir iš 3, ir iš 5 (15 = 3·5).</div>
+    <div class="ex">
+      <div class="q">Ar 234 dalijasi iš 6?</div>
+      <div class="line">Baigiasi 4 (lyginis) &rArr; iš 2 taip. Skaitmenų suma 2+3+4=9 &rArr; iš 3 taip. Abi sąlygos &rArr; <span class="res">taip</span> (234:6=39).</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 345 dalijasi iš 15?</div>
+      <div class="line">Baigiasi 5 &rArr; iš 5 taip. Skaitmenų suma 3+4+5=12 &rArr; iš 3 taip. Abi sąlygos &rArr; <span class="res">taip</span> (345:15=23).</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> naudokis dalumo požymiais (ne dalyba!). Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Dalumas iš 10 ir iš 100</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>730 — ar dalijasi iš 10? Iš 100?</li>
+        <li>8 200 — ar dalijasi iš 10? Iš 100?</li>
+        <li>605 — ar dalijasi iš 10?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Dalumas iš 5 ir iš 2</div>
+    <div class="two">
+      <ol class="tasks math" start="4">
+        <li>275 — lyginis ar nelyginis? Ar dalijasi iš 5?</li>
+        <li>462 — ar dalijasi iš 2? Iš 5?</li>
+        <li>590 — ar dalijasi ir iš 2, ir iš 5?</li>
+      </ol>
+    </div>
+
+    <div class="grp">C. Dalumas iš 9 ir iš 3</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>522 — ar dalijasi iš 3? Iš 9?</li>
+        <li>918 — ar dalijasi iš 9?</li>
+        <li>407 — ar dalijasi iš 3?</li>
+      </ol>
+    </div>
+
+    <div class="grp">D. Dalumas iš 4</div>
+    <div class="two">
+      <ol class="tasks math" start="10">
+        <li>728 — ar dalijasi iš 4?</li>
+        <li>514 — ar dalijasi iš 4?</li>
+        <li>900 — ar dalijasi iš 4?</li>
+      </ol>
+    </div>
+
+    <div class="grp">E. Kelių požymių derinimas</div>
+    <div class="two">
+      <ol class="tasks math" start="13">
+        <li>456 — ar dalijasi iš 6?</li>
+        <li>615 — ar dalijasi iš 15?</li>
+        <li>322 — ar dalijasi iš 6?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="16">
+      <li>Kiaušiniai sudėti į dėžutes po 10 kiekvienoje. Ar galėjo iš viso būti 350 kiaušinių? O 355?</li>
+      <li>Šokoladas supakuotas į dėžutes po 4 plyteles kiekvienoje. Ar galėjo iš viso būti 236 plytelės? O 238?</li>
+      <li>2016-ieji buvo keliamieji metai. Ar skaičius <span class="math">2016</span> dalijasi iš 4?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> taip; ne &nbsp;&nbsp; <b>2.</b> taip; taip &nbsp;&nbsp; <b>3.</b> ne &nbsp;&nbsp; <b>4.</b> nelyginis; taip</div>
+    <div class="row math"><b>5.</b> taip; ne &nbsp;&nbsp; <b>6.</b> taip &nbsp;&nbsp; <b>7.</b> taip; taip &nbsp;&nbsp; <b>8.</b> taip</div>
+    <div class="row math"><b>9.</b> ne &nbsp;&nbsp; <b>10.</b> taip &nbsp;&nbsp; <b>11.</b> ne &nbsp;&nbsp; <b>12.</b> taip</div>
+    <div class="row math"><b>13.</b> taip &nbsp;&nbsp; <b>14.</b> taip &nbsp;&nbsp; <b>15.</b> ne</div>
+    <div class="row math"><b>16.</b> 350 — taip (baigiasi 0); 355 — ne (baigiasi 5)</div>
+    <div class="row math"><b>17.</b> 236 — taip (36:4=9); 238 — ne (38:4 nesveikas)</div>
+    <div class="row math"><b>18.</b> taip (16:4=4)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Dalumo požymiai“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

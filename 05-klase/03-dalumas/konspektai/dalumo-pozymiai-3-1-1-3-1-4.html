@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dalumo požymiai — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:19px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Dalumo požymiai</h1>
+  <p class="klase">Matematika · 5 klasė · 3 skyrius „Dalumas“ · 3.1.1–3.1.4 temos</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Dalijame iš 10 ir iš 100</a></li>
+      <li><a href="#t2">Dalijame iš 5 ir iš 2</a></li>
+      <li><a href="#t3">Dalijame iš 9 ir iš 3</a></li>
+      <li><a href="#t4">Dalijame iš 4</a></li>
+      <li><a href="#t5">Kelių požymių derinimas</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">3.1.1</span> Dalijame iš 10 ir iš 100</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalumo požymis</span> — tai taisyklė, kuri leidžia <b>be dalybos</b> pasakyti, ar vienas skaičius dalijasi iš kito.</p>
+        <div class="formule">Jei skaičiaus <b>paskutinis skaitmuo yra 0</b>, tai tas skaičius dalijasi iš <span class="term-a">10</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 10, tai jo paskutinis skaitmuo yra 0.</div>
+        <div class="formule">Jei skaičiaus <b>du paskutiniai skaitmenys yra nuliai</b>, tai tas skaičius dalijasi iš <span class="term-b">100</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 100, tai jo du paskutiniai skaitmenys yra nuliai.</div>
+        <p class="pvz"><b>Pavyzdys.</b> Nojus 30 berželių pasodino po lygiai į 3 eiles: <span class="math">30 : 3 = 10</span> (kiekvienoje eilėje po 10). O ar galėtų pasodinti juos po lygiai į 4 eiles? <span class="math">30 : 4 = 7</span> ir liekana 2 — ne, negalėtų be liekanos.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Skaičius <span class="math">830</span> baigiasi <b>0</b>, tad dalijasi iš 10. Bet du paskutiniai skaitmenys yra „30“ (ne „00“), tad iš 100 <b>nesidalija</b>. Skaičius <span class="math">4 500</span> baigiasi „00“, tad dalijasi ir iš 10, ir iš 100.</p>
+        <p class="demesio"><b>Dėmesio.</b> Jei skaičius dalijasi iš 100, jis <b>būtinai</b> dalijasi ir iš 10 (nes <span class="math">100 = 10 · 10</span>). Bet <b>atvirkščiai netiesa</b>: skaičius gali dalytis iš 10, o iš 100 — ne (kaip 830 aukščiau).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">3.1.2</span> Dalijame iš 5 ir iš 2</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <div class="formule">Jei skaičiaus <b>paskutinis skaitmuo yra 0 arba 5</b>, tai tas skaičius dalijasi iš <span class="term-a">5</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 5, tai jo paskutinis skaitmuo yra 0 arba 5.</div>
+        <div class="formule">Jei skaičiaus <b>paskutinis skaitmuo yra 0, 2, 4, 6 arba 8</b>, tai tas skaičius dalijasi iš <span class="term-b">2</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 2, tai jo paskutinis skaitmuo yra 0, 2, 4, 6 arba 8.</div>
+        <p><span class="zenk">Skaičiai, kurie dalijasi iš 2, vadinami lyginiais, o kurie nesidalija iš 2, – nelyginiais.</span> Kiekvienas natūralusis skaičius yra arba lyginis, arba nelyginis — trečio varianto nėra.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Skaičius <span class="math">645</span> baigiasi <b>5</b> — dalijasi iš 5, o kadangi 5 yra nelyginis skaitmuo, pats skaičius yra <b>nelyginis</b> (iš 2 nesidalija). Skaičius <span class="math">638</span> baigiasi <b>8</b> — lyginis, dalijasi iš 2, bet iš 5 nesidalija. Skaičius <span class="math">350</span> baigiasi <b>0</b> — dalijasi ir iš 2, ir iš 5.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3.1.3</span> Dalijame iš 9 ir iš 3</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Kontekstas.</b> Reikia sudėti <span class="math">567</span> obuolius po lygiai į 9 krepšius. Skaičių <span class="math">567 = 500 + 60 + 7</span> galima suskaidyti pagal skyrius. Suskaičiuokime skaitmenų sumą: <span class="math">5 + 6 + 7 = <b class="term-a">18</b></span>. Kadangi <span class="math">18 : 9 = 2</span>, o 18 yra būtent tų pačių skaitmenų suma, galima parodyti, kad ir 567 dalijasi iš 9 (iš tiesų <span class="math">567 : 9 = 63</span>).</p>
+        <div class="formule">Jei skaičiaus <b>skaitmenų suma dalijasi iš 9</b>, tai ir pats skaičius dalijasi iš <span class="term-a">9</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 9, tai ir to skaičiaus skaitmenų suma dalijasi iš 9.</div>
+        <div class="formule">Jei skaičiaus <b>skaitmenų suma dalijasi iš 3</b>, tai ir pats skaičius dalijasi iš <span class="term-b">3</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 3, tai ir to skaičiaus skaitmenų suma dalijasi iš 3.</div>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">471</span> dalijasi iš 3? Iš 9? Skaitmenų suma: <span class="math">4 + 7 + 1 = 12</span>. 12 dalijasi iš 3 (taip), bet iš 9 — ne. Vadinasi, 471 dalijasi iš 3, bet iš 9 <b>nesidalija</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">5 823</span> dalijasi iš 9? Skaitmenų suma: <span class="math">5 + 8 + 2 + 3 = 18</span>. 18 dalijasi iš 9, tad ir 5 823 dalijasi iš 9 (o kartu ir iš 3).</p>
+        <p class="demesio"><b>Dėmesio.</b> Jei skaičius dalijasi iš 9, jis <b>būtinai</b> dalijasi ir iš 3 (nes <span class="math">9 = 3 · 3</span>). Bet <b>atvirkščiai netiesa</b>: skaičius gali dalytis iš 3, o iš 9 — ne (kaip 471 aukščiau).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">3.1.4</span> Dalijame iš 4</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Kontekstas.</b> Reikia sudėti <span class="math">312</span> tulpių svogūnėlius po lygiai į 4 dėžes. Skaičių patogu suskaidyti taip: <span class="math">312 = 300 + 12</span>. Dėmuo <b>300</b> dalijasi iš 4, nes jo du paskutiniai skaitmenys yra nuliai. Dėmuo <b>12</b> taip pat dalijasi iš 4 (<span class="math">12 : 4 = 3</span>). Kadangi abu dėmenys dalijasi iš 4, tai ir suma — skaičius 312 — dalijasi iš 4 (<span class="math">312 : 4 = 78</span>).</p>
+        <div class="formule">Jei skaičiaus <b>paskutiniai du skaitmenys yra nuliai</b> arba <b>tų skaitmenų sudarytas skaičius dalijasi iš 4</b>, tai ir pats skaičius dalijasi iš <span class="term-a">4</span>.<br>
+        Ir atvirkščiai: jei skaičius dalijasi iš 4, tai to skaičiaus paskutiniai du skaitmenys yra nuliai arba tų skaitmenų sudarytas skaičius dalijasi iš 4.</div>
+        <p class="pvz"><b>Pavyzdys.</b> Skaičiaus <span class="math">316</span> paskutiniai du skaitmenys sudaro „16“, o <span class="math">16 : 4 = 4</span> — dalijasi. Tad ir 316 dalijasi iš 4. Skaičiaus <span class="math">318</span> paskutiniai du skaitmenys sudaro „18“, o 18 iš 4 nesidalija (nesveikas dalmuo) — tad ir 318 iš 4 <b>nesidalija</b>. Skaičius <span class="math">400</span> baigiasi „00“ — dalijasi iš 4 (ir iš 100).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Kelių požymių derinimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai skaičius turi dalytis iš <b>sudėtinio</b> skaičiaus, patikriname <b>kelis požymius iš karto</b> — skaičius dalijasi iš sudėtinio skaičiaus, jei dalijasi iš <b>abiejų jo daliklių</b>.</p>
+        <table class="kort">
+          <tr><th>Dalijasi iš</th><th>Nes</th><th>Tikriname</th></tr>
+          <tr><td><b>6</b></td><td class="math">6 = 2 · 3</td><td>ir iš 2, ir iš 3</td></tr>
+          <tr><td><b>15</b></td><td class="math">15 = 3 · 5</td><td>ir iš 3, ir iš 5</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">234</span> dalijasi iš 6? Paskutinis skaitmuo <b>4</b> — lyginis (dalijasi iš 2). Skaitmenų suma <span class="math">2 + 3 + 4 = 9</span> — dalijasi iš 3. Abi sąlygos tenkinamos, tad <span class="gerai">234 dalijasi iš 6</span> (<span class="math">234 : 6 = 39</span>).</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">235</span> dalijasi iš 6? Paskutinis skaitmuo <b>5</b> — nelyginis, iš 2 nesidalija. Nors 235 dalijasi iš 5, sąlyga „ir iš 2“ netenkinama, tad <span class="klaida" style="text-decoration:none">235 iš 6 nesidalija</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar <span class="math">345</span> dalijasi iš 15? Baigiasi <b>5</b> — dalijasi iš 5. Skaitmenų suma <span class="math">3 + 4 + 5 = 12</span> — dalijasi iš 3. Abi sąlygos tenkinamos, tad <span class="gerai">345 dalijasi iš 15</span> (<span class="math">345 : 15 = 23</span>).</p>
+        <p class="demesio"><b>Dėmesio.</b> Dalumo iš 6, iš 15 (ar panašiai) požymio <b>nesimokome atmintinai kaip atskiros taisyklės</b> — jį visada <b>išvedame</b>, derindami jau žinomus požymius (iš 2 ir iš 3; iš 3 ir iš 5).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">iš 3 tikrinam pagal paskutinį skaitmenį</span></td><td>iš 3 (ir iš 9) tikrinam pagal <span class="gerai">skaitmenų sumą</span>, ne pagal paskutinį skaitmenį</td></tr>
+          <tr><td class="math"><span class="klaida">1 + 3 + 8 = 11</span></td><td class="math">1 + 3 + 8 = <span class="gerai">12</span> (dalijasi iš 3)</td></tr>
+          <tr><td><span class="klaida">manoma, kad iš 3 dalijasi tik lyginiai skaičiai</span></td><td><span class="math">51</span> yra nelyginis, bet <span class="gerai">dalijasi iš 3</span> (5+1=6)</td></tr>
+          <tr><td><span class="klaida">tikrinant dalumą iš 6 patikrinamas tik vienas požymis</span></td><td>reikia patikrinti <span class="gerai">abu</span>: ir iš 2, ir iš 3</td></tr>
+          <tr><td><span class="klaida">manoma, kad jei dalijasi iš 3, tai dalijasi ir iš 9</span></td><td class="math">12 dalijasi iš 3, bet <span class="gerai">ne iš 9</span> (netiesa atvirkščiai)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Iš <b>2, 5, 10</b> spręndžiu pagal <b>paskutinį skaitmenį</b>; iš <b>3 ir 9</b>, pagal <b>skaitmenų sumą</b>; iš <b>4</b>, pagal <b>paskutinius du skaitmenis</b>. Sudėtiniams (6, 15…) — tikrinu <b>kelis požymius kartu</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Dalumo požymiai“ (3.1.1–3.1.4)
+  </footer>
+
+</div>
+</body>
+</html>

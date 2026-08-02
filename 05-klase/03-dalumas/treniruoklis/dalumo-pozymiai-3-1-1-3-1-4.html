@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: dalumo požymiai (5 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: dalumo požymiai (5 klasė)</h1>
+    <p id="paantraste">Dalumas · 5 klasė · 3.1.1–3.1.4 · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: „Dalumo požymiai“ (5 klasė, 3 skyrius
+// „Dalumas“, potemės 3.1.1–3.1.4 + kelių požymių derinimas).
+//
+// Šablonas jau apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
+// Čia papildomai apibrėžiame digitSum() ir `const GENERATORIAI = [...]`.
+//
+// Kiekvienas dalumo požymis (iš 2, 3, 4, 5, 9, 10, 100) yra ATSKIRAS tipas
+// (silpnos vietos sekimui pagal požymį). Sudėtiniai požymiai (iš 6 = 2 ir 3;
+// iš 15 = 3 ir 5) — dar du tipai, nes juos reikia IŠVESTI derinant, ne mokytis
+// atmintinai (taip mokoma konspekte, potemė „Kelių požymių derinimas“).
+//
+// Kiekvienas gen() atsitiktinai renkasi vieną iš kelių užduoties formų:
+//  - patikra „ar dalijasi?“ (atsakymas 1 = taip, 0 = ne);
+//  - trūkstamo skaitmens ◻ radimas (didžiausias arba vienintelis tinkamas);
+//  - žodinis uždavinys „kiek daugiausia telpa tolygiai“ (dalyba be liekanos).
+// Atsakymas visada skaičius (0/1 arba konkretus skaičius) — variklis priima
+// jį per input laukelį (parseVal).
+
+function digitSum(n){
+  return String(Math.abs(n)).split('').reduce((s,c)=>s+Number(c),0);
+}
+
+const GENERATORIAI = [
+
+  // ---------- ◊ Dalumas iš 10 ----------
+  { label:"Dalumas iš 10", gen(){
+    const r = Math.random();
+    if(r < 0.5){
+      const wantDiv = choice([true,false]);
+      let N = randint(100,9999);
+      if(wantDiv){ N = N - (N % 10); } else if(N % 10 === 0){ N += randint(1,9); }
+      const ans = (N % 10 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("10-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 10?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `${N} paskutinis skaitmuo yra ${N % 10}.`,
+        `Iš 10 dalijasi tie skaičiai, kurių paskutinis skaitmuo yra 0.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else if(r < 0.8){
+      const prefix = randint(10,9999);
+      return { q:`Koks vienintelis skaitmuo tinka vietoj ◻, kad skaičius ${prefix}◻ dalytųsi iš 10?`, ans:0, pre:"◻ =", steps:[
+        `Iš 10 dalijasi tie skaičiai, kurių paskutinis skaitmuo yra 0.`,
+        `Todėl ◻ = 0.`,
+        `Atsakymas: 0`
+      ]};
+    } else {
+      const k = randint(4,90), N = 10*k;
+      return { q:`Turime ${N} pieštukų. Norime sudėti juos į dėžutes po 10 pieštukų kiekvienoje, kad neliktų nė vieno. Kiek daugiausia tokių dėžučių gausime?`, ans:k, pre:"Atsakymas =", steps:[
+        `Tikriname: ${N} paskutinis skaitmuo yra 0, tad dalijasi iš 10.`,
+        `${N} : 10 = ${k}`,
+        `Atsakymas: ${k}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 100 ----------
+  { label:"Dalumas iš 100", gen(){
+    const r = Math.random();
+    if(r < 0.6){
+      const wantDiv = choice([true,false]);
+      let N = randint(1000,99999);
+      if(wantDiv){ N = N - (N % 100); } else if(N % 100 === 0){ N += randint(1,99); }
+      const ans = (N % 100 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("100-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 100?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `${N} du paskutiniai skaitmenys yra ${String(N % 100).padStart(2,"0")}.`,
+        `Iš 100 dalijasi tie skaičiai, kurių du paskutiniai skaitmenys yra 00.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else {
+      const prefix = randint(1,9999);
+      return { q:`Koks vienintelis dviženklis skaičius (nuo 00 iki 99) turi būti vietoj paskutinių dviejų skaitmenų ◻◻, kad ${prefix}◻◻ dalytųsi iš 100? (Įrašyk 0, jei tai „00“.)`, ans:0, pre:"◻◻ =", steps:[
+        `Iš 100 dalijasi tie skaičiai, kurių du paskutiniai skaitmenys yra 00.`,
+        `Todėl ◻◻ = 00, t. y. 0.`,
+        `Atsakymas: 0`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 5 ----------
+  { label:"Dalumas iš 5", gen(){
+    const r = Math.random();
+    if(r < 0.4){
+      const wantDiv = choice([true,false]);
+      let N = randint(100,99999);
+      if(wantDiv){ N = N - (N % 5); } else { while(N % 5 === 0) N++; }
+      const ans = (N % 5 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("5-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 5?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `${N} paskutinis skaitmuo yra ${N % 10}.`,
+        `Iš 5 dalijasi tie skaičiai, kurių paskutinis skaitmuo yra 0 arba 5.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else if(r < 0.7){
+      const prefix = randint(10,9999);
+      return { q:`Koks didžiausias skaitmuo tinka vietoj ◻, kad skaičius ${prefix}◻ dalytųsi iš 5?`, ans:5, pre:"◻ =", steps:[
+        `Iš 5 dalijasi skaičiai, kurių paskutinis skaitmuo 0 arba 5.`,
+        `Didžiausias iš jų yra 5.`,
+        `Atsakymas: 5`
+      ]};
+    } else {
+      const k = randint(6,120), N = 5*k;
+      return { q:`Turime ${N} saldainių. Mokytoja nori juos išdalinti mokiniams po 5 kiekvienam, kad neliktų nė vieno. Kiek daugiausia mokinių gaus saldainių?`, ans:k, pre:"Atsakymas =", steps:[
+        `Tikriname: ${N} paskutinis skaitmuo yra ${N % 10} (0 arba 5), tad dalijasi iš 5.`,
+        `${N} : 5 = ${k}`,
+        `Atsakymas: ${k}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 2 (lyginis/nelyginis) ----------
+  { label:"Dalumas iš 2", gen(){
+    const r = Math.random();
+    if(r < 0.55){
+      const wantDiv = choice([true,false]);
+      let N = randint(100,99999);
+      if(wantDiv){ if(N % 2 !== 0) N++; } else { if(N % 2 === 0) N++; }
+      const ans = (N % 2 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("2-check nesutapo");
+      return { q:`Ar skaičius ${N} yra lyginis, t. y. dalijasi iš 2?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `${N} paskutinis skaitmuo yra ${N % 10}.`,
+        `Iš 2 dalijasi (skaičius lyginis), kai paskutinis skaitmuo yra 0, 2, 4, 6 arba 8.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else if(r < 0.8){
+      const k = randint(10,300), N = 2*k;
+      return { q:`Turime ${N} obuolių. Norime sudėti juos į maišelius po 2 obuolius kiekviename, kad neliktų nė vieno. Kiek daugiausia tokių maišelių gausime?`, ans:k, pre:"Atsakymas =", steps:[
+        `Tikriname: ${N} paskutinis skaitmuo yra ${N % 10} — lyginis, tad dalijasi iš 2.`,
+        `${N} : 2 = ${k}`,
+        `Atsakymas: ${k}`
+      ]};
+    } else {
+      let N = randint(100,9999);
+      const nelyginis = (N % 2 !== 0);
+      const ans = nelyginis ? 1 : 0;
+      return { q:`Ar skaičius ${N} yra nelyginis (iš 2 nesidalija)?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `${N} paskutinis skaitmuo yra ${N % 10}.`,
+        `${nelyginis ? "Paskutinis skaitmuo nelyginis, tad skaičius nelyginis (iš 2 nesidalija)." : "Paskutinis skaitmuo lyginis, tad skaičius lyginis (iš 2 dalijasi), vadinasi jis NĖRA nelyginis."}`,
+        `Atsakymas: ${ans}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 9 ----------
+  { label:"Dalumas iš 9", gen(){
+    const r = Math.random();
+    if(r < 0.5){
+      const wantDiv = choice([true,false]);
+      const N = wantDiv ? 9*randint(12,1111) : 9*randint(12,1111) + randint(1,8);
+      const ds = digitSum(N);
+      const ans = (ds % 9 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("9-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 9?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `Skaitmenų suma: ${String(N).split('').join(' + ')} = ${ds}.`,
+        `Iš 9 dalijasi tie skaičiai, kurių skaitmenų suma dalijasi iš 9.`,
+        `${ds} ${ds % 9 === 0 ? "dalijasi" : "nedalijasi"} iš 9.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else {
+      const known = randint(100,9999);
+      const S = digitSum(known);
+      const valid = [];
+      for(let d=0; d<=9; d++){ if((S+d) % 9 === 0) valid.push(d); }
+      if(valid.length === 0) throw new Error("9-digit: nėra tinkamo skaitmens");
+      const ans = Math.max(...valid);
+      return { q:`Skaičiaus ${known}◻ (◻ – trūkstamas paskutinis skaitmuo) skaitmenų suma turi dalytis iš 9. Koks didžiausias skaitmuo tinka vietoj ◻?`, ans, pre:"◻ =", steps:[
+        `Žinomų skaitmenų suma: ${String(known).split('').join(' + ')} = ${S}.`,
+        `Reikia, kad ${S} + ◻ dalytųsi iš 9. Tinka: ${valid.join(', ')}.`,
+        `Didžiausias iš jų: ${ans}.`,
+        `Atsakymas: ${ans}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 3 ----------
+  { label:"Dalumas iš 3", gen(){
+    const r = Math.random();
+    if(r < 0.5){
+      const wantDiv = choice([true,false]);
+      const N = wantDiv ? 3*randint(34,3333) : 3*randint(34,3333) + randint(1,2);
+      const ds = digitSum(N);
+      const ans = (ds % 3 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("3-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 3?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `Skaitmenų suma: ${String(N).split('').join(' + ')} = ${ds}.`,
+        `Iš 3 dalijasi tie skaičiai, kurių skaitmenų suma dalijasi iš 3.`,
+        `${ds} ${ds % 3 === 0 ? "dalijasi" : "nedalijasi"} iš 3.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else {
+      const known = randint(100,9999);
+      const S = digitSum(known);
+      const valid = [];
+      for(let d=0; d<=9; d++){ if((S+d) % 3 === 0) valid.push(d); }
+      if(valid.length === 0) throw new Error("3-digit: nėra tinkamo skaitmens");
+      const ans = Math.max(...valid);
+      return { q:`Skaičiaus ${known}◻ (◻ – trūkstamas paskutinis skaitmuo) skaitmenų suma turi dalytis iš 3. Koks didžiausias skaitmuo tinka vietoj ◻?`, ans, pre:"◻ =", steps:[
+        `Žinomų skaitmenų suma: ${String(known).split('').join(' + ')} = ${S}.`,
+        `Reikia, kad ${S} + ◻ dalytųsi iš 3. Tinka: ${valid.join(', ')}.`,
+        `Didžiausias iš jų: ${ans}.`,
+        `Atsakymas: ${ans}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 4 ----------
+  { label:"Dalumas iš 4", gen(){
+    const r = Math.random();
+    if(r < 0.5){
+      const wantDiv = choice([true,false]);
+      let N = randint(100,99999);
+      let L = N % 100;
+      if(wantDiv){ N = N - (L % 4); } else if(L % 4 === 0){ N = N + 1; }
+      L = N % 100;
+      const ans = (L % 4 === 0) ? 1 : 0;
+      if(ans !== (wantDiv?1:0)) throw new Error("4-check nesutapo");
+      return { q:`Ar skaičius ${N} dalijasi iš 4?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+        `Paskutiniai du skaitmenys: ${String(L).padStart(2,"0")}.`,
+        `Iš 4 dalijasi tie skaičiai, kurių paskutinieji du skaitmenys yra nuliai arba sudaro skaičių, kuris dalijasi iš 4.`,
+        `${L} ${L % 4 === 0 ? "dalijasi" : "nedalijasi"} iš 4.`,
+        `Atsakymas: ${ans}`
+      ]};
+    } else {
+      const tens = randint(0,9);
+      const valid = [];
+      for(let d=0; d<=9; d++){ if((tens*10 + d) % 4 === 0) valid.push(d); }
+      if(valid.length === 0) throw new Error("4-digit: nėra tinkamo skaitmens");
+      const ans = Math.max(...valid);
+      const prefix = randint(1,999);
+      return { q:`Skaičiaus ${prefix}${tens}◻ paskutinieji du skaitmenys yra ${tens}◻. Koks didžiausias skaitmuo tinka vietoj ◻, kad skaičius dalytųsi iš 4?`, ans, pre:"◻ =", steps:[
+        `Reikia, kad dviženklis skaičius ${tens}◻ dalytųsi iš 4.`,
+        `Tinka skaitmenys: ${valid.join(', ')}.`,
+        `Didžiausias iš jų: ${ans}.`,
+        `Atsakymas: ${ans}`
+      ]};
+    }
+  }},
+
+  // ---------- ◊ Dalumas iš 6 (ir iš 2, ir iš 3) ----------
+  { label:"Dalumas iš 6 (2 ir 3 kartu)", gen(){
+    const wantDiv = choice([true,false]);
+    let N = randint(100,9999);
+    if(wantDiv){ N = N - (N % 6); } else if(N % 6 === 0){ N += 1; }
+    const div2 = (N % 2 === 0);
+    const ds = digitSum(N);
+    const div3 = (ds % 3 === 0);
+    const ans = (div2 && div3) ? 1 : 0;
+    if((ans === 1) !== (N % 6 === 0)) throw new Error("6-combo nesutapo");
+    if(ans !== (wantDiv?1:0)) throw new Error("6-combo nesutapo su wantDiv");
+    return { q:`Ar skaičius ${N} dalijasi ir iš 2, ir iš 3 (t. y. iš 6)?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+      `Iš 2: paskutinis skaitmuo ${N % 10} — ${div2 ? "lyginis, tinka" : "nelyginis, netinka"}.`,
+      `Iš 3: skaitmenų suma ${ds} — ${div3 ? "dalijasi iš 3, tinka" : "nedalijasi iš 3, netinka"}.`,
+      `Kad skaičius dalytųsi iš 6, jis turi tenkinti ABU požymius.`,
+      `Atsakymas: ${ans}`
+    ]};
+  }},
+
+  // ---------- ◊ Dalumas iš 15 (ir iš 3, ir iš 5) ----------
+  { label:"Dalumas iš 15 (3 ir 5 kartu)", gen(){
+    const wantDiv = choice([true,false]);
+    let N = randint(100,9999);
+    if(wantDiv){ N = N - (N % 15); } else if(N % 15 === 0){ N += 1; }
+    const div5 = (N % 5 === 0);
+    const ds = digitSum(N);
+    const div3 = (ds % 3 === 0);
+    const ans = (div5 && div3) ? 1 : 0;
+    if((ans === 1) !== (N % 15 === 0)) throw new Error("15-combo nesutapo");
+    if(ans !== (wantDiv?1:0)) throw new Error("15-combo nesutapo su wantDiv");
+    return { q:`Ar skaičius ${N} dalijasi ir iš 3, ir iš 5 (t. y. iš 15)?\n(Įvesk: 1 – taip, 0 – ne)`, ans, pre:"Atsakymas =", steps:[
+      `Iš 5: paskutinis skaitmuo ${N % 10} — ${div5 ? "0 arba 5, tinka" : "nei 0, nei 5, netinka"}.`,
+      `Iš 3: skaitmenų suma ${ds} — ${div3 ? "dalijasi iš 3, tinka" : "nedalijasi iš 3, netinka"}.`,
+      `Kad skaičius dalytųsi iš 15, jis turi tenkinti ABU požymius.`,
+      `Atsakymas: ${ans}`
+    ]};
+  }}
+
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: dalumo požymiai (5 klasė)", "subtitle": "Dalumas · 5 klasė · 3.1.1–3.1.4 · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "Atsakymas =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').textContent = S.dabartinis.q;
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || nf(p.ans); }
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const val = parseVal($('atsakymas').value);
+  if(isNaN(val)){ $('atsakymas').focus(); return; }
+  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
+  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
