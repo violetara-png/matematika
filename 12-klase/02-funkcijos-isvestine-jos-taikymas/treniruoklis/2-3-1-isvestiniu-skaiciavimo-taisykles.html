@@ -226,14 +226,14 @@ const GENERATORIAI = [
       const accepts = [disp, supToCaret(disp)];
       const f1 = (p === 1 ? 'x' : `${p}x`) + ` ${pm(q)}`;
       const f2 = (r === 1 ? 'x' : `${r}x`) + ` ${pm(s)}`;
-      return { q:`f(x) = (${f1})(${f2})`, pre:`f′(x) =`, accepts, ansText:disp,
+      return { q:`y = (${f1})(${f2})`, pre:`y′ =`, accepts, ansText:disp,
         fx:x=>(p*x+q)*(r*x+s), dfx:x=>A*x+B,
         steps:[
-          `f(x) = (${f1})(${f2})`,
-          `Sandaugos išvestinė: (u·v)′ = u′v + u·v′`,
-          `u = ${f1} → u′ = ${p};   v = ${f2} → v′ = ${r}`,
-          `f′(x) = ${p}·(${f2}) + (${f1})·${r}`,
-          `Sutraukę: f′(x) = ${disp}`
+          `y = (${f1})(${f2})`,
+          `Sandaugos išvestinė: (f·g)′ = f′·g + g′·f`,
+          `f(x) = ${f1} → f′(x) = ${p};   g(x) = ${f2} → g′(x) = ${r}`,
+          `y′ = ${p}·(${f2}) + ${r}·(${f1})`,
+          `Sutraukę: y′ = ${disp}`
         ]};
   }},
 
@@ -292,7 +292,7 @@ const GENERATORIAI = [
         ]};
   }},
 
-  // B4) Dalmens išvestinė: (u/v)′ = (u′v − u·v′)/v²; reikšmė taške sveika.
+  // B4) Dalmens išvestinė: (f/g)′ = (f′·g − g′·f)/g²; reikšmė taške sveika.
   { label:"Dalmens išvestinė", weight:1, gen(){
       const x0 = choice([1,2,3]);
       const d0 = choice([1,2]);
@@ -306,13 +306,13 @@ const GENERATORIAI = [
       const vStr = c === 0 ? 'x' : `(x ${pm(c)})`;
       const vTerm = c === 0 ? 'x' : `x ${pm(c)}`;
       const vSq  = c === 0 ? 'x²' : `(x ${pm(c)})²`;
-      return { q:`f(x) = ${fracH(`${a}x ${pm(b)}`, vStr)}`, pre:`f′(${x0}) =`, ans, x0, fx,
+      return { q:`y = ${fracH(`${a}x ${pm(b)}`, vStr)}`, pre:`y′(${x0}) =`, ans, x0, fx,
         steps:[
-          `f(x) = ${fracH(`${a}x ${pm(b)}`, vStr)}`,
-          `Dalmens išvestinė: (u/v)′ = ${fracH('u′v − u·v′','v²')}`,
-          `u = ${a}x ${pm(b)} → u′ = ${a};   v = ${vTerm} → v′ = 1`,
-          `f′(x) = ${fracH(`${a}·${vStr} − (${a}x ${pm(b)})·1`, vSq)}`,
-          `f′(${x0}) = ${fracH(`${a}·${d0} − ${paren(ux0)}`, `${d0}²`)} = ${fracH(nf(num),''+(d0*d0))} = ${nf(ans)}`
+          `y = ${fracH(`${a}x ${pm(b)}`, vStr)}`,
+          `Dalmens išvestinė: (f/g)′ = ${fracH('f′·g − g′·f','g²')}`,
+          `f(x) = ${a}x ${pm(b)} → f′(x) = ${a};   g(x) = ${vTerm} → g′(x) = 1`,
+          `y′ = ${fracH(`${a}·${vStr} − 1·(${a}x ${pm(b)})`, vSq)}`,
+          `y′(${x0}) = ${fracH(`${a}·${d0} − ${paren(ux0)}`, `${d0}²`)} = ${fracH(nf(num),''+(d0*d0))} = ${nf(ans)}`
         ]};
   }}
 
