@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4.1 Apvaliname iki dešimčių — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>1.4.1 Apvaliname iki dešimčių</h1>
+  <p class="klase">Matematika · 5 klasė · 1 skyrius „Natūralieji skaičiai" · 1.4.1 tema</p>
+
+  <section class="potema" id="t141">
+    <h2><span class="nr">1.4.1</span> Apvaliname iki dešimčių</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Apvalinti skaičių iki dešimčių</span> reiškia pakeisti jį artimiausiu skaičiumi, kuris baigiasi <b>0</b> (tai yra dešimčių kartotiniu). Skaičių tiesėje kiekvienas skaičius „priklauso" artimiausiai dešimtainei žymai, todėl apvalinimą galima įsivaizduoti kaip klausimą: prie kurios dešimties šis skaičius yra arčiau?</p>
+        <p><span class="zenk">Taisyklė.</span> Žiūrime tik į <b>vienetų</b> skaitmenį (paskutinį skaičiaus skaitmenį):</p>
+        <table class="kort">
+          <tr><th>Vienetų skaitmuo</th><th>Ką darome</th></tr>
+          <tr><td class="math">0, 1, 2, 3, 4</td><td>apvaliname <b>žemyn</b> (vienetus keičiame nuliu)</td></tr>
+          <tr><td class="math">5, 6, 7, 8, 9</td><td>apvaliname <b>aukštyn</b> (dešimčių skaitmenį didiname 1, vienetus keičiame nuliu)</td></tr>
+        </table>
+        <p>Ženklas <span class="math"><b>≈</b></span> reiškia <span class="term-a">„apytiksliai lygu"</span>. Jį rašome vietoje lygybės ženklo, kai skaičius pakeičiamas suapvalintu.</p>
+        <div class="demesio"><b>Dažna klaida: pernešimas per dešimtį.</b> Kai vienetų skaitmuo yra <span class="math">5</span>–<span class="math">9</span>, o <span class="term-b">dešimčių skaitmuo yra 9</span>, apvalinant aukštyn dešimtys „netelpa" ir persineša į šimtus. Pavyzdžiui, <span class="math">95 ≈ 100</span>, <b>o ne 90</b>! Dešimčių skaitmuo 9, padidintas 1 vienetu, taptų 10, o tai reiškia: dešimtyse lieka 0, o vienas šimtas prisideda prie šimtų skaitmens.</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Suapvalinkime <span class="math">73</span> iki dešimčių. Vienetų skaitmuo yra <b>3</b>, o tai mažiau už 5, taigi apvaliname <span class="term-a">žemyn</span>: <span class="math"><b>73 ≈ 70</b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Suapvalinkime <span class="math">317</span> iki dešimčių. Vienetų skaitmuo yra <b>7</b>, o tai ne mažiau už 5, taigi apvaliname <span class="term-a">aukštyn</span>: dešimčių skaitmenį (1) didiname 1 vienetu, gauname <span class="math"><b>317 ≈ 320</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys (pernešimas).</b> Suapvalinkime <span class="math">2045</span> iki dešimčių. Vienetų skaitmuo yra <b>5</b>, taigi apvaliname aukštyn: dešimčių skaitmenį (4) didiname 1 vienetu, gauname <span class="math"><b>2045 ≈ 2050</b></span>. O jeigu apvalintume <span class="math">95</span>? Vienetų skaitmuo <b>5</b>, apvaliname aukštyn, bet dešimčių skaitmuo jau yra <b>9</b>: jį padidinus, dešimtyse gautume 10, kuris ten netelpa. Todėl dešimtys tampa <b>0</b>, o šimtų skaitmuo padidėja 1 vienetu: <span class="math"><b>95 ≈ 100</b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Apvaliname iki dešimčių" (1.4.1)
+  </footer>
+
+</div>
+</body>
+</html>
