@@ -36,6 +36,7 @@
   .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
     font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
   .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
   .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
   .ivestis label{font-size:18px; color:var(--pilka);}
   input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
@@ -63,6 +64,9 @@
 
   .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
   .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
 </style>
 </head>
 <body>
@@ -125,9 +129,47 @@ function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 // nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
 // Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
 //
-// Visi uždaviniai — apie sveikuosius skaičius intervale. `ans` visada sveikas
+// Pirmi 3 generatoriai — apie sveikuosius skaičius intervale. `ans` sveikas
 // skaičius, todėl lyginimas švarus. Uždavinio tekste NĖRA „=", todėl patikra
 // tikrina tik invariantus (atsakymas baigtinis + paskutinis žingsnis su atsakymu).
+//
+// 4-as generatorius — „paveikslėlis → nelygybė arba intervalas": grąžina
+// `ansType:'text'`, `ans` = teksto atsakymas (variklis lygina normalizuotą
+// tekstą, žr. treniruoklis_template.html `normText()`). Piešia SVG skaičių
+// tiesę tiesiai į `q` (variklis rodo per innerHTML).
+
+// SVG skaičių tiesė. lo/hi = sveikasis arba null (begalybė); loOpen/hiOpen -
+// ar galas NEįeina (apvalus). Kai lo arba hi null, ta pusė = begalybė.
+function tieseSVG(lo, hi, loOpen, hiOpen){
+  const Y = 34, L = 20, R = 460, PL = 60, PR = 420;
+  let dataLo, dataHi;
+  if(lo === null && hi === null){ dataLo = -5; dataHi = 5; }
+  else if(lo === null){ dataHi = hi; dataLo = hi - 8; }
+  else if(hi === null){ dataLo = lo; dataHi = lo + 8; }
+  else { const span = hi - lo; const pad = Math.max(1.5, span * 0.3); dataLo = lo - pad; dataHi = hi + pad; }
+  const X = v => PL + (v - dataLo) / (dataHi - dataLo) * (PR - PL);
+  const segX1 = lo === null ? L + 8 : X(lo);
+  const segX2 = hi === null ? R - 8 : X(hi);
+  let s = `<svg viewBox="0 0 480 60" role="img" aria-label="Skaičių tiesė">`;
+  s += `<line x1="${L}" y1="${Y}" x2="${R}" y2="${Y}" stroke="#5b6472" stroke-width="2"/>`;
+  s += `<polygon points="${R},${Y} ${R - 10},${Y - 5} ${R - 10},${Y + 5}" fill="#5b6472"/>`;
+  s += `<polygon points="${L},${Y} ${L + 10},${Y - 5} ${L + 10},${Y + 5}" fill="#5b6472"/>`;
+  s += `<line x1="${segX1.toFixed(0)}" y1="${Y}" x2="${segX2.toFixed(0)}" y2="${Y}" stroke="#1e5fa8" stroke-width="5"/>`;
+  if(lo !== null){
+    const fill = loOpen ? '#fff' : '#1e5fa8';
+    const extra = loOpen ? ' stroke="#1e5fa8" stroke-width="3"' : '';
+    s += `<circle cx="${segX1.toFixed(0)}" cy="${Y}" r="7" fill="${fill}"${extra}/>`;
+    s += `<text x="${segX1.toFixed(0)}" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">${nf(lo)}</text>`;
+  }
+  if(hi !== null){
+    const fill = hiOpen ? '#fff' : '#1e5fa8';
+    const extra = hiOpen ? ' stroke="#1e5fa8" stroke-width="3"' : '';
+    s += `<circle cx="${segX2.toFixed(0)}" cy="${Y}" r="7" fill="${fill}"${extra}/>`;
+    s += `<text x="${segX2.toFixed(0)}" y="54" text-anchor="middle" font-size="14" fill="#1c2430" font-family="Cambria Math,serif">${nf(hi)}</text>`;
+  }
+  s += `</svg>`;
+  return s;
+}
 
 // Didžiausias sveikasis skaičius intervale su dešiniuoju galu b (bClosed – ar įeina).
 function didzSveik(b, bClosed){
@@ -205,6 +247,58 @@ const GENERATORIAI = [
         `Sveikųjų kiekis: ${nf(hi)} − ${nf(lo)} + 1`,
         `atsakymas = ${nf(ans)}`
       ]};
+  }},
+
+  { label:"Skaičių tiesė → nelygybė arba intervalas", gen(){
+      const tipas = choice([0, 0, 1, 2]); // dažniau baigtinis intervalas
+      let lo, hi, loOpen, hiOpen;
+      if(tipas === 0){
+        lo = randint(-8, 3);
+        hi = lo + randint(2, 8);
+        loOpen = choice([true, false]);
+        hiOpen = choice([true, false]);
+      } else if(tipas === 1){       // x > lo arba x ≥ lo
+        lo = randint(-6, 6); hi = null;
+        loOpen = choice([true, false]); hiOpen = null;
+      } else {                      // x < hi arba x ≤ hi
+        hi = randint(-6, 6); lo = null;
+        hiOpen = choice([true, false]); loOpen = null;
+      }
+      const lb = loOpen === false ? '[' : '(';
+      const rb = hiOpen === false ? ']' : ')';
+      const loS = lo === null ? '−∞' : nf(lo);
+      const hiS = hi === null ? '+∞' : nf(hi);
+      const intervalas = `${lb}${loS}; ${hiS}${rb}`;
+
+      let nelygybe;
+      if(tipas === 0) nelygybe = `${nf(lo)} ${loOpen ? '<' : '≤'} x ${hiOpen ? '<' : '≤'} ${nf(hi)}`;
+      else if(tipas === 1) nelygybe = `x ${loOpen ? '>' : '≥'} ${nf(lo)}`;
+      else nelygybe = `x ${hiOpen ? '<' : '≤'} ${nf(hi)}`;
+
+      const askInterval = choice([true, false]);
+      const pic = tieseSVG(lo, hi, loOpen, hiOpen);
+      const q = askInterval
+        ? `Pavaizduotą intervalą užrašyk <b>intervalu</b> (pvz. [−2;5)):${pic}`
+        : `Pavaizduotą intervalą užrašyk <b>nelygybe</b> su x (pvz. x&lt;5):${pic}`;
+
+      const steps = [];
+      if(tipas === 0){
+        steps.push(`Kairysis galas ${nf(lo)} ${loOpen ? 'neįeina (apvalus skliaustas)' : 'įeina (laužtinis skliaustas)'}.`);
+        steps.push(`Dešinysis galas ${nf(hi)} ${hiOpen ? 'neįeina (apvalus skliaustas)' : 'įeina (laužtinis skliaustas)'}.`);
+      } else if(tipas === 1){
+        steps.push(`Galas ${nf(lo)} ${loOpen ? 'neįeina (apvalus)' : 'įeina (laužtinis)'}, kita pusė tęsiasi iki +∞ (prie ∞ visada apvalus).`);
+      } else {
+        steps.push(`Galas ${nf(hi)} ${hiOpen ? 'neįeina (apvalus)' : 'įeina (laužtinis)'}, kita pusė tęsiasi iki −∞ (prie ∞ visada apvalus).`);
+      }
+      steps.push(`Intervalas: ${intervalas}`);
+      steps.push(`Nelygybė: ${nelygybe}`);
+      steps.push(`atsakymas = ${askInterval ? intervalas : nelygybe}`);
+
+      return {
+        q, ansType:'text', ans: askInterval ? intervalas : nelygybe,
+        pre: askInterval ? 'intervalas =' : 'nelygybė =',
+        steps
+      };
   }}
 ];
 
@@ -218,7 +312,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: skaičių intervalai (7 klasė)", "subtitle": "Skaičių intervalai · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ","]};
+const META = {"title": "Kontrolinio treniruoklis: skaičių intervalai (7 klasė)", "subtitle": "Skaičių intervalai · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", "≤", "≥", "∞", ";"]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
@@ -234,11 +328,21 @@ function initTekstai(){
   $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
 }
 
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
 function naujas(){
   S.dabartinis = makeProblem();
   S.atsakyta = false;
   $('tipas').textContent = S.dabartinis.label;
-  $('klausimas').textContent = S.dabartinis.q;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
   $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
   $('atsakymas').value = '';
   $('atsakymas').disabled = false;
@@ -257,13 +361,34 @@ function parseVal(s){
   if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
   return parseFloat(s);
 }
-function atsTekstas(p){ return p.ansText || nf(p.ans); }
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
 
 function tikrinti(){
   if(S.atsakyta) return;
-  const val = parseVal($('atsakymas').value);
-  if(isNaN(val)){ $('atsakymas').focus(); return; }
-  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
   S.atsakyta = true;
   S.isviso++;
   S.istorija.push(ok);
@@ -274,10 +399,10 @@ function tikrinti(){
 
   const v = $('verdiktas');
   v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
-  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
 
-  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
   $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
   $('atsakymas').disabled = true;
   $('tikrinti').style.display='none';
