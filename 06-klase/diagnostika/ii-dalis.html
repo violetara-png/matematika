@@ -281,11 +281,32 @@ function b64utf8(s){
     c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
   catch(e){ return ''; }
 }
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
 // Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
 function normalize(s){
-  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
   if(!/^[+-]/.test(s)) s='+'+s;
   const tokens=s.match(/[+-][^+-]+/g)||[];
   const terms=tokens.map(t=>{
