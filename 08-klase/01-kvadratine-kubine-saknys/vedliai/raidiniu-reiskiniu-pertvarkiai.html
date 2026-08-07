@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Raidinių reiškinių su šaknimis pertvarkiai (8 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Mokymosi asistentas „Rimas“</h1>
+    <p>Tema: <b>Raidinių reiškinių su šaknimis pertvarkiai</b> · 8 klasė · 1 skyrius „Kvadratinė ir kubinė šaknys“ · 1.10 · visur x, a, b ≥ 0</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rimas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime <b>pertvarkyti raidinius reiškinius su šaknimis</b>: sutrauksime panašius dėmenis, dauginsime šaknis, iškelsime daugiklį prieš šaknį ir atskleisime skliaustus.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir vis stipresnėmis užuominomis, o atsakymą surasi <b>tu pats</b>.<br><br>Visoje temoje laikome, kad raidės žymi <b>neneigiamus</b> skaičius (x, a, b ≥ 0), todėl √x · √x = x ir √(a²) = a. Šaknies simbolius √ ir ∛ rasi mygtukų juostoje po įvedimo laukeliu.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rimas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('√')">√</button><button onclick="ins('∛')">∛</button><button onclick="ins('x')">x</button><button onclick="ins('a')">a</button><button onclick="ins('b')">b</button><button onclick="ins('+')">+</button><button onclick="ins('−')">−</button><button onclick="ins('·')">·</button><button onclick="ins('²')">²</button><button onclick="ins('(')">(</button><button onclick="ins(')')">)</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rimas</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Reiškinius rašyk paprastai, pvz. <b>13√x</b>, <b>2a√3</b> arba <b>5√a−a</b> (šaknį imk iš mygtukų juostos).<br><span class="note">Visur laikyk x, a, b ≥ 0. Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkim nuo paprasčiausio — <b>panašių dėmenų sudėties</b>. Dėmenys su ta pačia šaknimi jungiami sudedant koeficientus, o šaknis paliekama ta pati.", "expr": "5√x + 8√x", "q": "Sutrauk: 5√x + 8√x.", "accepted": ["13√x"], "hints": ["Abu dėmenys turi tą pačią šaknį <b>√x</b> — vadinasi, juos galima sujungti į vieną.", "Šaknį <b>√x</b> palik tą pačią, o sudėk tik koeficientus prieš ją: 5 + 8.", "Apskaičiuok 5 + 8 ir prie gauto skaičiaus prirašyk <b>√x</b>."]}, {"intro": "Dabar — <b>atimtis</b>. Būk atidus: rezultatas gali būti neigiamas.", "expr": "7√a − 10√a", "q": "Sutrauk: 7√a − 10√a.", "accepted": ["-3√a"], "hints": ["Šaknys vienodos (<b>√a</b>), tad atimame koeficientus, o šaknį paliekame.", "Skaičiuok 7 − 10. Kadangi atimi didesnį skaičių, rezultatas bus <b>neigiamas</b>.", "7 − 10 = ? Prie gauto neigiamo skaičiaus prirašyk <b>√a</b>."]}, {"intro": "Kylam aukščiau — <b>šaknų daugyba</b>. Čia įvyksta įdomus dalykas: šaknis „dingsta“.", "expr": "3√x · 8√x", "q": "Suskaičiuok: 3√x · 8√x.", "accepted": ["24x"], "hints": ["Dauginam koeficientus su koeficientais (3·8), o šaknis su šaknimis (√x·√x).", "Prisimink: <b>√x · √x = x</b> (kai x ≥ 0). Taigi šaknis virsta paprastu <b>x</b>.", "3·8 = 24, o √x·√x = x. Sujunk šiuos du rezultatus į vieną reiškinį."]}, {"intro": "Dabar — <b>daugiklio iškėlimas prieš šaknį</b>. Ieškom po šaknimi tikslaus kvadrato.", "expr": "√(12a²)", "q": "Iškelk daugiklį prieš šaknį: √(12a²).", "accepted": ["2a√3", "2√3a"], "hints": ["Išskaidyk 12 taip, kad atsirastų tikslus kvadratas: 12 = 4·3. Tada po šaknimi turi 4·a²·3.", "Iš √4 gauni 2, iš √(a²) gauni a (nes a ≥ 0). Šie du daugikliai iškeliami prieš šaknį.", "Prieš šaknį iškelk 2a, o po šaknimi lieka 3. Užrašyk kaip koeficientas prieš <b>√3</b>."]}, {"intro": "Sujunkim įgūdžius — <b>skirstomumo dėsnis</b>. Šaknį dauginam iš kiekvieno skliaustų nario.", "expr": "√x · (5 − √x)", "q": "Atskleisk skliaustus: √x · (5 − √x).", "accepted": ["5√x-x", "-x+5√x"], "hints": ["Dauginam <b>√x</b> iš KIEKVIENO nario atskirai: √x·5 ir √x·√x.", "√x·5 = 5√x. O √x·√x = x (šaknis dingsta). Tarp jų lieka minusas.", "Pirmas narys 5√x, antras narys x, o tarp jų — minuso ženklas. Užrašyk."]}, {"intro": "Paskutinė ir sunkiausia — <b>pirma iškelk, paskui sutrauk</b> panašius narius.", "expr": "3√(25a) − 7√a", "q": "Supaprastink: 3√(25a) − 7√a.", "accepted": ["8√a"], "hints": ["Pirmame naryje po šaknimi yra 25 — tikslus kvadratas. √(25a) = √25 · √a.", "√25 = 5, tad 3√(25a) = 3·5√a = 15√a. Dabar turi 15√a − 7√a.", "Abu nariai su <b>√a</b>. Atimk koeficientus: 15 − 7, o √a palik."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Sutrauk: <span>5√x + 8√x</span>.", "acc": ["13√x"], "hint": "Ta pati šaknis √x — sudėk koeficientus 5 + 8."}, {"t": "Sutrauk: <span>4√a − 9√a</span>.", "acc": ["-5√a"], "hint": "Skaičiuok 4 − 9, rezultatas neigiamas, √a palik."}, {"t": "Sutrauk: <span>6∛x + 3∛x</span>.", "acc": ["9∛x"], "hint": "Kubinės šaknys taip pat panašios: sudėk 6 + 3, ∛x palik."}, {"t": "Suskaičiuok: <span>3√x · 6√x</span>.", "acc": ["18x"], "hint": "3·6 ir √x·√x = x. Šaknis dingsta."}, {"t": "Suskaičiuok: <span>2√a · 7√a</span>.", "acc": ["14a"], "hint": "2·7 ir √a·√a = a."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(9x)</span>.", "acc": ["3√x"], "hint": "√9 = 3, o √x lieka po šaknimi."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(12a²)</span>.", "acc": ["2a√3", "2√3a"], "hint": "12 = 4·3; √4 = 2, √(a²) = a, lieka √3."}, {"t": "Atskleisk skliaustus: <span>√x · (4 + √x)</span>.", "acc": ["4√x+x", "x+4√x"], "hint": "√x·4 = 4√x, √x·√x = x, tarp jų +."}, {"t": "Atskleisk skliaustus: <span>√a · (5 − √a)</span>.", "acc": ["5√a-a", "-a+5√a"], "hint": "√a·5 = 5√a, √a·√a = a, tarp jų −."}, {"t": "Supaprastink: <span>3√(25a) − 7√a</span>.", "acc": ["8√a"], "hint": "√25 = 5, tad 3√(25a) = 15√a; 15√a − 7√a."}]}, {"label": "variantas B", "qs": [{"t": "Sutrauk: <span>3√x + 9√x</span>.", "acc": ["12√x"], "hint": "Ta pati šaknis √x — sudėk koeficientus 3 + 9."}, {"t": "Sutrauk: <span>5√a − 8√a</span>.", "acc": ["-3√a"], "hint": "Skaičiuok 5 − 8, rezultatas neigiamas, √a palik."}, {"t": "Sutrauk: <span>8∛x + 3∛x</span>.", "acc": ["11∛x"], "hint": "Kubinės šaknys panašios: sudėk 8 + 3, ∛x palik."}, {"t": "Suskaičiuok: <span>4√x · 5√x</span>.", "acc": ["20x"], "hint": "4·5 ir √x·√x = x. Šaknis dingsta."}, {"t": "Suskaičiuok: <span>3√a · 8√a</span>.", "acc": ["24a"], "hint": "3·8 ir √a·√a = a."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(16x)</span>.", "acc": ["4√x"], "hint": "√16 = 4, o √x lieka po šaknimi."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(20a²)</span>.", "acc": ["2a√5", "2√5a"], "hint": "20 = 4·5; √4 = 2, √(a²) = a, lieka √5."}, {"t": "Atskleisk skliaustus: <span>√x · (6 + √x)</span>.", "acc": ["6√x+x", "x+6√x"], "hint": "√x·6 = 6√x, √x·√x = x, tarp jų +."}, {"t": "Atskleisk skliaustus: <span>√a · (7 − √a)</span>.", "acc": ["7√a-a", "-a+7√a"], "hint": "√a·7 = 7√a, √a·√a = a, tarp jų −."}, {"t": "Supaprastink: <span>5√(4a) − 3√a</span>.", "acc": ["7√a"], "hint": "√4 = 2, tad 5√(4a) = 10√a; 10√a − 3√a."}]}, {"label": "variantas C", "qs": [{"t": "Sutrauk: <span>4√x + 6√x</span>.", "acc": ["10√x"], "hint": "Ta pati šaknis √x — sudėk koeficientus 4 + 6."}, {"t": "Sutrauk: <span>6√a − 10√a</span>.", "acc": ["-4√a"], "hint": "Skaičiuok 6 − 10, rezultatas neigiamas, √a palik."}, {"t": "Sutrauk: <span>5∛x + 7∛x</span>.", "acc": ["12∛x"], "hint": "Kubinės šaknys panašios: sudėk 5 + 7, ∛x palik."}, {"t": "Suskaičiuok: <span>3√x · 4√x</span>.", "acc": ["12x"], "hint": "3·4 ir √x·√x = x. Šaknis dingsta."}, {"t": "Suskaičiuok: <span>5√a · 2√a</span>.", "acc": ["10a"], "hint": "5·2 ir √a·√a = a."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(25x)</span>.", "acc": ["5√x"], "hint": "√25 = 5, o √x lieka po šaknimi."}, {"t": "Iškelk daugiklį prieš šaknį: <span>√(8a²)</span>.", "acc": ["2a√2", "2√2a"], "hint": "8 = 4·2; √4 = 2, √(a²) = a, lieka √2."}, {"t": "Atskleisk skliaustus: <span>√x · (3 + √x)</span>.", "acc": ["3√x+x", "x+3√x"], "hint": "√x·3 = 3√x, √x·√x = x, tarp jų +."}, {"t": "Atskleisk skliaustus: <span>√a · (8 − √a)</span>.", "acc": ["8√a-a", "-a+8√a"], "hint": "√a·8 = 8√a, √a·√a = a, tarp jų −."}, {"t": "Supaprastink: <span>3√(16a) − 2√a</span>.", "acc": ["10√a"], "hint": "√16 = 4, tad 3√(16a) = 12√a; 12√a − 2√a."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
