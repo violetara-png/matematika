@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Funkcijos išvestinė (12 kl. / VBE)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📈 Mokymosi asistentas „Deivė“</h1>
+    <p>Tema: <b>Funkcijos išvestinė</b> · 12 klasė · VBE pasiruošimas</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">D<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Deivė</div>
+        Sveika(s)! Aš — tavo mokymosi asistentė. Kartu pereisime <b>visas išvestinių skaičiavimo taisykles</b>: konstantos (<b>c′ = 0</b>), laipsnio (<b>(a·xⁿ)′</b>), sumos ir skirtumo (daugianariai), <b>šaknies</b> (<b>(√x)′ = <span class="fr"><span>1</span><span>2√x</span></span></b>), <b>laipsnio vardiklyje</b> (<b><span class="fr"><span>1</span><span>xⁿ</span></span> = x⁻ⁿ</b>), <b>sandaugos</b> (<b>y′ = f′g + fg′</b>) ir <b>dalmens</b> (<b>y′ = <span class="fr"><span>f′g − fg′</span><span>g²</span></span></b>) taisykles bei <b>išvestinės reikšmę taške</b>.<br><br>Iš viso — <b>20 užduočių</b>, nuo pačių paprasčiausių prie mišrių. Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje — 10 klausimų testas, kad pats(pati) pamatytum, kaip pasiruošęs(-usi) egzaminui.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">D<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Deivė</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('+')">+</button><button onclick="ins('−')">−</button><button onclick="ins('·')">·</button><button onclick="ins('x')">x</button><button onclick="ins('²')">²</button><button onclick="ins('³')">³</button><button onclick="ins('⁴')">⁴</button><button onclick="ins('⁵')">⁵</button><button onclick="ins('⁶')">⁶</button><button onclick="ins('⁷')">⁷</button><button onclick="ins('^')">^</button><button onclick="ins('√')">√</button><button onclick="ins('(')">(</button><button onclick="ins(')')">)</button><button onclick="ins('/')">/</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">D<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Deivė</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats(pati), o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br>Rašyk paprastai: laipsnius su viršutiniais indeksais, pvz. <b>6x⁵</b> arba <b>10x⁴−12x²+7</b>; reikšmę taške — sveiku skaičiumi, pvz. <b>4</b> ar <b>−1</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradedame nuo paprasčiausios taisyklės — <b>konstantos išvestinės</b>. Bet koks laisvas skaičius (be x) diferencijuojant virsta nuliu: <b>c′ = 0</b>.", "expr": "(8)′", "q": "Rask šio skaičiaus išvestinę.", "accepted": ["0"], "hints": ["Konstanta — tai skaičius, kuris nekinta. Jo grafikas yra horizontali tiesė.", "Horizontalios tiesės polinkis (statumas) visur vienodas — lygus nuliui, todėl ir išvestinė tokia pati.", "Užrašyk pačią konstantos taisyklę <b>c′ = 0</b> ir pritaikyk skaičiui 8."]}, {"intro": "Dabar — <b>laipsnio taisyklė</b>: <b>(xⁿ)′ = n·xⁿ⁻¹</b>. Rodiklis nusileidžia į priekį kaip daugiklis, o laipsnis sumažėja vienetu.", "expr": "(x⁵)′", "q": "Rask išvestinę.", "accepted": ["5x⁴", "5x^4", "5·x⁴", "5·x^4"], "hints": ["Pagal <b>(xⁿ)′ = n·xⁿ⁻¹</b> rodiklis <b>n</b> nukeliauja į priekį kaip daugiklis.", "Čia <b>n = 5</b>, todėl priekyje atsiras <b>5</b>, o naujas laipsnis bus x pakeltas <b>5 − 1</b> laipsniu.", "Suskaičiuok <b>5 − 1</b> — tai naujasis rodiklis prie x; priekyje palik daugiklį 5."]}, {"intro": "Prie laipsnio prijungiame <b>koeficientą</b>. Pastovus daugiklis lieka prie išvestinės: <b>(a·xⁿ)′ = a·n·xⁿ⁻¹</b>.", "expr": "(4x³)′", "q": "Rask išvestinę.", "accepted": ["12x²", "12x^2", "12·x²", "12·x^2"], "hints": ["Koeficientas <b>4</b> lieka, o laipsnio taisyklę taikyk daliai <b>x³</b>.", "Rodiklis 3 nusileidžia į priekį: gauni <b>4·3·x³⁻¹</b>.", "Suskaičiuok <b>4·3</b> — tai koeficientas prie x², o laipsnis bus <b>3 − 1</b>."]}, {"intro": "Dar viena su koeficientu — atkreipk dėmesį, kad sumažėjus laipsniui gali likti tiesiog <b>x</b> (t. y. x¹).", "expr": "(7x²)′", "q": "Rask išvestinę.", "accepted": ["14x", "14·x"], "hints": ["Koeficientas 7 lieka; laipsnio 2 rodiklis nusileidžia į priekį.", "Gauni <b>7·2·x²⁻¹</b>. Nepamiršk: <b>x¹ = x</b>.", "Suskaičiuok <b>7·2</b> — tai daugiklis prie x."]}, {"intro": "Kylame prie <b>sumos ir skirtumo</b>. Sumos (skirtumo) išvestinė = išvestinių suma (skirtumas). Diferencijuojame narį po nario.", "expr": "(x³ + 2x)′", "q": "Rask išvestinę.", "accepted": ["3x²+2", "3x^2+2", "2+3x²", "2+3x^2"], "hints": ["Skaičiuok kiekvieną narį atskirai: <b>(x³)′</b> ir <b>(2x)′</b>.", "Pirmas narys duoda <b>3x²</b>. Antram prisimink, kad <b>(x)′ = 1</b>, todėl <b>(2x)′ = 2</b>.", "Sudėk gautus narius į vieną reiškinį (tvarka: aukštesnis laipsnis pirma)."]}, {"intro": "Ilgesnis daugianaris su <b>konstanta</b>. Prisimink: laisvas skaičius diferencijuojant dingsta (jo išvestinė 0).", "expr": "(5x⁴ − 3x² + 8)′", "q": "Rask išvestinę.", "accepted": ["20x³-6x", "20x^3-6x", "-6x+20x³", "-6x+20x^3"], "hints": ["Diferencijuok narį po nario: <b>(5x⁴)′</b>, <b>(−3x²)′</b>, <b>(8)′</b>.", "Gauni <b>5·4·x³</b> ir <b>−3·2·x</b>; konstantos 8 išvestinė lygi <b>0</b>.", "Suskaičiuok koeficientus <b>5·4</b> ir <b>3·2</b> (su minusu), narį su 8 išbrauk."]}, {"intro": "Pilnas <b>daugianaris</b> su keliais nariais. Tas pats principas — kiekvieną narį atskirai, ženklus perkeliame.", "expr": "(2x⁵ − 4x³ + 7x − 9)′", "q": "Rask išvestinę (sutrauktą daugianarį).", "accepted": ["10x⁴-12x²+7", "10x^4-12x^2+7", "7-12x²+10x⁴", "7-12x^2+10x^4"], "hints": ["Diferencijuok kiekvieną narį: <b>(2x⁵)′</b>, <b>(−4x³)′</b>, <b>(7x)′</b>, <b>(−9)′</b>.", "Gauni 2·5·x⁴, −4·3·x², <b>(7x)′ = 7</b>, o <b>(−9)′ = 0</b>.", "Suskaičiuok koeficientus (2·5 prie x⁴, 4·3 prie x²), palik +7, o konstantą išbrauk."]}, {"intro": "Dabar — <b>išvestinės reikšmė taške</b>. Pirma randame išvestinės funkciją <b>f′(x)</b>, tada į ją įrašome konkretų x.", "expr": "f(x) = x³ − 2x² + 5,&nbsp;&nbsp;rask f′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["4"], "hints": ["Pirmiausia rask <b>f′(x) = (x³)′ − (2x²)′ + (5)′</b>.", "Gauni <b>f′(x) = 3x² − 4x</b> (konstanta 5 dingsta). Dabar vietoj x įrašyk <b>2</b>.", "Suskaičiuok <b>3·2² − 4·2</b> = 3·4 − 8 — atlik veiksmus iki galo."]}, {"intro": "Dar viena <b>reikšmė taške</b> — jau greičiau. Pirma f′(x), po to įstatai skaičių.", "expr": "f(x) = 2x³ − 5x + 1,&nbsp;&nbsp;rask f′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["19"], "hints": ["Rask <b>f′(x)</b>: <b>(2x³)′ = 6x²</b>, <b>(−5x)′ = −5</b>, <b>(1)′ = 0</b>.", "Taigi <b>f′(x) = 6x² − 5</b>. Įrašyk <b>x = 2</b>.", "Suskaičiuok <b>6·2² − 5</b> = 6·4 − 5 — užbaik veiksmus."]}, {"intro": "Nauja taisyklė — <b>šaknies išvestinė</b>: <b>(√x)′ = <span class=\"fr\"><span>1</span><span>2√x</span></span></b>. Kadangi atsakymas trupmeninis, klausiu reikšmės taške — parink tašką, kur išeina sveikas skaičius.", "expr": "y = 8√x,&nbsp;&nbsp;rask y′(4)", "q": "Apskaičiuok išvestinės reikšmę taške x = 4.", "accepted": ["2"], "hints": ["Koeficientas 8 lieka, o <b>(√x)′ = <span class=\"fr\"><span>1</span><span>2√x</span></span></b>.", "Todėl <b>y′(x) = 8·<span class=\"fr\"><span>1</span><span>2√x</span></span> = <span class=\"fr\"><span>4</span><span>√x</span></span></b>. Dabar įrašyk x = 4.", "Prisimink, kad <b>√4 = 2</b>, ir suskaičiuok <span class=\"fr\"><span>4</span><span>√4</span></span>."]}, {"intro": "Dar viena su <b>šaknimi</b>. Ta pati taisyklė <b>(√x)′ = <span class=\"fr\"><span>1</span><span>2√x</span></span></b>, tik kiti skaičiai.", "expr": "y = 12√x,&nbsp;&nbsp;rask y′(4)", "q": "Apskaičiuok išvestinės reikšmę taške x = 4.", "accepted": ["3"], "hints": ["Koeficientas 12 lieka prie <b>(√x)′ = <span class=\"fr\"><span>1</span><span>2√x</span></span></b>.", "Gauni <b>y′(x) = <span class=\"fr\"><span>12</span><span>2√x</span></span> = <span class=\"fr\"><span>6</span><span>√x</span></span></b>. Įrašyk x = 4.", "Suskaičiuok <span class=\"fr\"><span>6</span><span>√4</span></span> — atsimink, kad √4 = 2."]}, {"intro": "Sujungiame <b>šaknį su daugianariu</b>. Diferencijuojame narį po nario: x kaip įprasta, o √x pagal šaknies taisyklę.", "expr": "y = x + 8√x,&nbsp;&nbsp;rask y′(4)", "q": "Apskaičiuok išvestinės reikšmę taške x = 4.", "accepted": ["3"], "hints": ["Diferencijuok atskirai: <b>(x)′</b> ir <b>(8√x)′</b>.", "Gauni <b>y′(x) = 1 + <span class=\"fr\"><span>4</span><span>√x</span></span></b>. Dabar įrašyk x = 4.", "Suskaičiuok <b>1 + <span class=\"fr\"><span>4</span><span>√4</span></span></b> — nepamiršk √4 = 2."]}, {"intro": "Nauja rūšis — <b>x laipsnis vardiklyje</b>. Prisimink: <b><span class=\"fr\"><span>1</span><span>xⁿ</span></span> = x⁻ⁿ</b>, tad taikoma ta pati laipsnio taisyklė, tik su neigiamu rodikliu. Atsakymas trupmeninis, todėl vėl klausiu reikšmės taške.", "expr": "y = <span class=\"fr\"><span>8</span><span>x</span></span>,&nbsp;&nbsp;rask y′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["-2"], "hints": ["Užrašyk kitaip: <b>y = 8x⁻¹</b>. Dabar taikyk laipsnio taisyklę su rodikliu −1.", "Gauni <b>y′ = 8·(−1)·x⁻² = <span class=\"fr\"><span>−8</span><span>x²</span></span></b>. Įrašyk x = 2.", "Suskaičiuok <span class=\"fr\"><span>−8</span><span>2²</span></span> = <span class=\"fr\"><span>−8</span><span>4</span></span> — užbaik dalybą."]}, {"intro": "Dar viena su <b>laipsniu vardiklyje</b>, tik didesnis laipsnis. Perrašyk trupmeną per neigiamą rodiklį ir diferencijuok.", "expr": "y = <span class=\"fr\"><span>12</span><span>x²</span></span>,&nbsp;&nbsp;rask y′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["-3"], "hints": ["Perrašyk: <b>y = 12x⁻²</b>.", "Taikyk laipsnio taisyklę: <b>y′ = 12·(−2)·x⁻³ = <span class=\"fr\"><span>−24</span><span>x³</span></span></b>. Įrašyk x = 2.", "Suskaičiuok <span class=\"fr\"><span>−24</span><span>2³</span></span> = <span class=\"fr\"><span>−24</span><span>8</span></span> — užbaik dalybą."]}, {"intro": "Sujungiame <b>daugianarį ir trupmeną</b> <span class=\"fr\"><span>1</span><span>x</span></span>. Diferencijuojame narį po nario, o trupmeną — per neigiamą laipsnį.", "expr": "y = x² + <span class=\"fr\"><span>4</span><span>x</span></span>,&nbsp;&nbsp;rask y′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["3"], "hints": ["Perrašyk antrą narį: <b><span class=\"fr\"><span>4</span><span>x</span></span> = 4x⁻¹</b>. Diferencijuok abu narius atskirai.", "Gauni <b>y′ = 2x + <span class=\"fr\"><span>−4</span><span>x²</span></span></b>. Dabar įrašyk x = 2.", "Suskaičiuok <b>2·2 + <span class=\"fr\"><span>−4</span><span>2²</span></span></b> = 4 + <span class=\"fr\"><span>−4</span><span>4</span></span> — užbaik."]}, {"intro": "Nauja taisyklė — <b>sandaugos išvestinė</b>: jei <b>y = f(x)·g(x)</b>, tai <b>y′ = f′(x)·g(x) + f(x)·g′(x)</b>. Čia atsakymas — švarus daugianaris, tad įrašyk jį patį.", "expr": "y = (x + 1)(x − 3)", "q": "Rask išvestinę y′ (sutrauktą reiškinį).", "accepted": ["2x-2", "-2+2x"], "hints": ["Pažymėk <b>f(x) = x + 1</b> ir <b>g(x) = x − 3</b>. Rask <b>f′(x)</b> ir <b>g′(x)</b> (abi lygios 1).", "Pagal <b>y′ = f′g + fg′</b> gauni <b>1·(x − 3) + (x + 1)·1</b>. Sutrauk panašius narius.", "Sudėk <b>(x − 3) + (x + 1)</b> — suskaičiuok, kiek gaunasi x ir kiek laisvo skaičiaus."]}, {"intro": "Sandaugos taisyklė su <b>reikšme taške</b>. Kai dauginami ilgesni reiškiniai, patogu iškart klausti reikšmės.", "expr": "y = (x² + 1)(x − 2),&nbsp;&nbsp;rask y′(3)", "q": "Apskaičiuok išvestinės reikšmę taške x = 3.", "accepted": ["16"], "hints": ["Pažymėk <b>f(x) = x² + 1</b>, <b>g(x) = x − 2</b>; tada <b>f′(x) = 2x</b>, <b>g′(x) = 1</b>.", "Pagal <b>y′ = f′g + fg′</b> gauni <b>y′(x) = 2x(x − 2) + (x² + 1) = 3x² − 4x + 1</b>. Įrašyk x = 3.", "Suskaičiuok <b>3·3² − 4·3 + 1</b> = 27 − 12 + 1 — atlik veiksmus iki galo."]}, {"intro": "Dar viena <b>sandauga su reikšme taške</b> — atsargiai su ženklais ir skliaustais.", "expr": "y = (2x − 1)(x² + 3),&nbsp;&nbsp;rask y′(2)", "q": "Apskaičiuok išvestinės reikšmę taške x = 2.", "accepted": ["26"], "hints": ["Pažymėk <b>f(x) = 2x − 1</b>, <b>g(x) = x² + 3</b>; tada <b>f′(x) = 2</b>, <b>g′(x) = 2x</b>.", "Pagal <b>y′ = f′g + fg′</b> gauni <b>2(x² + 3) + (2x − 1)·2x = 6x² − 2x + 6</b>. Įrašyk x = 2.", "Suskaičiuok <b>6·2² − 2·2 + 6</b> = 24 − 4 + 6 — užbaik veiksmus."]}, {"intro": "Paskutinė taisyklė — <b>dalmens išvestinė</b>: jei <b>y = <span class=\"fr\"><span>f(x)</span><span>g(x)</span></span></b>, tai <b>y′ = <span class=\"fr\"><span>f′(x)·g(x) − f(x)·g′(x)</span><span>g(x)²</span></span></b>. Atsakymas trupmeninis, tad klausiu reikšmės taške.", "expr": "y = <span class=\"fr\"><span>x + 3</span><span>x − 1</span></span>,&nbsp;&nbsp;rask y′(3)", "q": "Apskaičiuok išvestinės reikšmę taške x = 3.", "accepted": ["-1"], "hints": ["Pažymėk <b>f(x) = x + 3</b>, <b>g(x) = x − 1</b>; tada <b>f′(x) = 1</b>, <b>g′(x) = 1</b>.", "Skaitiklis <b>f′g − fg′ = (x − 1) − (x + 3) = −4</b>, vardiklis <b>(x − 1)²</b>. Įrašyk x = 3.", "Suskaičiuok <span class=\"fr\"><span>−4</span><span>(3 − 1)²</span></span> = <span class=\"fr\"><span>−4</span><span>4</span></span> — užbaik dalybą."]}, {"intro": "Sunkiausia — <b>dalmuo su kvadratiniu skaitikliu</b>. Ta pati taisyklė, tik skaitiklis sudėtingesnis.", "expr": "y = <span class=\"fr\"><span>x² + 1</span><span>x − 2</span></span>,&nbsp;&nbsp;rask y′(3)", "q": "Apskaičiuok išvestinės reikšmę taške x = 3.", "accepted": ["-4"], "hints": ["Pažymėk <b>f(x) = x² + 1</b>, <b>g(x) = x − 2</b>; tada <b>f′(x) = 2x</b>, <b>g′(x) = 1</b>.", "Skaitiklis <b>f′g − fg′ = 2x(x − 2) − (x² + 1) = x² − 4x − 1</b>, vardiklis <b>(x − 2)²</b>. Įrašyk x = 3.", "Suskaičiuok <span class=\"fr\"><span>3² − 4·3 − 1</span><span>(3 − 2)²</span></span> = <span class=\"fr\"><span>−4</span><span>1</span></span> — užbaik."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Rask išvestinę: <span>(x⁷)′</span>.", "acc": ["7x⁶", "7x^6", "7·x⁶", "7·x^6"], "hint": "Rodiklis 7 nusileidžia į priekį, laipsnis sumažėja vienetu: 7·x⁷⁻¹."}, {"t": "Rask išvestinę: <span>(3x⁴)′</span>.", "acc": ["12x³", "12x^3", "12·x³", "12·x^3"], "hint": "Koeficientas 3 lieka, rodiklis 4 nusileidžia: 3·4·x³."}, {"t": "Rask išvestinę: <span>(5x³ + 8)′</span>.", "acc": ["15x²", "15x^2", "15·x²", "15·x^2"], "hint": "5·3·x², o konstantos 8 išvestinė lygi 0."}, {"t": "Rask išvestinę: <span>(x⁴ − 6x²)′</span>.", "acc": ["4x³-12x", "4x^3-12x", "-12x+4x³", "-12x+4x^3"], "hint": "Narys po nario: 4·x³ ir −6·2·x."}, {"t": "Rask išvestinę: <span>(2x⁵ − 3x² + 4x)′</span>.", "acc": ["10x⁴-6x+4", "10x^4-6x+4", "4-6x+10x⁴", "4-6x+10x^4"], "hint": "2·5·x⁴, −3·2·x, o (4x)′ = 4."}, {"t": "f(x) = x² + 3x. Apskaičiuok f′(2).", "acc": ["7"], "hint": "f′(x) = 2x + 3; įrašyk x = 2: 2·2 + 3."}, {"t": "f(x) = x³ − 4x. Apskaičiuok f′(1).", "acc": ["-1"], "hint": "f′(x) = 3x² − 4; įrašyk x = 1: 3·1 − 4."}, {"t": "f(x) = (x² − 1)(x + 2). Apskaičiuok f′(2).", "acc": ["19"], "hint": "(f·g)′ = f′·g + g′·f = 2x(x+2) + (x²−1) = 3x² + 4x − 1; įrašyk x = 2."}, {"t": "f(x) = <span class=\"fr\"><span>x + 3</span><span>x − 1</span></span>. Apskaičiuok f′(3).", "acc": ["-1"], "hint": "(f/g)′ = (f′·g − g′·f)/g² = ((x−1) − (x+3))/(x−1)² = −4/(x−1)²; įrašyk x = 3: −4/4."}, {"t": "f(x) = 2x³ − 5x + 1. Apskaičiuok f′(2).", "acc": ["19"], "hint": "f′(x) = 6x² − 5; įrašyk x = 2: 6·4 − 5."}]}, {"label": "variantas B", "qs": [{"t": "Rask išvestinę: <span>(x⁵)′</span>.", "acc": ["5x⁴", "5x^4", "5·x⁴", "5·x^4"], "hint": "Rodiklis 5 nusileidžia į priekį, laipsnis sumažėja vienetu: 5·x⁵⁻¹."}, {"t": "Rask išvestinę: <span>(4x³)′</span>.", "acc": ["12x²", "12x^2", "12·x²", "12·x^2"], "hint": "Koeficientas 4 lieka, rodiklis 3 nusileidžia: 4·3·x²."}, {"t": "Rask išvestinę: <span>(6x⁴ + 2)′</span>.", "acc": ["24x³", "24x^3", "24·x³", "24·x^3"], "hint": "6·4·x³, o konstantos 2 išvestinė lygi 0."}, {"t": "Rask išvestinę: <span>(x⁵ − 4x²)′</span>.", "acc": ["5x⁴-8x", "5x^4-8x", "-8x+5x⁴", "-8x+5x^4"], "hint": "Narys po nario: 5·x⁴ ir −4·2·x."}, {"t": "Rask išvestinę: <span>(3x⁴ − 2x³ + 5x)′</span>.", "acc": ["12x³-6x²+5", "12x^3-6x^2+5", "5-6x²+12x³", "5-6x^2+12x^3"], "hint": "3·4·x³, −2·3·x², o (5x)′ = 5."}, {"t": "f(x) = x² + 5x. Apskaičiuok f′(3).", "acc": ["11"], "hint": "f′(x) = 2x + 5; įrašyk x = 3: 2·3 + 5."}, {"t": "f(x) = x³ − 2x. Apskaičiuok f′(2).", "acc": ["10"], "hint": "f′(x) = 3x² − 2; įrašyk x = 2: 3·4 − 2."}, {"t": "f(x) = (x² + 1)(x − 3). Apskaičiuok f′(2).", "acc": ["1"], "hint": "(f·g)′ = f′·g + g′·f = 2x(x−3) + (x²+1) = 3x² − 6x + 1; įrašyk x = 2."}, {"t": "f(x) = <span class=\"fr\"><span>x + 2</span><span>x − 1</span></span>. Apskaičiuok f′(2).", "acc": ["-3"], "hint": "(f/g)′ = (f′·g − g′·f)/g² = ((x−1) − (x+2))/(x−1)² = −3/(x−1)²; įrašyk x = 2: −3/1."}, {"t": "f(x) = 3x³ − 4x + 2. Apskaičiuok f′(1).", "acc": ["5"], "hint": "f′(x) = 9x² − 4; įrašyk x = 1: 9·1 − 4."}]}, {"label": "variantas C", "qs": [{"t": "Rask išvestinę: <span>(x⁴)′</span>.", "acc": ["4x³", "4x^3", "4·x³", "4·x^3"], "hint": "Rodiklis 4 nusileidžia į priekį, laipsnis sumažėja vienetu: 4·x⁴⁻¹."}, {"t": "Rask išvestinę: <span>(2x⁵)′</span>.", "acc": ["10x⁴", "10x^4", "10·x⁴", "10·x^4"], "hint": "Koeficientas 2 lieka, rodiklis 5 nusileidžia: 2·5·x⁴."}, {"t": "Rask išvestinę: <span>(7x² + 9)′</span>.", "acc": ["14x", "14·x"], "hint": "7·2·x = 14x, o konstantos 9 išvestinė lygi 0."}, {"t": "Rask išvestinę: <span>(x³ − 9x²)′</span>.", "acc": ["3x²-18x", "3x^2-18x", "-18x+3x²", "-18x+3x^2"], "hint": "Narys po nario: 3·x² ir −9·2·x."}, {"t": "Rask išvestinę: <span>(4x⁴ − x³ + 6x)′</span>.", "acc": ["16x³-3x²+6", "16x^3-3x^2+6", "6-3x²+16x³", "6-3x^2+16x^3"], "hint": "4·4·x³, −1·3·x², o (6x)′ = 6."}, {"t": "f(x) = x² + 2x. Apskaičiuok f′(4).", "acc": ["10"], "hint": "f′(x) = 2x + 2; įrašyk x = 4: 2·4 + 2."}, {"t": "f(x) = x³ − 5x. Apskaičiuok f′(2).", "acc": ["7"], "hint": "f′(x) = 3x² − 5; įrašyk x = 2: 3·4 − 5."}, {"t": "f(x) = (x² − 2)(x + 1). Apskaičiuok f′(3).", "acc": ["31"], "hint": "(f·g)′ = f′·g + g′·f = 2x(x+1) + (x²−2) = 3x² + 2x − 2; įrašyk x = 3."}, {"t": "f(x) = <span class=\"fr\"><span>x + 4</span><span>x − 2</span></span>. Apskaičiuok f′(3).", "acc": ["-6"], "hint": "(f/g)′ = (f′·g − g′·f)/g² = ((x−2) − (x+4))/(x−2)² = −6/(x−2)²; įrašyk x = 3: −6/1."}, {"t": "f(x) = 2x³ − 3x + 5. Apskaičiuok f′(2).", "acc": ["21"], "hint": "f′(x) = 6x² − 3; įrašyk x = 2: 6·4 − 3."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
