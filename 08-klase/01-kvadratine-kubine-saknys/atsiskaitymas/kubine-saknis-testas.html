@@ -137,8 +137,9 @@ function currentVariants(){
 }
 function fillVariants(){
   const vs = currentVariants();
+  const ORD_LT=['Pirmas','Antras','Trečias','Ketvirtas','Penktas','Šeštas'];
   vsel.innerHTML = '<option value="">— pasirink —</option>' +
-    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+    vs.map((v,i)=>`<option value="${v.id}">${ORD_LT[i]||(i+1)+'-as'} variantas</option>`).join('');
 }
 if(HAS_LEVELS){
   document.getElementById('lygisRow').style.display = '';
@@ -160,7 +161,7 @@ function startTest(){
       HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
     return;
   }
-  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  student={klase:k,vardas:v,pavarde:p,variantas:vr};
   let level=null;
   if(HAS_LEVELS){
     level=CFG.levels.find(x=>x.id===lv);
