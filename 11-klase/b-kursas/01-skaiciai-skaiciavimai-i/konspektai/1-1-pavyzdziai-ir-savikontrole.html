@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių aibės — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių aibės — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 11 klasė · B kursas · 1 skyrius „Skaičiai ir skaičiavimai I" · 1.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1: aibių skirtumas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Aibių skirtumas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Duota:</b> A = {1; 2; 3; 4; 5; 6}, B = {4; 5; 6; 7; 8; 9}.</div>
+    <div class="ex">
+      <div class="q">Raskite B ∖ A.</div>
+      <div class="line">B ∖ A — elementai, kurie priklauso B, bet nepriklauso A: <span class="res">B ∖ A = {7; 8; 9}</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2: aibės pagal savybę (dalikliai) ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Aibė pagal savybę — dalikliai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Duota:</b> aibė N — skaičiaus 10 natūralieji dalikliai, aibė K — skaičiaus 12 natūralieji dalikliai. M = N ∩ K.</div>
+    <div class="ex">
+      <div class="q">Kiek elementų turi aibė M?</div>
+      <div class="line">N = {1; 2; 5; 10} &nbsp;&nbsp; K = {1; 2; 3; 4; 6; 12}<br>
+      M = N ∩ K = {1; 2} &nbsp;&rArr;&nbsp; <span class="res">2 elementai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3: žodinis, itraukimo-atmetimo ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Žodinis uždavinys — įtraukimas–atmetimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> |A∪B| = |A| + |B| − |A∩B|.</div>
+    <div class="ex">
+      <div class="q">Visi klasės mokiniai sportuoja: kiekvienas lanko bent vieną iš dviejų būrelių. Krepšinį lanko 18 mokinių, futbolą — 12 mokinių, o 2 mokiniai lanko abu būrelius. Kiek iš viso mokinių yra klasėje?</div>
+      <div class="line">Iš viso mokinių: 18 + 12 − 2 = <span class="res">28 mokiniai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4: trys aibės ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Trys baigtinės aibės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Duota:</b> A = {2; 4; 8; 19}, B = {4; 8; 12; 13}, C = {12; 13; 19; 24}.</div>
+    <div class="ex">
+      <div class="q">Raskite A ∩ B ir B ∪ C.</div>
+      <div class="line">A ∩ B = <span class="res">{4; 8}</span> &nbsp;&nbsp; B ∪ C = <span class="res">{4; 8; 12; 13; 19; 24}</span> <span class="muted2">(bendri 12, 13 skaičiuojami tik kartą)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 5: intervalai ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Intervalai kaip aibės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Duota:</b> A = [−15; 0), B = [−6; 6).</div>
+    <div class="ex">
+      <div class="q">Raskite A ∪ B ir A ∩ B.</div>
+      <div class="line">A ∪ B — kadangi intervalai persidengia, sąjunga yra vienas intervalas nuo mažiausios iki didžiausios ribos: <span class="res">A ∪ B = [−15; 6)</span><br>
+      A ∩ B — imame siauresnes ribas: <span class="res">A ∩ B = [−6; 0)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kiekvienam uždaviniui užrašyk sprendimą, tada palygink su atsakymu lapo apačioje.</div>
+
+    <div class="grp">Baigtinės aibės — sąjunga, sankirta, skirtumas</div>
+    <ol class="tasks math">
+      <li>A = {1; 2; 4; 6}, B = {4; 5; 6; 9}. Raskite B ∩ A.</li>
+      <li>A = {3; 4; 5}, B = {2; 4; 6}. Raskite A ∪ B.</li>
+      <li>A = {1; 2; 3; 4; 5}, B = {1; 3; 5}. Raskite |A ∖ B|.</li>
+    </ol>
+
+    <div class="grp">Baigtinės aibės — daugiau elementų</div>
+    <div class="two">
+      <ol class="tasks math" start="4">
+        <li>A = {3; 5; 9; 13}, B = {3; 6; 9; 13; 16}. Raskite A ∩ B ir A ∪ B.</li>
+        <li>A = {−3; −2; −1; 0; 1; 3; 4}, B = {−5; −3; −1; 3; 5}. Raskite |A ∩ B|.</li>
+        <li>A = {2; 3; 5; 7; 9; 11}, B = {1; 3; 5; 7; 9; 10}. Raskite |A ∪ B|.</li>
+        <li>A = {1; 5; 8; 9; 14; 19; 20}, B = {1; 5; 7; 9; 12; 20}. Raskite |A ∩ B|.</li>
+        <li>A = {0; 1; 2; 3; 5; 7; 8; 9}, B = {1; 2; 7; 8; 9; 10}. Raskite C = A ∪ B.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Aibė pagal savybę / poaibiai</div>
+    <ol class="tasks math" start="9">
+      <li>A = {−5; −4; 3; 7; 9}, B = {3; 5; 7; 9; 13}. a) Raskite A ∩ B. b) Kiek daugiausiai elementų gali turėti aibės A poaibis, sudarytas vien iš nelyginių skaičių?</li>
+    </ol>
+
+    <div class="grp">Intervalai</div>
+    <div class="two">
+      <ol class="tasks math" start="10">
+        <li>Raskite (−7; 4] ∩ [−1; 5).</li>
+        <li>A = [−2; 4), B = (−6; 3]. Raskite A ∩ B.</li>
+        <li>A = [1; 3], B = [2; 6). Raskite A ∩ B.</li>
+        <li>A = (−2; 3), B = (2; 5). Raskite A ∪ B.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Intervalai — pasirink teisingą atsakymą</div>
+    <ol class="tasks math" start="14">
+      <li>A = {−5; −1; 0; 2; 3; 5; 7}, B = {−5; −2; 0; 1; 7; 9}. Raskite |A ∪ B|.
+        <br>A. 3 &nbsp;&nbsp; B. 7 &nbsp;&nbsp; C. 10 &nbsp;&nbsp; D. 13</li>
+      <li>Raskite (−∞; 1) ∩ (−2; 1].
+        <br>A. (−2; 1) &nbsp;&nbsp; B. (−2; 1] &nbsp;&nbsp; C. (−∞; 1) &nbsp;&nbsp; D. (−∞; 1]</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> {4; 6} &nbsp;&nbsp; <b>2.</b> {2; 3; 4; 5; 6} &nbsp;&nbsp; <b>3.</b> 2</div>
+    <div class="row math"><b>4.</b> A∩B={3; 9; 13}, A∪B={3; 5; 6; 9; 13; 16} &nbsp;&nbsp; <b>5.</b> 3</div>
+    <div class="row math"><b>6.</b> 8 &nbsp;&nbsp; <b>7.</b> 4 &nbsp;&nbsp; <b>8.</b> {0; 1; 2; 3; 5; 7; 8; 9; 10}</div>
+    <div class="row math"><b>9.</b> a) {3; 7; 9} &nbsp; b) 4 (−5, 3, 7, 9)</div>
+    <div class="row math"><b>10.</b> [−1; 4] &nbsp;&nbsp; <b>11.</b> [−2; 3]</div>
+    <div class="row math"><b>12.</b> [2; 3] &nbsp;&nbsp; <b>13.</b> (−2; 5)</div>
+    <div class="row math"><b>14.</b> C &nbsp;&nbsp; <b>15.</b> A</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 11 klasės B kurso matematika · „Skaičių aibės" · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
