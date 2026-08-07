@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių aibės — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių aibės — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 11 klasė · A kursas · 1 skyrius „Skaičiai ir skaičiavimai I" · 1.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1: sąjunga/sankirta/skirtumas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Sąjunga, sankirta, skirtumas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Duota:</b> A = {2; 4; 6; 8; 10}, B = {4; 8; 12; 16}.</div>
+    <div class="ex">
+      <div class="q">A ∪ B</div>
+      <div class="line">= {2; 4; 6; 8; 10; 12; 16} &nbsp;&rArr;&nbsp; <span class="res">7 elementai</span> <span class="muted2">(bendri 4, 8 skaičiuojami tik kartą)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">A ∩ B</div>
+      <div class="line">= {4; 8} &nbsp;&rArr;&nbsp; <span class="res">2 elementai</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">A ∖ B ir B ∖ A</div>
+      <div class="line">A∖B = {2; 6; 10} &rArr; <span class="res">3</span> &nbsp;&nbsp; B∖A = {12; 16} &rArr; <span class="res">2</span> <span class="muted2">(skirtingi rezultatai!)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2: N,Z,Q,I,R priklausymas ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Skaičių aibės N, Z, Q, I, R</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> N ⊂ Z ⊂ Q ⊂ R; I = R∖Q (Q ir I neturi bendrų elementų).</div>
+    <div class="ex">
+      <div class="q">Kuriai aibei priklauso −5, 0,75, √11, 0?</div>
+      <div class="line">−5 ⇒ <span class="res">Z, Q, R</span> &nbsp;&nbsp; 0,75 = <span class="fr"><span>3</span><span>4</span></span> ⇒ <span class="res">Q, R</span> &nbsp;&nbsp; √11 ⇒ <span class="res">I, R</span> (11 nėra tikslus kvadratas) &nbsp;&nbsp; 0 ⇒ <span class="res">N, Z, Q, R</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3: itraukimo-atmetimo ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Baigtinių aibių elementų skaičius</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> |A∪B| = |A| + |B| − |A∩B|.</div>
+    <div class="ex">
+      <div class="q">|A| = 23, |B| = 31, |A∩B| = 14. Raskite |A∪B| ir |A∖B|.</div>
+      <div class="line">|A∪B| = 23 + 31 − 14 = <span class="res">40</span> &nbsp;&nbsp; |A∖B| = 23 − 14 = <span class="res">9</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Mokykloje 45 dvyliktokai. Matematikos egzaminą pasirinko 27, informacinių technologijų — 19, o 8 mokiniai — abu. Kiek nesirinko nė vieno?</div>
+      <div class="line">bent vieną: 27 + 19 − 8 = 38 &nbsp;&rArr;&nbsp; nė vieno: 45 − 38 = <span class="res">7 mokiniai</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4: intervalai ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Intervalai kaip aibės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> sankirtoje imame siauresnes ribas; atviras galas kraštinio sveikojo skaičiaus neįskaičiuoja.</div>
+    <div class="ex">
+      <div class="q">A = (−6; 8], B = [−2; 10). Raskite A∩B ir A∪B.</div>
+      <div class="line">A∩B = [−2; 8] &nbsp;&nbsp; A∪B = (−6; 10)</div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek sveikųjų skaičių yra aibėje A∩B (iš aukščiau)?</div>
+      <div class="line">[−2; 8]: −2, −1, 0, …, 8 &nbsp;&rArr;&nbsp; <span class="res">11 skaičių</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kiekvienam uždaviniui užrašyk sprendimą, tada palygink su atsakymu lapo apačioje.</div>
+
+    <div class="grp">Sąjunga, sankirta, skirtumas</div>
+    <p class="math" style="margin:2px 0 6px">Duota: A = {3; 6; 9; 12; 15}, B = {6; 12; 18; 24}.</p>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Raskite |A∪B|.</li>
+        <li>Raskite |A∩B|.</li>
+        <li>Raskite |A∖B|.</li>
+        <li>Raskite |B∖A|.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Aibės pagal savybę</div>
+    <ol class="tasks math" start="5">
+      <li>Aibė A — vienaženkliai lyginiai natūralieji skaičiai, aibė B — skaičiaus 18 natūralieji dalikliai. Raskite |A∩B|.</li>
+      <li>Aibė A — dviaženkliai natūralieji skaičiai, kurie dalijasi iš 6, aibė B — dviaženkliai, kurie dalijasi iš 8. Raskite |A∪B|.</li>
+    </ol>
+
+    <div class="grp">Duota |A|, |B|, |A∩B|</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>|A| = 19, |B| = 27, |A∩B| = 12. Raskite |A∪B|.</li>
+        <li>|A| = 40, |B| = 25, |A∩B| = 15. Raskite |A∖B|.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Intervalai</div>
+    <div class="two">
+      <ol class="tasks math" start="9">
+        <li>A = (−8; 6], B = [−3; 9). Kiek sveikųjų skaičių yra aibėje A∩B?</li>
+        <li>A = [−10; 4), B = (−2; 7]. Kiek sveikųjų skaičių yra aibėje A∪B?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Skaičių aibės N, Z, Q, I, R — kurie teiginiai teisingi?</div>
+    <ol class="tasks math" start="11">
+      <li>
+        a) (R∖Q) ∩ Q = ∅ &nbsp;&nbsp;
+        b) N ∪ Z = N &nbsp;&nbsp;
+        c) (Z∖N) ∪ N = Z &nbsp;&nbsp;
+        d) I ∪ Z ⊂ Q &nbsp;&nbsp;
+        e) R∖I = Q &nbsp;&nbsp;
+        f) N ∩ I = ∅
+      </li>
+    </ol>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="12">
+      <li>Iš 40 dvyliktokų anglų kalbos egzaminą rinkosi 22 mokiniai, vokiečių kalbos — 15, o 9 mokiniai rinkosi abu egzaminus. Kiek mokinių nesirinko nė vieno iš šių egzaminų?</li>
+      <li>Sporto būrelius lanko 26 mokiniai — kiekvienas bent vieną iš dviejų: krepšinį arba tinklinį. Krepšinį lanko 17, tinklinį — 14 mokinių. Kiek mokinių lanko abu būrelius?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 7 &nbsp;&nbsp; <b>2.</b> 2 &nbsp;&nbsp; <b>3.</b> 3 &nbsp;&nbsp; <b>4.</b> 2</div>
+    <div class="row math"><b>5.</b> 2 &nbsp;&nbsp; <b>6.</b> 22 &nbsp;&nbsp; <b>7.</b> 34 &nbsp;&nbsp; <b>8.</b> 25</div>
+    <div class="row math"><b>9.</b> 10 &nbsp;&nbsp; <b>10.</b> 18</div>
+    <div class="row math"><b>11.</b> teisingi: a, c, e, f (b ir d klaidingi)</div>
+    <div class="row math"><b>12.</b> 12 mokinių &nbsp;&nbsp; <b>13.</b> 5 mokiniai</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 11 klasės A kurso matematika · „Skaičių aibės“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
