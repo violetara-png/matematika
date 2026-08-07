@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 skyrius · Kvadratinė ir kubinė šaknys — bendras treniruoklis</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">1 skyrius · Kvadratinė ir kubinė šaknys — bendras treniruoklis</h1>
+    <p id="paantraste">8 klasė · visos 10 potemių (1.1–1.10) · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// BENDRAS 1 skyriaus treniruoklis: apjungia visas 10 potemiu (1.1-1.10).
+// Kiekviena poteme suvyniota i ATSKIRA IIFE (izoliuoti susikertantys helperiai:
+// gcd, redStr, KV, KUB, surd, co, SF, CF, isqrt ir pan.). Etiketes prefiksuotos
+// potemes numeriu, kad "silpna vieta" rodytu, kuri poteme silpna.
+// Sudarytas automatiskai is potemiu treniruoklis-problemos.js failu.
+
+const GENERATORIAI = [].concat(
+  // ===== POTEME 1.1 (11-kvadratine-saknis) =====
+  (function(){
+// Kontrolinio treniruoklis: „1.1. Kvadratinė šaknis" (8 klasė)
+//
+// Procedūriniai generatoriai — nauji skaičiai kaskart, atsakymas visada švarus,
+// nes uždavinys kuriamas IŠ atsakymo (pasirenkamas rezultatas, tada konstrukcija).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Čia tik `const GENERATORIAI = [...]`.
+//
+// Teorija ir tipai paimti iš konspektas.html ir pavyzdziai-savikontrole.html.
+
+const GENERATORIAI = [
+
+  // 1) Kvadratinė šaknis iš tikslaus kvadrato
+  { label:"√ iš tikslaus kvadrato", gen(){
+      const n = randint(2,30);
+      const a = n*n;
+      return { q:`√${a}`, ans:n, steps:[
+        `Ieškome neneigiamo skaičiaus b, kurio kvadratas lygus ${a}, t. y. b² = ${a}.`,
+        `${n}² = ${a}, todėl √${a} = ${n} (ir ${n} ≥ 0).`,
+        `√${a} = ${n}`
+      ]};
+  }},
+
+  // 2) Šaknis kaip atvirkštinis kėlimui kvadratu: (√a)² = a
+  { label:"(√a)² = a", gen(){
+      const a = choice([2,3,5,6,7,10,11,13,17,19,23,1.3,2.1,0.5,1.7,3.6,0.8]);
+      return { q:`(√${nf(a)})²`, ans:a, steps:[
+        `Šaknis ir kvadratas yra atvirkštiniai veiksmai: (√a)² = a, kai a ≥ 0.`,
+        `Todėl šaknis ir kvadratas „panaikina" vienas kitą: (√${nf(a)})² = ${nf(a)}.`,
+        `(√${nf(a)})² = ${nf(a)}`
+      ]};
+  }},
+
+  // 3) √(a²) = |a| — su „spąstu" prie neigiamų
+  { label:"√(a²) = |a| (dėmesio ženklui)", gen(){
+      const a = nz(-15,15);
+      const a2 = a*a;
+      const abs = Math.abs(a);
+      const steps = [
+        `Pirmiausia keliame kvadratu: (${nf(a)})² = ${a2} (kvadratas visada neneigiamas).`,
+        `√${a2} = ${abs}, nes ${abs}² = ${a2}.`
+      ];
+      if(a<0){
+        steps.push(`Atsargiai su ženklu: nors ${nf(a)} neigiamas, √((${nf(a)})²) = |${nf(a)}| = ${abs}, nes šaknis neneigiama.`);
+      }
+      steps.push(`√((${nf(a)})²) = ${abs}`);
+      return { q:`√((${nf(a)})²)`, ans:abs, steps };
+  }},
+
+  // 4) Kvadrato plotas → kraštinė
+  { label:"Kvadrato kraštinė iš ploto", gen(){
+      const n = choice([2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,0.3,0.4,0.6,0.7,0.9,1.2,1.5,2.5]);
+      const S = Math.round(n*n*10000)/10000;
+      return { q:`Kvadrato plotas S = ${nf(S)} cm². Kokio ilgio kvadrato kraštinė (cm)?`, ans:n, pre:"a =", steps:[
+        `Kvadrato plotas S = a², todėl kraštinė a = √S (ilgis neneigiamas).`,
+        `a = √${nf(S)} = ${nf(n)}, nes ${nf(n)}² = ${nf(S)}.`,
+        `a = ${nf(n)} cm`
+      ]};
+  }},
+
+  // 5) Paprastas reiškinys su keliomis √
+  { label:"Reiškinys su keliomis √", gen(){
+      const sq = x => x*x;
+      const pool = [2,3,4,5,6,7,8,9,10,11,12,13];
+      const form = randint(1,4);
+      let m = choice(pool), n = choice(pool);
+
+      if(form===1){                       // suma
+        const a=sq(m), b=sq(n);
+        return { q:`√${a} + √${b}`, ans:m+n, steps:[
+          `√${a} = ${m}, √${b} = ${n}.`,
+          `√${a} + √${b} = ${m} + ${n} = ${m+n}.`,
+          `√${a} + √${b} = ${m+n}`
+        ]};
+      }
+      if(form===2){                       // skirtumas (m > n, kad rezultatas teigiamas)
+        if(m<=n){ let t=m; m=n+randint(1,4); n=Math.min(t,n); if(m===n) m=n+2; }
+        const a=sq(m), b=sq(n);
+        return { q:`√${a} − √${b}`, ans:m-n, steps:[
+          `√${a} = ${m}, √${b} = ${n}.`,
+          `√${a} − √${b} = ${m} − ${n} = ${m-n}.`,
+          `√${a} − √${b} = ${m-n}`
+        ]};
+      }
+      if(form===3){                       // sandauga: √a · √b = √(ab)
+        const a=sq(m), b=sq(n);
+        return { q:`√${a} · √${b}`, ans:m*n, steps:[
+          `√${a} = ${m}, √${b} = ${n}.`,
+          `√${a} · √${b} = ${m} · ${n} = ${m*n}.`,
+          `√${a} · √${b} = ${m*n}`
+        ]};
+      }
+      // form 4: koeficientas prieš šaknį: c · √a
+      const c = randint(2,5), a = sq(m);
+      return { q:`${c} · √${a}`, ans:c*m, steps:[
+        `√${a} = ${m}.`,
+        `${c} · √${a} = ${c} · ${m} = ${c*m}.`,
+        `${c} · √${a} = ${c*m}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.1 " + g.label}); });
+  })(),
+  // ===== POTEME 1.2 (12-kubine-saknis) =====
+  (function(){
+// Kubinė šaknis (8 klasė, 1.2 tema) — kontrolinio treniruoklio generatoriai.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Čia tik `const GENERATORIAI = [...]`.
+//
+// TAISYKLĖ: kiekvienas uždavinys kuriamas IŠ atsakymo (pasirenkam šaknį k,
+// tada radikandą = k³), todėl atsakymas visada teisingas ir švarus.
+// Uždavinių tipai: ∛ iš tikslaus kubo; ∛ iš neigiamo; (∛a)³ = a;
+// ∛ iš dešimtainės; ∛ iš trupmenos; kubo tūris → briauna.
+
+const GENERATORIAI = [
+
+  // 1) Kubinė šaknis iš tikslaus kubo: ∛(k³) = k
+  { label:"Kubinė šaknis iš tikslaus kubo", gen(){
+      const k = randint(1,10), n = k*k*k;
+      return { q:`∛${n}`, pre:"=", ans:k, ansText:String(k), steps:[
+        `ieškau skaičiaus, kurio kubas lygus ${n}`,
+        `${k}³ = ${n}`,
+        `∛${n} = ${k}`
+      ]};
+  }},
+
+  // 2) Kubinė šaknis iš neigiamo skaičiaus: ∛(−k³) = −k
+  { label:"Kubinė šaknis iš neigiamo skaičiaus", gen(){
+      const k = randint(1,10), n = k*k*k;
+      return { q:`∛(−${n})`, pre:"=", ans:-k, ansText:nf(-k), steps:[
+        `(−${k})³ = −${n}, nes neigiamo skaičiaus kubas neigiamas`,
+        `minusą iškeliu prieš šaknį: ∛(−${n}) = −∛${n}`,
+        `∛(−${n}) = −${k}`
+      ]};
+  }},
+
+  // 3) Tapatybė (∛a)³ = a  (ir teigiami, ir neigiami a)
+  { label:"(∛a)³ = a", gen(){
+      const a = choice([2,3,4,5,6,7,9,10,11,13,-3,-4,-6,-8,-10,-12]);
+      const aStr = a<0 ? `(−${Math.abs(a)})` : `${a}`;
+      return { q:`(∛${aStr})³`, pre:"=", ans:a, ansText:nf(a), steps:[
+        `kubinės šaknies traukimas ir kėlimas kubu — atvirkštiniai veiksmai`,
+        `pagal taisyklę (∛a)³ = a`,
+        `(∛${aStr})³ = ${nf(a)}`
+      ]};
+  }},
+
+  // 4) Kubinė šaknis iš dešimtainės: ∛((k/10)³) = k/10
+  { label:"Dešimtainė kubinė šaknis", gen(){
+      const k = randint(1,9), sign = choice([1,-1]);
+      const cube = String(k*k*k).padStart(3,"0");   // pvz. "008"
+      const radAbs = `0,${cube}`;                    // pvz. "0,008"
+      const rootAbs = `0,${k}`;                       // pvz. "0,2"
+      const rad = sign>0 ? radAbs : `(−${radAbs})`;
+      const rootDisp = (sign<0?"−":"") + rootAbs;
+      return { q:`∛${rad}`, pre:"=", ans:sign*k/10, ansText:rootDisp, steps:[
+        `ieškau skaičiaus, kurio kubas lygus ${sign<0?"−":""}${radAbs}`,
+        `(${rootDisp})³ = ${sign<0?"−":""}${radAbs}`,
+        `∛${rad} = ${rootDisp}`
+      ]};
+  }},
+
+  // 5) Kubinė šaknis iš trupmenos: ∛(a³/b³) = a/b  (laiptuota trupmena)
+  { label:"Trupmeninė kubinė šaknis", gen(){
+      const pairs = [[1,2],[2,3],[1,3],[3,4],[1,4],[2,5],[3,5],[4,5],[1,5],[3,2],[4,3],[5,4],[5,2],[5,3]];
+      const [a,b] = choice(pairs), sign = choice([1,-1]);
+      const num = a*a*a, den = b*b*b;
+      const fr = (x,y)=>`<span class="fr"><span>${x}</span><span>${y}</span></span>`;
+      const radFrac = fr(num,den), ansFrac = fr(a,b);
+      const q = sign>0 ? `∛${radFrac}` : `∛(−${radFrac})`;
+      const ansText = (sign<0?"−":"") + ansFrac;
+      return { q, pre:"=", ans:sign*a/b, ansText, steps:[
+        `∛ traukiu atskirai iš skaitiklio ir iš vardiklio`,
+        `∛${num} = ${a}, &nbsp; ∛${den} = ${b}`,
+        `${q} = ${ansText}`
+      ]};
+  }},
+
+  // 6) Kubo tūris → briauna (sveikoji briauna): V = a³ → a = ∛V
+  { label:"Kubo tūris → briauna", gen(){
+      const a = randint(2,10), V = a*a*a;
+      return { q:`Kubo tūris V = ${V} cm³. Koks jo briaunos ilgis?`, pre:"a =", ans:a, ansText:`${a} cm`, steps:[
+        `kubo tūris V = a³, todėl briauna a = ∛V`,
+        `a = ∛${V}`,
+        `${a}³ = ${V}, todėl a = ${a} cm`
+      ]};
+  }},
+
+  // 7) Kubo tūris → briauna (dešimtainė briauna)
+  { label:"Kubo tūris → briauna (dešimtainė)", gen(){
+      const k = randint(2,9);
+      const cube = String(k*k*k).padStart(3,"0");
+      const V = `0,${cube}`;   // pvz. "0,027"
+      const a = `0,${k}`;       // pvz. "0,3"
+      return { q:`Kubo tūris V = ${V} m³. Koks jo briaunos ilgis?`, pre:"a =", ans:k/10, ansText:`${a} m`, steps:[
+        `briauna a = ∛V = ∛${V}`,
+        `(${a})³ = ${V}`,
+        `a = ${a} m`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.2 " + g.label}); });
+  })(),
+  // ===== POTEME 1.3 (13-iracionalieji-skaiciai) =====
+  (function(){
+// Iracionaliųjų skaičių treniruoklio generatoriai (8 klasė, 1.3 tema).
+//
+// Šablonas jau apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
+// Čia papildomai apibrėžiu sveikųjų šaknų pagalbininkus ir GENERATORIAI masyvą.
+//
+// Visi atsakymai yra sveikieji skaičiai:
+//   • racionalus/iracionalus → 1 (taip) arba 0 (ne)
+//   • sveikoji dalis / gretimas sveikasis / arčiausias sveikasis → sveikas skaičius
+// Sveikąsias dalis skaičiuoja Math.floor(Math.sqrt/cbrt) su korekcija — tiksliai.
+
+function isqrt(n){ let r = Math.floor(Math.sqrt(n)); while((r+1)*(r+1) <= n) r++; while(r > 0 && r*r > n) r--; return r; }
+function icbrt(n){ let r = Math.floor(Math.cbrt(n)); while((r+1)**3 <= n) r++; while(r > 0 && r**3 > n) r--; return r; }
+function isKvadratas(n){ const r = isqrt(n); return r*r === n; }
+function isKubas(n){ const r = icbrt(n); return r**3 === n; }
+function neKvadratas(a,b){ let n; do{ n = randint(a,b); }while(isKvadratas(n)); return n; }
+function neKubas(a,b){ let n; do{ n = randint(a,b); }while(isKubas(n)); return n; }
+
+const GENERATORIAI = [
+
+  // 1. Racionalus ar iracionalus (√ ir ∛; kartais tikslus kvadratas/kubas)
+  { label:"Racionalus ar iracionalus", gen(){
+      const tipas = choice(["kv-tikslus","kv-ne","kub-tikslus","kub-ne"]);
+      if(tipas === "kv-tikslus"){
+        const k = randint(2,12), n = k*k;
+        return { q:`Ar √${n} racionalusis?`, ans:1, pre:"1 = taip, 0 = ne", steps:[
+          `${n} yra tikslus kvadratas: ${n} = ${k}²`,
+          `√${n} = ${k} (sveikas skaičius)`,
+          `√${n} racionalusis → 1`
+        ]};
+      }
+      if(tipas === "kv-ne"){
+        const n = neKvadratas(2,150);
+        const r = isqrt(n);
+        return { q:`Ar √${n} racionalusis?`, ans:0, pre:"1 = taip, 0 = ne", steps:[
+          `${n} nėra tikslus kvadratas (${r}² = ${r*r}, ${r+1}² = ${(r+1)*(r+1)})`,
+          `√${n} yra begalinė neperiodinė trupmena`,
+          `√${n} iracionalusis → 0`
+        ]};
+      }
+      if(tipas === "kub-tikslus"){
+        const k = randint(2,5), n = k**3;
+        return { q:`Ar ∛${n} racionalusis?`, ans:1, pre:"1 = taip, 0 = ne", steps:[
+          `${n} yra tikslus kubas: ${n} = ${k}³`,
+          `∛${n} = ${k} (sveikas skaičius)`,
+          `∛${n} racionalusis → 1`
+        ]};
+      }
+      const n = neKubas(2,200);
+      const k = icbrt(n);
+      return { q:`Ar ∛${n} racionalusis?`, ans:0, pre:"1 = taip, 0 = ne", steps:[
+        `${n} nėra tikslus kubas (${k}³ = ${k**3}, ${k+1}³ = ${(k+1)**3})`,
+        `∛${n} yra begalinė neperiodinė trupmena`,
+        `∛${n} iracionalusis → 0`
+      ]};
+  }},
+
+  // 2. Sveikoji kvadratinės šaknies dalis ⌊√n⌋
+  { label:"Sveikoji kvadratinės šaknies dalis", gen(){
+      const n = neKvadratas(3,150);
+      const r = isqrt(n);
+      return { q:`√${n}`, ans:r, pre:"sveikoji dalis =", steps:[
+        `${r}² = ${r*r},  ${r+1}² = ${(r+1)*(r+1)}`,
+        `${r*r} < ${n} < ${(r+1)*(r+1)}`,
+        `√${r*r} < √${n} < √${(r+1)*(r+1)},  t. y. ${r} < √${n} < ${r+1}`,
+        `Sveikoji dalis: ${r}`
+      ]};
+  }},
+
+  // 3. Tarp kurių gretimų sveikųjų yra √n (įrašomas mažesnysis)
+  { label:"Tarp kurių gretimų sveikųjų", gen(){
+      const n = neKvadratas(5,150);
+      const r = isqrt(n);
+      return { q:`√${n}`, ans:r, pre:"mažesnysis sveikasis =", steps:[
+        `${r*r} < ${n} < ${(r+1)*(r+1)}`,
+        `√${r*r} < √${n} < √${(r+1)*(r+1)}`,
+        `${r} < √${n} < ${r+1}`,
+        `Mažesnysis iš gretimų sveikųjų: ${r}`
+      ]};
+  }},
+
+  // 4. Arčiau kurio sveikojo (skaičių tiesė)
+  { label:"Arčiau kurio sveikojo", gen(){
+      const n = neKvadratas(3,150);
+      const r = isqrt(n);
+      const dZem = n - r*r, dVir = (r+1)*(r+1) - n;
+      const art = dZem < dVir ? r : r+1;
+      return { q:`√${n}`, ans:art, pre:"arčiausias sveikasis =", steps:[
+        `${r*r} < ${n} < ${(r+1)*(r+1)},  t. y. ${r} < √${n} < ${r+1}`,
+        `atstumas iki ${r}: ${n} − ${r*r} = ${dZem}`,
+        `atstumas iki ${r+1}: ${(r+1)*(r+1)} − ${n} = ${dVir}`,
+        `${Math.min(dZem,dVir)} < ${Math.max(dZem,dVir)} → √${n} arčiau ${art}`,
+        `Arčiausias sveikasis: ${art}`
+      ]};
+  }},
+
+  // 5. Sveikoji kubinės šaknies dalis ⌊∛n⌋
+  { label:"Sveikoji kubinės šaknies dalis", gen(){
+      const n = neKubas(9,200);
+      const k = icbrt(n);
+      return { q:`∛${n}`, ans:k, pre:"sveikoji dalis =", steps:[
+        `${k}³ = ${k**3},  ${k+1}³ = ${(k+1)**3}`,
+        `${k**3} < ${n} < ${(k+1)**3}`,
+        `∛${k**3} < ∛${n} < ∛${(k+1)**3},  t. y. ${k} < ∛${n} < ${k+1}`,
+        `Sveikoji dalis: ${k}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.3 " + g.label}); });
+  })(),
+  // ===== POTEME 1.4 (14-palyginame) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: 1.4 Šaknų palyginimas (8 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Čia apibrėžiam tik GENERATORIAI.
+//
+// PALYGINIMO uždaviniuose atsakymas yra ženklas > < = . Jį koduojame skaičiumi
+// (> → 1, < → −1, = → 0), o parseVal (papildytas build metu) priima įvestus
+// ženklus. ansText rodo pilną palyginimą (pvz. „√17 > √8"). Paskutinis
+// sprendimo žingsnis visada baigiasi ansText reikšme (verify_gen reikalavimas).
+//
+// Skaičiaus atsakymo uždaviniuose (floor, pošaknio parinkimas) atsakymas yra
+// sveikasis skaičius, kurį mokinys įrašo.
+
+const GENERATORIAI = [
+
+  // 1. √a ir √b palyginimas
+  { label:"Kvadratinių šaknų palyginimas", gen(){
+      let a=randint(2,99), b=randint(2,99);
+      while(b===a) b=randint(2,99);
+      const sign = a>b ? '>' : '<';
+      const val  = a>b ? 1 : -1;
+      const at = `√${a} ${sign} √${b}`;
+      return { q:`√${a} ___ √${b}`, ans:val, ansText:at, pre:"ženklas =", steps:[
+        `Lyginame pošaknius: ${a} ir ${b}.`,
+        `Kuo didesnis pošaknis, tuo didesnė kvadratinė šaknis, todėl √a > √b, kai a > b.`,
+        `Kadangi ${a} ${sign} ${b}, gauname`,
+        at
+      ]};
+  }},
+
+  // 2. ∛ palyginimas (ir su neigiamais pošakniais)
+  { label:"Kubinių šaknų palyginimas", gen(){
+      const R=()=>{ let n; do{ n=randint(-30,30);}while(n===0); return n; };
+      let a=R(), b=R();
+      while(b===a) b=R();
+      const sign = a>b ? '>' : '<';
+      const val  = a>b ? 1 : -1;
+      const cb = n => n<0 ? `∛(−${-n})` : `∛${n}`;
+      const at = `${cb(a)} ${sign} ${cb(b)}`;
+      return { q:`${cb(a)} ___ ${cb(b)}`, ans:val, ansText:at, pre:"ženklas =", steps:[
+        `Kubinę šaknį galima traukti iš bet kokio skaičiaus, todėl lyginame tiesiog pošaknius: ${nf(a)} ir ${nf(b)}.`,
+        `Kadangi ${nf(a)} ${sign} ${nf(b)}, gauname`,
+        at
+      ]};
+  }},
+
+  // 3. Neigiamų šaknų palyginimas (−√a vs −√b)
+  { label:"Neigiamų šaknų palyginimas", gen(){
+      let a=randint(2,50), b=randint(2,50);
+      while(b===a) b=randint(2,50);
+      // didesnis pošaknis → didesnė √ → labiau neigiama → mažesnė reikšmė
+      const sign = a>b ? '<' : '>';
+      const val  = a>b ? -1 : 1;
+      const at = `−√${a} ${sign} −√${b}`;
+      return { q:`−√${a} ___ −√${b}`, ans:val, ansText:at, pre:"ženklas =", steps:[
+        `Su minusu tvarka apsiverčia: didesnio pošaknio neigiama šaknis yra mažesnė.`,
+        `Pošakniai ${a} ir ${b}: kadangi ${a} ${a>b?'>':'<'} ${b}, didesnę šaknį turi √${Math.max(a,b)}.`,
+        `Todėl su minuso ženklu tvarka priešinga:`,
+        at
+      ]};
+  }},
+
+  // 4. √ palyginimas su sveiku skaičiumi (k = √(k²))
+  { label:"Šaknis ir sveikasis skaičius", gen(){
+      const k=randint(3,12), k2=k*k;
+      let a;
+      const r=Math.random();
+      if(r<0.22) a=k2;                                          // atvejis su „="
+      else a = choice([ k2-randint(1,2*k-1), k2+randint(1,2*k+1) ]);
+      if(a<2) a=k2+randint(1,3);
+      const sign = a>k2 ? '>' : (a<k2 ? '<' : '=');
+      const val  = a>k2 ? 1 : (a<k2 ? -1 : 0);
+      const at = `√${a} ${sign} ${k}`;
+      return { q:`√${a} ___ ${k}`, ans:val, ansText:at, pre:"ženklas =", steps:[
+        `Sveikąjį skaičių paverčiame šaknimi: ${k} = √${k2}.`,
+        `Lyginame pošaknius ${a} ir ${k2}: ${a} ${sign} ${k2}.`,
+        at
+      ]};
+  }},
+
+  // 5. Didžiausias sveikasis, mažesnis už √n
+  { label:"Didžiausias sveikasis po šaknimi", gen(){
+      let n, m;
+      do{ n=randint(5,150); m=Math.floor(Math.sqrt(n)); }while(m*m===n); // ne pilnas kvadratas
+      const lo=m*m, hi=(m+1)*(m+1);
+      return { q:`Koks didžiausias sveikasis skaičius, mažesnis už √${n}?`, ans:m, pre:"atsakymas =", steps:[
+        `Ieškome sveikojo m, kad m² < ${n} < (m+1)².`,
+        `${m}² = ${lo}, o (${m}+1)² = ${hi}; kadangi ${lo} < ${n} < ${hi}, tai ${m} < √${n} < ${m+1}.`,
+        `Didžiausias sveikasis skaičius, mažesnis už √${n}, yra ${m}`
+      ]};
+  }},
+
+  // 6. Didžiausios / mažiausios šaknies parinkimas iš rinkinio
+  { label:"Didžiausia arba mažiausia šaknis", gen(){
+      const set=[]; while(set.length<3){ const x=randint(2,99); if(!set.includes(x)) set.push(x); }
+      const didZ = Math.random()<0.5;
+      const target = didZ ? Math.max(...set) : Math.min(...set);
+      const zodis  = didZ ? 'didžiausia' : 'mažiausia';
+      const posZ   = didZ ? 'didžiausią' : 'mažiausią';
+      const at = `√${target}`;
+      return { q:`Kuri šaknis ${zodis}: √${set[0]}, √${set[1]}, √${set[2]}? (įrašyk pošaknį)`, ans:target, ansText:at, pre:"pošaknis =", steps:[
+        `Kuo ${didZ?'didesnis':'mažesnis'} pošaknis, tuo ${zodis} kvadratinė šaknis.`,
+        `Pošakniai: ${set[0]}, ${set[1]}, ${set[2]}. ${posZ.charAt(0).toUpperCase()+posZ.slice(1)} pošaknį turi ${target}.`,
+        `Todėl ${zodis} šaknis yra √${target}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.4 " + g.label}); });
+  })(),
+  // ===== POTEME 1.5 (15-sudedame-atimame) =====
+  (function(){
+// Šakninių dėmenų sudėtis ir atimtis — generatoriai (8 kl., 1.5 tema).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Jų IŠ NAUJO NEAPIBRĖŽIU.
+//
+// ATSAKYMAS: gauto (panašaus) šaknies dėmens KOEFICIENTAS — vienas sveikas
+// skaičius. Kur lieka nepanašus dėmuo ar sveikoji dalis, jie parodomi prie
+// įvesties laukelio (pre) ir sprendime, o mokinys įrašo tik ieškomą koeficientą.
+// Kai šaknys susinaikina, atsakymas — sveikasis skaičius.
+
+const KV  = [2, 3, 5, 6, 7, 10, 11, 13, 14, 15];  // kvadratinių šaknų radikalai
+const KUB = [2, 3, 4, 5, 7, 9, 10, 11];           // kubinių šaknų radikalai
+
+// vedantis dėmuo: 5√3, −3√5, √6, −√6
+function coefRad(c, r){
+  if(c === 1)  return r;
+  if(c === -1) return '−' + r;
+  return nf(c) + r;
+}
+// tolesnis dėmuo su ženklu: „+ 3√3", „− √3", „+ 2∛5"
+function signTerm(c, r){
+  const s = c < 0 ? '− ' : '+ ';
+  const a = Math.abs(c);
+  return s + (a === 1 ? r : a + r);
+}
+// sveikasis dėmuo su ženklu: „+ 5", „− 12"
+function signInt(n){
+  return (n < 0 ? '− ' : '+ ') + Math.abs(n);
+}
+// du skirtingi radikalai iš to paties sąrašo
+function pickTwo(arr){ const x = choice(arr); let y; do{ y = choice(arr); }while(y === x); return [x, y]; }
+
+const GENERATORIAI = [
+
+  // 1) Panašūs dėmenys (du): a√k ± b√k = (a±b)√k
+  { label:"Panašūs dėmenys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 9);
+      let b, ans;
+      do{ b = nz(-9, 9); ans = a + b; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)}`,
+          `Šaknis ${R} ta pati, todėl ${b < 0 ? 'atimame' : 'sudedame'} koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 2) Nematomas koeficientas 1: √k = 1·√k
+  { label:"Nematomas koeficientas 1", gen(){
+      const k = choice(KV), R = '√' + k;
+      const forms = [
+        () => ({ a: 1,  b: 1 }),                       // √k + √k
+        () => ({ a: randint(2, 9), b: -1 }),           // c√k − √k
+        () => ({ a: 1,  b: randint(2, 9) }),           // √k + c√k
+        () => ({ a: -1, b: randint(2, 9) })            // −√k + c√k
+      ];
+      const { a, b } = choice(forms)();
+      const ans = a + b;
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)}`,
+          `Primink: ${R} = 1·${R}, todėl koeficientas prie tokio dėmens yra 1.`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 3) Trys panašūs dėmenys
+  { label:"Trys panašūs dėmenys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 9);
+      let b, c, ans;
+      do{ b = nz(-8, 8); c = nz(-8, 8); ans = a + b + c; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+          `Visi dėmenys turi tą pačią šaknį ${R} — sudedame (atimame) koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 4) Kubinės šaknys ∛
+  { label:"Kubinės šaknys ∛", gen(){
+      const k = choice(KUB), R = '∛' + k;
+      const trys = choice([false, true]);
+      if(!trys){
+        const a = randint(2, 8);
+        let b, ans;
+        do{ b = nz(-8, 8); ans = a + b; }while(ans === 0);
+        return {
+          q: `${coefRad(a, R)} ${signTerm(b, R)}`,
+          ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+          steps: [
+            `${coefRad(a, R)} ${signTerm(b, R)}`,
+            `Ta pati taisyklė galioja ir kubinėms šaknims — sudedame koeficientus, ${R} lieka:`,
+            `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} = ${coefRad(ans, R)}`
+          ]
+        };
+      }
+      const a = randint(1, 5);
+      let b, c, ans;
+      do{ b = nz(-5, 5); c = nz(-5, 5); ans = a + b + c; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, R)} ${signTerm(c, R)}`,
+          `Visi dėmenys su ta pačia kubine šaknimi ${R} — sudedame koeficientus:`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`
+        ]
+      };
+  }},
+
+  // 5) Mišrus: panašūs + nepanašūs (skirtingos šaknys) — nepanašios nesujungiamos
+  { label:"Panašūs ir nepanašūs", gen(){
+      const [k, m] = pickTwo(KV);
+      const R = '√' + k, Rm = '√' + m;
+      const a = randint(2, 7);
+      let c, ans;
+      do{ c = nz(-6, 6); ans = a + c; }while(ans === 0);
+      const b = randint(2, 5);  // nepanašaus dėmens koeficientas (lieka nepakeistas)
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, Rm)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} + ${b}${Rm}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, Rm)} ${signTerm(c, R)}`,
+          `${Rm} nepanaši su ${R} (skirtingos šaknys), todėl jos neliečiame.`,
+          `Sudedame tik ${R} dėmenis: (${nf(a)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`,
+          `= ${coefRad(ans, R)} + ${b}${Rm}`
+        ]
+      };
+  }},
+
+  // 6) Sveikieji ir šaknys — atskirai (ieškom šaknies koeficiento)
+  { label:"Sveikieji ir šaknys", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 8);
+      let b, ans;
+      do{ b = nz(-7, 7); ans = a + b; }while(ans === 0);
+      let p, qn, intPart;
+      do{ p = nz(-12, 12); qn = nz(-12, 12); intPart = p + qn; }while(intPart === 0);
+      return {
+        q: `${coefRad(a, R)} ${signInt(p)} ${signTerm(b, R)} ${signInt(qn)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} ${signInt(intPart)}`,
+        steps: [
+          `${coefRad(a, R)} ${signInt(p)} ${signTerm(b, R)} ${signInt(qn)}`,
+          `Grupuoju atskirai: šaknis su šaknimis, sveikuosius su sveikaisiais.`,
+          `= (${nf(a)} ${b < 0 ? '−' : '+'} ${Math.abs(b)})${R} + (${nf(p)} ${qn < 0 ? '−' : '+'} ${Math.abs(qn)})`,
+          `= ${coefRad(ans, R)} ${signInt(intPart)}`
+        ]
+      };
+  }},
+
+  // 7) Kai šaknys susinaikina — atsakymas sveikasis skaičius
+  { label:"Kai šaknys susinaikina", gen(){
+      const k = choice(KV), R = '√' + k;
+      const a = randint(2, 7);
+      let p, qn, ans;
+      do{ p = nz(-12, 12); qn = nz(-12, 12); ans = p + qn; }while(ans === 0);
+      return {
+        q: `${coefRad(a, R)} ${signInt(p)} ${signTerm(-a, R)} ${signInt(qn)}`,
+        ans, ansText: nf(ans), pre: `= ___`,
+        steps: [
+          `${coefRad(a, R)} ${signInt(p)} ${signTerm(-a, R)} ${signInt(qn)}`,
+          `Šaknys susinaikina: ${a}${R} − ${a}${R} = 0.`,
+          `Lieka tik sveikieji: ${nf(p)} ${qn < 0 ? '−' : '+'} ${Math.abs(qn)} = ${nf(ans)}`
+        ]
+      };
+  }},
+
+  // 8) Kvadratinės ir kubinės kartu — skirtingi laipsniai nesujungiami
+  { label:"Kvadratinės ir kubinės kartu", gen(){
+      const k = choice(KV), R = '√' + k;
+      const m = choice(KUB), Rc = '∛' + m;
+      const a = randint(2, 6);
+      let c, ans;
+      do{ c = nz(-5, 6); ans = a + c; }while(ans === 0);
+      const b = randint(2, 4);  // kubinės šaknies koeficientas (lieka nepakeistas)
+      return {
+        q: `${coefRad(a, R)} ${signTerm(b, Rc)} ${signTerm(c, R)}`,
+        ans, ansText: coefRad(ans, R), pre: `= ___ ${R} + ${b}${Rc}`,
+        steps: [
+          `${coefRad(a, R)} ${signTerm(b, Rc)} ${signTerm(c, R)}`,
+          `${Rc} yra kubinė šaknis — nepanaši su kvadratine ${R} (skirtingi laipsniai). Jos neliečiame.`,
+          `Sudedame tik ${R}: (${nf(a)} ${c < 0 ? '−' : '+'} ${Math.abs(c)})${R} = ${coefRad(ans, R)}`,
+          `= ${coefRad(ans, R)} + ${b}${Rc}`
+        ]
+      };
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.5 " + g.label}); });
+  })(),
+  // ===== POTEME 1.6 (16-saknis-is-sandaugos) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai — 8 klasė, 1.6 „Šaknis iš sandaugos".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Čia tereikia apibrėžti GENERATORIAI.
+//
+// TAISYKLĖ: kiekvienas generatorius kuriamas IŠ atsakymo (renkame šaknų
+// reikšmes, tada sudarome pošaknį), todėl atsakymas visada švarus ir teisingas.
+// Visi uždaviniai — procedūriniai, su naujais skaičiais kaskart.
+
+const GENERATORIAI = [
+
+  // 1) √(a·b) iš dviejų tikslių kvadratų
+  { label:"Šaknis iš dviejų kvadratų", gen(){
+      const p=randint(2,15), q=randint(2,15), a=p*p, b=q*q, ans=p*q;
+      return { q:`√(${a} · ${b})`, ans, steps:[
+        `√(${a} · ${b})`,
+        `= √${a} · √${b}`,
+        `= ${p} · ${q} = ${nf(ans)}`
+      ]};
+  }},
+
+  // 2) √(a·b·c) iš trijų tikslių kvadratų
+  { label:"Šaknis iš trijų kvadratų", gen(){
+      const p=randint(2,7), q=randint(2,7), r=randint(2,6);
+      const a=p*p, b=q*q, c=r*r, ans=p*q*r;
+      return { q:`√(${a} · ${b} · ${c})`, ans, steps:[
+        `√(${a} · ${b} · ${c})`,
+        `= √${a} · √${b} · √${c}`,
+        `= ${p} · ${q} · ${r} = ${nf(ans)}`
+      ]};
+  }},
+
+  // 3) √a · √b = √(a·b) — šaknų sandauga po vienu ženklu
+  { label:"Šaknų sandauga", gen(){
+      let r,R,divs=[],tries=0;
+      do{ r=randint(3,14); R=r*r; divs=[];
+          for(let k=2;k<R;k++){ if(R%k===0) divs.push(k); }
+          tries++;
+      }while(divs.length===0 && tries<30);
+      const d=choice(divs), a=d, b=R/d;
+      return { q:`√${a} · √${b}`, ans:r, steps:[
+        `√${a} · √${b}`,
+        `= √(${a} · ${b})`,
+        `= √${R} = ${nf(r)}`
+      ]};
+  }},
+
+  // 4) Šaknis su dešimtaine: √(a · 0,0X) iš tikslių kvadratų
+  { label:"Šaknis su dešimtaine", gen(){
+      const p=randint(2,15), a=p*p;
+      const decs=[[0.1,"0,01"],[0.2,"0,04"],[0.3,"0,09"],[0.4,"0,16"],
+                  [0.5,"0,25"],[0.6,"0,36"],[0.7,"0,49"],[0.8,"0,64"],[0.9,"0,81"]];
+      const [dv,dtxt]=choice(decs);
+      const ans=Math.round(p*dv*100)/100;
+      return { q:`√(${a} · ${dtxt})`, ans, steps:[
+        `√(${a} · ${dtxt})`,
+        `= √${a} · √${dtxt}`,
+        `= ${p} · ${nf(dv)} = ${nf(ans)}`
+      ]};
+  }},
+
+  // 5) ∛(a·b) iš tikslių kubų (vienas dauginamasis gali būti neigiamas)
+  { label:"Kubinė šaknis iš sandaugos", gen(){
+      const p=randint(2,5), q=randint(2,4), sp=choice([1,-1]);
+      const a=sp*p*p*p, b=q*q*q, ca=sp*p, ans=ca*q;
+      const wa = a<0 ? `(${nf(a)})` : `${a}`;
+      return { q:`∛(${nf(a)} · ${b})`, ans, steps:[
+        `∛(${nf(a)} · ${b})`,
+        `= ∛${wa} · ∛${b}`,
+        `= ${nf(ca)} · ${q} = ${nf(ans)}`
+      ]};
+  }},
+
+  // 6) ∛a · ∛b = ∛(a·b) — kubinių šaknų sandauga
+  { label:"Kubinių šaknų sandauga", gen(){
+      let r,R,divs=[];
+      do{ r=randint(2,5); R=r*r*r; divs=[];
+          for(let k=2;k<R;k++){ if(R%k===0) divs.push(k); }
+      }while(divs.length===0);
+      const d=choice(divs), a=d, b=R/d;
+      return { q:`∛${a} · ∛${b}`, ans:r, steps:[
+        `∛${a} · ∛${b}`,
+        `= ∛(${a} · ${b})`,
+        `= ∛${R} = ${nf(r)}`
+      ]};
+  }},
+
+  // 7) Bendro daugiklio iškėlimas (suma): √(k²·m + k²·n)
+  { label:"Bendras daugiklis (suma)", gen(){
+      const k=randint(2,9), K=k*k, s=randint(2,12), S2=s*s;
+      const m=randint(1,S2-1), n=S2-m, ans=k*s;
+      return { q:`√(${K}·${m} + ${K}·${n})`, ans, steps:[
+        `√(${K}·${m} + ${K}·${n})`,
+        `= √(${K}·(${m} + ${n}))`,
+        `= √(${K} · ${S2})`,
+        `= √${K} · √${S2} = ${k} · ${s} = ${nf(ans)}`
+      ]};
+  }},
+
+  // 8) Bendro daugiklio iškėlimas (skirtumas): √(k²·m − k²·n)
+  { label:"Bendras daugiklis (skirtumas)", gen(){
+      const k=randint(2,9), K=k*k, s=randint(2,12), S2=s*s;
+      const n=randint(1,20), m=S2+n, ans=k*s;
+      return { q:`√(${K}·${m} − ${K}·${n})`, ans, steps:[
+        `√(${K}·${m} − ${K}·${n})`,
+        `= √(${K}·(${m} − ${n}))`,
+        `= √(${K} · ${S2})`,
+        `= √${K} · √${S2} = ${k} · ${s} = ${nf(ans)}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.6 " + g.label}); });
+  })(),
+  // ===== POTEME 1.7 (17-saknis-is-trupmenos) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: 1.7 „Šaknis iš trupmenos" (8 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n), pm(n). Klausimas, verdiktas ir žingsniai rodomi per innerHTML+fmtMath,
+// todėl trupmenos „a/b" automatiškai tampa laiptuotos (.fr), o √ ir ∛ yra tikri
+// Unicode simboliai. Šaknų dalmenį rodome su „:" (kaip konspekte), kad išvengtume
+// √ vardiklyje. Atsakymai — laiptuotos trupmenos (redStr).
+//
+// TAISYKLĖ: kiekvienas uždavinys kuriamas IŠ atsakymo (pirma šaknys r1/r2 ar P/Q,
+// tada a=r², b=r²), todėl atsakymas visada teisingas ir švarus.
+
+function gcd(a, b){ a = Math.abs(a); b = Math.abs(b); while(b){ const t = a % b; a = b; b = t; } return a || 1; }
+// Suprastinta trupmena tekstu: „−3/2", „7/6", „2" (jei sveikas). „/" ir „−" tampa laiptuoti/LT.
+function redStr(num, den){
+  const sign = ((num < 0) !== (den < 0)) ? '−' : '';
+  let n = Math.abs(num), d = Math.abs(den), g = gcd(n, d); n /= g; d /= g;
+  return (d === 1) ? (sign + n) : (sign + n + '/' + d);
+}
+
+const GENERATORIAI = [
+
+  // 1. √(a/b), abu — tikslūs kvadratai; atsakymą suprastinti.
+  { label:"Kvadratinė šaknis iš trupmenos", gen(){
+      let r1, r2; do{ r1 = randint(2, 12); r2 = randint(2, 12); } while(r1 === r2);
+      const a = r1*r1, b = r2*r2, at = redStr(r1, r2);
+      return { q:`√${a}/${b}`, ans:r1/r2, ansText:at, steps:[
+        `√${a}/${b}`,
+        `= √${a} : √${b} = ${r1}/${r2}`,
+        `= ${at}`
+      ]};
+  }},
+
+  // 2. Šaknų dalmuo √a : √b = √(a:b); sveikas atsakymas.
+  { label:"Šaknų dalmuo (√a : √b)", gen(){
+      const res = randint(2, 6), b = randint(2, 5), a = b*res*res;
+      return { q:`√${a} : √${b}`, ans:res, ansText:`${res}`, steps:[
+        `√${a} : √${b} = √(${a} : ${b})`,
+        `= √${a/b}`,
+        `= ${res}`
+      ]};
+  }},
+
+  // 3. Šaknų dalmuo √a : √b = √(a:b); trupmeninis atsakymas.
+  { label:"Šaknų dalmuo (trupmena)", gen(){
+      let m, n; do{ m = randint(2, 5); n = randint(2, 4); } while(gcd(m, n) !== 1);
+      const t = randint(1, 4), a = m*m*t, b = n*n*t;
+      return { q:`√${a} : √${b}`, ans:m/n, ansText:`${m}/${n}`, steps:[
+        `√${a} : √${b} = √(${a} : ${b})`,
+        `= √${m*m}/${n*n}`,
+        `= ${m}/${n}`
+      ]};
+  }},
+
+  // 4. ∛(a/b), abu — tikslūs kubai; teigiama.
+  { label:"Kubinė šaknis iš trupmenos", gen(){
+      let r1, r2; do{ r1 = randint(1, 5); r2 = randint(2, 5); } while(r1 === r2);
+      const a = r1*r1*r1, b = r2*r2*r2, at = redStr(r1, r2);
+      return { q:`∛${a}/${b}`, ans:r1/r2, ansText:at, steps:[
+        `∛${a}/${b}`,
+        `= ∛${a} : ∛${b} = ${r1}/${r2}`,
+        `= ${at}`
+      ]};
+  }},
+
+  // 5. ∛(−a/b), tikslūs kubai; neigiama (kubinė šaknis leidžia neigiamus).
+  { label:"Kubinė šaknis (neigiama)", gen(){
+      let r1, r2; do{ r1 = randint(2, 5); r2 = randint(2, 5); } while(r1 === r2);
+      const a = r1*r1*r1, b = r2*r2*r2, at = redStr(-r1, r2);
+      return { q:`∛(−${a}/${b})`, ans:-r1/r2, ansText:at, steps:[
+        `∛(−${a}/${b}) = −∛${a}/${b}`,
+        `= −∛${a} : ∛${b} = −${r1}/${r2}`,
+        `= ${at}`
+      ]};
+  }},
+
+  // 6. Mišrus skaičius po šaknimi: pirma versk netaisyklinga trupmena, tada trauk.
+  { label:"Šaknis iš mišraus skaičiaus", gen(){
+      let P, Q; do{ Q = randint(2, 7); P = randint(Q+1, 2*Q+2); } while(gcd(P, Q) !== 1);
+      const num = P*P, den = Q*Q, whole = Math.floor(num/den), rem = num - whole*den;
+      return { q:`√(${whole} ${rem}/${den})`, ans:P/Q, ansText:`${P}/${Q}`, steps:[
+        `√(${whole} ${rem}/${den})`,
+        `= √${num}/${den}`,
+        `= ${P}/${Q}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.7 " + g.label}); });
+  })(),
+  // ===== POTEME 1.8 (18-iskeliame-ikeliame) =====
+  (function(){
+// Kontrolinio treniruoklis: 8 kl. 1.8 „Iškeliame prieš šaknies ženklą, įkeliame į pošaknį".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint, choice, nz, nf, pm — NEBEAPIBRĖŽIAM.
+// Atsakymai TEKSTINIAI (ansType:"text"): pavidalo „a√b" (pvz. 3√2) arba „√N" (pvz. √20),
+// kubinei — „a∛b" / „∛N", minusas visada LIEKA PRIEŠ ženklą (Violetos konvencija).
+//
+// Uždaviniai konstruojami IŠ atsakymo, todėl atsakymas visada teisingas ir švarus:
+//  - SF — bekvadračiai pošakniai (nėra tikslūs kvadratai, be kvadratinio daugiklio),
+//    todėl √(a²·b) jau iki galo suprastinta.
+//  - CF — bekubiai pošakniai (nedalijasi iš 8, 27, …), todėl ∛(a³·b) iki galo suprastinta.
+
+const SF = [2,3,5,6,7,10,11,13,14,15,17,19,21,22,23];      // kvadratinei: bekvadračiai
+const CF = [2,3,4,5,6,7,9,10,11,12,13];                     // kubinei: bekubiai
+
+const GENERATORIAI = [
+  { label:"Iškelk daugiklį prieš šaknį (√)", gen(){
+      const a=randint(2,9), b=choice(SF), N=a*a*b, ans=a+"√"+b;
+      return { q:"√"+N, ansType:"text", ans, steps:[
+        "√"+N,
+        "= √("+(a*a)+"·"+b+")",
+        "= √"+(a*a)+" · √"+b,
+        "= "+ans
+      ]};
+  }},
+
+  { label:"Iškelk daugiklį (kubinė ∛)", gen(){
+      const a=randint(2,4), b=choice(CF), cube=a*a*a, N=cube*b, ans=a+"∛"+b;
+      return { q:"∛"+N, ansType:"text", ans, steps:[
+        "∛"+N,
+        "= ∛("+cube+"·"+b+")",
+        "= ∛"+cube+" · ∛"+b,
+        "= "+ans
+      ]};
+  }},
+
+  { label:"Iškelk (kubinė, neigiamas ∛)", gen(){
+      const a=randint(2,4), b=choice(CF), cube=a*a*a, N=cube*b, ans="−"+a+"∛"+b;
+      return { q:"∛(−"+N+")", ansType:"text", ans, steps:[
+        "∛(−"+N+")",
+        "= ∛(−"+cube+"·"+b+")",
+        "= −∛"+cube+" · ∛"+b,
+        "= "+ans
+      ]};
+  }},
+
+  { label:"Įkelk daugiklį po šaknimi (√)", gen(){
+      const a=randint(2,9), b=choice(SF), N=a*a*b, ans="√"+N;
+      return { q:a+"√"+b, ansType:"text", ans, ansAlt:["√("+N+")"], steps:[
+        a+"√"+b,
+        "= √("+a+"²·"+b+")",
+        "= √("+(a*a)+"·"+b+")",
+        "= "+ans
+      ]};
+  }},
+
+  { label:"Įkelk daugiklį (kubinė ∛)", gen(){
+      const a=randint(2,4), b=choice(CF), cube=a*a*a, N=cube*b, ans="∛"+N;
+      return { q:a+"∛"+b, ansType:"text", ans, ansAlt:["∛("+N+")"], steps:[
+        a+"∛"+b,
+        "= ∛("+a+"³·"+b+")",
+        "= ∛("+cube+"·"+b+")",
+        "= "+ans
+      ]};
+  }},
+
+  { label:"Įkelk (kubinė, neigiamas ∛)", gen(){
+      const a=randint(2,4), b=choice(CF), cube=a*a*a, N=cube*b, ans="−∛"+N;
+      return { q:"−"+a+"∛"+b, ansType:"text", ans, ansAlt:["−∛("+N+")"], steps:[
+        "−"+a+"∛"+b,
+        "= −∛("+a+"³·"+b+")",
+        "= −∛("+cube+"·"+b+")",
+        "= "+ans
+      ]};
+  }}
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.8 " + g.label}); });
+  })(),
+  // ===== POTEME 1.9 (19-skaitiniu-reiskiniu-pertvarkiai) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai
+// Tema: 1.9 „Skaitinių reiškinių su šaknimis pertvarkiai" (8 klasė).
+//
+// Šablonas jau apibrėžia: randint, choice, nz, nf (LT skaičius su − ir ,), pm.
+// Čia tik apibrėžiam const GENERATORIAI = [...].
+//
+// ATSAKYMAS: suprastintas reiškinys (pvz. −11√2 arba 7 + 2√7). Mokinys įrašo
+// IEŠKOMĄ KOEFICIENTĄ prie nurodytos šaknies (aiškiai parodyta prie įvesties per
+// p.pre). p.ans = tas koeficientas (skaičius), p.ansText = visas suprastintas
+// reiškinys (rodomas atsakyme ir paskutiniame žingsnyje).
+//
+// TAISYKLĖ: sujungiami TIK vienodo pošaknio ir vienodo laipsnio dėmenys.
+
+// --- šaknų formatavimo pagalbininkai ---
+function surd(c, k, sym){                 // c·√k  ->  „−11√2", „√7", „−√7"
+  sym = sym || '√';
+  if(c === 1)  return sym + k;
+  if(c === -1) return '−' + sym + k;
+  return nf(c) + sym + k;
+}
+function intPlusSurd(INT, coef, R, sym){  // „7 + 2√7", „24 − 6√6"
+  sym = sym || '√';
+  const a = Math.abs(coef);
+  const term = (a === 1 ? sym + R : a + sym + R);
+  return `${nf(INT)} ${coef < 0 ? '−' : '+'} ${term}`;
+}
+
+const SQK = [2,3,5,6,7];   // kvadratinės šaknies pošakniai (nesuprastinami)
+
+const GENERATORIAI = [
+
+  // 1) Du dėmenys: iškelk daugiklį prieš ženklą ir sudėk / atimk  (√2 − 3√32 = −11√2)
+  { label:"Iškelk ir sudėk (2 dėmenys)", gen(){
+      let k,f1,e1,f2,e2,op,c1,c2,c,tries=0;
+      do{
+        k = choice(SQK);
+        f1 = choice([2,3]);           // pirmas dėmuo BŪTINAI su iškėlimu
+        e1 = choice([1,1,2]);
+        f2 = choice([1,2]);           // antras gali būti jau paprastas
+        e2 = choice([1,1,2,3]);
+        op = choice([1,-1]);
+        c1 = e1*f1; c2 = e2*f2;
+        c  = c1 + op*c2;
+        tries++;
+      }while(c===0 && tries<40);
+      if(c===0){ k=2; f1=4; e1=1; f2=1; e2=1; op=1; c1=4; c2=1; c=5; }
+      const rad1=f1*f1*k, rad2=f2*f2*k, opS=op<0?'−':'+';
+      const t1=(e1===1?'':e1)+'√'+rad1, t2=(e2===1?'':e2)+'√'+rad2;
+      return {
+        q:`${t1} ${opS} ${t2}`, ans:c,
+        pre:`koeficientas prie √${k} =`,
+        ansText:surd(c,k),
+        steps:[
+          `${t1} ${opS} ${t2}`,
+          `= ${surd(c1,k)} ${opS} ${surd(c2,k)}`,
+          `= ${surd(c,k)}`
+        ]
+      };
+  }},
+
+  // 2) Trys dėmenys su ta pačia šaknimi  (√50 + √8 − √2 = 6√2)
+  { label:"Iškelk ir sudėk (3 dėmenys)", gen(){
+      let k,A,B,C,s1,s2,c,tries=0;
+      const mk=(force)=>{ const f=force?choice([2,3]):choice([1,2]); const e=choice([1,1,2]); return {f,e,c:e*f,rad:f*f*k}; };
+      do{
+        k=choice(SQK);
+        A=mk(true); B=mk(false); C=mk(false);
+        s1=choice([1,-1]); s2=choice([1,-1]);
+        c=A.c + s1*B.c + s2*C.c;
+        tries++;
+      }while((c===0 || Math.abs(c)>28) && tries<60);
+      if(c===0){ k=2; A={c:5,rad:50,e:1,f:5}; B={c:2,rad:8,e:1,f:2}; C={c:1,rad:2,e:1,f:1}; s1=1; s2=1; c=8; }
+      const td=t=>(t.e===1?'':t.e)+'√'+t.rad;
+      const s1S=s1<0?'−':'+', s2S=s2<0?'−':'+';
+      return {
+        q:`${td(A)} ${s1S} ${td(B)} ${s2S} ${td(C)}`, ans:c,
+        pre:`koeficientas prie √${k} =`,
+        ansText:surd(c,k),
+        steps:[
+          `${td(A)} ${s1S} ${td(B)} ${s2S} ${td(C)}`,
+          `= ${surd(A.c,k)} ${s1S} ${surd(B.c,k)} ${s2S} ${surd(C.c,k)}`,
+          `= ${surd(c,k)}`
+        ]
+      };
+  }},
+
+  // 3) Skirstomasis dėsnis, ta pati šaknis  (√7·(√7 + 2) = 7 + 2√7)
+  { label:"Skliaustai · √a·(√a ± n)", gen(){
+      const a=choice([2,3,5,7]);
+      const p=choice([1,1,2]), q=choice([1,1,2,3]), r=choice([2,3,4,5]), op=choice([1,-1]);
+      const INT=p*q*a, coef=op*(p*r), opS=op<0?'−':'+';
+      const pD=(p===1?'':p), qD=(q===1?'':q);
+      return {
+        q:`${pD}√${a} · (${qD}√${a} ${opS} ${r})`, ans:coef,
+        pre:`koeficientas prie √${a} =`,
+        ansText:intPlusSurd(INT,coef,a),
+        steps:[
+          `${pD}√${a} · (${qD}√${a} ${opS} ${r})`,
+          `= ${p*q}·${a} ${opS} ${p*r}√${a}`,
+          `= ${intPlusSurd(INT,coef,a)}`
+        ]
+      };
+  }},
+
+  // 4) Skirstomasis dėsnis, skirtingos šaknys  ((4√3 − 3√2)·2√3 = 24 − 6√6)
+  { label:"Skliaustai · √a·(√a ± √b)", gen(){
+      let a=choice([2,3,5,7]), b=choice([2,3,5,7]);
+      while(b===a) b=choice([2,3,5,7]);
+      const p=choice([1,2,3]), q=choice([1,2,3,4]), r=choice([2,3]), op=choice([1,-1]);
+      const INT=p*q*a, coef=op*(p*r), R=a*b, opS=op<0?'−':'+';
+      const pD=(p===1?'':p), qD=(q===1?'':q);
+      return {
+        q:`${pD}√${a} · (${qD}√${a} ${opS} ${r}√${b})`, ans:coef,
+        pre:`koeficientas prie √${R} =`,
+        ansText:intPlusSurd(INT,coef,R),
+        steps:[
+          `${pD}√${a} · (${qD}√${a} ${opS} ${r}√${b})`,
+          `= ${p*q}·${a} ${opS} ${p*r}√${a*b}`,
+          `= ${intPlusSurd(INT,coef,R)}`
+        ]
+      };
+  }},
+
+  // 5) Kubinės šaknys: iškelk daugiklį ir sudėk  (∛2 + ∛16 = 3∛2)
+  { label:"Kubinės · iškelk ir sudėk", gen(){
+      let k,A,B,c,op,tries=0;
+      const CK=[2,3,4,5,6,7];
+      const mk=(force)=>{ const f=force?2:choice([1,2]); const e=choice([1,1,2,3]); return {f,e,c:e*f,rad:f*f*f*k}; };
+      do{
+        k=choice(CK);
+        A=mk(true); B=mk(false); op=choice([1,-1]);
+        c=A.c + op*B.c;
+        tries++;
+      }while(c===0 && tries<40);
+      if(c===0){ k=2; A={c:2,rad:16,e:1,f:2}; B={c:1,rad:2,e:1,f:1}; op=1; c=3; }
+      const td=t=>(t.e===1?'':t.e)+'∛'+t.rad, opS=op<0?'−':'+';
+      return {
+        q:`${td(A)} ${opS} ${td(B)}`, ans:c,
+        pre:`koeficientas prie ∛${k} =`,
+        ansText:surd(c,k,'∛'),
+        steps:[
+          `${td(A)} ${opS} ${td(B)}`,
+          `= ${surd(A.c,k,'∛')} ${opS} ${surd(B.c,k,'∛')}`,
+          `= ${surd(c,k,'∛')}`
+        ]
+      };
+  }},
+
+  // 6) Kubinės šaknys: skliaustų atskleidimas  (∛4·(∛2 − 3∛3) = 2 − 3∛12)
+  { label:"Kubinės · skliaustų atskleidimas", gen(){
+      const pairs=[
+        {a:2,m:4,cr:2,nlist:[3,5,7]},
+        {a:4,m:2,cr:2,nlist:[3,5,7]},
+        {a:3,m:9,cr:3,nlist:[2,5,7]},
+        {a:9,m:3,cr:3,nlist:[2,5,7]}
+      ];
+      const P=choice(pairs), n=choice(P.nlist), r=choice([2,3]), op=choice([1,-1]);
+      const INT=P.cr, coef=op*r, R=P.a*n, opS=op<0?'−':'+';
+      return {
+        q:`∛${P.a} · (∛${P.m} ${opS} ${r}∛${n})`, ans:coef,
+        pre:`koeficientas prie ∛${R} =`,
+        ansText:intPlusSurd(INT,coef,R,'∛'),
+        steps:[
+          `∛${P.a} · (∛${P.m} ${opS} ${r}∛${n})`,
+          `= ∛${P.a*P.m} ${opS} ${r}∛${P.a*n}`,
+          `= ${intPlusSurd(INT,coef,R,'∛')}`
+        ]
+      };
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.9 " + g.label}); });
+  })(),
+  // ===== POTEME 1.10 (110-raidiniu-reiskiniu-pertvarkiai) =====
+  (function(){
+// Kontrolinio treniruoklis: raidinių reiškinių su šaknimis pertvarkiai (8 kl., 1.10)
+// Visur x, a, b ≥ 0. Atsakymai TEKSTINIAI (suprastinti reiškiniai) -> ansType:'text'.
+// SVARBU: NEmaišome √ su ∛ tame pačiame uždavinyje.
+//
+// Pagalbininkus (randint, choice, nz, nf, pm) apibrėžia šablonas — neapibrėžinėjam iš naujo.
+
+// koeficiento eilutė prieš raidę/šaknį: 1 -> '', −1 -> '−', kita -> LT skaičius
+function co(k){ if(k===1) return ''; if(k===-1) return '−'; return nf(k); }
+
+const GENERATORIAI = [
+
+  // 1) Panašūs raidiniai dėmenys: c√x ± d√x = (c±d)√x   (√ ARBA ∛, nesumaišant)
+  { label:"Panašūs dėmenys (sudėtis, atimtis)", gen(){
+      const r = choice(['√','∛']);
+      const L = choice(['x','a','b']);
+      let c,d,op,k;
+      do{ c=randint(2,9); d=randint(2,9); op=choice(['+','−']);
+          k = op==='+' ? c+d : c-d;
+      }while(k===0);
+      const ans = co(k)+r+L;
+      return { ansType:'text', ans,
+        q:`${c}${r}${L} ${op} ${d}${r}${L}`,
+        steps:[
+          `${c}${r}${L} ${op} ${d}${r}${L}`,
+          `= (${c} ${op} ${d})${r}${L}`,
+          `= ${ans}`
+        ]};
+  }},
+
+  // 2) Šaknų daugyba (tik kvadratinė): c√x · d√x = c·d·x
+  { label:"Šaknų daugyba", gen(){
+      const L = choice(['x','a','b']);
+      const c=randint(2,9), d=randint(2,9), P=c*d;
+      const ans = `${P}${L}`;
+      return { ansType:'text', ans,
+        q:`${c}√${L} · ${d}√${L}`,
+        steps:[
+          `${c}√${L} · ${d}√${L}`,
+          `= ${c}·${d}·√${L}·√${L}`,
+          `= ${P}·√(${L}²)`,
+          `= ${ans}`
+        ]};
+  }},
+
+  // 3) Daugiklio iškėlimas prieš kvadratinę šaknį su raide: √(k·a²) = m·a·√rad
+  { label:"Iškėlimas prieš šaknį √(k·a²)", gen(){
+      const L = choice(['x','a','b']);
+      const opt = choice([
+        {k:4,m:2,rad:1},{k:9,m:3,rad:1},{k:16,m:4,rad:1},{k:25,m:5,rad:1},
+        {k:8,m:2,rad:2},{k:12,m:2,rad:3},{k:20,m:2,rad:5},{k:32,m:4,rad:2},
+        {k:18,m:3,rad:2},{k:27,m:3,rad:3},{k:45,m:3,rad:5},{k:48,m:4,rad:3},{k:50,m:5,rad:2},
+        {k:2,m:1,rad:2},{k:3,m:1,rad:3},{k:5,m:1,rad:5},{k:6,m:1,rad:6},{k:7,m:1,rad:7},{k:10,m:1,rad:10}
+      ]);
+      const {k,m,rad}=opt;
+      const ans = co(m)+L + (rad>1?`√${rad}`:'');
+      const q = `√(${k}${L}²)`;
+      let steps, ansAlt=[];
+      if(rad===1){
+        steps=[ q, `= ${ans}` ];
+      } else if(m===1){
+        steps=[ q, `= √(${L}²)·√${rad}`, `= ${ans}` ];
+        ansAlt=[`√${rad}${L}`];
+      } else {
+        steps=[ q, `= √(${m*m}${L}² · ${rad})`, `= ${ans}` ];
+        ansAlt=[`${m}√${rad}${L}`];
+      }
+      return { ansType:'text', ans, ansAlt, q, steps };
+  }},
+
+  // 4) Daugiklio iškėlimas prieš kubinę šaknį su raide: ∛(k·a³) = m·a·∛rad
+  { label:"Iškėlimas prieš kubinę šaknį ∛(k·a³)", gen(){
+      const L = choice(['x','a','b']);
+      const opt = choice([
+        {k:8,m:2,rad:1},{k:27,m:3,rad:1},{k:64,m:4,rad:1},
+        {k:16,m:2,rad:2},{k:24,m:2,rad:3},{k:40,m:2,rad:5},
+        {k:54,m:3,rad:2},{k:81,m:3,rad:3},
+        {k:2,m:1,rad:2},{k:3,m:1,rad:3},{k:5,m:1,rad:5},{k:7,m:1,rad:7},{k:9,m:1,rad:9},{k:10,m:1,rad:10}
+      ]);
+      const {k,m,rad}=opt;
+      const ans = co(m)+L + (rad>1?`∛${rad}`:'');
+      const q = `∛(${k}${L}³)`;
+      let steps, ansAlt=[];
+      if(rad===1){
+        steps=[ q, `= ${ans}` ];
+      } else if(m===1){
+        steps=[ q, `= ∛(${L}³)·∛${rad}`, `= ${ans}` ];
+        ansAlt=[`∛${rad}${L}`];
+      } else {
+        steps=[ q, `= ∛(${m*m*m}${L}³ · ${rad})`, `= ${ans}` ];
+        ansAlt=[`${m}∛${rad}${L}`];
+      }
+      return { ansType:'text', ans, ansAlt, q, steps };
+  }},
+
+  // 5) Daugybos skirstomumo dėsnis: √x · (m ± √x) = m√x ± x
+  { label:"Skirstomasis dėsnis su šaknimi", gen(){
+      const L = choice(['x','a','b']);
+      const m = randint(2,9), op = choice(['+','−']);
+      const ans = `${m}√${L} ${op} ${L}`;
+      return { ansType:'text', ans,
+        ansAlt:[`${m}√${L}${op}${L}`],
+        q:`√${L} · (${m} ${op} √${L})`,
+        steps:[
+          `√${L} · (${m} ${op} √${L})`,
+          `= ${m}√${L} ${op} √${L}·√${L}`,
+          `= ${ans}`
+        ]};
+  }},
+
+  // 6) Suprastinimas: c√(p²·raidė) ± d√raidė = (c·p ± d)√raidė
+  { label:"Suprastinimas √(skaičius·raidė) ± √raidė", gen(){
+      const L = choice(['x','a','b']);
+      let c,p,d,op,K;
+      do{ p=randint(2,6); c=randint(1,3); d=randint(1,8); op=choice(['+','−']);
+          K = op==='+' ? c*p+d : c*p-d;
+      }while(K===0);
+      const cT = c===1 ? '' : nf(c);
+      const dT = d===1 ? '' : nf(d);
+      const ans = co(K)+`√${L}`;
+      return { ansType:'text', ans,
+        q:`${cT}√(${p*p}${L}) ${op} ${dT}√${L}`,
+        steps:[
+          `${cT}√(${p*p}${L}) ${op} ${dT}√${L}`,
+          `= ${co(c*p)}√${L} ${op} ${co(d)}√${L}`,
+          `= ${ans}`
+        ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "1.10 " + g.label}); });
+  })()
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "1 skyrius · Kvadratinė ir kubinė šaknys — bendras treniruoklis", "subtitle": "8 klasė · visos 10 potemių (1.1–1.10) · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ",", "/", "√", "∛", ">", "<", "="]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  s = String(s);
+  // Apsaugom gatavas .fr trupmenas (generatoriai 1.2/1.7) ir &nbsp; nuo esc().
+  // Delimiteriai is Private Use Area (esc ju neliecia, math ju neturi).
+  const stash = [];
+  const keep = m => { stash.push(m); return ''+(stash.length-1)+''; };
+  s = s.replace(/<span class="fr"><span>[^<]*<\/span><span>[^<]*<\/span><\/span>/g, keep)
+       .replace(/&nbsp;/g, m => keep(m));
+  s = esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  s = s.replace(/(\d+)/g, (m,i)=>stash[+i]);
+  return s;
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  if(s==='>') return 1; if(s==='<') return -1; if(s==='=') return 0; // palyginimo ženklai (1.4 potemė)
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
