@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Veiksmai su realiaisiais skaičiais — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --lav:#eef1fb; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif; color:var(--ink); font-size:11.4pt; line-height:1.5; margin:0; padding:26px 30px 10px;}
+  h1{color:var(--blue); font-size:21pt; margin:0 0 6px; font-weight:800;}
+  .rule{height:3px; background:var(--blue); border:0; margin:0 0 6px; border-radius:2px;}
+  .subtitle{color:var(--muted); font-size:10pt; margin:0 0 18px; font-weight:600;}
+  .parthead{display:flex; align-items:center; gap:10px; margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue); color:#fff; font-weight:800; font-size:10pt; padding:4px 12px; border-radius:20px; letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue); font-weight:800; font-size:13pt;}
+  .card{border:1px solid var(--bd); border-radius:12px; margin-bottom:16px; overflow:hidden; box-shadow:0 1px 3px rgba(20,40,90,.06); page-break-inside:avoid;}
+  .banner{background:var(--banner); color:#fff; padding:9px 16px; font-weight:700; font-size:12pt; display:flex; align-items:center; gap:10px;}
+  .badge{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; background:rgba(255,255,255,.22); border-radius:6px; font-size:9.5pt; font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg); border-left:5px solid var(--orange-bd); border-radius:10px; padding:9px 14px; margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800; color:var(--ink); margin-bottom:3px;}
+  .ex .line{margin:2px 0; font-size:11pt;}
+  .res{color:var(--green-tx); font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg); border-left:5px solid var(--green-bd); border-radius:10px; padding:10px 14px; margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0; padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue); font-weight:800; font-size:10.5pt; margin:12px 0 2px; text-transform:uppercase; letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav); border:1px solid #dfe4f6; border-radius:12px; padding:12px 16px;}
+  .answers h3{color:var(--blue); margin:0 0 6px; font-size:11pt; text-transform:uppercase; letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt; margin:2px 0;}
+  .footer{text-align:center; color:var(--muted); font-size:9pt; margin-top:8px; padding-top:10px; border-top:1px solid #eceff5;}
+  .two{column-count:2; column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; line-height:1.05; margin:0 2px; font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor; padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Veiksmai su realiaisiais skaičiais — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 8 klasė · 2 skyrius „Skaičių aibės“ · veiksmų eiliškumas su šaknimis ir laipsniais</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- potemė 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Veiksmų eiliškumas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pirma laipsniai ir šaknys, tada daugyba ir dalyba, galiausiai sudėtis ir atimtis.</div>
+    <div class="ex">
+      <div class="q">√49 · 2 − 24 : 2³</div>
+      <div class="line">= 7·2 − 24:8 = 14 − 3 = <span class="res">11</span> &nbsp;<span class="muted2">(pirma šaknis ir laipsnis)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">√9 · 3 − 20 : 2²</div>
+      <div class="line">= 3·3 − 20:4 = 9 − 5 = <span class="res">4</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- potemė 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Šaknys ir laipsniai (neigiamas ir nulinis rodiklis)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> ∛ apibrėžta ir neigiamiems skaičiams; a⁻ⁿ = <span class="fr"><span>1</span><span>aⁿ</span></span>, a⁰ = 1.</div>
+    <div class="ex">
+      <div class="q">∛(−8) · 5 + 3²</div>
+      <div class="line">= (−2)·5 + 9 = −10 + 9 = <span class="res">−1</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">4⁰ + 18 · 3⁻²</div>
+      <div class="line">= 1 + 18·<span class="fr"><span>1</span><span>9</span></span> = 1 + 2 = <span class="res">3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- potemė 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Skliaustai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> skliaustuose esančius veiksmus atliekame pirmiausia.</div>
+    <div class="ex">
+      <div class="q">2⁴ − √25 · (6 − 4)</div>
+      <div class="line">= 16 − 5·2 = 16 − 10 = <span class="res">6</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">(5 − 7)³ + ∛125</div>
+      <div class="line">= (−2)³ + 5 = −8 + 5 = <span class="res">−3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- potemė 4 -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Dešimtainės ir atvirkštiniai veiksmai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> (√a)² = a; ženklų dalyba: teigiamas : neigiamas = neigiamas.</div>
+    <div class="ex">
+      <div class="q">0,1 · (√10)² − 2⁻²</div>
+      <div class="line">= 0,1·10 − 0,25 = 1 − 0,25 = <span class="res">0,75</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">√64 : ∛(−8) − 1</div>
+      <div class="line">= 8:(−2) − 1 = −4 − 1 = <span class="res">−5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">√144 : (∛27 · 2) + 5</div>
+      <div class="line">= 12:(3·2) + 5 = 12:6 + 5 = 2 + 5 = <span class="res">7</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> laikykis veiksmų eiliškumo (laipsniai ir šaknys → daugyba ir dalyba → sudėtis ir atimtis), skliaustus tvarkyk pirma, atidžiai stebėk ženklus. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Eiliškumas, šaknys ir laipsniai</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>√25 · 4 − 36 : 3²</li>
+        <li>2³ − ∛27 · 3</li>
+        <li>√81 : ∛(−27) + 6</li>
+        <li>4² · (2 − 5) + √100</li>
+        <li>6⁰ + 20 · 2⁻²</li>
+        <li>(8 − 5)³ − ∛(−64)</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Skliaustai ir dešimtainės</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>√49 · 2 − 5 · 3</li>
+        <li>16 : ∛8 + √9</li>
+        <li>∛(−125) · 0,4 + 7⁰</li>
+        <li>0,5 · (√8)² − 2⁻¹</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Apskaičiuok reiškinio <span class="math">S = 3 · √64 − ∛(−27)</span> reikšmę.</li>
+      <li>Kvadrato kraštinės ilgis lygus <span class="math">(√36 + ∛8) : 2²</span> cm. Kokio ilgio kraštinė?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 16 &nbsp;&nbsp; <b>2.</b> −1 &nbsp;&nbsp; <b>3.</b> 3 &nbsp;&nbsp; <b>4.</b> −38</div>
+    <div class="row math"><b>5.</b> 6 &nbsp;&nbsp; <b>6.</b> 31 &nbsp;&nbsp; <b>7.</b> −1 &nbsp;&nbsp; <b>8.</b> 11</div>
+    <div class="row math"><b>9.</b> −1 &nbsp;&nbsp; <b>10.</b> 3,5</div>
+    <div class="row math"><b>11.</b> 3·8 − (−3) = 24 + 3 = <b>27</b> &nbsp;&nbsp; <b>12.</b> (6 + 2):4 = 8:4 = <b>2</b> cm</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 8 klasės matematikos kursas · „Veiksmai su realiaisiais skaičiais“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

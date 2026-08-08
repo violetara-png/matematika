@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių aibės — 8 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių aibės</h1>
+  <p class="klase">Matematika · 8 klasė · 2 skyrius „Skaičių aibės“ · 2.1 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra aibė ir kaip ji žymima</a></li>
+      <li><a href="#t2">Baigtinės, begalinės ir tuščioji aibė</a></li>
+      <li><a href="#t3">Dalikliai ir kartotiniai kaip aibės</a></li>
+      <li><a href="#t4">Priklausymas aibei: ∈ ir ∉</a></li>
+      <li><a href="#t5">Aibė, užrašyta reiškiniu ir intervalu</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra aibė ir kaip ji žymima</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Aibė</span> — tai objektų (dažniausiai skaičių) rinkinys, sujungtas bendro požymio. Rinkinį sudarantys objektai vadinami <b>aibės elementais</b>.</p>
+        <p>Aibės žymimos <b>didžiosiomis raidėmis</b> <span class="math">A, B, C, D</span>. Elementai rašomi <b>riestiniuose skliaustuose</b> <span class="math">{ }</span> ir atskiriami <b>kabliataškiu</b>:</p>
+        <div class="formule math"><span class="term-a">D</span> = {1; 2; 3; 6}</div>
+        <p class="pvz"><b>Skaitome:</b> „aibę <span class="math">D</span> sudaro skaičiai 1, 2, 3 ir 6“. Elementų tvarka neturi reikšmės: <span class="math">{1; 2; 3; 6}</span> ir <span class="math">{6; 3; 2; 1}</span> — ta pati aibė.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Baigtinės, begalinės ir tuščioji aibė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Baigtinė aibė</span> turi <b>baigtinį</b> (suskaičiuojamą) elementų skaičių. <span class="zenk">Begalinė aibė</span> turi <b>be galo daug</b> elementų — tada rašome tris taškus <span class="math">…</span></p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">A = {1; 3; 5; 7; 9}</span> — <span class="gerai">baigtinė</span>, turi 5 elementus.<br>
+        <span class="math">K = {6; 12; 18; …}</span> (šešeto kartotiniai) — <span class="gerai">begalinė</span>.</p>
+        <p><span class="zenk">Tuščioji aibė</span> <span class="math">∅</span> neturi nė vieno elemento.</p>
+        <p class="demesio"><b>Pavyzdys.</b> Lygties <span class="math">2x − 4 = 2x</span> sprendinių aibė yra <b>tuščioji</b> <span class="math">∅</span>, nes tokio <span class="math">x</span>, su kuriuo lygybė teisinga, nėra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Dalikliai ir kartotiniai kaip aibės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Daug aibių sudaromos pagal aiškų požymį — pavyzdžiui, iš skaičiaus <b>daliklių</b> arba <b>kartotinių</b>.</p>
+        <p class="pvz"><b>Daliklių aibė</b> (baigtinė).<br>
+        Skaičiaus 6 dalikliai: <span class="math">{1; 2; 3; 6}</span> — 4 elementai.<br>
+        Skaičiaus 12 dalikliai: <span class="math">{1; 2; 3; 4; 6; 12}</span> — 6 elementai.</p>
+        <p class="pvz"><b>Kartotinių aibė</b> (begalinė).<br>
+        Skaičiaus 6 kartotiniai: <span class="math">K = {6; 12; 18; …} = {6n | n — natūralusis skaičius}</span>.</p>
+        <p>Užrašas <span class="math">{6n | n — natūralusis}</span> skaitomas: „visi skaičiai, kuriuos galima užrašyti <span class="math">6n</span>, kai <span class="math">n</span> — natūralusis skaičius“.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Priklausymas aibei: ∈ ir ∉</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Ar skaičius yra aibės elementas, žymime dviem ženklais:</p>
+        <table class="kort">
+          <tr><th>Ženklas</th><th>Reikšmė</th><th>Pavyzdys (kai <span class="math">D = {1; 2; 3; 6}</span>)</th></tr>
+          <tr><td class="math gerai">∈</td><td><b>priklauso</b> aibei</td><td class="math">3 ∈ D &nbsp;(3 yra aibės elementas)</td></tr>
+          <tr><td class="math term-b">∉</td><td><b>nepriklauso</b> aibei</td><td class="math">4 ∉ D &nbsp;(4 nėra aibės elementas)</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdžiai.</b> <span class="math">6 ∈ {1; 2; 3; 6}</span>; &nbsp; <span class="math">5 ∉ {1; 2; 3; 6}</span>; &nbsp; <span class="math">√36 = 6, todėl √36 ∈ {1; 2; 3; 6}</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Aibė, užrašyta reiškiniu ir intervalu</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Aibę galima aprašyti <b>elementų požymiu</b> — sąlyga su kintamuoju:</p>
+        <div class="formule math"><span class="term-a">A</span> = {x | x ≥ 6}</div>
+        <p>Skaitome: „visi <span class="math">x</span>, kurių reikšmė <span class="math">≥ 6</span>“. Tokią aibę patogu užrašyti <b>intervalu</b>:</p>
+        <div class="formule math"><span class="term-a">A</span> = [6; +∞)</div>
+        <p>Laužtinis skliaustas <span class="math">[ ]</span> — riba <b>įeina</b> (griežta nelygybė <span class="math">≤, ≥</span>); apvalus <span class="math">( )</span> — riba <b>neįeina</b> (<span class="math">&lt;, &gt;</span>). Prie <span class="math">+∞</span> ir <span class="math">−∞</span> visada rašomas apvalus skliaustas.</p>
+        <table class="kort">
+          <tr><th>Sąlyga</th><th>Intervalas</th></tr>
+          <tr><td class="math">x &gt; 4</td><td class="math">(4; +∞)</td></tr>
+          <tr><td class="math">x ≤ −1</td><td class="math">(−∞; −1]</td></tr>
+          <tr><td class="math">−3 ≤ x &lt; 2</td><td class="math">[−3; 2)</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">Skaičiaus 6 dalikliai: {2; 3}</span></td><td class="math"><span class="gerai">{1; 2; 3; 6}</span> (1 ir pats skaičius irgi dalikliai)</td></tr>
+          <tr><td class="math"><span class="klaida">4 ∈ {1; 2; 3; 6}</span></td><td class="math"><span class="gerai">4 ∉ {1; 2; 3; 6}</span></td></tr>
+          <tr><td class="math"><span class="klaida">x ≥ 6 → (6; +∞)</span></td><td class="math"><span class="gerai">[6; +∞)</span> (riba įeina)</td></tr>
+          <tr><td class="math"><span class="klaida">x &gt; 4 → [4; +∞)</span></td><td class="math"><span class="gerai">(4; +∞)</span> (riba neįeina)</td></tr>
+          <tr><td class="math"><span class="klaida">tuščioji aibė = {0}</span></td><td class="math"><span class="gerai">∅</span> (aibė be elementų, o {0} turi elementą 0)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Elementus rašau <b>riestiniuose skliaustuose</b> <span class="math">{ }</span>, atskirtus kabliataškiu; intervale žiūriu, ar <b>riba įeina</b> (<span class="math">[ ]</span>) ar <b>neįeina</b> (<span class="math">( )</span>).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · tema „Skaičių aibės“ (2.1)
+  </footer>
+
+</div>
+</body>
+</html>

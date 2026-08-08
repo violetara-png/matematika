@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių aibės — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių aibės — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 8 klasė · 2 skyrius „Skaičių aibės“ · 2.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Aibės žymėjimas ir elementai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> aibė — objektų rinkinys pagal bendrą požymį; žymima didžiąja raide, elementai rašomi riestiniuose skliaustuose { } ir atskiriami kabliataškiu.</div>
+    <div class="ex">
+      <div class="q">Užrašyk aibę D iš skaičiaus 6 daliklių.</div>
+      <div class="line">6 dalijasi iš 1, 2, 3 ir 6 &nbsp;&rArr;&nbsp; <span class="res">D = {1; 2; 3; 6}</span> &nbsp;<span class="muted2">(4 elementai)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk aibę A iš natūraliųjų skaičių, mažesnių už 5.</div>
+      <div class="line">Tinka 1, 2, 3, 4 &nbsp;&rArr;&nbsp; <span class="res">A = {1; 2; 3; 4}</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Baigtinė, begalinė ir tuščioji aibė</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> baigtinė aibė turi suskaičiuojamą elementų skaičių; begalinė — be galo daug (rašome …); tuščioji ∅ neturi nė vieno elemento.</div>
+    <div class="ex">
+      <div class="q">Ar aibė K = {6; 12; 18; …} baigtinė, ar begalinė?</div>
+      <div class="line">Šešeto kartotinių yra be galo daug &nbsp;&rArr;&nbsp; <span class="res">begalinė</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek elementų turi aibė {1; 3; 5; 7; 9}?</div>
+      <div class="line">Suskaičiuojame narius &nbsp;&rArr;&nbsp; <span class="res">baigtinė, 5 elementai</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kokia yra lygties 2x − 4 = 2x sprendinių aibė?</div>
+      <div class="line">−4 = 0 negalima &nbsp;&rArr;&nbsp; sprendinių nėra &nbsp;&rArr;&nbsp; <span class="res">∅</span> (tuščioji)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Priklausymas aibei: ∈ ir ∉</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> ∈ — skaičius priklauso aibei (yra jos elementas); ∉ — nepriklauso.</div>
+    <div class="ex">
+      <div class="q">Kai D = {1; 2; 3; 6}, įrašyk ∈ arba ∉: &nbsp; 3 __ D, &nbsp; 4 __ D.</div>
+      <div class="line">3 yra elementas, 4 — ne &nbsp;&rArr;&nbsp; <span class="res">3 ∈ D, &nbsp; 4 ∉ D</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar √36 ∈ {1; 2; 3; 6}?</div>
+      <div class="line">√36 = 6, o 6 yra elementas &nbsp;&rArr;&nbsp; <span class="res">taip, √36 ∈ {1; 2; 3; 6}</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Aibė reiškiniu ir intervalu</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> laužtinis skliaustas [ ] — riba įeina (≤, ≥); apvalus ( ) — riba neįeina (&lt;, &gt;); prie +∞ ir −∞ visada ( ).</div>
+    <div class="ex">
+      <div class="q">Užrašyk intervalu: A = {x | x ≥ 6}.</div>
+      <div class="line">Riba 6 įeina, dešinė be galo &nbsp;&rArr;&nbsp; <span class="res">A = [6; +∞)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk intervalu: {x | x &gt; 4} ir {x | −3 ≤ x &lt; 2}.</div>
+      <div class="line"><span class="res">(4; +∞)</span> &nbsp;ir&nbsp; <span class="res">[−3; 2)</span> &nbsp;<span class="muted2">(kairė įeina, dešinė ne)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> aibės elementus rašyk riestiniuose skliaustuose { }, atskirtus kabliataškiu; intervale žiūrėk, ar riba įeina. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė · išvardyk aibės elementus</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Skaičiaus 15 dalikliai</li>
+        <li>Skaičiaus 16 dalikliai</li>
+        <li>Natūralieji skaičiai, mažesni už 7</li>
+        <li>A = {x | x = 3n, n natūralusis, n ≤ 5}</li>
+        <li>Vienaženkliai lyginiai natūralieji skaičiai</li>
+        <li>Skaičiaus 9 dalikliai</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · baigtinė ar begalinė; ∈, ∉; intervalas</div>
+    <ol class="tasks math" start="7">
+      <li>Ar aibė {5; 10; 15; …} baigtinė, ar begalinė?</li>
+      <li>Kiek elementų turi skaičiaus 24 daliklių aibė?</li>
+      <li>Įrašyk ∈ arba ∉ (kai D = {1; 2; 3; 6}): &nbsp; 6 __ D; &nbsp; 4 __ D</li>
+      <li>Užrašyk intervalu: {x | x &gt; 5} &nbsp;ir&nbsp; {x | −2 ≤ x &lt; 3}</li>
+    </ol>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Klasėje sudaroma aibė iš mokinių, kurių vardas prasideda raide „A“. Ar tokia aibė baigtinė, ar begalinė? Kodėl?</li>
+      <li>Sudaryk aibę iš tų skaičiaus 30 daliklių, kurie yra pirminiai skaičiai.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> {1; 3; 5; 15} &nbsp;&nbsp; <b>2.</b> {1; 2; 4; 8; 16} &nbsp;&nbsp; <b>3.</b> {1; 2; 3; 4; 5; 6}</div>
+    <div class="row math"><b>4.</b> {3; 6; 9; 12; 15} &nbsp;&nbsp; <b>5.</b> {2; 4; 6; 8} &nbsp;&nbsp; <b>6.</b> {1; 3; 9}</div>
+    <div class="row math"><b>7.</b> begalinė &nbsp;&nbsp; <b>8.</b> 8 elementai &nbsp;&nbsp; <b>9.</b> 6 ∈ D, &nbsp;4 ∉ D</div>
+    <div class="row math"><b>10.</b> (5; +∞) &nbsp;ir&nbsp; [−2; 3)</div>
+    <div class="row math"><b>11.</b> baigtinė (klasėje mokinių skaičius baigtinis, tad ir tinkamų vardų aibė baigtinė)</div>
+    <div class="row math"><b>12.</b> 30 dalikliai {1; 2; 3; 5; 6; 10; 15; 30}, pirminiai iš jų → {2; 3; 5}</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 8 klasės matematikos kursas · „Skaičių aibės“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

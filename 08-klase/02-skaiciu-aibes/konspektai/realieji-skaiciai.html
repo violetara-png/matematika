@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Realieji skaičiai — 8 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .aibe{font-weight:700}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Realieji skaičiai</h1>
+  <p class="klase">Matematika · 8 klasė · 2 skyrius „Skaičių aibės“ · 2.3 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Natūralieji, sveikieji, racionalieji skaičiai</a></li>
+      <li><a href="#t2">Iracionalieji skaičiai</a></li>
+      <li><a href="#t3">Realieji skaičiai ir aibių poaibiai</a></li>
+      <li><a href="#t4">Kada šaknis yra racionali</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Natūralieji, sveikieji, racionalieji skaičiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Aibė</span> — tai skaičių (elementų) rinkinys. Kiekvieną skaičių priskiriame vienai ar kelioms skaičių aibėms.</p>
+        <p><b class="term-a math aibe">ℕ</b> — <b>natūralieji</b> skaičiai: <span class="math">{1; 2; 3; 4; …}</span>. Tai skaičiai, kuriais skaičiuojame daiktus.</p>
+        <p><b class="term-a math aibe">ℤ</b> — <b>sveikieji</b> skaičiai: <span class="math">{…; −3; −2; −1; 0; 1; 2; 3; …}</span>. Tai natūralieji, jiems priešingi neigiami skaičiai ir nulis.</p>
+        <p><b class="term-a math aibe">ℚ</b> — <b>racionalieji</b> skaičiai: visi skaičiai, kuriuos galima užrašyti trupmena <span class="math"><b class="term-a">m</b>/<b class="term-b">n</b></span>, kur <span class="math">m</span> — sveikasis, <span class="math">n</span> — natūralusis.</p>
+      </div>
+      <div class="pvz"><b>Racionalieji yra ir:</b><br>
+        <span class="math">−5</span> (nes <span class="math">−5 = −5/1</span>) · paprastosios trupmenos <span class="math">−¾</span> · mišrieji <span class="math">3⅔</span> ·
+        baigtinės dešimtainės <span class="math">2,1</span> · periodinės dešimtainės <span class="math">1,(5)</span>.<br>
+        Trumpai: <b>bet kuri trupmena ir bet kuri „graži“ (baigtinė ar periodinė) dešimtainė yra racionalus skaičius.</b></p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Iracionalieji skaičiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b class="term-b math aibe">𝕀</b> — <b>iracionalieji</b> skaičiai: skaičiai, kurių <b>negalima</b> užrašyti trupmena <span class="math">m/n</span>.</p>
+        <p>Dešimtaine išraiška iracionalusis skaičius yra <b>begalinė ir neperiodinė</b> (skaitmenys niekada nesikartoja tvarkinga grupe).</p>
+      </div>
+      <div class="formule math"><span class="term-b">√5</span> = 2,2360679… &nbsp;&nbsp; <span class="term-b">∛2</span> = 1,2599210… &nbsp;&nbsp; <span class="term-b">π</span> = 3,1415926…</div>
+      <p class="pvz"><b>Tipiniai iracionalieji:</b> <span class="math">√2, √3, √5, √8, ∛2, ∛9</span> (šaknys, kurios „neišsitraukia“) ir skaičius <span class="math">π</span>.</p>
+      <p class="demesio"><b>Dėmesio.</b> Ne kiekviena šaknis yra iracionali! <span class="math">√81 = 9</span>, o <span class="math">9</span> — racionalus. Racionalumą lemia tai, ar šaknis „išsitraukia“ (žr. 4 dalį).</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Realieji skaičiai ir aibių poaibiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b class="term-a math aibe">ℝ</b> — <b>realieji</b> skaičiai. Tai visi racionalieji ir visi iracionalieji skaičiai kartu:</p>
+        <div class="formule math"><span class="aibe">ℝ</span> = <span class="aibe">ℚ</span> ∪ <span class="aibe">𝕀</span></div>
+        <p>Kiekvienas realusis skaičius yra <b>arba</b> racionalus, <b>arba</b> iracionalus — trečio varianto nėra.</p>
+        <p>Aibės viena kitą apima (yra poaibiai, žymima <span class="math">⊂</span>):</p>
+        <div class="formule math"><span class="aibe">ℕ</span> ⊂ <span class="aibe">ℤ</span> ⊂ <span class="aibe">ℚ</span> ⊂ <span class="aibe">ℝ</span>, &nbsp; o taip pat &nbsp; <span class="aibe">𝕀</span> ⊂ <span class="aibe">ℝ</span></div>
+        <p>Pavyzdžiui, <span class="math">7</span> yra iškart ir natūralusis, ir sveikasis, ir racionalusis, ir realusis: <span class="math">7 ∈ ℕ, 7 ∈ ℤ, 7 ∈ ℚ, 7 ∈ ℝ</span>.</p>
+      </div>
+      <p class="pvz"><b>Priklausymo ženklai.</b> <span class="math">∈</span> — priklauso, <span class="math">∉</span> — nepriklauso.<br>
+        <span class="math">−4 ∈ ℤ</span> (taip) · <span class="math">−4 ∉ ℕ</span> (ne, nes neigiamas) · <span class="math">⅔ ∈ ℚ</span> (taip) · <span class="math">⅔ ∉ 𝕀</span> (ne, nes racionalus) · <span class="math">π ∈ 𝕀</span> (taip).</p>
+      <p class="demesio"><b>Loginė taisyklė.</b> Jei <span class="math">a ∈ ℤ</span>, tai <b>būtinai</b> <span class="math">a ∈ ℝ</span> (nes ℤ ⊂ ℝ). Bet atvirkščiai — ne: iš <span class="math">a ∈ ℝ</span> <b>neseka</b>, kad <span class="math">a ∈ 𝕀</span> (realusis gali būti ir racionalus).</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kada šaknis yra racionali</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kvadratinė šaknis <span class="math">√a</span> yra racionali tik tada, kai <span class="math">a</span> — tikslus kvadratas</span> (skaičiaus kvadratas): <span class="math">1, 4, 9, 16, 25, 36, 49, 64, 81, 100, …</span></p>
+        <p><span class="zenk">Kubinė šaknis <span class="math">∛a</span> yra racionali tik tada, kai <span class="math">a</span> — tikslus kubas</span> (skaičiaus kubas): <span class="math">1, 8, 27, 64, 125, 216, …</span></p>
+        <p>Visais kitais atvejais šaknis yra <b class="term-b">iracionali</b>.</p>
+      </div>
+      <table class="kort math">
+        <tr><th>Reiškinys</th><th>Reikšmė</th><th>Kokia?</th></tr>
+        <tr><td>√81</td><td>9</td><td class="gerai">racionalus</td></tr>
+        <tr><td>√36</td><td>6</td><td class="gerai">racionalus</td></tr>
+        <tr><td>∛64</td><td>4</td><td class="gerai">racionalus</td></tr>
+        <tr><td>√5</td><td>2,236…</td><td class="term-b">iracionalus</td></tr>
+        <tr><td>√8</td><td>2,828…</td><td class="term-b">iracionalus</td></tr>
+        <tr><td>∛9</td><td>2,080…</td><td class="term-b">iracionalus</td></tr>
+      </table>
+      <p class="pvz"><b>Įsidėmėk.</b> Skaičius <span class="math">64</span> yra ir tikslus kvadratas (<span class="math">8²</span>), ir tikslus kubas (<span class="math">4³</span>): <span class="math">√64 = 8</span>, <span class="math">∛64 = 4</span> — abi šaknys racionalios.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">√81 ∈ 𝕀</span> (iracionalus)</td><td class="math"><span class="gerai">√81 = 9 ∈ ℚ</span> (racionalus)</td></tr>
+          <tr><td class="math"><span class="klaida">∛9 ∈ ℚ</span></td><td class="math"><span class="gerai">∛9 ∈ 𝕀</span> (9 nėra kubas)</td></tr>
+          <tr><td class="math"><span class="klaida">ℝ ⊂ ℤ</span></td><td class="math"><span class="gerai">ℤ ⊂ ℝ</span> (didesnė aibė apima mažesnę)</td></tr>
+          <tr><td class="math"><span class="klaida">−3 ∈ ℕ</span></td><td class="math"><span class="gerai">−3 ∈ ℤ</span>, bet <span class="math">−3 ∉ ℕ</span></td></tr>
+          <tr><td class="math"><span class="klaida">0,(3) ∈ 𝕀</span></td><td class="math"><span class="gerai">0,(3) = ⅓ ∈ ℚ</span> (periodinė = racionali)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš priskirdamas skaičių aibei, <b>pirma jį suskaičiuoju</b> (ištraukiu šaknį), tik tada sprendžiu, ar jis racionalus, ar iracionalus.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · tema „Realieji skaičiai“ (2.3)
+  </footer>
+
+</div>
+</body>
+</html>
