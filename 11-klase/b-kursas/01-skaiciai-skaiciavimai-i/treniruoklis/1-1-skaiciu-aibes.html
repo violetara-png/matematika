@@ -127,14 +127,13 @@ function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 // Šablonas jau apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
 // Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
 //
-// Visi 7 tipai — skaičiavimo uždaviniai (atsakymas visada sveikasis
+// Visi 6 tipai — skaičiavimo uždaviniai (atsakymas visada sveikasis
 // neneigiamas skaičius), todėl atsakymą skaičiuojame TIESIOGIAI JS'e
 // (ne konstruojame iš atsakymo atbuline tvarka) — rezultatas garantuotai
 // teisingas, nes tai realus aibių/intervalų skaičiavimas.
 //
 // B kursui skaičiai PAPRASTESNI nei A kurse: mažesnės aibės (3-5 elementai,
-// reikšmės iki 25), siauresni intervalai (-8..8), mažesni |A|,|B| formulės
-// uždaviniuose (5-20).
+// reikšmės iki 25), siauresni intervalai (-8..8).
 
 function pickDistinct(n, lo, hi){
   const pool = [];
@@ -196,52 +195,33 @@ function subFor(n, ctx){
 
 const GENERATORIAI = [
 
-  { label:"Aibių sąjungos dydis |A∪B|", gen(){
+  { label:"Aibių sąjungos dydis", gen(){
       const {A,B} = genSetPair();
       const uni = Array.from(new Set([...A,...B])).sort((x,y)=>x-y);
-      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Raskite |A ∪ B|.`, ans:uni.length, steps:[
+      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Kiek elementų priklauso aibei A ∪ B?`, ans:uni.length, steps:[
         `A ∪ B = ${setStr(uni)}  (bendri elementai skaičiuojami tik kartą)`,
-        `|A ∪ B| = ${uni.length}`
+        `Aibei A ∪ B priklausančių elementų skaičius = ${uni.length}`
       ]};
   }},
 
-  { label:"Aibių sankirtos dydis |A∩B|", gen(){
+  { label:"Aibių sankirtos dydis", gen(){
       const {A,B} = genSetPair();
       const setA = new Set(A);
       const inter = B.filter(x=>setA.has(x)).sort((x,y)=>x-y);
-      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Raskite |A ∩ B|.`, ans:inter.length, steps:[
+      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Kiek elementų priklauso aibei A ∩ B?`, ans:inter.length, steps:[
         inter.length ? `A ∩ B = ${setStr(inter)}` : `A ∩ B = ∅ (bendrų elementų nėra)`,
-        `|A ∩ B| = ${inter.length}`
+        `Aibei A ∩ B priklausančių elementų skaičius = ${inter.length}`
       ]};
   }},
 
-  { label:"Aibių skirtumo dydis |A∖B|", gen(){
+  { label:"Aibių skirtumo dydis", gen(){
       const {A,B} = genSetPair();
       const setB = new Set(B);
       const diff = A.filter(x=>!setB.has(x)).sort((x,y)=>x-y);
-      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Raskite |A ∖ B|.`, ans:diff.length, steps:[
+      return { q:`A = ${setStr(A)}, B = ${setStr(B)}. Kiek elementų priklauso aibei A ∖ B?`, ans:diff.length, steps:[
         diff.length ? `A ∖ B = ${setStr(diff)}` : `A ∖ B = ∅`,
-        `|A ∖ B| = ${diff.length}`
+        `Aibei A ∖ B priklausančių elementų skaičius = ${diff.length}`
       ]};
-  }},
-
-  { label:"|A∪B| arba |A∖B| pagal formulę", gen(){
-      const interN = randint(2,8);
-      const nA = interN + randint(3,15);
-      const nB = interN + randint(3,18);
-      if(Math.random()<0.5){
-        const uni = nA+nB-interN;
-        return { q:`|A| = ${nA}, |B| = ${nB}, |A ∩ B| = ${interN}. Raskite |A ∪ B|.`, ans:uni, steps:[
-          `|A ∪ B| = |A| + |B| − |A ∩ B|`,
-          `|A ∪ B| = ${nA} + ${nB} − ${interN} = ${uni}`
-        ]};
-      } else {
-        const diff = nA-interN;
-        return { q:`|A| = ${nA}, |B| = ${nB}, |A ∩ B| = ${interN}. Raskite |A ∖ B|.`, ans:diff, steps:[
-          `|A ∖ B| = |A| − |A ∩ B|`,
-          `|A ∖ B| = ${nA} − ${interN} = ${diff}`
-        ]};
-      }
   }},
 
   { label:"Sveikųjų skaičius intervalų sankirtoje", gen(){
@@ -284,7 +264,7 @@ const GENERATORIAI = [
         ]};
       } else {
         return { q:`Visi ${bentViena} ${subFor(bentViena,ctx)} rinkosi bent vieną iš dviejų — ${ctx.akt1} ${ctx.zod} arba ${ctx.akt2} ${ctx.zod}. ${ctx.akt1[0].toUpperCase()+ctx.akt1.slice(1)} ${ctx.zod} rinkosi ${tikA}, o ${ctx.akt2} ${ctx.zod} — ${tikB}. Kiek ${ctx.sub} rinkosi abu?`, ans:abu, steps:[
-          `visi rinkosi bent vieną, tad |A ∪ B| = ${bentViena}`,
+          `visi rinkosi bent vieną, tad iš viso jų yra ${bentViena}`,
           `abu rinkosi: ${tikA} + ${tikB} − ${bentViena} = ${abu}`
         ]};
       }

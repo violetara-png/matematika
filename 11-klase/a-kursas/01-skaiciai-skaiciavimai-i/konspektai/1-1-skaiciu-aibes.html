@@ -162,7 +162,7 @@
         <p class="pvz"><b>Pavyzdys.</b> <span class="math">A = {1; 2; 3; 4; 5}</span>, <span class="math">B = {3; 4; 5; 6; 7}</span>.<br>
         <span class="math">A ∪ B = {1; 2; 3; 4; 5; 6; 7}</span> — iš viso <span class="gerai">7</span> elementai (bendri elementai <span class="math">3; 4; 5</span> skaičiuojami tik <b>vieną</b> kartą!)<br>
         <span class="math">A ∩ B = {3; 4; 5}</span> — <span class="gerai">3</span> elementai.</p>
-        <div class="demesio"><b>Dėmesio.</b> Skaičiuojant <span class="math">|A ∪ B|</span> (elementų skaičių sąjungoje) bendri elementai <b>nedubliuojami</b> — kiekvienas skaičiuojamas tik kartą, net jei priklauso abiem aibėms.</div>
+        <div class="demesio"><b>Dėmesio.</b> Skaičiuojant, kiek elementų sudaro sąjungą A ∪ B, bendri elementai <b>nedubliuojami</b> — kiekvienas skaičiuojamas tik kartą, net jei priklauso abiem aibėms.</div>
       </div>
     </div>
   </section>
@@ -186,13 +186,11 @@
     <h2><span class="nr">5</span> Baigtinių aibių elementų skaičius</h2>
     <div class="vidus">
       <div class="konsp">
-        <p>Baigtinės aibės A elementų skaičių žymime <span class="math">|A|</span>. Kai dvi aibės turi bendrų elementų, jų <b>sąjungos dydis</b> skaičiuojamas <b>įtraukimo–atmetimo</b> formule:</p>
-        <div class="formule math">|A ∪ B| = |A| + |B| − |A ∩ B|</div>
-        <p>Tai reikia, nes tiesiog sudėjus <span class="math">|A| + |B|</span>, bendri elementai (priklausantys <span class="math">A ∩ B</span>) būtų suskaičiuoti <b>du kartus</b> — todėl vieną kartą juos atimame.</p>
+        <p>Kartais reikia sužinoti, kiek elementų iš viso sudaro dvi aibes, kai apie jas žinome tik elementų skaičių (ne konkrečius elementus). Jei aibės A ir B turi bendrų elementų, tų bendrų elementų <b>negalima</b> skaičiuoti du kartus.</p>
         <p class="pvz"><b>Žodinis pavyzdys.</b> Klasėje 30 mokinių. Chemijos egzaminą rinkosi 18, fizikos — 15, o 9 mokiniai rinkosi <b>abu</b> egzaminus.<br>
-        Bent vieną egzaminą rinkosi: <span class="math">18 + 15 − 9 = <span class="gerai">24</span></span> mokiniai.<br>
+        Bent vieną egzaminą rinkosi: <span class="math">18 + 15 − 9 = <span class="gerai">24</span></span> mokiniai (sudedame abu skaičius ir atimame tuos 9, kurie priskaičiuoti du kartus).<br>
         Nė vieno egzamino nerinkosi: <span class="math">30 − 24 = <span class="gerai">6</span></span> mokiniai.</p>
-        <div class="demesio"><b>Dėmesio.</b> Frazė „<b>nė vienos</b>" reiškia <span class="math">visi − |A∪B|</span>; frazė „<b>bent viena</b>" reiškia patį <span class="math">|A∪B|</span>; frazė „<b>tik viena, ne abi</b>" reiškia <span class="math">|A∪B| − |A∩B|</span> (t. y. <span class="math">|A∖B| + |B∖A|</span>).</div>
+        <div class="demesio"><b>Dėmesio.</b> Frazė „<b>nė vienos</b>" reiškia visus mokinius, atėmus tuos, kurie rinkosi bent vieną; frazė „<b>bent viena</b>" reiškia tuos, kurie rinkosi bent vieną iš dviejų (bendri nedubliuojami); frazė „<b>tik viena, ne abi</b>" reiškia tuos, kurie rinkosi lygiai vieną, o ne abi kartu.</div>
       </div>
     </div>
   </section>
@@ -226,13 +224,13 @@
       <div class="konsp">
         <table class="kort">
           <tr><th>Klaida</th><th>Teisingai</th></tr>
-          <tr><td class="math"><span class="klaida">|A∪B| = |A| + |B|</span></td><td class="math"><span class="gerai">|A| + |B| − |A∩B|</span> (bendri nariai nedubliuojami)</td></tr>
+          <tr><td class="math"><span class="klaida">sudedi abiejų aibių elementų skaičius nepatikrinęs bendrų</span></td><td class="math"><span class="gerai">atimi bendrų (A∩B) elementų skaičių</span>, kad jie nebūtų suskaičiuoti du kartus</td></tr>
           <tr><td class="math"><span class="klaida">A∖B = B∖A</span></td><td>skirtumas <span class="gerai">nesukeičiamas</span> — tai skirtingos aibės</td></tr>
           <tr><td class="math"><span class="klaida">π = <span class="fr"><span>22</span><span>7</span></span></span></td><td><span class="fr"><span>22</span><span>7</span></span> yra tik <span class="gerai">apytikslė</span> π reikšmė (π ∈ I, o <span class="fr"><span>22</span><span>7</span></span> ∈ Q)</td></tr>
           <tr><td class="math"><span class="klaida">−3 ∈ N</span></td><td><span class="gerai">−3 ∈ Z</span> (N tik neneigiami skaičiai)</td></tr>
           <tr><td class="math"><span class="klaida">(−2; 3] sveikieji: −2,−1,0,1,2,3</span></td><td><span class="gerai">−1, 0, 1, 2, 3</span> (atviras galas −2 neįeina)</td></tr>
         </table>
-        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš skaičiuodamas <span class="math">|A∪B|</span> ar <span class="math">|A∩B|</span> visada patikrink, ar aibės <b>baigtinės, išvardytos ar intervalai</b> — skaičiavimo būdas skiriasi, o intervaluose <b>galo tipas</b> (uždaras/atviras) lemia, ar kraštinis skaičius įskaičiuojamas.</p>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš skaičiuodamas, kiek elementų sudaro sąjungą ar sankirtą, visada patikrink, ar aibės <b>baigtinės, išvardytos ar intervalai</b> — skaičiavimo būdas skiriasi, o intervaluose <b>galo tipas</b> (uždaras/atviras) lemia, ar kraštinis skaičius įskaičiuojamas.</p>
       </div>
     </div>
   </section>
