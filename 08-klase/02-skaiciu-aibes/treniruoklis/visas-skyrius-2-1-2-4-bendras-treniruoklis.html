@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Skaičių aibės (8 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Skaičių aibės (8 klasė)</h1>
+    <p id="paantraste">2.1. Skaičių aibės · 8 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// BENDRAS 2 skyriaus treniruoklis: apjungia visas 4 potemes (2.1-2.4).
+// Kiekviena poteme suvyniota i ATSKIRA IIFE (izoliuoti susikertantys helperiai).
+// Etiketes prefiksuotos potemes numeriu -> silpna vieta rodo, kuri poteme silpna.
+
+const GENERATORIAI = [].concat(
+  // ===== POTEME 2.1 (21-skaiciu-aibes) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: 8 kl. tema „2.1. Skaičių aibės".
+//
+// KONCEPTUALI tema — atsakymas visada SKAIČIUS: aibės elementų skaičius
+// (kardinalumas), daliklių skaičius, kartotinių skaičius, racionalios √/∛
+// reikšmės, elemento eilės numeris. „Taip / ne" klausimai (∈/∉, baigtinė/
+// begalinė) koduojami VIENU nuosekliu skaitiniu būdu: 1 – taip, 0 – ne.
+//
+// Visi dydžiai apskaičiuojami tikrai (dalikliai, kartotiniai, elementų
+// skaičiavimas), todėl atsakymas visada teisingas.
+//
+// Šablonas jau apibrėžia: randint, choice, nz, nf, pm. Papildomi pagalbininkai:
+
+function divisors(n){ const d=[]; for(let i=1;i<=n;i++) if(n%i===0) d.push(i); return d; }
+function setStr(arr){ return '{' + arr.join('; ') + '}'; }
+function distinctSet(count, lo, hi){
+  const s = new Set();
+  while(s.size < count){ s.add(randint(lo,hi)); }
+  return [...s];
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+const GENERATORIAI = [
+
+  // 1. Kiek elementų aibėje (baigtinės kardinalumas, išvardyta aibė)
+  { label:"Elementų skaičius aibėje", gen(){
+      const k = randint(4,8);
+      const arr = distinctSet(k,1,30).sort((a,b)=>a-b);
+      return { q:`Kiek elementų turi aibė A = ${setStr(arr)}?`, ans:k, pre:"atsakymas =", steps:[
+        `Aibė baigtinė — suskaičiuojame jos narius.`,
+        `A = ${setStr(arr)}`,
+        `Iš viso elementų = ${k}`
+      ]};
+  }},
+
+  // 2. Kiek natūraliųjų skaičių, mažesnių už N
+  { label:"Natūraliųjų skaičių skaičius", gen(){
+      const N = randint(6,20);
+      return { q:`Kiek natūraliųjų skaičių yra mažesnių už ${N}?`, ans:N-1, pre:"atsakymas =", steps:[
+        `Natūralieji skaičiai prasideda nuo 1.`,
+        `Tinka 1; 2; 3; …; ${N-1}`,
+        `Iš viso = ${N-1}`
+      ]};
+  }},
+
+  // 3. Kiek sveikųjų skaičių tenkina sąlygą (intervale)
+  { label:"Sveikųjų skaičių skaičius", gen(){
+      const lo = nz(-9,-1), hi = randint(1,9);
+      const c = hi - lo + 1;
+      return { q:`Kiek sveikųjų skaičių x tenkina ${nf(lo)} ≤ x ≤ ${nf(hi)}?`, ans:c, pre:"atsakymas =", steps:[
+        `Sveikieji skaičiai nuo ${nf(lo)} iki ${nf(hi)}: ${nf(lo)}; …; 0; …; ${nf(hi)}`,
+        `Elementų skaičius = ${nf(hi)} − (${nf(lo)}) + 1 = ${c}`
+      ]};
+  }},
+
+  // 4. Kiek daliklių turi skaičius
+  { label:"Daliklių skaičius", gen(){
+      const n = choice([12,16,18,20,24,28,30,32,36,40,42,45,48,50,54,60,72]);
+      const d = divisors(n);
+      return { q:`Kiek daliklių turi skaičius ${n}?`, ans:d.length, pre:"atsakymas =", steps:[
+        `Ieškome visų skaičių, iš kurių ${n} dalijasi be liekanos.`,
+        `Skaičiaus ${n} dalikliai: ${setStr(d)}`,
+        `Iš viso daliklių = ${d.length}`
+      ]};
+  }},
+
+  // 5. Kiek kartotinių tenkina sąlygą (ne didesni už N)
+  { label:"Kartotinių skaičius (≤ N)", gen(){
+      const dd = choice([3,4,6,7,8,9,12]);
+      const count = randint(3,10);
+      const N = dd*count + randint(0,dd-1);
+      return { q:`Kiek yra skaičiaus ${dd} kartotinių, ne didesnių už ${N}?`, ans:count, pre:"atsakymas =", steps:[
+        `Skaičiaus ${dd} kartotiniai: ${dd}; ${2*dd}; ${3*dd}; …`,
+        `Didžiausias, ne didesnis už ${N}: ${count} · ${dd} = ${count*dd}`,
+        `Tokių kartotinių = ${count}`
+      ]};
+  }},
+
+  // 6. Kiek dviženklių kartotinių
+  { label:"Dviženklių kartotinių skaičius", gen(){
+      const dd = choice([3,4,6,7,8,9,11,12,13]);
+      const first = dd*Math.ceil(10/dd);
+      const last  = dd*Math.floor(99/dd);
+      const count = (last - first)/dd + 1;
+      return { q:`Kiek yra dviženklių skaičiaus ${dd} kartotinių?`, ans:count, pre:"atsakymas =", steps:[
+        `Dviženkliai skaičiai — nuo 10 iki 99.`,
+        `Mažiausias dviženklis ${dd} kartotinis: ${first}`,
+        `Didžiausias dviženklis ${dd} kartotinis: ${last}`,
+        `Tokių kartotinių = (${last} − ${first}) : ${dd} + 1 = ${count}`
+      ]};
+  }},
+
+  // 7. Priklausymas aibei ∈ / ∉  (1 – taip, 0 – ne)
+  { label:"Priklausymas aibei (∈/∉)", gen(){
+      const k = randint(4,7);
+      const arr = distinctSet(k,1,20).sort((a,b)=>a-b);
+      const inSet = choice([true,false]);
+      let a;
+      if(inSet){ a = choice(arr); }
+      else { do{ a = randint(1,20); } while(arr.includes(a)); }
+      const ans = inSet ? 1 : 0;
+      return { q:`Ar teisingas teiginys: ${a} ∈ ${setStr(arr)} ?  (1 – taip, 0 – ne)`, ans, pre:"atsakymas =", steps:[
+        `Tikriname, ar ${a} yra tarp aibės elementų.`,
+        inSet ? `${a} yra aibės elementas, todėl ${a} ∈ aibei.`
+              : `${a} nėra aibės elementas, todėl ${a} ∉ aibei.`,
+        `Atsakymas = ${ans}`
+      ]};
+  }},
+
+  // 8. Baigtinė ar begalinė aibė  (1 – taip, 0 – ne)
+  { label:"Baigtinė ar begalinė aibė", gen(){
+      const finite = choice([true,false]);
+      if(finite){
+        const k = randint(4,7);
+        const arr = distinctSet(k,1,30).sort((a,b)=>a-b);
+        return { q:`Ar aibė ${setStr(arr)} baigtinė?  (1 – taip, 0 – ne)`, ans:1, pre:"atsakymas =", steps:[
+          `Aibė turi ${k} elementus ir juos galima suskaičiuoti.`,
+          `Vadinasi, aibė baigtinė.`,
+          `Atsakymas = 1`
+        ]};
+      } else {
+        const dd = choice([3,4,5,6,7,8,9]);
+        return { q:`Ar aibė {${dd}; ${2*dd}; ${3*dd}; …} baigtinė?  (1 – taip, 0 – ne)`, ans:0, pre:"atsakymas =", steps:[
+          `Trys taškai … reiškia, kad narių yra be galo daug.`,
+          `Vadinasi, aibė begalinė.`,
+          `Atsakymas = 0`
+        ]};
+      }
+  }},
+
+  // 9. Racionalioji kvadratinė šaknis √
+  { label:"Racionalioji kvadratinė šaknis", gen(){
+      const m = randint(4,20);
+      return { q:`Apskaičiuok √${m*m}`, ans:m, pre:"atsakymas =", steps:[
+        `Ieškome skaičiaus, kurio kvadratas lygus ${m*m}.`,
+        `${m} · ${m} = ${m*m}`,
+        `√${m*m} = ${m}`
+      ]};
+  }},
+
+  // 10. Racionalioji kubinė šaknis ∛
+  { label:"Racionalioji kubinė šaknis", gen(){
+      const m = randint(2,9);
+      return { q:`Apskaičiuok ∛${m*m*m}`, ans:m, pre:"atsakymas =", steps:[
+        `Ieškome skaičiaus, kurio kubas lygus ${m*m*m}.`,
+        `${m} · ${m} · ${m} = ${m*m*m}`,
+        `∛${m*m*m} = ${m}`
+      ]};
+  }},
+
+  // 11. Kelintas elementas pagal dydį (elemento eilės numeris)
+  { label:"Elemento eilės numeris", gen(){
+      const k = randint(4,6);
+      const arr = distinctSet(k,1,40).sort((a,b)=>a-b);
+      const idx = randint(1,k);
+      const v = arr[idx-1];
+      const disp = shuffle(arr);
+      return { q:`Aibė A = ${setStr(disp)}. Kelintas pagal dydį (didėjimo tvarka) yra skaičius ${v}?`, ans:idx, pre:"atsakymas =", steps:[
+        `Surikiuojame elementus didėjimo tvarka: ${setStr(arr)}`,
+        `Skaičius ${v} sąraše yra ${idx} vietoje.`,
+        `Atsakymas = ${idx}`
+      ]};
+  }},
+
+  // 12. Mažiausias / didžiausias elementas
+  { label:"Mažiausias / didžiausias elementas", gen(){
+      const k = randint(4,7);
+      const arr = distinctSet(k,-15,30);
+      const disp = shuffle(arr);
+      const sorted = arr.slice().sort((a,b)=>a-b);
+      const maxQ = choice([true,false]);
+      const ans = maxQ ? sorted[sorted.length-1] : sorted[0];
+      return { q:`Aibė A = ${setStr(disp.map(nf))}. Koks ${maxQ?'didžiausias':'mažiausias'} jos elementas?`, ans, pre:"atsakymas =", steps:[
+        `Surikiuojame didėjimo tvarka: ${setStr(sorted.map(nf))}`,
+        `${maxQ?'Didžiausias':'Mažiausias'} elementas = ${nf(ans)}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "2.1 " + g.label}); });
+  })(),
+  // ===== POTEME 2.2 (22-skaiciu-aibes-poaibis) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: 8 kl., tema „2.2. Skaičių aibės poaibis".
+//
+// KONCEPTUALŪS uždaviniai, atsakymas visada SKAIČIUS (variklis lygina reikšme):
+//   1) poaibių skaičius 2ⁿ
+//   2) poaibio elementų skaičius
+//   3) ar poaibis? (⊂ → 1, ⊄ → 0)
+//   4) kiek elementų tenkina sąlygą (lyginiai / pirminiai / kartotiniai ir kt.)
+//   5) daugiausiai elementų poaibyje (= n, nes A ⊂ A)
+//
+// Tikri Unicode ženklai: ⊂ ⊄ ∅ ∈ ∉ { } — NE LaTeX. Kabutės „…".
+// Šablonas jau turi randint(a,b), choice(arr). Papildomi pagalbininkai žemiau.
+
+const POOL = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+const SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function sup(n){ return String(n).split('').map(c=>SUP[c]||c).join(''); }
+function isPrime(x){ if(x<2) return false; for(let d=2; d*d<=x; d++){ if(x%d===0) return false; } return true; }
+function setStr(arr){ return '{' + arr.join('; ') + '}'; }
+function sampleDistinct(pool, k){
+  const p = pool.slice(), out = [];
+  for(let i=0; i<k && p.length; i++){ out.push(p.splice(Math.floor(Math.random()*p.length),1)[0]); }
+  return out.sort((a,b)=>a-b);
+}
+
+const GENERATORIAI = [
+
+  // 1) Poaibių skaičius 2ⁿ (n mažas, kad atsakymas nebūtų per didelis)
+  { label:"Poaibių skaičius (2ⁿ)", gen(){
+      const n = randint(1,6);
+      const A = sampleDistinct(POOL, n);
+      const ans = Math.pow(2, n);
+      return { q:`Kiek iš viso poaibių turi aibė A = ${setStr(A)}?`, ans, steps:[
+        `Aibė A turi n = ${n} (elementų skaičius).`,
+        `Visų poaibių skaičius (su ∅ ir pačia aibe) = 2ⁿ.`,
+        `2${sup(n)} = ${ans}`
+      ]};
+  }},
+
+  // 2) Poaibio elementų skaičius
+  { label:"Poaibio elementų skaičius", gen(){
+      const n = randint(3,7);
+      const A = sampleDistinct(POOL, n);
+      const k = randint(1, n-1);
+      const B = sampleDistinct(A, k);
+      const ans = B.length;
+      return { q:`Aibės A = ${setStr(A)} poaibis B = ${setStr(B)}. Kiek elementų turi poaibis B?`, ans, steps:[
+        `Poaibį B sudaro elementai: ${B.join('; ')}.`,
+        `Suskaičiuojame, kiek jų yra.`,
+        `Elementų skaičius = ${ans}`
+      ]};
+  }},
+
+  // 3) Ar poaibis? ⊂ → 1, ⊄ → 0
+  { label:"Ar poaibis? (1 – taip, 0 – ne)", gen(){
+      const n = randint(4,6);
+      const A = sampleDistinct(POOL, n);
+      const yra = choice([true, false]);
+      const k = randint(2, Math.min(3, n-1));
+      let B, ans, svetimas;
+      if(yra){
+        B = sampleDistinct(A, k);
+        ans = 1;
+        return { q:`Ar B ⊂ A? A = ${setStr(A)}, B = ${setStr(B)}. Įrašyk 1, jei taip, arba 0, jei ne.`, ans, steps:[
+          `Tikriname, ar visi B elementai priklauso aibei A.`,
+          `Visi B elementai (${B.join('; ')}) yra aibėje A ⇒ B ⊂ A.`,
+          `Atsakymas: 1`
+        ]};
+      } else {
+        B = sampleDistinct(A, Math.max(1, k-1));
+        const isore = POOL.filter(x=>!A.includes(x));
+        svetimas = choice(isore);
+        B.push(svetimas); B.sort((a,b)=>a-b);
+        ans = 0;
+        return { q:`Ar B ⊂ A? A = ${setStr(A)}, B = ${setStr(B)}. Įrašyk 1, jei taip, arba 0, jei ne.`, ans, steps:[
+          `Tikriname, ar visi B elementai priklauso aibei A.`,
+          `Elementas ${svetimas} ∉ A ⇒ B turi „svetimą" elementą, todėl B ⊄ A.`,
+          `Atsakymas: 0`
+        ]};
+      }
+  }},
+
+  // 4) Kiek elementų tenkina sąlygą
+  { label:"Kiek elementų tenkina sąlygą", gen(){
+      const conds = [
+        {name:"lyginiai skaičiai", test:x=>x%2===0},
+        {name:"nelyginiai skaičiai", test:x=>x%2===1},
+        {name:"pirminiai skaičiai", test:isPrime},
+        {name:"skaičiaus 3 kartotiniai", test:x=>x%3===0},
+        {name:"skaičiaus 4 kartotiniai", test:x=>x%4===0},
+        {name:"skaičiaus 5 kartotiniai", test:x=>x%5===0},
+      ];
+      let A, cond, sat, tries=0;
+      do{
+        const n = randint(6,8);
+        A = sampleDistinct(POOL, n);
+        cond = choice(conds);
+        sat = A.filter(cond.test);
+        tries++;
+      } while((sat.length < 1 || sat.length >= A.length) && tries < 60);
+      const ans = sat.length;
+      return { q:`Iš aibės A = ${setStr(A)} sudaromas poaibis, kurį sudaro tik ${cond.name}. Kiek jame elementų?`, ans, steps:[
+        `Peržiūrime A elementus ir renkame tuos, kurie yra ${cond.name}.`,
+        `Tinka: ${sat.join('; ')}.`,
+        `Elementų skaičius = ${ans}`
+      ]};
+  }},
+
+  // 5) Daugiausiai elementų poaibyje (= n, nes A ⊂ A)
+  { label:"Daugiausiai elementų poaibyje", gen(){
+      const n = randint(3,7);
+      const A = sampleDistinct(POOL, n);
+      const ans = n;
+      return { q:`Kiek daugiausiai elementų gali turėti aibės A = ${setStr(A)} poaibis?`, ans, steps:[
+        `Pati aibė yra savo poaibis: A ⊂ A.`,
+        `Todėl daugiausiai elementų turi poaibis, lygus visai aibei A.`,
+        `Aibėje A yra ${n} elementų, taigi daugiausiai = ${ans}`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "2.2 " + g.label}); });
+  })(),
+  // ===== POTEME 2.3 (23-realieji-skaiciai) =====
+  (function(){
+// Kontrolinio treniruoklis: Realieji skaičiai (8 klasė, 2.3 tema).
+// KONCEPTUALŪS uždaviniai — visi atsakymai yra SKAIČIUS:
+//   • kiek iš N skaičių racionalūs / iracionalūs / sveikieji / natūralieji (skaičius),
+//   • racionali šaknies reikšmė (√81 = 9, ∛64 = 4),
+//   • ar skaičius racionalus / iracionalus (1 = taip, 0 = ne),
+//   • teiginio (∈ arba ⊂) teisingumas (1 / 0),
+//   • kiek iš N teiginių teisingi (skaičius).
+//
+// Racionalumą generatorius nustato TIKSLIAI: √ iš tikslaus kvadrato ir ∛ iš
+// tikslaus kubo yra racionalūs (sveikumo patikra su Math.sqrt / Math.cbrt).
+// Šablonas jau apibrėžia: randint, choice, nz, nf, pm.
+
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a; }
+function isSquare(n){ if(n<0) return false; const r=Math.round(Math.sqrt(n)); return r*r===n; }
+function isCube(n){ if(n<0) return false; const r=Math.round(Math.cbrt(n)); return r*r*r===n; }
+
+// ── vieno skaičiaus generatoriai su tikslia klasifikacija ──
+// nat/int/rat — ar skaičius natūralusis / sveikasis / racionalusis (pagal REIKŠMĘ)
+function nInt(){ const k=randint(1,20); return {disp:''+k, nat:1,int:1,rat:1, setL:'ℕ', expl:`${k} — natūralusis`}; }
+function nNeg(){ const k=randint(1,15); return {disp:'−'+k, nat:0,int:1,rat:1, setL:'ℤ', expl:`−${k} — neigiamas sveikasis`}; }
+function nFrac(){ let a,b; do{ b=randint(2,9); a=randint(1,3*b);}while(a%b===0); const g=gcd(a,b); a/=g; b/=g;
+  return {disp:a+'/'+b, nat:0,int:0,rat:1, setL:'ℚ', expl:`${a}/${b} — paprastoji trupmena`}; }
+function nDec(){ const d=choice(['0,5','1,5','2,4','3,25','0,75','4,2','2,8','6,5']);
+  return {disp:d, nat:0,int:0,rat:1, setL:'ℚ', expl:`${d} — baigtinė dešimtainė`}; }
+function nPer(){ const d=choice(['0,(3)','1,(6)','2,(1)','0,(7)','1,(2)']);
+  return {disp:d, nat:0,int:0,rat:1, setL:'ℚ', expl:`${d} — periodinė dešimtainė`}; }
+function nSqrtR(){ const b=randint(2,12), a=b*b;
+  return {disp:'√'+a, nat:1,int:1,rat:1, setL:'ℕ', expl:`√${a} = ${b} (nes ${a} = ${b}²)`}; }
+function nSqrtI(){ let a; do{ a=randint(2,50);}while(isSquare(a));
+  return {disp:'√'+a, nat:0,int:0,rat:0, setL:'𝕀', expl:`√${a} iracionalus (${a} nėra tikslus kvadratas)`}; }
+function nCubeR(){ const b=randint(2,5), a=b*b*b;
+  return {disp:'∛'+a, nat:1,int:1,rat:1, setL:'ℕ', expl:`∛${a} = ${b} (nes ${a} = ${b}³)`}; }
+function nCubeI(){ let a; do{ a=randint(2,60);}while(isCube(a));
+  return {disp:'∛'+a, nat:0,int:0,rat:0, setL:'𝕀', expl:`∛${a} iracionalus (${a} nėra tikslus kubas)`}; }
+function nPi(){ return {disp:'π', nat:0,int:0,rat:0, setL:'𝕀', expl:`π = 3,1415… — begalinė neperiodinė`}; }
+
+const NUM_KINDS = [nInt,nNeg,nFrac,nDec,nPer,nSqrtR,nSqrtI,nCubeR,nCubeI,nPi];
+function makeNum(){ return choice(NUM_KINDS)(); }
+
+// mažiausia aibė, kuriai priklauso skaičius (informacijai teiginiuose)
+function belongs(x,set){
+  if(set==='ℕ') return x.nat===1;
+  if(set==='ℤ') return x.int===1;
+  if(set==='ℚ') return x.rat===1;
+  if(set==='𝕀') return x.rat===0;
+  return true; // ℝ — visi mūsų skaičiai realieji
+}
+
+// poaibių teiginiai su teisingumu (1 = teisingas)
+const SUBSET_STMTS = [
+  ['ℕ','ℤ',1],['ℕ','ℚ',1],['ℕ','ℝ',1],['ℤ','ℚ',1],['ℤ','ℝ',1],['ℚ','ℝ',1],['𝕀','ℝ',1],
+  ['ℤ','ℕ',0],['ℚ','ℤ',0],['ℚ','ℕ',0],['ℝ','ℚ',0],['ℝ','ℤ',0],['ℝ','ℕ',0],
+  ['𝕀','ℚ',0],['ℚ','𝕀',0],['ℤ','𝕀',0],['ℝ','𝕀',0]
+];
+
+// atskiras teiginys (priklausymas arba poaibis) → {text, truth, expl}
+function stmtMembership(){
+  const x=makeNum(), set=choice(['ℕ','ℤ','ℚ','𝕀','ℝ']), rel=choice(['∈','∉']);
+  const bel=belongs(x,set), truth = rel==='∈' ? bel : !bel;
+  return { text:`${x.disp} ${rel} ${set}`, truth,
+    expl:`${x.expl}, todėl ${x.disp} ${bel?'priklauso':'nepriklauso'} ${set}` };
+}
+function stmtSubset(){
+  const s=choice(SUBSET_STMTS), A=s[0], B=s[1], truth=!!s[2];
+  return { text:`${A} ⊂ ${B}`, truth,
+    expl: truth ? `${A} yra ${B} poaibis (mažesnė aibė telpa į didesnę)`
+                : `${A} nėra ${B} poaibis (didesnė aibė netelpa į mažesnę)` };
+}
+function stmtAny(){ return choice([stmtMembership,stmtSubset])(); }
+
+// ── uždavinių tipai (grąžina {q, ans, steps}) ──
+
+// 1) Kiek iš N skaičių yra tam tikros rūšies
+function genCount(){
+  const props = [
+    {word:'racionalūs',  test:x=>x.rat===1, hint:'ℕ, ℤ arba ℚ'},
+    {word:'iracionalūs', test:x=>x.rat===0, hint:'𝕀'},
+    {word:'sveikieji',   test:x=>x.int===1, hint:'ℤ'},
+    {word:'natūralieji', test:x=>x.nat===1, hint:'ℕ'}
+  ];
+  const P=choice(props), n=5;
+  let list, cnt, tries=0;
+  do{ list=[]; for(let i=0;i<n;i++) list.push(makeNum()); cnt=list.filter(P.test).length; tries++; }
+  while((cnt<1||cnt>n-1) && tries<80);
+  const q = `Kiek iš šių skaičių ${P.word}?    ` + list.map(x=>x.disp).join(';  ');
+  const rasti = list.filter(P.test).map(x=>x.disp).join(', ') || 'nėra';
+  const steps = [ `Nustatome kiekvieno skaičiaus mažiausią aibę:` ]
+    .concat(list.map(x=>`${x.disp} → ${x.setL}   (${x.expl})`))
+    .concat([ `Tinka (${P.hint}): ${rasti}`, `Iš viso ${P.word}: ${cnt}` ]);
+  return { q, ans:cnt, steps };
+}
+
+// 2) Racionali šaknies reikšmė (√ tikslaus kvadrato / ∛ tikslaus kubo)
+function genValue(){
+  if(choice([0,1])===0){ const b=randint(2,15), a=b*b;
+    return { q:`Apskaičiuok    √${a}`, ans:b, steps:[ `${a} = ${b}²`, `√${a} = ${b}` ] };
+  }
+  const b=randint(2,6), a=b*b*b;
+  return { q:`Apskaičiuok    ∛${a}`, ans:b, steps:[ `${a} = ${b}³`, `∛${a} = ${b}` ] };
+}
+
+// 3) Ar skaičius racionalus / iracionalus (1 = taip, 0 = ne)
+function genIsRational(){
+  const x=makeNum(), askRat=choice([true,false]), isRat=x.rat===1;
+  const ans=(askRat? isRat : !isRat) ? 1 : 0;
+  const word=askRat?'racionalus':'iracionalus';
+  const verd=isRat?'racionalus':'iracionalus';
+  const q=`Ar skaičius    ${x.disp}    ${word}?     (1 = taip, 0 = ne)`;
+  const steps=[ `${x.expl}`, `Vadinasi, ${x.disp} yra ${verd}.`,
+                `Klausiama, ar ${word}: atsakymas = ${ans}` ];
+  return { q, ans, steps };
+}
+
+// 4) Teiginio teisingumas (∈ arba ⊂), 1 / 0
+function genTeiginys(){
+  const s=stmtAny(), ans=s.truth?1:0;
+  const q=`Ar teisingas teiginys:    ${s.text} ?     (1 = taip, 0 = ne)`;
+  const steps=[ `Prisiminkime: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ir 𝕀 ⊂ ℝ; ℝ = ℚ ∪ 𝕀.`, `${s.expl}`,
+                `Teiginys „${s.text}“ yra ${s.truth?'teisingas':'klaidingas'} → atsakymas = ${ans}` ];
+  return { q, ans, steps };
+}
+
+// 5) Kiek iš N teiginių teisingi (skaičius)
+function genCountTrue(){
+  const n=4; let arr, cnt, tries=0;
+  do{ arr=[]; for(let i=0;i<n;i++) arr.push(stmtAny()); cnt=arr.filter(s=>s.truth).length; tries++; }
+  while((cnt<1||cnt>n) && tries<80);
+  const q = `Kiek iš šių teiginių teisingi?    ` + arr.map((s,i)=>`${i+1}) ${s.text}`).join(';    ');
+  const steps = [ `Patikriname kiekvieną teiginį:` ]
+    .concat(arr.map((s,i)=>`${i+1}) ${s.text} — ${s.truth?'teisingas':'klaidingas'}   (${s.expl})`))
+    .concat([ `Teisingų iš viso: ${cnt}` ]);
+  return { q, ans:cnt, steps };
+}
+
+const GENERATORIAI = [
+  { label:'Kiek skaičių tam tikros rūšies', gen:genCount },
+  { label:'Racionali šaknies reikšmė',       gen:genValue },
+  { label:'Ar skaičius racionalus',          gen:genIsRational },
+  { label:'Teiginio teisingumas (∈, ⊂)',     gen:genTeiginys },
+  { label:'Kiek teiginių teisingi',          gen:genCountTrue },
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "2.3 " + g.label}); });
+  })(),
+  // ===== POTEME 2.4 (24-veiksmai-su-realiaisiais) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: „Veiksmai su realiaisiais skaičiais" (8 kl., 2.4).
+//
+// SKAIČIAVIMO tema → procedūrinis režimas. Kiekvienas generatorius kuria reiškinį
+// su tvarkingais skaičiais ir apskaičiuoja jį laikydamasis veiksmų eiliškumo:
+//   1) laipsniai ir šaknys → 2) daugyba ir dalyba → 3) sudėtis ir atimtis, skliaustai pirmi.
+// Atsakymas visada sveikas arba trumpas dešimtainis; kiekvienas su pilnu žingsniniu sprendimu.
+//
+// Šablonas jau apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n) (LT: − ir ,), pm(n).
+// Simboliai: √ ∛ tikri, laipsniai pakelti ² ³ ⁻¹ ⁻² ⁻³ ⁰ (NE LaTeX).
+
+const GENERATORIAI = [
+
+  // 1) Šaknis · skaičius − skaičius : laipsnis   (eiliškumas: šaknis/laipsnis → · : → −)
+  { label:"Eiliškumas: šaknis ir laipsnis", gen(){
+      const r=randint(2,9), m=randint(2,5), d=randint(2,4), q=randint(1,6), c=q*d*d;
+      const ans = r*m - q;
+      return { q:`√${r*r} · ${m} − ${c} : ${d}²`, ans, steps:[
+        `√${r*r} · ${m} − ${c} : ${d}²`,
+        `= ${r} · ${m} − ${c} : ${d*d}   (šaknis ir laipsnis)`,
+        `= ${r*m} − ${q}   (daugyba ir dalyba)`,
+        `= ${nf(ans)}   (atimtis)`
+      ]};
+  }},
+
+  // 2) Laipsnis · (skirtumas) + šaknis   (skliaustai, laipsnis, šaknis)
+  { label:"Laipsnis, skliaustai ir šaknis", gen(){
+      const a=randint(2,5), r=randint(2,9);
+      let b=randint(1,6), c=randint(2,8);
+      if(b===c) c = c+1;
+      const inner=b-c, ans = a*a*inner + r;
+      return { q:`${a}² · (${b} − ${c}) + √${r*r}`, ans, steps:[
+        `${a}² · (${b} − ${c}) + √${r*r}`,
+        `= ${a*a} · (${nf(inner)}) + ${r}   (laipsnis, šaknis)`,
+        `= ${nf(a*a*inner)} + ${r}   (daugyba)`,
+        `= ${nf(ans)}   (sudėtis)`
+      ]};
+  }},
+
+  // 3) Kubinė šaknis (dažnai iš neigiamo) · skaičius + laipsnis
+  { label:"Kubinė šaknis ir laipsnis", gen(){
+      const k=randint(2,4), sg=choice([-1,-1,1]), m=randint(2,6), a=randint(2,5);
+      const cubeVal=sg*k*k*k, cr=sg*k, ans = cr*m + a*a;
+      return { q:`∛(${nf(cubeVal)}) · ${m} + ${a}²`, ans, steps:[
+        `∛(${nf(cubeVal)}) · ${m} + ${a}²`,
+        `= (${nf(cr)}) · ${m} + ${a*a}   (kubinė šaknis, laipsnis)`,
+        `= ${nf(cr*m)} + ${a*a}   (daugyba)`,
+        `= ${nf(ans)}   (sudėtis)`
+      ]};
+  }},
+
+  // 4) Nulinis laipsnis + skaičius · neigiamas rodiklis
+  { label:"Nulinis ir neigiamas rodiklis", gen(){
+      const pair=choice([[2,2,4],[2,3,8],[3,2,9],[4,2,16],[5,2,25]]);
+      const c=pair[0], n=pair[1], val=pair[2];
+      const a=randint(2,9), kk=randint(1,3), b=kk*val;
+      const ans = 1 + kk, nsup = (n===2?'²':'³');
+      return { q:`${a}⁰ + ${b} · ${c}⁻${nsup}`, ans, steps:[
+        `${a}⁰ + ${b} · ${c}⁻${nsup}`,
+        `= 1 + ${b} · 1/${val}   (nulinis laipsnis; ${c}⁻${nsup} = 1/${val})`,
+        `= 1 + ${kk}   (daugyba)`,
+        `= ${nf(ans)}   (sudėtis)`
+      ]};
+  }},
+
+  // 5) (skirtumas)³ + kubinė šaknis
+  { label:"Skliaustai su laipsniu ir kubine šaknimi", gen(){
+      let inner, a, b, tries=0;
+      do{ b=randint(1,9); inner=nz(-3,3); a=b+inner; tries++; }while(a<1 && tries<40);
+      if(a<1){ a=2; b=1; inner=1; }
+      const k=randint(2,4), sg=choice([-1,-1,1]);
+      const cubeVal=sg*k*k*k, cr=sg*k;
+      const innerCubed=inner*inner*inner, ans=innerCubed + cr;
+      return { q:`(${a} − ${b})³ + ∛(${nf(cubeVal)})`, ans, steps:[
+        `(${a} − ${b})³ + ∛(${nf(cubeVal)})`,
+        `= (${nf(inner)})³ + (${nf(cr)})   (skliaustai, kubinė šaknis)`,
+        `= ${nf(innerCubed)} ${pm(cr)}   (laipsnis)`,
+        `= ${nf(ans)}   (sudėtis)`
+      ]};
+  }},
+
+  // 6) Dešimtainė · (√a)² − 2⁻ⁿ
+  { label:"Dešimtainės ir (√a)²", gen(){
+      const d=choice([
+        {s:'0,5', den:2}, {s:'0,25', den:4}, {s:'0,2', den:5}
+      ]);
+      const v=choice([
+        {sup:'¹', dec:'0,5',   val:0.5},
+        {sup:'²', dec:'0,25',  val:0.25},
+        {sup:'³', dec:'0,125', val:0.125}
+      ]);
+      const t=randint(2,5), a=d.den*t;      // d · (√a)² = a/den = t (sveikas)
+      const ans = t - v.val;
+      return { q:`${d.s} · (√${a})² − 2⁻${v.sup}`, ans, steps:[
+        `${d.s} · (√${a})² − 2⁻${v.sup}`,
+        `= ${d.s} · ${a} − ${v.dec}   ((√${a})² = ${a};  2⁻${v.sup} = ${v.dec})`,
+        `= ${t} − ${v.dec}   (daugyba)`,
+        `= ${nf(ans)}   (atimtis)`
+      ]};
+  }},
+
+  // 7) Šaknis · laipsnis − skaičius : (neigiamas)
+  { label:"Neigiamas daliklis", gen(){
+      const r=randint(2,6), b=randint(2,3), d=randint(2,5), q=randint(1,5), c=q*d;
+      const bcube=b*b*b, ans = r*bcube + q;   // − c:(−d) = + q
+      return { q:`√${r*r} · ${b}³ − ${c} : (−${d})`, ans, steps:[
+        `√${r*r} · ${b}³ − ${c} : (−${d})`,
+        `= ${r} · ${bcube} − ${c} : (−${d})   (šaknis ir laipsnis)`,
+        `= ${r*bcube} − (−${q})   (daugyba ir dalyba)`,
+        `= ${r*bcube} + ${q}   (atimame neigiamą)`,
+        `= ${nf(ans)}`
+      ]};
+  }},
+
+  // 8) Šaknis : kubinė šaknis + skaičius
+  { label:"Šaknis, dalyba iš kubinės šaknies", gen(){
+      const k=randint(2,3), t=randint(1,3), sg=choice([-1,1]), e=randint(1,9);
+      const r=k*t, a=r*r, cubeVal=sg*k*k*k, cr=sg*k;
+      const dalmuo=sg*t, ans=dalmuo + e;
+      return { q:`√${a} : ∛(${nf(cubeVal)}) + ${e}`, ans, steps:[
+        `√${a} : ∛(${nf(cubeVal)}) + ${e}`,
+        `= ${r} : (${nf(cr)}) + ${e}   (šaknis, kubinė šaknis)`,
+        `= ${nf(dalmuo)} + ${e}   (dalyba)`,
+        `= ${nf(ans)}   (sudėtis)`
+      ]};
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "2.4 " + g.label}); });
+  })()
+);
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Bendras 2 skyriaus treniruoklis: Skaičių aibės (8 klasė)", "subtitle": "2 skyrius „Skaičių aibės“ · 2.1-2.4 · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
