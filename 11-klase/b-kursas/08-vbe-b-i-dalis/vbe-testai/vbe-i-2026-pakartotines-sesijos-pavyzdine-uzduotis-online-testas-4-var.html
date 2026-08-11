@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: VBE I 2026 pakartotinės sesijos pavyzdinė užduotis (B kursas)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .qimg{text-align:center;margin:6px 0 10px}
+  .qimg svg{background:#fff}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  /* <sup>/<sub> su .fr viduje: inline-flex vaikas NEPAVELDI standartinio vertical-align:super/sub
+     poslinkio (narsykles ypatybe), tad rodiklio/indekso .fr pozicionuojama tiesiogiai per top/bottom. */
+  sup:has(.fr){position:relative;top:-1em;vertical-align:baseline;font-size:.55em}
+  sub:has(.fr){position:relative;top:.65em;vertical-align:baseline;font-size:.55em}
+  sup:has(.fr) .fr,sub:has(.fr) .fr{font-size:1em;vertical-align:baseline;margin:0 1px}
+  .vec{position:relative;display:inline-block;padding-top:.6em}
+  .vec i{position:absolute;top:-.05em;left:50%;transform:translateX(-50%) scaleX(.85);font-size:.75em;line-height:1;font-style:normal}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<header><h1>VBE I 2026 pakartotinės sesijos pavyzdinė užduotis (B kursas)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "VBE I 2026 pakartotinės sesijos pavyzdinė užduotis (B kursas)", "dalykas": "Matematika", "sheet_id": "11uJP9W2uVxtx9VzLtMNR0AfGoSIQke1TBg2UgVQzVag", "trukme_min": 0, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Medžiagą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai, ir pakartok tas temas."], [45, "Patenkinamai — verta pakartoti daugumą temų prieš egzaminą."], [0, "Reikia rimtai pakartoti temas ir pasitreniruoti daugiau uždavinių."]]}, "variants": [{"id": 1, "mc": [{"q": "Kuris iš duotųjų skaičių yra iracionalusis? Pažymėkite teisingą atsakymą.", "options": ["3", "0,4", "{fr:5:9}", "√7"], "correct": 3}, {"q": "Nustatykite, kurios funkcijos grafikas pavaizduotas paveiksle (dvi atskiros šakos I ir III ketvirčiuose, artėjančios prie abiejų koordinačių ašių). Pažymėkite teisingą atsakymą.", "options": ["{fr:1:x}", "√x", "{sup:3}√x", "x{sup:3}"], "correct": 0}, {"q": "Kuri iš pateiktų skaičių sekų yra aritmetinė progresija? Pažymėkite teisingą atsakymą.", "options": ["64; 16; 4; 1", "5; 9; 13; 17", "3; 9; 27; 81", "20; 17; 13; 8"], "correct": 1}, {"q": "Išspręskite nelygybes. Pažymėkite teisingus atsakymus.<br>a) log{sub:4}x ≤ log{sub:4}8;", "options": ["x∈(−∞;8]", "x∈[8;+∞)", "x∈(0;8]", "x∈[0;8]"], "correct": 2}, {"q": "b) {fr:x−9:x+ 14} < 0.", "options": ["x∈(−14;9)", "x∈(9;−14)", "x∈(−∞;9)∪(−14;+∞)", "x∈(−∞;−14)∪(9;+∞)"], "correct": 0}, {"q": "Pažymėkite teisingą lygybę.", "options": ["log{sub:7}3+log{sub:7}5=log{sub:7}(3+5)", "log{sub:7}3+log{sub:7}5=log{sub:7}(3·5)", "log{sub:7}3+log{sub:7}5=log{sub:7}(3−5)", "log{sub:7}3+log{sub:7}5=log{sub:7}{fr:3:5}"], "correct": 1}, {"q": "Buvo investuota 3000 eurų suma. Kiekvienais metais ši suma padidėja 1,2 karto. Po kelerių metų investuota suma viršys 10000 eurų? Pažymėkite teisingą atsakymą.", "options": ["Po 7 metų", "Po 5 metų", "Po 6 metų", "Po 8 metų"], "correct": 0}, {"q": "Nustatykite, kuriame ketvirtyje yra posūkio kampas α = −533°. Pažymėkite teisingą atsakymą.", "options": ["I", "II", "III", "IV"], "correct": 2}, {"q": "Kuris iš skaičių NEpriklauso funkcijos y=log{sub:2}(7−3x) apibrėžimo sričiai? Pažymėkite teisingą atsakymą.", "options": ["4/3", "10/3", "11/6", "1/3"], "correct": 1}, {"q": "Pažymėkite paveikslą, kuriame teisingai pavaizduotas grafinis lygties {sup:3}√x=3−x sprendimas (t.y. teisingai nubraižytos y={sup:3}√x ir y=3−x).", "options": ["kreivė {sup:3}√x teisinga forma; tiesė kerta Oy ties (0;3), mažėjanti (polinkis −1) — <b>teisinga</b>", "kreivė {sup:3}√x teisinga forma; tiesė DIDĖJANTI (polinkis +1) — klaidinga tiesė", "kreivė primena x{sup:3} (per status, ne kubinė šaknis) — klaidinga kreivė", "kreivė primena x{sup:3}, tiesė didėjanti — abu klaidingi"], "correct": 0}, {"q": "Apskaičiuokite lygties (9−x{sup:2})·(6+x)=0 sprendinių sumą. Pažymėkite teisingą atsakymą.", "options": ["−6", "−4", "−9", "−1"], "correct": 0}, {"q": "Žinoma, kad y=f(x) nelyginė, o y=g(x) lyginė. f(−7)=3, o g(5)=4. Apskaičiuokite reiškinio f(7)−g(−5) reikšmę. Pažymėkite teisingą atsakymą.", "options": ["−7", "−5", "7", "−11"], "correct": 0}, {"q": "Į konferenciją užsiregistravo x sodininkų. Konferencijos bendra kaina jiems yra 720 eurų. 4 sodininkai negalėjo dalyvauti, todėl kiekvienam dalyvaujančiajam teko sumokėti 6 eurais brangiau, negu buvo numatyta pradinė dalyvavimo kaina. Pažymėkime pradinę dalyvavimo kainą vienam sodininkui y eurų. Nustatykite, kurią lygčių sistemą išsprendę sužinotume pradinę dalyvavimo vienam sodininkui kainą. Pažymėkite teisingą atsakymą.", "options": ["xy=720, (x+4)(y−6)=720", "xy=720, (x−4)y+6=720", "xy=720, (x−4)(y+6)=720", "xy=720, (x+4)y+6=720"], "correct": 2}, {"q": "Duotos dvi aibės: A=(−8;6) ir B=[−2;9]. Raskite, kiek sveikųjų skaičių yra aibėje C=A∩B. Pažymėkite teisingą atsakymą.", "options": ["8", "9", "7", "11"], "correct": 0}, {"q": "Funkcijos y={fr:a:x+b} grafiko vertikalioji asimptotė yra x=−3. Dešinėje nuo asimptotės funkcija artėja prie 0 iš apačios (neigiamos reikšmės). Nustatykite a ir b ženklus. Pažymėkite teisingą atsakymą.", "options": ["a>0, b>0", "a>0, b<0", "a<0, b>0", "a<0, b<0"], "correct": 2}], "open": [{"q": "Išspręskite lygtis ir įrašykite atsakymus.<br>a) x{sup:3}=27.", "a": "eD0z"}, {"q": "b) 64{sup:x}=1.", "a": "eD0w"}, {"q": "Posūkio kampas α = 150°. Nustatykite šio kampo atskaitos kampą (kampą iki artimiausios Ox ašies pusės, laipsniais) ir įrašykite atsakymą.", "a": "MzDCsA=="}, {"q": "Duota geometrinė progresija b{sub:n}: 3; −9; 27; ... a) Apskaičiuokite b{sub:4}.", "a": "YjQ94oiSODE="}, {"q": "b) Apskaičiuokite S{sub:5}.", "a": "UzU9MTgz"}, {"q": "Duota lygtis sinx=−0,5, kai x∈[−720°;720°]. Vienas periodas turi lygiai 2 sprendinius. Kiek sprendinių turi ši lygtis nurodytame intervale? Įrašykite atsakymą.", "a": "OA=="}, {"q": "Nustatykite a reikšmę, su kuria lygybė 2·{sup:3}√9 = {sup:3}√(a·9) yra teisinga (čia a∈ℤ). Įrašykite atsakymą.", "a": "YT0zNg=="}, {"q": "Periodinės funkcijos y=f(x) grafike dvi gretimos viršūnės yra taškuose x=−3 ir x=3. Koks šios funkcijos mažiausias teigiamas periodas? Įrašykite atsakymą.", "a": "Ng=="}, {"q": "Išrikiuokite skaičius log{sub:3}81, |−5|, 6{sup:log_6 7}, {sup:3}√27 nuo mažiausio iki didžiausio.", "a": "e3N1cDozfeKImjI3LCBsb2d7c3ViOjN9ODEsIHziiJI1fCwgNntzdXA6bG9nXzYgN30gKHQuIHkuIDMsIDQsIDUsIDcp"}, {"q": "Išspręskite lygtį √(6− 3x)=9. Įrašykite atsakymą.", "a": "eD3iiJIyNQ=="}, {"q": "Duota lygybė |3π−4|+|4−3π|=aπ+b (a,b∈ℤ). Nustatykite a ir b reikšmes, su kuriomis ši lygybė yra teisinga. Įrašykite atsakymą.", "a": "YT02LCBiPeKIkjg="}, {"q": "Funkcijos y=f(x) reikšmių sritis yra y∈[−4;12]. Nustatykite funkcijos y=3f(x− 2) reikšmių sritį. Įrašykite atsakymą.", "a": "eeKIiFviiJIxMjszNl0="}, {"q": "Taškas A(n; {fr:3:5}) priklauso vienetiniam apskritimui ir yra II ketvirtyje (žr. pav.). Apskaičiuokite n reikšmę. Atsakymą pateikite dešimtainiu skaičiumi.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"1.6\"/><line x1=\"150\" y1=\"110\" x2=\"86.0\" y2=\"62.0\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"86.0\" cy=\"62.0\" r=\"3\" fill=\"#c62828\"/><text x=\"12.0\" y=\"54.0\" font-size=\"12\" fill=\"#c62828\">(–0,8; 0,6)</text><path d=\"M 172 110 A 22 22 0 1 1 132.4 96.8\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.3\"/><text x=\"152\" y=\"80\" font-size=\"13\" fill=\"#6a1b9a\">α</text><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"58\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text></svg>", "a": "bj3iiJIwLDg="}, {"q": "Kairėje pusėje pateiktos funkcijos, o dešinėje — funkcijų savybės. Kiekvieną funkciją sujunkite su jos savybe. (y=x{sup:5}, y=sinx, y={sup:3}√x, y=log{sub:2}x)", "a": "eT14e3N1cDo1feKGkm5lbHlnaW7ElzsgeT1zaW544oaScGVyaW9kaW7ElzsgeT17c3VwOjN94oiaeOKGknniiIjihJ0gKHZpc29zIHJlYWxpb3Npb3MgcmVpa8WhbcSXcyk7IHk9bG9ne3N1YjoyfXjihpJncmFmaWthcyBlaW5hIHBlciAoMjsxKQ=="}, {"q": "Su kuria α reikšme, kai α∈(0°;90°), yra teisinga lygybė sin390°=sinα? Įrašykite atsakymą.", "a": "MzDCsA=="}, {"q": "Raskite funkcijų y=log{sub:3}(2x+ 1) ir y=log{sub:3}(4−x) susikirtimo taško koordinates. Įrašykite atsakymą.", "a": "KDE7IDEp"}, {"q": "Duota nelygybė {fr:1:2}{sup:x}·{fr:1:7}{sup:x} ≥ 196. Raskite šios nelygybės didžiausią sveikąjį sprendinį. Įrašykite atsakymą.", "a": "eD3iiJIy"}, {"q": "Funkcijos y=a{sup:x}+b grafiko horizontalioji asimptotė yra y=−4, o grafikas eina per tašką (1;3). Apskaičiuokite a ir b reikšmes. Įrašykite atsakymą.", "a": "YT03LCBiPeKIkjQ="}, {"q": "Nustatykite a ir b reikšmes (a,b∈ℕ), su kuriomis lygybė {fr:2:a−√b} = {fr:10+2√2:23} yra teisinga. Įrašykite atsakymą.", "a": "YT01LCBiPTI="}]}, {"id": 2, "mc": [{"q": "Kuris iš duotųjų skaičių yra iracionalusis? Pažymėkite teisingą atsakymą.", "options": ["√11", "−5", "0,(3)", "{fr:3:8}"], "correct": 0}, {"q": "Nustatykite, kurios funkcijos grafikas pavaizduotas paveiksle (dvi atskiros šakos I ir III ketvirčiuose, artėjančios prie abiejų koordinačių ašių). Pažymėkite teisingą atsakymą.", "options": ["√x", "{fr:1:x}", "x{sup:3}", "{sup:3}√x"], "correct": 1}, {"q": "Kuri iš pateiktų skaičių sekų yra aritmetinė progresija? Pažymėkite teisingą atsakymą.", "options": ["2; 6; 18; 54", "40; 33; 26; 19", "7; 12; 17; 22", "81; 27; 9; 3"], "correct": 2}, {"q": "Išspręskite nelygybes. Pažymėkite teisingus atsakymus.<br>a) log{sub:3}x ≤ log{sub:3}15;", "options": ["x∈[15;+∞)", "x∈(−∞;15]", "x∈[0;15]", "x∈(0;15]"], "correct": 3}, {"q": "b) {fr:x−6:x+ 15} < 0.", "options": ["x∈(6;−15)", "x∈(−15;6)", "x∈(−∞;−15)∪(6;+∞)", "x∈(−∞;6)∪(−15;+∞)"], "correct": 1}, {"q": "Pažymėkite teisingą lygybę.", "options": ["log{sub:11}4+log{sub:11}6=log{sub:11}(4·6)", "log{sub:11}4+log{sub:11}6=log{sub:11}(4+6)", "log{sub:11}4+log{sub:11}6=log{sub:11}{fr:4:6}", "log{sub:11}4+log{sub:11}6=log{sub:11}(4−6)"], "correct": 0}, {"q": "Buvo investuota 2000 eurų suma. Kiekvienais metais ši suma padidėja 1,4 karto. Po kelerių metų investuota suma viršys 12000 eurų? Pažymėkite teisingą atsakymą.", "options": ["Po 4 metų", "Po 6 metų", "Po 7 metų", "Po 5 metų"], "correct": 1}, {"q": "Nustatykite, kuriame ketvirtyje yra posūkio kampas α = −610°. Pažymėkite teisingą atsakymą.", "options": ["I", "II", "III", "IV"], "correct": 1}, {"q": "Kuris iš skaičių NEpriklauso funkcijos y=log{sub:2}(9−2x) apibrėžimo sričiai? Pažymėkite teisingą atsakymą.", "options": ["7/2", "11/2", "4", "5/2"], "correct": 1}, {"q": "Pažymėkite paveikslą, kuriame teisingai pavaizduotas grafinis lygties {sup:3}√x=4−x sprendimas (t.y. teisingai nubraižytos y={sup:3}√x ir y=4−x).", "options": ["kreivė {sup:3}√x teisinga forma; tiesė DIDĖJANTI (polinkis +1) — klaidinga tiesė", "kreivė {sup:3}√x teisinga forma; tiesė kerta Oy ties (0;4), mažėjanti (polinkis −1) — <b>teisinga</b>", "kreivė primena x{sup:3}, tiesė didėjanti — abu klaidingi", "kreivė primena x{sup:3} (per status, ne kubinė šaknis) — klaidinga kreivė"], "correct": 1}, {"q": "Apskaičiuokite lygties (25−x{sup:2})·(4+x)=0 sprendinių sumą. Pažymėkite teisingą atsakymą.", "options": ["−2", "−4", "1", "−7"], "correct": 1}, {"q": "Žinoma, kad y=f(x) nelyginė, o y=g(x) lyginė. f(−6)=2, o g(4)=3. Apskaičiuokite reiškinio f(6)−g(−4) reikšmę. Pažymėkite teisingą atsakymą.", "options": ["−3", "−5", "−9", "5"], "correct": 1}, {"q": "Į konferenciją užsiregistravo x sodininkų. Konferencijos bendra kaina jiems yra 900 eurų. 5 sodininkai negalėjo dalyvauti, todėl kiekvienam dalyvaujančiajam teko sumokėti 10 eurais brangiau, negu buvo numatyta pradinė dalyvavimo kaina. Pažymėkime pradinę dalyvavimo kainą vienam sodininkui y eurų. Nustatykite, kurią lygčių sistemą išsprendę sužinotume pradinę dalyvavimo vienam sodininkui kainą. Pažymėkite teisingą atsakymą.", "options": ["xy=900, (x−5)y+10=900", "xy=900, (x+5)(y−10)=900", "xy=900, (x+5)y+10=900", "xy=900, (x−5)(y+10)=900"], "correct": 3}, {"q": "Duotos dvi aibės: A=(−6;4) ir B=[−1;8]. Raskite, kiek sveikųjų skaičių yra aibėje C=A∩B. Pažymėkite teisingą atsakymą.", "options": ["6", "5", "8", "4"], "correct": 1}, {"q": "Funkcijos y={fr:a:x+b} grafiko vertikalioji asimptotė yra x=5. Dešinėje nuo asimptotės funkcija artėja prie 0 iš viršaus (teigiamos reikšmės). Nustatykite a ir b ženklus. Pažymėkite teisingą atsakymą.", "options": ["a>0, b>0", "a>0, b<0", "a<0, b>0", "a<0, b<0"], "correct": 1}], "open": [{"q": "Išspręskite lygtis ir įrašykite atsakymus.<br>a) x{sup:3}=125.", "a": "eD01"}, {"q": "b) 81{sup:x}=1.", "a": "eD0w"}, {"q": "Posūkio kampas α = 300°. Nustatykite šio kampo atskaitos kampą (kampą iki artimiausios Ox ašies pusės, laipsniais) ir įrašykite atsakymą.", "a": "NjDCsA=="}, {"q": "Duota geometrinė progresija b{sub:n}: 4; −8; 16; ... a) Apskaičiuokite b{sub:4}.", "a": "YjQ94oiSMzI="}, {"q": "b) Apskaičiuokite S{sub:5}.", "a": "UzU9NDQ="}, {"q": "Duota lygtis sinx=0,5, kai x∈[−540°;540°]. Vienas periodas turi lygiai 2 sprendinius. Kiek sprendinių turi ši lygtis nurodytame intervale? Įrašykite atsakymą.", "a": "Ng=="}, {"q": "Nustatykite a reikšmę, su kuria lygybė 5·{sup:3}√3 = {sup:3}√(a·3) yra teisinga (čia a∈ℤ). Įrašykite atsakymą.", "a": "YT03NQ=="}, {"q": "Periodinės funkcijos y=f(x) grafike dvi gretimos viršūnės yra taškuose x=−2 ir x=4. Koks šios funkcijos mažiausias teigiamas periodas? Įrašykite atsakymą.", "a": "Ng=="}, {"q": "Išrikiuokite skaičius log{sub:2}32, |−3|, 4{sup:log_4 9}, √16 nuo mažiausio iki didžiausio.", "a": "fOKIkjN8LCDiiJoxNiwgbG9ne3N1YjoyfTMyLCA0e3N1cDpsb2dfNCA5fSAodC4geS4gMywgNCwgNSwgOSk="}, {"q": "Išspręskite lygtį √(10− 4x)=16. Įrašykite atsakymą.", "a": "eD3iiJIxMjMvMg=="}, {"q": "Duota lygybė |2π−5|+|5−2π|=aπ+b (a,b∈ℤ). Nustatykite a ir b reikšmes, su kuriomis ši lygybė yra teisinga. Įrašykite atsakymą.", "a": "YT00LCBiPeKIkjEw"}, {"q": "Funkcijos y=f(x) reikšmių sritis yra y∈[−6;9]. Nustatykite funkcijos y=2f(x+ 4) reikšmių sritį. Įrašykite atsakymą.", "a": "eeKIiFviiJIxMjsxOF0="}, {"q": "Taškas A(n; {fr:4:5}) priklauso vienetiniam apskritimui ir yra II ketvirtyje (žr. pav.). Apskaičiuokite n reikšmę. Atsakymą pateikite dešimtainiu skaičiumi.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"1.6\"/><line x1=\"150\" y1=\"110\" x2=\"102.0\" y2=\"46.0\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"102.0\" cy=\"46.0\" r=\"3\" fill=\"#c62828\"/><text x=\"28.0\" y=\"38.0\" font-size=\"12\" fill=\"#c62828\">(–0,6; 0,8)</text><path d=\"M 172 110 A 22 22 0 1 1 136.8 92.39999999999999\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.3\"/><text x=\"152\" y=\"80\" font-size=\"13\" fill=\"#6a1b9a\">α</text><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"58\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text></svg>", "a": "bj3iiJIwLDY="}, {"q": "Kairėje pusėje pateiktos funkcijos, o dešinėje — funkcijų savybės. Kiekvieną funkciją sujunkite su jos savybe. (y=x{sup:3}−x, y=cos(2x), y=√x, y=log{sub:5}x)", "a": "eT14e3N1cDozfeKIknjihpJuZWx5Z2luxJc7IHk9Y29zKDJ4KeKGknBlcmlvZGluxJc7IHk94oiaeOKGknniiIhbMDsr4oieKTsgeT1sb2d7c3ViOjV9eOKGkmdyYWZpa2FzIGVpbmEgcGVyICg1OzEp"}, {"q": "Su kuria α reikšme, kai α∈(0°;90°), yra teisinga lygybė sin570°=sinα? Įrašykite atsakymą.", "a": "MzDCsA=="}, {"q": "Raskite funkcijų y=log{sub:3}(2x+ 5) ir y=log{sub:3}(11−x) susikirtimo taško koordinates. Įrašykite atsakymą.", "a": "KDI7IDIp"}, {"q": "Duota nelygybė {fr:1:3}{sup:x}·{fr:1:5}{sup:x} ≥ 225. Raskite šios nelygybės didžiausią sveikąjį sprendinį. Įrašykite atsakymą.", "a": "eD3iiJIy"}, {"q": "Funkcijos y=a{sup:x}+b grafiko horizontalioji asimptotė yra y=−2, o grafikas eina per tašką (1;5). Apskaičiuokite a ir b reikšmes. Įrašykite atsakymą.", "a": "YT03LCBiPeKIkjI="}, {"q": "Nustatykite a ir b reikšmes (a,b∈ℕ), su kuriomis lygybė {fr:2:a−√b} = {fr:6+2√5:4} yra teisinga. Įrašykite atsakymą.", "a": "YT0zLCBiPTU="}]}, {"id": 3, "mc": [{"q": "Kuris iš duotųjų skaičių yra iracionalusis? Pažymėkite teisingą atsakymą.", "options": ["{fr:7:4}", "√15", "−1", "0,25"], "correct": 1}, {"q": "Nustatykite, kurios funkcijos grafikas pavaizduotas paveiksle (dvi atskiros šakos I ir III ketvirčiuose, artėjančios prie abiejų koordinačių ašių). Pažymėkite teisingą atsakymą.", "options": ["{sup:3}√x", "x{sup:3}", "{fr:1:x}", "√x"], "correct": 2}, {"q": "Kuri iš pateiktų skaičių sekų yra aritmetinė progresija? Pažymėkite teisingą atsakymą.", "options": ["11; 14; 17; 20", "2; 4; 16; 256", "100; 50; 25; 12,5", "50; 40; 25; 5"], "correct": 0}, {"q": "Išspręskite nelygybes. Pažymėkite teisingus atsakymus.<br>a) log{sub:2}x ≤ log{sub:2}20;", "options": ["x∈(0;20]", "x∈[0;20]", "x∈(−∞;20]", "x∈[20;+∞)"], "correct": 0}, {"q": "b) {fr:x−4:x+ 6} < 0.", "options": ["x∈(−∞;4)∪(−6;+∞)", "x∈(−∞;−6)∪(4;+∞)", "x∈(−6;4)", "x∈(4;−6)"], "correct": 2}, {"q": "Pažymėkite teisingą lygybę.", "options": ["log{sub:9}2+log{sub:9}7=log{sub:9}(2−7)", "log{sub:9}2+log{sub:9}7=log{sub:9}{fr:2:7}", "log{sub:9}2+log{sub:9}7=log{sub:9}(2+7)", "log{sub:9}2+log{sub:9}7=log{sub:9}(2·7)"], "correct": 3}, {"q": "Buvo investuota 5000 eurų suma. Kiekvienais metais ši suma padidėja 1,25 karto. Po kelerių metų investuota suma viršys 18000 eurų? Pažymėkite teisingą atsakymą.", "options": ["Po 5 metų", "Po 7 metų", "Po 6 metų", "Po 4 metų"], "correct": 2}, {"q": "Nustatykite, kuriame ketvirtyje yra posūkio kampas α = −700°. Pažymėkite teisingą atsakymą.", "options": ["I", "II", "III", "IV"], "correct": 0}, {"q": "Kuris iš skaičių NEpriklauso funkcijos y=log{sub:2}(5−4x) apibrėžimo sričiai? Pažymėkite teisingą atsakymą.", "options": ["1/4", "9/4", "3/4", "−3/4"], "correct": 1}, {"q": "Pažymėkite paveikslą, kuriame teisingai pavaizduotas grafinis lygties {sup:3}√x=5−x sprendimas (t.y. teisingai nubraižytos y={sup:3}√x ir y=5−x).", "options": ["kreivė primena x{sup:3} (per status, ne kubinė šaknis) — klaidinga kreivė", "kreivė primena x{sup:3}, tiesė didėjanti — abu klaidingi", "kreivė {sup:3}√x teisinga forma; tiesė kerta Oy ties (0;5), mažėjanti (polinkis −1) — <b>teisinga</b>", "kreivė {sup:3}√x teisinga forma; tiesė DIDĖJANTI (polinkis +1) — klaidinga tiesė"], "correct": 2}, {"q": "Apskaičiuokite lygties (4−x{sup:2})·(8+x)=0 sprendinių sumą. Pažymėkite teisingą atsakymą.", "options": ["−11", "−3", "−8", "−6"], "correct": 2}, {"q": "Žinoma, kad y=f(x) nelyginė, o y=g(x) lyginė. f(−9)=5, o g(8)=2. Apskaičiuokite reiškinio f(9)−g(−8) reikšmę. Pažymėkite teisingą atsakymą.", "options": ["7", "−11", "−7", "−5"], "correct": 2}, {"q": "Į konferenciją užsiregistravo x sodininkų. Konferencijos bendra kaina jiems yra 560 eurų. 2 sodininkai negalėjo dalyvauti, todėl kiekvienam dalyvaujančiajam teko sumokėti 8 eurais brangiau, negu buvo numatyta pradinė dalyvavimo kaina. Pažymėkime pradinę dalyvavimo kainą vienam sodininkui y eurų. Nustatykite, kurią lygčių sistemą išsprendę sužinotume pradinę dalyvavimo vienam sodininkui kainą. Pažymėkite teisingą atsakymą.", "options": ["xy=560, (x−2)(y+8)=560", "xy=560, (x+2)y+8=560", "xy=560, (x+2)(y−8)=560", "xy=560, (x−2)y+8=560"], "correct": 0}, {"q": "Duotos dvi aibės: A=(−12;3) ir B=[0;10]. Raskite, kiek sveikųjų skaičių yra aibėje C=A∩B. Pažymėkite teisingą atsakymą.", "options": ["2", "6", "3", "4"], "correct": 2}, {"q": "Funkcijos y={fr:a:x+b} grafiko vertikalioji asimptotė yra x=−6. Dešinėje nuo asimptotės funkcija artėja prie 0 iš apačios (neigiamos reikšmės). Nustatykite a ir b ženklus. Pažymėkite teisingą atsakymą.", "options": ["a>0, b>0", "a>0, b<0", "a<0, b>0", "a<0, b<0"], "correct": 2}], "open": [{"q": "Išspręskite lygtis ir įrašykite atsakymus.<br>a) x{sup:3}=8.", "a": "eD0y"}, {"q": "b) 36{sup:x}=1.", "a": "eD0w"}, {"q": "Posūkio kampas α = 120°. Nustatykite šio kampo atskaitos kampą (kampą iki artimiausios Ox ašies pusės, laipsniais) ir įrašykite atsakymą.", "a": "NjDCsA=="}, {"q": "Duota geometrinė progresija b{sub:n}: 2; −8; 32; ... a) Apskaičiuokite b{sub:4}.", "a": "YjQ94oiSMTI4"}, {"q": "b) Apskaičiuokite S{sub:5}.", "a": "UzU9NDEw"}, {"q": "Duota lygtis sinx=−0,5, kai x∈[−900°;900°]. Vienas periodas turi lygiai 2 sprendinius. Kiek sprendinių turi ši lygtis nurodytame intervale? Įrašykite atsakymą.", "a": "MTA="}, {"q": "Nustatykite a reikšmę, su kuria lygybė 4·{sup:3}√6 = {sup:3}√(a·6) yra teisinga (čia a∈ℤ). Įrašykite atsakymą.", "a": "YT05Ng=="}, {"q": "Periodinės funkcijos y=f(x) grafike dvi gretimos viršūnės yra taškuose x=−5 ir x=1. Koks šios funkcijos mažiausias teigiamas periodas? Įrašykite atsakymą.", "a": "Ng=="}, {"q": "Išrikiuokite skaičius log{sub:5}125, |−6|, 2{sup:log_2 10}, {sup:3}√64 nuo mažiausio iki didžiausio.", "a": "bG9ne3N1Yjo1fTEyNSwge3N1cDozfeKImjY0LCB84oiSNnwsIDJ7c3VwOmxvZ18yIDEwfSAodC4geS4gMywgNCwgNiwgMTAp"}, {"q": "Išspręskite lygtį √(8− 2x)=25. Įrašykite atsakymą.", "a": "eD3iiJI2MTcvMg=="}, {"q": "Duota lygybė |4π−11|+|11−4π|=aπ+b (a,b∈ℤ). Nustatykite a ir b reikšmes, su kuriomis ši lygybė yra teisinga. Įrašykite atsakymą.", "a": "YT04LCBiPeKIkjIy"}, {"q": "Funkcijos y=f(x) reikšmių sritis yra y∈[−3;15]. Nustatykite funkcijos y=4f(x− 1) reikšmių sritį. Įrašykite atsakymą.", "a": "eeKIiFviiJIxMjs2MF0="}, {"q": "Taškas A(n; {fr:1:2}) priklauso vienetiniam apskritimui ir yra II ketvirtyje (žr. pav.). Apskaičiuokite n reikšmę. Atsakymą pateikite dešimtainiu skaičiumi.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"1.6\"/><line x1=\"150\" y1=\"110\" x2=\"80.72\" y2=\"70.0\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"80.72\" cy=\"70.0\" r=\"3\" fill=\"#c62828\"/><text x=\"6.719999999999999\" y=\"62.0\" font-size=\"12\" fill=\"#c62828\">(–0,866; 0,5)</text><path d=\"M 172 110 A 22 22 0 1 1 130.94758084216772 98.99975799201371\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.3\"/><text x=\"152\" y=\"80\" font-size=\"13\" fill=\"#6a1b9a\">α</text><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"58\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text></svg>", "a": "bj3iiJIwLDg2Ng=="}, {"q": "Kairėje pusėje pateiktos funkcijos, o dešinėje — funkcijų savybės. Kiekvieną funkciją sujunkite su jos savybe. (y={sup:3}√x, y=sin(3x), y=x{sup:2}, y=log{sub:7}x)", "a": "eT17c3VwOjN94oiaeOKGkm5lbHlnaW7ElzsgeT1zaW4oM3gp4oaScGVyaW9kaW7ElzsgeT14e3N1cDoyfeKGknniiIhbMDsr4oieKTsgeT1sb2d7c3ViOjd9eOKGkmdyYWZpa2FzIGVpbmEgcGVyICg3OzEp"}, {"q": "Su kuria α reikšme, kai α∈(0°;90°), yra teisinga lygybė sin675°=sinα? Įrašykite atsakymą.", "a": "NDXCsA=="}, {"q": "Raskite funkcijų y=log{sub:3}(2x+ 3) ir y=log{sub:3}(12−x) susikirtimo taško koordinates. Įrašykite atsakymą.", "a": "KDM7IDIp"}, {"q": "Duota nelygybė {fr:1:2}{sup:x}·{fr:1:9}{sup:x} ≥ 324. Raskite šios nelygybės didžiausią sveikąjį sprendinį. Įrašykite atsakymą.", "a": "eD3iiJIy"}, {"q": "Funkcijos y=a{sup:x}+b grafiko horizontalioji asimptotė yra y=−5, o grafikas eina per tašką (2;4). Apskaičiuokite a ir b reikšmes. Įrašykite atsakymą.", "a": "YT05LCBiPeKIkjU="}, {"q": "Nustatykite a ir b reikšmes (a,b∈ℕ), su kuriomis lygybė {fr:2:a−√b} = {fr:12+2√7:29} yra teisinga. Įrašykite atsakymą.", "a": "YT02LCBiPTc="}]}, {"id": 4, "mc": [{"q": "Kuris iš duotųjų skaičių yra iracionalusis? Pažymėkite teisingą atsakymą.", "options": ["−3", "0,6", "√20", "{fr:9:2}"], "correct": 2}, {"q": "Nustatykite, kurios funkcijos grafikas pavaizduotas paveiksle (dvi atskiros šakos I ir III ketvirčiuose, artėjančios prie abiejų koordinačių ašių). Pažymėkite teisingą atsakymą.", "options": ["x{sup:3}", "{sup:3}√x", "√x", "{fr:1:x}"], "correct": 3}, {"q": "Kuri iš pateiktų skaičių sekų yra aritmetinė progresija? Pažymėkite teisingą atsakymą.", "options": ["6; 24; 96; 384", "9; 4; −1; −6", "1; 4; 9; 16", "30; 20; 5; −20"], "correct": 1}, {"q": "Išspręskite nelygybes. Pažymėkite teisingus atsakymus.<br>a) log{sub:5}x ≤ log{sub:5}12;", "options": ["x∈[0;12]", "x∈(0;12]", "x∈[12;+∞)", "x∈(−∞;12]"], "correct": 1}, {"q": "b) {fr:x−8:x+ 19} < 0.", "options": ["x∈(−∞;−19)∪(8;+∞)", "x∈(−∞;8)∪(−19;+∞)", "x∈(8;−19)", "x∈(−19;8)"], "correct": 3}, {"q": "Pažymėkite teisingą lygybę.", "options": ["log{sub:13}3+log{sub:13}4=log{sub:13}{fr:3:4}", "log{sub:13}3+log{sub:13}4=log{sub:13}(3−4)", "log{sub:13}3+log{sub:13}4=log{sub:13}(3·4)", "log{sub:13}3+log{sub:13}4=log{sub:13}(3+4)"], "correct": 2}, {"q": "Buvo investuota 1000 eurų suma. Kiekvienais metais ši suma padidėja 1,5 karto. Po kelerių metų investuota suma viršys 9000 eurų? Pažymėkite teisingą atsakymą.", "options": ["Po 7 metų", "Po 5 metų", "Po 4 metų", "Po 6 metų"], "correct": 3}, {"q": "Nustatykite, kuriame ketvirtyje yra posūkio kampas α = −395°. Pažymėkite teisingą atsakymą.", "options": ["I", "II", "III", "IV"], "correct": 3}, {"q": "Kuris iš skaičių NEpriklauso funkcijos y=log{sub:2}(11−5x) apibrėžimo sričiai? Pažymėkite teisingą atsakymą.", "options": ["6/5", "16/5", "17/10", "1/5"], "correct": 1}, {"q": "Pažymėkite paveikslą, kuriame teisingai pavaizduotas grafinis lygties {sup:3}√x=6−x sprendimas (t.y. teisingai nubraižytos y={sup:3}√x ir y=6−x).", "options": ["kreivė primena x{sup:3}, tiesė didėjanti — abu klaidingi", "kreivė primena x{sup:3} (per status, ne kubinė šaknis) — klaidinga kreivė", "kreivė {sup:3}√x teisinga forma; tiesė DIDĖJANTI (polinkis +1) — klaidinga tiesė", "kreivė {sup:3}√x teisinga forma; tiesė kerta Oy ties (0;6), mažėjanti (polinkis −1) — <b>teisinga</b>"], "correct": 3}, {"q": "Apskaičiuokite lygties (16−x{sup:2})·(5+x)=0 sprendinių sumą. Pažymėkite teisingą atsakymą.", "options": ["0", "−8", "−3", "−5"], "correct": 3}, {"q": "Žinoma, kad y=f(x) nelyginė, o y=g(x) lyginė. f(−8)=6, o g(3)=9. Apskaičiuokite reiškinio f(8)−g(−3) reikšmę. Pažymėkite teisingą atsakymą.", "options": ["−19", "15", "−13", "−15"], "correct": 3}, {"q": "Į konferenciją užsiregistravo x sodininkų. Konferencijos bendra kaina jiems yra 750 eurų. 3 sodininkai negalėjo dalyvauti, todėl kiekvienam dalyvaujančiajam teko sumokėti 5 eurais brangiau, negu buvo numatyta pradinė dalyvavimo kaina. Pažymėkime pradinę dalyvavimo kainą vienam sodininkui y eurų. Nustatykite, kurią lygčių sistemą išsprendę sužinotume pradinę dalyvavimo vienam sodininkui kainą. Pažymėkite teisingą atsakymą.", "options": ["xy=750, (x+3)y+5=750", "xy=750, (x−3)(y+5)=750", "xy=750, (x−3)y+5=750", "xy=750, (x+3)(y−5)=750"], "correct": 1}, {"q": "Duotos dvi aibės: A=(−5;8) ir B=[−3;6]. Raskite, kiek sveikųjų skaičių yra aibėje C=A∩B. Pažymėkite teisingą atsakymą.", "options": ["13", "9", "11", "10"], "correct": 3}, {"q": "Funkcijos y={fr:a:x+b} grafiko vertikalioji asimptotė yra x=2. Dešinėje nuo asimptotės funkcija artėja prie 0 iš viršaus (teigiamos reikšmės). Nustatykite a ir b ženklus. Pažymėkite teisingą atsakymą.", "options": ["a>0, b>0", "a>0, b<0", "a<0, b>0", "a<0, b<0"], "correct": 1}], "open": [{"q": "Išspręskite lygtis ir įrašykite atsakymus.<br>a) x{sup:3}=1000.", "a": "eD0xMA=="}, {"q": "b) 25{sup:x}=1.", "a": "eD0w"}, {"q": "Posūkio kampas α = 210°. Nustatykite šio kampo atskaitos kampą (kampą iki artimiausios Ox ašies pusės, laipsniais) ir įrašykite atsakymą.", "a": "MzDCsA=="}, {"q": "Duota geometrinė progresija b{sub:n}: 6; −12; 24; ... a) Apskaičiuokite b{sub:4}.", "a": "YjQ94oiSNDg="}, {"q": "b) Apskaičiuokite S{sub:5}.", "a": "UzU9NjY="}, {"q": "Duota lygtis sinx=0,5, kai x∈[−360°;360°]. Vienas periodas turi lygiai 2 sprendinius. Kiek sprendinių turi ši lygtis nurodytame intervale? Įrašykite atsakymą.", "a": "Mg=="}, {"q": "Nustatykite a reikšmę, su kuria lygybė 3·{sup:3}√10 = {sup:3}√(a·10) yra teisinga (čia a∈ℤ). Įrašykite atsakymą.", "a": "YT05MA=="}, {"q": "Periodinės funkcijos y=f(x) grafike dvi gretimos viršūnės yra taškuose x=−1 ir x=5. Koks šios funkcijos mažiausias teigiamas periodas? Įrašykite atsakymą.", "a": "Ng=="}, {"q": "Išrikiuokite skaičius log{sub:7}49, |−4|, 3{sup:log_3 8}, √25 nuo mažiausio iki didžiausio.", "a": "bG9ne3N1Yjo3fTQ5LCB84oiSNHwsIOKImjI1LCAze3N1cDpsb2dfMyA4fSAodC4geS4gMiwgNCwgNSwgOCk="}, {"q": "Išspręskite lygtį √(12− 6x)=4. Įrašykite atsakymą.", "a": "eD3iiJIyLzM="}, {"q": "Duota lygybė |5π−14|+|14−5π|=aπ+b (a,b∈ℤ). Nustatykite a ir b reikšmes, su kuriomis ši lygybė yra teisinga. Įrašykite atsakymą.", "a": "YT0xMCwgYj3iiJIyOA=="}, {"q": "Funkcijos y=f(x) reikšmių sritis yra y∈[−8;10]. Nustatykite funkcijos y=3f(x+ 5) reikšmių sritį. Įrašykite atsakymą.", "a": "eeKIiFviiJIyNDszMF0="}, {"q": "Taškas A(n; {fr:5:13}) priklauso vienetiniam apskritimui ir yra II ketvirtyje (žr. pav.). Apskaičiuokite n reikšmę. Atsakymą pateikite dešimtainiu skaičiumi.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"1.6\"/><line x1=\"150\" y1=\"110\" x2=\"76.16\" y2=\"79.2\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"76.16\" cy=\"79.2\" r=\"3\" fill=\"#c62828\"/><text x=\"2.1599999999999966\" y=\"71.2\" font-size=\"12\" fill=\"#c62828\">(–0,923; 0,385)</text><path d=\"M 172 110 A 22 22 0 1 1 129.69556338143175 101.53065211468173\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.3\"/><text x=\"152\" y=\"80\" font-size=\"13\" fill=\"#6a1b9a\">α</text><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"58\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text></svg>", "a": "bj3iiJIwLDkyMzE="}, {"q": "Kairėje pusėje pateiktos funkcijos, o dešinėje — funkcijų savybės. Kiekvieną funkciją sujunkite su jos savybe. (y=x, y=cosx, y=√(x+1), y=log{sub:4}x)", "a": "eT144oaSbmVseWdpbsSXOyB5PWNvc3jihpJwZXJpb2RpbsSXOyB5PeKImih4KzEp4oaSeeKIiFswOyviiJ4pOyB5PWxvZ3tzdWI6NH144oaSZ3JhZmlrYXMgZWluYSBwZXIgKDQ7MSk="}, {"q": "Su kuria α reikšme, kai α∈(0°;90°), yra teisinga lygybė sin930°=sinα? Įrašykite atsakymą.", "a": "MzDCsA=="}, {"q": "Raskite funkcijų y=log{sub:3}(2x+ 13) ir y=log{sub:3}(7−x) susikirtimo taško koordinates. Įrašykite atsakymą.", "a": "KOKIkjI7IDIp"}, {"q": "Duota nelygybė {fr:1:3}{sup:x}·{fr:1:7}{sup:x} ≥ 441. Raskite šios nelygybės didžiausią sveikąjį sprendinį. Įrašykite atsakymą.", "a": "eD3iiJIy"}, {"q": "Funkcijos y=a{sup:x}+b grafiko horizontalioji asimptotė yra y=−3, o grafikas eina per tašką (1;6). Apskaičiuokite a ir b reikšmes. Įrašykite atsakymą.", "a": "YT05LCBiPeKIkjM="}, {"q": "Nustatykite a ir b reikšmes (a,b∈ℕ), su kuriomis lygybė {fr:2:a−√b} = {fr:14+2√10:39} yra teisinga. Įrašykite atsakymą.", "a": "YT03LCBiPTEw"}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.img ? `<div class="qimg">${q.img}</div>` : ''}
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.img ? `<div class="qimg">${q.img}</div>` : ''}
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){
+  // {sub:}/{sup:}/{fr:a:b} zymos gali buti INDETOS viena i kita (pvz. trupmena eksponente).
+  // Kiekviename cikle keiciame TIK "vidines" zymas (turinys be riestiniu skliaustu), tada
+  // kartojame - taip lizdas issprendziamas is vidaus i isore, nepriklausomai nuo tvarkos.
+  let out = esc(s);
+  for(let i=0;i<6;i++){
+    const before = out;
+    out = out.replace(/\{sub:([^{}]+)\}/g,'<sub>$1</sub>');
+    out = out.replace(/\{sup:([^{}]+)\}/g,'<sup>$1</sup>');
+    out = out.replace(/\{fr:([^{}:]+):([^{}]+)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+    out = out.replace(/\{vec:([^{}]+)\}/g,'<span class="vec">$1<i>→</i></span>');
+    if(out===before) break;
+  }
+  return out.replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>
