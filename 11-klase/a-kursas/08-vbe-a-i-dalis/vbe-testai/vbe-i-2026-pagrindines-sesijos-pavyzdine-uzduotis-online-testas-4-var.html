@@ -35,9 +35,10 @@
   .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
   .fr>span:last-child{padding:0 4px}
   /* n-tojo laipsnio šaknis: overline virš pošaknio + √ kairėje, rodiklis (jei yra) lankelyje */
-  .rt{display:inline-block;position:relative;margin-left:.95em;padding:2px 4px 0 3px;border-top:1.6px solid currentColor}
-  .rt::before{content:"√";position:absolute;left:-.55em;top:.05em;font-size:1.05em;line-height:1}
-  .rt .ix{position:absolute;left:-.92em;top:-.62em;font-size:.6em;line-height:1;font-weight:700}
+  .rt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .rt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .rt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .rt .ix{align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.45em 0 0;transform:translateY(.35em)}
   .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
     border-radius:10px;margin:7px 0;cursor:pointer}
   .opt:hover{background:#f3f6fa}
@@ -300,7 +301,7 @@ function fmtMath(s){
     out = out.replace(/\{fr:([^{}:]+):([^{}]+)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
     out = out.replace(/\{vec:([^{}]+)\}/g,'<span class="vec">$1<i>→</i></span>');
     out = out.replace(/\{root:([^{}:]*):([^{}]+)\}/g,(m,n,x)=>
-      `<span class="rt">${n?`<span class="ix">${n}</span>`:''}${x}</span>`);
+      `<span class="rt">${n?`<span class="ix">${n}</span>`:''}<span class="rad">${x}</span></span>`);
     if(out===before) break;
   }
   return out.replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
