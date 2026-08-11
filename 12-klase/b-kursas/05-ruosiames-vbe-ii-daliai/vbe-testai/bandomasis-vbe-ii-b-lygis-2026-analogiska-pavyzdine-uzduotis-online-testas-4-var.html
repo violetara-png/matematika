@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Bandomasis VBE II | B lygis | 2026 — analogiška testinė užduotis (12 kl.)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .qimg{text-align:center;margin:6px 0 10px}
+  .qimg svg{background:#fff}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  /* <sup>/<sub> su .fr viduje: inline-flex vaikas NEPAVELDI standartinio vertical-align:super/sub
+     poslinkio (narsykles ypatybe), tad rodiklio/indekso .fr pozicionuojama tiesiogiai per top/bottom. */
+  sup:has(.fr){position:relative;top:-1em;vertical-align:baseline;font-size:.55em}
+  sub:has(.fr){position:relative;top:.65em;vertical-align:baseline;font-size:.55em}
+  sup:has(.fr) .fr,sub:has(.fr) .fr{font-size:1em;vertical-align:baseline;margin:0 1px}
+  .vec{position:relative;display:inline-block;padding-top:.6em}
+  .vec i{position:absolute;top:-.05em;left:50%;transform:translateX(-50%) scaleX(.85);font-size:.75em;line-height:1;font-style:normal}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.45em 0 0;transform:translateY(.35em)}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<header><h1>Bandomasis VBE II | B lygis | 2026 — analogiška testinė užduotis (12 kl.)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Bandomasis VBE II | B lygis | 2026 — analogiška testinė užduotis (12 kl.)", "dalykas": "Matematika", "sheet_id": "1q24_9Ly4HGLKWUh-dYSL51x7HFMT1ZMSJhNxvEUMmF0", "trukme_min": 0, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Medžiagą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai, ir pakartok tas temas."], [45, "Patenkinamai — verta pakartoti daugumą temų prieš egzaminą."], [0, "Reikia rimtai pakartoti temas ir pasitreniruoti daugiau uždavinių."]]}, "variants": [{"id": 1, "mc": [{"q": "Rask aibių A=(–2;10) ir B=[–5;4] sąjungą A∪B. Pažymėk teisingą atsakymą.", "options": ["[–5;10)", "(–5;10)", "[–5;10]", "[–2;4]"], "correct": 0}, {"q": "16.2. Abu draugai laiko vairavimo egzaminą. Kurio įvykio tikimybė didesnė?", "options": ["Kad Rytis išlaikys, o Agnė ne", "Kad Agnė išlaikys, o Rytis ne", "Abi tikimybės lygios"], "correct": 1}], "open": [{"q": "Geometrinės progresijos pirmasis narys lygus 1024, o antrasis lygus 256. Apskaičiuok šios progresijos penktąjį narį.", "a": "NA=="}, {"q": "Ūkininkų turguje vienoje eilėje įrengtos 5 prekyvietės. Apskaičiuok, keliais skirtingais būdais 5 prekiaujantiems ūkininkams galima paskirstyti šias prekyvietes.", "a": "MTIw"}, {"q": "Garso, kurį girdi žmogus, intensyvumo lygį D decibelais (dB) galima apskaičiuoti pagal formulę D=110+8·lg l; čia l – garso stipris (W/m{sup:2}). Apskaičiuok D, kai l=100 W/m{sup:2}.", "a": "MTI2"}, {"q": "Paveiksle pavaizduotas vienetinis apskritimas, kurio centras yra taškas O(0;0), ir posūkio kampas α. Naudodamiesi paveiksle pateiktais duomenimis, nustatyk posūkio kampo α didumą.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"56\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text><text x=\"144\" y=\"24\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"140\" y=\"204\" font-size=\"11\" fill=\"#1c2430\">–1</text><line x1=\"150\" y1=\"110\" x2=\"80.7\" y2=\"150.0\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"80.71796769724492\" cy=\"150.0\" r=\"3.5\" fill=\"#c62828\"/><path d=\"M 124.0 110.0 A 26 26 0 0 0 127.5 123.0\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.4\"/><text x=\"112\" y=\"140\" font-size=\"13\" fill=\"#6a1b9a\">α</text></svg>", "a": "MjEwwrA="}, {"q": "Rask lygties tg(α) − 1 = 0 sprendinį intervale (90°; 270°).", "a": "MjI1wrA="}, {"q": "Apskaičiuokite funkcijos y=x{sup:3} grafiko liestinės, liečiančios šį grafiką taške A(2; 8), krypties koeficientą.", "a": "MTI="}, {"q": "Apžvalgos rato kapsulės aukštį H (metrais) nuo žemės, priklausantį nuo kapsulės kampo α (laipsniais), galima apskaičiuoti pagal formulę H(α)=25−24·cos(α); čia 0≤α≤360°. Apskaičiuok H, kai α=0°.", "a": "MQ=="}, {"q": "Su kuria a reikšme skaičius {sqrtn:3:2{sup:10}} lygus a·{sqrtn:3:2}?", "a": "OA=="}, {"q": "Yra žinoma, kad funkcijos y=f(x), apibrėžtos su visomis realiomis x reikšmėmis, išvestinė lygi f'(x)=12−6x. Užrašykite didžiausią x reikšmių ribą N, iki kurios (neimtinai) funkcija y=f(x) yra didėjančioji (t. y. f(x) didėja intervale (−∞;N)). Įrašyk N reikšmę.", "a": "Mg=="}, {"q": "11.1. log{sub:3}27 − log{sub:3}9 + log{sub:3}6; atsakymą pateik pavidalu log{sub:3}x (čia x∈ℕ). Įrašyk x reikšmę.", "a": "MTg="}, {"q": "11.2. {sqrtn:3:5} · {sqrtn:6:5}; atsakymą pateik pavidalu 5{sup:l} (čia l∈ℚ). Įrašyk l reikšmę.", "a": "MS8y"}, {"q": "12.1. Išspręsk nelygybę (x+5)/(8−x) > 0. Įrašyk sprendinio intervalo apatinę ribą (skaičių).", "a": "4oCTNQ=="}, {"q": "12.1(b). To paties sprendinio viršutinę ribą (skaičių).", "a": "OA=="}, {"q": "12.2. Išspręsk nelygybę 2{sup:6−x} ≥ 4. Įrašyk didžiausią x reikšmę (sprendinys: x≤ ta reikšmė).", "a": "NA=="}, {"q": "12.3. Išspręsk nelygybę log{sub:7}(4x+8) ≤ log{sub:7}(20−x). Įrašyk sprendinio intervalo apatinę ribą (neimtinai).", "a": "4oCTMg=="}, {"q": "12.3(b). To paties sprendinio viršutinę ribą (imtinai).", "a": "MTIvNQ=="}, {"q": "12.4. Išspręsk nelygybę −3·(x−6){sup:2} ≥ 0. Įrašyk vienintelę x reikšmę, su kuria nelygybė teisinga.", "a": "Ng=="}, {"q": "Povilas pirmą savaitę intensyvioms treniruotėms skyrė 20 min., o kiekvieną kitą savaitę – 10 min. daugiau nei prieš tai buvusią savaitę. 13.1. Apskaičiuok, kiek iš viso minučių intensyvioms treniruotėms Povilas skyrė per pirmąsias tris savaites.", "a": "OTA="}, {"q": "13.2. Nustatyk, kelintą savaitę Povilas pirmą kartą intensyvioms treniruotėms skyrė 120 minučių.", "a": "MTE="}, {"q": "Yra žinoma, kad sin α = −{fr:5:13}, o 180° < α < 270°. Apskaičiuok tg α reikšmę.", "a": "NS8xMg=="}, {"q": "Paveiksle pavaizduota taisyklinga keturkampė piramidė SABCD. Šios piramidės pagrindo kraštinės ilgis lygus 3{sqrt:2}, o jos aukštinės SO ilgis lygus 10. 15.1. Apskaičiuok piramidės tūrį.", "img": "<svg viewBox=\"0 0 300 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"220.0\" y1=\"186.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"158.0\" y1=\"220.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.8\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"150.0\" y2=\"197.0\" stroke=\"#c62828\" stroke-width=\"1.4\" stroke-dasharray=\"4,3\"/><text x=\"158.0\" y=\"28.0\" font-size=\"14\" fill=\"#1c2430\">S</text><text x=\"64.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\">A</text><text x=\"136.0\" y=\"168.0\" font-size=\"14\" fill=\"#1c2430\">B</text><text x=\"228.0\" y=\"190.0\" font-size=\"14\" fill=\"#1c2430\">C</text><text x=\"162.0\" y=\"238.0\" font-size=\"14\" fill=\"#1c2430\">D</text><text x=\"156.0\" y=\"213.0\" font-size=\"14\" fill=\"#1c2430\">O</text><text x=\"90.0\" y=\"121.0\" font-size=\"12\" fill=\"#1c2430\">3√2</text><text x=\"157.0\" y=\"115.5\" font-size=\"12\" fill=\"#c62828\">10</text></svg>", "a": "NjA="}, {"q": "15.2. Apskaičiuok piramidės šoninės briaunos ilgio KVADRATĄ (SA{sup:2}).", "a": "MTA5"}, {"q": "15.3. Apskaičiuok kampo tarp piramidės pagrindo plokštumos ir šoninės sienos plokštumos didumą (laipsniais, šimtųjų tikslumu).", "a": "NzgsMDLCsA=="}, {"q": "Du draugai – Rytis ir Agnė – laiko vairavimo egzaminą (nepriklausomi įvykiai). P(R)={fr:2:5}, P(A)={fr:7:12}. 16.1. Apskaičiuok P(R̄) (tikimybę, kad Rytis NEišlaikė egzamino).", "a": "My81"}, {"q": "Pastato pagrindas — stačiakampis gretasienis, viršutinė dalis lenktos formos. Apatinė dalis — stačiakampis ABA₁B₁, aukštis AA₁=3 m. Viršutinės dalies kraštas A₁FB₁ yra parabolės y=−x{sup:2}+9 formos. 17.1(a). Apskaičiuok pastato aukštį (metrais).", "img": "<svg viewBox=\"0 0 340 240\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"340\" height=\"240\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><rect x=\"20\" y=\"187\" width=\"130\" height=\"18\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><path d=\"M 20.0 187.0 L 25.4 175.3 L 30.8 163.7 L 36.2 152.6 L 41.7 142.0 L 47.1 132.2 L 52.5 123.4 L 57.9 115.6 L 63.3 109.1 L 68.8 103.9 L 74.2 100.1 L 79.6 97.8 L 85.0 97.0 L 90.4 97.8 L 95.8 100.1 L 101.2 103.9 L 106.7 109.1 L 112.1 115.6 L 117.5 123.4 L 122.9 132.2 L 128.3 142.0 L 133.8 152.6 L 139.2 163.7 L 144.6 175.3 L 150.0 187.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"20\" y1=\"187\" x2=\"150\" y2=\"187\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"79.0\" y=\"91\" font-size=\"12\" fill=\"#1c2430\">F</text><text x=\"6\" y=\"191\" font-size=\"12\" fill=\"#1c2430\">A₁</text><text x=\"154\" y=\"191\" font-size=\"12\" fill=\"#1c2430\">B₁</text><text x=\"6\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">A</text><text x=\"154\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">B</text><line x1=\"20\" y1=\"205\" x2=\"150\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"205\" x2=\"332\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"250\" y1=\"230\" x2=\"250\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"326\" y=\"197\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"258\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><path d=\"M 204.6 236.8 L 205.3 231.3 L 206.0 225.9 L 206.7 220.5 L 207.4 215.3 L 208.1 210.1 L 208.7 205.0 L 209.4 200.0 L 210.1 195.1 L 210.8 190.2 L 211.5 185.5 L 212.2 180.8 L 212.9 176.2 L 213.6 171.7 L 214.2 167.3 L 214.9 163.0 L 215.6 158.8 L 216.3 154.6 L 217.0 150.5 L 217.7 146.5 L 218.4 142.6 L 219.1 138.8 L 219.7 135.0 L 220.4 131.4 L 221.1 127.8 L 221.8 124.3 L 222.5 120.9 L 223.2 117.6 L 223.9 114.4 L 224.6 111.2 L 225.2 108.1 L 225.9 105.1 L 226.6 102.2 L 227.3 99.4 L 228.0 96.7 L 228.7 94.0 L 229.4 91.5 L 230.1 89.0 L 230.7 86.6 L 231.4 84.3 L 232.1 82.1 L 232.8 79.9 L 233.5 77.9 L 234.2 75.9 L 234.9 74.0 L 235.6 72.2 L 236.2 70.5 L 236.9 68.8 L 237.6 67.3 L 238.3 65.8 L 239.0 64.4 L 239.7 63.1 L 240.4 61.9 L 241.1 60.7 L 241.7 59.7 L 242.4 58.7 L 243.1 57.8 L 243.8 57.0 L 244.5 56.3 L 245.2 55.7 L 245.9 55.2 L 246.6 54.7 L 247.2 54.3 L 247.9 54.0 L 248.6 53.8 L 249.3 53.7 L 250.0 53.6 L 250.7 53.7 L 251.4 53.8 L 252.1 54.0 L 252.7 54.3 L 253.4 54.7 L 254.1 55.1 L 254.8 55.7 L 255.5 56.3 L 256.2 57.0 L 256.9 57.8 L 257.6 58.7 L 258.2 59.7 L 258.9 60.7 L 259.6 61.9 L 260.3 63.1 L 261.0 64.4 L 261.7 65.8 L 262.4 67.3 L 263.1 68.8 L 263.7 70.5 L 264.4 72.2 L 265.1 74.0 L 265.8 75.9 L 266.5 77.9 L 267.2 79.9 L 267.9 82.1 L 268.6 84.3 L 269.2 86.6 L 269.9 89.0 L 270.6 91.5 L 271.3 94.0 L 272.0 96.7 L 272.7 99.4 L 273.4 102.2 L 274.1 105.1 L 274.7 108.1 L 275.4 111.2 L 276.1 114.3 L 276.8 117.6 L 277.5 120.9 L 278.2 124.3 L 278.9 127.8 L 279.6 131.4 L 280.2 135.0 L 280.9 138.8 L 281.6 142.6 L 282.3 146.5 L 283.0 150.5 L 283.7 154.6 L 284.4 158.7 L 285.1 163.0 L 285.7 167.3 L 286.4 171.7 L 287.1 176.2 L 287.8 180.8 L 288.5 185.5 L 289.2 190.2 L 289.9 195.1 L 290.6 200.0 L 291.2 205.0 L 291.9 210.1 L 292.6 215.3 L 293.3 220.5 L 294.0 225.9 L 294.7 231.3 L 295.4 236.8\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"250\" cy=\"205\" r=\"2.6\" fill=\"#1c2430\"/><text x=\"256\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">O</text><circle cx=\"208.75\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"190.75\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">A₁</text><circle cx=\"291.25\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"295.25\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">B₁</text><circle cx=\"250\" cy=\"53.636363636363654\" r=\"3\" fill=\"#1c2430\"/><text x=\"256\" y=\"47.636363636363654\" font-size=\"12\" fill=\"#1c2430\">F</text></svg>", "a": "MTI="}, {"q": "17.1(b). Apskaičiuok AB ilgį (metrais).", "a": "Ng=="}, {"q": "17.2. Pažymėk pusę lango pločio a metrų. Lango plotą galima apskaičiuoti pagal formulę S(a)=−2a{sup:3}+24a. Apskaičiuok lango plotą S, kai a=1 m (patikrink, ar teisingai supratai formulę).", "a": "MjI="}, {"q": "17.3. Rask S'(a) — įrašyk išraišką (pvz. pavidalu 16−4a²).", "a": "MjTiiJI2YcKy"}, {"q": "17.4. Su kuria a reikšme (0<a<r) lango plotas yra didžiausias? Įrašyk a reikšmę.", "a": "Mg=="}, {"q": "17.5. Apskaičiuok didžiausią lango plotą.", "a": "MzI="}, {"q": "Medinis žaisliukas sudarytas iš kūgio ir pusrutulio. Kūgio pagrindo spindulys lygus pusrutulio spinduliui, jo ilgis 6 cm, o kūgio tūris lygus {fr:1:2} pusrutulio tūrio. Apskaičiuok, kiek gramų dažų reikės žaisliuko paviršiui nudažyti, jeigu 1 cm{sup:2} paviršiaus reikia 0,5 g dažų. Laikyk π=3,14. Atsakymą pateik gramais, dešimtųjų tikslumu.", "img": "<svg viewBox=\"0 0 260 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"260\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"130.0\" y1=\"120.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"130.0\" y1=\"120.0\" x2=\"200.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"200.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><path d=\"M 60.0 190.0 A 70.0 70.0 0 0 0 200.0 190.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"130\" y1=\"190\" x2=\"130\" y2=\"260.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"136\" y=\"225.0\" font-size=\"12\" fill=\"#1c2430\">r</text><text x=\"138\" y=\"155.0\" font-size=\"12\" fill=\"#1c2430\">h</text><line x1=\"130\" y1=\"120.0\" x2=\"130\" y2=\"190\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"2,3\"/></svg>", "a": "MTkz"}, {"q": "Iš dėžutės su 7 sunumeruotais (1–7) rutuliais tris kartus ištraukiamas (su grąžinimu) po vieną rutulį, užrašomas numeris. Apskaičiuok tikimybę, kad trijų ištrauktų numerių sandauga bus lyginis skaičius.", "a": "Mjc5LzM0Mw=="}]}, {"id": 2, "mc": [{"q": "Rask aibių A=(–3;15) ir B=[–6;5] sąjungą A∪B. Pažymėk teisingą atsakymą.", "options": ["(–6;15)", "[–6;15]", "[–3;5]", "[–6;15)"], "correct": 3}, {"q": "16.2. Abu draugai laiko vairavimo egzaminą. Kurio įvykio tikimybė didesnė?", "options": ["Kad Agnė išlaikys, o Rytis ne", "Abi tikimybės lygios", "Kad Rytis išlaikys, o Agnė ne"], "correct": 0}], "open": [{"q": "Geometrinės progresijos pirmasis narys lygus 320, o antrasis lygus 160. Apskaičiuok šios progresijos penktąjį narį.", "a": "MjA="}, {"q": "Ūkininkų turguje vienoje eilėje įrengtos 7 prekyvietės. Apskaičiuok, keliais skirtingais būdais 7 prekiaujantiems ūkininkams galima paskirstyti šias prekyvietes.", "a": "NTA0MA=="}, {"q": "Garso, kurį girdi žmogus, intensyvumo lygį D decibelais (dB) galima apskaičiuoti pagal formulę D=120+10·lg l; čia l – garso stipris (W/m{sup:2}). Apskaičiuok D, kai l=1000 W/m{sup:2}.", "a": "MTUw"}, {"q": "Paveiksle pavaizduotas vienetinis apskritimas, kurio centras yra taškas O(0;0), ir posūkio kampas α. Naudodamiesi paveiksle pateiktais duomenimis, nustatyk posūkio kampo α didumą.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"56\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text><text x=\"144\" y=\"24\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"140\" y=\"204\" font-size=\"11\" fill=\"#1c2430\">–1</text><line x1=\"150\" y1=\"110\" x2=\"110.0\" y2=\"179.3\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"109.99999999999997\" cy=\"179.28203230275508\" r=\"3.5\" fill=\"#c62828\"/><path d=\"M 124.0 110.0 A 26 26 0 0 0 137.0 132.5\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.4\"/><text x=\"112\" y=\"140\" font-size=\"13\" fill=\"#6a1b9a\">α</text></svg>", "a": "MjQwwrA="}, {"q": "Rask lygties tg(α) − {sqrt:3} = 0 sprendinį intervale (90°; 270°).", "a": "MjQwwrA="}, {"q": "Apskaičiuokite funkcijos y=x{sup:3} grafiko liestinės, liečiančios šį grafiką taške A(3; 27), krypties koeficientą.", "a": "Mjc="}, {"q": "Apžvalgos rato kapsulės aukštį H (metrais) nuo žemės, priklausantį nuo kapsulės kampo α (laipsniais), galima apskaičiuoti pagal formulę H(α)=40−38·cos(α); čia 0≤α≤360°. Apskaičiuok H, kai α=60°.", "a": "MjE="}, {"q": "Su kuria a reikšme skaičius {sqrtn:5:2{sup:11}} lygus a·{sqrtn:5:2}?", "a": "NA=="}, {"q": "Yra žinoma, kad funkcijos y=f(x), apibrėžtos su visomis realiomis x reikšmėmis, išvestinė lygi f'(x)=9−3x. Užrašykite didžiausią x reikšmių ribą N, iki kurios (neimtinai) funkcija y=f(x) yra didėjančioji (t. y. f(x) didėja intervale (−∞;N)). Įrašyk N reikšmę.", "a": "Mw=="}, {"q": "11.1. log{sub:5}20 − log{sub:5}4 + log{sub:5}10; atsakymą pateik pavidalu log{sub:5}x (čia x∈ℕ). Įrašyk x reikšmę.", "a": "NTA="}, {"q": "11.2. {sqrtn:4:3} · {sqrtn:8:3}; atsakymą pateik pavidalu 3{sup:l} (čia l∈ℚ). Įrašyk l reikšmę.", "a": "My84"}, {"q": "12.1. Išspręsk nelygybę (x+2)/(9−x) > 0. Įrašyk sprendinio intervalo apatinę ribą (skaičių).", "a": "4oCTMg=="}, {"q": "12.1(b). To paties sprendinio viršutinę ribą (skaičių).", "a": "OQ=="}, {"q": "12.2. Išspręsk nelygybę 2{sup:5−x} ≥ 8. Įrašyk didžiausią x reikšmę (sprendinys: x≤ ta reikšmė).", "a": "Mg=="}, {"q": "12.3. Išspręsk nelygybę log{sub:3}(2x+5) ≤ log{sub:3}(17−x). Įrašyk sprendinio intervalo apatinę ribą (neimtinai).", "a": "4oCTNS8y"}, {"q": "12.3(b). To paties sprendinio viršutinę ribą (imtinai).", "a": "NA=="}, {"q": "12.4. Išspręsk nelygybę −5·(x−4){sup:2} ≥ 0. Įrašyk vienintelę x reikšmę, su kuria nelygybė teisinga.", "a": "NA=="}, {"q": "Povilas pirmą savaitę intensyvioms treniruotėms skyrė 40 min., o kiekvieną kitą savaitę – 20 min. daugiau nei prieš tai buvusią savaitę. 13.1. Apskaičiuok, kiek iš viso minučių intensyvioms treniruotėms Povilas skyrė per pirmąsias tris savaites.", "a": "MTgw"}, {"q": "13.2. Nustatyk, kelintą savaitę Povilas pirmą kartą intensyvioms treniruotėms skyrė 220 minučių.", "a": "MTA="}, {"q": "Yra žinoma, kad sin α = −{fr:8:17}, o 180° < α < 270°. Apskaičiuok tg α reikšmę.", "a": "OC8xNQ=="}, {"q": "Paveiksle pavaizduota taisyklinga keturkampė piramidė SABCD. Šios piramidės pagrindo kraštinės ilgis lygus 2{sqrt:2}, o jos aukštinės SO ilgis lygus 16. 15.1. Apskaičiuok piramidės tūrį.", "img": "<svg viewBox=\"0 0 300 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"220.0\" y1=\"186.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"158.0\" y1=\"220.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.8\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"150.0\" y2=\"197.0\" stroke=\"#c62828\" stroke-width=\"1.4\" stroke-dasharray=\"4,3\"/><text x=\"158.0\" y=\"28.0\" font-size=\"14\" fill=\"#1c2430\">S</text><text x=\"64.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\">A</text><text x=\"136.0\" y=\"168.0\" font-size=\"14\" fill=\"#1c2430\">B</text><text x=\"228.0\" y=\"190.0\" font-size=\"14\" fill=\"#1c2430\">C</text><text x=\"162.0\" y=\"238.0\" font-size=\"14\" fill=\"#1c2430\">D</text><text x=\"156.0\" y=\"213.0\" font-size=\"14\" fill=\"#1c2430\">O</text><text x=\"90.0\" y=\"121.0\" font-size=\"12\" fill=\"#1c2430\">2√2</text><text x=\"157.0\" y=\"115.5\" font-size=\"12\" fill=\"#c62828\">16</text></svg>", "a": "MTI4LzM="}, {"q": "15.2. Apskaičiuok piramidės šoninės briaunos ilgio KVADRATĄ (SA{sup:2}).", "a": "MjYw"}, {"q": "15.3. Apskaičiuok kampo tarp piramidės pagrindo plokštumos ir šoninės sienos plokštumos didumą (laipsniais, šimtųjų tikslumu).", "a": "ODQsOTXCsA=="}, {"q": "Du draugai – Rytis ir Agnė – laiko vairavimo egzaminą (nepriklausomi įvykiai). P(R)={fr:3:8}, P(A)={fr:5:9}. 16.1. Apskaičiuok P(R̄) (tikimybę, kad Rytis NEišlaikė egzamino).", "a": "NS84"}, {"q": "Pastato pagrindas — stačiakampis gretasienis, viršutinė dalis lenktos formos. Apatinė dalis — stačiakampis ABA₁B₁, aukštis AA₁=11 m. Viršutinės dalies kraštas A₁FB₁ yra parabolės y=−x{sup:2}+16 formos. 17.1(a). Apskaičiuok pastato aukštį (metrais).", "img": "<svg viewBox=\"0 0 340 240\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"340\" height=\"240\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><rect x=\"20\" y=\"187\" width=\"130\" height=\"18\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><path d=\"M 20.0 187.0 L 25.4 175.3 L 30.8 163.7 L 36.2 152.6 L 41.7 142.0 L 47.1 132.2 L 52.5 123.4 L 57.9 115.6 L 63.3 109.1 L 68.8 103.9 L 74.2 100.1 L 79.6 97.8 L 85.0 97.0 L 90.4 97.8 L 95.8 100.1 L 101.2 103.9 L 106.7 109.1 L 112.1 115.6 L 117.5 123.4 L 122.9 132.2 L 128.3 142.0 L 133.8 152.6 L 139.2 163.7 L 144.6 175.3 L 150.0 187.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"20\" y1=\"187\" x2=\"150\" y2=\"187\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"79.0\" y=\"91\" font-size=\"12\" fill=\"#1c2430\">F</text><text x=\"6\" y=\"191\" font-size=\"12\" fill=\"#1c2430\">A₁</text><text x=\"154\" y=\"191\" font-size=\"12\" fill=\"#1c2430\">B₁</text><text x=\"6\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">A</text><text x=\"154\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">B</text><line x1=\"20\" y1=\"205\" x2=\"150\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"205\" x2=\"332\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"250\" y1=\"230\" x2=\"250\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"326\" y=\"197\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"258\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><path d=\"M 202.1 235.0 L 202.7 230.6 L 203.2 226.2 L 203.8 221.9 L 204.3 217.6 L 204.9 213.3 L 205.4 209.1 L 206.0 205.0 L 206.5 200.9 L 207.1 196.9 L 207.6 192.9 L 208.2 189.0 L 208.7 185.1 L 209.3 181.3 L 209.8 177.5 L 210.4 173.8 L 210.9 170.1 L 211.5 166.5 L 212.0 162.9 L 212.6 159.4 L 213.1 155.9 L 213.7 152.5 L 214.2 149.1 L 214.8 145.8 L 215.3 142.5 L 215.9 139.3 L 216.4 136.2 L 217.0 133.1 L 217.5 130.0 L 218.1 127.0 L 218.6 124.0 L 219.2 121.1 L 219.7 118.3 L 220.3 115.5 L 220.8 112.7 L 221.4 110.0 L 221.9 107.4 L 222.5 104.8 L 223.0 102.2 L 223.6 99.8 L 224.1 97.3 L 224.7 94.9 L 225.2 92.6 L 225.8 90.3 L 226.3 88.1 L 226.9 85.9 L 227.4 83.7 L 228.0 81.7 L 228.5 79.6 L 229.1 77.7 L 229.6 75.7 L 230.2 73.9 L 230.7 72.0 L 231.3 70.3 L 231.8 68.5 L 232.4 66.9 L 232.9 65.2 L 233.5 63.7 L 234.0 62.2 L 234.6 60.7 L 235.1 59.3 L 235.7 57.9 L 236.2 56.6 L 236.8 55.4 L 237.3 54.1 L 237.9 53.0 L 238.4 51.9 L 239.0 50.8 L 239.5 49.8 L 240.1 48.9 L 240.6 48.0 L 241.2 47.1 L 241.7 46.3 L 242.3 45.6 L 242.8 44.9 L 243.4 44.3 L 243.9 43.7 L 244.5 43.1 L 245.0 42.6 L 245.6 42.2 L 246.1 41.8 L 246.7 41.5 L 247.2 41.2 L 247.8 41.0 L 248.3 40.8 L 248.9 40.7 L 249.4 40.6 L 250.0 40.6 L 250.5 40.6 L 251.1 40.7 L 251.6 40.8 L 252.2 41.0 L 252.7 41.2 L 253.3 41.5 L 253.8 41.8 L 254.4 42.2 L 254.9 42.6 L 255.5 43.1 L 256.0 43.7 L 256.6 44.3 L 257.1 44.9 L 257.7 45.6 L 258.2 46.3 L 258.8 47.1 L 259.3 48.0 L 259.9 48.9 L 260.4 49.8 L 261.0 50.8 L 261.5 51.9 L 262.1 53.0 L 262.6 54.1 L 263.2 55.4 L 263.7 56.6 L 264.3 57.9 L 264.8 59.3 L 265.4 60.7 L 265.9 62.2 L 266.5 63.7 L 267.0 65.2 L 267.6 66.9 L 268.1 68.5 L 268.7 70.3 L 269.2 72.0 L 269.8 73.9 L 270.3 75.7 L 270.9 77.7 L 271.4 79.6 L 272.0 81.7 L 272.5 83.7 L 273.1 85.9 L 273.6 88.1 L 274.2 90.3 L 274.7 92.6 L 275.3 94.9 L 275.8 97.3 L 276.4 99.8 L 276.9 102.2 L 277.5 104.8 L 278.0 107.4 L 278.6 110.0 L 279.1 112.7 L 279.7 115.5 L 280.2 118.3 L 280.8 121.1 L 281.3 124.0 L 281.9 127.0 L 282.4 130.0 L 283.0 133.1 L 283.5 136.2 L 284.1 139.3 L 284.6 142.5 L 285.2 145.8 L 285.7 149.1 L 286.3 152.5 L 286.8 155.9 L 287.4 159.4 L 287.9 162.9 L 288.5 166.5 L 289.0 170.1 L 289.6 173.8 L 290.1 177.5 L 290.7 181.3 L 291.2 185.1 L 291.8 189.0 L 292.3 192.9 L 292.9 196.9 L 293.4 200.9 L 294.0 205.0 L 294.5 209.1 L 295.1 213.3 L 295.6 217.6 L 296.2 221.9 L 296.7 226.2 L 297.3 230.6 L 297.8 235.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"250\" cy=\"205\" r=\"2.6\" fill=\"#1c2430\"/><text x=\"256\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">O</text><circle cx=\"206.0\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"188.0\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">A₁</text><circle cx=\"294.0\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"298.0\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">B₁</text><circle cx=\"250\" cy=\"40.55555555555554\" r=\"3\" fill=\"#1c2430\"/><text x=\"256\" y=\"34.55555555555554\" font-size=\"12\" fill=\"#1c2430\">F</text></svg>", "a": "Mjc="}, {"q": "17.1(b). Apskaičiuok AB ilgį (metrais).", "a": "OA=="}, {"q": "17.2. Pažymėk pusę lango pločio a metrų. Lango plotą galima apskaičiuoti pagal formulę S(a)=−2a{sup:3}+54a. Apskaičiuok lango plotą S, kai a=1 m (patikrink, ar teisingai supratai formulę).", "a": "NTI="}, {"q": "17.3. Rask S'(a) — įrašyk išraišką (pvz. pavidalu 16−4a²).", "a": "NTTiiJI2YcKy"}, {"q": "17.4. Su kuria a reikšme (0<a<r) lango plotas yra didžiausias? Įrašyk a reikšmę.", "a": "Mw=="}, {"q": "17.5. Apskaičiuok didžiausią lango plotą.", "a": "MTA4"}, {"q": "Medinis žaisliukas sudarytas iš kūgio ir pusrutulio. Kūgio pagrindo spindulys lygus pusrutulio spinduliui, jo ilgis 12 cm, o kūgio tūris lygus {fr:3:4} pusrutulio tūrio. Apskaičiuok, kiek gramų dažų reikės žaisliuko paviršiui nudažyti, jeigu 1 cm{sup:2} paviršiaus reikia 0,4 g dažų. Laikyk π=3,14. Atsakymą pateik gramais, dešimtųjų tikslumu.", "img": "<svg viewBox=\"0 0 260 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"260\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"130.0\" y1=\"100.0\" x2=\"70.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"130.0\" y1=\"100.0\" x2=\"190.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"70.0\" y1=\"190.0\" x2=\"190.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><path d=\"M 70.0 190.0 A 60 60 0 0 0 190.0 190.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"130\" y1=\"190\" x2=\"130\" y2=\"250.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"136\" y=\"220.0\" font-size=\"12\" fill=\"#1c2430\">r</text><text x=\"138\" y=\"145.0\" font-size=\"12\" fill=\"#1c2430\">h</text><line x1=\"130\" y1=\"100.0\" x2=\"130\" y2=\"190\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"2,3\"/></svg>", "a": "Njg3LDg="}, {"q": "Iš dėžutės su 11 sunumeruotais (1–11) rutuliais tris kartus ištraukiamas (su grąžinimu) po vieną rutulį, užrašomas numeris. Apskaičiuok tikimybę, kad trijų ištrauktų numerių sandauga bus lyginis skaičius.", "a": "MTExNS8xMzMx"}]}, {"id": 3, "mc": [{"q": "Rask aibių A=(0;8) ir B=[–4;3] sąjungą A∪B. Pažymėk teisingą atsakymą.", "options": ["[–4;8]", "[0;3]", "[–4;8)", "(–4;8)"], "correct": 2}, {"q": "16.2. Abu draugai laiko vairavimo egzaminą. Kurio įvykio tikimybė didesnė?", "options": ["Abi tikimybės lygios", "Kad Rytis išlaikys, o Agnė ne", "Kad Agnė išlaikys, o Rytis ne"], "correct": 2}], "open": [{"q": "Geometrinės progresijos pirmasis narys lygus 243, o antrasis lygus 81. Apskaičiuok šios progresijos penktąjį narį.", "a": "Mw=="}, {"q": "Ūkininkų turguje vienoje eilėje įrengtos 4 prekyvietės. Apskaičiuok, keliais skirtingais būdais 4 prekiaujantiems ūkininkams galima paskirstyti šias prekyvietes.", "a": "MjQ="}, {"q": "Garso, kurį girdi žmogus, intensyvumo lygį D decibelais (dB) galima apskaičiuoti pagal formulę D=100+12·lg l; čia l – garso stipris (W/m{sup:2}). Apskaičiuok D, kai l=10000 W/m{sup:2}.", "a": "MTQ4"}, {"q": "Paveiksle pavaizduotas vienetinis apskritimas, kurio centras yra taškas O(0;0), ir posūkio kampas α. Naudodamiesi paveiksle pateiktais duomenimis, nustatyk posūkio kampo α didumą.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"56\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text><text x=\"144\" y=\"24\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"140\" y=\"204\" font-size=\"11\" fill=\"#1c2430\">–1</text><line x1=\"150\" y1=\"110\" x2=\"190.0\" y2=\"179.3\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"190.0\" cy=\"179.28203230275508\" r=\"3.5\" fill=\"#c62828\"/><path d=\"M 124.0 110.0 A 26 26 0 0 0 163.0 132.5\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.4\"/><text x=\"112\" y=\"140\" font-size=\"13\" fill=\"#6a1b9a\">α</text></svg>", "a": "MzAwwrA="}, {"q": "Rask lygties tg(α) + 1 = 0 sprendinį intervale (90°; 270°).", "a": "MTM1wrA="}, {"q": "Apskaičiuokite funkcijos y=x{sup:3} grafiko liestinės, liečiančios šį grafiką taške A(4; 64), krypties koeficientą.", "a": "NDg="}, {"q": "Apžvalgos rato kapsulės aukštį H (metrais) nuo žemės, priklausantį nuo kapsulės kampo α (laipsniais), galima apskaičiuoti pagal formulę H(α)=50−45·cos(α); čia 0≤α≤360°. Apskaičiuok H, kai α=90°.", "a": "NTA="}, {"q": "Su kuria a reikšme skaičius {sqrtn:4:5{sup:9}} lygus a·{sqrtn:4:5}?", "a": "MjU="}, {"q": "Yra žinoma, kad funkcijos y=f(x), apibrėžtos su visomis realiomis x reikšmėmis, išvestinė lygi f'(x)=20−5x. Užrašykite didžiausią x reikšmių ribą N, iki kurios (neimtinai) funkcija y=f(x) yra didėjančioji (t. y. f(x) didėja intervale (−∞;N)). Įrašyk N reikšmę.", "a": "NA=="}, {"q": "11.1. log{sub:2}24 − log{sub:2}8 + log{sub:2}10; atsakymą pateik pavidalu log{sub:2}x (čia x∈ℕ). Įrašyk x reikšmę.", "a": "MzA="}, {"q": "11.2. {sqrtn:2:7} · {sqrtn:6:7}; atsakymą pateik pavidalu 7{sup:l} (čia l∈ℚ). Įrašyk l reikšmę.", "a": "Mi8z"}, {"q": "12.1. Išspręsk nelygybę (x+7)/(10−x) > 0. Įrašyk sprendinio intervalo apatinę ribą (skaičių).", "a": "4oCTNw=="}, {"q": "12.1(b). To paties sprendinio viršutinę ribą (skaičių).", "a": "MTA="}, {"q": "12.2. Išspręsk nelygybę 3{sup:4−x} ≥ 9. Įrašyk didžiausią x reikšmę (sprendinys: x≤ ta reikšmė).", "a": "Mg=="}, {"q": "12.3. Išspręsk nelygybę log{sub:5}(6x+12) ≤ log{sub:5}(30−x). Įrašyk sprendinio intervalo apatinę ribą (neimtinai).", "a": "4oCTMg=="}, {"q": "12.3(b). To paties sprendinio viršutinę ribą (imtinai).", "a": "MTgvNw=="}, {"q": "12.4. Išspręsk nelygybę −2·(x−7){sup:2} ≥ 0. Įrašyk vienintelę x reikšmę, su kuria nelygybė teisinga.", "a": "Nw=="}, {"q": "Povilas pirmą savaitę intensyvioms treniruotėms skyrė 25 min., o kiekvieną kitą savaitę – 15 min. daugiau nei prieš tai buvusią savaitę. 13.1. Apskaičiuok, kiek iš viso minučių intensyvioms treniruotėms Povilas skyrė per pirmąsias tris savaites.", "a": "MTIw"}, {"q": "13.2. Nustatyk, kelintą savaitę Povilas pirmą kartą intensyvioms treniruotėms skyrė 205 minučių.", "a": "MTM="}, {"q": "Yra žinoma, kad sin α = −{fr:7:25}, o 180° < α < 270°. Apskaičiuok tg α reikšmę.", "a": "Ny8yNA=="}, {"q": "Paveiksle pavaizduota taisyklinga keturkampė piramidė SABCD. Šios piramidės pagrindo kraštinės ilgis lygus 5{sqrt:2}, o jos aukštinės SO ilgis lygus 8. 15.1. Apskaičiuok piramidės tūrį.", "img": "<svg viewBox=\"0 0 300 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"220.0\" y1=\"186.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"158.0\" y1=\"220.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.8\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"150.0\" y2=\"197.0\" stroke=\"#c62828\" stroke-width=\"1.4\" stroke-dasharray=\"4,3\"/><text x=\"158.0\" y=\"28.0\" font-size=\"14\" fill=\"#1c2430\">S</text><text x=\"64.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\">A</text><text x=\"136.0\" y=\"168.0\" font-size=\"14\" fill=\"#1c2430\">B</text><text x=\"228.0\" y=\"190.0\" font-size=\"14\" fill=\"#1c2430\">C</text><text x=\"162.0\" y=\"238.0\" font-size=\"14\" fill=\"#1c2430\">D</text><text x=\"156.0\" y=\"213.0\" font-size=\"14\" fill=\"#1c2430\">O</text><text x=\"90.0\" y=\"121.0\" font-size=\"12\" fill=\"#1c2430\">5√2</text><text x=\"157.0\" y=\"115.5\" font-size=\"12\" fill=\"#c62828\">8</text></svg>", "a": "NDAwLzM="}, {"q": "15.2. Apskaičiuok piramidės šoninės briaunos ilgio KVADRATĄ (SA{sup:2}).", "a": "ODk="}, {"q": "15.3. Apskaičiuok kampo tarp piramidės pagrindo plokštumos ir šoninės sienos plokštumos didumą (laipsniais, šimtųjų tikslumu).", "a": "NjYsMTbCsA=="}, {"q": "Du draugai – Rytis ir Agnė – laiko vairavimo egzaminą (nepriklausomi įvykiai). P(R)={fr:1:4}, P(A)={fr:9:20}. 16.1. Apskaičiuok P(R̄) (tikimybę, kad Rytis NEišlaikė egzamino).", "a": "My80"}, {"q": "Pastato pagrindas — stačiakampis gretasienis, viršutinė dalis lenktos formos. Apatinė dalis — stačiakampis ABA₁B₁, aukštis AA₁=23 m. Viršutinės dalies kraštas A₁FB₁ yra parabolės y=−x{sup:2}+25 formos. 17.1(a). Apskaičiuok pastato aukštį (metrais).", "img": "<svg viewBox=\"0 0 340 240\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"340\" height=\"240\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><rect x=\"20\" y=\"185.83333333333334\" width=\"130\" height=\"19.166666666666668\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><path d=\"M 20.0 185.8 L 25.4 174.1 L 30.8 162.5 L 36.2 151.4 L 41.7 140.8 L 47.1 131.0 L 52.5 122.2 L 57.9 114.4 L 63.3 107.9 L 68.8 102.7 L 74.2 98.9 L 79.6 96.6 L 85.0 95.8 L 90.4 96.6 L 95.8 98.9 L 101.2 102.7 L 106.7 107.9 L 112.1 114.4 L 117.5 122.2 L 122.9 131.0 L 128.3 140.8 L 133.8 151.4 L 139.2 162.5 L 144.6 174.1 L 150.0 185.8\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"20\" y1=\"185.83333333333334\" x2=\"150\" y2=\"185.83333333333334\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"79.0\" y=\"89.83333333333334\" font-size=\"12\" fill=\"#1c2430\">F</text><text x=\"6\" y=\"189.83333333333334\" font-size=\"12\" fill=\"#1c2430\">A₁</text><text x=\"154\" y=\"189.83333333333334\" font-size=\"12\" fill=\"#1c2430\">B₁</text><text x=\"6\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">A</text><text x=\"154\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">B</text><line x1=\"20\" y1=\"205\" x2=\"150\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"205\" x2=\"332\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"250\" y1=\"230\" x2=\"250\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"326\" y=\"197\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"258\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><path d=\"M 200.5 233.5 L 201.0 229.8 L 201.4 226.2 L 201.9 222.6 L 202.3 219.0 L 202.8 215.4 L 203.2 211.9 L 203.7 208.4 L 204.2 205.0 L 204.6 201.6 L 205.1 198.2 L 205.5 194.9 L 206.0 191.6 L 206.5 188.3 L 206.9 185.1 L 207.4 181.9 L 207.8 178.7 L 208.3 175.6 L 208.7 172.5 L 209.2 169.4 L 209.7 166.4 L 210.1 163.4 L 210.6 160.4 L 211.0 157.5 L 211.5 154.6 L 212.0 151.7 L 212.4 148.9 L 212.9 146.1 L 213.3 143.3 L 213.8 140.6 L 214.2 137.9 L 214.7 135.3 L 215.2 132.6 L 215.6 130.1 L 216.1 127.5 L 216.5 125.0 L 217.0 122.5 L 217.5 120.1 L 217.9 117.6 L 218.4 115.3 L 218.8 112.9 L 219.3 110.6 L 219.7 108.3 L 220.2 106.1 L 220.7 103.9 L 221.1 101.7 L 221.6 99.6 L 222.0 97.4 L 222.5 95.4 L 223.0 93.3 L 223.4 91.3 L 223.9 89.4 L 224.3 87.4 L 224.8 85.5 L 225.2 83.7 L 225.7 81.8 L 226.2 80.0 L 226.6 78.3 L 227.1 76.5 L 227.5 74.8 L 228.0 73.2 L 228.5 71.5 L 228.9 70.0 L 229.4 68.4 L 229.8 66.9 L 230.3 65.4 L 230.7 63.9 L 231.2 62.5 L 231.7 61.1 L 232.1 59.8 L 232.6 58.4 L 233.0 57.2 L 233.5 55.9 L 234.0 54.7 L 234.4 53.5 L 234.9 52.4 L 235.3 51.2 L 235.8 50.2 L 236.2 49.1 L 236.7 48.1 L 237.2 47.1 L 237.6 46.2 L 238.1 45.3 L 238.5 44.4 L 239.0 43.6 L 239.5 42.8 L 239.9 42.0 L 240.4 41.3 L 240.8 40.6 L 241.3 39.9 L 241.7 39.3 L 242.2 38.7 L 242.7 38.1 L 243.1 37.6 L 243.6 37.1 L 244.0 36.6 L 244.5 36.2 L 245.0 35.8 L 245.4 35.4 L 245.9 35.1 L 246.3 34.8 L 246.8 34.5 L 247.2 34.3 L 247.7 34.1 L 248.2 34.0 L 248.6 33.9 L 249.1 33.8 L 249.5 33.7 L 250.0 33.7 L 250.5 33.7 L 250.9 33.8 L 251.4 33.9 L 251.8 34.0 L 252.3 34.1 L 252.7 34.3 L 253.2 34.5 L 253.7 34.8 L 254.1 35.1 L 254.6 35.4 L 255.0 35.8 L 255.5 36.2 L 256.0 36.6 L 256.4 37.1 L 256.9 37.6 L 257.3 38.1 L 257.8 38.7 L 258.2 39.3 L 258.7 39.9 L 259.2 40.6 L 259.6 41.3 L 260.1 42.0 L 260.5 42.8 L 261.0 43.6 L 261.5 44.4 L 261.9 45.3 L 262.4 46.2 L 262.8 47.1 L 263.3 48.1 L 263.7 49.1 L 264.2 50.2 L 264.7 51.2 L 265.1 52.4 L 265.6 53.5 L 266.0 54.7 L 266.5 55.9 L 267.0 57.2 L 267.4 58.4 L 267.9 59.8 L 268.3 61.1 L 268.8 62.5 L 269.2 63.9 L 269.7 65.4 L 270.2 66.9 L 270.6 68.4 L 271.1 69.9 L 271.5 71.5 L 272.0 73.2 L 272.5 74.8 L 272.9 76.5 L 273.4 78.3 L 273.8 80.0 L 274.3 81.8 L 274.7 83.7 L 275.2 85.5 L 275.7 87.4 L 276.1 89.4 L 276.6 91.3 L 277.0 93.3 L 277.5 95.4 L 278.0 97.4 L 278.4 99.5 L 278.9 101.7 L 279.3 103.9 L 279.8 106.1 L 280.2 108.3 L 280.7 110.6 L 281.2 112.9 L 281.6 115.3 L 282.1 117.6 L 282.5 120.1 L 283.0 122.5 L 283.5 125.0 L 283.9 127.5 L 284.4 130.1 L 284.8 132.6 L 285.3 135.3 L 285.7 137.9 L 286.2 140.6 L 286.7 143.3 L 287.1 146.1 L 287.6 148.9 L 288.0 151.7 L 288.5 154.6 L 289.0 157.5 L 289.4 160.4 L 289.9 163.4 L 290.3 166.4 L 290.8 169.4 L 291.2 172.5 L 291.7 175.6 L 292.2 178.7 L 292.6 181.9 L 293.1 185.1 L 293.5 188.3 L 294.0 191.6 L 294.5 194.9 L 294.9 198.2 L 295.4 201.6 L 295.8 205.0 L 296.3 208.4 L 296.7 211.9 L 297.2 215.4 L 297.7 219.0 L 298.1 222.6 L 298.6 226.2 L 299.0 229.8 L 299.5 233.5\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"250\" cy=\"205\" r=\"2.6\" fill=\"#1c2430\"/><text x=\"256\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">O</text><circle cx=\"204.16666666666669\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"186.16666666666669\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">A₁</text><circle cx=\"295.8333333333333\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"299.8333333333333\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">B₁</text><circle cx=\"250\" cy=\"33.703703703703695\" r=\"3\" fill=\"#1c2430\"/><text x=\"256\" y=\"27.703703703703695\" font-size=\"12\" fill=\"#1c2430\">F</text></svg>", "a": "NDg="}, {"q": "17.1(b). Apskaičiuok AB ilgį (metrais).", "a": "MTA="}, {"q": "17.2. Pažymėk pusę lango pločio a metrų. Lango plotą galima apskaičiuoti pagal formulę S(a)=−2a{sup:3}+96a. Apskaičiuok lango plotą S, kai a=1 m (patikrink, ar teisingai supratai formulę).", "a": "OTQ="}, {"q": "17.3. Rask S'(a) — įrašyk išraišką (pvz. pavidalu 16−4a²).", "a": "OTbiiJI2YcKy"}, {"q": "17.4. Su kuria a reikšme (0<a<r) lango plotas yra didžiausias? Įrašyk a reikšmę.", "a": "NA=="}, {"q": "17.5. Apskaičiuok didžiausią lango plotą.", "a": "MjU2"}, {"q": "Medinis žaisliukas sudarytas iš kūgio ir pusrutulio. Kūgio pagrindo spindulys lygus pusrutulio spinduliui, jo ilgis 15 cm, o kūgio tūris lygus {fr:2:5} pusrutulio tūrio. Apskaičiuok, kiek gramų dažų reikės žaisliuko paviršiui nudažyti, jeigu 1 cm{sup:2} paviršiaus reikia 0,3 g dažų. Laikyk π=3,14. Atsakymą pateik gramais, dešimtųjų tikslumu.", "img": "<svg viewBox=\"0 0 260 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"260\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"130.0\" y1=\"134.0\" x2=\"60.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"130.0\" y1=\"134.0\" x2=\"200.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"60.0\" y1=\"190.0\" x2=\"200.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><path d=\"M 60.0 190.0 A 70.0 70.0 0 0 0 200.0 190.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"130\" y1=\"190\" x2=\"130\" y2=\"260.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"136\" y=\"225.0\" font-size=\"12\" fill=\"#1c2430\">r</text><text x=\"138\" y=\"162.0\" font-size=\"12\" fill=\"#1c2430\">h</text><line x1=\"130\" y1=\"134.0\" x2=\"130\" y2=\"190\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"2,3\"/></svg>", "a": "Njk1LDM="}, {"q": "Iš dėžutės su 13 sunumeruotais (1–13) rutuliais tris kartus ištraukiamas (su grąžinimu) po vieną rutulį, užrašomas numeris. Apskaičiuok tikimybę, kad trijų ištrauktų numerių sandauga bus lyginis skaičius.", "a": "MTg1NC8yMTk3"}]}, {"id": 4, "mc": [{"q": "Rask aibių A=(–1;20) ir B=[–9;10] sąjungą A∪B. Pažymėk teisingą atsakymą.", "options": ["[–1;10]", "[–9;20)", "(–9;20)", "[–9;20]"], "correct": 1}, {"q": "16.2. Abu draugai laiko vairavimo egzaminą. Kurio įvykio tikimybė didesnė?", "options": ["Kad Rytis išlaikys, o Agnė ne", "Abi tikimybės lygios", "Kad Agnė išlaikys, o Rytis ne"], "correct": 0}], "open": [{"q": "Geometrinės progresijos pirmasis narys lygus 486, o antrasis lygus 324. Apskaičiuok šios progresijos penktąjį narį.", "a": "OTY="}, {"q": "Ūkininkų turguje vienoje eilėje įrengtos 8 prekyvietės. Apskaičiuok, keliais skirtingais būdais 8 prekiaujantiems ūkininkams galima paskirstyti šias prekyvietes.", "a": "NDAzMjA="}, {"q": "Garso, kurį girdi žmogus, intensyvumo lygį D decibelais (dB) galima apskaičiuoti pagal formulę D=95+15·lg l; čia l – garso stipris (W/m{sup:2}). Apskaičiuok D, kai l=100000 W/m{sup:2}.", "a": "MTcw"}, {"q": "Paveiksle pavaizduotas vienetinis apskritimas, kurio centras yra taškas O(0;0), ir posūkio kampas α. Naudodamiesi paveiksle pateiktais duomenimis, nustatyk posūkio kampo α didumą.", "img": "<svg viewBox=\"0 0 300 220\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"220\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"110\" x2=\"292\" y2=\"110\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"150\" y1=\"210\" x2=\"150\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"286\" y=\"102\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"158\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><circle cx=\"150\" cy=\"110\" r=\"80\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><text x=\"234\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"56\" y=\"114\" font-size=\"11\" fill=\"#1c2430\">–1</text><text x=\"144\" y=\"24\" font-size=\"11\" fill=\"#1c2430\">1</text><text x=\"140\" y=\"204\" font-size=\"11\" fill=\"#1c2430\">–1</text><line x1=\"150\" y1=\"110\" x2=\"219.3\" y2=\"150.0\" stroke=\"#c62828\" stroke-width=\"1.6\"/><circle cx=\"219.28203230275506\" cy=\"150.00000000000003\" r=\"3.5\" fill=\"#c62828\"/><path d=\"M 124.0 110.0 A 26 26 0 0 0 172.5 123.0\" fill=\"none\" stroke=\"#6a1b9a\" stroke-width=\"1.4\"/><text x=\"112\" y=\"140\" font-size=\"13\" fill=\"#6a1b9a\">α</text></svg>", "a": "MzMwwrA="}, {"q": "Rask lygties tg(α) + {sqrt:3} = 0 sprendinį intervale (90°; 270°).", "a": "MTIwwrA="}, {"q": "Apskaičiuokite funkcijos y=x{sup:3} grafiko liestinės, liečiančios šį grafiką taške A(5; 125), krypties koeficientą.", "a": "NzU="}, {"q": "Apžvalgos rato kapsulės aukštį H (metrais) nuo žemės, priklausantį nuo kapsulės kampo α (laipsniais), galima apskaičiuoti pagal formulę H(α)=35−33·cos(α); čia 0≤α≤360°. Apskaičiuok H, kai α=180°.", "a": "Njg="}, {"q": "Su kuria a reikšme skaičius {sqrtn:3:7{sup:10}} lygus a·{sqrtn:3:7}?", "a": "MzQz"}, {"q": "Yra žinoma, kad funkcijos y=f(x), apibrėžtos su visomis realiomis x reikšmėmis, išvestinė lygi f'(x)=15−4x. Užrašykite didžiausią x reikšmių ribą N, iki kurios (neimtinai) funkcija y=f(x) yra didėjančioji (t. y. f(x) didėja intervale (−∞;N)). Įrašyk N reikšmę.", "a": "MTUvNA=="}, {"q": "11.1. log{sub:7}49 − log{sub:7}7 + log{sub:7}14; atsakymą pateik pavidalu log{sub:7}x (čia x∈ℕ). Įrašyk x reikšmę.", "a": "OTg="}, {"q": "11.2. {sqrtn:3:10} · {sqrtn:9:10}; atsakymą pateik pavidalu 10{sup:l} (čia l∈ℚ). Įrašyk l reikšmę.", "a": "NC85"}, {"q": "12.1. Išspręsk nelygybę (x+4)/(12−x) > 0. Įrašyk sprendinio intervalo apatinę ribą (skaičių).", "a": "4oCTNA=="}, {"q": "12.1(b). To paties sprendinio viršutinę ribą (skaičių).", "a": "MTI="}, {"q": "12.2. Išspręsk nelygybę 5{sup:7−x} ≥ 25. Įrašyk didžiausią x reikšmę (sprendinys: x≤ ta reikšmė).", "a": "NQ=="}, {"q": "12.3. Išspręsk nelygybę log{sub:2}(3x+7) ≤ log{sub:2}(22−x). Įrašyk sprendinio intervalo apatinę ribą (neimtinai).", "a": "4oCTNy8z"}, {"q": "12.3(b). To paties sprendinio viršutinę ribą (imtinai).", "a": "MTUvNA=="}, {"q": "12.4. Išspręsk nelygybę −4·(x−3){sup:2} ≥ 0. Įrašyk vienintelę x reikšmę, su kuria nelygybė teisinga.", "a": "Mw=="}, {"q": "Povilas pirmą savaitę intensyvioms treniruotėms skyrė 35 min., o kiekvieną kitą savaitę – 10 min. daugiau nei prieš tai buvusią savaitę. 13.1. Apskaičiuok, kiek iš viso minučių intensyvioms treniruotėms Povilas skyrė per pirmąsias tris savaites.", "a": "MTM1"}, {"q": "13.2. Nustatyk, kelintą savaitę Povilas pirmą kartą intensyvioms treniruotėms skyrė 145 minučių.", "a": "MTI="}, {"q": "Yra žinoma, kad sin α = −{fr:20:29}, o 180° < α < 270°. Apskaičiuok tg α reikšmę.", "a": "MjAvMjE="}, {"q": "Paveiksle pavaizduota taisyklinga keturkampė piramidė SABCD. Šios piramidės pagrindo kraštinės ilgis lygus 4{sqrt:2}, o jos aukštinės SO ilgis lygus 9. 15.1. Apskaičiuok piramidės tūrį.", "img": "<svg viewBox=\"0 0 300 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><line x1=\"220.0\" y1=\"186.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"158.0\" y1=\"220.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"80.0\" y1=\"208.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"140.0\" y1=\"176.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.6\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"80.0\" y2=\"208.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"140.0\" y2=\"176.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"220.0\" y2=\"186.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"158.0\" y2=\"220.0\" stroke=\"#1c2430\" stroke-width=\"1.8\" stroke-dasharray=\"4,3\"/><line x1=\"152.0\" y1=\"34.0\" x2=\"150.0\" y2=\"197.0\" stroke=\"#c62828\" stroke-width=\"1.4\" stroke-dasharray=\"4,3\"/><text x=\"158.0\" y=\"28.0\" font-size=\"14\" fill=\"#1c2430\">S</text><text x=\"64.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\">A</text><text x=\"136.0\" y=\"168.0\" font-size=\"14\" fill=\"#1c2430\">B</text><text x=\"228.0\" y=\"190.0\" font-size=\"14\" fill=\"#1c2430\">C</text><text x=\"162.0\" y=\"238.0\" font-size=\"14\" fill=\"#1c2430\">D</text><text x=\"156.0\" y=\"213.0\" font-size=\"14\" fill=\"#1c2430\">O</text><text x=\"90.0\" y=\"121.0\" font-size=\"12\" fill=\"#1c2430\">4√2</text><text x=\"157.0\" y=\"115.5\" font-size=\"12\" fill=\"#c62828\">9</text></svg>", "a": "OTY="}, {"q": "15.2. Apskaičiuok piramidės šoninės briaunos ilgio KVADRATĄ (SA{sup:2}).", "a": "OTc="}, {"q": "15.3. Apskaičiuok kampo tarp piramidės pagrindo plokštumos ir šoninės sienos plokštumos didumą (laipsniais, šimtųjų tikslumu).", "a": "NzIsNTXCsA=="}, {"q": "Du draugai – Rytis ir Agnė – laiko vairavimo egzaminą (nepriklausomi įvykiai). P(R)={fr:7:15}, P(A)={fr:5:12}. 16.1. Apskaičiuok P(R̄) (tikimybę, kad Rytis NEišlaikė egzamino).", "a": "OC8xNQ=="}, {"q": "Pastato pagrindas — stačiakampis gretasienis, viršutinė dalis lenktos formos. Apatinė dalis — stačiakampis ABA₁B₁, aukštis AA₁=39 m. Viršutinės dalies kraštas A₁FB₁ yra parabolės y=−x{sup:2}+36 formos. 17.1(a). Apskaičiuok pastato aukštį (metrais).", "img": "<svg viewBox=\"0 0 340 240\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"340\" height=\"240\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><rect x=\"20\" y=\"184.2\" width=\"130\" height=\"20.8\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><path d=\"M 20.0 184.2 L 25.4 172.5 L 30.8 160.9 L 36.2 149.8 L 41.7 139.2 L 47.1 129.4 L 52.5 120.6 L 57.9 112.8 L 63.3 106.3 L 68.8 101.1 L 74.2 97.3 L 79.6 95.0 L 85.0 94.2 L 90.4 95.0 L 95.8 97.3 L 101.2 101.1 L 106.7 106.3 L 112.1 112.8 L 117.5 120.6 L 122.9 129.4 L 128.3 139.2 L 133.8 149.8 L 139.2 160.9 L 144.6 172.5 L 150.0 184.2\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"20\" y1=\"184.2\" x2=\"150\" y2=\"184.2\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"79.0\" y=\"88.19999999999999\" font-size=\"12\" fill=\"#1c2430\">F</text><text x=\"6\" y=\"188.2\" font-size=\"12\" fill=\"#1c2430\">A₁</text><text x=\"154\" y=\"188.2\" font-size=\"12\" fill=\"#1c2430\">B₁</text><text x=\"6\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">A</text><text x=\"154\" y=\"209\" font-size=\"12\" fill=\"#1c2430\">B</text><line x1=\"20\" y1=\"205\" x2=\"150\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.6\"/><defs><marker id=\"arrx\" markerWidth=\"8\" markerHeight=\"8\" refX=\"8\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1c2430\"/></marker></defs><line x1=\"10\" y1=\"205\" x2=\"332\" y2=\"205\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><line x1=\"250\" y1=\"230\" x2=\"250\" y2=\"8\" stroke=\"#1c2430\" stroke-width=\"1.4\" marker-end=\"url(#arrx)\"/><text x=\"326\" y=\"197\" font-size=\"13\" fill=\"#1c2430\">x</text><text x=\"258\" y=\"16\" font-size=\"13\" fill=\"#1c2430\">y</text><path d=\"M 198.9 235.4 L 199.3 232.3 L 199.7 229.1 L 200.1 226.0 L 200.5 223.0 L 200.9 219.9 L 201.3 216.9 L 201.7 213.9 L 202.1 210.9 L 202.5 207.9 L 202.9 205.0 L 203.2 202.1 L 203.6 199.2 L 204.0 196.3 L 204.4 193.5 L 204.8 190.7 L 205.2 187.9 L 205.6 185.1 L 206.0 182.4 L 206.4 179.7 L 206.8 177.0 L 207.2 174.3 L 207.6 171.7 L 208.0 169.1 L 208.4 166.5 L 208.7 163.9 L 209.1 161.4 L 209.5 158.9 L 209.9 156.4 L 210.3 153.9 L 210.7 151.4 L 211.1 149.0 L 211.5 146.6 L 211.9 144.3 L 212.3 141.9 L 212.7 139.6 L 213.1 137.3 L 213.5 135.0 L 213.9 132.8 L 214.2 130.5 L 214.6 128.3 L 215.0 126.1 L 215.4 124.0 L 215.8 121.9 L 216.2 119.8 L 216.6 117.7 L 217.0 115.6 L 217.4 113.6 L 217.8 111.6 L 218.2 109.6 L 218.6 107.6 L 219.0 105.7 L 219.4 103.8 L 219.7 101.9 L 220.1 100.0 L 220.5 98.2 L 220.9 96.4 L 221.3 94.6 L 221.7 92.8 L 222.1 91.1 L 222.5 89.4 L 222.9 87.7 L 223.3 86.0 L 223.7 84.4 L 224.1 82.8 L 224.5 81.2 L 224.9 79.6 L 225.2 78.0 L 225.6 76.5 L 226.0 75.0 L 226.4 73.6 L 226.8 72.1 L 227.2 70.7 L 227.6 69.3 L 228.0 67.9 L 228.4 66.6 L 228.8 65.2 L 229.2 63.9 L 229.6 62.6 L 230.0 61.4 L 230.4 60.2 L 230.7 59.0 L 231.1 57.8 L 231.5 56.6 L 231.9 55.5 L 232.3 54.4 L 232.7 53.3 L 233.1 52.2 L 233.5 51.2 L 233.9 50.2 L 234.3 49.2 L 234.7 48.2 L 235.1 47.3 L 235.5 46.4 L 235.9 45.5 L 236.2 44.6 L 236.6 43.8 L 237.0 43.0 L 237.4 42.2 L 237.8 41.4 L 238.2 40.7 L 238.6 40.0 L 239.0 39.3 L 239.4 38.6 L 239.8 38.0 L 240.2 37.3 L 240.6 36.7 L 241.0 36.2 L 241.4 35.6 L 241.7 35.1 L 242.1 34.6 L 242.5 34.1 L 242.9 33.7 L 243.3 33.3 L 243.7 32.9 L 244.1 32.5 L 244.5 32.1 L 244.9 31.8 L 245.3 31.5 L 245.7 31.2 L 246.1 31.0 L 246.5 30.7 L 246.9 30.5 L 247.2 30.3 L 247.6 30.2 L 248.0 30.0 L 248.4 29.9 L 248.8 29.8 L 249.2 29.8 L 249.6 29.7 L 250.0 29.7 L 250.4 29.7 L 250.8 29.8 L 251.2 29.8 L 251.6 29.9 L 252.0 30.0 L 252.4 30.2 L 252.7 30.3 L 253.1 30.5 L 253.5 30.7 L 253.9 31.0 L 254.3 31.2 L 254.7 31.5 L 255.1 31.8 L 255.5 32.1 L 255.9 32.5 L 256.3 32.9 L 256.7 33.3 L 257.1 33.7 L 257.5 34.1 L 257.9 34.6 L 258.2 35.1 L 258.6 35.6 L 259.0 36.2 L 259.4 36.7 L 259.8 37.3 L 260.2 38.0 L 260.6 38.6 L 261.0 39.3 L 261.4 40.0 L 261.8 40.7 L 262.2 41.4 L 262.6 42.2 L 263.0 43.0 L 263.4 43.8 L 263.7 44.6 L 264.1 45.5 L 264.5 46.4 L 264.9 47.3 L 265.3 48.2 L 265.7 49.2 L 266.1 50.2 L 266.5 51.2 L 266.9 52.2 L 267.3 53.3 L 267.7 54.4 L 268.1 55.5 L 268.5 56.6 L 268.9 57.8 L 269.2 59.0 L 269.6 60.2 L 270.0 61.4 L 270.4 62.6 L 270.8 63.9 L 271.2 65.2 L 271.6 66.6 L 272.0 67.9 L 272.4 69.3 L 272.8 70.7 L 273.2 72.1 L 273.6 73.6 L 274.0 75.0 L 274.4 76.5 L 274.7 78.0 L 275.1 79.6 L 275.5 81.2 L 275.9 82.8 L 276.3 84.4 L 276.7 86.0 L 277.1 87.7 L 277.5 89.4 L 277.9 91.1 L 278.3 92.8 L 278.7 94.6 L 279.1 96.4 L 279.5 98.2 L 279.9 100.0 L 280.2 101.9 L 280.6 103.8 L 281.0 105.7 L 281.4 107.6 L 281.8 109.6 L 282.2 111.6 L 282.6 113.6 L 283.0 115.6 L 283.4 117.7 L 283.8 119.8 L 284.2 121.9 L 284.6 124.0 L 285.0 126.1 L 285.4 128.3 L 285.7 130.5 L 286.1 132.8 L 286.5 135.0 L 286.9 137.3 L 287.3 139.6 L 287.7 141.9 L 288.1 144.3 L 288.5 146.6 L 288.9 149.0 L 289.3 151.4 L 289.7 153.9 L 290.1 156.4 L 290.5 158.9 L 290.9 161.4 L 291.2 163.9 L 291.6 166.5 L 292.0 169.1 L 292.4 171.7 L 292.8 174.3 L 293.2 177.0 L 293.6 179.7 L 294.0 182.4 L 294.4 185.1 L 294.8 187.9 L 295.2 190.7 L 295.6 193.5 L 296.0 196.3 L 296.4 199.2 L 296.7 202.1 L 297.1 205.0 L 297.5 207.9 L 297.9 210.9 L 298.3 213.9 L 298.7 216.9 L 299.1 219.9 L 299.5 223.0 L 299.9 226.0 L 300.3 229.1 L 300.7 232.3 L 301.1 235.4\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"250\" cy=\"205\" r=\"2.6\" fill=\"#1c2430\"/><text x=\"256\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">O</text><circle cx=\"202.85714285714286\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"184.85714285714286\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">A₁</text><circle cx=\"297.1428571428571\" cy=\"205\" r=\"3\" fill=\"#1c2430\"/><text x=\"301.1428571428571\" y=\"219\" font-size=\"12\" fill=\"#1c2430\">B₁</text><circle cx=\"250\" cy=\"29.73684210526318\" r=\"3\" fill=\"#1c2430\"/><text x=\"256\" y=\"23.73684210526318\" font-size=\"12\" fill=\"#1c2430\">F</text></svg>", "a": "NzU="}, {"q": "17.1(b). Apskaičiuok AB ilgį (metrais).", "a": "MTI="}, {"q": "17.2. Pažymėk pusę lango pločio a metrų. Lango plotą galima apskaičiuoti pagal formulę S(a)=−2a{sup:3}+150a. Apskaičiuok lango plotą S, kai a=1 m (patikrink, ar teisingai supratai formulę).", "a": "MTQ4"}, {"q": "17.3. Rask S'(a) — įrašyk išraišką (pvz. pavidalu 16−4a²).", "a": "MTUw4oiSNmHCsg=="}, {"q": "17.4. Su kuria a reikšme (0<a<r) lango plotas yra didžiausias? Įrašyk a reikšmę.", "a": "NQ=="}, {"q": "17.5. Apskaičiuok didžiausią lango plotą.", "a": "NTAw"}, {"q": "Medinis žaisliukas sudarytas iš kūgio ir pusrutulio. Kūgio pagrindo spindulys lygus pusrutulio spinduliui, jo ilgis 8 cm, o kūgio tūris lygus {fr:5:6} pusrutulio tūrio. Apskaičiuok, kiek gramų dažų reikės žaisliuko paviršiui nudažyti, jeigu 1 cm{sup:2} paviršiaus reikia 0,6 g dažų. Laikyk π=3,14. Atsakymą pateik gramais, dešimtųjų tikslumu.", "img": "<svg viewBox=\"0 0 260 260\" width=\"100%\" style=\"max-width:340px;display:block;margin:10px auto\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Segoe UI, Arial, sans-serif\"><rect x=\"0\" y=\"0\" width=\"260\" height=\"260\" fill=\"#ffffff\" stroke=\"#dfe4ef\"/><line x1=\"130.0\" y1=\"100.0\" x2=\"76.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"130.0\" y1=\"100.0\" x2=\"184.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1.8\"/><line x1=\"76.0\" y1=\"190.0\" x2=\"184.0\" y2=\"190.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><path d=\"M 76.0 190.0 A 54 54 0 0 0 184.0 190.0\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2\"/><line x1=\"130\" y1=\"190\" x2=\"130\" y2=\"244.0\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"3,3\"/><text x=\"136\" y=\"217.0\" font-size=\"12\" fill=\"#1c2430\">r</text><text x=\"138\" y=\"145.0\" font-size=\"12\" fill=\"#1c2430\">h</text><line x1=\"130\" y1=\"100.0\" x2=\"130\" y2=\"190\" stroke=\"#1c2430\" stroke-width=\"1\" stroke-dasharray=\"2,3\"/></svg>", "a": "NDc1LDU="}, {"q": "Iš dėžutės su 15 sunumeruotais (1–15) rutuliais tris kartus ištraukiamas (su grąžinimu) po vieną rutulį, užrašomas numeris. Apskaičiuok tikimybę, kad trijų ištrauktų numerių sandauga bus lyginis skaičius.", "a": "Mjg2My8zMzc1"}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.img ? `<div class="qimg">${q.img}</div>` : ''}
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.img ? `<div class="qimg">${q.img}</div>` : ''}
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){
+  // {sub:}/{sup:}/{fr:a:b} zymos gali buti INDETOS viena i kita (pvz. trupmena eksponente).
+  // Kiekviename cikle keiciame TIK "vidines" zymas (turinys be riestiniu skliaustu), tada
+  // kartojame - taip lizdas issprendziamas is vidaus i isore, nepriklausomai nuo tvarkos.
+  let out = esc(s);
+  for(let i=0;i<6;i++){
+    const before = out;
+    out = out.replace(/\{sub:([^{}]+)\}/g,'<sub>$1</sub>');
+    out = out.replace(/\{sup:([^{}]+)\}/g,'<sup>$1</sup>');
+    out = out.replace(/\{fr:([^{}:]+):([^{}]+)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+    out = out.replace(/\{vec:([^{}]+)\}/g,'<span class="vec">$1<i>→</i></span>');
+    out = out.replace(/\{sqrt:([^{}]+)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{sqrtn:([^{}:]+):([^{}]+)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+    if(out===before) break;
+  }
+  return out.replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

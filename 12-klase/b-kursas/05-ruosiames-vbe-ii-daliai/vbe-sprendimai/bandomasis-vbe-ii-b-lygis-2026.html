@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bandomasis VBE II | B lygis | 2026 — sprendimai</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --lav:#eef1fb; --lav-bd:#dfe4f6;
+    --bd:#dfe4ef; --muted:#8a93a6; --bg:#f4f6fb;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.55;margin:0;background:var(--bg);padding:26px 16px 60px}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{color:var(--blue);font-size:23pt;margin:0 0 6px;font-weight:800;text-align:center}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 auto 6px;border-radius:2px;max-width:820px}
+  .subtitle{color:var(--muted);font-size:10.5pt;margin:0 0 20px;font-weight:600;text-align:center}
+  .grizti{display:block;text-align:center;color:var(--blue);font-size:12.5px;text-decoration:none;margin-bottom:18px}
+  .grizti:hover{text-decoration:underline}
+  .note{background:#fff3e2;border-left:5px solid #e2911f;border-radius:10px;padding:11px 16px;margin-bottom:20px;font-size:10.6pt;color:#5c4413}
+  .toc{background:var(--lav);border:1px solid var(--lav-bd);border-radius:12px;padding:12px 16px;margin-bottom:22px;text-align:center}
+  .toc .lbl{color:var(--blue);font-weight:800;font-size:10pt;text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:8px}
+  .toc a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin:2px;
+         background:#fff;border:1px solid var(--bd);border-radius:7px;color:var(--blue);font-weight:700;
+         font-size:11px;text-decoration:none}
+  .toc a:hover{background:var(--blue);color:#fff}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        background:#fff;box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;scroll-margin-top:14px}
+  .banner{background:var(--banner);color:#fff;padding:10px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px}
+  .badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 4px;
+         background:rgba(255,255,255,.24);border-radius:7px;font-size:11pt;font-weight:800}
+  .pts{margin-left:auto;font-size:9.5pt;font-weight:600;opacity:.85}
+  .body{padding:14px 18px 6px}
+  .uzd{background:#fff3e2;border-left:5px solid #e2911f;border-radius:10px;padding:12px 16px;margin-bottom:12px}
+  .uzd .q{font-weight:700;color:var(--ink);margin-bottom:4px}
+  .uzd .line{margin:3px 0}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-top:8px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .sprendimas{background:var(--lav);border:1px solid var(--lav-bd);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+  .sprendimas .lbl,.atsakymas .lbl{color:var(--blue);font-weight:800;font-size:9.5pt;text-transform:uppercase;
+       letter-spacing:.6px;margin-bottom:6px}
+  .atsakymas{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;
+             padding:11px 16px;margin-bottom:12px;font-weight:800;color:var(--green-tx);font-size:11.5pt}
+  .atsakymas .lbl{color:var(--green-tx)}
+  .vieta{padding:0 18px 12px;font-size:9pt;color:var(--muted);font-style:italic}
+  .tbl{border-collapse:collapse;margin:8px auto;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .tbl th,.tbl td{border:1px solid var(--bd);padding:4px 9px;text-align:center;font-size:10.5pt}
+  .tbl th{background:var(--lav);color:var(--blue)}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:20px;padding-top:14px;border-top:1px solid #dfe4ef}
+  .math{font-family:"Segoe UI",sans-serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.45em 0 0;transform:translateY(.35em)}
+  sup,sub{line-height:0}
+  .vec{position:relative;display:inline-block;padding-top:.6em;font-style:italic}
+  .vec i{position:absolute;top:-.05em;left:50%;transform:translateX(-50%) scaleX(.85);font-size:.75em;line-height:1;font-style:normal}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.2em;font-weight:400;line-height:1;transform:scaleY(1.3);transform-origin:center;display:inline-block}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3}
+  .sys .rows span{white-space:nowrap}
+  .pfr{display:inline-flex;align-items:center;vertical-align:middle;margin:0 1px}
+  .pfr .pb{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.7em;font-weight:400;line-height:1;transform:scaleY(1.25);transform-origin:center;display:inline-block}
+  @media print{body{background:#fff}.toc{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Bandomasis VBE II | B lygis | 2026 — sprendimai</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 12 klasė · Pasirengimas VBE II daliai</p>
+<a class="grizti" href="../">← Atgal į temą</a>
+
+<div class="note"><b>Šaltinis:</b> Elicėjaus mokymosi platformos (mokinys.elicejus.lt) bandomasis VBE II | B lygis | 2026 egzaminas, 19 uždavinių. Kiekvienam uždaviniui pateiktas pilnas sprendimas ir atsakymas. ⚠ 5-o uždavinio atsakymas priklauso nuo brėžinio ir laukia tavo patvirtinimo (žr. sprendimo pastabą).</div>
+
+<div class="toc"><span class="lbl">Greita nuoroda į uždavinį</span><a href="#u1">1</a>
+<a href="#u2">2</a>
+<a href="#u3">3</a>
+<a href="#u4">4</a>
+<a href="#u5">5</a>
+<a href="#u6">6</a>
+<a href="#u7">7</a>
+<a href="#u8">8</a>
+<a href="#u9">9</a>
+<a href="#u10">10</a>
+<a href="#u11">11</a>
+<a href="#u12">12</a>
+<a href="#u13">13</a>
+<a href="#u14">14</a>
+<a href="#u15">15</a>
+<a href="#u16">16</a>
+<a href="#u17">17</a>
+<a href="#u18">18</a>
+<a href="#u19">19</a></div>
+
+
+<div class="card" id="u1">
+  <div class="banner"><span class="badge">1</span> Progresijos <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Geometrinės progresijos pirmasis narys lygus 288, o antrasis lygus 144. Apskaičiuok šios progresijos penktąjį narį.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Progresijos vardiklis: q = b<sub>2</sub> / b<sub>1</sub> = 144 / 288 = <span class="fr"><span>1</span><span>2</span></span>.</div>
+        <div class="line">b<sub>5</sub> = b<sub>1</sub> · q<sup>4</sup> = 288 · (1/2)<sup>4</sup> = 288 / 16 = 18.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>b₅ = 18</div>
+  </div>
+</div>
+
+<div class="card" id="u2">
+  <div class="banner"><span class="badge">2</span> Aibės <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Rask aibių A = (-1; 12) ir B = [-3; 6] sąjungą A ∪ B.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">A = (-1; 12), B = [-3; 6]. Kadangi -3 &lt; -1 &lt; 6 &lt; 12, intervalai persidengia (nėra tarpo tarp jų) — sąjunga yra vientisas intervalas nuo mažiausio kairiojo galo (uždaro, iš B) iki didžiausio dešiniojo galo (atviro, iš A).</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>A ∪ B = [-3; 12)</div>
+  </div>
+</div>
+
+<div class="card" id="u3">
+  <div class="banner"><span class="badge">3</span> Kombinatorika <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Ūkininkų turguje vienoje eilėje įrengtos 6 prekyvietės. Apskaičiuok, keliais skirtingais būdais 6 prekiaujantiems ūkininkams galima paskirstyti šias prekyvietes.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">6 skirtingus ūkininkus reikia sustatyti į 6 skirtingas vietas eilėje — tai kėlinių (permutacijų) skaičius: P(6) = 6!.</div>
+        <div class="line">6! = 6 · 5 · 4 · 3 · 2 · 1 = 720.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>720 būdų</div>
+  </div>
+</div>
+
+<div class="card" id="u4">
+  <div class="banner"><span class="badge">4</span> Logaritmai (taikymo uždavinys) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Garso, kurį girdi žmogus, intensyvumo lygį D decibelais (dB) galima apskaičiuoti pagal formulę D = 115 + 9·lg l; čia l – garso stipris (W/m²). Kai garso stipris pasiekia 10 W/m², žmogus junta skausmą ausyse. Apskaičiuokite, kokiu intensyvumu (decibelais) žmogus girdi garsą, kurio stipris 10 W/m².</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Įstatome l = 10 į formulę: D = 115 + 9·lg 10.</div>
+        <div class="line">lg 10 = 1, todėl D = 115 + 9·1 = 115 + 9 = 124.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>D = 124 dB</div>
+  </div>
+</div>
+
+<div class="card" id="u5">
+  <div class="banner"><span class="badge">5</span> Trigonometrija (vienetinis apskritimas) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Paveiksle pavaizduotas vienetinis apskritimas, kurio centras yra taškas O(0;0), ir posūkio kampas α. Naudodamiesi paveiksle pateiktais duomenimis, nustatyk posūkio kampo α didumą.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line" style="color:#b3350c;font-weight:700">⚠ Šis atsakymas priklauso TIK nuo brėžinio (tikslaus kampo, kurį rodo lanko rodyklė nuo neigiamos x ašies) — automatiškai teksto pavidalu jo ištraukti nepavyko (AlgebraKit/braižymo variklis nerodo kampo reikšmės DOM'e). Peržiūrėk archives/screenshots/elicejus-vbe2-2026-q05.png ir patikslink/patvirtink kampą prieš naudojant šį uždavinį testui — lankas prasideda ties (-1;0) (180°) ir sukasi pagal laikrodžio rodyklę į III ketvirtį.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>⚠ reikia patvirtinti iš brėžinio (žr. pastabą)</div>
+  </div>
+</div>
+
+<div class="card" id="u6">
+  <div class="banner"><span class="badge">6</span> Trigonometrinės lygtys <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Rask lygties tg(α) − <span class="fr"><span>√3</span><span>3</span></span> = 0 sprendinį intervale (90°; 270°).</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">tg(α) = <span class="fr"><span>√3</span><span>3</span></span> = <span class="fr"><span>1</span><span>√3</span></span>. Bazinis sprendinys (I ketvirtyje) yra 30°, nes tg 30° = <span class="fr"><span>1</span><span>√3</span></span>.</div>
+        <div class="line">Tangentas turi periodą 180°, todėl kitas sprendinys: α = 30° + 180° = 210°.</div>
+        <div class="line">210° priklauso intervalui (90°; 270°) — tinka.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>α = 210°</div>
+  </div>
+</div>
+
+<div class="card" id="u7">
+  <div class="banner"><span class="badge">7</span> Išvestinė (liestinė) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Apskaičiuokite funkcijos y = x³ grafiko liestinės, liečiančios šį grafiką taške A(-1; -1), krypties koeficientą.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Liestinės krypties koeficientas lygus išvestinės reikšmei liečiamo taško abscisėje: k = y'(x₀).</div>
+        <div class="line">y' = 3x². y'(-1) = 3·(-1)² = 3·1 = 3.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>k = 3</div>
+  </div>
+</div>
+
+<div class="card" id="u8">
+  <div class="banner"><span class="badge">8</span> Trigonometrija (taikymo uždavinys) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Paveiksle pavaizduotas apžvalgos ratas su kapsulėmis keleiviams. Kapsulės aukštį H (metrais) nuo žemės, priklausantį nuo kapsulės kampo α (laipsniais), galima apskaičiuoti pagal formulę H(α) = 30 − 29·cos(α); čia 0 ≤ α ≤ 360°. Apskaičiuok H, kai α = 120°.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">cos 120° = -1/2 (120° yra II ketvirtyje, atskaitos kampas 60°, cos 60°=1/2, ženklas neigiamas).</div>
+        <div class="line">H(120°) = 30 − 29·(−0,5) = 30 + 14,5 = 44,5.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>H = 44,5 m</div>
+  </div>
+</div>
+
+<div class="card" id="u9">
+  <div class="banner"><span class="badge">9</span> Šaknys, laipsniai <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Su kuria a reikšme skaičius <span class="sqrt"><span class="ix">4</span><span class="rad">3<sup>9</sup></span></span> lygus a·<span class="sqrt"><span class="ix">4</span><span class="rad">3</span></span>?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line"><span class="sqrt"><span class="ix">4</span><span class="rad">3<sup>9</sup></span></span> = <span class="sqrt"><span class="ix">4</span><span class="rad">3<sup>8</sup>·3</span></span> = <span class="sqrt"><span class="ix">4</span><span class="rad">3<sup>8</sup></span></span> · <span class="sqrt"><span class="ix">4</span><span class="rad">3</span></span> = 3² · <span class="sqrt"><span class="ix">4</span><span class="rad">3</span></span> = 9·<span class="sqrt"><span class="ix">4</span><span class="rad">3</span></span>.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>a = 9</div>
+  </div>
+</div>
+
+<div class="card" id="u10">
+  <div class="banner"><span class="badge">10</span> Išvestinė (monotoniškumas) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Yra žinoma, kad funkcijos y = f(x), apibrėžtos su visomis realiomis x reikšmėmis, išvestinė lygi f'(x) = 10 − 4x. Užrašykite x reikšmių intervalą, kuriame funkcija y = f(x) yra didėjančioji.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Funkcija didėja tuose intervaluose, kuriuose f'(x) &gt; 0.</div>
+        <div class="line">10 − 4x &gt; 0 ⟺ 4x &lt; 10 ⟺ x &lt; <span class="fr"><span>10</span><span>4</span></span> = <span class="fr"><span>5</span><span>2</span></span> = 2,5.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>x ∈ (-∞; 2,5)</div>
+  </div>
+</div>
+
+<div class="card" id="u11">
+  <div class="banner"><span class="badge">11</span> Logaritmų ir šaknų pertvarkymas <span class="pts">4 t. (2×2)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Pertvarkyk skaitinius reiškinius. Nuosekliai užrašyk sprendimus, atsakymus pateik nurodytu pavidalu.<br>
+        <b>11.1.</b> log₂9 − log₂3 + log₂4; atsakymą pateik pavidalu log₂x (čia x ∈ ℕ).<br>
+        <b>11.2.</b> <span class="sqrt"><span class="ix">5</span><span class="rad">2</span></span> · <span class="sqrt"><span class="ix">10</span><span class="rad">2</span></span>; atsakymą pateik pavidalu 2<sup>l</sup> (čia l ∈ ℚ)</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line"><b>11.1.</b> log₂9 − log₂3 + log₂4 = log₂(9·4/3) = log₂(36/3) = log₂12.</div>
+        <div class="line"><b>11.2.</b> <span class="sqrt"><span class="ix">5</span><span class="rad">2</span></span> = 2<sup>1/5</sup>, <span class="sqrt"><span class="ix">10</span><span class="rad">2</span></span> = 2<sup>1/10</sup>. Sandauga: 2<sup>1/5+1/10</sup> = 2<sup>2/10+1/10</sup> = 2<sup>3/10</sup>.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>11.1. log₂12    11.2. 2^(3/10) (l = 3/10)</div>
+  </div>
+</div>
+
+<div class="card" id="u12">
+  <div class="banner"><span class="badge">12</span> Nelygybės <span class="pts">8 t. (4×2)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Išspręsk nelygybes:<br>
+        <b>12.1.</b> <span class="fr"><span>x+3</span><span>6-x</span></span> &gt; 0<br>
+        <b>12.2.</b> 2<sup>4-x</sup> ≥ 4<br>
+        <b>12.3.</b> log₇(5x+15) ≤ log₇(33-x)<br>
+        <b>12.4.</b> −4·x² &gt; 0</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line"><b>12.1.</b> Trupmena teigiama, kai skaitiklis ir vardiklis to paties ženklo. Kritiniai taškai: x=-3, x=6. Intervalų metodu: sprendinys -3 &lt; x &lt; 6.</div>
+        <div class="line"><b>12.2.</b> 2<sup>4-x</sup> ≥ 2² ⟺ 4-x ≥ 2 ⟺ x ≤ 2 (bazė 2&gt;1, nelygybės ženklas išlieka).</div>
+        <div class="line"><b>12.3.</b> log₇ didėjanti, todėl 5x+15 ≤ 33-x ⟺ 6x ≤ 18 ⟺ x ≤ 3. ODZ: 5x+15&gt;0 ⟺ x&gt;-3 ir 33-x&gt;0 ⟺ x&lt;33. Bendras sprendinys: -3 &lt; x ≤ 3.</div>
+        <div class="line"><b>12.4.</b> −4x² &gt; 0 ⟺ x² &lt; 0 — tokių x nėra (kvadratas visada ≥0). Sprendinių nėra.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>12.1. (-3;6)  12.2. (-∞;2]  12.3. (-3;3]  12.4. Ø (sprendinių nėra)</div>
+  </div>
+</div>
+
+<div class="card" id="u13">
+  <div class="banner"><span class="badge">13</span> Aritmetinė progresija (taikymo uždavinys) <span class="pts">4 t. (2×2)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Intensyvių treniruočių metu greitai deginamos kalorijos... Povilas pirmą savaitę intensyvioms treniruotėms skyrė 30 min., o kiekvieną kitą savaitę – 15 min. daugiau nei prieš tai buvusią savaitę, tol, kol pasiekė rekomenduojamą 150 minučių per savaitę treniruočių laiką.<br>
+        <b>13.1.</b> Apskaičiuok, kiek iš viso minučių intensyvioms treniruotėms Povilas skyrė per pirmąsias tris savaites.<br>
+        <b>13.2.</b> Nustatyk, kelintą savaitę Povilas pirmą kartą intensyvioms treniruotėms skyrė 150 minučių.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Tai aritmetinė progresija: a₁=30, d=15.</div>
+        <div class="line"><b>13.1.</b> a₂=30+15=45, a₃=45+15=60. Suma = 30+45+60 = 135.</div>
+        <div class="line"><b>13.2.</b> aₙ = a₁+(n-1)d = 150 ⟹ 30+(n-1)·15=150 ⟹ (n-1)·15=120 ⟹ n-1=8 ⟹ n=9.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>13.1. 135 min.    13.2. 9-ąją savaitę</div>
+  </div>
+</div>
+
+<div class="card" id="u14">
+  <div class="banner"><span class="badge">14</span> Trigonometrija (pagrindinis tapatumas) <span class="pts">2 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Yra žinoma, kad sin α = -<span class="fr"><span>3</span><span>5</span></span>, o 180° &lt; α &lt; 270°. Apskaičiuok tg α reikšmę.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">180°&lt;α&lt;270° — tai III ketvirtis, kuriame ir sin, ir cos yra neigiami.</div>
+        <div class="line">cos α = -<span class="sqrt"><span class="rad">1-sin²α</span></span> = -<span class="sqrt"><span class="rad">1-9/25</span></span> = -<span class="sqrt"><span class="rad">16/25</span></span> = -<span class="fr"><span>4</span><span>5</span></span>.</div>
+        <div class="line">tg α = sin α / cos α = (-3/5)/(-4/5) = <span class="fr"><span>3</span><span>4</span></span>.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>tg α = 3/4</div>
+  </div>
+</div>
+
+<div class="card" id="u15">
+  <div class="banner"><span class="badge">15</span> Stereometrija (piramidė) <span class="pts">6 t. (3×2)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Paveiksle pavaizduota taisyklinga keturkampė piramidė SABCD. Šios piramidės pagrindo kraštinės ilgis lygus 4<span class="sqrt"><span class="rad">2</span></span>, o jos aukštinės SO ilgis lygus 18.<br>
+        <b>15.1.</b> Apskaičiuok piramidės tūrį.<br>
+        <b>15.2.</b> Apskaičiuok piramidės šoninės briaunos ilgį.<br>
+        <b>15.3.</b> Apskaičiuok kampo tarp piramidės pagrindo plokštumos ir šoninės sienos plokštumos didumą.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Pagrindas — kvadratas, kraštinė a=4<span class="sqrt"><span class="rad">2</span></span>, pagrindo plotas S=a²=(4<span class="sqrt"><span class="rad">2</span></span>)²=32.</div>
+        <div class="line"><b>15.1.</b> V = <span class="fr"><span>1</span><span>3</span></span>·S·h = <span class="fr"><span>1</span><span>3</span></span>·32·18 = 192.</div>
+        <div class="line"><b>15.2.</b> Pagrindo įstrižainė d=a<span class="sqrt"><span class="rad">2</span></span>=4<span class="sqrt"><span class="rad">2</span></span>·<span class="sqrt"><span class="rad">2</span></span>=8, pusė įstrižainės (OA)=4. Šoninė briauna SA=<span class="sqrt"><span class="rad">SO²+OA²</span></span>=<span class="sqrt"><span class="rad">18²+4²</span></span>=<span class="sqrt"><span class="rad">324+16</span></span>=<span class="sqrt"><span class="rad">340</span></span>=2<span class="sqrt"><span class="rad">85</span></span>.</div>
+        <div class="line"><b>15.3.</b> Apotema (atstumas nuo O iki kraštinės vidurio)=a/2=2<span class="sqrt"><span class="rad">2</span></span>. Kampo tarp pagrindo ir šoninio šono tangentas = SO/apotema = 18/(2<span class="sqrt"><span class="rad">2</span></span>) = 9<span class="sqrt"><span class="rad">2</span></span>/2 ≈ 6,364. Kampas ≈ arctan(6,364) ≈ 81,07°.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>15.1. V = 192   15.2. SA = 2√85   15.3. ≈ 81,07°</div>
+  </div>
+</div>
+
+<div class="card" id="u16">
+  <div class="banner"><span class="badge">16</span> Tikimybės <span class="pts">4 t. (2×2)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Du draugai – Rytis ir Agnė – laiko vairavimo egzaminą. P(R)=<span class="fr"><span>1</span><span>3</span></span>, P(A)=<span class="fr"><span>11</span><span>24</span></span> (nepriklausomi įvykiai).<br>
+        <b>16.1.</b> Apskaičiuok P(R̄) (Rytis neišlaikė egzamino).<br>
+        <b>16.2.</b> Nustatyk, kurio įvykio tikimybė didesnė: ar kad Rytis išlaikys, o Agnė ne; ar kad Agnė išlaikys, o Rytis ne.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line"><b>16.1.</b> P(R̄) = 1 − P(R) = 1 − <span class="fr"><span>1</span><span>3</span></span> = <span class="fr"><span>2</span><span>3</span></span>.</div>
+        <div class="line"><b>16.2.</b> P(A̅)=1−11/24=13/24. Kadangi įvykiai nepriklausomi:</div>
+        <div class="line">P(Rytis taip, Agnė ne) = P(R)·P(A̅) = (1/3)·(13/24) = 13/72.</div>
+        <div class="line">P(Agnė taip, Rytis ne) = P(A)·P(R̄) = (11/24)·(2/3) = 22/72.</div>
+        <div class="line">22/72 &gt; 13/72, todėl labiau tikėtina, kad Agnė išlaikys, o Rytis ne.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>16.1. P(R̄)=2/3   16.2. Didesnė P, kad Agnė išlaikys, o Rytis ne (22/72 &gt; 13/72)</div>
+  </div>
+</div>
+
+<div class="card" id="u17">
+  <div class="banner"><span class="badge">17</span> Kraštutinės reikšmės (parabolė, optimizavimo uždavinys) <span class="pts">10 t. (5 dalys)</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Pastato pagrindas — stačiakampis gretasienis, viršutinė dalis lenktos formos. Apatinė dalis — stačiakampis ABA₁B₁, aukštis AA₁=2 m. Viršutinės dalies kraštas A₁FB₁ yra parabolės y=−<span class="fr"><span>2</span><span>3</span></span>x²+6 formos.<br>
+        <b>17.1.</b> Apskaičiuok pastato aukštį ir AB ilgį.<br>
+        <b>17.2.</b> Pažymėk pusę lango pločio a metrų, parodyk, kad lango plotą galima apskaičiuoti pagal S(a)=−<span class="fr"><span>4</span><span>3</span></span>a³+16a (0&lt;a&lt;3).<br>
+        <b>17.3.</b> Rask S'(a).<br>
+        <b>17.4.</b> Parodyk, kad plotas didžiausias, kai a=2 m.<br>
+        <b>17.5.</b> Apskaičiuok didžiausią lango plotą.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line"><b>17.1.</b> Parabolės y=0 taškai (kraštas A₁B₁): 0=−2/3x²+6 ⟹ x²=9 ⟹ x=±3, taigi A₁B₁=6=AB. Parabolės viršūnė (didžiausias aukštis virš A₁B₁) y(0)=6. Pastato aukštis = AA₁ + 6 = 2+6 = 8 m.</div>
+        <div class="line"><b>17.2.</b> Langas: apatiniai du kraštai ant AB (žemės lygyje, y_abs=0), viršutiniai du – ant parabolės ties x=±a. Lango aukštis (nuo žemės) = AA₁ + parabolės aukštis ties x=a = 2+(−2/3a²+6) = 8−2/3a². Lango plotis = 2a. S(a) = 2a·(8−2/3a²) = 16a−4/3a³ = −4/3a³+16a. ✓</div>
+        <div class="line"><b>17.3.</b> S'(a) = −4a² + 16.</div>
+        <div class="line"><b>17.4.</b> S'(a)=0 ⟹ −4a²+16=0 ⟹ a²=4 ⟹ a=2 (a&gt;0, ir 0&lt;2&lt;3 — tinka). S'(a)&gt;0 kai a&lt;2, S'(a)&lt;0 kai a&gt;2, taigi a=2 — maksimumo taškas.</div>
+        <div class="line"><b>17.5.</b> S(2) = −4/3·8+16·2 = −32/3+32 = 64/3 ≈ 21,33.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>17.1. 8 m; AB=6 m   17.2. įrodyta   17.3. S'(a)=16−4a²   17.4. įrodyta   17.5. S(2)=64/3 ≈ 21,33 m²</div>
+  </div>
+</div>
+
+<div class="card" id="u18">
+  <div class="banner"><span class="badge">18</span> Kūgis ir rutulys (kombinuotas kūnas) <span class="pts">4 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Medinis žaisliukas sudarytas iš kūgio ir pusrutulio. Kūgio pagrindo spindulys lygus pusrutulio spinduliui, jo ilgis 9 cm, o kūgio tūris lygus 2/3 pusrutulio tūrio. Apskaičiuok, kiek gramų dažų reikės žaisliuko paviršiui nudažyti, jeigu 1 cm² paviršiaus reikia 0,6 g dažų. Laikyk π=3,14. Atsakymą pateik gramais, dešimtųjų tikslumu.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">r=9 cm. Pusrutulio tūris V_pr=<span class="fr"><span>2</span><span>3</span></span>πr³. Kūgio tūris V_k=<span class="fr"><span>1</span><span>3</span></span>πr²h.</div>
+        <div class="line">Sąlyga: V_k=<span class="fr"><span>2</span><span>3</span></span>V_pr ⟹ <span class="fr"><span>1</span><span>3</span></span>πr²h = <span class="fr"><span>2</span><span>3</span></span>·<span class="fr"><span>2</span><span>3</span></span>πr³ = <span class="fr"><span>4</span><span>9</span></span>πr³ ⟹ h=<span class="fr"><span>4</span><span>3</span></span>r = <span class="fr"><span>4</span><span>3</span></span>·9=12 cm.</div>
+        <div class="line">Kūgio sudaromoji: l=<span class="sqrt"><span class="rad">r²+h²</span></span>=<span class="sqrt"><span class="rad">81+144</span></span>=<span class="sqrt"><span class="rad">225</span></span>=15 cm.</div>
+        <div class="line">Dažomas paviršius = kūgio šoninis paviršius + pusrutulio išgaubtas paviršius (jungimosi apskritimas vidinis, nedažomas):</div>
+        <div class="line">S = πrl + 2πr² = π·9·15 + 2π·81 = 135π+162π = 297π.</div>
+        <div class="line">Su π=3,14: S = 297·3,14 = 932,58 cm².</div>
+        <div class="line">Dažų kiekis: 932,58 · 0,6 = 559,548 ≈ 559,5 g.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>≈ 559,5 g dažų</div>
+  </div>
+</div>
+
+<div class="card" id="u19">
+  <div class="banner"><span class="badge">19</span> Tikimybės (kombinatorinė) <span class="pts">4 t.</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Uždavinys</div><div class="line">Iš dėžutės su 9 sunumeruotais (1-9) rutuliais tris kartus ištraukiamas (su grąžinimu) po vieną rutulį, užrašomas numeris. Apskaičiuok tikimybę, kad trijų ištrauktų numerių sandauga bus lyginis skaičius.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div>
+        <div class="line">Sandauga lyginė, kai BENT VIENAS iš trijų ištrauktų skaičių yra lyginis. Patogiau skaičiuoti priešingą įvykį: sandauga nelyginė ⟺ VISI TRYS skaičiai nelyginiai.</div>
+        <div class="line">Iš 9 skaičių nelyginiai yra 5 (1,3,5,7,9), tikimybė kiekvieną kartą ištraukti nelyginį = <span class="fr"><span>5</span><span>9</span></span>.</div>
+        <div class="line">P(visi 3 nelyginiai) = (<span class="fr"><span>5</span><span>9</span></span>)³ = <span class="fr"><span>125</span><span>729</span></span>.</div>
+        <div class="line">P(sandauga lyginė) = 1 − <span class="fr"><span>125</span><span>729</span></span> = <span class="fr"><span>604</span><span>729</span></span> ≈ 0,829.</div>
+        </div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>P = 604/729 ≈ 0,829</div>
+  </div>
+</div>
+
+<div class="footer">Mokytoja Violeta · 12 klasė · Bandomasis VBE II | B lygis | 2026 · Pavyzdinių užduočių sprendimai</div>
+</div>
+</body>
+</html>
