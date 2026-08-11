@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kontrolinio treniruoklis: laipsnis su natūraliuoju rodikliu (7 klasė)</title>
+<title>Kontrolinio treniruoklis: laipsnių savybės su neigiamais rodikliais (7 klasė)</title>
 <style>
   :root{
     --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
@@ -63,13 +63,16 @@
 
   .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
   .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1 id="antraste">Kontrolinio treniruoklis: laipsnis su natūraliuoju rodikliu (7 klasė)</h1>
-    <p id="paantraste">Laipsniai · 2.2 · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+    <h1 id="antraste">Kontrolinio treniruoklis: laipsnių savybės su neigiamais rodikliais (7 klasė)</h1>
+    <p id="paantraste">Laipsnio su neigiamuoju rodikliu savybės · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
   </header>
 
   <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
@@ -119,126 +122,127 @@ function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
 
 // --- Temos generatoriai (įkeliami builder'io) ---
-// Kontrolinio treniruoklio generatoriai.
-// Tema: Laipsnis su natūraliuoju rodikliu (7 klasė, 2.2).
+// Kontrolinio treniruoklio generatoriai — 7 kl., 2.7 „Laipsnio su sveikuoju
+// neigiamuoju rodikliu savybės".
 //
 // Šablonas jau apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
-// Čia tik `const GENERATORIAI = [...]` ir keli pagalbininkai.
-//
-// TAISYKLĖ: atsakymas skaičiuojamas PROGRAMIŠKAI (arba imamas iš patikrintos
-// lentelės), kad verify_gen.mjs praeitų. Uždaviniai be „=" ženklo, laipsniai per
-// Unicode viršutinius indeksus — todėl netraktuojami kaip tiesinės lygtys.
+// Papildomas pagalbininkas — viršutinių indeksų (rodiklių) rašymas Unicode,
+// palaikantis ir NEIGIAMUS rodiklius (⁻ priešakyje):
+const SUPD = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function sup2(n){ const neg=n<0; const s=Math.abs(n).toString().split('').map(d=>SUPD[d]||d).join(''); return (neg?'⁻':'')+s; }
 
-// Skaitmuo -> viršutinis indeksas (rodiklis).
-function sup(n){
-  const m={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
-  return String(n).split('').map(c=>m[c]||c).join('');
-}
-function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a||1; }
+// Taisyklės (galioja VISIEMS sveikiesiems rodikliams, įskaitant neigiamus):
+//   aᵐ · aⁿ = aᵐ⁺ⁿ  (rodiklius SUDEDAME)
+//   aᵐ : aⁿ = aᵐ⁻ⁿ  (rodiklius ATIMAME; atimant neigiamą — pridedi)
+//   (aᵐ)ⁿ = aᵐ·ⁿ    (rodiklius SUDAUGINAME)
+// Atsakymas — sveikasis skaičius (gautas rodiklis arba laipsnio reikšmė).
+
+const PAGRINDAI = ["2","3","5","7","10","a","x","b","(−2)","(−3)"];
+const SKAIC = [
+  {a:2, ss:[0,1,2,3,4]},
+  {a:3, ss:[0,1,2,3,4]},
+  {a:5, ss:[0,1,2,3]},
+  {a:10, ss:[0,1,2,3]}
+];
 
 const GENERATORIAI = [
-
-  // 1. Laipsnio reikšmė — sveikieji pagrindai.
-  { label:"Laipsnio reikšmė (sveikieji)", gen(){
-      const opts=[
-        {a:2,nmin:2,nmax:6}, {a:3,nmin:2,nmax:4}, {a:4,nmin:2,nmax:3},
-        {a:5,nmin:2,nmax:3}, {a:6,nmin:2,nmax:2}, {a:7,nmin:2,nmax:2},
-        {a:10,nmin:2,nmax:3}
-      ];
-      const o=choice(opts), n=randint(o.nmin,o.nmax), a=o.a;
-      const val=Math.pow(a,n);
-      const factors=Array(n).fill(a).join(' · ');
-      return { q:`${a}${sup(n)}`, ans:val, pre:'reikšmė =', steps:[
-        `${a}${sup(n)} reiškia ${n} vienodus daugiklius: ${factors}`,
-        `${a}${sup(n)} = ${nf(val)}`
-      ]};
+  // 1. Daugyba → rasti gautą rodiklį (bent vienas rodiklis neigiamas)
+  { label:"Daugyba: rask rodiklį", gen(){
+      const A = choice(PAGRINDAI);
+      let m,n; do{ m=nz(-6,6); n=nz(-6,6); }while(m>0 && n>0);
+      const ans = m+n;
+      return {
+        q:`${A}${sup2(m)} · ${A}${sup2(n)} = ${A}▢`,
+        ans, pre:"▢ =",
+        steps:[
+          `Pagrindą paliekame, rodiklius sudedame.`,
+          `${A}${sup2(m)} · ${A}${sup2(n)} = ${A}${sup2(ans)}`,
+          `▢ = ${nf(ans)}`
+        ]
+      };
   }},
 
-  // 2. Laipsnio reikšmė — dešimtainiai pagrindai (patikrinta lentelė).
-  { label:"Laipsnio reikšmė (dešimtainiai)", gen(){
-      const T=[
-        {b:'0,5',n:2,ans:0.25,   t:'0,25',   f:'0,5 · 0,5'},
-        {b:'0,5',n:3,ans:0.125,  t:'0,125',  f:'0,5 · 0,5 · 0,5'},
-        {b:'0,5',n:4,ans:0.0625, t:'0,0625', f:'0,5 · 0,5 · 0,5 · 0,5'},
-        {b:'0,1',n:2,ans:0.01,   t:'0,01',   f:'0,1 · 0,1'},
-        {b:'0,1',n:3,ans:0.001,  t:'0,001',  f:'0,1 · 0,1 · 0,1'},
-        {b:'0,2',n:2,ans:0.04,   t:'0,04',   f:'0,2 · 0,2'},
-        {b:'0,2',n:3,ans:0.008,  t:'0,008',  f:'0,2 · 0,2 · 0,2'},
-        {b:'0,3',n:2,ans:0.09,   t:'0,09',   f:'0,3 · 0,3'},
-        {b:'0,4',n:2,ans:0.16,   t:'0,16',   f:'0,4 · 0,4'},
-        {b:'0,6',n:2,ans:0.36,   t:'0,36',   f:'0,6 · 0,6'},
-        {b:'1,5',n:2,ans:2.25,   t:'2,25',   f:'1,5 · 1,5'}
-      ];
-      const e=choice(T);
-      return { q:`(${e.b})${sup(e.n)}`, ans:e.ans, ansText:e.t, pre:'reikšmė =', steps:[
-        `(${e.b})${sup(e.n)} reiškia ${e.n} vienodus daugiklius: ${e.f}`,
-        `(${e.b})${sup(e.n)} = ${e.t}`
-      ]};
+  // 2. Dalyba → rasti gautą rodiklį (bent vienas rodiklis neigiamas)
+  { label:"Dalyba: rask rodiklį", gen(){
+      const A = choice(PAGRINDAI);
+      let m,n; do{ m=nz(-6,6); n=nz(-6,6); }while(m>0 && n>0);
+      const ans = m-n;
+      return {
+        q:`${A}${sup2(m)} : ${A}${sup2(n)} = ${A}▢`,
+        ans, pre:"▢ =",
+        steps:[
+          `Pagrindą paliekame, rodiklius atimame.`,
+          `${A}${sup2(m)} : ${A}${sup2(n)} = ${A}${sup2(ans)}`,
+          `▢ = ${nf(ans)}`
+        ]
+      };
   }},
 
-  // 3. Laipsnio reikšmė — trupmenos pagrindai (skaičiuojama).
-  { label:"Laipsnio reikšmė (trupmenos)", gen(){
-      const pairs=[[1,2,6],[1,3,4],[1,4,3],[1,5,3],[2,3,4],[3,4,3],[2,5,2],[3,5,2],[1,6,3]];
-      const pr=choice(pairs), bn=pr[0], bd=pr[1], maxn=pr[2];
-      const n=randint(2,maxn);
-      const neg=Math.random()<0.4;
-      const baseNum=neg?-bn:bn;
-      let num=Math.pow(baseNum,n), den=Math.pow(bd,n);
-      const g=gcd(num,den); num/=g; den/=g;
-      const ans=num/den;
-      const ansText=(den===1)?nf(num):`${nf(num)}/${den}`;
-      const baseDisp=neg?`(−${bn}/${bd})`:`(${bn}/${bd})`;
-      const numBaseDisp=neg?`(−${bn})`:`${bn}`;
-      return { q:`${baseDisp}${sup(n)}`, ans, ansText, pre:'reikšmė =', steps:[
-        `Į laipsnį keliame ir skaitiklį, ir vardiklį: ${baseDisp}${sup(n)} = ${numBaseDisp}${sup(n)} / ${bd}${sup(n)}`,
-        `${baseDisp}${sup(n)} = ${ansText}`
-      ]};
+  // 3. Laipsnį keliame laipsniu → gautas rodiklis (bent vienas neigiamas)
+  { label:"Laipsnį keliame laipsniu", gen(){
+      const A = choice(PAGRINDAI);
+      let m,n; do{ m=nz(-5,5); n=nz(-4,4); }while(m>0 && n>0);
+      const ans = m*n;
+      return {
+        q:`(${A}${sup2(m)})${sup2(n)} = ${A}▢`,
+        ans, pre:"▢ =",
+        steps:[
+          `Keliant laipsnį laipsniu, rodiklius sudauginame.`,
+          `(${A}${sup2(m)})${sup2(n)} = ${A}${sup2(ans)}`,
+          `▢ = ${nf(ans)}`
+        ]
+      };
   }},
 
-  // 4. Ženklo nustatymas (atsakymas: 1 = teigiama, −1 = neigiama).
-  { label:"Ženklo nustatymas", gen(){
-      const a=choice([2,3,4,5,6,7,10,-2,-3,-4,-5,-6,-7,-10]);
-      const n=randint(2,8);
-      const neg=a<0;
-      const isNeg=neg && (n%2===1);
-      const ans=isNeg?-1:1;
-      const ansText=isNeg?'< 0':'> 0';
-      const aDisp=neg?`(${nf(a)})`:`${a}`;
-      let steps;
-      if(!neg){
-        steps=[
-          `Pagrindas ${a} yra teigiamas.`,
-          `Teigiamo skaičiaus bet kuris natūralusis laipsnis yra teigiamas.`,
-          `${aDisp}${sup(n)} > 0`
-        ];
-      } else if(n%2===0){
-        steps=[
-          `Pagrindas ${nf(a)} yra neigiamas, rodiklis ${n} lyginis.`,
-          `Neigiamo skaičiaus lyginis laipsnis yra teigiamas.`,
-          `${aDisp}${sup(n)} > 0`
-        ];
-      } else {
-        steps=[
-          `Pagrindas ${nf(a)} yra neigiamas, rodiklis ${n} nelyginis.`,
-          `Neigiamo skaičiaus nelyginis laipsnis yra neigiamas.`,
-          `${aDisp}${sup(n)} < 0`
-        ];
-      }
-      return { q:`Koks ${aDisp}${sup(n)} ženklas?`, ans, ansText,
-        pre:'Įrašyk 1 (jei > 0) arba −1 (jei < 0):', steps };
+  // 4. Daugyba → apskaičiuoti reikšmę (vienas rodiklis neigiamas)
+  { label:"Daugyba: apskaičiuok", gen(){
+      const opt = choice(SKAIC);
+      const s = choice(opt.ss);
+      const e1 = randint(-5,-1);
+      const e2 = s - e1;
+      const val = Math.pow(opt.a, s);
+      return {
+        q:`${opt.a}${sup2(e1)} · ${opt.a}${sup2(e2)}`,
+        ans: val, pre:"atsakymas =",
+        steps:[
+          `Rodiklius sudedame: ${opt.a}${sup2(e1)} · ${opt.a}${sup2(e2)} = ${opt.a}${sup2(s)}`,
+          `${opt.a}${sup2(s)} = ${val}`
+        ]
+      };
   }},
 
-  // 5. Sandauga → laipsnis (atsakymas: rodiklis n).
-  { label:"Sandauga → laipsnis", gen(){
-      const a=randint(2,9), n=randint(2,6);
-      const prod=Array(n).fill(a).join(' · ');
-      return { q:prod, ans:n, ansText:`${a}${sup(n)}`, pre:`= ${a}ⁿ, kur n =`, steps:[
-        `Suskaičiuojame vienodus daugiklius (pagrindas ${a}): jų ${n}.`,
-        `Vienodų daugiklių sandaugą užrašome laipsniu: pagrindas ${a}, rodiklis ${n}.`,
-        `${prod} = ${a}${sup(n)}`
-      ]};
+  // 5. Dalyba → apskaičiuoti reikšmę (dalijama iš neigiamo rodiklio)
+  { label:"Dalyba: apskaičiuok", gen(){
+      const opt = choice(SKAIC);
+      const s = choice(opt.ss);
+      const l = randint(-4,-1);
+      const k = s + l;
+      const val = Math.pow(opt.a, s);
+      return {
+        q:`${opt.a}${sup2(k)} : ${opt.a}${sup2(l)}`,
+        ans: val, pre:"atsakymas =",
+        steps:[
+          `Rodiklius atimame: ${opt.a}${sup2(k)} : ${opt.a}${sup2(l)} = ${opt.a}${sup2(s)}`,
+          `${opt.a}${sup2(s)} = ${val}`
+        ]
+      };
+  }},
+
+  // 6. Trūkstamas rodiklis: aᵐ · a▢ = aˢ (rodikliai sveikieji)
+  { label:"Trūkstamas rodiklis", gen(){
+      const A = choice(PAGRINDAI);
+      let m,s; do{ m=nz(-5,5); s=randint(-5,5); }while(m>0 && s>0 && (s-m)>0);
+      const ans = s-m;
+      return {
+        q:`${A}${sup2(m)} · ${A}▢ = ${A}${sup2(s)}`,
+        ans, pre:"▢ =",
+        steps:[
+          `Daugindami rodiklius sudedame, todėl žinomo ir trūkstamo rodiklio suma turi būti ${nf(s)}.`,
+          `▢ = ${nf(s)} − (${nf(m)})`,
+          `▢ = ${nf(ans)}`
+        ]
+      };
   }}
-
 ];
 
 
@@ -251,7 +255,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: laipsnis su natūraliuoju rodikliu (7 klasė)", "subtitle": "Laipsniai · 2.2 · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "reikšmė =", "simboliai": ["−", ",", "/"]};
+const META = {"title": "Kontrolinio treniruoklis: laipsnių savybės su neigiamais rodikliais (7 klasė)", "subtitle": "Laipsnio su neigiamuoju rodikliu savybės · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "▢ =", "simboliai": ["−"]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
@@ -267,11 +271,20 @@ function initTekstai(){
   $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
 }
 
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^▢/g, '<sup>▢</sup>')
+    .replace(/([A-Za-z0-9])▢/g, '$1<sup>▢</sup>')
+    .replace(/(\d+)\/(\d+|□)/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
 function naujas(){
   S.dabartinis = makeProblem();
   S.atsakyta = false;
   $('tipas').textContent = S.dabartinis.label;
-  $('klausimas').textContent = S.dabartinis.q;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
   $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
   $('atsakymas').value = '';
   $('atsakymas').disabled = false;
@@ -307,10 +320,10 @@ function tikrinti(){
 
   const v = $('verdiktas');
   v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
-  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
 
-  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
   $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
   $('atsakymas').disabled = true;
   $('tikrinti').style.display='none';

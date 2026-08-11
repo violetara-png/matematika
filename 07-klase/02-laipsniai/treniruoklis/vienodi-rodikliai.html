@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kontrolinio treniruoklis: laipsnis su neigiamu rodikliu (7 klasė)</title>
+<title>Kontrolinio treniruoklis: laipsnių daugyba ir dalyba su vienodais rodikliais (7 klasė)</title>
 <style>
   :root{
     --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
@@ -63,13 +63,16 @@
 
   .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
   .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1 id="antraste">Kontrolinio treniruoklis: laipsnis su neigiamu rodikliu (7 klasė)</h1>
-    <p id="paantraste">Laipsnis su sveikuoju neigiamuoju rodikliu · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+    <h1 id="antraste">Kontrolinio treniruoklis: laipsnių daugyba ir dalyba su vienodais rodikliais (7 klasė)</h1>
+    <p id="paantraste">Vienodi rodikliai · aⁿ·bⁿ ir aⁿ:bⁿ · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
   </header>
 
   <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
@@ -119,65 +122,81 @@ function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
 
 // --- Temos generatoriai (įkeliami builder'io) ---
-// Kontrolinio treniruoklio generatoriai — 2.6 Laipsnis su sveikuoju neigiamuoju rodikliu (7 kl.)
-// Visi atsakymai skaitiniai; trupmenoms naudojamas ansText. Uždavinys kuriamas IŠ atsakymo.
-// Šablonas jau apibrėžia: randint, choice, nz, nf, pm.
+// 2.4 — Dauginame ir dalijame laipsnius su vienodais rodikliais (7 klasė).
+//
+// Savybės: aⁿ · bⁿ = (a·b)ⁿ ir aⁿ : bⁿ = (a:b)ⁿ.
+// Kiekvienas uždavinys prašo GALUTINĖS SKAITINĖS REIKŠMĖS (visada sveikas,
+// „gražus" skaičius), o žingsniai parodo savybės taikymą. Uždavinys kuriamas
+// IŠ atsakymo, todėl reikšmė visada teisinga ir švari.
+//
+// Šablonas jau apibrėžia: randint, choice, nz, nf, pm. Papildomai — sup().
 
-const SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
-function sup(n){ return String(n).split('').map(c=>SUP[c]).join(''); }
-function neg(n){ return sup('-'+n); }   // ⁻ⁿ
+const SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sup(n){ return String(n).split('').map(d=>SUP[d]).join(''); }
 
 const GENERATORIAI = [
-  { label:"Neigiamas rodiklis → trupmena", gen(){
-      const p = choice([[2,2],[2,3],[2,4],[3,2],[3,3],[4,2],[5,2],[6,2],[7,2],[10,2],[2,5]]);
-      const a=p[0], n=p[1], d=Math.pow(a,n);
-      return { q:`${a}${neg(n)}`, ans:1/d, ansText:`1/${d}`, steps:[
-        `${a}${neg(n)} = 1/${a}${sup(n)}`,
-        `${a}${sup(n)} = ${d}`,
-        `${a}${neg(n)} = 1/${d}`
+  // aⁿ · bⁿ = (a·b)ⁿ, kai a·b — „gražus" skaičius
+  { label:"Sandaugą užrašyti vienu laipsniu", gen(){
+      const n = choice([2,3]);
+      const P = n===3 ? {6:[[2,3]],10:[[2,5]]} : {6:[[2,3]],10:[[2,5]],12:[[2,6],[3,4]],15:[[3,5]]};
+      const p = choice(Object.keys(P).map(Number));
+      const [a,b] = choice(P[p]);
+      const ans = Math.pow(p,n);
+      return { q:`${a}${sup(n)} · ${b}${sup(n)}`, ans, steps:[
+        `${a}${sup(n)} · ${b}${sup(n)} = (${a} · ${b})${sup(n)} = ${p}${sup(n)}`,
+        `${p}${sup(n)} = ${nf(ans)}`
       ]};
   }},
-  { label:"Neigiama bazė, lyginis rodiklis", gen(){
-      const p = choice([[2,2],[2,4],[3,2],[4,2],[5,2],[6,2]]);
-      const a=p[0], n=p[1], d=Math.pow(a,n);
-      return { q:`(−${a})${neg(n)}`, ans:1/d, ansText:`1/${d}`, steps:[
-        `(−${a})${neg(n)} = 1/(−${a})${sup(n)}`,
-        `(−${a})${sup(n)} = ${d}   (lyginis rodiklis → teigiama)`,
-        `(−${a})${neg(n)} = 1/${d}`
+  // aⁿ : bⁿ = (a:b)ⁿ, kai a dalus iš b
+  { label:"Dalmenį užrašyti vienu laipsniu", gen(){
+      const n = choice([2,3]);
+      const k = choice([2,3,4]);
+      const b = choice([2,3,4,5]);
+      const a = b*k;
+      const ans = Math.pow(k,n);
+      return { q:`${a}${sup(n)} : ${b}${sup(n)}`, ans, steps:[
+        `${a}${sup(n)} : ${b}${sup(n)} = (${a} : ${b})${sup(n)} = ${k}${sup(n)}`,
+        `${k}${sup(n)} = ${nf(ans)}`
       ]};
   }},
-  { label:"Nulinis rodiklis", gen(){
-      const a = choice([2,3,4,5,6,7,8,9,10,12]);
-      const baze = choice([true,false]) ? `(−${a})` : `${a}`;
-      return { q:`${baze}${sup(0)}`, ans:1, steps:[
-        `Bet kurio skaičiaus (≠ 0) nulinis laipsnis lygus 1.`,
-        `${baze}${sup(0)} = 1`
+  // dešimtainė · sveikas: (d·b)ⁿ, kai d·b — sveikas
+  { label:"Dešimtainis pagrindas, gražus rezultatas", gen(){
+      const opts = [
+        {d:0.5,b:2,p:1},{d:0.5,b:4,p:2},{d:0.5,b:6,p:3},
+        {d:0.2,b:5,p:1},{d:0.2,b:10,p:2},
+        {d:0.25,b:4,p:1},{d:0.25,b:8,p:2}
+      ];
+      const o = choice(opts);
+      const n = choice([2,3]);
+      const ans = Math.pow(o.p,n);
+      return { q:`${nf(o.d)}${sup(n)} · ${o.b}${sup(n)}`, ans, steps:[
+        `${nf(o.d)}${sup(n)} · ${o.b}${sup(n)} = (${nf(o.d)} · ${o.b})${sup(n)} = ${o.p}${sup(n)}`,
+        `${o.p}${sup(n)} = ${nf(ans)}`
       ]};
   }},
-  { label:"Trupmenos vardiklis", gen(){
-      const p = choice([[2,2],[2,3],[3,2],[3,3],[4,2],[5,2],[6,2],[7,2],[10,2]]);
-      const a=p[0], n=p[1], d=Math.pow(a,n);
-      return { q:`${a}${neg(n)} = 1/□   — koks vardiklis □?`, ans:d, pre:"vardiklis =", steps:[
-        `${a}${neg(n)} = 1/${a}${sup(n)}`,
-        `${a}${sup(n)} = ${d}`,
-        `vardiklis = ${d}`
+  // dalmuo su neigiamais pagrindais: (−a)ⁿ : (−b)ⁿ = (a:b)ⁿ
+  { label:"Dalmuo su neigiamais pagrindais", gen(){
+      const n = choice([2,3]);
+      const k = choice([2,3]);
+      const b = choice([2,3,4]);
+      const a = b*k;
+      const ans = Math.pow(k,n);
+      return { q:`(−${a})${sup(n)} : (−${b})${sup(n)}`, ans, steps:[
+        `(−${a})${sup(n)} : (−${b})${sup(n)} = ((−${a}) : (−${b}))${sup(n)} = ${k}${sup(n)}`,
+        `${k}${sup(n)} = ${nf(ans)}`
       ]};
   }},
-  { label:"Trupmenos bazė laipsniu", gen(){
-      const p = choice([[3,4,2],[2,5,2],[4,5,2],[3,5,2],[2,3,2],[2,3,3],[3,7,2],[2,7,2],[4,7,2]]);
-      const a=p[0], b=p[1], n=p[2], num=Math.pow(b,n), den=Math.pow(a,n);
-      return { q:`(${a}/${b})${neg(n)}`, ans:num/den, ansText:`${num}/${den}`, steps:[
-        `(${a}/${b})${neg(n)} = (${b}/${a})${sup(n)}`,
-        `(${b}/${a})${sup(n)} = ${num}/${den}`
-      ]};
-  }},
-  { label:"Dešimties laipsnis", gen(){
-      const n = choice([1,2,3]);
-      const val = Math.pow(10,-n);
-      return { q:`10${neg(n)}`, ans:val, steps:[
-        `10${neg(n)} = 1/10${sup(n)}`,
-        `10${sup(n)} = ${Math.pow(10,n)}`,
-        `10${neg(n)} = ${nf(val)}`
+  // sandaugos laipsnį išskaidyti: (a·b)ⁿ = aⁿ·bⁿ
+  { label:"Sandaugos laipsnį išskaidyti ir apskaičiuoti", gen(){
+      const a = randint(2,4);
+      const b = randint(2,4);
+      const ab = a*b;
+      const n = ab<=6 ? choice([2,3]) : 2;
+      const av = Math.pow(a,n), bv = Math.pow(b,n);
+      const ans = Math.pow(ab,n);
+      return { q:`(${a} · ${b})${sup(n)}`, ans, steps:[
+        `(${a} · ${b})${sup(n)} = ${a}${sup(n)} · ${b}${sup(n)}`,
+        `${a}${sup(n)} · ${b}${sup(n)} = ${nf(av)} · ${nf(bv)} = ${nf(ans)}`
       ]};
   }}
 ];
@@ -192,7 +211,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: laipsnis su neigiamu rodikliu (7 klasė)", "subtitle": "Laipsnis su sveikuoju neigiamuoju rodikliu · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "reikšmė =", "simboliai": ["−", ",", "/"]};
+const META = {"title": "Kontrolinio treniruoklis: laipsnių daugyba ir dalyba su vienodais rodikliais (7 klasė)", "subtitle": "Vienodi rodikliai · aⁿ·bⁿ ir aⁿ:bⁿ · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "reikšmė =", "simboliai": ["−", ","]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
@@ -208,11 +227,20 @@ function initTekstai(){
   $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
 }
 
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^▢/g, '<sup>▢</sup>')
+    .replace(/([A-Za-z0-9])▢/g, '$1<sup>▢</sup>')
+    .replace(/(\d+)\/(\d+|□)/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
 function naujas(){
   S.dabartinis = makeProblem();
   S.atsakyta = false;
   $('tipas').textContent = S.dabartinis.label;
-  $('klausimas').textContent = S.dabartinis.q;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
   $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
   $('atsakymas').value = '';
   $('atsakymas').disabled = false;
@@ -248,10 +276,10 @@ function tikrinti(){
 
   const v = $('verdiktas');
   v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
-  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
 
-  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
   $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
   $('atsakymas').disabled = true;
   $('tikrinti').style.display='none';
