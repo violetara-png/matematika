@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Tekstinių uždavinių sprendimas (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.35rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.3px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>Tekstinių uždavinių sprendimas</b> · 7 klasė · N₁·D₁=N₂·D₂ · 1/a+1/b=1/t · v₁·t₁=v₂·t₂</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu išmoksime spręsti <b>tekstinius uždavinius</b> apie darbininkus, vamzdžius ir greitį — visus juos vienija ta pati idėja: <b>atvirkštinis proporcingumas</b>.<br><br>
+        Kai vienas dydis didėja, kitas mažėja <b>tiek pat kartų</b>. Pavyzdžiui: daugiau darbininkų → mažiau dienų. Pagrindinės formulės: <b>N₁·D₁ = N₂·D₂</b> (darbininkai/dienos), <b>1/a + 1/b = 1/t</b> (du atlikėjai dirba kartu), <b>v₁·t₁ = v₂·t₂</b> (greitis ir laikas pastoviam atstumui).<br><br>
+        Ir dar: <b>aš neduosiu tau gatavo atsakymo</b>. Vesiu tave klausimais bei užuominomis, o skaičių apskaičiuosi <b>tu pats</b>. Pabaigoje — 10 klausimų testas.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(',')">,</button><button onclick="ins('km/h')">km/h</button><button onclick="ins(' val.')"> val.</button><button onclick="ins(' d.')"> d.</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b> apie darbininkus/dienas, bendrą darbą ir greitį. Atsakymą rašyk skaičiumi, pvz. <b>12</b> arba <b>40</b>. Jei atsakymas turi trupmeninę dalį, rašyk su kableliu, pvz. <b>112,5</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/km\/h|km|val\.?|min|d\.?|eur|€/g,"")
+    .replace(/[*×✕]/g,"·")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {
+    intro: "Pradėkime nuo <b>I būdo — per vienetą</b>. Pirmiausia randame, per kiek laiko darbą atliktų <b>vienas</b> darbininkas.",
+    expr: "4 darbininkai taką nutiesė per 12 dienų",
+    q: "Per kiek dienų tą patį taką nutiestų VIENAS darbininkas (dirbdamas vienas)?",
+    accepted: ["48", "48d", "48d."],
+    hints: [
+      "Jei 4 darbininkai dirba 12 dienų, tai vienas darbininkas darbą atliktų <b>tiek kartų ilgiau</b>, kiek kartų mažiau darbininkų.",
+      "Padaugink darbininkų skaičių iš dienų skaičiaus: <b>4 · 12</b>.",
+      "Suskaičiuok <b>4 · 12</b> — tai bus dienų skaičius vienam darbininkui."
+    ]
+  },
+  {
+    intro: "Puiku! Dabar žinai, per kiek dienų darbą atliktų <b>vienas</b> darbininkas. Antras I būdo žingsnis — padalyti iš reikiamo darbininkų skaičiaus.",
+    expr: "1 darbininkas taką nutiestų per 48 dienas",
+    q: "Per kiek dienų tą patį taką nutiestų 6 darbininkai?",
+    accepted: ["8", "8d", "8d."],
+    hints: [
+      "Kuo daugiau darbininkų, tuo mažiau dienų reikia — todėl <b>daliname</b>, ne dauginame.",
+      "Padalyk 48 iš 6: <b>48 : 6</b>.",
+      "Suskaičiuok <b>48 : 6</b> — tai ir bus atsakymas dienomis."
+    ]
+  },
+  {
+    intro: "Dabar — <b>bendras darbas</b>. Kai du atlikėjai dirba <b>kartu</b>, sudedame jų normas (kiek darbo dalies kiekvienas atlieka per vieną laiko vienetą): <b>1/a + 1/b = 1/t</b>.",
+    expr: "Meistras darbą atlieka per 10 val., padėjėjas — per 15 val.",
+    q: "Per kiek valandų šį darbą atliktų abu KARTU?",
+    accepted: ["6", "6val", "6val."],
+    hints: [
+      "Per valandą meistras atlieka 1/10 dalies, padėjėjas — 1/15 dalies. Sudėk šias dvi trupmenas: <b>1/10 + 1/15</b>.",
+      "Bendras vardiklis — 30: 1/10 = 3/30, 1/15 = 2/30. Suma: <b>5/30 = 1/6</b>.",
+      "Jei per valandą kartu atlieka 1/6 dalies darbo, per kiek valandų atliks visą darbą (t. y. 6/6 dalį)? Atsakymas — tas skaičius, kuris yra vardiklyje."
+    ]
+  },
+  {
+    intro: "Pereikime prie <b>greičio, laiko ir atstumo</b>. Pirmiausia — paprastas žingsnis: randame greitį iš atstumo ir laiko.",
+    expr: "Automobilis nuvažiuoja 90 km per 1,5 valandos",
+    q: "Kokiu greičiu automobilis važiuoja?",
+    accepted: ["60", "60km/h"],
+    hints: [
+      "Greitis = atstumas : laikas.",
+      "Padalyk 90 iš 1,5: <b>90 : 1,5</b>.",
+      "Suskaičiuok <b>90 : 1,5</b> — tai ir bus greitis km/h."
+    ]
+  },
+  {
+    intro: "Paskutinė — pritaikome <b>v₁·t₁ = v₂·t₂</b>: atstumas tas pats, bet keičiasi laikas, todėl keičiasi ir greitis.",
+    expr: "Tą patį 90 km atstumą norima įveikti per 1 valandą",
+    q: "Kokiu greičiu reikia važiuoti, kad 90 km atstumą įveiktų per 1 valandą?",
+    accepted: ["90", "90km/h"],
+    hints: [
+      "Atstumas nesikeičia — jis vis dar 90 km.",
+      "Greitis = atstumas : naujas laikas = <b>90 : 1</b>.",
+      "Suskaičiuok <b>90 : 1</b> — tai ir bus reikiamas greitis."
+    ]
+  }
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [
+  { label: "variantas A", qs: [
+    { t: "6 darbininkai darbą atlieka per 8 dienas. Per kiek dienų tą patį darbą atliktų 4 darbininkai?", acc: ["12","12d"], hint: "6·8=48, 48:4." },
+    { t: "9 darbininkai darbą atlieka per 4 dienas. Per kiek dienų tą patį darbą atliktų 6 darbininkai?", acc: ["6","6d"], hint: "9·4=36, 36:6." },
+    { t: "5 darbininkai darbą atlieka per 6 dienas. Per kiek dienų tą patį darbą atliktų 10 darbininkų?", acc: ["3","3d"], hint: "5·6=30, 30:10." },
+    { t: "8 darbininkai darbą atlieka per 9 dienas. Per kiek dienų tą patį darbą atliktų 6 darbininkų?", acc: ["12","12d"], hint: "8·9=72, 72:6." },
+    { t: "Vienas atlikėjas darbą atlieka per 6 val., kitas — per 12 val. Per kiek valandų atliktų kartu?", acc: ["4","4val"], hint: "1/6+1/12=1/4." },
+    { t: "Vienas atlikėjas darbą atlieka per 9 val., kitas — per 18 val. Per kiek valandų atliktų kartu?", acc: ["6","6val"], hint: "1/9+1/18=1/6." },
+    { t: "Vienas atlikėjas darbą atlieka per 8 val., kitas — per 24 val. Per kiek valandų atliktų kartu?", acc: ["6","6val"], hint: "1/8+1/24=1/6." },
+    { t: "40 km atstumą įveikia per 2 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 1,6 val.?", acc: ["25","25km/h"], hint: "D=40, 40:1,6." },
+    { t: "60 km atstumą įveikia per 1,2 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 1,5 val.?", acc: ["40","40km/h"], hint: "D=60, 60:1,5." },
+    { t: "90 km atstumą įveikia per 1,5 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 1 val.?", acc: ["90","90km/h"], hint: "D=90, 90:1." }
+  ]},
+  { label: "variantas B", qs: [
+    { t: "4 darbininkai darbą atlieka per 15 dienų. Per kiek dienų tą patį darbą atliktų 6 darbininkai?", acc: ["10","10d"], hint: "4·15=60, 60:6." },
+    { t: "10 darbininkų darbą atlieka per 6 dienas. Per kiek dienų tą patį darbą atliktų 4 darbininkai?", acc: ["15","15d"], hint: "10·6=60, 60:4." },
+    { t: "3 darbininkai darbą atlieka per 20 dienų. Per kiek dienų tą patį darbą atliktų 5 darbininkai?", acc: ["12","12d"], hint: "3·20=60, 60:5." },
+    { t: "12 darbininkų darbą atlieka per 5 dienas. Per kiek dienų tą patį darbą atliktų 4 darbininkai?", acc: ["15","15d"], hint: "12·5=60, 60:4." },
+    { t: "Vienas atlikėjas darbą atlieka per 10 val., kitas — per 15 val. Per kiek valandų atliktų kartu?", acc: ["6","6val"], hint: "1/10+1/15=1/6." },
+    { t: "Vienas atlikėjas darbą atlieka per 12 val., kitas — per 36 val. Per kiek valandų atliktų kartu?", acc: ["9","9val"], hint: "1/12+1/36=1/9." },
+    { t: "Vienas atlikėjas darbą atlieka per 14 val., kitas — per 35 val. Per kiek valandų atliktų kartu?", acc: ["10","10val"], hint: "1/14+1/35=1/10." },
+    { t: "90 km atstumą įveikia per 3 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 1,5 val.?", acc: ["60","60km/h"], hint: "D=90, 90:1,5." },
+    { t: "80 km atstumą įveikia per 1 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 2 val.?", acc: ["40","40km/h"], hint: "D=80, 80:2." },
+    { t: "60 km atstumą įveikia per 3 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 2 val.?", acc: ["30","30km/h"], hint: "D=60, 60:2." }
+  ]},
+  { label: "variantas C", qs: [
+    { t: "6 darbininkai darbą atlieka per 10 dienų. Per kiek dienų tą patį darbą atliktų 4 darbininkai?", acc: ["15","15d"], hint: "6·10=60, 60:4." },
+    { t: "15 darbininkų darbą atlieka per 4 dienas. Per kiek dienų tą patį darbą atliktų 10 darbininkų?", acc: ["6","6d"], hint: "15·4=60, 60:10." },
+    { t: "2 darbininkai darbą atlieka per 18 dienų. Per kiek dienų tą patį darbą atliktų 9 darbininkai?", acc: ["4","4d"], hint: "2·18=36, 36:9." },
+    { t: "9 darbininkai darbą atlieka per 4 dienas. Per kiek dienų tą patį darbą atliktų 2 darbininkai?", acc: ["18","18d"], hint: "9·4=36, 36:2." },
+    { t: "Vienas atlikėjas darbą atlieka per 7 val., kitas — per 42 val. Per kiek valandų atliktų kartu?", acc: ["6","6val"], hint: "1/7+1/42=1/6." },
+    { t: "Vienas atlikėjas darbą atlieka per 10 val., kitas — per 40 val. Per kiek valandų atliktų kartu?", acc: ["8","8val"], hint: "1/10+1/40=1/8." },
+    { t: "Vienas atlikėjas darbą atlieka per 20 val., kitas — per 30 val. Per kiek valandų atliktų kartu?", acc: ["12","12val"], hint: "1/20+1/30=1/12." },
+    { t: "60 km atstumą įveikia per 2,5 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 3 val.?", acc: ["20","20km/h"], hint: "D=60, 60:3." },
+    { t: "72 km atstumą įveikia per 2 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 3 val.?", acc: ["24","24km/h"], hint: "D=72, 72:3." },
+    { t: "100 km atstumą įveikia per 2 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 2,5 val.?", acc: ["40","40km/h"], hint: "D=100, 100:2,5." }
+  ]}
+];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tekstinių uždavinių sprendimas — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Tekstinių uždavinių sprendimas</h1>
+  <p class="klase">Matematika · 7 klasė · 5.4 tema · atvirkštinis proporcingumas uždaviniuose</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Trys sprendimo būdai</a></li>
+      <li><a href="#t2">Bendras darbas: dvi normos kartu</a></li>
+      <li><a href="#t3">Vamzdžiai ir cisternos</a></li>
+      <li><a href="#t4">Greitis, laikas, atstumas</a></li>
+      <li><a href="#t5">Kiti atvirkštinio proporcingumo atvejai</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Trys sprendimo būdai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Darbininkų skaičius ir laikas darbui atlikti</span> yra <b>atvirkščiai proporcingi</b> dydžiai (dirbant vienodu tempu): kuo daugiau darbininkų, tuo mažiau laiko reikia. Tą patį uždavinį galima spręsti <b>trimis būdais</b>.</p>
+      </div>
+      <p class="pvz"><b>Uždavinys.</b> 4 darbininkai darbą atlieka per 6 dienas. Per kiek dienų tą patį darbą atliktų 3 darbininkai (dirbdami tuo pačiu tempu)?</p>
+      <div class="konsp">
+        <p><b class="term-a">I būdas — per vienetą.</b> Randame, per kiek dienų darbą atliktų <b>vienas</b> darbininkas: <span class="math">6 · 4 = 24</span> dienos. Tada 3 darbininkai: <span class="math">24 : 3 = <b class="gerai">8</b></span> dienos.</p>
+        <p><b class="term-a">II būdas — atvirkštinė proporcija.</b> <span class="math"><span class="fr"><span>4</span><span>3</span></span> = <span class="fr"><span>x</span><span>6</span></span></span> &nbsp;⇒&nbsp; <span class="math">x = <span class="fr"><span>4 · 6</span><span>3</span></span> = <b class="gerai">8</b></span> dienos. (Dydžiai atvirkščiai proporcingi, todėl santykis apverčiamas!)</p>
+        <p><b class="term-a">III būdas — sandaugų lygybė.</b> <span class="math">4 · 6 = 3 · x</span> &nbsp;⇒&nbsp; <span class="math">x = <span class="fr"><span>24</span><span>3</span></span> = <b class="gerai">8</b></span> dienos.</p>
+      </div>
+      <div class="demesio"><b>Visi trys būdai duoda tą patį atsakymą.</b> Verta mokėti bent du — vienas patikrina kitą.</div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Bendras darbas: dvi normos kartu</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai <b>du atlikėjai dirba kartu</b> (kiekvienas savo tempu), sudedame jų <b class="zenk">normas</b> — kiek darbo dalies kiekvienas atlieka per <b>vieną</b> laiko vienetą.</p>
+        <div class="formule math"><span class="fr"><span>1</span><span>a</span></span> + <span class="fr"><span>1</span><span>b</span></span> = <span class="fr"><span>1</span><span>t</span></span></div>
+        <p>Čia <span class="math">a</span> ir <span class="math">b</span> — kiek laiko kiekvienas atlikėjas darbą atliktų <b>vienas</b>, o <span class="math">t</span> — per kiek laiko darbą atliktų <b>abu kartu</b>.</p>
+      </div>
+      <p class="pvz"><b>Uždavinys.</b> Dažytojas sieną nudažo per <span class="math">40</span> min, padėjėjas — per <span class="math">60</span> min (1 val.). Per kiek minučių sieną nudažytų abu kartu?</p>
+      <div class="konsp">
+        <p>Per minutę dažytojas atlieka <span class="math"><span class="fr"><span>1</span><span>40</span></span></span> dalies, padėjėjas — <span class="math"><span class="fr"><span>1</span><span>60</span></span></span> dalies. Kartu per minutę:</p>
+        <div class="formule math"><span class="fr"><span>1</span><span>40</span></span> + <span class="fr"><span>1</span><span>60</span></span> = <span class="fr"><span>3</span><span>120</span></span> + <span class="fr"><span>2</span><span>120</span></span> = <span class="fr"><span>5</span><span>120</span></span> = <span class="fr"><span>1</span><span>24</span></span></div>
+        <p>Kartu jie per minutę atlieka <span class="math"><span class="fr"><span>1</span><span>24</span></span></span> dalies darbo, taigi visą sieną nudažys per <span class="math"><b class="gerai">24 min</b></span>.</p>
+      </div>
+      <div class="demesio"><b>Dėmesio.</b> Bendras laikas <b>visada trumpesnis</b> už greitesniojo laiką atskirai (čia 24 min &lt; 40 min). Jei gaunasi ilgesnis — klaida.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Vamzdžiai ir cisternos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Vamzdžių (siurblių, čiaupų) skaičius ir pripildymo laikas — <b>ta pati atvirkštinio proporcingumo idėja</b> kaip darbininkai ir dienos: kuo daugiau vamzdžių, tuo greičiau pripildoma.</p>
+      </div>
+      <p class="pvz"><b>Uždavinys.</b> 4 vienodais vamzdžiais cisterna pripildoma per 20 min.<br>
+      <b>a)</b> Per kiek minučių ją pripildytų 5 vamzdžiai?<br>
+      <b>b)</b> Kiek vamzdžių reikia, kad cisterna būtų pripildyta per 8 min?</p>
+      <div class="konsp">
+        <p>Vienu vamzdžiu cisterna pripildoma per <span class="math">4 · 20 = 80</span> min.</p>
+        <p><b>a)</b> 5 vamzdžiais: <span class="math">80 : 5 = <b class="gerai">16 min</b></span>.</p>
+        <p><b>b)</b> Kiek vamzdžių, kad per 8 min: <span class="math">80 : 8 = <b class="gerai">10 vamzdžių</b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Greitis, laikas, atstumas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai atstumas <b>pastovus</b>, greitis ir laikas yra atvirkščiai proporcingi:</p>
+        <div class="formule math"><span class="term-a">v₁</span> · <span class="term-b">t₁</span> = <span class="term-a">v₂</span> · <span class="term-b">t₂</span> &nbsp;(= atstumas)</div>
+      </div>
+      <p class="pvz"><b>Uždavinys.</b> Automobilis 1,5 val. važiavo 90 km/h greičiu. Kokiu greičiu reikia važiuoti, kad tą patį atstumą įveiktų per 1,2 val.?</p>
+      <div class="konsp">
+        <p>Atstumas: <span class="math">90 · 1,5 = 135</span> km.</p>
+        <p>Naujas greitis: <span class="math">v₂ = 135 : 1,2 = <b class="gerai">112,5 km/h</b></span>.</p>
+      </div>
+      <p class="pvz"><b>Uždavinys.</b> Traukinys 80 km/h greičiu atstumą įveikia per 2,5 val. Kokiu greičiu reikia važiuoti, kad tą atstumą įveiktų per 2 val.?</p>
+      <div class="konsp">
+        <p>Atstumas: <span class="math">80 · 2,5 = 200</span> km. Naujas greitis: <span class="math">200 : 2 = <b class="gerai">100 km/h</b></span> (20 km/h daugiau).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Kiti atvirkštinio proporcingumo atvejai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Ta pati idėja tinka <b>bet kuriai situacijai</b>, kurioje sandauga lieka pastovi: darbininkų brigadoms, kainai ir kiekiui už tą pačią sumą, dviem robotams valantiems kartu.</p>
+      </div>
+      <p class="pvz"><b>Statybininkų brigada.</b> 15 statybininkų objektą suremontuoja per 80 dienų. Per 60 dienų (nes atostogos) reikia daugiau žmonių. Kiek statybininkų reikia?</p>
+      <div class="konsp">
+        <p>Bendras darbo kiekis: <span class="math">15 · 80 = 1200</span> darbininko-dienų. Per 60 dienų: <span class="math">1200 : 60 = <b class="gerai">20 statybininkų</b></span> (5 daugiau).</p>
+      </div>
+      <p class="pvz"><b>Floristas.</b> Už tam tikrą pinigų sumą floristas padaro 40 puokščių. Kiek puokščių pagamins, jei viena puokštė bus 2,5 karto brangesnė?</p>
+      <div class="konsp">
+        <p>Kiek kartų brangesnė puokštė, tiek kartų mažiau jų galima nupirkti už tą pačią sumą: <span class="math">40 : 2,5 = <b class="gerai">16 puokščių</b></span>.</p>
+      </div>
+      <p class="pvz"><b>Du robotai valo kartu.</b> Vienas robotas plauna langus per 6 val., kitas — per 12 val. Per kiek valandų jie tai atliktų kartu?</p>
+      <div class="konsp">
+        <p><span class="math"><span class="fr"><span>1</span><span>6</span></span> + <span class="fr"><span>1</span><span>12</span></span> = <span class="fr"><span>2</span><span>12</span></span> + <span class="fr"><span>1</span><span>12</span></span> = <span class="fr"><span>3</span><span>12</span></span> = <span class="fr"><span>1</span><span>4</span></span></span> &nbsp;⇒&nbsp; kartu per <span class="math"><b class="gerai">4 valandas</b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math">daugiau darbininkų → <span class="klaida">daugiau dienų</span></td><td class="math"><span class="gerai">mažiau dienų</span> (dydžiai atvirkščiai proporcingi)</td></tr>
+          <tr><td class="math">bendras laikas <span class="klaida">a + b</span></td><td class="math"><span class="gerai">1/a + 1/t = 1/t</span> (normos, ne laikai, sudedamos)</td></tr>
+          <tr><td class="math">proporcijoje santykis <span class="klaida">nepakeistas</span> kryptimi</td><td class="math"><span class="gerai">4/3 = x/6</span> — atvirkštinei proporcijai santykį apverčiam</td></tr>
+          <tr><td class="math">bendras laikas <span class="klaida">ilgesnis</span> už greitesniojo laiką</td><td class="gerai">bendras laikas visada trumpesnis už bet kurio dirbančio atskirai</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmiausia nustatyk, ar dydžiai <b>atvirkščiai proporcingi</b> (vienam didėjant, kitas mažėja tiek pat kartų). Tada spręsk bet kuriuo iš trijų būdų — per vienetą, proporciją arba sandaugų lygybę — ir <b>patikrink</b> kitu būdu.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Tekstinių uždavinių sprendimas“ (5.4)
+  </footer>
+
+</div>
+</body>
+</html>

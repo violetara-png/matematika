@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atvirkščiai proporcingi dydžiai — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Atvirkščiai proporcingi dydžiai</h1>
+  <p class="klase">Matematika · 7 klasė · 5.2 tema · skyrius „Atvirkštinis proporcingumas“</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra atvirkščiai proporcingi dydžiai</a></li>
+      <li><a href="#t2">Savybė: atitinkamų reikšmių sandaugos lygios</a></li>
+      <li><a href="#t3">Atvirkštinio proporcingumo formulė y = k/x</a></li>
+      <li><a href="#t4">Skaičiavimai pagal formulę</a></li>
+      <li><a href="#t5">Lentelė su trūkstamomis reikšmėmis</a></li>
+      <li><a href="#t6">Ar dydžiai atvirkščiai proporcingi?</a></li>
+      <li><a href="#t7">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra atvirkščiai proporcingi dydžiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Pavyzdys.</b> Iki kaimyninio miesto — <span class="math">12</span> km. Jei einame greičiu <span class="math term-a">v</span> (km/h), kelionė trunka <span class="math term-b">t</span> (val.), <span class="math">t = 12 : v</span>.</p>
+        <table class="kort">
+          <tr><th class="math">v (km/h)</th><td class="math">1</td><td class="math">2</td><td class="math">3</td><td class="math">4</td><td class="math">6</td><td class="math">12</td></tr>
+          <tr><th class="math">t (val.)</th><td class="math">12</td><td class="math">6</td><td class="math">4</td><td class="math">3</td><td class="math">2</td><td class="math">1</td></tr>
+        </table>
+        <p style="margin-top:10px">Kiek kartų padidėja greitis, tiek pat kartų sumažėja kelionės laikas: <span class="math">v</span> padidėjo <b>4 kartus</b> (1→4), <span class="math">t</span> sumažėjo <b>4 kartus</b> (12→3).</p>
+        <p><span class="zenk">Apibrėžimas.</span> Du teigiami dydžiai vadinami <b>atvirkščiai proporcingais</b>, jei, vieno dydžio reikšmei kelis kartus padidėjus (sumažėjus), <b>tiek pat kartų sumažėja (padidėja)</b> atitinkama kito dydžio reikšmė.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Savybė: atitinkamų reikšmių sandaugos lygios</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei <span class="math term-a">x</span> ir <span class="math term-b">y</span> atvirkščiai proporcingi, tai bet kurių dviejų reikšmių porų santykis <span class="math">x<sub>n</sub> : x<sub>m</sub> = y<sub>m</sub> : y<sub>n</sub></span>, todėl:</p>
+        <div class="formule math"><span class="term-a">x<sub>n</sub></span> · <span class="term-b">y<sub>n</sub></span> = <span class="term-a">x<sub>m</sub></span> · <span class="term-b">y<sub>m</sub></span></div>
+        <p><b>Kitaip tariant</b> — atitinkamų reikšmių sandaugos visoms poroms yra <b>vienodos</b>. Iš aukščiau esančios lentelės: <span class="math">1·12 = 2·6 = 3·4 = 4·3 = 6·2 = 12·1 = 12</span>.</p>
+        <p class="pvz"><b>Kaip patikrinti praktiškai.</b> Sudauginu kiekvieną porą (x,y). Jei visos sandaugos sutampa — dydžiai atvirkščiai proporcingi. Jei bent viena sandauga skiriasi — <b>ne</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Atvirkštinio proporcingumo formulė y = k/x</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Pastovią sandaugą vadiname <b>atvirkštinio proporcingumo koeficientu</b> ir žymime raide <span class="math term-a">k</span> (<span class="math">k</span> — teigiamas skaičius):</p>
+        <div class="formule math"><span class="term-a">x</span> · <span class="term-b">y</span> = <span class="term-a">k</span></div>
+        <p>Iš čia — <b>atvirkštinio proporcingumo formulė</b>:</p>
+        <div class="formule math"><span class="term-b">y</span> = <span class="fr"><span class="term-a">k</span><span>x</span></span></div>
+        <p>Aukščiau esančiame pavyzdyje <span class="math">t = 12 : v</span>, taigi <span class="math">k = 12</span>.</p>
+        <p class="demesio"><b>Dėmesio — nepainiok su tiesioginiu proporcingumu!</b> <span class="math">y = kx</span> (tiesiogiai proporcingi, abu dydžiai kartu didėja) <b>≠</b> <span class="math">y = k/x</span> (atvirkščiai proporcingi, vienas didėja — kitas mažėja).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Skaičiavimai pagal formulę</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai žinomas koeficientas <span class="math term-a">k</span>, bet kurią <span class="math term-b">y</span> reikšmę apskaičiuojame įstatę <span class="math term-a">x</span> į formulę <span class="math">y = k/x</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Duota <span class="math">y = 16/x</span>.<br>
+        kai <span class="math">x = 8</span>: &nbsp; <span class="math">y = <span class="fr"><span>16</span><span>8</span></span> = 2</span><br>
+        kai <span class="math">x = 2,5</span>: &nbsp; <span class="math">y = <span class="fr"><span>16</span><span>2,5</span></span> = 6,4</span><br>
+        kai <span class="math">x = 2<span class="fr"><span>2</span><span>3</span></span></span> (t. y. <span class="math">x = 8/3</span>): &nbsp; <span class="math">y = 16 : <span class="fr"><span>8</span><span>3</span></span> = 16 · <span class="fr"><span>3</span><span>8</span></span> = 6</span></p>
+        <p>Reikšmė <span class="math term-a">x</span> gali būti ir trupmeninė — dalyba nuo to nepasikeičia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Lentelė su trūkstamomis reikšmėmis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei lentelėje žinoma <b>viena pilna pora</b> (x,y), iš jos randame <span class="math">k = x·y</span>, o tada visas kitas trūkstamas reikšmes — pagal formulę <span class="math">y = k/x</span> arba <span class="math">x = k/y</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Dydžiai <span class="math term-a">a</span> ir <span class="math term-b">b</span> atvirkščiai proporcingi.</p>
+        <table class="kort">
+          <tr><th class="math">a</th><td class="math">5</td><td class="math">?</td><td class="math">9</td><td class="math">?</td></tr>
+          <tr><th class="math">b</th><td class="math">?</td><td class="math">15</td><td class="math">5</td><td class="math">3</td></tr>
+        </table>
+        <p style="margin-top:10px">Pilna pora — trečias stulpelis: <span class="math">a = 9</span>, <span class="math">b = 5</span> → <span class="math">k = 9 · 5 = 45</span>.<br>
+        1 stulpelis: <span class="math">b = 45 : 5 = <span class="gerai">9</span></span> &nbsp; 2 stulpelis: <span class="math">a = 45 : 15 = <span class="gerai">3</span></span> &nbsp; 4 stulpelis: <span class="math">a = 45 : 3 = <span class="gerai">15</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Ar dydžiai atvirkščiai proporcingi?</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Ne kiekvieni du dydžiai, kai vienas didėja, o kitas mažėja, yra atvirkščiai proporcingi. Reikia patikrinti, ar <b>sandauga tikrai pastovi</b>.</p>
+        <table class="kort">
+          <tr><th>Dydžių pora</th><th>Ar atvirkščiai proporcingi?</th></tr>
+          <tr><td>Stačiakampio ilgis ir plotis, kai <b>plotas</b> pastovus</td><td class="gerai">TAIP &nbsp;(<span class="math">a · b = S</span>)</td></tr>
+          <tr><td>Kelionės greitis ir laikas, kai <b>atstumas</b> pastovus</td><td class="gerai">TAIP &nbsp;(<span class="math">v · t = s</span>)</td></tr>
+          <tr><td>Nuvažiuotas atstumas ir laikas, kai <b>greitis</b> pastovus</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">NE &nbsp;(tiesiogiai proporcingi: <span class="math">s = v·t</span>)</td></tr>
+          <tr><td>Kvadrato kraštinė ir perimetras</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">NE &nbsp;(tiesiogiai proporcingi: <span class="math">P = 4a</span>)</td></tr>
+          <tr><td>Darbininkų skaičius ir laikas tam pačiam darbui atlikti</td><td class="gerai">TAIP</td></tr>
+          <tr><td>Bilietų skaičius ir bilieto kaina, kai bendra pajamų suma pastovi</td><td class="gerai">TAIP</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:12px"><b>Patikrinimo taisyklė.</b> Jei didėjant vienam dydžiui <b>N kartų</b>, kitas dydis mažėja <b>tiksliai tiek pat kartų</b> — atvirkščiai proporcingi (<span class="math">x·y = k</span>). Jei kitas dydis <b>didėja tiek pat kartų</b> — tiesiogiai proporcingi (<span class="math">y/x = k</span>), ne atvirkščiai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">y = k/x</span> painiojama su <span class="klaida">y = kx</span></td><td class="math">atvirkščiai proporcingi — <span class="gerai">y = k/x</span> (dalyba, ne daugyba)</td></tr>
+          <tr><td>Manoma, kad k randamas <span class="klaida">sudedant</span> x ir y</td><td>k randamas <span class="gerai">dauginant</span>: <span class="math">k = x · y</span></td></tr>
+          <tr><td>Tikrinant lentelę, patikrinama <span class="klaida">tik viena pora</span></td><td><span class="gerai">Visos</span> poros turi duoti tą pačią sandaugą</td></tr>
+          <tr><td>„Atstumas ir laikas pastoviu greičiu“ laikoma atvirkščiai proporcinga</td><td>Tai <span class="gerai">tiesiogiai</span> proporcingi dydžiai (skiriasi nuo „greitis ir laikas pastoviu atstumu“)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Visada tikrinu <b>sandaugą</b> <span class="math">x · y</span> — jei ji <b>pastovi</b> visoms poroms, dydžiai atvirkščiai proporcingi.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Atvirkščiai proporcingi dydžiai“ (5.2)
+  </footer>
+
+</div>
+</body>
+</html>

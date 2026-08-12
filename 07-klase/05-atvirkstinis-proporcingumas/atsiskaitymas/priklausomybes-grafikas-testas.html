@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Atvirkščiai proporcingų dydžių priklausomybės grafikas</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="7-05-atvirkstinis-proporcingumas-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 5. Atvirkštinis proporcingumas";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>Atvirkščiai proporcingų dydžių priklausomybės grafikas</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Atvirkščiai proporcingų dydžių priklausomybės grafikas", "dalykas": "Matematika", "sheet_id": "1QD7oZ82d9GNjVM6V-eJ9p6chalWKH15igSQAwUE-Puo", "trukme_min": 25, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Grafikus ir koeficientą k supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai - ypač intervalų skaitymą."], [45, "Patenkinamai - verta pakartoti grafiko skaitymą ir k radimą."], [0, "Reikia pakartoti temą ir pasitreniruoti su grafikais."]]}, "variants": [{"id": 1, "mc": [{"q": "Kuri formulė aprašo atvirkščiai proporcingus dydžius?", "options": ["y = ½x", "y = 1 : (2x)", "y = x : 2", "y = 2x"], "correct": 1}, {"q": "y = 15 : x. Kam lygu y, kai x = 3?", "options": ["6", "4", "5", "7"], "correct": 2}, {"q": "y = 15 : x. Kam lygu y, kai x = 5?", "options": ["4", "2", "5", "3"], "correct": 3}, {"q": "Taškas (2; 13) priklauso grafikui y = k : x. Kam lygus k?", "options": ["26", "28", "13", "39"], "correct": 0}, {"q": "Kuri miniatiūra atitinka grafiką y = 4 : x?<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin:8px 0\"><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">A</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"34.0\" y1=\"98.0\" x2=\"132.0\" y2=\"16.0\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">B</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,16.0 43.4,34.4 45.8,49.5 48.3,62.2 50.8,73.1 53.2,82.5 55.7,90.7 58.2,97.9 60.6,104.2 63.1,109.6 65.6,114.4 68.0,118.5 70.5,122.0 73.0,125.0 75.5,127.5 77.9,129.6 80.4,131.3 82.9,132.7 85.3,133.9 87.8,134.8 90.3,135.5 92.7,136.0 95.2,136.4 97.7,136.7 100.1,136.9 102.6,137.0 105.1,137.0 107.5,136.9 110.0,136.7 112.5,136.5 114.9,136.2 117.4,135.9 119.9,135.5 122.3,135.1 124.8,134.6 127.3,134.1 129.7,133.6 132.0,133.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">C</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,98.0 43.4,102.4 45.8,105.7 48.3,108.3 50.8,110.4 53.2,112.1 55.7,113.6 58.2,114.9 60.6,116.0 63.1,116.9 65.6,117.8 68.0,118.5 70.5,119.2 73.0,119.8 75.5,120.3 77.9,120.7 80.4,121.1 82.9,121.5 85.3,121.9 87.8,122.2 90.3,122.5 92.7,122.7 95.2,123.0 97.7,123.2 100.1,123.4 102.6,123.5 105.1,123.7 107.5,123.9 110.0,124.0 112.5,124.1 114.9,124.2 117.4,124.4 119.9,124.5 122.3,124.6 124.8,124.6 127.3,124.7 129.7,124.8 132.0,124.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/><polyline points=\"27.1,98.0 24.6,93.6 22.2,90.3 19.7,87.7 17.2,85.6 14.8,83.9 12.3,82.4 9.8,81.1 7.4,80.0 4.9,79.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">D</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"20.0,98.0 24.1,79.3 28.1,63.0 32.2,49.1 36.3,37.6 40.3,28.5 44.4,21.8 48.4,17.5 52.5,15.5 56.6,15.9 60.6,18.7 64.7,23.9 68.8,31.5 72.8,41.5 76.9,53.9 80.9,68.7 85.0,85.9 89.1,105.5 93.1,127.5 97.2,151.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div></div>", "options": ["A", "B", "C", "D"], "correct": 1}, {"q": "Kai x didėja (I ketvirtyje), ką daro atvirkščiai proporcingo dydžio y reikšmė?", "options": ["didėja", "nekinta", "mažėja", "kartais mažėja, kartais didėja"], "correct": 2}, {"q": "Prie kokių tiesių artėja atvirkščiai proporcingų dydžių grafikas (bet jų nekerta)?", "options": ["y = x", "x = 1 ir y = 1", "asimptočių nėra", "x = 0 ir y = 0"], "correct": 3}, {"q": "Kai x > 0 ir y > 0, kuriame ketvirtyje yra atvirkščiai proporcingų dydžių grafikas?", "options": ["I ketvirtyje", "II ketvirtyje", "III ketvirtyje", "IV ketvirtyje"], "correct": 0}, {"q": "Paveiksle - grafikas y = 24 : x.<svg class=\"grafikas\" viewBox=\"0 0 300 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Grafikas y = 24/x\" style=\"max-width:100%;height:auto;font-family:Segoe UI,Arial,sans-serif\"><g stroke=\"#e2e8f0\" stroke-width=\"1\"><line x1=\"72.2\" y1=\"18.0\" x2=\"72.2\" y2=\"210.0\"/><line x1=\"98.4\" y1=\"18.0\" x2=\"98.4\" y2=\"210.0\"/><line x1=\"124.7\" y1=\"18.0\" x2=\"124.7\" y2=\"210.0\"/><line x1=\"150.9\" y1=\"18.0\" x2=\"150.9\" y2=\"210.0\"/><line x1=\"177.1\" y1=\"18.0\" x2=\"177.1\" y2=\"210.0\"/><line x1=\"203.3\" y1=\"18.0\" x2=\"203.3\" y2=\"210.0\"/><line x1=\"229.6\" y1=\"18.0\" x2=\"229.6\" y2=\"210.0\"/><line x1=\"255.8\" y1=\"18.0\" x2=\"255.8\" y2=\"210.0\"/><line x1=\"282.0\" y1=\"18.0\" x2=\"282.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"197.2\" x2=\"282.0\" y2=\"197.2\"/><line x1=\"46.0\" y1=\"184.4\" x2=\"282.0\" y2=\"184.4\"/><line x1=\"46.0\" y1=\"171.6\" x2=\"282.0\" y2=\"171.6\"/><line x1=\"46.0\" y1=\"158.8\" x2=\"282.0\" y2=\"158.8\"/><line x1=\"46.0\" y1=\"146.0\" x2=\"282.0\" y2=\"146.0\"/><line x1=\"46.0\" y1=\"133.2\" x2=\"282.0\" y2=\"133.2\"/><line x1=\"46.0\" y1=\"120.4\" x2=\"282.0\" y2=\"120.4\"/><line x1=\"46.0\" y1=\"107.6\" x2=\"282.0\" y2=\"107.6\"/><line x1=\"46.0\" y1=\"94.8\" x2=\"282.0\" y2=\"94.8\"/><line x1=\"46.0\" y1=\"82.0\" x2=\"282.0\" y2=\"82.0\"/><line x1=\"46.0\" y1=\"69.2\" x2=\"282.0\" y2=\"69.2\"/><line x1=\"46.0\" y1=\"56.4\" x2=\"282.0\" y2=\"56.4\"/><line x1=\"46.0\" y1=\"43.6\" x2=\"282.0\" y2=\"43.6\"/><line x1=\"46.0\" y1=\"30.8\" x2=\"282.0\" y2=\"30.8\"/><line x1=\"46.0\" y1=\"18.0\" x2=\"282.0\" y2=\"18.0\"/></g><g stroke=\"#5b6472\" stroke-width=\"1.6\"><line x1=\"46.0\" y1=\"12.0\" x2=\"46.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"210.0\" x2=\"290.0\" y2=\"210.0\"/></g><path d=\"M42.0,19.0 L46.0,12.0 L50.0,19.0 Z\" fill=\"#5b6472\"/><path d=\"M283.0,206.0 L290.0,210.0 L283.0,214.0 Z\" fill=\"#5b6472\"/><text x=\"292.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">x</text><text x=\"32.0\" y=\"10.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">y</text><text x=\"36.0\" y=\"226.0\" font-size=\"12\" fill=\"#5b6472\">0</text><g font-size=\"11\" fill=\"#5b6472\"><text x=\"68.2\" y=\"226.0\">1</text><text x=\"94.4\" y=\"226.0\">2</text><text x=\"120.7\" y=\"226.0\">3</text><text x=\"146.9\" y=\"226.0\">4</text><text x=\"173.1\" y=\"226.0\">5</text><text x=\"199.3\" y=\"226.0\">6</text><text x=\"225.6\" y=\"226.0\">7</text><text x=\"251.8\" y=\"226.0\">8</text><text x=\"278.0\" y=\"226.0\">9</text><text x=\"24.0\" y=\"201.2\">1</text><text x=\"24.0\" y=\"188.4\">2</text><text x=\"24.0\" y=\"175.6\">3</text><text x=\"24.0\" y=\"162.8\">4</text><text x=\"24.0\" y=\"150.0\">5</text><text x=\"24.0\" y=\"137.2\">6</text><text x=\"24.0\" y=\"124.4\">7</text><text x=\"24.0\" y=\"111.6\">8</text><text x=\"24.0\" y=\"98.8\">9</text><text x=\"24.0\" y=\"86.0\">10</text><text x=\"24.0\" y=\"73.2\">11</text><text x=\"24.0\" y=\"60.4\">12</text><text x=\"24.0\" y=\"47.6\">13</text><text x=\"24.0\" y=\"34.8\">14</text><text x=\"24.0\" y=\"22.0\">15</text></g><polyline points=\"88.0,18.0 90.4,28.6 92.9,38.1 95.3,46.7 97.8,54.4 100.2,61.5 102.7,67.9 105.1,73.8 107.6,79.2 110.1,84.3 112.5,88.9 115.0,93.2 117.4,97.2 119.9,101.0 122.3,104.5 124.8,107.8 127.3,110.9 129.7,113.8 132.2,116.5 134.6,119.1 137.1,121.6 139.5,123.9 142.0,126.1 144.4,128.2 146.9,130.2 149.4,132.1 151.8,133.9 154.3,135.6 156.7,137.3 159.2,138.8 161.6,140.3 164.1,141.8 166.6,143.2 169.0,144.5 171.5,145.8 173.9,147.0 176.4,148.2 178.8,149.4 181.3,150.5 183.7,151.5 186.2,152.5 188.7,153.5 191.1,154.5 193.6,155.4 196.0,156.3 198.5,157.2 200.9,158.0 203.4,158.8 205.9,159.6 208.3,160.4 210.8,161.1 213.2,161.8 215.7,162.5 218.1,163.2 220.6,163.9 223.0,164.5 225.5,165.1 228.0,165.7 230.4,166.3 232.9,166.9 235.3,167.5 237.8,168.0 240.2,168.5 242.7,169.0 245.2,169.6 247.6,170.0 250.1,170.5 252.5,171.0 255.0,171.5 257.4,171.9 259.9,172.3 262.3,172.8 264.8,173.2 267.3,173.6 269.7,174.0 272.2,174.4 274.6,174.8 277.1,175.1 279.5,175.5 282.0,175.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.6\"/><circle cx=\"98.4\" cy=\"56.4\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"104.4\" y=\"50.4\" font-size=\"11.5\" fill=\"#1c2430\">(2;12)</text><circle cx=\"150.9\" cy=\"133.2\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"156.9\" y=\"127.2\" font-size=\"11.5\" fill=\"#1c2430\">(4;6)</text><circle cx=\"203.3\" cy=\"158.8\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"209.3\" y=\"152.8\" font-size=\"11.5\" fill=\"#1c2430\">(6;4)</text></svg><br>Raskite y, kai x = 3.", "options": ["9", "8", "7", "10"], "correct": 1}, {"q": "y = 24 : x. Kokiam y intervalui priklauso reikšmės, kai x ∈ [2; 6]?", "options": ["y ∈ [2; 6]", "y ∈ [3; 12]", "y ∈ [4; 12]", "y ∈ [4; 13]"], "correct": 2}], "open": [{"q": "y = 15 : x. Raskite y, kai x = 3.", "a": "NQ=="}, {"q": "Stačiakampio plotas S = 36 cm². Koks plotis b, kai ilgis a = 4 cm (b = 36 : a)?", "a": "OQ=="}, {"q": "y = 48 : x. Raskite x, kai y = 12.", "a": "NA=="}, {"q": "Taškas (2; 13) priklauso grafikui y = k : x. Raskite k.", "a": "MjY="}, {"q": "Taškas (6; 6) priklauso grafikui y = k : x. Raskite k.", "a": "MzY="}, {"q": "y = 15 : x. Raskite y, kai x = 5.", "a": "Mw=="}, {"q": "Grafikas y = 24 : x (žr. paveikslą aukščiau, 9 užduotyje).<br>Raskite y, kai x = 8.", "a": "Mw=="}, {"q": "y = 24 : x. Raskite x, kai y = 8.", "a": "Mw=="}, {"q": "Baseino talpa 48 m³. Kiekvienas siurblys per valandą pripildo 1 m³, todėl laikas t = 48 : n (n - siurblių skaičius). Kiek valandų reikės, jei dirbs 4 siurbliai?", "a": "MTI="}, {"q": "5 vienodi darbininkai atlieka darbą per 3 dienas. Per kiek dienų tą patį darbą atliktų vienas darbininkas (bendras darbo kiekis 15 darbininko-dienų)?", "a": "MTU="}]}, {"id": 2, "mc": [{"q": "Kuri formulė aprašo atvirkščiai proporcingus dydžius?", "options": ["y = ⅓x", "y = x : 3", "y = 1 : (3x)", "y = 3x"], "correct": 2}, {"q": "y = 21 : x. Kam lygu y, kai x = 3?", "options": ["8", "6", "9", "7"], "correct": 3}, {"q": "y = 21 : x. Kam lygu y, kai x = 7?", "options": ["3", "4", "2", "5"], "correct": 0}, {"q": "Taškas (3; 14) priklauso grafikui y = k : x. Kam lygus k?", "options": ["45", "42", "28", "56"], "correct": 1}, {"q": "Kuri miniatiūra atitinka grafiką y = 5 : x?<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin:8px 0\"><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">A</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"34.0\" y1=\"98.0\" x2=\"132.0\" y2=\"16.0\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">B</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,98.0 43.4,102.4 45.8,105.7 48.3,108.3 50.8,110.4 53.2,112.1 55.7,113.6 58.2,114.9 60.6,116.0 63.1,116.9 65.6,117.8 68.0,118.5 70.5,119.2 73.0,119.8 75.5,120.3 77.9,120.7 80.4,121.1 82.9,121.5 85.3,121.9 87.8,122.2 90.3,122.5 92.7,122.7 95.2,123.0 97.7,123.2 100.1,123.4 102.6,123.5 105.1,123.7 107.5,123.9 110.0,124.0 112.5,124.1 114.9,124.2 117.4,124.4 119.9,124.5 122.3,124.6 124.8,124.6 127.3,124.7 129.7,124.8 132.0,124.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/><polyline points=\"27.1,98.0 24.6,93.6 22.2,90.3 19.7,87.7 17.2,85.6 14.8,83.9 12.3,82.4 9.8,81.1 7.4,80.0 4.9,79.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">C</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,16.0 43.4,34.4 45.8,49.5 48.3,62.2 50.8,73.1 53.2,82.5 55.7,90.7 58.2,97.9 60.6,104.2 63.1,109.6 65.6,114.4 68.0,118.5 70.5,122.0 73.0,125.0 75.5,127.5 77.9,129.6 80.4,131.3 82.9,132.7 85.3,133.9 87.8,134.8 90.3,135.5 92.7,136.0 95.2,136.4 97.7,136.7 100.1,136.9 102.6,137.0 105.1,137.0 107.5,136.9 110.0,136.7 112.5,136.5 114.9,136.2 117.4,135.9 119.9,135.5 122.3,135.1 124.8,134.6 127.3,134.1 129.7,133.6 132.0,133.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">D</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"20.0,98.0 24.1,79.3 28.1,63.0 32.2,49.1 36.3,37.6 40.3,28.5 44.4,21.8 48.4,17.5 52.5,15.5 56.6,15.9 60.6,18.7 64.7,23.9 68.8,31.5 72.8,41.5 76.9,53.9 80.9,68.7 85.0,85.9 89.1,105.5 93.1,127.5 97.2,151.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div></div>", "options": ["A", "B", "C", "D"], "correct": 2}, {"q": "Kai x didėja (I ketvirtyje), ką daro atvirkščiai proporcingo dydžio y reikšmė?", "options": ["didėja", "nekinta", "kartais mažėja, kartais didėja", "mažėja"], "correct": 3}, {"q": "Prie kokių tiesių artėja atvirkščiai proporcingų dydžių grafikas (bet jų nekerta)?", "options": ["x = 0 ir y = 0", "y = x", "x = 1 ir y = 1", "asimptočių nėra"], "correct": 0}, {"q": "Kai x > 0 ir y > 0, kuriame ketvirtyje yra atvirkščiai proporcingų dydžių grafikas?", "options": ["II ketvirtyje", "I ketvirtyje", "III ketvirtyje", "IV ketvirtyje"], "correct": 1}, {"q": "Paveiksle - grafikas y = 30 : x.<svg class=\"grafikas\" viewBox=\"0 0 300 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Grafikas y = 30/x\" style=\"max-width:100%;height:auto;font-family:Segoe UI,Arial,sans-serif\"><g stroke=\"#e2e8f0\" stroke-width=\"1\"><line x1=\"72.2\" y1=\"18.0\" x2=\"72.2\" y2=\"210.0\"/><line x1=\"98.4\" y1=\"18.0\" x2=\"98.4\" y2=\"210.0\"/><line x1=\"124.7\" y1=\"18.0\" x2=\"124.7\" y2=\"210.0\"/><line x1=\"150.9\" y1=\"18.0\" x2=\"150.9\" y2=\"210.0\"/><line x1=\"177.1\" y1=\"18.0\" x2=\"177.1\" y2=\"210.0\"/><line x1=\"203.3\" y1=\"18.0\" x2=\"203.3\" y2=\"210.0\"/><line x1=\"229.6\" y1=\"18.0\" x2=\"229.6\" y2=\"210.0\"/><line x1=\"255.8\" y1=\"18.0\" x2=\"255.8\" y2=\"210.0\"/><line x1=\"282.0\" y1=\"18.0\" x2=\"282.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"199.3\" x2=\"282.0\" y2=\"199.3\"/><line x1=\"46.0\" y1=\"188.7\" x2=\"282.0\" y2=\"188.7\"/><line x1=\"46.0\" y1=\"178.0\" x2=\"282.0\" y2=\"178.0\"/><line x1=\"46.0\" y1=\"167.3\" x2=\"282.0\" y2=\"167.3\"/><line x1=\"46.0\" y1=\"156.7\" x2=\"282.0\" y2=\"156.7\"/><line x1=\"46.0\" y1=\"146.0\" x2=\"282.0\" y2=\"146.0\"/><line x1=\"46.0\" y1=\"135.3\" x2=\"282.0\" y2=\"135.3\"/><line x1=\"46.0\" y1=\"124.7\" x2=\"282.0\" y2=\"124.7\"/><line x1=\"46.0\" y1=\"114.0\" x2=\"282.0\" y2=\"114.0\"/><line x1=\"46.0\" y1=\"103.3\" x2=\"282.0\" y2=\"103.3\"/><line x1=\"46.0\" y1=\"92.7\" x2=\"282.0\" y2=\"92.7\"/><line x1=\"46.0\" y1=\"82.0\" x2=\"282.0\" y2=\"82.0\"/><line x1=\"46.0\" y1=\"71.3\" x2=\"282.0\" y2=\"71.3\"/><line x1=\"46.0\" y1=\"60.7\" x2=\"282.0\" y2=\"60.7\"/><line x1=\"46.0\" y1=\"50.0\" x2=\"282.0\" y2=\"50.0\"/><line x1=\"46.0\" y1=\"39.3\" x2=\"282.0\" y2=\"39.3\"/><line x1=\"46.0\" y1=\"28.7\" x2=\"282.0\" y2=\"28.7\"/><line x1=\"46.0\" y1=\"18.0\" x2=\"282.0\" y2=\"18.0\"/></g><g stroke=\"#5b6472\" stroke-width=\"1.6\"><line x1=\"46.0\" y1=\"12.0\" x2=\"46.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"210.0\" x2=\"290.0\" y2=\"210.0\"/></g><path d=\"M42.0,19.0 L46.0,12.0 L50.0,19.0 Z\" fill=\"#5b6472\"/><path d=\"M283.0,206.0 L290.0,210.0 L283.0,214.0 Z\" fill=\"#5b6472\"/><text x=\"292.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">x</text><text x=\"32.0\" y=\"10.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">y</text><text x=\"36.0\" y=\"226.0\" font-size=\"12\" fill=\"#5b6472\">0</text><g font-size=\"11\" fill=\"#5b6472\"><text x=\"68.2\" y=\"226.0\">1</text><text x=\"94.4\" y=\"226.0\">2</text><text x=\"120.7\" y=\"226.0\">3</text><text x=\"146.9\" y=\"226.0\">4</text><text x=\"173.1\" y=\"226.0\">5</text><text x=\"199.3\" y=\"226.0\">6</text><text x=\"225.6\" y=\"226.0\">7</text><text x=\"251.8\" y=\"226.0\">8</text><text x=\"278.0\" y=\"226.0\">9</text><text x=\"24.0\" y=\"203.3\">1</text><text x=\"24.0\" y=\"192.7\">2</text><text x=\"24.0\" y=\"182.0\">3</text><text x=\"24.0\" y=\"171.3\">4</text><text x=\"24.0\" y=\"160.7\">5</text><text x=\"24.0\" y=\"150.0\">6</text><text x=\"24.0\" y=\"139.3\">7</text><text x=\"24.0\" y=\"128.7\">8</text><text x=\"24.0\" y=\"118.0\">9</text><text x=\"24.0\" y=\"107.3\">10</text><text x=\"24.0\" y=\"96.7\">11</text><text x=\"24.0\" y=\"86.0\">12</text><text x=\"24.0\" y=\"75.3\">13</text><text x=\"24.0\" y=\"64.7\">14</text><text x=\"24.0\" y=\"54.0\">15</text><text x=\"24.0\" y=\"43.3\">16</text><text x=\"24.0\" y=\"32.7\">17</text><text x=\"24.0\" y=\"22.0\">18</text></g><polyline points=\"89.7,18.0 92.1,28.1 94.6,37.2 97.0,45.5 99.4,53.0 101.9,59.8 104.3,66.1 106.7,71.9 109.2,77.2 111.6,82.1 114.0,86.7 116.5,90.9 118.9,94.9 121.3,98.6 123.8,102.1 126.2,105.4 128.6,108.5 131.1,111.4 133.5,114.1 136.0,116.7 138.4,119.2 140.8,121.5 143.3,123.7 145.7,125.8 148.1,127.8 150.6,129.7 153.0,131.6 155.4,133.3 157.9,135.0 160.3,136.6 162.7,138.1 165.2,139.6 167.6,141.0 170.0,142.3 172.5,143.6 174.9,144.9 177.3,146.1 179.8,147.3 182.2,148.4 184.6,149.5 187.1,150.5 189.5,151.5 191.9,152.5 194.4,153.4 196.8,154.4 199.2,155.2 201.7,156.1 204.1,156.9 206.5,157.7 209.0,158.5 211.4,159.3 213.8,160.0 216.3,160.7 218.7,161.4 221.1,162.1 223.6,162.7 226.0,163.4 228.4,164.0 230.9,164.6 233.3,165.2 235.8,165.8 238.2,166.3 240.6,166.9 243.1,167.4 245.5,167.9 247.9,168.4 250.4,168.9 252.8,169.4 255.2,169.9 257.7,170.4 260.1,170.8 262.5,171.2 265.0,171.7 267.4,172.1 269.8,172.5 272.3,172.9 274.7,173.3 277.1,173.7 279.6,174.1 282.0,174.4\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.6\"/><circle cx=\"98.4\" cy=\"50.0\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"104.4\" y=\"44.0\" font-size=\"11.5\" fill=\"#1c2430\">(2;15)</text><circle cx=\"177.1\" cy=\"146.0\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"183.1\" y=\"140.0\" font-size=\"11.5\" fill=\"#1c2430\">(5;6)</text><circle cx=\"203.3\" cy=\"156.7\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"209.3\" y=\"150.7\" font-size=\"11.5\" fill=\"#1c2430\">(6;5)</text></svg><br>Raskite y, kai x = 3.", "options": ["11", "9", "10", "12"], "correct": 2}, {"q": "y = 30 : x. Kokiam y intervalui priklauso reikšmės, kai x ∈ [3; 5]?", "options": ["y ∈ [3; 5]", "y ∈ [5; 10]", "y ∈ [6; 11]", "y ∈ [6; 10]"], "correct": 3}], "open": [{"q": "y = 21 : x. Raskite y, kai x = 3.", "a": "Nw=="}, {"q": "Stačiakampio plotas S = 40 cm². Koks plotis b, kai ilgis a = 5 cm (b = 40 : a)?", "a": "OA=="}, {"q": "y = 60 : x. Raskite x, kai y = 12.", "a": "NQ=="}, {"q": "Taškas (3; 14) priklauso grafikui y = k : x. Raskite k.", "a": "NDI="}, {"q": "Taškas (8; 5) priklauso grafikui y = k : x. Raskite k.", "a": "NDA="}, {"q": "y = 21 : x. Raskite y, kai x = 7.", "a": "Mw=="}, {"q": "Grafikas y = 30 : x (žr. paveikslą aukščiau, 9 užduotyje).<br>Raskite y, kai x = 10.", "a": "Mw=="}, {"q": "y = 30 : x. Raskite x, kai y = 10.", "a": "Mw=="}, {"q": "Baseino talpa 60 m³. Kiekvienas siurblys per valandą pripildo 1 m³, todėl laikas t = 60 : n (n - siurblių skaičius). Kiek valandų reikės, jei dirbs 5 siurbliai?", "a": "MTI="}, {"q": "6 vienodi darbininkai atlieka darbą per 4 dienas. Per kiek dienų tą patį darbą atliktų vienas darbininkas (bendras darbo kiekis 24 darbininko-dienų)?", "a": "MjQ="}]}, {"id": 3, "mc": [{"q": "Kuri formulė aprašo atvirkščiai proporcingus dydžius?", "options": ["y = ¼x", "y = x : 4", "y = 4x", "y = 1 : (4x)"], "correct": 3}, {"q": "y = 28 : x. Kam lygu y, kai x = 4?", "options": ["7", "8", "6", "9"], "correct": 0}, {"q": "y = 28 : x. Kam lygu y, kai x = 7?", "options": ["5", "4", "3", "6"], "correct": 1}, {"q": "Taškas (5; 9) priklauso grafikui y = k : x. Kam lygus k?", "options": ["50", "36", "45", "54"], "correct": 2}, {"q": "Kuri miniatiūra atitinka grafiką y = 6 : x?<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin:8px 0\"><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">A</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"34.0\" y1=\"98.0\" x2=\"132.0\" y2=\"16.0\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">B</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,98.0 43.4,102.4 45.8,105.7 48.3,108.3 50.8,110.4 53.2,112.1 55.7,113.6 58.2,114.9 60.6,116.0 63.1,116.9 65.6,117.8 68.0,118.5 70.5,119.2 73.0,119.8 75.5,120.3 77.9,120.7 80.4,121.1 82.9,121.5 85.3,121.9 87.8,122.2 90.3,122.5 92.7,122.7 95.2,123.0 97.7,123.2 100.1,123.4 102.6,123.5 105.1,123.7 107.5,123.9 110.0,124.0 112.5,124.1 114.9,124.2 117.4,124.4 119.9,124.5 122.3,124.6 124.8,124.6 127.3,124.7 129.7,124.8 132.0,124.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/><polyline points=\"27.1,98.0 24.6,93.6 22.2,90.3 19.7,87.7 17.2,85.6 14.8,83.9 12.3,82.4 9.8,81.1 7.4,80.0 4.9,79.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">C</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"20.0,98.0 24.1,79.3 28.1,63.0 32.2,49.1 36.3,37.6 40.3,28.5 44.4,21.8 48.4,17.5 52.5,15.5 56.6,15.9 60.6,18.7 64.7,23.9 68.8,31.5 72.8,41.5 76.9,53.9 80.9,68.7 85.0,85.9 89.1,105.5 93.1,127.5 97.2,151.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">D</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,16.0 43.4,34.4 45.8,49.5 48.3,62.2 50.8,73.1 53.2,82.5 55.7,90.7 58.2,97.9 60.6,104.2 63.1,109.6 65.6,114.4 68.0,118.5 70.5,122.0 73.0,125.0 75.5,127.5 77.9,129.6 80.4,131.3 82.9,132.7 85.3,133.9 87.8,134.8 90.3,135.5 92.7,136.0 95.2,136.4 97.7,136.7 100.1,136.9 102.6,137.0 105.1,137.0 107.5,136.9 110.0,136.7 112.5,136.5 114.9,136.2 117.4,135.9 119.9,135.5 122.3,135.1 124.8,134.6 127.3,134.1 129.7,133.6 132.0,133.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div></div>", "options": ["A", "B", "C", "D"], "correct": 3}, {"q": "Kai x didėja (I ketvirtyje), ką daro atvirkščiai proporcingo dydžio y reikšmė?", "options": ["mažėja", "didėja", "nekinta", "kartais mažėja, kartais didėja"], "correct": 0}, {"q": "Prie kokių tiesių artėja atvirkščiai proporcingų dydžių grafikas (bet jų nekerta)?", "options": ["y = x", "x = 0 ir y = 0", "x = 1 ir y = 1", "asimptočių nėra"], "correct": 1}, {"q": "Kai x > 0 ir y > 0, kuriame ketvirtyje yra atvirkščiai proporcingų dydžių grafikas?", "options": ["II ketvirtyje", "III ketvirtyje", "I ketvirtyje", "IV ketvirtyje"], "correct": 2}, {"q": "Paveiksle - grafikas y = 36 : x.<svg class=\"grafikas\" viewBox=\"0 0 300 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Grafikas y = 36/x\" style=\"max-width:100%;height:auto;font-family:Segoe UI,Arial,sans-serif\"><g stroke=\"#e2e8f0\" stroke-width=\"1\"><line x1=\"65.7\" y1=\"18.0\" x2=\"65.7\" y2=\"210.0\"/><line x1=\"85.3\" y1=\"18.0\" x2=\"85.3\" y2=\"210.0\"/><line x1=\"105.0\" y1=\"18.0\" x2=\"105.0\" y2=\"210.0\"/><line x1=\"124.7\" y1=\"18.0\" x2=\"124.7\" y2=\"210.0\"/><line x1=\"144.3\" y1=\"18.0\" x2=\"144.3\" y2=\"210.0\"/><line x1=\"164.0\" y1=\"18.0\" x2=\"164.0\" y2=\"210.0\"/><line x1=\"183.7\" y1=\"18.0\" x2=\"183.7\" y2=\"210.0\"/><line x1=\"203.3\" y1=\"18.0\" x2=\"203.3\" y2=\"210.0\"/><line x1=\"223.0\" y1=\"18.0\" x2=\"223.0\" y2=\"210.0\"/><line x1=\"242.7\" y1=\"18.0\" x2=\"242.7\" y2=\"210.0\"/><line x1=\"262.3\" y1=\"18.0\" x2=\"262.3\" y2=\"210.0\"/><line x1=\"282.0\" y1=\"18.0\" x2=\"282.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"197.2\" x2=\"282.0\" y2=\"197.2\"/><line x1=\"46.0\" y1=\"184.4\" x2=\"282.0\" y2=\"184.4\"/><line x1=\"46.0\" y1=\"171.6\" x2=\"282.0\" y2=\"171.6\"/><line x1=\"46.0\" y1=\"158.8\" x2=\"282.0\" y2=\"158.8\"/><line x1=\"46.0\" y1=\"146.0\" x2=\"282.0\" y2=\"146.0\"/><line x1=\"46.0\" y1=\"133.2\" x2=\"282.0\" y2=\"133.2\"/><line x1=\"46.0\" y1=\"120.4\" x2=\"282.0\" y2=\"120.4\"/><line x1=\"46.0\" y1=\"107.6\" x2=\"282.0\" y2=\"107.6\"/><line x1=\"46.0\" y1=\"94.8\" x2=\"282.0\" y2=\"94.8\"/><line x1=\"46.0\" y1=\"82.0\" x2=\"282.0\" y2=\"82.0\"/><line x1=\"46.0\" y1=\"69.2\" x2=\"282.0\" y2=\"69.2\"/><line x1=\"46.0\" y1=\"56.4\" x2=\"282.0\" y2=\"56.4\"/><line x1=\"46.0\" y1=\"43.6\" x2=\"282.0\" y2=\"43.6\"/><line x1=\"46.0\" y1=\"30.8\" x2=\"282.0\" y2=\"30.8\"/><line x1=\"46.0\" y1=\"18.0\" x2=\"282.0\" y2=\"18.0\"/></g><g stroke=\"#5b6472\" stroke-width=\"1.6\"><line x1=\"46.0\" y1=\"12.0\" x2=\"46.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"210.0\" x2=\"290.0\" y2=\"210.0\"/></g><path d=\"M42.0,19.0 L46.0,12.0 L50.0,19.0 Z\" fill=\"#5b6472\"/><path d=\"M283.0,206.0 L290.0,210.0 L283.0,214.0 Z\" fill=\"#5b6472\"/><text x=\"292.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">x</text><text x=\"32.0\" y=\"10.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">y</text><text x=\"36.0\" y=\"226.0\" font-size=\"12\" fill=\"#5b6472\">0</text><g font-size=\"11\" fill=\"#5b6472\"><text x=\"61.7\" y=\"226.0\">1</text><text x=\"81.3\" y=\"226.0\">2</text><text x=\"101.0\" y=\"226.0\">3</text><text x=\"120.7\" y=\"226.0\">4</text><text x=\"140.3\" y=\"226.0\">5</text><text x=\"160.0\" y=\"226.0\">6</text><text x=\"179.7\" y=\"226.0\">7</text><text x=\"199.3\" y=\"226.0\">8</text><text x=\"219.0\" y=\"226.0\">9</text><text x=\"238.7\" y=\"226.0\">10</text><text x=\"258.3\" y=\"226.0\">11</text><text x=\"278.0\" y=\"226.0\">12</text><text x=\"24.0\" y=\"201.2\">1</text><text x=\"24.0\" y=\"188.4\">2</text><text x=\"24.0\" y=\"175.6\">3</text><text x=\"24.0\" y=\"162.8\">4</text><text x=\"24.0\" y=\"150.0\">5</text><text x=\"24.0\" y=\"137.2\">6</text><text x=\"24.0\" y=\"124.4\">7</text><text x=\"24.0\" y=\"111.6\">8</text><text x=\"24.0\" y=\"98.8\">9</text><text x=\"24.0\" y=\"86.0\">10</text><text x=\"24.0\" y=\"73.2\">11</text><text x=\"24.0\" y=\"60.4\">12</text><text x=\"24.0\" y=\"47.6\">13</text><text x=\"24.0\" y=\"34.8\">14</text><text x=\"24.0\" y=\"22.0\">15</text></g><polyline points=\"93.2,18.0 95.6,27.3 98.0,35.7 100.4,43.3 102.8,50.3 105.1,56.8 107.5,62.7 109.9,68.2 112.3,73.4 114.7,78.1 117.1,82.5 119.5,86.7 121.9,90.6 124.3,94.2 126.7,97.6 129.0,100.9 131.4,103.9 133.8,106.8 136.2,109.5 138.6,112.1 141.0,114.6 143.4,116.9 145.8,119.2 148.2,121.3 150.6,123.3 152.9,125.3 155.3,127.1 157.7,128.9 160.1,130.6 162.5,132.2 164.9,133.8 167.3,135.3 169.7,136.7 172.1,138.1 174.5,139.5 176.8,140.7 179.2,142.0 181.6,143.2 184.0,144.3 186.4,145.5 188.8,146.5 191.2,147.6 193.6,148.6 196.0,149.6 198.4,150.5 200.7,151.4 203.1,152.3 205.5,153.2 207.9,154.0 210.3,154.8 212.7,155.6 215.1,156.4 217.5,157.1 219.9,157.9 222.3,158.6 224.6,159.3 227.0,159.9 229.4,160.6 231.8,161.2 234.2,161.8 236.6,162.5 239.0,163.0 241.4,163.6 243.8,164.2 246.2,164.7 248.5,165.3 250.9,165.8 253.3,166.3 255.7,166.8 258.1,167.3 260.5,167.7 262.9,168.2 265.3,168.7 267.7,169.1 270.1,169.6 272.4,170.0 274.8,170.4 277.2,170.8 279.6,171.2 282.0,171.6\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.6\"/><circle cx=\"105.0\" cy=\"56.4\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"111.0\" y=\"50.4\" font-size=\"11.5\" fill=\"#1c2430\">(3;12)</text><circle cx=\"124.7\" cy=\"94.8\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"130.7\" y=\"88.8\" font-size=\"11.5\" fill=\"#1c2430\">(4;9)</text><circle cx=\"223.0\" cy=\"158.8\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"229.0\" y=\"152.8\" font-size=\"11.5\" fill=\"#1c2430\">(9;4)</text></svg><br>Raskite y, kai x = 6.", "options": ["7", "5", "8", "6"], "correct": 3}, {"q": "y = 36 : x. Kokiam y intervalui priklauso reikšmės, kai x ∈ [3; 9]?", "options": ["y ∈ [4; 12]", "y ∈ [3; 9]", "y ∈ [3; 12]", "y ∈ [4; 13]"], "correct": 0}], "open": [{"q": "y = 28 : x. Raskite y, kai x = 4.", "a": "Nw=="}, {"q": "Stačiakampio plotas S = 54 cm². Koks plotis b, kai ilgis a = 6 cm (b = 54 : a)?", "a": "OQ=="}, {"q": "y = 72 : x. Raskite x, kai y = 12.", "a": "Ng=="}, {"q": "Taškas (5; 9) priklauso grafikui y = k : x. Raskite k.", "a": "NDU="}, {"q": "Taškas (7; 7) priklauso grafikui y = k : x. Raskite k.", "a": "NDk="}, {"q": "y = 28 : x. Raskite y, kai x = 7.", "a": "NA=="}, {"q": "Grafikas y = 36 : x (žr. paveikslą aukščiau, 9 užduotyje).<br>Raskite y, kai x = 12.", "a": "Mw=="}, {"q": "y = 36 : x. Raskite x, kai y = 18.", "a": "Mg=="}, {"q": "Baseino talpa 72 m³. Kiekvienas siurblys per valandą pripildo 1 m³, todėl laikas t = 72 : n (n - siurblių skaičius). Kiek valandų reikės, jei dirbs 6 siurbliai?", "a": "MTI="}, {"q": "7 vienodi darbininkai atlieka darbą per 5 dienas. Per kiek dienų tą patį darbą atliktų vienas darbininkas (bendras darbo kiekis 35 darbininko-dienų)?", "a": "MzU="}]}, {"id": 4, "mc": [{"q": "Kuri formulė aprašo atvirkščiai proporcingus dydžius?", "options": ["y = 1 : (5x)", "y = ⅕x", "y = x : 5", "y = 5x"], "correct": 0}, {"q": "y = 33 : x. Kam lygu y, kai x = 3?", "options": ["12", "11", "10", "13"], "correct": 1}, {"q": "y = 33 : x. Kam lygu y, kai x = 11?", "options": ["4", "2", "3", "5"], "correct": 2}, {"q": "Taškas (9; 6) priklauso grafikui y = k : x. Kam lygus k?", "options": ["63", "48", "60", "54"], "correct": 3}, {"q": "Kuri miniatiūra atitinka grafiką y = 7 : x?<div style=\"display:flex;gap:10px;flex-wrap:wrap;margin:8px 0\"><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">A</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,16.0 43.4,34.4 45.8,49.5 48.3,62.2 50.8,73.1 53.2,82.5 55.7,90.7 58.2,97.9 60.6,104.2 63.1,109.6 65.6,114.4 68.0,118.5 70.5,122.0 73.0,125.0 75.5,127.5 77.9,129.6 80.4,131.3 82.9,132.7 85.3,133.9 87.8,134.8 90.3,135.5 92.7,136.0 95.2,136.4 97.7,136.7 100.1,136.9 102.6,137.0 105.1,137.0 107.5,136.9 110.0,136.7 112.5,136.5 114.9,136.2 117.4,135.9 119.9,135.5 122.3,135.1 124.8,134.6 127.3,134.1 129.7,133.6 132.0,133.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">B</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"34.0\" y1=\"98.0\" x2=\"132.0\" y2=\"16.0\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">C</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"40.9,98.0 43.4,102.4 45.8,105.7 48.3,108.3 50.8,110.4 53.2,112.1 55.7,113.6 58.2,114.9 60.6,116.0 63.1,116.9 65.6,117.8 68.0,118.5 70.5,119.2 73.0,119.8 75.5,120.3 77.9,120.7 80.4,121.1 82.9,121.5 85.3,121.9 87.8,122.2 90.3,122.5 92.7,122.7 95.2,123.0 97.7,123.2 100.1,123.4 102.6,123.5 105.1,123.7 107.5,123.9 110.0,124.0 112.5,124.1 114.9,124.2 117.4,124.4 119.9,124.5 122.3,124.6 124.8,124.6 127.3,124.7 129.7,124.8 132.0,124.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/><polyline points=\"27.1,98.0 24.6,93.6 22.2,90.3 19.7,87.7 17.2,85.6 14.8,83.9 12.3,82.4 9.8,81.1 7.4,80.0 4.9,79.1\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div><div style=\"text-align:center;font-size:12px;width:110px\"><b style=\"color:#1e5fa8\">D</b><svg viewBox=\"0 0 140 120\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;background:#fbfcfe;border:1px solid #d8dee6;border-radius:6px\"><line x1=\"34\" y1=\"16\" x2=\"34\" y2=\"112\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><line x1=\"20\" y1=\"98\" x2=\"132\" y2=\"98\" stroke=\"#9aa4b2\" stroke-width=\"1.3\"/><polyline points=\"20.0,98.0 24.1,79.3 28.1,63.0 32.2,49.1 36.3,37.6 40.3,28.5 44.4,21.8 48.4,17.5 52.5,15.5 56.6,15.9 60.6,18.7 64.7,23.9 68.8,31.5 72.8,41.5 76.9,53.9 80.9,68.7 85.0,85.9 89.1,105.5 93.1,127.5 97.2,151.9\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.4\"/></svg></div></div>", "options": ["A", "B", "C", "D"], "correct": 0}, {"q": "Kai x didėja (I ketvirtyje), ką daro atvirkščiai proporcingo dydžio y reikšmė?", "options": ["didėja", "mažėja", "nekinta", "kartais mažėja, kartais didėja"], "correct": 1}, {"q": "Prie kokių tiesių artėja atvirkščiai proporcingų dydžių grafikas (bet jų nekerta)?", "options": ["y = x", "x = 1 ir y = 1", "x = 0 ir y = 0", "asimptočių nėra"], "correct": 2}, {"q": "Kai x > 0 ir y > 0, kuriame ketvirtyje yra atvirkščiai proporcingų dydžių grafikas?", "options": ["II ketvirtyje", "III ketvirtyje", "IV ketvirtyje", "I ketvirtyje"], "correct": 3}, {"q": "Paveiksle - grafikas y = 40 : x.<svg class=\"grafikas\" viewBox=\"0 0 300 250\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Grafikas y = 40/x\" style=\"max-width:100%;height:auto;font-family:Segoe UI,Arial,sans-serif\"><g stroke=\"#e2e8f0\" stroke-width=\"1\"><line x1=\"67.5\" y1=\"18.0\" x2=\"67.5\" y2=\"210.0\"/><line x1=\"88.9\" y1=\"18.0\" x2=\"88.9\" y2=\"210.0\"/><line x1=\"110.4\" y1=\"18.0\" x2=\"110.4\" y2=\"210.0\"/><line x1=\"131.8\" y1=\"18.0\" x2=\"131.8\" y2=\"210.0\"/><line x1=\"153.3\" y1=\"18.0\" x2=\"153.3\" y2=\"210.0\"/><line x1=\"174.7\" y1=\"18.0\" x2=\"174.7\" y2=\"210.0\"/><line x1=\"196.2\" y1=\"18.0\" x2=\"196.2\" y2=\"210.0\"/><line x1=\"217.6\" y1=\"18.0\" x2=\"217.6\" y2=\"210.0\"/><line x1=\"239.1\" y1=\"18.0\" x2=\"239.1\" y2=\"210.0\"/><line x1=\"260.5\" y1=\"18.0\" x2=\"260.5\" y2=\"210.0\"/><line x1=\"282.0\" y1=\"18.0\" x2=\"282.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"201.7\" x2=\"282.0\" y2=\"201.7\"/><line x1=\"46.0\" y1=\"193.3\" x2=\"282.0\" y2=\"193.3\"/><line x1=\"46.0\" y1=\"185.0\" x2=\"282.0\" y2=\"185.0\"/><line x1=\"46.0\" y1=\"176.6\" x2=\"282.0\" y2=\"176.6\"/><line x1=\"46.0\" y1=\"168.3\" x2=\"282.0\" y2=\"168.3\"/><line x1=\"46.0\" y1=\"159.9\" x2=\"282.0\" y2=\"159.9\"/><line x1=\"46.0\" y1=\"151.6\" x2=\"282.0\" y2=\"151.6\"/><line x1=\"46.0\" y1=\"143.2\" x2=\"282.0\" y2=\"143.2\"/><line x1=\"46.0\" y1=\"134.9\" x2=\"282.0\" y2=\"134.9\"/><line x1=\"46.0\" y1=\"126.5\" x2=\"282.0\" y2=\"126.5\"/><line x1=\"46.0\" y1=\"118.2\" x2=\"282.0\" y2=\"118.2\"/><line x1=\"46.0\" y1=\"109.8\" x2=\"282.0\" y2=\"109.8\"/><line x1=\"46.0\" y1=\"101.5\" x2=\"282.0\" y2=\"101.5\"/><line x1=\"46.0\" y1=\"93.1\" x2=\"282.0\" y2=\"93.1\"/><line x1=\"46.0\" y1=\"84.8\" x2=\"282.0\" y2=\"84.8\"/><line x1=\"46.0\" y1=\"76.4\" x2=\"282.0\" y2=\"76.4\"/><line x1=\"46.0\" y1=\"68.1\" x2=\"282.0\" y2=\"68.1\"/><line x1=\"46.0\" y1=\"59.7\" x2=\"282.0\" y2=\"59.7\"/><line x1=\"46.0\" y1=\"51.4\" x2=\"282.0\" y2=\"51.4\"/><line x1=\"46.0\" y1=\"43.0\" x2=\"282.0\" y2=\"43.0\"/><line x1=\"46.0\" y1=\"34.7\" x2=\"282.0\" y2=\"34.7\"/><line x1=\"46.0\" y1=\"26.3\" x2=\"282.0\" y2=\"26.3\"/><line x1=\"46.0\" y1=\"18.0\" x2=\"282.0\" y2=\"18.0\"/></g><g stroke=\"#5b6472\" stroke-width=\"1.6\"><line x1=\"46.0\" y1=\"12.0\" x2=\"46.0\" y2=\"210.0\"/><line x1=\"46.0\" y1=\"210.0\" x2=\"290.0\" y2=\"210.0\"/></g><path d=\"M42.0,19.0 L46.0,12.0 L50.0,19.0 Z\" fill=\"#5b6472\"/><path d=\"M283.0,206.0 L290.0,210.0 L283.0,214.0 Z\" fill=\"#5b6472\"/><text x=\"292.0\" y=\"214.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">x</text><text x=\"32.0\" y=\"10.0\" font-size=\"14\" fill=\"#1c2430\" font-style=\"italic\">y</text><text x=\"36.0\" y=\"226.0\" font-size=\"12\" fill=\"#5b6472\">0</text><g font-size=\"11\" fill=\"#5b6472\"><text x=\"63.5\" y=\"226.0\">1</text><text x=\"84.9\" y=\"226.0\">2</text><text x=\"106.4\" y=\"226.0\">3</text><text x=\"127.8\" y=\"226.0\">4</text><text x=\"149.3\" y=\"226.0\">5</text><text x=\"170.7\" y=\"226.0\">6</text><text x=\"192.2\" y=\"226.0\">7</text><text x=\"213.6\" y=\"226.0\">8</text><text x=\"235.1\" y=\"226.0\">9</text><text x=\"256.5\" y=\"226.0\">10</text><text x=\"278.0\" y=\"226.0\">11</text><text x=\"24.0\" y=\"205.7\">1</text><text x=\"24.0\" y=\"197.3\">2</text><text x=\"24.0\" y=\"189.0\">3</text><text x=\"24.0\" y=\"180.6\">4</text><text x=\"24.0\" y=\"172.3\">5</text><text x=\"24.0\" y=\"163.9\">6</text><text x=\"24.0\" y=\"155.6\">7</text><text x=\"24.0\" y=\"147.2\">8</text><text x=\"24.0\" y=\"138.9\">9</text><text x=\"24.0\" y=\"130.5\">10</text><text x=\"24.0\" y=\"122.2\">11</text><text x=\"24.0\" y=\"113.8\">12</text><text x=\"24.0\" y=\"105.5\">13</text><text x=\"24.0\" y=\"97.1\">14</text><text x=\"24.0\" y=\"88.8\">15</text><text x=\"24.0\" y=\"80.4\">16</text><text x=\"24.0\" y=\"72.1\">17</text><text x=\"24.0\" y=\"63.7\">18</text><text x=\"24.0\" y=\"55.4\">19</text><text x=\"24.0\" y=\"47.0\">20</text><text x=\"24.0\" y=\"38.7\">21</text><text x=\"24.0\" y=\"30.3\">22</text><text x=\"24.0\" y=\"22.0\">23</text></g><polyline points=\"83.3,18.0 85.8,30.1 88.3,40.8 90.9,50.3 93.4,58.8 95.9,66.4 98.4,73.3 100.9,79.6 103.4,85.3 105.9,90.5 108.5,95.3 111.0,99.7 113.5,103.9 116.0,107.7 118.5,111.2 121.0,114.5 123.6,117.6 126.1,120.5 128.6,123.3 131.1,125.8 133.6,128.2 136.1,130.5 138.6,132.7 141.2,134.7 143.7,136.7 146.2,138.5 148.7,140.2 151.2,141.9 153.7,143.5 156.2,145.0 158.8,146.5 161.3,147.9 163.8,149.2 166.3,150.5 168.8,151.7 171.3,152.8 173.9,154.0 176.4,155.0 178.9,156.1 181.4,157.1 183.9,158.1 186.4,159.0 188.9,159.9 191.5,160.7 194.0,161.6 196.5,162.4 199.0,163.2 201.5,163.9 204.0,164.7 206.5,165.4 209.1,166.1 211.6,166.7 214.1,167.4 216.6,168.0 219.1,168.6 221.6,169.2 224.2,169.8 226.7,170.3 229.2,170.9 231.7,171.4 234.2,171.9 236.7,172.4 239.2,172.9 241.8,173.4 244.3,173.9 246.8,174.3 249.3,174.8 251.8,175.2 254.3,175.6 256.8,176.0 259.4,176.4 261.9,176.8 264.4,177.2 266.9,177.6 269.4,177.9 271.9,178.3 274.5,178.6 277.0,179.0 279.5,179.3 282.0,179.6\" fill=\"none\" stroke=\"#1e5fa8\" stroke-width=\"2.6\"/><circle cx=\"88.9\" cy=\"43.0\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"94.9\" y=\"37.0\" font-size=\"11.5\" fill=\"#1c2430\">(2;20)</text><circle cx=\"153.3\" cy=\"143.2\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"159.3\" y=\"137.2\" font-size=\"11.5\" fill=\"#1c2430\">(5;8)</text><circle cx=\"217.6\" cy=\"168.3\" r=\"3.6\" fill=\"#1e5fa8\"/><text x=\"223.6\" y=\"162.3\" font-size=\"11.5\" fill=\"#1c2430\">(8;5)</text></svg><br>Raskite y, kai x = 4.", "options": ["10", "11", "9", "12"], "correct": 0}, {"q": "y = 40 : x. Kokiam y intervalui priklauso reikšmės, kai x ∈ [2; 8]?", "options": ["y ∈ [2; 8]", "y ∈ [5; 20]", "y ∈ [4; 20]", "y ∈ [5; 21]"], "correct": 1}], "open": [{"q": "y = 33 : x. Raskite y, kai x = 3.", "a": "MTE="}, {"q": "Stačiakampio plotas S = 63 cm². Koks plotis b, kai ilgis a = 7 cm (b = 63 : a)?", "a": "OQ=="}, {"q": "y = 84 : x. Raskite x, kai y = 12.", "a": "Nw=="}, {"q": "Taškas (9; 6) priklauso grafikui y = k : x. Raskite k.", "a": "NTQ="}, {"q": "Taškas (11; 3) priklauso grafikui y = k : x. Raskite k.", "a": "MzM="}, {"q": "y = 33 : x. Raskite y, kai x = 11.", "a": "Mw=="}, {"q": "Grafikas y = 40 : x (žr. paveikslą aukščiau, 9 užduotyje).<br>Raskite y, kai x = 10.", "a": "NA=="}, {"q": "y = 40 : x. Raskite x, kai y = 10.", "a": "NA=="}, {"q": "Baseino talpa 84 m³. Kiekvienas siurblys per valandą pripildo 1 m³, todėl laikas t = 84 : n (n - siurblių skaičius). Kiek valandų reikės, jei dirbs 7 siurbliai?", "a": "MTI="}, {"q": "8 vienodi darbininkai atlieka darbą per 6 dienas. Per kiek dienų tą patį darbą atliktų vienas darbininkas (bendras darbo kiekis 48 darbininko-dienų)?", "a": "NDg="}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

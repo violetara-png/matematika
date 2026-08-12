@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Atvirkščiai proporcingų dydžių priklausomybės grafikas — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:19pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  table.mini{border-collapse:collapse;margin:4px 0;font-size:10.6pt}
+  table.mini th,table.mini td{border:1px solid var(--bd);padding:3px 8px;text-align:center}
+  table.mini th{background:var(--tblh);color:var(--blue)}
+</style>
+</head>
+<body>
+
+<h1>Atvirkščiai proporcingų dydžių priklausomybės grafikas — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 5 skyrius „Atvirkštinis proporcingumas“ · 5.3 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Grafiko braižymas iš lentelės arba formulės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> sudarome reikšmių lentelę, taškus pažymime plokštumoje, sujungiame lygia kreive (hiperbole) I ketvirtyje.</div>
+    <div class="ex">
+      <div class="q">y = 24 : x. Sudaryk lentelę, kai x = 2; 3; 4; 6; 8; 12.</div>
+      <div class="line">x: 2, 3, 4, 6, 8, 12 &nbsp;→&nbsp; y: <span class="res">12, 8, 6, 4, 3, 2</span> &nbsp;<span class="muted2">(kiekvienoje poroje x·y = 24)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Stačiakampio plotas S = 48 cm². Pločio b priklausomybė nuo ilgio a: b = 48 : a.</div>
+      <div class="line">a: 2, 3, 4, 6, 8 &nbsp;→&nbsp; b: <span class="res">24, 16, 12, 8, 6</span> &nbsp;<span class="muted2">(grafikas — hiperbolė I ketvirtyje)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Koeficiento k radimas iš grafiko taško</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei taškas (x₀; y₀) priklauso grafikui y = k : x, tai k = x₀ · y₀.</div>
+    <div class="ex">
+      <div class="q">Taškas C(4; 11) priklauso grafikui y = k : x.</div>
+      <div class="line">k = 4 · 11 = <span class="res">44</span> &nbsp;→&nbsp; y = 44 : x</div>
+    </div>
+    <div class="ex">
+      <div class="q">Taškas D(9; 6) priklauso grafikui y = k : x.</div>
+      <div class="line">k = 9 · 6 = <span class="res">54</span> &nbsp;→&nbsp; y = 54 : x</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Grafiko skaitymas: reikšmės ir intervalai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> funkcija mažėjanti — didžiausiam x atitinka mažiausias y (intervalo galai apsikeičia).</div>
+    <div class="ex">
+      <div class="q">y = 24 : x. Raskite y, kai x = 2; 4; 6.</div>
+      <div class="line">x = 2 → y = <span class="res">12</span>; &nbsp; x = 4 → y = <span class="res">6</span>; &nbsp; x = 6 → y = <span class="res">4</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">y = 24 : x. Raskite x, kai y = 8, ir kai y = 3.</div>
+      <div class="line">y = 8 → x = <span class="res">3</span>; &nbsp; y = 3 → x = <span class="res">8</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašykite y reikšmių intervalą, kai x ∈ [2; 6] (grafikas y = 24 : x).</div>
+      <div class="line">x = 2 → y = 12 (didžiausias); &nbsp; x = 6 → y = 4 (mažiausias) &nbsp;→&nbsp; <span class="res">y ∈ [4; 12]</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Formulės ir grafiko atpažinimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> atvirkščiai proporcingoje formulėje x yra vardiklyje (y = k : x); grafikas — mažėjanti hiperbolė I ketvirtyje.</div>
+    <div class="ex">
+      <div class="q">Kuri formulė aprašo atvirkščiai proporcingus dydžius: A) y = 6x, B) y = x : 6, C) y = 6 : x?</div>
+      <div class="line">A ir B — tiesioginis proporcingumas (x daugiklyje). &nbsp;<span class="res">Atsakymas: C</span> (x vardiklyje).</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> prisimink — y = k : x, o bet kurio grafiko taško koordinačių sandauga lygi k.
+    Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Skaičiavimas su y = k : x</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>y = 15 : x. Raskite y, kai x = 3.</li>
+        <li>y = 15 : x. Raskite y, kai x = 5.</li>
+        <li>Taškas (2; 13) priklauso grafikui y = k : x. Raskite k.</li>
+        <li>y = 32 : x. Raskite y, kai x = 8.</li>
+        <li>y = 32 : x. Raskite y, kai x = 4.</li>
+        <li>Taškas (6; 6) priklauso grafikui y = k : x. Raskite k.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Sunkesnės užduotys</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>y = 18 : x. Užrašykite y reikšmių intervalą, kai x ∈ [3; 9].</li>
+        <li>Kuri formulė atvirkščiai proporcinga: y = 7x ar y = 7 : x?</li>
+        <li>y = 50 : x. Raskite y, kai x = 2,5.</li>
+        <li>Taškas (12; 5) priklauso grafikui y = k : x. Raskite k.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks math" start="11">
+      <li>Baseinas turi 60 m³ talpą. Kiekvienas siurblys per valandą pripildo 1 m³, todėl laikas t = 60 : n (n — siurblių skaičius). Kiek valandų reikės, jei dirbs 4 siurbliai?</li>
+      <li>Stačiakampio plotas 72 cm². Pločio b priklausomybė nuo ilgio a: b = 72 : a. Koks bus plotis, kai ilgis 9 cm?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 5 &nbsp;&nbsp; <b>2.</b> 3 &nbsp;&nbsp; <b>3.</b> k = 26 &nbsp;&nbsp; <b>4.</b> 4</div>
+    <div class="row math"><b>5.</b> 8 &nbsp;&nbsp; <b>6.</b> k = 36 &nbsp;&nbsp; <b>7.</b> y ∈ [2; 6] &nbsp;&nbsp; <b>8.</b> y = 7 : x</div>
+    <div class="row math"><b>9.</b> 20 &nbsp;&nbsp; <b>10.</b> k = 60</div>
+    <div class="row math"><b>11.</b> t = 60 : 4 = 15 val. &nbsp;&nbsp; <b>12.</b> b = 72 : 9 = 8 cm</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Atvirkščiai proporcingų dydžių priklausomybės grafikas“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
