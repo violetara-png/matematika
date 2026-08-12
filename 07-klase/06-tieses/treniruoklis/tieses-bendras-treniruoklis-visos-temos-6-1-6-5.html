@@ -222,18 +222,24 @@ const GENERATORIAI = [].concat(
     return `M ${_fmt(p1[0])} ${_fmt(p1[1])} A ${r} ${r} 0 0 ${sweep} ${_fmt(p2[0])} ${_fmt(p2[1])}`;
   }
   const _O = [115, 105];
-  const _PT  = { A:[47.3, 80.4],  B:[182.7, 129.6], C:[96.4, 174.5], D:[133.6, 35.5] };
-  const _LBL = { A:[30.4, 74.2],  B:[199.6, 135.8], C:[91.7, 191.9], D:[138.3, 18.1] };
+  const _R = 72, _LBL_R = 90;
+  function _pt(angDeg, r){
+    const a = angDeg * Math.PI/180;
+    return [_O[0]+r*Math.cos(a), _O[1]+r*Math.sin(a)];
+  }
   const _ANGLES = { AOC:['A','C'], COB:['C','B'], BOD:['B','D'], DOA:['D','A'] };
-  function susikertanciuTiesiuSvg(marks){
-    const W=230, H=210, radii=[24,33];
+  function susikertanciuTiesiuSvg(x, marks){
+    const angA = 200, angC = angA - x, angB = angA + 180, angD = angC + 180;
+    const PT  = { A:_pt(angA,_R),     B:_pt(angB,_R),     C:_pt(angC,_R),     D:_pt(angD,_R) };
+    const LBL = { A:_pt(angA,_LBL_R), B:_pt(angB,_LBL_R), C:_pt(angC,_LBL_R), D:_pt(angD,_LBL_R) };
+    const W=230, H=210;
     let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-    svg += `<line x1="${_PT.A[0]}" y1="${_PT.A[1]}" x2="${_PT.B[0]}" y2="${_PT.B[1]}" stroke="#8a8073" stroke-width="1.6"/>`;
-    svg += `<line x1="${_PT.C[0]}" y1="${_PT.C[1]}" x2="${_PT.D[0]}" y2="${_PT.D[1]}" stroke="#8a8073" stroke-width="1.6"/>`;
+    svg += `<line x1="${_fmt(PT.A[0])}" y1="${_fmt(PT.A[1])}" x2="${_fmt(PT.B[0])}" y2="${_fmt(PT.B[1])}" stroke="#8a8073" stroke-width="1.6"/>`;
+    svg += `<line x1="${_fmt(PT.C[0])}" y1="${_fmt(PT.C[1])}" x2="${_fmt(PT.D[0])}" y2="${_fmt(PT.D[1])}" stroke="#8a8073" stroke-width="1.6"/>`;
     marks.forEach((m,i)=>{
       const [ka,kb] = _ANGLES[m.key];
-      const p=_PT[ka], q=_PT[kb];
-      const r = radii[i] || 24;
+      const p=PT[ka], q=PT[kb];
+      const r = 24 + i*11;
       const col = m.given===true ? '#0a7d52' : m.given===false ? '#c0504a' : '#4a6d8c';
       const dash = m.given===false ? ' stroke-dasharray="3,3"' : '';
       svg += `<path d="${_angleArcPath(_O,p,q,r)}" fill="none" stroke="${col}" stroke-width="2.2"${dash}/>`;
@@ -245,7 +251,7 @@ const GENERATORIAI = [].concat(
     svg += `<circle cx="${_O[0]}" cy="${_O[1]}" r="2.6" fill="#2c2620"/>`;
     svg += `<text x="${_O[0]-11}" y="${_O[1]+5}" font-size="14" fill="#2c2620" text-anchor="middle">O</text>`;
     ['A','B','C','D'].forEach(k=>{
-      svg += `<text x="${_LBL[k][0]}" y="${_LBL[k][1]}" font-size="16" font-weight="700" fill="#2c2620" text-anchor="middle" dominant-baseline="middle">${k}</text>`;
+      svg += `<text x="${_fmt(LBL[k][0])}" y="${_fmt(LBL[k][1])}" font-size="16" font-weight="700" fill="#2c2620" text-anchor="middle" dominant-baseline="middle">${k}</text>`;
     });
     svg += `</svg>`;
     return svg;
@@ -254,7 +260,7 @@ const GENERATORIAI = [].concat(
     { label:"Gretutinis kampas", gen(){
         const x = kampas();
         const y = 180 - x;
-        const svg = susikertanciuTiesiuSvg([
+        const svg = susikertanciuTiesiuSvg(x, [
           {key:'AOC', text:`${x}°`, given:true},
           {key:'DOA', text:'?', given:false}
         ]);
@@ -270,7 +276,7 @@ const GENERATORIAI = [].concat(
     }},
     { label:"Kryžminis kampas", gen(){
         const x = kampas();
-        const svg = susikertanciuTiesiuSvg([
+        const svg = susikertanciuTiesiuSvg(x, [
           {key:'AOC', text:`${x}°`, given:true},
           {key:'BOD', text:'?', given:false}
         ]);
@@ -289,7 +295,7 @@ const GENERATORIAI = [].concat(
         const y = (180-d)/2;
         const bigger = y + d;
         const wantBig = choice([true,false]);
-        const svg = susikertanciuTiesiuSvg([
+        const svg = susikertanciuTiesiuSvg(y, [
           {key:'AOC', text:'1', given:null},
           {key:'DOA', text:'2', given:null}
         ]);
@@ -310,7 +316,7 @@ const GENERATORIAI = [].concat(
         const y = 180/(k+1);
         const bigger = k*y;
         const wantBig = choice([true,false]);
-        const svg = susikertanciuTiesiuSvg([
+        const svg = susikertanciuTiesiuSvg(y, [
           {key:'AOC', text:'1', given:null},
           {key:'DOA', text:'2', given:null}
         ]);
@@ -427,51 +433,58 @@ const GENERATORIAI = [].concat(
     return 'M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) +
       ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
   }
-  const DIAG = (function () {
-    const P1 = [100.6, 70], P2 = [145, 150];
-    const L1a = [16, 70], L1b = [224, 70];
-    const L2a = [16, 150], L2b = [224, 150];
-    const Ta = [74, 22], Tb = [168, 192];
-    const R = vnorm(vsub(L1b, P1)), L = vnorm(vsub(L1a, P1));
-    const D = vnorm(vsub(P2, P1)), U = vnorm(vsub(Ta, P1));
-    const R2 = vnorm(vsub(L2b, P2)), L2 = vnorm(vsub(L2a, P2));
-    const U2 = vnorm(vsub(P1, P2)), D2 = vnorm(vsub(Tb, P2));
+  function _toBeta(num, val) {
+    let b = (num % 2 === 0) ? val : (180 - val);
+    b = Math.max(10, Math.min(170, b));
+    if (Math.abs(b - 90) < 4) b += (b >= 90 ? 4 : -4);
+    return b;
+  }
+  function diagramSvg(spec) {
+    const beta1 = _toBeta(spec.p1.num, spec.p1.val);
+    const beta2 = _toBeta(spec.p2.num, spec.p2.val);
+    const P1 = [120, 55], P2 = [120, 195];
+    function pt(base, angDeg, r) { const a = angDeg * Math.PI / 180; return [base[0] + r * Math.cos(a), base[1] + r * Math.sin(a)]; }
+    const R1deg = 90 - beta1, R2deg = 90 - beta2;
+    const aR = pt(P1, R1deg, 118), aL = pt(P1, R1deg + 180, 118);
+    const bR = pt(P2, R2deg, 118), bL = pt(P2, R2deg + 180, 118);
+    const cTop = pt(P1, 270, 50), cBot = pt(P2, 90, 50);
+    const rayR1 = [Math.cos(R1deg * Math.PI / 180), Math.sin(R1deg * Math.PI / 180)];
+    const rayL1 = [-rayR1[0], -rayR1[1]];
+    const rayR2 = [Math.cos(R2deg * Math.PI / 180), Math.sin(R2deg * Math.PI / 180)];
+    const rayL2 = [-rayR2[0], -rayR2[1]];
+    const U = [0, -1], Dn = [0, 1];
     const wedges = {
-      1: { v: P1, a: U, b: R }, 2: { v: P1, a: R, b: D }, 3: { v: P1, a: D, b: L }, 4: { v: P1, a: L, b: U },
-      5: { v: P2, a: U2, b: R2 }, 6: { v: P2, a: R2, b: D2 }, 7: { v: P2, a: D2, b: L2 }, 8: { v: P2, a: L2, b: U2 }
+      1: { v: P1, a: U, b: rayR1 }, 2: { v: P1, a: rayR1, b: Dn }, 3: { v: P1, a: Dn, b: rayL1 }, 4: { v: P1, a: rayL1, b: U },
+      5: { v: P2, a: U, b: rayR2 }, 6: { v: P2, a: rayR2, b: Dn }, 7: { v: P2, a: Dn, b: rayL2 }, 8: { v: P2, a: rayL2, b: U }
     };
-    return { P1: P1, P2: P2, L1a: L1a, L1b: L1b, L2a: L2a, L2b: L2b, Ta: Ta, Tb: Tb, wedges: wedges };
-  })();
-  function diagramSvg(marks) {
-    const D = DIAG;
-    const out = ['<svg width="240" height="200" viewBox="0 0 240 200" style="background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">'];
-    out.push('<line x1="' + D.L1a[0] + '" y1="' + D.L1a[1] + '" x2="' + D.L1b[0] + '" y2="' + D.L1b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
-    out.push('<line x1="' + D.L2a[0] + '" y1="' + D.L2a[1] + '" x2="' + D.L2b[0] + '" y2="' + D.L2b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
-    out.push('<line x1="' + D.Ta[0] + '" y1="' + D.Ta[1] + '" x2="' + D.Tb[0] + '" y2="' + D.Tb[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+    const out = ['<svg width="240" height="220" viewBox="0 0 240 220" style="background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">'];
+    out.push('<line x1="' + aL[0].toFixed(1) + '" y1="' + aL[1].toFixed(1) + '" x2="' + aR[0].toFixed(1) + '" y2="' + aR[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+    out.push('<line x1="' + bL[0].toFixed(1) + '" y1="' + bL[1].toFixed(1) + '" x2="' + bR[0].toFixed(1) + '" y2="' + bR[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+    out.push('<line x1="' + cTop[0].toFixed(1) + '" y1="' + cTop[1].toFixed(1) + '" x2="' + cBot[0].toFixed(1) + '" y2="' + cBot[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
     const markMap = {};
-    (marks || []).forEach(function (m) { markMap[m.num] = m; });
+    (spec.marks || []).forEach(function (m) { markMap[m.num] = m; });
     Object.keys(markMap).forEach(function (numStr) {
       const m = markMap[numStr];
-      const w = D.wedges[+numStr];
+      const w = wedges[+numStr];
       const pa = vadd(w.v, vmul(w.a, 16)), pb = vadd(w.v, vmul(w.b, 16));
       const dashAttr = m.dash ? ' stroke-dasharray="3 2"' : '';
       out.push('<path d="' + angleArc(w.v, pa, pb, 11) + '" style="fill:none;stroke-width:2.4;stroke:' + m.color + '"' + dashAttr + '/>');
     });
     for (let n = 1; n <= 8; n++) {
-      const w = D.wedges[n];
+      const w = wedges[n];
       const bis = vnorm(vadd(w.a, w.b));
       const p = vadd(w.v, vmul(bis, 24));
       out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 3).toFixed(1) + '" text-anchor="middle" style="font-size:9px;fill:#a39a8c;font-family:Segoe UI,sans-serif">' + n + '</text>');
     }
     Object.keys(markMap).forEach(function (numStr) {
       const m = markMap[numStr];
-      const w = D.wedges[+numStr];
+      const w = wedges[+numStr];
       const bis = vnorm(vadd(w.a, w.b));
       const p = vadd(w.v, vmul(bis, 46));
       out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4).toFixed(1) + '" text-anchor="middle" style="font-size:13px;font-weight:700;fill:' + m.color + ';font-family:Segoe UI,sans-serif">' + m.text + '</text>');
     });
-    out.push('<circle cx="' + D.P1[0] + '" cy="' + D.P1[1] + '" r="2" style="fill:#3a3128"/>');
-    out.push('<circle cx="' + D.P2[0] + '" cy="' + D.P2[1] + '" r="2" style="fill:#3a3128"/>');
+    out.push('<circle cx="' + P1[0] + '" cy="' + P1[1] + '" r="2" style="fill:#3a3128"/>');
+    out.push('<circle cx="' + P2[0] + '" cy="' + P2[1] + '" r="2" style="fill:#3a3128"/>');
     out.push('</svg>');
     return out.join('');
   }
@@ -485,10 +498,13 @@ const GENERATORIAI = [].concat(
         if (equal) { a2 = a1; }
         else { const diff = choice([1, -1]) * randint(6, 25); a2 = a1 + diff; }
         const ans = (a1 === a2) ? 'Taip' : 'Ne';
-        const svg = diagramSvg([
-          { num: 2, text: a1 + '°', color: C_DUOTA1 },
-          { num: 8, text: a2 + '°', color: C_DUOTA2 }
-        ]);
+        const svg = diagramSvg({
+          p1: { num: 2, val: a1 }, p2: { num: 8, val: a2 },
+          marks: [
+            { num: 2, text: a1 + '°', color: C_DUOTA1 },
+            { num: 8, text: a2 + '°', color: C_DUOTA2 }
+          ]
+        });
         const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vienas vidaus priešinis kampas lygus ${a1}°, kitas — ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
         const steps = (ans === 'Taip')
           ? [`Vidaus priešiniai kampai: ${a1}° ir ${a2}°`, `${a1}° = ${a2}° — kampai lygūs`, `Pagal T1 (vidaus priešinių kampų požymį) tiesės lygiagrečios → Taip`]
@@ -503,10 +519,13 @@ const GENERATORIAI = [].concat(
         else { const diff = choice([1, -1]) * randint(6, 20); a2 = 180 - a1 + diff; }
         const suma = a1 + a2;
         const ans = (suma === 180) ? 'Taip' : 'Ne';
-        const svg = diagramSvg([
-          { num: 2, text: a1 + '°', color: C_DUOTA1 },
-          { num: 5, text: a2 + '°', color: C_DUOTA2 }
-        ]);
+        const svg = diagramSvg({
+          p1: { num: 2, val: a1 }, p2: { num: 5, val: a2 },
+          marks: [
+            { num: 2, text: a1 + '°', color: C_DUOTA1 },
+            { num: 5, text: a2 + '°', color: C_DUOTA2 }
+          ]
+        });
         const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vidaus vienašalių kampų dydžiai lygūs ${a1}° ir ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
         const steps = (ans === 'Taip')
           ? [`Vidaus vienašalių kampų suma: ${a1}° + ${a2}° = ${suma}°`, `${suma}° = 180°`, `Pagal T2 (vidaus vienašalių kampų požymį) tiesės lygiagrečios → Taip`]
@@ -515,10 +534,13 @@ const GENERATORIAI = [].concat(
     }},
     { label: "T3: atitinkamieji (x radimas)", gen() {
         const a = randint(20, 160);
-        const svg = diagramSvg([
-          { num: 2, text: a + '°', color: C_DUOTA1 },
-          { num: 6, text: 'x°', color: C_DUOTA2, dash: true }
-        ]);
+        const svg = diagramSvg({
+          p1: { num: 2, val: a }, p2: { num: 6, val: a },
+          marks: [
+            { num: 2, text: a + '°', color: C_DUOTA1 },
+            { num: 6, text: 'x°', color: C_DUOTA2, dash: true }
+          ]
+        });
         return {
           q: `Kirstinė kerta dvi tieses. Vienas kampas lygus ${a}°, jam atitinkamasis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
           ans: a, pre: 'x =',
@@ -527,10 +549,13 @@ const GENERATORIAI = [].concat(
     }},
     { label: "T1: vidaus priešiniai (x radimas)", gen() {
         const a = randint(20, 160);
-        const svg = diagramSvg([
-          { num: 2, text: a + '°', color: C_DUOTA1 },
-          { num: 8, text: 'x°', color: C_DUOTA2, dash: true }
-        ]);
+        const svg = diagramSvg({
+          p1: { num: 2, val: a }, p2: { num: 8, val: a },
+          marks: [
+            { num: 2, text: a + '°', color: C_DUOTA1 },
+            { num: 8, text: 'x°', color: C_DUOTA2, dash: true }
+          ]
+        });
         return {
           q: `Kirstinė kerta dvi tieses. Vienas vidaus priešinis kampas lygus ${a}°, kitas vidaus priešinis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
           ans: a, pre: 'x =',
@@ -546,10 +571,14 @@ const GENERATORIAI = [].concat(
         } while (m1 * x0 < 10 || m1 * x0 > 170 || c === 0);
         const term1 = `${m1}x`;
         const term2 = `${m2}x ${pm(c)}`;
-        const svg = diagramSvg([
-          { num: 2, text: term1 + '°', color: C_DUOTA1 },
-          { num: 5, text: '(' + term2 + ')°', color: C_DUOTA2 }
-        ]);
+        const val1 = m1 * x0, val2 = m2 * x0 + c;
+        const svg = diagramSvg({
+          p1: { num: 2, val: val1 }, p2: { num: 5, val: val2 },
+          marks: [
+            { num: 2, text: term1 + '°', color: C_DUOTA1 },
+            { num: 5, text: '(' + term2 + ')°', color: C_DUOTA2 }
+          ]
+        });
         return {
           q: `Kirstinė kerta dvi tieses. Vidaus vienašalis kampas lygus ${term1}°, kitas vidaus vienašalis kampas — (${term2})°. Žinoma, kad šios dvi tiesės lygiagrečios. Raskite x.` + svg,
           ans: x0, pre: 'x =',
@@ -587,11 +616,22 @@ const GENERATORIAI = [].concat(
     bis = norm(bis);
     return add(vertex, mul(bis, r));
   }
-  function svgKirstine(opts){
-    const P1 = [90.9, 70], P2 = [169.1, 190];
+  function svgKirstine(givenNum, givenVal, askNum){
+    const ODD = new Set([1,3,5,7]);
+    let theta = ODD.has(givenNum) ? givenVal : 180 - givenVal;
+    theta = Math.max(12, Math.min(168, theta));
+    if(Math.abs(theta-90) < 4) theta += (theta>=90 ? 4 : -4);
+    const P1x = 88, dy = 120;
+    const dx = dy / Math.tan(theta*Math.PI/180);
+    const P1 = [P1x, 70], P2 = [P1x+dx, 190];
     const aL = [15, 70], aR = [245, 70];
     const bL = [15, 190], bR = [245, 190];
-    const cTop = [55, 15], cBot = [205, 245];
+    const upDir = (theta+180)*Math.PI/180;
+    const tTop = (15 - P1[1]) / Math.sin(upDir);
+    const cTop = [P1[0] + tTop*Math.cos(upDir), 15];
+    const downDir = theta*Math.PI/180;
+    const tBot = (245 - P2[1]) / Math.sin(downDir);
+    const cBot = [P2[0] + tBot*Math.cos(downDir), 245];
     const rayR = [1, 0], rayL = [-1, 0];
     const up1 = norm(sub(cTop, P1));
     const down1 = norm(sub(P2, P1));
@@ -601,6 +641,7 @@ const GENERATORIAI = [].concat(
       1: [P1, rayL, up1],  2: [P1, up1, rayR],  3: [P1, rayR, down1], 4: [P1, down1, rayL],
       5: [P2, rayL, up2],  6: [P2, up2, rayR],  7: [P2, rayR, down2], 8: [P2, down2, rayL]
     };
+    const opts = { given: givenNum, val: givenVal, ask: askNum };
     const FAR = 60, R_ARC = 17, R_VAL = 30, R_NUM = 50;
     let s = `<svg viewBox="0 0 260 260" role="img" aria-label="Dvi lygiagrečios tiesės ir kirstinė, 8 sunumeruoti kampai" style="background:#fbfcfe;border:1px solid #d8dee6;border-radius:8px">`;
     s += `<line x1="${aL[0]}" y1="${aL[1]}" x2="${aR[0]}" y2="${aR[1]}" stroke="#1c2430" stroke-width="2"/>`;
@@ -673,7 +714,7 @@ const GENERATORIAI = [].concat(
         const x = randint(10,170);
         return {
           q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas vidaus priešinis kampas lygus ${x}°. Koks yra kitas vidaus priešinis kampas?`
-            + svgKirstine({given:4, val:x, ask:6}),
+            + svgKirstine(4, x, 6),
           ans: x, pre:"kitas kampas =",
           steps:[`a ∥ b, kirstinė kerta abi tieses`, `Lygiagrečias tieses perkirtus kirstine, susidarę priešiniai kampai lygūs (1 teorema)`, `kitas vidaus priešinis kampas = ${x}°`]
         };
@@ -684,7 +725,7 @@ const GENERATORIAI = [].concat(
         const y = 180 - x;
         return {
           q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas vidaus vienašalis kampas lygus ${x}°. Koks yra gretimas vidaus vienašalis kampas?`
-            + svgKirstine({given:4, val:x, ask:5}),
+            + svgKirstine(4, x, 5),
           ans: y, pre:"gretimas kampas =",
           steps:[`a ∥ b, kirstinė kerta abi tieses`, `Lygiagrečias tieses perkirtus kirstine, vidaus vienašalių kampų dydžių suma lygi 180° (2 teorema)`, `gretimas kampas = 180° − ${x}°`, `gretimas kampas = ${nf(y)}°`]
         };
@@ -693,7 +734,7 @@ const GENERATORIAI = [].concat(
         const x = randint(10,170);
         return {
           q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas atitinkamasis kampas lygus ${x}°. Koks yra jo pora (kitas atitinkamasis kampas)?`
-            + svgKirstine({given:1, val:x, ask:5}),
+            + svgKirstine(1, x, 5),
           ans: x, pre:"kampo pora =",
           steps:[`a ∥ b, kirstinė kerta abi tieses`, `Lygiagrečias tieses perkirtus kirstine, susidarę atitinkamieji kampai lygūs (3 teorema)`, `kampo pora = ${x}°`]
         };

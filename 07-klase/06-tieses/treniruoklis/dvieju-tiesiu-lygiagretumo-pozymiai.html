@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)</title>
+<title>Kontrolinio treniruoklis: Lygiagretumo pozymiai (7 klase)</title>
 <style>
   :root{
     --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
@@ -72,8 +72,8 @@
 <body>
 <div class="wrap">
   <header>
-    <h1 id="antraste">Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)</h1>
-    <p id="paantraste">6.4 Dviejų tiesių lygiagretumo požymiai · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+    <h1 id="antraste">Kontrolinio treniruoklis: Lygiagretumo pozymiai (7 klase)</h1>
+    <p id="paantraste">6.4 Dvieju tiesiu lygiagretumo pozymiai, 7 klase</p>
   </header>
 
   <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
@@ -165,61 +165,70 @@ function angleArc(vertex, a, b, r) {
     ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
 }
 
-// ---------- Fiksuota geometrija: 2 (galimai) lygiagrečios tiesės + kirstinė ----------
-// P1 — viršutinė susikirtimo taška (kampai 1–4), P2 — apatinė (kampai 5–8),
-// kampai numeruoti pagal laikrodžio rodyklę nuo viršaus prie kiekvienos taškos.
-// Tiesės sąmoningai BE lygiagretumo žymių — tai ir yra klausimo esmė.
-const DIAG = (function () {
-  const P1 = [100.6, 70], P2 = [145, 150];
-  const L1a = [16, 70], L1b = [224, 70];   // 1-oji tiesė
-  const L2a = [16, 150], L2b = [224, 150]; // 2-oji tiesė
-  const Ta = [74, 22], Tb = [168, 192];    // kirstinė (per P1 ir P2)
-  const R = vnorm(vsub(L1b, P1)), L = vnorm(vsub(L1a, P1));
-  const D = vnorm(vsub(P2, P1)), U = vnorm(vsub(Ta, P1));
-  const R2 = vnorm(vsub(L2b, P2)), L2 = vnorm(vsub(L2a, P2));
-  const U2 = vnorm(vsub(P1, P2)), D2 = vnorm(vsub(Tb, P2));
+// ---------- Geometrija: 2 tiesės + kirstinė, DINAMIŠKAI konstruojama ----------
+// Kirstinė visada vertikali (P1 viršuje, P2 apačioje). Kiekvienos tiesės (a prie
+// P1, b prie P2) posvyris apskaičiuojamas NEPRIKLAUSOMAI iš to, koks kampas ir
+// reikšmė nurodyti prie tos tiesės (p1/p2 spec'as) — todėl brėžinys visada
+// vizualiai atitinka etiketėje rodomą reikšmę, IR leidžia sąžiningai vaizduoti
+// atvejį, kai tiesės NĖRA lygiagrečios (patikros tipo klausimams).
+// Kampai numeruoti 1–4 prie P1, 5–8 prie P2, pagal laikrodžio rodyklę nuo viršaus
+// (1=U..R, 2=R..D, 3=D..L, 4=L..U) — sutampa su konspekto atskaitos brėžiniu.
+// Formulė: lyginiam num (2,4,6,8) kampo dydis = beta; nelyginiam (1,3,5,7) = 180-beta,
+// kur beta — tos tiesės posvyrio parametras (kampas tarp jos dešiniojo spindulio
+// ir kirstinės žemyn krypties).
+function _toBeta(num, val) {
+  let b = (num % 2 === 0) ? val : (180 - val);
+  b = Math.max(10, Math.min(170, b));
+  if (Math.abs(b - 90) < 4) b += (b >= 90 ? 4 : -4);
+  return b;
+}
+// spec: {p1:{num,val}, p2:{num,val}, marks:[{num,text,color,dash}, ...]}
+function diagramSvg(spec) {
+  const beta1 = _toBeta(spec.p1.num, spec.p1.val);
+  const beta2 = _toBeta(spec.p2.num, spec.p2.val);
+  const P1 = [120, 55], P2 = [120, 195];
+  function pt(base, angDeg, r) { const a = angDeg * Math.PI / 180; return [base[0] + r * Math.cos(a), base[1] + r * Math.sin(a)]; }
+  const R1deg = 90 - beta1, R2deg = 90 - beta2;
+  const aR = pt(P1, R1deg, 118), aL = pt(P1, R1deg + 180, 118);
+  const bR = pt(P2, R2deg, 118), bL = pt(P2, R2deg + 180, 118);
+  const cTop = pt(P1, 270, 50), cBot = pt(P2, 90, 50);
+  const rayR1 = [Math.cos(R1deg * Math.PI / 180), Math.sin(R1deg * Math.PI / 180)];
+  const rayL1 = [-rayR1[0], -rayR1[1]];
+  const rayR2 = [Math.cos(R2deg * Math.PI / 180), Math.sin(R2deg * Math.PI / 180)];
+  const rayL2 = [-rayR2[0], -rayR2[1]];
+  const U = [0, -1], Dn = [0, 1];
   const wedges = {
-    1: { v: P1, a: U, b: R }, 2: { v: P1, a: R, b: D }, 3: { v: P1, a: D, b: L }, 4: { v: P1, a: L, b: U },
-    5: { v: P2, a: U2, b: R2 }, 6: { v: P2, a: R2, b: D2 }, 7: { v: P2, a: D2, b: L2 }, 8: { v: P2, a: L2, b: U2 }
+    1: { v: P1, a: U, b: rayR1 }, 2: { v: P1, a: rayR1, b: Dn }, 3: { v: P1, a: Dn, b: rayL1 }, 4: { v: P1, a: rayL1, b: U },
+    5: { v: P2, a: U, b: rayR2 }, 6: { v: P2, a: rayR2, b: Dn }, 7: { v: P2, a: Dn, b: rayL2 }, 8: { v: P2, a: rayL2, b: U }
   };
-  return { P1: P1, P2: P2, L1a: L1a, L1b: L1b, L2a: L2a, L2b: L2b, Ta: Ta, Tb: Tb, wedges: wedges };
-})();
-
-// marks: [{num, text, color, dash}] — 1–2 pažymėti kampai (lankelis + reikšmė).
-// Visi 8 kampai visada sunumeruoti mažai, orientacijai.
-function diagramSvg(marks) {
-  const D = DIAG;
-  const out = ['<svg width="240" height="200" viewBox="0 0 240 200" style="background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">'];
-  out.push('<line x1="' + D.L1a[0] + '" y1="' + D.L1a[1] + '" x2="' + D.L1b[0] + '" y2="' + D.L1b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
-  out.push('<line x1="' + D.L2a[0] + '" y1="' + D.L2a[1] + '" x2="' + D.L2b[0] + '" y2="' + D.L2b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
-  out.push('<line x1="' + D.Ta[0] + '" y1="' + D.Ta[1] + '" x2="' + D.Tb[0] + '" y2="' + D.Tb[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
-  // pažymėti kampai: spalvotas lankelis ARTI viršūnės (kad nesikirstų su numeriu)
+  const out = ['<svg width="240" height="220" viewBox="0 0 240 220" style="background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">'];
+  out.push('<line x1="' + aL[0].toFixed(1) + '" y1="' + aL[1].toFixed(1) + '" x2="' + aR[0].toFixed(1) + '" y2="' + aR[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+  out.push('<line x1="' + bL[0].toFixed(1) + '" y1="' + bL[1].toFixed(1) + '" x2="' + bR[0].toFixed(1) + '" y2="' + bR[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+  out.push('<line x1="' + cTop[0].toFixed(1) + '" y1="' + cTop[1].toFixed(1) + '" x2="' + cBot[0].toFixed(1) + '" y2="' + cBot[1].toFixed(1) + '" style="stroke:#3a3128;stroke-width:1.8"/>');
   const markMap = {};
-  (marks || []).forEach(function (m) { markMap[m.num] = m; });
+  (spec.marks || []).forEach(function (m) { markMap[m.num] = m; });
   Object.keys(markMap).forEach(function (numStr) {
     const m = markMap[numStr];
-    const w = D.wedges[+numStr];
+    const w = wedges[+numStr];
     const pa = vadd(w.v, vmul(w.a, 16)), pb = vadd(w.v, vmul(w.b, 16));
     const dashAttr = m.dash ? ' stroke-dasharray="3 2"' : '';
     out.push('<path d="' + angleArc(w.v, pa, pb, 11) + '" style="fill:none;stroke-width:2.4;stroke:' + m.color + '"' + dashAttr + '/>');
   });
-  // mažos pilkos kampų numeriai 1–8 (orientacijai) — už lankelio ribų, kad nesidengtų
   for (let n = 1; n <= 8; n++) {
-    const w = D.wedges[n];
+    const w = wedges[n];
     const bis = vnorm(vadd(w.a, w.b));
     const p = vadd(w.v, vmul(bis, 24));
     out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 3).toFixed(1) + '" text-anchor="middle" style="font-size:9px;fill:#a39a8c;font-family:Segoe UI,sans-serif">' + n + '</text>');
   }
-  // pažymėtų kampų reikšmės/x — toliausiai nuo viršūnės
   Object.keys(markMap).forEach(function (numStr) {
     const m = markMap[numStr];
-    const w = D.wedges[+numStr];
+    const w = wedges[+numStr];
     const bis = vnorm(vadd(w.a, w.b));
     const p = vadd(w.v, vmul(bis, 46));
     out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4).toFixed(1) + '" text-anchor="middle" style="font-size:13px;font-weight:700;fill:' + m.color + ';font-family:Segoe UI,sans-serif">' + m.text + '</text>');
   });
-  out.push('<circle cx="' + D.P1[0] + '" cy="' + D.P1[1] + '" r="2" style="fill:#3a3128"/>');
-  out.push('<circle cx="' + D.P2[0] + '" cy="' + D.P2[1] + '" r="2" style="fill:#3a3128"/>');
+  out.push('<circle cx="' + P1[0] + '" cy="' + P1[1] + '" r="2" style="fill:#3a3128"/>');
+  out.push('<circle cx="' + P2[0] + '" cy="' + P2[1] + '" r="2" style="fill:#3a3128"/>');
   out.push('</svg>');
   return out.join('');
 }
@@ -240,10 +249,13 @@ const GENERATORIAI = [
         a2 = a1 + diff;
       }
       const ans = (a1 === a2) ? 'Taip' : 'Ne';
-      const svg = diagramSvg([
-        { num: 2, text: a1 + '°', color: C_DUOTA1 },
-        { num: 8, text: a2 + '°', color: C_DUOTA2 }
-      ]);
+      const svg = diagramSvg({
+        p1: { num: 2, val: a1 }, p2: { num: 8, val: a2 },
+        marks: [
+          { num: 2, text: a1 + '°', color: C_DUOTA1 },
+          { num: 8, text: a2 + '°', color: C_DUOTA2 }
+        ]
+      });
       const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vienas vidaus priešinis kampas lygus ${a1}°, kitas — ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
       const steps = (ans === 'Taip')
         ? [
@@ -272,10 +284,13 @@ const GENERATORIAI = [
       }
       const suma = a1 + a2;
       const ans = (suma === 180) ? 'Taip' : 'Ne';
-      const svg = diagramSvg([
-        { num: 2, text: a1 + '°', color: C_DUOTA1 },
-        { num: 5, text: a2 + '°', color: C_DUOTA2 }
-      ]);
+      const svg = diagramSvg({
+        p1: { num: 2, val: a1 }, p2: { num: 5, val: a2 },
+        marks: [
+          { num: 2, text: a1 + '°', color: C_DUOTA1 },
+          { num: 5, text: a2 + '°', color: C_DUOTA2 }
+        ]
+      });
       const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vidaus vienašalių kampų dydžiai lygūs ${a1}° ir ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
       const steps = (ans === 'Taip')
         ? [
@@ -294,10 +309,13 @@ const GENERATORIAI = [
   // T3: atitinkamieji kampai — rasti x, kad tiesės būtų lygiagrečios (echo)
   { label: "T3: atitinkamieji (x radimas)", gen() {
       const a = randint(20, 160);
-      const svg = diagramSvg([
-        { num: 2, text: a + '°', color: C_DUOTA1 },
-        { num: 6, text: 'x°', color: C_DUOTA2, dash: true }
-      ]);
+      const svg = diagramSvg({
+        p1: { num: 2, val: a }, p2: { num: 6, val: a },
+        marks: [
+          { num: 2, text: a + '°', color: C_DUOTA1 },
+          { num: 6, text: 'x°', color: C_DUOTA2, dash: true }
+        ]
+      });
       return {
         q: `Kirstinė kerta dvi tieses. Vienas kampas lygus ${a}°, jam atitinkamasis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
         ans: a, pre: 'x =',
@@ -312,10 +330,13 @@ const GENERATORIAI = [
   // T1: vidaus priešiniai kampai — rasti x (echo)
   { label: "T1: vidaus priešiniai (x radimas)", gen() {
       const a = randint(20, 160);
-      const svg = diagramSvg([
-        { num: 2, text: a + '°', color: C_DUOTA1 },
-        { num: 8, text: 'x°', color: C_DUOTA2, dash: true }
-      ]);
+      const svg = diagramSvg({
+        p1: { num: 2, val: a }, p2: { num: 8, val: a },
+        marks: [
+          { num: 2, text: a + '°', color: C_DUOTA1 },
+          { num: 8, text: 'x°', color: C_DUOTA2, dash: true }
+        ]
+      });
       return {
         q: `Kirstinė kerta dvi tieses. Vienas vidaus priešinis kampas lygus ${a}°, kitas vidaus priešinis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
         ans: a, pre: 'x =',
@@ -337,10 +358,14 @@ const GENERATORIAI = [
       } while (m1 * x0 < 10 || m1 * x0 > 170 || c === 0);
       const term1 = `${m1}x`;
       const term2 = `${m2}x ${pm(c)}`;
-      const svg = diagramSvg([
-        { num: 2, text: term1 + '°', color: C_DUOTA1 },
-        { num: 5, text: '(' + term2 + ')°', color: C_DUOTA2 }
-      ]);
+      const val1 = m1 * x0, val2 = m2 * x0 + c;
+      const svg = diagramSvg({
+        p1: { num: 2, val: val1 }, p2: { num: 5, val: val2 },
+        marks: [
+          { num: 2, text: term1 + '°', color: C_DUOTA1 },
+          { num: 5, text: '(' + term2 + ')°', color: C_DUOTA2 }
+        ]
+      });
       return {
         q: `Kirstinė kerta dvi tieses. Vidaus vienašalis kampas lygus ${term1}°, kitas vidaus vienašalis kampas — (${term2})°. Žinoma, kad šios dvi tiesės lygiagrečios. Raskite x.` + svg,
         ans: x0, pre: 'x =',
@@ -365,7 +390,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)", "subtitle": "6.4 Dviejų tiesių lygiagretumo požymiai · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+const META = {"title": "Kontrolinio treniruoklis: Lygiagretumo pozymiai (7 klase)", "subtitle": "6.4 Dvieju tiesiu lygiagretumo pozymiai, 7 klase", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
