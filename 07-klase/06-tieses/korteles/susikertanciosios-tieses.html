@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kortelės: Keliame kvadratu ir kubu (7 klasė)</title>
+<title>Kortelės: Susikertančiosios tiesės (7 klasė)</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -29,12 +29,9 @@
     box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px}
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
-  .expr{font-size:clamp(30px,7vw,58px); font-weight:700}
-  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 .05em;font-family:"Cambria Math",Cambria,Georgia,serif;}
-  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 .1em;}
-  .fr>span:last-child{padding:0 .1em;}
+  .expr{font-size:clamp(22px,5.4vw,40px); font-weight:700; text-align:center; line-height:1.25; padding:0 8px}
   .back{transform:rotateY(180deg)}
-  .back .expr{color:var(--accent)}
+  .back .expr{color:var(--accent); font-size:clamp(30px,7vw,58px)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
   .controls{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
   button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
@@ -42,7 +39,7 @@
   button.ctrl:hover{background:#eef2f7}
   button.primary{background:var(--accent2); color:#fff}
   .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 20px; text-align:center; margin:10px 0}
-  .practice .q{font-size:clamp(30px,7vw,54px); font-weight:700; margin-bottom:8px}
+  .practice .q{font-size:clamp(20px,4.6vw,32px); font-weight:700; margin-bottom:8px; line-height:1.3}
   .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
     border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
   .practice input:focus{border-color:var(--accent2)}
@@ -56,7 +53,7 @@
 </style>
 </head>
 <body>
-<header><h1>Keliame kvadratu ir kubu</h1><p>Interaktyvios kortelės · 12 klausim.</p></header>
+<header><h1>Susikertančiosios tiesės</h1><p>Interaktyvios kortelės · 20 klausim.</p></header>
 <div class="tabs">
   <button class="tab active" id="tabCards">🃏 Kortelės</button>
   <button class="tab" id="tabPractice">✏️ Praktika</button>
@@ -83,14 +80,14 @@
     <div class="counter" id="pCounter"></div>
     <div class="qbox">
       <div class="q" id="pQuestion"></div>
-      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą</div>
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (laipsniais, be ° ženklo)</div>
       <input id="pInput" type="text" autocomplete="off" placeholder="atsakymas"
              onkeydown="if(event.key==='Enter')checkAnswer()">
       <div class="keys">
-        <button onclick="ins('−')">−</button><button onclick="ins(',')">,</button>
-        <button onclick="ins('/')">/</button><button onclick="ins('0')">0</button>
         <button onclick="ins('1')">1</button><button onclick="ins('2')">2</button>
-        <button onclick="ins('3')">3</button><button onclick="bksp()">⌫</button>
+        <button onclick="ins('3')">3</button><button onclick="ins('4')">4</button>
+        <button onclick="ins('5')">5</button><button onclick="ins('0')">0</button>
+        <button onclick="bksp()">⌫</button>
       </div>
       <div class="feedback" id="pFeedback"></div>
     </div>
@@ -103,17 +100,36 @@
     <div class="score" id="pScore"></div>
   </section>
 </div>
-<footer>Mokytoja Violeta · 7 klasės matematika · „Keliame kvadratu ir kubu“ interaktyvios kortelės</footer>
+<footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
-const CARDS = [["6² = ?", "36"], ["5³ = ?", "125"], ["0,7² = ?", "0,49"], ["(−6)² = ?", "36"], ["(−6)³ = ?", "−216"], ["−5² = ?", "−25"], ["(−5)² = ?", "25"], ["Kvadrato kraštinė 7 cm. Plotas (cm²)?", "49"], ["Kubo briauna 4 cm. Tūris (cm³)?", "64"], ["(−0,7)³ = ?", "−0,343"], ["(−3)² · 5 − (−2)³ = ?", "53"], ["(3/4)² = ?  (rašyk 9/16)", "9/16"]];
-function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+const CARDS = [
+["∠1 = 63°. Koks gretutinis ∠2?", "117"],
+["∠1 = 48°. Koks gretutinis ∠2?", "132"],
+["∠1 = 25°. Koks gretutinis ∠2?", "155"],
+["∠1 = 72°. Koks gretutinis ∠2?", "108"],
+["∠1 = 145°. Koks gretutinis ∠2?", "35"],
+["∠1 = 38°. Koks gretutinis ∠2?", "142"],
+["∠1 = 90°. Koks gretutinis ∠2?", "90"],
+["∠1 = 100°. Koks gretutinis ∠2?", "80"],
+["∠1 = 15°. Koks gretutinis ∠2?", "165"],
+["∠1 = 174°. Koks gretutinis ∠2?", "6"],
+["∠1 = 52°. Koks kryžminis ∠3?", "52"],
+["∠1 = 81°. Koks kryžminis ∠3?", "81"],
+["∠1 = 63°. Koks kryžminis ∠3?", "63"],
+["x + 4x = 180°. Koks x?", "36"],
+["x + 3x = 180°. Koks x?", "45"],
+["x + 5x = 180°. Koks x?", "30"],
+["Du gretutiniai kampai skiriasi 40°. Koks mažesnysis?", "70"],
+["Du gretutiniai kampai skiriasi 26°. Koks mažesnysis?", "77"],
+["Kiek kampų sudaro dvi susikertančios tiesės?", "4"],
+["Kiek kryžminių kampų porų susidaro susikirtus dviem tiesėms?", "2"]
+];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');
 function renderCard(){
   const [f,b]=CARDS[order[ci]]; cardEl.classList.remove('flipped');
-  document.getElementById('cardFront').innerHTML=fmtMath(f);
-  document.getElementById('cardBack').innerHTML=fmtMath(b);
+  document.getElementById('cardFront').textContent=f;
+  document.getElementById('cardBack').textContent=b;
   document.getElementById('cardNum').textContent=order[ci]+1;
   document.getElementById('cardNumB').textContent=order[ci]+1;
   document.getElementById('cardCounter').textContent=`Kortelė ${ci+1} iš ${CARDS.length}`;
@@ -123,10 +139,27 @@ function nextCard(){ci=(ci+1)%CARDS.length;renderCard();}
 function prevCard(){ci=(ci-1+CARDS.length)%CARDS.length;renderCard();}
 function shuffleCards(){for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}ci=0;renderCard();}
 let porder=CARDS.map((_,i)=>i); let pi=0,correct=0,answered=0,done=false;
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
 function normalize(s){
   s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/°/g,''); // laipsnio ženklas — nesvarbu, ar mokinys jį įrašė
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
   if(!/^[+-]/.test(s)) s='+'+s;
   const tokens=s.match(/[+-][^+-]+/g)||[];
   const terms=tokens.map(t=>{
@@ -144,7 +177,7 @@ function normalize(s){
 }
 function renderPractice(){
   done=false; const q=CARDS[porder[pi]][0];
-  document.getElementById('pQuestion').innerHTML=fmtMath(q);
+  document.getElementById('pQuestion').textContent=q;
   document.getElementById('pInput').value='';
   document.getElementById('pInput').focus();
   document.getElementById('pFeedback').textContent='';
@@ -158,10 +191,10 @@ function checkAnswer(){
   if(!val.trim()) return; const fb=document.getElementById('pFeedback');
   const right=CARDS[porder[pi]][1]; answered++;
   if(normalize(val)===normalize(right)){correct++;fb.textContent='✓ Teisingai!';fb.className='feedback ok';}
-  else{fb.innerHTML=fmtMath(`✗ Ne. Teisingas atsakymas: ${right}`);fb.className='feedback bad';}
+  else{fb.textContent=`✗ Ne. Teisingas atsakymas: ${right}`;fb.className='feedback bad';}
   done=true; updateScore();
 }
-function revealAnswer(){const fb=document.getElementById('pFeedback');fb.innerHTML=fmtMath(`Atsakymas: ${CARDS[porder[pi]][1]}`);fb.className='feedback';}
+function revealAnswer(){const fb=document.getElementById('pFeedback');fb.textContent=`Atsakymas: ${CARDS[porder[pi]][1]}`;fb.className='feedback';}
 function nextPractice(){if(pi<CARDS.length-1){pi++;renderPractice();}else{document.getElementById('pFeedback').textContent='Visi klausimai atlikti! 🎉';}}
 function restartPractice(){pi=0;correct=0;answered=0;for(let i=porder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[porder[i],porder[j]]=[porder[j],porder[i]];}renderPractice();}
 function ins(ch){const el=document.getElementById('pInput');el.value+=ch;el.focus();}

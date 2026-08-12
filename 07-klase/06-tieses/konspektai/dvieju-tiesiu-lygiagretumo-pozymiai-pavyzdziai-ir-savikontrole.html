@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Dviejų tiesių lygiagretumo požymiai — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .diag{text-align:center; margin:6px 0}
+  .kirstine-svg{display:block;margin:6px auto}
+  .kirstine-svg .ln-a,.kirstine-svg .ln-b{stroke:#1e5fa8;stroke-width:2.2}
+  .kirstine-svg .ln-c{stroke:#5b6472;stroke-width:2}
+  .kirstine-svg .ln-lbl{font-size:13px;font-style:italic;fill:#1e5fa8;font-weight:700}
+  .kirstine-svg .pt{fill:#1c2430}
+  .kirstine-svg .num{font-size:12px;fill:#1c2430;font-weight:600}
+</style>
+</head>
+<body>
+
+<h1>Dviejų tiesių lygiagretumo požymiai — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 6 skyrius „Tiesės" · 6.4 tema · trys lygiagretumo požymiai</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 požymis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> 1 požymis. Vidaus priešiniai kampai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei vidaus priešiniai kampai lygūs, tiesės lygiagrečios.</div>
+    <div class="ex">
+      <div class="q">Vienas iš vidaus priešinių kampų lygus 68°, kitas — taip pat 68°. Ar tiesės lygiagrečios?</div>
+      <div class="line">68° = 68° &nbsp;&rArr;&nbsp; kampai lygūs <span class="muted2">(1 požymis)</span> &nbsp;&rArr;&nbsp; <span class="res">taip, a ∥ b</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Vidaus priešiniai kampai: 2x − 10 ir x + 35; tiesės lygiagrečios. Raskite x ir abu kampus.</div>
+      <div class="line">2x − 10 = x + 35 &nbsp;&rArr;&nbsp; x = 45</div>
+      <div class="line">2·45 − 10 = <span class="res">80°</span>;&nbsp; 45 + 35 = <span class="res">80°</span> <span class="muted2">(patikra: kampai lygūs ✓)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 požymis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> 2 požymis. Vidaus vienašaliai kampai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei vidaus vienašalių kampų suma lygi 180°, tiesės lygiagrečios.</div>
+    <div class="ex">
+      <div class="q">Vidaus vienašalių kampų suma lygi 174°. Ar tiesės lygiagrečios?</div>
+      <div class="line">174° ≠ 180° &nbsp;&rArr;&nbsp; <span class="res">ne, tiesės nelygiagrečios</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Vidaus vienašalis kampas lygus 3x, kitas — x + 40; tiesės lygiagrečios. Raskite x ir abu kampus.</div>
+      <div class="line">3x + (x + 40) = 180 &nbsp;&rArr;&nbsp; 4x = 140 &nbsp;&rArr;&nbsp; x = 35</div>
+      <div class="line">3·35 = <span class="res">105°</span>;&nbsp; 35 + 40 = <span class="res">75°</span> <span class="muted2">(patikra: 105° + 75° = 180° ✓)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 požymis ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> 3 požymis. Atitinkamieji kampai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei atitinkamieji kampai lygūs, tiesės lygiagrečios.</div>
+    <div class="ex">
+      <div class="q">Vienas kampas lygus 118°, jam atitinkamasis kampas — x. Kad tiesės būtų lygiagrečios, koks turi būti x?</div>
+      <div class="line">atitinkamieji kampai lygūs &nbsp;&rArr;&nbsp; <span class="res">x = 118°</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Atitinkamieji kampai: 4x + 6 ir 3x + 21; tiesės lygiagrečios. Raskite x ir abu kampus.</div>
+      <div class="line">4x + 6 = 3x + 21 &nbsp;&rArr;&nbsp; x = 15</div>
+      <div class="line">4·15 + 6 = <span class="res">66°</span>;&nbsp; 3·15 + 21 = <span class="res">66°</span> <span class="muted2">(patikra: kampai lygūs ✓)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirma nustatyk kampų porą (vidaus/išorės, priešiniai/vienašaliai/atitinkamieji), tada taikyk teisingą požymį. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Kampų porų atpažinimas (pagal brėžinį)</div>
+    <div class="diag"><svg width="260" height="205" viewBox="0 0 260 205" class="kirstine-svg">
+<line class="ln-a" x1="20.0" y1="70.0" x2="300.0" y2="70.0"/>
+<line class="ln-b" x1="20.0" y1="180.0" x2="300.0" y2="180.0"/>
+<line class="ln-c" x1="70.0" y1="15.0" x2="270.0" y2="235.0"/>
+<text class="ln-lbl" x="6.0" y="74.0">a</text>
+<text class="ln-lbl" x="6.0" y="184.0">b</text>
+<text class="ln-lbl" x="66.0" y="9.0">c</text>
+<circle class="pt" cx="120.0" cy="70.0" r="2.6"/>
+<circle class="pt" cx="220.0" cy="180.0" r="2.6"/>
+<text class="num" x="131" y="49.3" text-anchor="middle">1</text>
+<text class="num" x="144.7" y="85" text-anchor="middle">2</text>
+<text class="num" x="109" y="98.7" text-anchor="middle">3</text>
+<text class="num" x="95.3" y="63" text-anchor="middle">4</text>
+<text class="num" x="231" y="159.3" text-anchor="middle">5</text>
+<text class="num" x="244.7" y="195" text-anchor="middle">6</text>
+<text class="num" x="209" y="208.7" text-anchor="middle">7</text>
+<text class="num" x="195.3" y="173" text-anchor="middle">8</text>
+</svg><div class="muted2" style="font-size:9.5pt;margin-top:2px">Kirstinė c kerta tieses a ir b</div></div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Kokie yra kampai ∠2 ir ∠8?</li>
+        <li>Kokie yra kampai ∠3 ir ∠8?</li>
+        <li>Kokie yra kampai ∠4 ir ∠8?</li>
+        <li>Kokie yra kampai ∠2 ir ∠6?</li>
+        <li>Kokie yra kampai ∠1 ir ∠3?</li>
+        <li>Kokie yra kampai ∠4 ir ∠6?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Ar tiesės lygiagrečios?</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>Vidaus vienašalių kampų suma 168°.</li>
+        <li>Vidaus priešiniai kampai: 77° ir 77°.</li>
+        <li>Atitinkamieji kampai: 132° ir 131°.</li>
+        <li>Vidaus vienašalių kampų suma 180°.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Raskite x, su kuria tiesės būtų lygiagrečios</div>
+    <div class="two">
+      <ol class="tasks math" start="11">
+        <li>Atitinkamieji kampai: 124° ir x.</li>
+        <li>Vidaus priešiniai kampai: x ir 59°.</li>
+        <li>Vidaus vienašaliai kampai: x ir 121°.</li>
+        <li>Vidaus vienašaliai kampai: 2x + 15 ir 3x − 25.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks math" start="15">
+      <li>Kirstinė kerta dvi tieses; atitinkamieji kampai lygūs 5x − 8 ir 3x + 24. Su kokia x reikšme tiesės lygiagrečios? Koks tada kiekvienas kampas?</li>
+      <li>Kirstinė kerta dvi tieses; vidaus vienašaliai kampai lygūs 2x + 18 ir 4x − 6. Su kokia x reikšme tiesės lygiagrečios? Kokie tada abu kampai?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> vidaus priešiniai &nbsp;&nbsp; <b>2.</b> vidaus vienašaliai &nbsp;&nbsp; <b>3.</b> atitinkamieji</div>
+    <div class="row math"><b>4.</b> atitinkamieji &nbsp;&nbsp; <b>5.</b> kryžminiai &nbsp;&nbsp; <b>6.</b> išorės priešiniai</div>
+    <div class="row math"><b>7.</b> ne (168°≠180°) &nbsp;&nbsp; <b>8.</b> taip (77°=77°)</div>
+    <div class="row math"><b>9.</b> ne (132°≠131°) &nbsp;&nbsp; <b>10.</b> taip (180°=180°)</div>
+    <div class="row math"><b>11.</b> x = 124° &nbsp;&nbsp; <b>12.</b> x = 59°</div>
+    <div class="row math"><b>13.</b> x = 59° (180−121) &nbsp;&nbsp; <b>14.</b> x = 38° (kampai 91°, 89°)</div>
+    <div class="row math"><b>15.</b> 5x−8=3x+24 → x=16 → abu kampai 72° &nbsp;&nbsp; <b>16.</b> 2x+18+4x−6=180 → x=28 → kampai 74° ir 106°</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Dviejų tiesių lygiagretumo požymiai" · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

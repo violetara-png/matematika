@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lygiagrečiosios tiesės — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+
+  /* --- brėžiniai (SVG) --- */
+  .brez-wrap{display:flex; justify-content:center; margin:10px 0 4px}
+  svg.brez{width:100%; max-width:340px; height:auto; background:#fbfcfe; border:1px solid var(--linija); border-radius:8px}
+  .ln{stroke:#1c2430; stroke-width:2}
+  .ln-c{stroke:#1c2430}
+  .ax{stroke:#8a93a6; stroke-width:1.3}
+  .grid{stroke:#e6eaf0; stroke-width:1}
+  .par-mark{stroke:var(--demesio); stroke-width:2.2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .rt-mark{stroke:var(--taisykle); stroke-width:2; fill:none}
+  .pt{fill:#1c2430}
+  .lbl-it{font-style:italic; font-family:"Cambria Math",Cambria,Georgia,serif; font-size:13px; fill:#1c2430}
+  .dim{stroke:var(--tema); stroke-width:1.4}
+  .dim-t{font-size:11.5px; fill:var(--tema); font-weight:700}
+
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Lygiagrečiosios tiesės</h1>
+  <p class="klase">Matematika · 7 klasė · 6 skyrius „Tiesės" · 6.3 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Lygiagrečiosios tiesės — apibrėžimas</a></li>
+      <li><a href="#t2">Lygiagrečiųjų tiesių aksioma</a></li>
+      <li><a href="#t3">Lygiagrečiosios atkarpos</a></li>
+      <li><a href="#t4">Statmuo bendrai lygiagrečiai tiesei</a></li>
+      <li><a href="#t5">Lygiagretumo tranzityvumas</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Lygiagrečiosios tiesės — apibrėžimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Lygiagrečiosiomis tiesėmis</span> vadinamos dvi plokštumos tiesės, kurios <b>nesikerta</b> — neturi nė vieno bendro taško.</p>
+        <p>Žymima: <span class="math"><b>a ∥ b</b></span> (skaitoma „tiesė a lygiagreti tiesei b") arba tiesiog žodžiais — „a lygiagreti b".</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 250 130" class="brez">
+<line x1="20" y1="42" x2="235" y2="42" class="ln"/>
+<line x1="20" y1="95" x2="235" y2="95" class="ln"/>
+<path d="M 148.8 47 L 157.8 42 L 148.8 37" class="par-mark"/>
+<path d="M 148.8 100 L 157.8 95 L 148.8 90" class="par-mark"/>
+<text x="10" y="46" class="lbl-it" text-anchor="middle" dy="0">a</text>
+<text x="10" y="99" class="lbl-it" text-anchor="middle" dy="0">b</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Žymė brėžinyje.</b> Ant abiejų lygiagrečių tiesių dedama <b>vienoda rodyklės žymė</b> (kaip brėžinyje virš) — ji parodo, kad būtent šios dvi tiesės viena kitai lygiagrečios. Jei brėžinyje yra kelios lygiagrečių tiesių poros, kiekvienai porai naudojama <b>sava</b> žymė (viena rodyklė, dvi rodyklės ir t. t.).</p>
+      <div class="demesio"><b>Dėmesio.</b> Tiesė yra begalinė — brėžinyje matome tik jos dalį, todėl „nesikerta" reiškia, kad tiesės neturi bendro taško <b>visame savo ilgyje</b>, kad ir kaip toli jas tęstume.</p></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Lygiagrečiųjų tiesių aksioma</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Aksioma.</span> Per tašką, <b>nesantį</b> duotoje tiesėje, galima nubrėžti <b>tik vieną</b> tiesę, lygiagrečią duotai tiesei.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 250 135" class="brez">
+<line x1="18" y1="108" x2="235" y2="108" class="ln"/>
+<line x1="18" y1="45" x2="235" y2="45" class="ln"/>
+<path d="M 89.4 50 L 98.4 45 L 89.4 40" class="par-mark"/>
+<path d="M 89.4 113 L 98.4 108 L 89.4 103" class="par-mark"/>
+<circle cx="150" cy="45" r="3.2" class="pt"/>
+<text x="154" y="38" class="lbl-it" text-anchor="start" dy="0">A</text>
+<text x="10" y="49" class="lbl-it" text-anchor="middle" dy="0">a</text>
+<text x="10" y="112" class="lbl-it" text-anchor="middle" dy="0">b</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Paaiškinimas.</b> Duota tiesė <span class="math">b</span> ir taškas <span class="math">A</span>, kuris jai <b>nepriklauso</b>. Per tašką <span class="math">A</span> galima nubrėžti be galo daug tiesių — bet <b>tik viena</b> iš jų (tiesė <span class="math">a</span> brėžinyje) yra lygiagreti <span class="math">b</span>.</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Lygiagrečiosios atkarpos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Lygiagrečiosiomis atkarpomis</span> vadinamos atkarpos, kurios yra lygiagrečiose tiesėse. Pavyzdžiui, jei atkarpa <span class="math">AB</span> yra tiesėje <span class="math">a</span>, o atkarpa <span class="math">CD</span> — tiesėje <span class="math">b</span>, ir <span class="math">a ∥ b</span>, tai sakome: <span class="math"><b>AB ∥ CD</b></span>.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 250 125" class="brez">
+<line x1="45" y1="40" x2="205" y2="40" class="ln"/>
+<line x1="20" y1="105" x2="230" y2="105" class="ln"/>
+<line x1="45" y1="40" x2="20" y2="105" class="ln"/>
+<line x1="205" y1="40" x2="230" y2="105" class="ln"/>
+<path d="M 120.5 45 L 129.5 40 L 120.5 35" class="par-mark"/>
+<path d="M 120.5 110 L 129.5 105 L 120.5 100" class="par-mark"/>
+<circle cx="45" cy="40" r="3.2" class="pt"/>
+<circle cx="205" cy="40" r="3.2" class="pt"/>
+<circle cx="230" cy="105" r="3.2" class="pt"/>
+<circle cx="20" cy="105" r="3.2" class="pt"/>
+<text x="42" y="32" class="lbl-it" text-anchor="end" dy="0">A</text>
+<text x="208" y="32" class="lbl-it" text-anchor="start" dy="0">B</text>
+<text x="233" y="117" class="lbl-it" text-anchor="start" dy="0">C</text>
+<text x="17" y="117" class="lbl-it" text-anchor="end" dy="0">D</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Keturkampio <span class="math">ABCD</span> kraštinės <span class="math">AB</span> ir <span class="math">DC</span> yra lygiagrečiose tiesėse, todėl <span class="math">AB ∥ DC</span> — tokį keturkampį (dvi kraštinės lygiagrečios) vadiname <b>trapecija</b>.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Statmuo bendrai lygiagrečiai tiesei</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Jei <span class="math">a ∥ b</span> ir <span class="math">c ⊥ a</span>, tai <span class="math"><b>c ⊥ b</b></span> — statmuo vienai iš dviejų lygiagrečių tiesių yra statmuo ir antrajai.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 250 135" class="brez">
+<line x1="15" y1="35" x2="235" y2="35" class="ln"/>
+<line x1="15" y1="100" x2="235" y2="100" class="ln"/>
+<line x1="170" y1="15" x2="170" y2="120" class="ln ln-c"/>
+<path d="M 65.5 40 L 74.5 35 L 65.5 30.1" class="par-mark"/>
+<path d="M 65.5 105 L 74.5 100 L 65.5 95" class="par-mark"/>
+<path d="M 181 35 L 181 46 L 170 46" class="rt-mark"/>
+<path d="M 170 89 L 181 89 L 181 100" class="rt-mark"/>
+<text x="10" y="39" class="lbl-it" text-anchor="middle" dy="0">a</text>
+<text x="10" y="104" class="lbl-it" text-anchor="middle" dy="0">b</text>
+<text x="176" y="20" class="lbl-it" text-anchor="start" dy="0">c</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Kodėl taip?</b> Tiesė <span class="math">c</span> su tiese <span class="math">a</span> sudaro <span class="math">90°</span> kampą. Kadangi <span class="math">b ∥ a</span>, ta pati kryptis „persikelia" ir prie tiesės <span class="math">b</span> — todėl kampas tarp <span class="math">c</span> ir <span class="math">b</span> irgi <span class="math">90°</span>.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Lygiagretumo tranzityvumas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Jei <span class="math">a ∥ b</span> ir <span class="math">b ∥ c</span>, tai <span class="math"><b>a ∥ c</b></span> — lygiagretumas „perduodamas" per trečią tiesę.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 250 140" class="brez">
+<line x1="15" y1="28" x2="235" y2="28" class="ln"/>
+<path d="M 131.5 33 L 140.5 28 L 131.5 23.1" class="par-mark"/>
+<text x="8" y="32" class="lbl-it" text-anchor="middle" dy="0">a</text>
+<line x1="15" y1="72" x2="235" y2="72" class="ln"/>
+<path d="M 131.5 77 L 140.5 72 L 131.5 67" class="par-mark"/>
+<text x="8" y="76" class="lbl-it" text-anchor="middle" dy="0">b</text>
+<line x1="15" y1="116" x2="235" y2="116" class="ln"/>
+<path d="M 131.5 121 L 140.5 116 L 131.5 111" class="par-mark"/>
+<text x="8" y="120" class="lbl-it" text-anchor="middle" dy="0">c</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Jei žinome, kad <span class="math">a ∥ b</span>, o <span class="math">c ∥ b</span>, tai iš karto galime teigti, kad <span class="math">a ∥ c</span> — net nepiešdami visų trijų tiesių vienoje vietoje.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">Lygiagrečios tiesės — tai tiesės, kurios „atrodo" nesikertančios brėžinyje</span></td><td><span class="gerai">Lygiagrečios tiesės NIEKADA nesikerta, kad ir kaip toli jas tęstume</span> (ne tik brėžinio ribose)</td></tr>
+          <tr><td><span class="klaida">Per tašką galima nubrėžti kelias tieses, lygiagrečias duotai</span></td><td><span class="gerai">Tik VIENĄ</span> (lygiagrečiųjų tiesių aksioma)</td></tr>
+          <tr><td><span class="klaida">Jei a ∥ b, tai a ir b — ta pati tiesė</span></td><td><span class="gerai">Ne, tai DVI SKIRTINGOS tiesės</span>, kurios tiesiog nesikerta</td></tr>
+          <tr><td><span class="klaida">Statmuo vienai iš lygiagrečių tiesių gali būti nestatmuo kitai</span></td><td><span class="gerai">Jei c⊥a ir a∥b, tai c⊥b</span> — visada abiem</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Piešdamas lygiagrečias tieses <b>visada</b> žymėk jas <b>vienoda rodykle</b> — tai bendra sutartinė žymė, kurią naudoja visi (kaip ir lygių kraštinių brūkšneliai trikampiuose).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Lygiagrečiosios tiesės" (6.3)
+  </footer>
+
+</div>
+</body>
+</html>

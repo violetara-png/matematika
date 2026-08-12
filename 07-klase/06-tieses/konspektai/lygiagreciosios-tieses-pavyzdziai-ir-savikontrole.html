@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Lygiagrečiosios tiesės — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .brez-wrap{display:flex;justify-content:center;margin:4px 0 8px}
+  svg.brez{width:100%;max-width:190px;height:auto;background:#fff;border:1px solid var(--bd);border-radius:8px}
+  .ln{stroke:#1c2430;stroke-width:1.8}
+  .ax{stroke:#8a93a6;stroke-width:1.1}
+  .grid{stroke:#e9ecf4;stroke-width:.8}
+  .par-mark{stroke:var(--red-tx);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .pt{fill:#1c2430}
+  .lbl-it{font-style:italic;font-family:"Cambria Math",Cambria,Georgia,serif;font-size:10.5px;fill:#1c2430}
+  .dim{stroke:var(--blue);stroke-width:1.2}
+  .dim-t{font-size:9.5px;fill:var(--blue);font-weight:700}
+</style>
+</head>
+<body>
+
+<h1>Lygiagrečiosios tiesės — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 6 skyrius „Tiesės" · 6.3 tema — koordinatės, lygiagretainio perimetras, tranzityvumas ir statmuo</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1: tiesė lygiagreti OX ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Tiesė, lygiagreti abscisių ašiai (OX)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei tiesė lygiagreti OX ašiai, visi jos taškai turi <b>tą pačią ordinatę</b> (y reikšmę) — tokia, kokia yra duoto taško.</div>
+    <div class="ex">
+      <div class="brez-wrap">
+        <svg viewBox="0 0 230 165" class="brez">
+<line x1="18" y1="150" x2="18" y2="-4" class="grid"/><line x1="40" y1="150" x2="40" y2="-4" class="grid"/><line x1="62" y1="150" x2="62" y2="-4" class="grid"/><line x1="84" y1="150" x2="84" y2="-4" class="grid"/><line x1="106" y1="150" x2="106" y2="-4" class="grid"/><line x1="128" y1="150" x2="128" y2="-4" class="grid"/><line x1="150" y1="150" x2="150" y2="-4" class="grid"/><line x1="172" y1="150" x2="172" y2="-4" class="grid"/><line x1="194" y1="150" x2="194" y2="-4" class="grid"/><line x1="216" y1="150" x2="216" y2="-4" class="grid"/>
+<line x1="18" y1="172" x2="216" y2="172" class="grid"/><line x1="18" y1="150" x2="216" y2="150" class="grid"/><line x1="18" y1="128" x2="216" y2="128" class="grid"/><line x1="18" y1="106" x2="216" y2="106" class="grid"/><line x1="18" y1="84" x2="216" y2="84" class="grid"/><line x1="18" y1="62" x2="216" y2="62" class="grid"/><line x1="18" y1="40" x2="216" y2="40" class="grid"/><line x1="18" y1="18" x2="216" y2="18" class="grid"/>
+<line x1="18" y1="150" x2="216" y2="150" class="ax"/>
+<line x1="40" y1="172" x2="40" y2="-4" class="ax"/>
+<text x="214" y="146" class="lbl-it" text-anchor="end">x</text>
+<text x="48" y="4" class="lbl-it" text-anchor="start">y</text>
+<line x1="18" y1="40" x2="216" y2="40" class="ln"/>
+<path d="M 156.1 45 L 165.1 40 L 156.1 35" class="par-mark"/>
+<text x="22" y="34" class="lbl-it" text-anchor="start">a</text>
+<circle cx="84" cy="40" r="2.8" class="pt"/>
+<text x="89" y="34" class="lbl-it" text-anchor="start">A(2; 5)</text>
+</svg>
+      </div>
+      <div class="q">Taškas A(2; 5). Per A nubrėžta tiesė a, lygiagreti OX ašiai. Kokia kiekvieno tiesei a priklausančio taško ordinatė?</div>
+      <div class="line">Tiesė a horizontali (lygiagreti OX), todėl visi jos taškai turi tokią pat ordinatę, kaip taškas A &rArr; <span class="res">y = 5</span> <span class="muted2">(nepriklausomai nuo abscisės x)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Taškas A(−4; 9). Per A nubrėžta tiesė a ∥ OX. Kokia y reikšmė?</div>
+      <div class="line">Ordinatė nesikeičia &rArr; <span class="res">y = 9</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2: tiesė lygiagreti OY ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Tiesė, lygiagreti ordinačių ašiai (OY)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei tiesė lygiagreti OY ašiai, atstumas nuo jos iki OY ašies lygus <b>absoliučiajai duoto taško abscisei</b>, |x|.</div>
+    <div class="ex">
+      <div class="brez-wrap">
+        <svg viewBox="0 0 230 175" class="brez">
+<line x1="20" y1="170" x2="20" y2="30" class="grid"/><line x1="40" y1="170" x2="40" y2="30" class="grid"/><line x1="60" y1="170" x2="60" y2="30" class="grid"/><line x1="80" y1="170" x2="80" y2="30" class="grid"/><line x1="100" y1="170" x2="100" y2="30" class="grid"/><line x1="120" y1="170" x2="120" y2="30" class="grid"/><line x1="140" y1="170" x2="140" y2="30" class="grid"/><line x1="160" y1="170" x2="160" y2="30" class="grid"/><line x1="180" y1="170" x2="180" y2="30" class="grid"/>
+<line x1="20" y1="170" x2="180" y2="170" class="grid"/><line x1="20" y1="150" x2="180" y2="150" class="grid"/><line x1="20" y1="130" x2="180" y2="130" class="grid"/><line x1="20" y1="110" x2="180" y2="110" class="grid"/><line x1="20" y1="90" x2="180" y2="90" class="grid"/><line x1="20" y1="70" x2="180" y2="70" class="grid"/><line x1="20" y1="50" x2="180" y2="50" class="grid"/>
+<line x1="20" y1="150" x2="180" y2="150" class="ax"/>
+<line x1="120" y1="170" x2="120" y2="30" class="ax"/>
+<text x="178" y="146" class="lbl-it" text-anchor="end">x</text>
+<text x="128" y="34" class="lbl-it" text-anchor="start">y</text>
+<line x1="60" y1="170" x2="60" y2="30" class="ln"/>
+<path d="M 65 69.5 L 60 60.5 L 55 69.5" class="par-mark"/>
+<text x="66" y="32" class="lbl-it" text-anchor="start">b</text>
+<circle cx="60" cy="70" r="2.8" class="pt"/>
+<text x="55" y="64" class="lbl-it" text-anchor="end">B(−3; 4)</text>
+<line x1="60" y1="130" x2="120" y2="130" class="dim"/>
+<text x="90" y="125" class="dim-t" text-anchor="middle">3</text>
+</svg>
+      </div>
+      <div class="q">Taškas B(−3; 4). Per B nubrėžta tiesė b, lygiagreti OY ašiai. Koks atstumas nuo tiesės b iki OY ašies?</div>
+      <div class="line">Atstumas = |x koordinatė| = |−3| &rArr; <span class="res">3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Taškas B(6; −2). Per B nubrėžta tiesė b ∥ OY. Koks atstumas nuo b iki OY?</div>
+      <div class="line">Atstumas = |6| &rArr; <span class="res">6</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3: lygiagretainio perimetras ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Lygiagretainio perimetras (priešingos kraštinės lygiagrečios)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> lygiagretainio priešingos kraštinės yra <b>lygiagrečios ir lygios poromis</b> (AB∥DC ir AB=DC; AD∥BC ir AD=BC). Perimetras P = 2·(AB + BC).</div>
+    <div class="ex">
+      <div class="brez-wrap">
+        <svg viewBox="0 0 235 115" class="brez">
+<line x1="35" y1="95" x2="190" y2="95" class="ln"/><line x1="190" y1="95" x2="215" y2="35" class="ln"/><line x1="215" y1="35" x2="60" y2="35" class="ln"/><line x1="60" y1="35" x2="35" y2="95" class="ln"/>
+<path d="M 108 100 L 117 95 L 108 90" class="par-mark"/>
+<path d="M 133 40 L 142 35 L 133 30.1" class="par-mark"/>
+<path d="M 204 74.3 L 202.9 64.1 L 194.9 70.5" class="par-mark"/>
+<path d="M 206.7 67.8 L 205.6 57.6 L 197.5 64" class="par-mark"/>
+<path d="M 49 74.3 L 47.9 64.1 L 39.9 70.5" class="par-mark"/>
+<path d="M 51.7 67.8 L 50.6 57.6 L 42.5 64" class="par-mark"/>
+<circle cx="35" cy="95" r="2.8" class="pt"/><circle cx="190" cy="95" r="2.8" class="pt"/><circle cx="215" cy="35" r="2.8" class="pt"/><circle cx="60" cy="35" r="2.8" class="pt"/>
+<text x="32" y="108" class="lbl-it" text-anchor="end">A</text>
+<text x="193" y="108" class="lbl-it" text-anchor="start">B</text>
+<text x="218" y="29" class="lbl-it" text-anchor="start">C</text>
+<text x="57" y="29" class="lbl-it" text-anchor="end">D</text>
+<text x="112.5" y="108" class="dim-t" text-anchor="middle">7 cm</text>
+<text x="208" y="65" class="dim-t" text-anchor="start">9 cm</text>
+</svg>
+      </div>
+      <div class="q">Lygiagretainio ABCD kraštinė AB = 7 cm, o kraštinė BC yra 2 cm ilgesnė už AB. Raskite lygiagretainio perimetrą.</div>
+      <div class="line">BC = 7 + 2 = 9 cm &nbsp; &rArr; &nbsp; P = 2·(AB + BC) = 2·(7 + 9) = 2·16 = <span class="res">32 cm</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Lygiagretainio ABCD kraštinė AB = 11 cm, o kraštinė BC yra 4 cm trumpesnė už AB. Raskite perimetrą.</div>
+      <div class="line">BC = 11 − 4 = 7 cm &nbsp; &rArr; &nbsp; P = 2·(11 + 7) = 2·18 = <span class="res">36 cm</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4: tranzityvumas ir statmuo ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Tranzityvumas ir statmuo bendrai lygiagrečiai tiesei</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklės:</b> jei a∥b ir b∥c, tai a∥c (tranzityvumas). Jei a∥b ir c⊥a, tai c⊥b (statmuo abiem).</div>
+    <div class="ex">
+      <div class="q">Žinoma, kad a ∥ b ir c ∥ b. Ar a ∥ c?</div>
+      <div class="line">Abi tiesės (a ir c) lygiagrečios tai pačiai tiesei b &nbsp; &rArr; &nbsp; <span class="res">taip, a ∥ c</span> <span class="muted2">(tranzityvumas)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Žinoma, kad a ∥ b ir c ⊥ a. Ar c ⊥ b?</div>
+      <div class="line">Statmuo vienai iš dviejų lygiagrečių tiesių yra statmuo ir kitai &nbsp; &rArr; &nbsp; <span class="res">taip, c ⊥ b</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmuose 6 teiginiuose parašyk T (teisinga) arba N (neteisinga); likusiuose apskaičiuok. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Teisingumo teiginiai</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Lygiagrečios tiesės turi vieną bendrą tašką.</li>
+        <li>Per bet kurį tašką, nesantį tiesėje, galima nubrėžti tik vieną jai lygiagrečią tiesę.</li>
+        <li class="math">Jei AB ∥ CD, tai atkarpos AB ir CD yra lygiagrečiose tiesėse.</li>
+        <li class="math">Jei a ∥ b ir c ⊥ b, tai c gali nebūti statmena a.</li>
+        <li class="math">Jei a ∥ b ir b ∥ c, tai tiesės a ir c susikerta.</li>
+        <li>Jei dvi skirtingos plokštumos tiesės nėra lygiagrečios, tai jos susikerta lygiai viename taške.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Koordinatės</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>Taškas A(5; 3). Per A nubrėžta tiesė a ∥ OX. Kokia visų tiesės a taškų ordinatė?</li>
+        <li>Taškas A(−2; −6). Per A nubrėžta tiesė a ∥ OX. Kokia ordinatė?</li>
+        <li>Taškas B(4; 7). Per B nubrėžta tiesė b ∥ OY. Koks atstumas nuo b iki OY?</li>
+        <li>Taškas B(−10; 2). Per B nubrėžta tiesė b ∥ OY. Koks atstumas nuo b iki OY?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Lygiagretainio perimetras</div>
+    <div class="two">
+      <ol class="tasks math" start="11">
+        <li>Lygiagretainio ABCD kraštinė AB=6 cm, o BC yra 3 cm ilgesnė už AB. Raskite perimetrą.</li>
+        <li>Lygiagretainio ABCD kraštinė AB=14 cm, o BC yra 5 cm trumpesnė už AB. Raskite perimetrą.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="13">
+      <li>Miesto plane gatvė Beržų yra lygiagreti gatvei Klevų. Ar šios gatvės, tęsiant jas bet kaip toli, kada nors susikirs? Paaiškink savo atsakymą viena taisykle.</li>
+      <li class="math">Stalo staltiesės kraštai AB ir CD lygiagretūs (AB∥CD). Trečias kraštas BC statmenas AB (BC⊥AB). Ar BC statmenas ir CD kraštui? Paaiškink, kuria savybe remiesi.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> N &nbsp;&nbsp; <b>2.</b> T &nbsp;&nbsp; <b>3.</b> T</div>
+    <div class="row math"><b>4.</b> N &nbsp;&nbsp; <b>5.</b> N &nbsp;&nbsp; <b>6.</b> T</div>
+    <div class="row math"><b>7.</b> y = 3 &nbsp;&nbsp; <b>8.</b> y = −6</div>
+    <div class="row math"><b>9.</b> 4 &nbsp;&nbsp; <b>10.</b> 10</div>
+    <div class="row math"><b>11.</b> BC=9, P=2·(6+9)=30 cm</div>
+    <div class="row math"><b>12.</b> BC=9, P=2·(14+9)=46 cm</div>
+    <div class="row"><b>13.</b> Ne, niekada nesusikirs — lygiagrečios tiesės niekada neturi bendro taško, kad ir kaip toli jas tęstume.</div>
+    <div class="row math"><b>14.</b> Taip, BC⊥CD — statmuo vienai iš dviejų lygiagrečių tiesių (AB) yra statmuo ir kitai (CD).</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Lygiagrečiosios tiesės" (6.3) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

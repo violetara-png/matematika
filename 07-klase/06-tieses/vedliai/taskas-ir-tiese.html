@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Taškas ir tiesė (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📐 Mokymosi asistentas „Vilma“</h1>
+    <p>Tema: <b>Taškas ir tiesė</b> · 7 klasė · 6 skyrius „Tiesės“ (6.1)</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">V<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Vilma</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime temą <b>Taškas ir tiesė</b>: kaip žymime taškų priklausymą tiesei, ką sako dvi aksiomos apie tiesę, ir kaip skaičiuoti <b>atkarpos vidurio tašką</b>.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">V<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Vilma</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('∈')">∈</button><button onclick="ins('∉')">∉</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">V<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Vilma</div>
+          Šauniai! Dabar — <b>8 klausimai</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Skaičius rašyk be vienetų (cm nerašyk), simbolinius atsakymus — didžiosiomis raidėmis ir ženklu ∈ arba ∉ (mygtukai apačioje).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pačių pagrindų — <b>priklausymo žymėjimo</b>. Kai taškas yra tiesėje, sakome, kad jis jai <b>priklauso</b>; kai ne — <b>nepriklauso</b>.", "expr": "Taškas K yra tiesėje b.", "q": "Užrašyk šį faktą simboliais (taškas, ženklas, tiesė — iš eilės, be tarpų).", "accepted": ["K∈b"], "hints": ["Prisimink: ženklas ∈ reiškia „priklauso“, o ∉ reiškia „nepriklauso“. Taškas K YRA tiesėje b — kurį ženklą naudosi?", "Taškas visada rašomas PRIEŠ ženklą, o tiesė — po jo. Pirmiausia rašai tašką, tada ženklą, tada tiesę.", "Tvarka: K, tada ženklas ∈ (nes K priklauso), tada b. Surašyk juos vieną po kito be tarpų."]}, {"intro": "Dabar prisiminkime <b>Aksiomą 2</b>: per bet kuriuos du plokštumos taškus galima nubrėžti vienintelę tiesę.", "expr": "Per taškus P ir Q kažkas nubrėžė dvi skirtingas tieses.", "q": "Ar tai galima pagal Aksiomą 2? Atsakyk „taip“ arba „ne“.", "accepted": ["ne"], "hints": ["Aksioma 2 kalba apie tai, KIEK tiesių galima nubrėžti per du taškus.", "Žodis „vienintelę“ reiškia tik VIENĄ, ne dvi ir ne daugiau.", "Kadangi aksioma leidžia tik vieną tiesę, o čia nubrėžtos dvi — ar toks brėžinys atitinka aksiomą?"]}, {"intro": "Pereikime prie <b>atkarpos vidurio taško</b> — svarbiausios šios pamokos formulės.", "expr": "AB = 18 cm, M — atkarpos AB vidurio taškas.", "q": "Apskaičiuok AM. Įrašyk tik skaičių.", "accepted": ["9"], "hints": ["Vidurio taškas dalija atkarpą per pusę. Kokia operacija paverčia AB į AM?", "Naudok formulę AM = AB : 2.", "AB = 18. Padalink 18 iš 2 — tai ir bus AM."]}, {"intro": "Dabar — situacija su <b>trimis taškais</b> vienoje tiesėje.", "expr": "Taškai A, B, C vienoje tiesėje, C tarp A ir B. AC = 14 cm, CB = 10 cm. O — atkarpos AC vidurio taškas.", "q": "Apskaičiuok OB. Įrašyk tik skaičių.", "accepted": ["17"], "hints": ["Pirmiausia surask AO — juk O yra atkarpos AC vidurio taškas, taigi AO = AC : 2.", "AC = 14, taigi AO = 14 : 2 = 7. Dabar pagalvok, kaip OB susijęs su AO ir CB — juk O yra tarp A ir C, o C — tarp A ir B, taigi kelias nuo O iki B eina per C.", "OB = AO + CB. Turi AO = 7, CB = 10 — sudėk juos."]}, {"intro": "Dar sudėtingiau — atkarpa dalijama <b>santykiu</b>.", "expr": "Taškai A, B, C vienoje tiesėje. AB = 32 cm, AC : CB = 5 : 3.", "q": "Apskaičiuok AC. Įrašyk tik skaičių.", "accepted": ["20"], "hints": ["Kai atkarpa dalijama santykiu m : n, įsivaizduok ją padalytą į (m + n) lygių dalių.", "AB = 32, santykis 5 : 3, taigi dalių iš viso 5 + 3 = 8. Kiek lygi viena dalis (32 : 8)?", "Viena dalis = 32 : 8 = 4. AC sudaro 5 tokias dalis — padaugink 4 iš 5."]}, {"intro": "Paskutinė ir sunkiausia — sujunkime <b>tašką atkarpoje</b> su <b>vidurio tašku</b>.", "expr": "Atkarpoje AB pažymėtas taškas K: AK = 9 cm, AB = 21 cm. M — atkarpos KB vidurio taškas.", "q": "Apskaičiuok AM. Įrašyk tik skaičių.", "accepted": ["15"], "hints": ["Pirmiausia rask KB — tai likusi atkarpos AB dalis be AK.", "KB = AB − AK = 21 − 9. Tada M yra šios KB vidurio taškas, taigi KM = KB : 2.", "KM = 12 : 2 = 6. Galiausiai AM = AK + KM — sudėk juos."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Taškas L nepriklauso tiesei c. Užrašyk simboliais.", "acc": ["L∉c"], "hint": "Taškas, tada ženklas ∉ (nepriklauso), tada tiesė — iš eilės, be tarpų."}, {"t": "Per taškus M ir N nubrėžtos dvi skirtingos tiesės. Ar tai galima pagal Aksiomą 2? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Aksioma 2 leidžia tik VIENĄ tiesę per du taškus."}, {"t": "AB = 26 cm, M — atkarpos AB vidurio taškas. Apskaičiuok AM.", "acc": ["13"], "hint": "AM = AB : 2 = 26 : 2."}, {"t": "AM = 13 cm (M — atkarpos AB vidurio taškas). Apskaičiuok AB.", "acc": ["26"], "hint": "Jei AM jau žinai, AB yra dvigubai didesnis: AB = AM · 2."}, {"t": "Taškai A, B, C vienoje tiesėje, C tarp A ir B. AC = 18 cm, CB = 6 cm. O — atkarpos AC vidurio taškas. Apskaičiuok OB.", "acc": ["15"], "hint": "AO = AC : 2 = 9. Tada OB = AO + CB = 9 + 6."}, {"t": "AB = 36 cm, AC : CB = 4 : 5. Apskaičiuok AC.", "acc": ["16"], "hint": "Dalių iš viso 4+5=9. Viena dalis = 36 : 9 = 4. AC = 4 dalys."}, {"t": "AB = 27 cm, AC : CB = 4 : 5. Apskaičiuok CB.", "acc": ["15"], "hint": "Dalių iš viso 4+5=9. Viena dalis = 27 : 9 = 3. CB = 5 dalys."}, {"t": "Atkarpoje AB pažymėtas taškas K: AK = 6 cm, AB = 20 cm. M — atkarpos KB vidurio taškas. Apskaičiuok AM.", "acc": ["13"], "hint": "KB = 20 − 6 = 14. KM = 14 : 2 = 7. AM = AK + KM."}]}, {"label": "variantas B", "qs": [{"t": "Taškas D priklauso tiesei m. Užrašyk simboliais.", "acc": ["D∈m"], "hint": "Taškas, tada ženklas ∈ (priklauso), tada tiesė — iš eilės, be tarpų."}, {"t": "Kokia bebūtų tiesė, joje yra taškų, priklausančių jai, ir taškų, jai nepriklausančių. Kurios aksiomos tai teiginys — 1 ar 2?", "acc": ["1"], "hint": "Šis teiginys kalba apie taškus, priklausančius ir nepriklausančius TAI tiesei — tai Aksioma 1."}, {"t": "AB = 30 cm, M — atkarpos AB vidurio taškas. Apskaičiuok AM.", "acc": ["15"], "hint": "AM = AB : 2 = 30 : 2."}, {"t": "AM = 8 cm (M — atkarpos AB vidurio taškas). Apskaičiuok AB.", "acc": ["16"], "hint": "AB = AM · 2."}, {"t": "Taškai A, B, C vienoje tiesėje, C tarp A ir B. AC = 20 cm, CB = 9 cm. O — atkarpos AC vidurio taškas. Apskaičiuok OB.", "acc": ["19"], "hint": "AO = AC : 2 = 10. Tada OB = AO + CB = 10 + 9."}, {"t": "AB = 40 cm, AC : CB = 3 : 5. Apskaičiuok AC.", "acc": ["15"], "hint": "Dalių iš viso 3+5=8. Viena dalis = 40 : 8 = 5. AC = 3 dalys."}, {"t": "AB = 42 cm, AC : CB = 4 : 3. Apskaičiuok CB.", "acc": ["18"], "hint": "Dalių iš viso 4+3=7. Viena dalis = 42 : 7 = 6. CB = 3 dalys."}, {"t": "Atkarpoje AB pažymėtas taškas K: AK = 8 cm, AB = 24 cm. M — atkarpos KB vidurio taškas. Apskaičiuok AM.", "acc": ["16"], "hint": "KB = 24 − 8 = 16. KM = 16 : 2 = 8. AM = AK + KM."}]}, {"label": "variantas C", "qs": [{"t": "Taškas F nepriklauso tiesei k. Užrašyk simboliais.", "acc": ["F∉k"], "hint": "Taškas, tada ženklas ∉ (nepriklauso), tada tiesė — iš eilės, be tarpų."}, {"t": "Per bet kuriuos du plokštumos taškus galima nubrėžti vienintelę tiesę. Kurios aksiomos tai teiginys — 1 ar 2?", "acc": ["2"], "hint": "Šis teiginys kalba apie tiesės nubrėžimą per DU taškus — tai Aksioma 2."}, {"t": "AB = 22 cm, M — atkarpos AB vidurio taškas. Apskaičiuok AM.", "acc": ["11"], "hint": "AM = AB : 2 = 22 : 2."}, {"t": "AM = 11 cm (M — atkarpos AB vidurio taškas). Apskaičiuok AB.", "acc": ["22"], "hint": "AB = AM · 2."}, {"t": "Taškai A, B, C vienoje tiesėje, C tarp A ir B. AC = 16 cm, CB = 13 cm. O — atkarpos AC vidurio taškas. Apskaičiuok OB.", "acc": ["21"], "hint": "AO = AC : 2 = 8. Tada OB = AO + CB = 8 + 13."}, {"t": "AB = 48 cm, AC : CB = 5 : 3. Apskaičiuok AC.", "acc": ["30"], "hint": "Dalių iš viso 5+3=8. Viena dalis = 48 : 8 = 6. AC = 5 dalys."}, {"t": "AB = 33 cm, AC : CB = 4 : 7. Apskaičiuok CB.", "acc": ["21"], "hint": "Dalių iš viso 4+7=11. Viena dalis = 33 : 11 = 3. CB = 7 dalys."}, {"t": "Atkarpoje AB pažymėtas taškas K: AK = 10 cm, AB = 28 cm. M — atkarpos KB vidurio taškas. Apskaičiuok AM.", "acc": ["19"], "hint": "KB = 28 − 10 = 18. KM = 18 : 2 = 9. AM = AK + KM."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

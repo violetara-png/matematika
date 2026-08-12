@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kortelės: Keliame kvadratu ir kubu (7 klasė)</title>
+<title>Kortelės: Kampų, susidariusių dvi lygiagrečiąsias tieses perkirtus kirstine, savybės (7 kl.)</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -14,7 +14,7 @@
   body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
     color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
   header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
-  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header h1{margin:0; font-size:clamp(16px,2.4vw,24px); font-weight:700}
   header p{margin:4px 0 0; opacity:.85; font-size:14px}
   .tabs{display:flex; gap:8px; margin:18px 0 4px}
   .tab{border:none; background:#e2e8f0; color:var(--ink); padding:10px 20px; border-radius:999px;
@@ -29,10 +29,7 @@
     box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px}
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
-  .expr{font-size:clamp(30px,7vw,58px); font-weight:700}
-  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 .05em;font-family:"Cambria Math",Cambria,Georgia,serif;}
-  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 .1em;}
-  .fr>span:last-child{padding:0 .1em;}
+  .expr{font-size:clamp(22px,5.4vw,40px); font-weight:700; text-align:center; padding:0 8px}
   .back{transform:rotateY(180deg)}
   .back .expr{color:var(--accent)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
@@ -42,7 +39,7 @@
   button.ctrl:hover{background:#eef2f7}
   button.primary{background:var(--accent2); color:#fff}
   .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 20px; text-align:center; margin:10px 0}
-  .practice .q{font-size:clamp(30px,7vw,54px); font-weight:700; margin-bottom:8px}
+  .practice .q{font-size:clamp(19px,4.4vw,30px); font-weight:700; margin-bottom:8px}
   .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
     border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
   .practice input:focus{border-color:var(--accent2)}
@@ -52,11 +49,13 @@
   .keys{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
   .keys button{border:1px solid #cbd5e1; background:#fff; border-radius:8px; padding:8px 12px; font-size:18px; cursor:pointer; min-width:44px}
   .hidden{display:none}
+  .note{max-width:640px; margin:0 auto; text-align:center; color:var(--muted); font-size:12.5px; padding:0 16px}
   footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
 </style>
 </head>
 <body>
-<header><h1>Keliame kvadratu ir kubu</h1><p>Interaktyvios kortelės · 12 klausim.</p></header>
+<header><h1>Kampų, susidariusių dvi lygiagrečiąsias tieses perkirtus kirstine, savybės</h1><p>7 klasė · interaktyvios kortelės · 20 klausim.</p></header>
+<p class="note">Praktikos režime atsakymus rašyk <b>tik skaičiumi, be laipsnio ženklo (°)</b> — pvz. vietoj „74°“ rašyk „74“.</p>
 <div class="tabs">
   <button class="tab active" id="tabCards">🃏 Kortelės</button>
   <button class="tab" id="tabPractice">✏️ Praktika</button>
@@ -83,14 +82,12 @@
     <div class="counter" id="pCounter"></div>
     <div class="qbox">
       <div class="q" id="pQuestion"></div>
-      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą</div>
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (tik skaičių)</div>
       <input id="pInput" type="text" autocomplete="off" placeholder="atsakymas"
              onkeydown="if(event.key==='Enter')checkAnswer()">
       <div class="keys">
-        <button onclick="ins('−')">−</button><button onclick="ins(',')">,</button>
-        <button onclick="ins('/')">/</button><button onclick="ins('0')">0</button>
-        <button onclick="ins('1')">1</button><button onclick="ins('2')">2</button>
-        <button onclick="ins('3')">3</button><button onclick="bksp()">⌫</button>
+        <button onclick="ins('x')">x</button>
+        <button onclick="bksp()">⌫</button>
       </div>
       <div class="feedback" id="pFeedback"></div>
     </div>
@@ -103,17 +100,36 @@
     <div class="score" id="pScore"></div>
   </section>
 </div>
-<footer>Mokytoja Violeta · 7 klasės matematika · „Keliame kvadratu ir kubu“ interaktyvios kortelės</footer>
+<footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
-const CARDS = [["6² = ?", "36"], ["5³ = ?", "125"], ["0,7² = ?", "0,49"], ["(−6)² = ?", "36"], ["(−6)³ = ?", "−216"], ["−5² = ?", "−25"], ["(−5)² = ?", "25"], ["Kvadrato kraštinė 7 cm. Plotas (cm²)?", "49"], ["Kubo briauna 4 cm. Tūris (cm³)?", "64"], ["(−0,7)³ = ?", "−0,343"], ["(−3)² · 5 − (−2)³ = ?", "53"], ["(3/4)² = ?  (rašyk 9/16)", "9/16"]];
-function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+const CARDS = [
+  ["a∥b; vidaus priešinis kampas 74°. Kitas vidaus priešinis kampas?", "74"],
+  ["a∥b; vidaus priešinis kampas 68°. Kitas vidaus priešinis kampas?", "68"],
+  ["a∥b; vidaus priešinis kampas 90°. Kitas vidaus priešinis kampas?", "90"],
+  ["a∥b; atitinkamasis kampas 55°. Jo pora?", "55"],
+  ["a∥b; atitinkamasis kampas 47°. Jo pora?", "47"],
+  ["a∥b; atitinkamasis kampas 118°. Jo pora?", "118"],
+  ["a∥b; vidaus vienašalis kampas 112°. Gretimas vidaus vienašalis kampas?", "68"],
+  ["a∥b; vidaus vienašalis kampas 125°. Gretimas vidaus vienašalis kampas?", "55"],
+  ["a∥b; vidaus vienašalis kampas 100°. Gretimas vidaus vienašalis kampas?", "80"],
+  ["a∥b; vidaus vienašalis kampas 72°. Gretimas vidaus vienašalis kampas?", "108"],
+  ["Trikampyje ∠B=48°, ∠C=61° (per A nubrėžta tiesė ∥ BC). Koks ∠A?", "71"],
+  ["Trikampyje ∠B=52°, ∠C=79° (per A nubrėžta tiesė ∥ BC). Koks ∠A?", "49"],
+  ["Trikampyje ∠B=45°, ∠C=85° (per A nubrėžta tiesė ∥ BC). Koks ∠A?", "50"],
+  ["Trikampyje ∠B=64°, ∠C=58° (per A nubrėžta tiesė ∥ BC). Koks ∠A?", "58"],
+  ["Vidaus priešiniai kampai (2x+13)° ir (3x−7)°. Raskite x.", "20"],
+  ["Atitinkamieji kampai (4x−15)° ir (2x+21)°. Raskite x.", "18"],
+  ["Vidaus vienašaliai kampai (3x+10)° ir (2x+15)°. Raskite x.", "31"],
+  ["Vidaus vienašaliai kampai (5x−20)° ir (x+50)°. Raskite x.", "25"],
+  ["a∥b; vienas vidaus vienašalis kampas tris kartus didesnis už kitą. Koks mažesnysis iš jų?", "45"],
+  ["Kiek kampų sudaro kirstinė, kertanti dvi tieses?", "8"]
+];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');
 function renderCard(){
   const [f,b]=CARDS[order[ci]]; cardEl.classList.remove('flipped');
-  document.getElementById('cardFront').innerHTML=fmtMath(f);
-  document.getElementById('cardBack').innerHTML=fmtMath(b);
+  document.getElementById('cardFront').textContent=f;
+  document.getElementById('cardBack').textContent=b;
   document.getElementById('cardNum').textContent=order[ci]+1;
   document.getElementById('cardNumB').textContent=order[ci]+1;
   document.getElementById('cardCounter').textContent=`Kortelė ${ci+1} iš ${CARDS.length}`;
@@ -123,10 +139,27 @@ function nextCard(){ci=(ci+1)%CARDS.length;renderCard();}
 function prevCard(){ci=(ci-1+CARDS.length)%CARDS.length;renderCard();}
 function shuffleCards(){for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}ci=0;renderCard();}
 let porder=CARDS.map((_,i)=>i); let pi=0,correct=0,answered=0,done=false;
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
 function normalize(s){
   s=(s||'').toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/°/g,'');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
   if(!/^[+-]/.test(s)) s='+'+s;
   const tokens=s.match(/[+-][^+-]+/g)||[];
   const terms=tokens.map(t=>{
@@ -144,7 +177,7 @@ function normalize(s){
 }
 function renderPractice(){
   done=false; const q=CARDS[porder[pi]][0];
-  document.getElementById('pQuestion').innerHTML=fmtMath(q);
+  document.getElementById('pQuestion').textContent=q;
   document.getElementById('pInput').value='';
   document.getElementById('pInput').focus();
   document.getElementById('pFeedback').textContent='';
@@ -158,10 +191,10 @@ function checkAnswer(){
   if(!val.trim()) return; const fb=document.getElementById('pFeedback');
   const right=CARDS[porder[pi]][1]; answered++;
   if(normalize(val)===normalize(right)){correct++;fb.textContent='✓ Teisingai!';fb.className='feedback ok';}
-  else{fb.innerHTML=fmtMath(`✗ Ne. Teisingas atsakymas: ${right}`);fb.className='feedback bad';}
+  else{fb.textContent=`✗ Ne. Teisingas atsakymas: ${right}`;fb.className='feedback bad';}
   done=true; updateScore();
 }
-function revealAnswer(){const fb=document.getElementById('pFeedback');fb.innerHTML=fmtMath(`Atsakymas: ${CARDS[porder[pi]][1]}`);fb.className='feedback';}
+function revealAnswer(){const fb=document.getElementById('pFeedback');fb.textContent=`Atsakymas: ${CARDS[porder[pi]][1]}`;fb.className='feedback';}
 function nextPractice(){if(pi<CARDS.length-1){pi++;renderPractice();}else{document.getElementById('pFeedback').textContent='Visi klausimai atlikti! 🎉';}}
 function restartPractice(){pi=0;correct=0;answered=0;for(let i=porder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[porder[i],porder[j]]=[porder[j],porder[i]];}renderPractice();}
 function ins(ch){const el=document.getElementById('pInput');el.value+=ch;el.focus();}

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Susikertančiosios tiesės — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  /* brėžiniai */
+  .breznys{text-align:center; margin:12px 0}
+  .breznys figcaption{font-size:12.5px; color:var(--pilka); margin-top:4px}
+  .s-side{stroke:#1e5fa8; stroke-width:2.2}
+  .s-arc{stroke:#0a7d52; stroke-width:2; fill:none}
+  text.lbl{font-size:14px; font-style:italic; fill:#1c2430; font-family:"Cambria Math",Georgia,serif}
+  text.ang{font-size:13px; font-weight:700; fill:#b25c00; font-family:"Segoe UI",sans-serif; text-anchor:middle; dominant-baseline:middle}
+  .dvi-greta{display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:flex-start}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Susikertančiosios tiesės</h1>
+  <p class="klase">Matematika · 7 klasė · 6.2 tema (6 skyrius „Tiesės“) · kampai, susidarę susikirtus dviem tiesėms</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Susikertančiosios tiesės ir keturi kampai</a></li>
+      <li><a href="#t2">Gretutiniai kampai</a></li>
+      <li><a href="#t3">Kryžminiai kampai</a></li>
+      <li><a href="#t4">Statmenosios tiesės. Atstumas nuo taško iki tiesės</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Susikertančiosios tiesės ir keturi kampai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dvi plokštumos tiesės, turinčios vieną bendrą tašką</span>, vadinamos <b>susikertančiosiomis tiesėmis</b>.</p>
+        <p>Susikirtusios dvi tiesės sudaro <b>keturis kampus</b>. Juos patogu žymėti skaičiais <b>1, 2, 3, 4</b> — eilės tvarka aplink susikirtimo tašką.</p>
+        <figure class="breznys">
+          <svg width="260" height="220" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+            <line class="s-side" x1="56.7" y1="85.3" x2="203.3" y2="138.7"/>
+            <line class="s-side" x1="150.2" y1="187.3" x2="109.8" y2="36.7"/>
+            <path class="s-arc" d="M 152.6 120.2 A 24 24 0 0 1 136.2 135.2"/>
+            <path class="s-arc" d="M 136.2 135.2 A 24 24 0 0 1 107.4 103.8"/>
+            <path class="s-arc" d="M 107.4 103.8 A 24 24 0 0 1 123.8 88.8"/>
+            <path class="s-arc" d="M 123.8 88.8 A 24 24 0 0 1 152.6 120.2"/>
+            <text class="lbl" x="41.7" y="79.9">A</text>
+            <text class="lbl" x="218.3" y="144.1">B</text>
+            <text class="lbl" x="154.3" y="202.8">C</text>
+            <text class="lbl" x="105.7" y="21.2">D</text>
+            <text class="ang" x="158.4" y="143">1</text>
+            <text class="ang" x="99" y="140.4">2</text>
+            <text class="ang" x="101.6" y="81">3</text>
+            <text class="ang" x="161" y="83.6">4</text>
+            <circle cx="130" cy="112" r="2.2" fill="#1c2430"/>
+            <text class="lbl" x="127" y="105">O</text>
+          </svg>
+          <figcaption>Tiesės AB ir CD susikerta taške O. Susidaro keturi kampai: 1, 2, 3, 4.</figcaption>
+        </figure>
+        <p>Tiesę galima įvardyti dviem jai priklausančiais taškais: <span class="math">AB</span> arba <span class="math">CD</span>. Bendras taškas <span class="math">O</span> vadinamas <b>susikirtimo tašku</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Gretutiniai kampai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Du kampai, kurie turi bendrą kraštinę, o kitos jų dvi kraštinės sudaro vieną tiesę</span>, vadinami <b>gretutiniais kampais</b>.</p>
+        <p>Aukščiau esančiame brėžinyje gretutiniai yra kampai <b>1 ir 2</b> (bendra kraštinė <span class="math">OB</span>, o kitos kraštinės <span class="math">OD</span> ir <span class="math">OC</span> sudaro tiesę <span class="math">CD</span>). Taip pat gretutiniai: <b>2 ir 3</b>, <b>3 ir 4</b>, <b>4 ir 1</b>.</p>
+        <div class="formule">Gretutinių kampų dydžių <span class="term-a">suma lygi 180°</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Jei <span class="math">∠1 = 63°</span>, tai gretutinis jam <span class="math">∠2 = 180° − 63° = 117°</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kryžminiai kampai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Du kampai, kurių kraštinės yra vienos ir kitos tiesės priešingi spinduliai</span> (kampai „vienas priešais kitą“ per susikirtimo tašką), vadinami <b>kryžminiais kampais</b>.</p>
+        <p>Aukščiau esančiame brėžinyje kryžminiai yra kampai <b>1 ir 3</b>, o taip pat <b>2 ir 4</b>.</p>
+        <div class="formule term-a">Kryžminiai kampai <span class="gerai">lygūs</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Tiesės AB ir CD susikerta taške O, <span class="math">∠AOC = 63°</span>. Raskite <span class="math">∠AOD</span>, <span class="math">∠DOB</span>, <span class="math">∠BOC</span>.</p>
+        <div class="dvi-greta">
+          <figure class="breznys">
+            <svg width="260" height="220" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+              <line class="s-side" x1="56.7" y1="85.3" x2="203.3" y2="138.7"/>
+              <line class="s-side" x1="73" y1="165.2" x2="187" y2="58.8"/>
+              <path class="s-arc" d="M 152.6 120.2 A 24 24 0 0 1 112.4 128.4"/>
+              <path class="s-arc" d="M 112.4 128.4 A 24 24 0 0 1 107.4 103.8"/>
+              <path class="s-arc" d="M 107.4 103.8 A 24 24 0 0 1 147.6 95.6"/>
+              <path class="s-arc" d="M 147.6 95.6 A 24 24 0 0 1 152.6 120.2"/>
+              <text class="lbl" x="41.7" y="79.9">A</text>
+              <text class="lbl" x="218.3" y="144.1">B</text>
+              <text class="lbl" x="61.3" y="176.1">C</text>
+              <text class="lbl" x="198.7" y="47.9">D</text>
+              <text class="ang" x="88.8" y="120.4">63°</text>
+              <circle cx="130" cy="112" r="2.2" fill="#1c2430"/>
+              <text class="lbl" x="127" y="105">O</text>
+            </svg>
+            <figcaption>Duota: ∠AOC = 63°</figcaption>
+          </figure>
+          <figure class="breznys">
+            <svg width="260" height="220" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+              <line class="s-side" x1="56.7" y1="85.3" x2="203.3" y2="138.7"/>
+              <line class="s-side" x1="73" y1="165.2" x2="187" y2="58.8"/>
+              <path class="s-arc" d="M 152.6 120.2 A 24 24 0 0 1 112.4 128.4"/>
+              <path class="s-arc" d="M 112.4 128.4 A 24 24 0 0 1 107.4 103.8"/>
+              <path class="s-arc" d="M 107.4 103.8 A 24 24 0 0 1 147.6 95.6"/>
+              <path class="s-arc" d="M 147.6 95.6 A 24 24 0 0 1 152.6 120.2"/>
+              <text class="lbl" x="41.7" y="79.9">A</text>
+              <text class="lbl" x="218.3" y="144.1">B</text>
+              <text class="lbl" x="61.3" y="176.1">C</text>
+              <text class="lbl" x="198.7" y="47.9">D</text>
+              <text class="ang" x="138.4" y="153.2">117°</text>
+              <text class="ang" x="88.8" y="120.4">63°</text>
+              <text class="ang" x="121.6" y="70.8">117°</text>
+              <text class="ang" x="171.2" y="103.6">63°</text>
+              <circle cx="130" cy="112" r="2.2" fill="#1c2430"/>
+              <text class="lbl" x="127" y="105">O</text>
+            </svg>
+            <figcaption>Sprendimas: visi keturi kampai</figcaption>
+          </figure>
+        </div>
+        <p><b>Sprendimas.</b>
+        <span class="math">∠AOD</span> — gretutinis su <span class="math">∠AOC</span> (bendra kraštinė <span class="math">OA</span>), todėl <span class="math">∠AOD = 180° − 63° = <b class="gerai">117°</b></span>.<br>
+        <span class="math">∠DOB</span> — kryžminis su <span class="math">∠AOC</span>, todėl <span class="math">∠DOB = <b class="gerai">63°</b></span>.<br>
+        <span class="math">∠BOC</span> — gretutinis su <span class="math">∠AOC</span> (bendra kraštinė <span class="math">OC</span>), o kartu ir kryžminis su <span class="math">∠AOD</span>, todėl <span class="math">∠BOC = 180° − 63° = <b class="gerai">117°</b></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Jeigu žinomas <b>vienas</b> iš keturių susikirtimo kampų, visus kitus tris rasi taikydamas <b>gretutinių</b> (suma 180°) ir <b>kryžminių</b> (lygūs) kampų savybes — atkarpos skaičiuoti nereikia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Statmenosios tiesės. Atstumas nuo taško iki tiesės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei vienas iš keturių susikirtimo kampų yra statusis (90°), tai ir kiti trys — statieji</span> (tai išplaukia iš gretutinių ir kryžminių kampų savybių: gretutinis statajam yra <span class="math">180° − 90° = 90°</span>, o kryžminis — lygus 90°).</p>
+        <p><span class="zenk">Dvi tiesės, kurios susikirsdamos sudaro keturis stačiuosius kampus</span>, vadinamos <b>statmenosiomis tiesėmis</b>. Žymima <span class="math">a ⊥ b</span> (skaitoma: „tiesė a statmena tiesei b“).</p>
+        <figure class="breznys">
+          <svg width="260" height="220" viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+            <line class="s-side" x1="53.2" y1="98.5" x2="206.8" y2="125.5"/>
+            <line class="s-side" x1="116.5" y1="188.8" x2="143.5" y2="35.2"/>
+            <path class="s-arc" fill="none" d="M 140.8 113.9 L 138.9 124.7 L 128.1 122.8"/>
+            <path class="s-arc" fill="none" d="M 128.1 122.8 L 117.3 120.9 L 119.2 110.1"/>
+            <path class="s-arc" fill="none" d="M 119.2 110.1 L 121.1 99.3 L 131.9 101.2"/>
+            <path class="s-arc" fill="none" d="M 131.9 101.2 L 142.7 103.1 L 140.8 113.9"/>
+            <text class="lbl" x="37.4" y="95.7">a</text>
+            <text class="lbl" x="222.6" y="128.3">a</text>
+            <text class="lbl" x="113.7" y="204.6">b</text>
+            <text class="lbl" x="146.3" y="19.4">b</text>
+            <circle cx="130" cy="112" r="2.2" fill="#1c2430"/>
+          </svg>
+          <figcaption>Statmenosios tiesės a ⊥ b: visi keturi kampai statūs (kvadratėlio žymė)</figcaption>
+        </figure>
+        <p><span class="zenk">Statmuo tiesei iš taško, nepriklausančio tai tiesei</span> — atkarpa, jungianti tą tašką su tiesės tašku ir statmena tiesei. Statmens ilgis vadinamas <b>atstumu nuo taško iki tiesės</b>.</p>
+        <figure class="breznys">
+          <svg width="220" height="140" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <line class="s-side" x1="15" y1="115" x2="205" y2="115"/>
+            <line class="s-side" x1="120" y1="25" x2="120" y2="115" stroke-dasharray="4,3"/>
+            <path class="s-arc" fill="none" d="M 120 105 L 110 105 L 110 115"/>
+            <circle cx="120" cy="25" r="2.4" fill="#1c2430"/>
+            <text class="lbl" x="127" y="28">A</text>
+            <circle cx="120" cy="115" r="2.4" fill="#1c2430"/>
+            <text class="lbl" x="127" y="128">B</text>
+            <text class="lbl" x="192" y="109">b</text>
+          </svg>
+          <figcaption>Taškas A ∉ b. Statmuo AB. Atstumas nuo A iki b lygus atkarpos AB ilgiui.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">Gretutiniai kampai visada lygūs</span></td><td><span class="gerai">Gretutinių kampų suma = 180°</span> (lygūs jie tik tada, kai abu po 90°)</td></tr>
+          <tr><td><span class="klaida">Kryžminiai kampai sudaro 180°</span></td><td><span class="gerai">Kryžminiai kampai lygūs</span> (sumą 180° duoda gretutiniai)</td></tr>
+          <tr><td><span class="klaida">Kampai 1 ir 3 (per vieną tašką) — gretutiniai</span></td><td><span class="gerai">Kampai 1 ir 3 — kryžminiai</span> (gretutiniai visada „kaimynai“: 1–2, 2–3, 3–4, 4–1)</td></tr>
+          <tr><td><span class="klaida">Jei vienas kampas statusis, kitas gretutinis gali būti bet koks</span></td><td><span class="gerai">Jei vienas kampas statusis, visi keturi — statūs</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pažiūrėk į brėžinį: <b>kaimyniniai</b> kampai (turi bendrą kraštinę) — <b>gretutiniai</b>, suma 180°. <b>Priešiniai</b> kampai (per tašką, „vienas prieš kitą“) — <b>kryžminiai</b>, lygūs.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Susikertančiosios tiesės“ (6.2)
+  </footer>
+
+</div>
+</body>
+</html>

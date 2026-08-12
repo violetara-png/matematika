@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Susikertančiosios tiesės — mokymosi asistentas (7 klasė)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Susikertančiosios tiesės</h1>
+    <p>Matematika · 7 klasė · 6.2 tema · mokymosi asistentas</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rita</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime, kaip apskaičiuoti <b>gretutinius</b> ir <b>kryžminius</b> kampus, susidarančius dviem tiesėms susikirtus, ir sužinosime, kas yra <b>statmenosios tiesės</b>.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(String.fromCharCode(176))">°</button><button onclick="ins(String.fromCharCode(8736))">∠</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk kaip paprastą skaičių (laipsnių ženklo °  rašyti nebūtina).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Labas! Aš — tavo mokymosi asistentė. Šiandien mokysimės apie <b>susikertančias tieses</b> ir keturis kampus, kuriuos jos sudaro. Pradėkime nuo pačios pradžios.", "expr": "<svg width=\"220\" height=\"180\" viewBox=\"0 0 260 220\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%\">\n<line x1=\"56.7\" y1=\"85.3\" x2=\"203.3\" y2=\"138.7\" stroke=\"#1e5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"150.2\" y1=\"187.3\" x2=\"109.8\" y2=\"36.7\" stroke=\"#1e5fa8\" stroke-width=\"2.2\"/>\n<path d=\"M 152.6 120.2 A 24 24 0 0 1 136.2 135.2\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<path d=\"M 136.2 135.2 A 24 24 0 0 1 107.4 103.8\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<path d=\"M 107.4 103.8 A 24 24 0 0 1 123.8 88.8\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<path d=\"M 123.8 88.8 A 24 24 0 0 1 152.6 120.2\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<text x=\"41.7\" y=\"79.9\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">A</text>\n<text x=\"218.3\" y=\"144.1\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">B</text>\n<text x=\"154.3\" y=\"202.8\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">C</text>\n<text x=\"105.7\" y=\"21.2\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">D</text>\n<text x=\"158.4\" y=\"143\" font-size=\"13\" font-weight=\"700\" fill=\"#b25c00\" text-anchor=\"middle\">1</text>\n<text x=\"99\" y=\"140.4\" font-size=\"13\" font-weight=\"700\" fill=\"#b25c00\" text-anchor=\"middle\">2</text>\n<text x=\"101.6\" y=\"81\" font-size=\"13\" font-weight=\"700\" fill=\"#b25c00\" text-anchor=\"middle\">3</text>\n<text x=\"161\" y=\"83.6\" font-size=\"13\" font-weight=\"700\" fill=\"#b25c00\" text-anchor=\"middle\">4</text>\n<circle cx=\"130\" cy=\"112\" r=\"2.2\" fill=\"#1c2430\"/>\n<text x=\"127\" y=\"105\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">O</text>\n</svg>", "q": "Pažiūrėk į brėžinį. Tiesės AB ir CD susikerta taške O ir sudaro keturis kampus (1, 2, 3, 4). Kiek IŠ VISO bendrų taškų turi dvi tokios susikertančios tiesės?", "hints": ["Pagalvok, ką reiškia žodis „susikerta“ — kiek kartų du pieštuko brūkšniai gali susikirsti vienoje vietoje?", "Per du skirtingus tiesės nesutampančius taškus tiesę galima nubrėžti tik vieną. Jei tiesės skirtingos, jos gali turėti tik vieną tašką, kuriame abi „sutampa“."], "accepted": ["1", "vienas"]}, {"intro": "Puiku! Dabar apie tuos keturis kampus. Jie skirstomi į dvi rūšis: <b>gretutinius</b> ir <b>kryžminius</b>. Pradėkime nuo gretutinių.", "expr": "∠1 = 63°", "q": "Gretutiniai kampai turi bendrą kraštinę, o kitos jų dvi kraštinės sudaro tiesę. Jų dydžių suma visada 180°. Jei ∠1 = 63°, koks yra jam gretutinis ∠2?", "hints": ["Gretutinių kampų suma — 180°. Turi vieną kampą, reikia rasti kitą.", "180° − 63° = ? Atlik atimtį."], "accepted": ["117", "117°"]}, {"intro": "Puikiai! Dabar antra rūšis — <b>kryžminiai kampai</b>. Jie yra „vienas priešais kitą“ per susikirtimo tašką (pvz. kampai 1 ir 3 brėžinyje).", "expr": "∠1 = 63°", "q": "Kryžminiai kampai visada lygūs vienas kitam. Jei ∠1 = 63°, koks yra jam kryžminis ∠3?", "hints": ["Kryžminiai kampai nesumuojasi iki 180° — jie tiesiog lygūs.", "Koks skaičius lygus 63?"], "accepted": ["63", "63°"]}, {"intro": "Dabar sudėkime abi savybes į vieną uždavinį — kaip tikrame kontroliniame.", "expr": "<svg width=\"200\" height=\"164\" viewBox=\"0 0 260 220\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%\">\n<line x1=\"56.7\" y1=\"85.3\" x2=\"203.3\" y2=\"138.7\" stroke=\"#1e5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"73\" y1=\"165.2\" x2=\"187\" y2=\"58.8\" stroke=\"#1e5fa8\" stroke-width=\"2.2\"/>\n<path d=\"M 152.6 120.2 A 24 24 0 0 1 112.4 128.4\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<text x=\"41.7\" y=\"79.9\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">A</text>\n<text x=\"218.3\" y=\"144.1\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">B</text>\n<text x=\"61.3\" y=\"176.1\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">C</text>\n<text x=\"198.7\" y=\"47.9\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">D</text>\n<text x=\"88.8\" y=\"120.4\" font-size=\"13\" font-weight=\"700\" fill=\"#b25c00\" text-anchor=\"middle\">40°</text>\n<circle cx=\"130\" cy=\"112\" r=\"2.2\" fill=\"#1c2430\"/>\n<text x=\"127\" y=\"105\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">O</text>\n</svg>", "q": "Tiesės AB ir CD susikerta taške O, ∠AOC = 40°. Koks yra ∠BOC?", "hints": ["Pažiūrėk, ar ∠BOC turi bendrą kraštinę su ∠AOC (kraštinę OC). Jei taip — tai gretutiniai kampai.", "Gretutinių kampų suma 180°. Atimk 40° iš 180°."], "accepted": ["140", "140°"]}, {"intro": "Dabar sudėtingesnis tipas — kai kampas duotas kaip <b>santykis</b>, o ne skaičius.", "expr": "x + 4x = 180°", "q": "Dvi tiesės susikerta. Vienas kampas yra 4 kartus didesnis už savo gretutinį. Koks yra mažesnysis kampas (laipsniais)?", "hints": ["Pažymėk mažesnį kampą raide x. Didesnysis tada bus 4x.", "Jų suma — 180°, nes jie gretutiniai: x + 4x = 180°.", "5x = 180°. Kam lygus x?"], "accepted": ["36", "36°"]}, {"intro": "Panašus tipas — kai žinomas ne santykis, o <b>skirtumas</b> tarp dviejų gretutinių kampų.", "expr": "x + (x + 30°) = 180°", "q": "Du gretutiniai kampai skiriasi 30°. Koks yra mažesnysis kampas (laipsniais)?", "hints": ["Pažymėk mažesnį kampą x. Didesnysis tada bus x + 30°.", "Jų suma — 180°: x + (x + 30°) = 180°.", "2x = 150°. Kam lygus x?"], "accepted": ["75", "75°"]}, {"intro": "Paskutinė sąvoka šioje temoje — <b>statmenosios tiesės</b> ir atstumas nuo taško iki tiesės.", "expr": "<svg width=\"180\" height=\"115\" viewBox=\"0 0 220 140\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%\">\n<line x1=\"15\" y1=\"115\" x2=\"205\" y2=\"115\" stroke=\"#1e5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"120\" y1=\"25\" x2=\"120\" y2=\"115\" stroke=\"#1e5fa8\" stroke-width=\"2.2\" stroke-dasharray=\"4,3\"/>\n<path d=\"M 120 105 L 110 105 L 110 115\" stroke=\"#0a7d52\" stroke-width=\"2\" fill=\"none\"/>\n<circle cx=\"120\" cy=\"25\" r=\"2.4\" fill=\"#1c2430\"/>\n<text x=\"127\" y=\"28\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">K</text>\n<circle cx=\"120\" cy=\"115\" r=\"2.4\" fill=\"#1c2430\"/>\n<text x=\"127\" y=\"128\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">M</text>\n<text x=\"192\" y=\"109\" font-size=\"14\" font-style=\"italic\" font-family=\"Cambria Math,Georgia,serif\">p</text>\n</svg>", "q": "Taškas K nepriklauso tiesei p. Atkarpa KM yra statmuo (KM ⊥ p). Kaip vadinasi atkarpos KM ilgis?", "hints": ["Tai specialus terminas, susijęs su žodžiu „atstumas“.", "Atsakymas — du žodžiai: „atstumas nuo“ ... (taško iki tiesės)."], "accepted": ["atstumas nuo taško iki tiesės", "atstumas iki tiesės", "atstumas nuo k iki p"]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Dvi tiesės susikerta taške O, ∠1 = 71°. Koks gretutinis kampas ∠2?", "acc": ["109"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 126°. Koks gretutinis kampas ∠2?", "acc": ["54"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 38°. Koks kryžminis kampas ∠3?", "acc": ["38"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 99°. Koks kryžminis kampas ∠3?", "acc": ["99"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta. Vienas kampas 5 kartus didesnis už savo gretutinį. Koks mažesnysis kampas (laipsniais)?", "acc": ["30"], "hint": "Pažymėk mažesnį kampą x, didesnį — 5x. Sudaryk lygtį x + 5x = 180° ir išspręsk."}, {"t": "Du gretutiniai kampai skiriasi 24°. Koks mažesnysis kampas (laipsniais)?", "acc": ["78"], "hint": "Pažymėk mažesnį kampą x, didesnį — (x + 24°). Sudaryk lygtį x + (x + 24°) = 180°."}, {"t": "Dvi tiesės susikerta ir sudaro keturis kampus. Vienas iš jų lygus 90°. Kiek iš visų keturių kampų yra statūs?", "acc": ["4"], "hint": "Gretutinis statajam yra 180°−90°=90°, o kryžminis — lygus 90°. Suskaičiuok visus keturis."}, {"t": "Atstumas nuo taško K iki tiesės p lygus 8 cm. Koks yra trumpiausios atkarpos nuo K iki tiesės p ilgis (cm)?", "acc": ["8", "8cm"], "hint": "Atstumas nuo taško iki tiesės — tai statmens ilgis, o statmuo yra pati trumpiausia atkarpa iki tiesės."}, {"t": "Dvi tiesės susikerta taške O, vienas iš keturių kampų lygus 65°. Kokia yra likusių trijų kampų dydžių suma (laipsniais)?", "acc": ["295"], "hint": "Visų keturių kampų suma visada 360°. Atimk duotąjį kampą iš 360°."}, {"t": "Kiek kampų iš viso susidaro dviem tiesėms susikirtus?", "acc": ["4"], "hint": "Kiekviena tiesė padalija plokštumą, o susikirtus abiem — aplink tašką susidaro keturios sritys."}]}, {"label": "variantas B", "qs": [{"t": "Dvi tiesės susikerta taške O, ∠1 = 54°. Koks gretutinis kampas ∠2?", "acc": ["126"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 97°. Koks gretutinis kampas ∠2?", "acc": ["83"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 61°. Koks kryžminis kampas ∠3?", "acc": ["61"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 47°. Koks kryžminis kampas ∠3?", "acc": ["47"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta. Vienas kampas 8 kartus didesnis už savo gretutinį. Koks mažesnysis kampas (laipsniais)?", "acc": ["20"], "hint": "Pažymėk mažesnį kampą x, didesnį — 8x. Sudaryk lygtį x + 8x = 180° ir išspręsk."}, {"t": "Du gretutiniai kampai skiriasi 36°. Koks mažesnysis kampas (laipsniais)?", "acc": ["72"], "hint": "Pažymėk mažesnį kampą x, didesnį — (x + 36°). Sudaryk lygtį x + (x + 36°) = 180°."}, {"t": "Dvi tiesės susikerta ir sudaro keturis kampus. Vienas iš jų lygus 90°. Kiek iš visų keturių kampų yra statūs?", "acc": ["4"], "hint": "Gretutinis statajam yra 180°−90°=90°, o kryžminis — lygus 90°. Suskaičiuok visus keturis."}, {"t": "Atstumas nuo taško K iki tiesės p lygus 11 cm. Koks yra trumpiausios atkarpos nuo K iki tiesės p ilgis (cm)?", "acc": ["11", "11cm"], "hint": "Atstumas nuo taško iki tiesės — tai statmens ilgis, o statmuo yra pati trumpiausia atkarpa iki tiesės."}, {"t": "Dvi tiesės susikerta taške O, vienas iš keturių kampų lygus 110°. Kokia yra likusių trijų kampų dydžių suma (laipsniais)?", "acc": ["250"], "hint": "Visų keturių kampų suma visada 360°. Atimk duotąjį kampą iš 360°."}, {"t": "Kiek kampų iš viso susidaro dviem tiesėms susikirtus?", "acc": ["4"], "hint": "Kiekviena tiesė padalija plokštumą, o susikirtus abiem — aplink tašką susidaro keturios sritys."}]}, {"label": "variantas C", "qs": [{"t": "Dvi tiesės susikerta taške O, ∠1 = 83°. Koks gretutinis kampas ∠2?", "acc": ["97"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 109°. Koks gretutinis kampas ∠2?", "acc": ["71"], "hint": "Gretutinių kampų suma 180°. Atimk duotąjį kampą iš 180°."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 24°. Koks kryžminis kampas ∠3?", "acc": ["24"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta taške O, ∠1 = 132°. Koks kryžminis kampas ∠3?", "acc": ["132"], "hint": "Kryžminiai kampai visada lygūs vienas kitam."}, {"t": "Dvi tiesės susikerta. Vienas kampas 11 kartus didesnis už savo gretutinį. Koks mažesnysis kampas (laipsniais)?", "acc": ["15"], "hint": "Pažymėk mažesnį kampą x, didesnį — 11x. Sudaryk lygtį x + 11x = 180° ir išspręsk."}, {"t": "Du gretutiniai kampai skiriasi 50°. Koks mažesnysis kampas (laipsniais)?", "acc": ["65"], "hint": "Pažymėk mažesnį kampą x, didesnį — (x + 50°). Sudaryk lygtį x + (x + 50°) = 180°."}, {"t": "Dvi tiesės susikerta ir sudaro keturis kampus. Vienas iš jų lygus 90°. Kiek iš visų keturių kampų yra statūs?", "acc": ["4"], "hint": "Gretutinis statajam yra 180°−90°=90°, o kryžminis — lygus 90°. Suskaičiuok visus keturis."}, {"t": "Atstumas nuo taško K iki tiesės p lygus 14 cm. Koks yra trumpiausios atkarpos nuo K iki tiesės p ilgis (cm)?", "acc": ["14", "14cm"], "hint": "Atstumas nuo taško iki tiesės — tai statmens ilgis, o statmuo yra pati trumpiausia atkarpa iki tiesės."}, {"t": "Dvi tiesės susikerta taške O, vienas iš keturių kampų lygus 25°. Kokia yra likusių trijų kampų dydžių suma (laipsniais)?", "acc": ["335"], "hint": "Visų keturių kampų suma visada 360°. Atimk duotąjį kampą iš 360°."}, {"t": "Kiek kampų iš viso susidaro dviem tiesėms susikirtus?", "acc": ["4"], "hint": "Kiekviena tiesė padalija plokštumą, o susikirtus abiem — aplink tašką susidaro keturios sritys."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
