@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Kampų savybės (7 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Kampų savybės (7 klasė)</h1>
+    <p id="paantraste">6.5 Kampų savybės perkirtus kirstine · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: 7 kl. 6.5 "Kampų, susidariusių dvi
+// lygiagrečiąsias tieses perkirtus kirstine, savybės".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) ("+ 3" / "− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius kuria uždavinį IŠ atsakymo
+// (pasirenka tikslinę kampo reikšmę, tada sukonstruoja duomenis), todėl
+// atsakymas visada sveikas laipsnis ir tiksliai atitinka teoremą.
+// Temos: T1 priešiniai kampai lygūs, T2 vidaus vienašalių suma = 180°,
+// T3 atitinkamieji kampai lygūs, T4 trikampio kampas per lygiagrečią tiesę
+// (T1/T3 taikymas: trikampio vidinių kampų suma = 180°).
+//
+// BRĖŽINIAI: be brėžinio šie uždaviniai (kampai tarp dviejų lygiagrečių
+// tiesių, kirstinė, trikampio kampas per lygiagrečią tiesę) nevienareikšmiai,
+// todėl kiekvienas gen() prie q teksto prideda SVG brėžinį. Du brėžinių
+// tipai: svgKirstine() (T1–T3, 8 sunumeruoti kampai) ir svgTrikampis() (T4).
+
+// --- Geometrijos pagalbininkai (portuota iš tools/breziniu_zymejimas.py::
+// angle_arc — tas pats algoritmas, naudojamas kitur šiame projekte). ---
+function sub(p, q){ return [p[0] - q[0], p[1] - q[1]]; }
+function add(p, q){ return [p[0] + q[0], p[1] + q[1]]; }
+function mul(p, k){ return [p[0] * k, p[1] * k]; }
+function norm(p){ const len = Math.hypot(p[0], p[1]) || 1; return [p[0] / len, p[1] / len]; }
+
+// Lanko (arc) SVG "d" atributas tarp dviejų spindulių iš viršūnės — VIDINIS
+// (trumpasis) lankas; sweep parenkamas iš vektorinės sandaugos ženklo.
+function angleArc(vertex, a, b, r){
+  r = r || 15;
+  const ua = norm(sub(a, vertex)), ub = norm(sub(b, vertex));
+  const cross = ua[0] * ub[1] - ua[1] * ub[0];
+  const sweep = cross < 0 ? 1 : 0;
+  const p1 = add(vertex, mul(ua, r)), p2 = add(vertex, mul(ub, r));
+  return `M ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} A ${r} ${r} 0 0 ${sweep} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+}
+// Kampo pusiaukampinės taškas (kur įrašyti kampo numerį/reikšmę).
+function bisPoint(vertex, a, b, r){
+  const ua = norm(sub(a, vertex)), ub = norm(sub(b, vertex));
+  let bis = add(ua, ub);
+  if(Math.hypot(bis[0], bis[1]) < 1e-6) bis = [ua[1], -ua[0]]; // beveik priešingi spinduliai -> statmuo
+  bis = norm(bis);
+  return add(vertex, mul(bis, r));
+}
+
+// (A) Dvi lygiagrečios tiesės a, b + kirstinė c. 8 kampai sunumeruoti 1–8:
+// viršutinėje susikirtimo vietoje 1 (viršuje kairėje), 2 (viršuje dešinėje),
+// 3 (apačioje dešinėje), 4 (apačioje kairėje) — pagal laikrodžio rodyklę;
+// apatinėje susikirtimo vietoje analogiškai 5, 6, 7, 8. Standartinis
+// vadovėlio išdėstymas. opts: {given: kampoNr, val: duotojiReikšmė, ask: kampoNr}.
+function svgKirstine(opts){
+  const P1 = [90.9, 70], P2 = [169.1, 190];
+  const aL = [15, 70], aR = [245, 70];
+  const bL = [15, 190], bR = [245, 190];
+  const cTop = [55, 15], cBot = [205, 245];
+
+  const rayR = [1, 0], rayL = [-1, 0];
+  const up1 = norm(sub(cTop, P1));   // kryptis "aukštyn" kirstine ties P1
+  const down1 = norm(sub(P2, P1));   // kryptis "žemyn" kirstine ties P1 (link P2)
+  const up2 = norm(sub(P1, P2));     // kryptis "aukštyn" kirstine ties P2 (link P1)
+  const down2 = norm(sub(cBot, P2)); // kryptis "žemyn" kirstine ties P2
+
+  // Kiekvienas kampas: [viršūnė, spindulio1 kryptis, spindulio2 kryptis].
+  const K = {
+    1: [P1, rayL, up1],  2: [P1, up1, rayR],  3: [P1, rayR, down1], 4: [P1, down1, rayL],
+    5: [P2, rayL, up2],  6: [P2, up2, rayR],  7: [P2, rayR, down2], 8: [P2, down2, rayL]
+  };
+  const FAR = 60, R_ARC = 17, R_VAL = 30, R_NUM = 50;
+
+  let s = `<svg viewBox="0 0 260 260" role="img" aria-label="Dvi lygiagrečios tiesės ir kirstinė, 8 sunumeruoti kampai" style="background:#fbfcfe;border:1px solid #d8dee6;border-radius:8px">`;
+  s += `<line x1="${aL[0]}" y1="${aL[1]}" x2="${aR[0]}" y2="${aR[1]}" stroke="#1c2430" stroke-width="2"/>`;
+  s += `<line x1="${bL[0]}" y1="${bL[1]}" x2="${bR[0]}" y2="${bR[1]}" stroke="#1c2430" stroke-width="2"/>`;
+  s += `<line x1="${cTop[0]}" y1="${cTop[1]}" x2="${cBot[0]}" y2="${cBot[1]}" stroke="#1c2430" stroke-width="2"/>`;
+
+  s += `<text x="9" y="66" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="14" fill="#1c2430" text-anchor="middle">a</text>`;
+  s += `<text x="9" y="186" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="14" fill="#1c2430" text-anchor="middle">b</text>`;
+  s += `<text x="211" y="238" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="14" fill="#1c2430" text-anchor="middle">c</text>`;
+  s += `<circle cx="${P1[0]}" cy="${P1[1]}" r="2.6" fill="#1c2430"/>`;
+  s += `<circle cx="${P2[0]}" cy="${P2[1]}" r="2.6" fill="#1c2430"/>`;
+
+  for(let nr = 1; nr <= 8; nr++){
+    const [v, d1, d2] = K[nr];
+    const a = add(v, mul(d1, FAR)), b = add(v, mul(d2, FAR));
+    const numPt = bisPoint(v, a, b, R_NUM);
+    const isGiven = nr === opts.given, isAsk = nr === opts.ask;
+    if(isGiven || isAsk){
+      const arcColor = isGiven ? '#4a6d8c' : '#c9603f';
+      const dash = isGiven ? '' : ' stroke-dasharray="4 3"';
+      s += `<path d="${angleArc(v, a, b, R_ARC)}" stroke="${arcColor}" stroke-width="2.4" fill="none"${dash}/>`;
+      const valPt = bisPoint(v, a, b, R_VAL);
+      const txt = isGiven ? `${opts.val}°` : '?';
+      const fontSize = isGiven ? 15 : 17;
+      s += `<text x="${valPt[0].toFixed(1)}" y="${valPt[1].toFixed(1)}" font-size="${fontSize}" font-weight="700" fill="${arcColor}" text-anchor="middle" dy="5">${txt}</text>`;
+    }
+    s += `<text x="${numPt[0].toFixed(1)}" y="${numPt[1].toFixed(1)}" font-size="11" fill="#9aa2b1" text-anchor="middle" dy="4">${nr}</text>`;
+  }
+  s += `</svg>`;
+  return s;
+}
+
+// (B) Trikampis ABC + tiesė per viršūnę A, lygiagreti kraštinei BC.
+// Kampai B ir C pažymėti duotomis reikšmėmis, kampas A — "?".
+function svgTrikampis(kampasB, kampasC){
+  const Bx = 35, Cx = 225, baseY = 205, W = Cx - Bx, midX = (Bx + Cx) / 2;
+  // Apytikslė (ribota) trikampio forma pagal duotus kampus B ir C: viršūnė A
+  // pasislenka horizontaliai link didesnio kampo (kaip realiame trikampyje),
+  // o aukštis truputį kinta pagal B+C sumą. Ribojama (clamp), kad, kad ir
+  // kokie ekstremalūs sugeneruoti B/C, trikampis liktų aiškiai neišsigimęs
+  // (kraštinės visada gerokai ilgesnės už aukštinę).
+  const skew = Math.max(-0.32, Math.min(0.32, (kampasB - kampasC) / 200));
+  const suma = kampasB + kampasC;
+  const h = Math.max(130, Math.min(175, 300 - suma * 0.9));
+  const A = [midX - skew * W * 0.55, baseY - h];
+  const B = [Bx, baseY], C = [Cx, baseY];
+  const auxL = [A[0] - 75, A[1]], auxR = [A[0] + 75, A[1]];
+  const R_ARC = 20, R_VAL = 34;
+
+  const rayBC = norm(sub(C, B)), rayBA = norm(sub(A, B));
+  const rayCB = norm(sub(B, C)), rayCA = norm(sub(A, C));
+  const rayAB = norm(sub(B, A)), rayAC = norm(sub(C, A));
+
+  let s = `<svg viewBox="0 0 260 235" role="img" aria-label="Trikampis ABC su tiese per A, lygiagrečia BC" style="background:#fbfcfe;border:1px solid #d8dee6;border-radius:8px">`;
+  // Pagalbinė tiesė per A, lygiagreti BC (punktyrinė, kad matytųsi — konstrukcinė tiesė).
+  s += `<line x1="${auxL[0]}" y1="${auxL[1]}" x2="${auxR[0]}" y2="${auxR[1]}" stroke="#5b6472" stroke-width="1.6" stroke-dasharray="5 3"/>`;
+  // Trikampio kraštinės.
+  s += `<line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="#1c2430" stroke-width="2.2"/>`;
+  s += `<line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="#1c2430" stroke-width="2.2"/>`;
+  s += `<line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="#1c2430" stroke-width="2.2"/>`;
+
+  // Viršūnės ir raidės.
+  s += `<circle cx="${A[0]}" cy="${A[1]}" r="2.8" fill="#1c2430"/>`;
+  s += `<circle cx="${B[0]}" cy="${B[1]}" r="2.8" fill="#1c2430"/>`;
+  s += `<circle cx="${C[0]}" cy="${C[1]}" r="2.8" fill="#1c2430"/>`;
+  s += `<text x="${A[0]}" y="${A[1] - 10}" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="15" fill="#1c2430" text-anchor="middle">A</text>`;
+  s += `<text x="${B[0] - 12}" y="${B[1] + 6}" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="15" fill="#1c2430" text-anchor="middle">B</text>`;
+  s += `<text x="${C[0] + 12}" y="${C[1] + 6}" font-style="italic" font-family="Cambria Math,Cambria,Georgia,serif" font-size="15" fill="#1c2430" text-anchor="middle">C</text>`;
+
+  // Kampas B (duota reikšmė).
+  const bArcA = add(B, mul(rayBC, 999)), bArcB = add(B, mul(rayBA, 999));
+  s += `<path d="${angleArc(B, bArcA, bArcB, R_ARC)}" stroke="#4a6d8c" stroke-width="2.4" fill="none"/>`;
+  const bValPt = bisPoint(B, bArcA, bArcB, R_VAL);
+  s += `<text x="${bValPt[0].toFixed(1)}" y="${bValPt[1].toFixed(1)}" font-size="15" font-weight="700" fill="#4a6d8c" text-anchor="middle" dy="5">${kampasB}°</text>`;
+
+  // Kampas C (duota reikšmė).
+  const cArcA = add(C, mul(rayCB, 999)), cArcB = add(C, mul(rayCA, 999));
+  s += `<path d="${angleArc(C, cArcA, cArcB, R_ARC)}" stroke="#4a6d8c" stroke-width="2.4" fill="none"/>`;
+  const cValPt = bisPoint(C, cArcA, cArcB, R_VAL);
+  s += `<text x="${cValPt[0].toFixed(1)}" y="${cValPt[1].toFixed(1)}" font-size="15" font-weight="700" fill="#4a6d8c" text-anchor="middle" dy="5">${kampasC}°</text>`;
+
+  // Kampas A (ieškomas).
+  const aArcA = add(A, mul(rayAB, 999)), aArcB = add(A, mul(rayAC, 999));
+  s += `<path d="${angleArc(A, aArcA, aArcB, R_ARC)}" stroke="#c9603f" stroke-width="2.4" fill="none" stroke-dasharray="4 3"/>`;
+  const aValPt = bisPoint(A, aArcA, aArcB, R_VAL);
+  s += `<text x="${aValPt[0].toFixed(1)}" y="${aValPt[1].toFixed(1)}" font-size="17" font-weight="700" fill="#c9603f" text-anchor="middle" dy="5">?</text>`;
+
+  s += `</svg>`;
+  return s;
+}
+
+const GENERATORIAI = [
+
+  // T1) Priešiniai kampai lygūs. Kampai 4 ir 6 (vidaus, priešingose kirstinės
+  // pusėse) — abu interjero kampai, alternatyvieji (priešiniai) vidaus kampai.
+  { label:"Priešiniai kampai (1 teorema)", gen(){
+      const x = randint(10,170);
+      return {
+        q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas vidaus priešinis kampas lygus ${x}°. Koks yra kitas vidaus priešinis kampas?`
+          + svgKirstine({given:4, val:x, ask:6}),
+        ans: x, pre:"kitas kampas =",
+        steps:[
+          `a ∥ b, kirstinė kerta abi tieses`,
+          `Lygiagrečias tieses perkirtus kirstine, susidarę priešiniai kampai lygūs (1 teorema)`,
+          `kitas vidaus priešinis kampas = ${x}°`
+        ]
+      };
+  }},
+
+  // T2) Vidaus vienašalių kampų suma = 180°. Kampai 4 ir 5 (abu vidaus,
+  // ta pati kirstinės pusė) — vienašaliai vidaus kampai.
+  { label:"Vidaus vienašaliai kampai (2 teorema)", gen(){
+      // Vengiame x=90, kad atsakymas nesutaptų su duotuoju kampu (netrivialu).
+      let x;
+      do{ x = randint(10,170); }while(x===90);
+      const y = 180 - x;
+      return {
+        q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas vidaus vienašalis kampas lygus ${x}°. Koks yra gretimas vidaus vienašalis kampas?`
+          + svgKirstine({given:4, val:x, ask:5}),
+        ans: y, pre:"gretimas kampas =",
+        steps:[
+          `a ∥ b, kirstinė kerta abi tieses`,
+          `Lygiagrečias tieses perkirtus kirstine, vidaus vienašalių kampų dydžių suma lygi 180° (2 teorema)`,
+          `gretimas kampas = 180° − ${x}°`,
+          `gretimas kampas = ${nf(y)}°`
+        ]
+      };
+  }},
+
+  // T3) Atitinkamieji kampai lygūs. Kampai 1 ir 5 (ta pati padėtis prie
+  // abiejų susikirtimo taškų) — atitinkamieji kampai.
+  { label:"Atitinkamieji kampai (3 teorema)", gen(){
+      const x = randint(10,170);
+      return {
+        q:`Tiesės a ir b lygiagrečios (a ∥ b), kirstinė c kerta jas abi (žr. brėžinį). Vienas atitinkamasis kampas lygus ${x}°. Koks yra jo pora (kitas atitinkamasis kampas)?`
+          + svgKirstine({given:1, val:x, ask:5}),
+        ans: x, pre:"kampo pora =",
+        steps:[
+          `a ∥ b, kirstinė kerta abi tieses`,
+          `Lygiagrečias tieses perkirtus kirstine, susidarę atitinkamieji kampai lygūs (3 teorema)`,
+          `kampo pora = ${x}°`
+        ]
+      };
+  }},
+
+  // T4) Taikymas: trikampio vidinių kampų suma = 180° (per lygiagrečią
+  // tiesę per viršūnę A, taikant T1/T3). Sukonstruota iš tikslinio ∠A,
+  // tada B ir C parenkami taip, kad B + C = 180 − A (abu teigiami).
+  { label:"Trikampio kampas per lygiagrečią tiesę", gen(){
+      const A = randint(10,150);
+      const liko = 180 - A; // B + C = liko, liko yra 30..170
+      const B = randint(5, liko-5);
+      const C = liko - B;
+      return {
+        q:`Trikampyje ABC per viršūnę A nubrėžta tiesė, lygiagreti kraštinei BC (žr. brėžinį). Trikampio kampas B lygus ${B}°, kampas C lygus ${C}°. Koks yra trikampio kampas A?`
+          + svgTrikampis(B, C),
+        ans: A, pre:"∠A =",
+        steps:[
+          `Per viršūnę A nubrėžta kraštinei BC lygiagreti tiesė; kirstinės AB ir AC su ja sudaro kampus, lygius ∠B ir ∠C (1 ir 3 teoremos)`,
+          `∠A + ∠B + ∠C = 180°`,
+          `∠A = 180° − ${B}° − ${C}°`,
+          `∠A = ${nf(A)}°`
+        ]
+      };
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: Kampų savybės (7 klasė)", "subtitle": "6.5 Kampų savybės perkirtus kirstine · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "=", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)</h1>
+    <p id="paantraste">6.4 Dviejų tiesių lygiagretumo požymiai · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: 7 kl. 6.4 Dviejų tiesių lygiagretumo požymiai.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// Trys lygiagretumo požymiai (teoremos):
+//   T1 — vidaus priešiniai kampai lygūs → tiesės lygiagrečios
+//   T2 — vidaus vienašalių kampų suma = 180° → tiesės lygiagrečios
+//   T3 — atitinkamieji kampai lygūs → tiesės lygiagrečios
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas uždavinys konstruojamas IŠ atsakymo (taip/ne
+// arba x reikšmės), todėl atsakymas visada teisingas ir švarus.
+//
+// ⚠ BRĖŽINYS: „vidaus priešiniai", „vidaus vienašaliai", „atitinkamieji" kampai
+// be brėžinio nevienareikšmiški — kiekvienas q pridedamas su fiksuotu SVG
+// (dvi tiesės + kirstinė, 8 sunumeruoti kampai), pažymint 1–2 kampus, apie
+// kuriuos klausiama. Geometrija VIENODA visiems generatoriams (klasikinis
+// vadovėlio „Z/F" brėžinys), tiesės NĖRA pažymėtos kaip lygiagrečios iš anksto
+// (tai kaip tik yra sprendžiamas dalykas). Lankų algoritmas — angleArc() —
+// portuotas iš tools/breziniu_zymejimas.py::angle_arc (tas pats sweep pagal
+// cross-product principas, naudojamas kitur šiame projekte statiniams brėžiniams).
+
+// ---------- 2D vektorių pagalbininkai ----------
+function vsub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function vadd(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function vmul(a, s) { return [a[0] * s, a[1] * s]; }
+function vlen(a) { return Math.hypot(a[0], a[1]); }
+function vnorm(a) { const L = vlen(a); return [a[0] / L, a[1] / L]; }
+
+// Lygaus kampo lankelis viršūnėje tarp taškų a ir b (trumpas VIDINIS lankas,
+// teisingas sweep pagal cross-product — portuota iš breziniu_zymejimas.py).
+function angleArc(vertex, a, b, r) {
+  r = r || 15;
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  const cross = ua[0] * ub[1] - ua[1] * ub[0];
+  const sweep = cross < 0 ? 1 : 0;
+  const p1 = vadd(vertex, vmul(ua, r)), p2 = vadd(vertex, vmul(ub, r));
+  return 'M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) +
+    ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+}
+
+// ---------- Fiksuota geometrija: 2 (galimai) lygiagrečios tiesės + kirstinė ----------
+// P1 — viršutinė susikirtimo taška (kampai 1–4), P2 — apatinė (kampai 5–8),
+// kampai numeruoti pagal laikrodžio rodyklę nuo viršaus prie kiekvienos taškos.
+// Tiesės sąmoningai BE lygiagretumo žymių — tai ir yra klausimo esmė.
+const DIAG = (function () {
+  const P1 = [100.6, 70], P2 = [145, 150];
+  const L1a = [16, 70], L1b = [224, 70];   // 1-oji tiesė
+  const L2a = [16, 150], L2b = [224, 150]; // 2-oji tiesė
+  const Ta = [74, 22], Tb = [168, 192];    // kirstinė (per P1 ir P2)
+  const R = vnorm(vsub(L1b, P1)), L = vnorm(vsub(L1a, P1));
+  const D = vnorm(vsub(P2, P1)), U = vnorm(vsub(Ta, P1));
+  const R2 = vnorm(vsub(L2b, P2)), L2 = vnorm(vsub(L2a, P2));
+  const U2 = vnorm(vsub(P1, P2)), D2 = vnorm(vsub(Tb, P2));
+  const wedges = {
+    1: { v: P1, a: U, b: R }, 2: { v: P1, a: R, b: D }, 3: { v: P1, a: D, b: L }, 4: { v: P1, a: L, b: U },
+    5: { v: P2, a: U2, b: R2 }, 6: { v: P2, a: R2, b: D2 }, 7: { v: P2, a: D2, b: L2 }, 8: { v: P2, a: L2, b: U2 }
+  };
+  return { P1: P1, P2: P2, L1a: L1a, L1b: L1b, L2a: L2a, L2b: L2b, Ta: Ta, Tb: Tb, wedges: wedges };
+})();
+
+// marks: [{num, text, color, dash}] — 1–2 pažymėti kampai (lankelis + reikšmė).
+// Visi 8 kampai visada sunumeruoti mažai, orientacijai.
+function diagramSvg(marks) {
+  const D = DIAG;
+  const out = ['<svg width="240" height="200" viewBox="0 0 240 200" style="background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">'];
+  out.push('<line x1="' + D.L1a[0] + '" y1="' + D.L1a[1] + '" x2="' + D.L1b[0] + '" y2="' + D.L1b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+  out.push('<line x1="' + D.L2a[0] + '" y1="' + D.L2a[1] + '" x2="' + D.L2b[0] + '" y2="' + D.L2b[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+  out.push('<line x1="' + D.Ta[0] + '" y1="' + D.Ta[1] + '" x2="' + D.Tb[0] + '" y2="' + D.Tb[1] + '" style="stroke:#3a3128;stroke-width:1.8"/>');
+  // pažymėti kampai: spalvotas lankelis ARTI viršūnės (kad nesikirstų su numeriu)
+  const markMap = {};
+  (marks || []).forEach(function (m) { markMap[m.num] = m; });
+  Object.keys(markMap).forEach(function (numStr) {
+    const m = markMap[numStr];
+    const w = D.wedges[+numStr];
+    const pa = vadd(w.v, vmul(w.a, 16)), pb = vadd(w.v, vmul(w.b, 16));
+    const dashAttr = m.dash ? ' stroke-dasharray="3 2"' : '';
+    out.push('<path d="' + angleArc(w.v, pa, pb, 11) + '" style="fill:none;stroke-width:2.4;stroke:' + m.color + '"' + dashAttr + '/>');
+  });
+  // mažos pilkos kampų numeriai 1–8 (orientacijai) — už lankelio ribų, kad nesidengtų
+  for (let n = 1; n <= 8; n++) {
+    const w = D.wedges[n];
+    const bis = vnorm(vadd(w.a, w.b));
+    const p = vadd(w.v, vmul(bis, 24));
+    out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 3).toFixed(1) + '" text-anchor="middle" style="font-size:9px;fill:#a39a8c;font-family:Segoe UI,sans-serif">' + n + '</text>');
+  }
+  // pažymėtų kampų reikšmės/x — toliausiai nuo viršūnės
+  Object.keys(markMap).forEach(function (numStr) {
+    const m = markMap[numStr];
+    const w = D.wedges[+numStr];
+    const bis = vnorm(vadd(w.a, w.b));
+    const p = vadd(w.v, vmul(bis, 46));
+    out.push('<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4).toFixed(1) + '" text-anchor="middle" style="font-size:13px;font-weight:700;fill:' + m.color + ';font-family:Segoe UI,sans-serif">' + m.text + '</text>');
+  });
+  out.push('<circle cx="' + D.P1[0] + '" cy="' + D.P1[1] + '" r="2" style="fill:#3a3128"/>');
+  out.push('<circle cx="' + D.P2[0] + '" cy="' + D.P2[1] + '" r="2" style="fill:#3a3128"/>');
+  out.push('</svg>');
+  return out.join('');
+}
+
+const C_DUOTA1 = '#b45309'; // gintarinė — pirmasis duotasis kampas
+const C_DUOTA2 = '#1d4ed8'; // mėlyna — antrasis duotasis kampas / x
+
+const GENERATORIAI = [
+  // T1: vidaus priešiniai kampai — patikrinti, ar tiesės lygiagrečios (taip/ne)
+  { label: "T1: vidaus priešiniai (patikra)", gen() {
+      const equal = choice([true, false]);
+      const a1 = randint(40, 140);
+      let a2;
+      if (equal) {
+        a2 = a1;
+      } else {
+        const diff = choice([1, -1]) * randint(6, 25);
+        a2 = a1 + diff;
+      }
+      const ans = (a1 === a2) ? 'Taip' : 'Ne';
+      const svg = diagramSvg([
+        { num: 2, text: a1 + '°', color: C_DUOTA1 },
+        { num: 8, text: a2 + '°', color: C_DUOTA2 }
+      ]);
+      const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vienas vidaus priešinis kampas lygus ${a1}°, kitas — ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
+      const steps = (ans === 'Taip')
+        ? [
+            `Vidaus priešiniai kampai: ${a1}° ir ${a2}°`,
+            `${a1}° = ${a2}° — kampai lygūs`,
+            `Pagal T1 (vidaus priešinių kampų požymį) tiesės lygiagrečios → Taip`
+          ]
+        : [
+            `Vidaus priešiniai kampai: ${a1}° ir ${a2}°`,
+            `${a1}° ≠ ${a2}° — kampai nelygūs`,
+            `T1 požymis netenkinamas, tiesės nelygiagrečios → Ne`
+          ];
+      return { q, ans, ansType: 'text', pre: 'Atsakymas:', steps };
+  }},
+
+  // T2: vidaus vienašaliai kampai — patikrinti, ar tiesės lygiagrečios (taip/ne)
+  { label: "T2: vidaus vienašaliai (patikra)", gen() {
+      const equal180 = choice([true, false]);
+      const a1 = randint(35, 145);
+      let a2;
+      if (equal180) {
+        a2 = 180 - a1;
+      } else {
+        const diff = choice([1, -1]) * randint(6, 20);
+        a2 = 180 - a1 + diff;
+      }
+      const suma = a1 + a2;
+      const ans = (suma === 180) ? 'Taip' : 'Ne';
+      const svg = diagramSvg([
+        { num: 2, text: a1 + '°', color: C_DUOTA1 },
+        { num: 5, text: a2 + '°', color: C_DUOTA2 }
+      ]);
+      const q = `Kirstinė kerta dvi tieses ir sudaro kampus. Vidaus vienašalių kampų dydžiai lygūs ${a1}° ir ${a2}°. Ar šios dvi tiesės lygiagrečios?` + svg;
+      const steps = (ans === 'Taip')
+        ? [
+            `Vidaus vienašalių kampų suma: ${a1}° + ${a2}° = ${suma}°`,
+            `${suma}° = 180°`,
+            `Pagal T2 (vidaus vienašalių kampų požymį) tiesės lygiagrečios → Taip`
+          ]
+        : [
+            `Vidaus vienašalių kampų suma: ${a1}° + ${a2}° = ${suma}°`,
+            `${suma}° ≠ 180°`,
+            `T2 požymis netenkinamas, tiesės nelygiagrečios → Ne`
+          ];
+      return { q, ans, ansType: 'text', pre: 'Atsakymas:', steps };
+  }},
+
+  // T3: atitinkamieji kampai — rasti x, kad tiesės būtų lygiagrečios (echo)
+  { label: "T3: atitinkamieji (x radimas)", gen() {
+      const a = randint(20, 160);
+      const svg = diagramSvg([
+        { num: 2, text: a + '°', color: C_DUOTA1 },
+        { num: 6, text: 'x°', color: C_DUOTA2, dash: true }
+      ]);
+      return {
+        q: `Kirstinė kerta dvi tieses. Vienas kampas lygus ${a}°, jam atitinkamasis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
+        ans: a, pre: 'x =',
+        steps: [
+          `Pagal T3 (atitinkamųjų kampų požymį), kad tiesės būtų lygiagrečios, atitinkamieji kampai turi būti lygūs`,
+          `x = ${a}°`,
+          `x = ${nf(a)}`
+        ]
+      };
+  }},
+
+  // T1: vidaus priešiniai kampai — rasti x (echo)
+  { label: "T1: vidaus priešiniai (x radimas)", gen() {
+      const a = randint(20, 160);
+      const svg = diagramSvg([
+        { num: 2, text: a + '°', color: C_DUOTA1 },
+        { num: 8, text: 'x°', color: C_DUOTA2, dash: true }
+      ]);
+      return {
+        q: `Kirstinė kerta dvi tieses. Vienas vidaus priešinis kampas lygus ${a}°, kitas vidaus priešinis kampas — x. Koks turi būti x, kad šios dvi tiesės būtų lygiagrečios?` + svg,
+        ans: a, pre: 'x =',
+        steps: [
+          `Pagal T1 (vidaus priešinių kampų požymį), kad tiesės būtų lygiagrečios, vidaus priešiniai kampai turi būti lygūs`,
+          `x = ${a}°`,
+          `x = ${nf(a)}`
+        ]
+      };
+  }},
+
+  // T2: vidaus vienašaliai kampai su x — rasti x (lygtis, konstruojama iš x0)
+  { label: "T2: vidaus vienašaliai (x radimas)", gen() {
+      const m1 = randint(2, 5), m2 = randint(1, 4);
+      let x0, c;
+      do {
+        x0 = randint(5, 25);
+        c = 180 - (m1 + m2) * x0;
+      } while (m1 * x0 < 10 || m1 * x0 > 170 || c === 0);
+      const term1 = `${m1}x`;
+      const term2 = `${m2}x ${pm(c)}`;
+      const svg = diagramSvg([
+        { num: 2, text: term1 + '°', color: C_DUOTA1 },
+        { num: 5, text: '(' + term2 + ')°', color: C_DUOTA2 }
+      ]);
+      return {
+        q: `Kirstinė kerta dvi tieses. Vidaus vienašalis kampas lygus ${term1}°, kitas vidaus vienašalis kampas — (${term2})°. Žinoma, kad šios dvi tiesės lygiagrečios. Raskite x.` + svg,
+        ans: x0, pre: 'x =',
+        steps: [
+          `Kai tiesės lygiagrečios, vidaus vienašalių kampų suma lygi 180°`,
+          `${term1} + (${term2}) = 180`,
+          `${m1 + m2}x ${pm(c)} = 180`,
+          `${m1 + m2}x = 180 ${pm(-c)} = ${nf(180 - c)}`,
+          `x = ${nf(180 - c)} : ${m1 + m2} = ${nf(x0)}`
+        ]
+      };
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: Lygiagretumo požymiai (7 klasė)", "subtitle": "6.4 Dviejų tiesių lygiagretumo požymiai · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>
