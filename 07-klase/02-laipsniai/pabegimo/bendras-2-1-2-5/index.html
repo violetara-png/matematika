@@ -335,6 +335,14 @@ function enableIntegrity(){
   if(!window._focusTimer) window._focusTimer = setInterval(function(){
     if(gameActive && (document.hidden || !document.hasFocus())) onAway();
   }, 1000);
+  // Išėjimas iš viso ekrano (Escape/F11) NEPAKEIČIA lango matomumo/fokuso (tab lieka
+  // aktyvus), tad blur/visibilitychange to nepagauna — sekam ATSKIRAI per fullscreenchange.
+  if(!window._fsListener){
+    window._fsListener = true;
+    document.addEventListener('fullscreenchange', function(){
+      if(gameActive && !document.fullscreenElement){ onAway(); onBack(); }
+    });
+  }
 }
 function onAway(){
   if(!gameActive || away) return;
