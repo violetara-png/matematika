@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMPP pasiruošimas · Skaitmeninė ekspedicija</title>
+<style>
+  :root{
+    --bg:#0a0f1f; --bg2:#111a35; --panel:#141d3a; --panel2:#1b264a;
+    --ink:#eaf0ff; --muted:#93a1c9; --line:#2a375f;
+    --neon:#38e1ff; --neon2:#7c5cff; --good:#2fd47a; --bad:#ff5d73; --gold:#ffcf4d;
+    --shadow:0 12px 40px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:radial-gradient(1200px 700px at 15% -10%,#16224a 0,transparent 55%),
+               radial-gradient(1000px 700px at 110% 10%,#241a52 0,transparent 50%),
+               var(--bg);
+    color:var(--ink); min-height:100vh; line-height:1.5;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:18px 16px 60px}
+  .screen{display:none;animation:fade .4s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .badge{display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--neon);border:1px solid rgba(56,225,255,.4);border-radius:999px;padding:4px 12px;
+    background:rgba(56,225,255,.06)}
+  h1{font-size:1.9rem;line-height:1.15;margin:.5rem 0 .4rem}
+  h2{font-size:1.35rem;margin:.2rem 0}
+  .lead{color:var(--muted);font-size:1.02rem}
+
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid rgba(124,92,255,.25);
+    border-radius:18px;padding:22px;box-shadow:var(--shadow);margin-top:16px}
+  .card.glow{border-color:rgba(56,225,255,.45)}
+
+  label.fld{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 5px}
+  .btn{appearance:none;border:0;cursor:pointer;font-weight:700;font-size:1rem;
+    padding:13px 22px;border-radius:12px;color:#06122b;
+    background:linear-gradient(180deg,#5ff0ff,#38b6ff);box-shadow:0 8px 22px rgba(56,182,255,.35);
+    transition:transform .08s ease,filter .15s ease}
+  .btn:hover{filter:brightness(1.06)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+  .btn.gold{background:linear-gradient(180deg,#ffe08a,#ffbf3d);color:#3a2600}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  input[type=text]{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);
+    background:#0c1430;color:var(--ink);font-size:1.1rem;outline:none}
+  input[type=text]:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(56,225,255,.15)}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .spacer{flex:1}
+  .err{color:var(--bad);font-weight:600;min-height:1.3em;margin-top:8px}
+
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+  @media(max-width:560px){.levels{grid-template-columns:1fr}}
+  .lvl{border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;background:#0e1636;
+    transition:.14s;text-align:left}
+  .lvl:hover{border-color:var(--neon)}
+  .lvl.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,207,77,.35);background:#141c3f}
+  .lvl .n{font-weight:800;font-size:1.1rem}
+  .lvl .d{color:var(--muted);font-size:.85rem;margin-top:4px}
+  .lvl .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#22305c}
+  .lvl.l1 .dot{background:var(--good)} .lvl.l2 .dot{background:var(--gold)} .lvl.l3 .dot{background:var(--bad)}
+
+  .hud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .hud .who{font-size:.9rem;color:var(--muted)}
+  .hud .who b{color:var(--ink)}
+  .gems{display:flex;gap:8px}
+  .gem{width:24px;height:24px;border-radius:6px;transform:rotate(45deg);
+    border:2px solid rgba(255,255,255,.25);background:#22305c;box-shadow:inset 0 0 8px rgba(0,0,0,.4)}
+  .gem.on{background:linear-gradient(180deg,#8affef,#2fd4c8);border-color:#c9fff5;box-shadow:0 0 16px rgba(47,212,200,.7)}
+  .gem.g2.on{background:linear-gradient(180deg,#b7a6ff,#7c5cff);box-shadow:0 0 16px rgba(124,92,255,.7)}
+  .gem.g3.on{background:linear-gradient(180deg,#ffd98a,#ffbf3d);box-shadow:0 0 16px rgba(255,191,61,.7)}
+  .gem.g4.on{background:linear-gradient(180deg,#ff9ab0,#ff5d73);box-shadow:0 0 16px rgba(255,93,115,.7)}
+  .timer{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.95rem}
+  .timer b{color:var(--ink)}
+
+  .progress{height:9px;background:#0c1430;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin-top:10px}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--neon2));transition:width .4s ease}
+
+  .qmeta{color:var(--muted);font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
+  .expr{font-size:1.7rem;font-weight:700;margin:8px 0 4px;letter-spacing:.5px}
+  .expr .op{color:var(--neon)}
+
+  /* Graži trupmena (bendras projekto standartas, žr. references/matematikos-notacija/) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;color:inherit}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .hint{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(255,207,77,.08);
+    border:1px solid rgba(255,207,77,.35);color:#ffe6a6;font-size:.96rem;display:none}
+  .hint.show{display:block}
+  .feedback{margin-top:12px;font-weight:600;min-height:1.4em}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:520px){.opts{grid-template-columns:1fr}}
+  .opt{padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:#0e1636;
+    cursor:pointer;font-size:1.12rem;font-weight:600;text-align:left;transition:.12s;color:var(--ink)}
+  .opt:hover{border-color:var(--neon);background:#122048}
+  .opt.correct{border-color:var(--good);background:rgba(47,212,122,.16)}
+  .opt.wrong{border-color:var(--bad);background:rgba(255,93,115,.16)}
+  .opt .k{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;
+    border-radius:7px;background:#22305c;margin-right:10px;font-weight:800}
+
+  .codebox{display:flex;gap:10px;justify-content:center;margin:14px 0}
+  .codebox .d{width:52px;height:64px;border-radius:12px;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:var(--gold);
+    box-shadow:0 0 14px rgba(255,207,77,.4)}
+  .fragment{font-size:3rem;text-align:center}
+
+  .win{text-align:center}
+  .win .big{font-size:3rem;margin:.2rem 0}
+  .grade{font-size:1.1rem;color:var(--muted)}
+  .kpi{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+  .kpi .t{background:#0e1636;border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:120px}
+  .kpi .t b{display:block;font-size:1.7rem;color:var(--neon)}
+  .kpi .t span{color:var(--muted);font-size:.85rem}
+  .sent{margin-top:6px;font-size:.92rem;min-height:1.2em}
+  .sent.ok{color:var(--good)} .sent.no{color:var(--gold)}
+  .small{color:var(--muted);font-size:.86rem}
+  .foot{margin-top:20px;text-align:center}
+  a.reset{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="exitBanner" style="display:none;position:sticky;top:0;z-index:50;background:rgba(255,93,115,.15);
+    border:1px solid var(--bad);color:#ffd7dc;border-radius:10px;padding:8px 14px;margin-bottom:10px;
+    font-size:.85rem;font-weight:600"></div>
+
+  <!-- ============ LOCK (nebūtina — pašalink šią sekciją, jei Violeta neprašė slaptažodžio) ============ -->
+  <section id="s-lock" class="screen active">
+    <span class="badge">Prieigos kontrolė</span>
+    <h1>Užrakinta zona</h1>
+    <p class="lead">Sistema apsaugota slaptažodžiu. Slaptažodį pasakys mokytoja Violeta.</p>
+    <div class="card glow">
+      <h2>Įvesk slaptažodį</h2>
+      <input id="lockInput" type="text" placeholder="Slaptažodis" autocomplete="off">
+      <div class="row" style="margin-top:14px">
+        <button class="btn" onclick="checkLock()">Atrakinti ▸</button>
+      </div>
+      <div class="err" id="lockErr"></div>
+    </div>
+  </section>
+
+  <!-- ============ START ============ -->
+  <section id="s-start" class="screen">
+    <span class="badge">Matematikos misija</span>
+    <h1>Skaitmeninė ekspedicija: NMPP pasiruošimas</h1>
+    <p class="lead" style="margin-top:-6px;font-weight:600">🕹 Pabėgimo kambarys</p>
+    <p class="lead">Keturios stotelės, treji sunkumo lygiai. Prisimink, ką moki iš 4 klasės, ir pasiruošk 5 klasės matematikai — surink visus Neoxis kristalus ir pabėk!</p>
+
+    <div class="card glow">
+      <h2>Prisijunk prie sistemos</h2>
+      <label class="fld">Vardas ir pavardė *</label>
+      <input id="playerName" type="text" placeholder="pvz. Jonas Jonaitis" maxlength="40">
+      <label class="fld">Klasė</label>
+      <input id="playerClass" type="text" placeholder="pvz. 5a" maxlength="12">
+
+      <label class="fld">1. Pasirink sudėtingumą *</label>
+      <div class="levels" id="tierCards"></div>
+
+      <label class="fld" id="variantLabel" style="display:none">2. Pasirink variantą *</label>
+      <div class="levels" id="variantCards" style="display:none;grid-template-columns:repeat(4,1fr)"></div>
+
+      <div class="row" style="margin-top:18px">
+        <button class="btn" onclick="startGame()">PRADĖTI MISIJĄ ▸</button>
+      </div>
+      <div class="err" id="startErr"></div>
+      <p class="small" style="margin-top:8px">💡 Atsakymą įrašyk be tarpų. Trupmeną rašyk kaip 4/9, neigiamą skaičių su minusu -12 arba −12.</p>
+      <p class="small">🖥 Žaidimas atsidarys per visą ekraną ir seks, ar neišėjai iš lango — tai matys mokytoja rezultatuose.</p>
+    </div>
+  </section>
+
+  <!-- ============ INTRO STATION ============ -->
+  <section id="s-intro" class="screen">
+    <div class="hud" id="hud-intro"></div>
+    <div class="card glow">
+      <span class="badge" id="introBadge">Stotelė</span>
+      <h1 id="introTitle"></h1>
+      <p class="lead" id="introText"></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="beginStation()" id="introBtn">Įeiti ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUESTION ============ -->
+  <section id="s-q" class="screen">
+    <div class="hud" id="hud-q"></div>
+    <div class="progress"><i id="progBar"></i></div>
+    <div class="card">
+      <div class="qmeta" id="qMeta"></div>
+      <div class="expr" id="qExpr"></div>
+      <div class="small" id="qPrompt">Suprastink / apskaičiuok:</div>
+
+      <div id="qOptions" class="opts" style="display:none"></div>
+
+      <div id="qInputWrap" style="display:none;margin-top:12px">
+        <input id="qInput" type="text" placeholder="Įrašyk atsakymą, pvz. 4/9 arba -12" autocomplete="off">
+        <div class="row" style="margin-top:12px">
+          <button class="btn" onclick="submitInput()">Tikrinti ▸</button>
+          <button class="btn ghost" onclick="showHint()">Užuomina 💡</button>
+        </div>
+      </div>
+
+      <div id="qMcActions" class="row" style="margin-top:12px;display:none">
+        <button class="btn ghost" onclick="showHint()">Užuomina 💡</button>
+      </div>
+
+      <div class="feedback" id="qFeedback"></div>
+      <div class="hint" id="qHint"></div>
+
+      <div class="row" id="qNextWrap" style="margin-top:14px;display:none">
+        <div class="spacer"></div>
+        <button class="btn gold" id="qNextBtn" onclick="nextQuestion()">Toliau ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GEM AWARD ============ -->
+  <section id="s-gem" class="screen">
+    <div class="hud" id="hud-gem"></div>
+    <div class="card glow" style="text-align:center">
+      <div class="fragment" id="gemFrag"></div>
+      <h1 id="gemTitle" style="margin-top:6px"></h1>
+      <p class="lead" id="gemText"></p>
+      <p class="small">Slaptojo kodo skaitmuo: <b id="gemDigit" style="color:var(--gold);font-size:1.3rem"></b></p>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <button class="btn" id="gemBtn" onclick="afterGem()">Toliau ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CODE ============ -->
+  <section id="s-code" class="screen">
+    <div class="hud" id="hud-code"></div>
+    <div class="card glow">
+      <span class="badge">Finalinė misija</span>
+      <h1>Įvesk valdymo kodą</h1>
+      <p class="lead">Surinkai visus keturis Neoxis kristalus! Kiekvienas atskleidė po vieną skaitmenį.
+        Įvesk kodą ir atrakink išėjimą į realybę.</p>
+      <div class="codebox" id="codeHint"></div>
+      <div class="row" style="justify-content:center">
+        <input id="codeInput" type="text" placeholder="••••" maxlength="4" inputmode="numeric"
+               style="max-width:180px;text-align:center;font-size:1.6rem;letter-spacing:.4em">
+      </div>
+      <div class="row" style="justify-content:center;margin-top:14px">
+        <button class="btn gold" onclick="submitCode()">ATRAKINTI ▸</button>
+      </div>
+      <div class="feedback" id="codeFeedback" style="text-align:center"></div>
+    </div>
+  </section>
+
+  <!-- ============ WIN ============ -->
+  <section id="s-win" class="screen">
+    <div class="card glow win">
+      <div class="big">🎉</div>
+      <h1>Pabėgai iš skaitmeninio pasaulio!</h1>
+      <p class="lead" id="winWho"></p>
+      <div class="kpi">
+        <div class="t"><b id="kScore">0</b><span>Teisingai iš 20</span></div>
+        <div class="t"><b id="kFirst">0</b><span>Iš pirmo karto</span></div>
+        <div class="t"><b id="kTime">0:00</b><span>Laikas</span></div>
+        <div class="t"><b id="kGrade">10</b><span>Įvertinimas</span></div>
+        <div class="t"><b id="kLeave">0</b><span>Išėjimai iš lango</span></div>
+      </div>
+      <p class="grade" id="winMsg"></p>
+      <div class="sent" id="sentStatus"></div>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <button class="btn ghost" onclick="downloadResult()">⬇ Atsisiųsti rezultatą (atsargai)</button>
+      </div>
+      <p style="margin-top:16px;color:#ffcf4d;font-weight:600;letter-spacing:.3px">✍️ Mokytoja Violeta</p>
+      <div class="foot">
+        <a href="#" class="reset" onclick="location.reload();return false;">↺ Žaisti iš naujo</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   NUSTATYMAS: Google Sheets rezultatų nuoroda
+   Naudojamas bendras „router" Apps Script web app'as (aptarnauja visus
+   Violetos testus/žaidimus) — kiekvienas įrankis tik nurodo SAVO SHEET_ID.
+   Žr. memory: testu-rezultatu-registras.
+============================================================ */
+const SHEET_ID = "1cDPuu9VRMuvDhB1IW7QeUi32Kwbs1zeUAkOSrt8rZEs"; // 5kl · 01 Skyrius · NMPP pasiruošimas
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+
+/* ============================================================
+   UŽDUOTYS: sudėtingumo lygiai × variantai × stotelės × klausimai.
+   Atsakymai paskaičiuoti ir patikrinti Python skriptu prieš embedinant.
+============================================================ */
+const LEVELS = {"lengvas": {"name": "Lengvas", "desc": "Pagrindiniai veiksmai, mažesni skaičiai", "variants": {"v1": {"name": "Lengvas · 1 variantas", "digits": [4, 0, 3, 1], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 416?", "ans": "417", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 377 nustatyk vienetų skyriaus skaitmens reikšmę.", "ans": "7", "hint": "Raskite vienetų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 740 − 54.", "ans": "686", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 49 · 2.", "ans": "98", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 832 + ___ = 885?", "ans": "53", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome dviratį ir šalmą. Dviratis kainavo 21 Eur, o šalmas kainavo 9 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "51", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 29 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 6 dėžes obuolių.\nSprendimas:\n1) 3 · 6 = 18 (dėž.)\n2) 29 − 18 = 11 (dėž.)\nAtsakymas: 11 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 9 plyteles, jam liko iškloti dar 41 plytelę.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 9 = 41", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 9 = 41", "x − 9 = 41", "x · 9 = 41", "x : 9 = 41"]}, {"type": "open", "expr": "Automobilis per 4 val. nuvažiavo 72 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "18", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 24 m ilgio lentą supjausto 2 m ilgio gabalais per 33 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 4 m ilgio gabalais?", "ans": "15", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi du apskritus pagrindus ir vieną lenktą šoninį paviršių?", "ans": "Cilindras", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Cilindras", "Kubas", "Rutulys", "Kūgis"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n△ □ △ □ △ □ △ □ ?", "ans": "△", "hint": "Seka kartojasi kas 2 simbolius — surask pasikartojimo ritmą.", "opts": ["△", "□", "☆", "✕"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 9 m, o plotis 4 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "45", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 07:15 ir truko 90 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "08:45", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["08:45", "09:00", "09:15", "08:15"]}, {"type": "open", "expr": "Taisyklingojo penkiakampio visos kraštinės yra po 5 cm. Apskaičiuok jo perimetrą.", "ans": "25", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 132 kg obuolių ir 193 kg kriaušių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "61", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 82 medžius: 25 klevus, 21 uosį ir 14 liepų, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "22", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n1/2   1/4   3/4   0,1", "ans": "3/4", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["1/2", "1/4", "3/4", "0,1"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 6 − 5  __  10 − 5", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 6 − 3  __  6 + 7", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v2": {"name": "Lengvas · 2 variantas", "digits": [9, 0, 5, 7], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 608?", "ans": "607", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 299 nustatyk vienetų skyriaus skaitmens reikšmę.", "ans": "9", "hint": "Raskite vienetų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 610 − 195.", "ans": "415", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 25 · 5.", "ans": "125", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 816 + ___ = 840?", "ans": "24", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome knygą ir žaidimą. Knyga kainavo 12 Eur, o žaidimas kainavo 8 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "16", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 33 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 3 dėžes obuolių.\nSprendimas:\n1) 3 · 3 = 9 (dėž.)\n2) 33 − 9 = 24 (dėž.)\nAtsakymas: 24 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 8 plyteles, jam liko iškloti dar 56 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 8 = 56", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 8 = 56", "x − 8 = 56", "x · 8 = 56", "x : 8 = 56"]}, {"type": "open", "expr": "Automobilis per 3 val. nuvažiavo 33 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "11", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 16 m ilgio lentą supjausto 2 m ilgio gabalais per 21 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 4 m ilgio gabalais?", "ans": "9", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi vieną apskritą pagrindą ir vieną viršūnę?", "ans": "Kūgis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Kūgis", "Rutulys", "Cilindras", "Kubas"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n□ ○ □ ○ □ ○ □ ○ ?", "ans": "□", "hint": "Seka kartojasi kas 2 simbolius — surask pasikartojimo ritmą.", "opts": ["□", "△", "✕", "○"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 15 m, o plotis 2 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "195", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 11:45 ir truko 60 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "12:45", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["12:45", "12:15", "11:45", "12:30"]}, {"type": "open", "expr": "Taisyklingojo keturkampio visos kraštinės yra po 11 cm. Apskaičiuok jo perimetrą.", "ans": "44", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 158 kg slyvų ir 56 kg vyšnių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "102", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 101 medį: 23 klevus, 28 uosius ir 14 liepų, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "36", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n1/4   3/4   0,1   1/2", "ans": "0,1", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["1/4", "3/4", "0,1", "1/2"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 5 − 3  __  8 − 3", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 9 + 5  __  4 − 2", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v3": {"name": "Lengvas · 3 variantas", "digits": [1, 7, 5, 6], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 727?", "ans": "728", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 738 nustatyk dešimčių skyriaus skaitmens reikšmę.", "ans": "30", "hint": "Raskite dešimčių skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 688 − 143.", "ans": "545", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 62 · 5.", "ans": "310", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 786 + ___ = 819?", "ans": "33", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kuprinę ir pieštukinę. Kuprinė kainavo 10 Eur, o pieštukinė kainavo 5 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "25", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 38 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 6 dėžes obuolių.\nSprendimas:\n1) 3 · 6 = 18 (dėž.)\n2) 38 − 18 = 20 (dėž.)\nAtsakymas: 20 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 6 plyteles, jam liko iškloti dar 58 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 6 = 58", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 6 = 58", "x − 6 = 58", "x · 6 = 58", "x : 6 = 58"]}, {"type": "open", "expr": "Automobilis per 2 val. nuvažiavo 26 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "13", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 16 m ilgio lentą supjausto 2 m ilgio gabalais per 21 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 4 m ilgio gabalais?", "ans": "9", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi vieną apskritą pagrindą ir vieną viršūnę?", "ans": "Kūgis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Kūgis", "Kubas", "Rutulys", "Cilindras"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n✕ □ ✕ □ ✕ □ ✕ □ ?", "ans": "✕", "hint": "Seka kartojasi kas 2 simbolius — surask pasikartojimo ritmą.", "opts": ["✕", "☆", "□", "△"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 10 m, o plotis 2 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "80", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 19:15 ir truko 90 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "20:45", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["20:45", "21:45", "19:45", "20:15"]}, {"type": "open", "expr": "Taisyklingojo šešiakampio visos kraštinės yra po 12 cm. Apskaičiuok jo perimetrą.", "ans": "72", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 116 kg braškių ir 128 kg mėlynių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "12", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 98 medžius: 24 klevus, 23 uosius ir 20 liepų, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "31", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n1/4   0,1   3/4   1/2", "ans": "3/4", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["1/4", "0,1", "3/4", "1/2"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 12 − 8  __  11 − 3", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 3 + 8  __  8 − 5", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v4": {"name": "Lengvas · 4 variantas", "digits": [4, 9, 8, 2], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 885?", "ans": "884", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 631 nustatyk dešimčių skyriaus skaitmens reikšmę.", "ans": "30", "hint": "Raskite dešimčių skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 386 − 132.", "ans": "254", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 63 · 9.", "ans": "567", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 385 + ___ = 749?", "ans": "364", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kamuolį ir raketę. Kamuolys kainavo 20 Eur, o raketė kainavo 8 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "32", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 27 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 6 dėžes obuolių.\nSprendimas:\n1) 3 · 6 = 18 (dėž.)\n2) 27 − 18 = 9 (dėž.)\nAtsakymas: 9 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 9 plyteles, jam liko iškloti dar 52 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 9 = 52", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 9 = 52", "x − 9 = 52", "x · 9 = 52", "x : 9 = 52"]}, {"type": "open", "expr": "Automobilis per 2 val. nuvažiavo 22 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "11", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 24 m ilgio lentą supjausto 2 m ilgio gabalais per 55 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 4 m ilgio gabalais?", "ans": "25", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi du apskritus pagrindus ir vieną lenktą šoninį paviršių?", "ans": "Cilindras", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Cilindras", "Rutulys", "Kūgis", "Kubas"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n✕ ○ ✕ ○ ✕ ○ ✕ ○ ?", "ans": "✕", "hint": "Seka kartojasi kas 2 simbolius — surask pasikartojimo ritmą.", "opts": ["✕", "□", "○", "△"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 18 m, o plotis 4 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "252", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 07:00 ir truko 60 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "08:00", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["08:00", "07:45", "09:00", "07:00"]}, {"type": "open", "expr": "Taisyklingojo šešiakampio visos kraštinės yra po 7 cm. Apskaičiuok jo perimetrą.", "ans": "42", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 53 kg agurkų ir 129 kg pomidorų. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "76", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 132 medžius: 36 klevus, 33 uosius ir 37 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "26", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n1/2   0,1   1/4   3/4", "ans": "0,1", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["1/2", "0,1", "1/4", "3/4"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 3 + 7  __  6 − 5", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 12 + 3  __  2 + 3", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}}}, "vidutinis": {"name": "Vidutinis", "desc": "Du žingsniai, didesni skaičiai", "variants": {"v1": {"name": "Vidutinis · 1 variantas", "digits": [1, 8, 4, 2], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 6221?", "ans": "6222", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 4819 nustatyk dešimčių skyriaus skaitmens reikšmę.", "ans": "10", "hint": "Raskite dešimčių skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš. Paskutinį žingsnį apskaičiuok pats."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 6507 − 139.", "ans": "6368", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 41 · 57.", "ans": "2337", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 8386 + ___ = 8739?", "ans": "353", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome dviratį ir šalmą. Dviratis kainavo 25 Eur, o šalmas kainavo 19 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "69", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 64 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 10 dėžių obuolių.\nSprendimas:\n1) 3 · 10 = 30 (dėž.)\n2) 64 − 30 = 34 (dėž.)\nAtsakymas: 34 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 23 plyteles, jam liko iškloti dar 120 plytelių.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 23 = 120", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 23 = 120", "x − 23 = 120", "x · 23 = 120", "x : 23 = 120"]}, {"type": "open", "expr": "Automobilis per 6 val. nuvažiavo 102 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "17", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 54 m ilgio lentą supjausto 3 m ilgio gabalais per 51 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 6 m ilgio gabalais?", "ans": "24", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi 6 vienodus kvadratinius šonus?", "ans": "Kubas", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Kubas", "Kūgis", "Cilindras", "Stačiakampis gretasienis"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n☆ △ □ ☆ △ □ ☆ △ ?", "ans": "□", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["□", "☆", "✕", "○"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 32 m, o plotis 4 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "896", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 16:15 ir truko 81 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "17:36", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["17:36", "17:21", "18:06", "17:51"]}, {"type": "open", "expr": "Taisyklingojo penkiakampio visos kraštinės yra po 20 cm. Apskaičiuok jo perimetrą.", "ans": "100", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 788 kg obuolių ir 807 kg kriaušių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "19", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 445 medžius: 141 klevą, 78 uosius ir 77 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "149", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n3/10   0,6   0,45   2/5", "ans": "0,6", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["3/10", "0,6", "0,45", "2/5"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 35 − 5  __  9 · 5", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 39 · 3  __  23 + 3", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v2": {"name": "Vidutinis · 2 variantas", "digits": [8, 0, 4, 3], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 2121?", "ans": "2120", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 5261 nustatyk šimtų skyriaus skaitmens reikšmę.", "ans": "200", "hint": "Raskite šimtų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 1429 − 289.", "ans": "1140", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 77 · 39.", "ans": "3003", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 3676 + ___ = 3774?", "ans": "98", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome knygą ir žaidimą. Knyga kainavo 36 Eur, o žaidimas kainavo 11 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "61", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 63 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 13 dėžių obuolių.\nSprendimas:\n1) 3 · 13 = 39 (dėž.)\n2) 63 − 39 = 24 (dėž.)\nAtsakymas: 24 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 31 plytelę, jam liko iškloti dar 110 plytelių.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 31 = 110", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 31 = 110", "x − 31 = 110", "x · 31 = 110", "x : 31 = 110"]}, {"type": "open", "expr": "Automobilis per 6 val. nuvažiavo 114 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "19", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 72 m ilgio lentą supjausto 3 m ilgio gabalais per 92 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 6 m ilgio gabalais?", "ans": "44", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi 6 stačiakampius šonus?", "ans": "Stačiakampis gretasienis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Stačiakampis gretasienis", "Kūgis", "Kubas", "Cilindras"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n□ △ ☆ □ △ ☆ □ △ ?", "ans": "☆", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["☆", "△", "○", "✕"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 16 m, o plotis 8 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "128", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 14:30 ir truko 90 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "16:00", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["16:00", "15:30", "15:45", "16:15"]}, {"type": "open", "expr": "Taisyklingojo šešiakampio visos kraštinės yra po 19 cm. Apskaičiuok jo perimetrą.", "ans": "114", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 358 kg slyvų ir 404 kg vyšnių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "46", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 347 medžius: 90 klevų, 87 uosius ir 92 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "78", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n3/10   7/10   0,45   0,6", "ans": "3/10", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["3/10", "7/10", "0,45", "0,6"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 18 · 7  __  27 · 7", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 17 · 8  __  36 · 3", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v3": {"name": "Vidutinis · 3 variantas", "digits": [6, 8, 5, 2], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 2154?", "ans": "2155", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 8648 nustatyk vienetų skyriaus skaitmens reikšmę.", "ans": "8", "hint": "Raskite vienetų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 304 − 236.", "ans": "68", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 45 · 70.", "ans": "3150", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 1695 + ___ = 2018?", "ans": "323", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kuprinę ir pieštukinę. Kuprinė kainavo 50 Eur, o pieštukinė kainavo 7 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "107", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 86 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 8 dėžes obuolių.\nSprendimas:\n1) 3 · 8 = 24 (dėž.)\n2) 86 − 24 = 62 (dėž.)\nAtsakymas: 62 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 27 plyteles, jam liko iškloti dar 112 plytelių.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 27 = 112", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 27 = 112", "x − 27 = 112", "x · 27 = 112", "x : 27 = 112"]}, {"type": "open", "expr": "Automobilis per 3 val. nuvažiavo 51 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "17", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 90 m ilgio lentą supjausto 3 m ilgio gabalais per 87 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 6 m ilgio gabalais?", "ans": "42", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi 6 vienodus kvadratinius šonus?", "ans": "Kubas", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Kubas", "Kūgis", "Cilindras", "Rutulys"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n☆ ✕ △ ☆ ✕ △ ☆ ✕ ?", "ans": "△", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["△", "✕", "○", "☆"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 25 m, o plotis 4 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "525", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 07:05 ir truko 99 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "08:44", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["08:44", "07:44", "08:29", "09:14"]}, {"type": "open", "expr": "Taisyklingojo trikampio visos kraštinės yra po 18 cm. Apskaičiuok jo perimetrą.", "ans": "54", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 365 kg braškių ir 506 kg mėlynių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "141", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 345 medžius: 138 klevus, 53 uosius ir 65 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "89", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n7/10   0,45   2/5   0,6", "ans": "7/10", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["7/10", "0,45", "2/5", "0,6"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 34 + 6  __  19 + 9", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 26 − 8  __  23 · 7", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v4": {"name": "Vidutinis · 4 variantas", "digits": [9, 3, 0, 4], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 6863?", "ans": "6862", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 2366 nustatyk vienetų skyriaus skaitmens reikšmę.", "ans": "6", "hint": "Raskite vienetų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 3060 − 108.", "ans": "2952", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 63 · 74.", "ans": "4662", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 2757 + ___ = 3032?", "ans": "275", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kamuolį ir raketę. Kamuolys kainavo 36 Eur, o raketė kainavo 7 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "65", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 92 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 12 dėžių obuolių.\nSprendimas:\n1) 3 · 12 = 36 (dėž.)\n2) 92 − 36 = 56 (dėž.)\nAtsakymas: 56 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 30 plytelių, jam liko iškloti dar 60 plytelių.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 30 = 60", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 30 = 60", "x − 30 = 60", "x · 30 = 60", "x : 30 = 60"]}, {"type": "open", "expr": "Automobilis per 6 val. nuvažiavo 108 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "18", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 36 m ilgio lentą supjausto 3 m ilgio gabalais per 22 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 6 m ilgio gabalais?", "ans": "10", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra yra apvalus iš visų pusių, neturi nei briaunų, nei viršūnių?", "ans": "Rutulys", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Rutulys", "Cilindras", "Stačiakampis gretasienis", "Piramidė"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n✕ □ △ ✕ □ △ ✕ □ ?", "ans": "△", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["△", "☆", "□", "○"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 41 m, o plotis 5 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "1476", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 20:40 ir truko 76 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "21:56", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["21:56", "22:11", "20:56", "22:26"]}, {"type": "open", "expr": "Taisyklingojo keturkampio visos kraštinės yra po 8 cm. Apskaičiuok jo perimetrą.", "ans": "32", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 540 kg agurkų ir 656 kg pomidorų. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "116", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 408 medžius: 60 klevų, 118 uosių ir 141 liepą, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "89", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n0,6   2/5   0,45   7/10", "ans": "2/5", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["0,6", "2/5", "0,45", "7/10"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 14 + 7  __  15 + 2", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 6 − 5  __  18 · 9", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}}}, "sudetingas": {"name": "Sudėtingas", "desc": "Keli žingsniai, sudėtingesni uždaviniai", "variants": {"v1": {"name": "Sudėtingas · 1 variantas", "digits": [0, 2, 9, 1], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 42783?", "ans": "42784", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 64953 nustatyk šimtų skyriaus skaitmens reikšmę.", "ans": "900", "hint": "Raskite šimtų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 30464 − 155.", "ans": "30309", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 168 · 21.", "ans": "3528", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 30106 + ___ = 30318?", "ans": "212", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome dviratį ir šalmą. Dviratis kainavo 143 Eur, o šalmas kainavo 44 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "330", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 153 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 29 dėžes obuolių.\nSprendimas:\n1) 3 · 29 = 87 (dėž.)\n2) 153 − 87 = 66 (dėž.)\nAtsakymas: 66 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 69 plyteles, jam liko iškloti dar 335 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 69 = 335", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 69 = 335", "x − 69 = 335", "x · 69 = 335", "x : 69 = 335"]}, {"type": "open", "expr": "Automobilis per 4 val. nuvažiavo 180 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "45", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 160 m ilgio lentą supjausto 4 m ilgio gabalais per 156 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 8 m ilgio gabalais?", "ans": "76", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi 6 stačiakampius šonus?", "ans": "Stačiakampis gretasienis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Stačiakampis gretasienis", "Kubas", "Rutulys", "Piramidė"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n△ ☆ ○ △ ☆ ○ △ ☆ ○ △ ?", "ans": "☆", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["☆", "□", "○", "✕"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 47 m, o plotis 9 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "1786", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 11:30 ir truko 144 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "13:54", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["13:54", "13:39", "12:54", "14:09"]}, {"type": "open", "expr": "Taisyklingojo šešiakampio visos kraštinės yra po 36 cm. Apskaičiuok jo perimetrą.", "ans": "216", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 703 kg obuolių ir 1271 kg kriaušių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "568", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 1028 medžius: 462 klevus, 174 uosius ir 157 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "235", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n0,72   9/25   0,3   0,55", "ans": "0,72", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["0,72", "9/25", "0,3", "0,55"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 48 + 3  __  40 + 4", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 19 − 6  __  49 − 3", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v2": {"name": "Sudėtingas · 2 variantas", "digits": [4, 6, 8, 3], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 43637?", "ans": "43636", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 74852 nustatyk šimtų skyriaus skaitmens reikšmę.", "ans": "800", "hint": "Raskite šimtų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 28632 − 879.", "ans": "27753", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 423 · 19.", "ans": "8037", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 59876 + ___ = 59903?", "ans": "27", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome knygą ir žaidimą. Knyga kainavo 102 Eur, o žaidimas kainavo 29 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "175", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 230 dėžių obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 23 dėžes obuolių.\nSprendimas:\n1) 3 · 23 = 69 (dėž.)\n2) 230 − 69 = 161 (dėž.)\nAtsakymas: 161 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 30 plytelių, jam liko iškloti dar 387 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 30 = 387", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 30 = 387", "x − 30 = 387", "x · 30 = 387", "x : 30 = 387"]}, {"type": "open", "expr": "Automobilis per 5 val. nuvažiavo 100 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "20", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 128 m ilgio lentą supjausto 4 m ilgio gabalais per 124 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 8 m ilgio gabalais?", "ans": "60", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi 6 stačiakampius šonus?", "ans": "Stačiakampis gretasienis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Stačiakampis gretasienis", "Kubas", "Kūgis", "Piramidė"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n☆ ✕ □ ☆ ✕ □ ☆ ✕ □ ☆ ?", "ans": "✕", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["✕", "○", "□", "☆"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 44 m, o plotis 12 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "1408", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 20:25 ir truko 78 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "21:43", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["21:43", "21:58", "21:28", "21:13"]}, {"type": "open", "expr": "Taisyklingojo trikampio visos kraštinės yra po 52 cm. Apskaičiuok jo perimetrą.", "ans": "156", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 3641 kg slyvų ir 1867 kg vyšnių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "1774", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 1359 medžius: 155 klevus, 475 uosius ir 274 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "455", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n7/20   0,55   9/25   0,72", "ans": "7/20", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["7/20", "0,55", "9/25", "0,72"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 29 · 8  __  48 · 4", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 79 + 8  __  57 − 3", "ans": ">", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v3": {"name": "Sudėtingas · 3 variantas", "digits": [4, 7, 1, 0], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PO skaičiaus 29523?", "ans": "29524", "hint": "Gretimas didesnysis skaičius yra vienetu didesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 42511 nustatyk tūkstančių skyriaus skaitmens reikšmę.", "ans": "2000", "hint": "Raskite tūkstančių skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 40265 − 971.", "ans": "39294", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 205 · 13.", "ans": "2665", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 11435 + ___ = 11463?", "ans": "28", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kuprinę ir pieštukinę. Kuprinė kainavo 74 Eur, o pieštukinė kainavo 24 Eur daugiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "172", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 385 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 33 dėžes obuolių.\nSprendimas:\n1) 3 · 33 = 99 (dėž.)\n2) 385 − 99 = 286 (dėž.)\nAtsakymas: 286 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 61 plytelę, jam liko iškloti dar 336 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 61 = 336", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 61 = 336", "x − 61 = 336", "x · 61 = 336", "x : 61 = 336"]}, {"type": "open", "expr": "Automobilis per 6 val. nuvažiavo 126 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "21", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 160 m ilgio lentą supjausto 4 m ilgio gabalais per 117 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 8 m ilgio gabalais?", "ans": "57", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra yra apvalus iš visų pusių, neturi nei briaunų, nei viršūnių?", "ans": "Rutulys", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Rutulys", "Stačiakampis gretasienis", "Cilindras", "Piramidė"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n☆ △ ✕ ☆ △ ✕ ☆ △ ✕ ☆ ?", "ans": "△", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["△", "☆", "□", "○"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 63 m, o plotis 6 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "3591", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 20:40 ir truko 81 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "22:01", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["22:01", "22:16", "21:01", "22:31"]}, {"type": "open", "expr": "Taisyklingojo trikampio visos kraštinės yra po 41 cm. Apskaičiuok jo perimetrą.", "ans": "123", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 959 kg braškių ir 730 kg mėlynių. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "229", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 1153 medžius: 193 klevus, 213 uosių ir 294 liepas, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "453", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra DIDŽIAUSIAS?\n7/20   5/8   0,3   9/25", "ans": "5/8", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["7/20", "5/8", "0,3", "9/25"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 78 · 2  __  51 + 8", "ans": ">", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 73 − 8  __  65 · 3", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}, "v4": {"name": "Sudėtingas · 4 variantas", "digits": [8, 4, 1, 6], "stations": [[{"type": "open", "expr": "Koks skaičius skaičių sekoje eina iš karto PRIEŠ skaičių 46265?", "ans": "46264", "hint": "Gretimas mažesnysis skaičius yra vienetu mažesnis už duotąjį."}, {"type": "open", "expr": "Skaičiuje 42036 nustatyk vienetų skyriaus skaitmens reikšmę.", "ans": "6", "hint": "Raskite vienetų skyriaus skaitmenį ir padauginkite jį iš to skyriaus reikšmės (pvz. šimtų — iš 100)."}, {"type": "open", "expr": "Apskaičiuok skirtumą: 38434 − 936.", "ans": "37498", "hint": "Atimk mažesnįjį skaičių iš didesniojo."}, {"type": "open", "expr": "Apskaičiuok sandaugą: 411 · 19.", "ans": "7809", "hint": "Padaugink skaičius: jei reikia, dauginamąjį skaidyk į dešimtis ir vienetus."}, {"type": "open", "expr": "Kokį skaičių reikia įrašyti vietoje langelio, kad lygybė būtų teisinga: 56711 + ___ = 56832?", "ans": "121", "hint": "Iš sumos atimk žinomąjį dėmenį — liks trūkstamas dėmuo."}], [{"type": "open", "expr": "Parduotuvėje pirkome kamuolį ir raketę. Kamuolys kainavo 98 Eur, o raketė kainavo 39 Eur mažiau. Apskaičiuok, kiek iš viso sumokėjome už abu daiktus.", "ans": "157", "hint": "Pirmiausia apskaičiuok antrojo daikto kainą, tada abi kainas sudėk."}, {"type": "mc", "expr": "Į sandėlį pirmą darbo dieną atvežė 399 dėžes obuolių. Tris dienas iš eilės darbuotojai kasdien išveždavo po 23 dėžes obuolių.\nSprendimas:\n1) 3 · 23 = 69 (dėž.)\n2) 399 − 69 = 330 (dėž.)\nAtsakymas: 330 dėžės.\n\nKoks buvo uždavinio klausimas? Pažymėk teisingą.", "ans": "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "hint": "Palygink kiekvieną klausimą su tuo, KĄ IŠ TIKRŲJŲ parodo antrasis sprendimo veiksmas.", "opts": ["Kiek dėžių obuolių buvo atvežta iš viso?", "Kiek dėžių obuolių liko sandėlyje po pirmos dienos?", "Kiek dėžių obuolių liko sandėlyje po trijų dienų?", "Kiek iš viso dėžių obuolių buvo išvežta per tris dienas?"]}, {"type": "mc", "expr": "Uždavinys: Darbininkas turėjo iškloti tam tikrą kiekį grindų plytelių. Jis išklojo 90 plytelių, jam liko iškloti dar 323 plyteles.\nKurią lygtį išsprendę sužinotume, kiek plytelių iš viso turėjo iškloti darbininkas (x)? Pažymėk tą lygtį.", "ans": "x − 90 = 323", "hint": "Iš viso turimo kiekio ATĖMUS jau paklotą kiekį, lieka neiškloto kiekis.", "opts": ["x + 90 = 323", "x − 90 = 323", "x · 90 = 323", "x : 90 = 323"]}, {"type": "open", "expr": "Automobilis per 7 val. nuvažiavo 280 km. Apskaičiuok vidutinį automobilio greitį.", "ans": "40", "hint": "Vidutinis greitis = nuvažiuotas atstumas padalytas iš laiko."}, {"type": "open", "expr": "Meistras 128 m ilgio lentą supjausto 4 m ilgio gabalais per 155 min. Per kiek minučių jis supjaustytų tokio paties ilgio lentą 8 m ilgio gabalais?", "ans": "75", "hint": "Skaičiuok NE gabalus, o PJŪVIUS: gabalų skaičius minus vienas. Rask, kiek trunka VIENAS pjūvis."}], [{"type": "mc", "expr": "Kuri erdvinė (trimatė) geometrinė figūra turi vieną apskritą pagrindą ir vieną viršūnę?", "ans": "Kūgis", "hint": "Prisimink kiekvienos figūros šonų, pagrindų ir viršūnių skaičių.", "opts": ["Kūgis", "Kubas", "Cilindras", "Rutulys"]}, {"type": "mc", "expr": "Kokia figūrų seka pavaizduota? Koks simbolis turėtų būti vietoje klaustuko?\n✕ ☆ □ ✕ ☆ □ ✕ ☆ □ ✕ ?", "ans": "☆", "hint": "Seka kartojasi kas 3 simbolius — surask pasikartojimo ritmą.", "opts": ["☆", "✕", "△", "○"]}, {"type": "open", "expr": "Stačiakampio sklypo ilgis 88 m, o plotis 10 m trumpesnis už ilgį. Apskaičiuok sklypo plotą.", "ans": "6864", "hint": "Pirmiausia rask plotį (ilgis minus skirtumas), tada plotą — plotis kartą ilgis."}, {"type": "mc", "expr": "Treniruotė prasidėjo 08:25 ir truko 30 min. Kada treniruotė pasibaigė? (formatas VV:MM)", "ans": "08:55", "hint": "Pridėk trukmę (minutėmis) prie pradžios laiko; jei minučių suma viršija 60, pavesk valandą.", "opts": ["08:55", "07:55", "08:25", "09:10"]}, {"type": "open", "expr": "Taisyklingojo šešiakampio visos kraštinės yra po 30 cm. Apskaičiuok jo perimetrą.", "ans": "180", "hint": "Perimetras — visų kraštinių ilgių suma; kai kraštinės vienodos, dauginame iš kraštinių skaičiaus."}], [{"type": "open", "expr": "Turguje per dieną parduota 3811 kg agurkų ir 1054 kg pomidorų. Kiek kilogramų daugiau parduota vienos šių prekių nei kitos?", "ans": "2757", "hint": "Rask abiejų kiekių skirtumą — iš didesnio atimk mažesnį."}, {"type": "open", "expr": "Parke pasodino keturių rūšių medžius. Iš viso pasodino 1281 medį: 444 klevus, 458 uosius ir 170 liepų, o likusieji buvo beržai. Kiek pasodino beržų?", "ans": "209", "hint": "Iš viso medžių skaičiaus atimk visų žinomų rūšių medžių kiekius."}, {"type": "mc", "expr": "Kuris iš šių skaičių yra MAŽIAUSIAS?\n7/20   5/8   0,3   0,72", "ans": "0,3", "hint": "Trupmenas ir dešimtainius skaičius pavesk į tą pačią formą (pvz. abu dešimtainiais) ir palygink.", "opts": ["7/20", "5/8", "0,3", "0,72"]}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 30 + 3  __  23 · 8", "ans": "<", "hint": "Apskaičiuok abi puses atskirai, tada palygink gautus skaičius."}, {"type": "open", "expr": "Įrašyk tinkamą ženklą (<, > arba =): 50 · 2  __  48 · 9", "ans": "<", "hint": "Apskaičiuok abi reiškinio puses atskirai, tada palygink."}]]}}}};
+
+const STATION_META = {"lengvas": [{"badge": "1 stotelė", "title": "Skaičių sala", "gemEmoji": "🔷", "intro": "Pradinė misijos dalis: Čia tikrinami skaičiai: gretimi skaičiai, skaitmenų reikšmės ir pagrindiniai veiksmai.", "gemText": "Skaičių kristalas surinktas! Skaičiai tau paklūsta."}, {"badge": "2 stotelė", "title": "Uždavinių tiltas", "gemEmoji": "🟣", "intro": "Pradinė misijos dalis: Kiekvienas uždavinys — tiltas per bedugnę. Skaityk atidžiai ir rink teisingus veiksmus.", "gemText": "Uždavinių kristalas surinktas! Tiltas per bedugnę tvirtas."}, {"badge": "3 stotelė", "title": "Geometrijos laboratorija", "gemEmoji": "🟡", "intro": "Pradinė misijos dalis: Figūros, plotai, perimetrai ir laikas — geometrijos pasaulis laukia tavo sprendimų.", "gemText": "Geometrijos kristalas surinktas! Figūros nebeturi paslapčių."}, {"badge": "4 stotelė", "title": "Duomenų observatorija", "gemEmoji": "🔴", "intro": "Pradinė misijos dalis: Skaičiai, trupmenos, palyginimai — surink ir sugretink duomenis teisingai.", "gemText": "Duomenų kristalas surinktas! Paskutinis žingsnis prieš finalą."}], "vidutinis": [{"badge": "1 stotelė", "title": "Skaičių sala", "gemEmoji": "🔷", "intro": "Vidutinio sudėtingumo iššūkis: Čia tikrinami skaičiai: gretimi skaičiai, skaitmenų reikšmės ir pagrindiniai veiksmai.", "gemText": "Skaičių kristalas surinktas! Skaičiai tau paklūsta."}, {"badge": "2 stotelė", "title": "Uždavinių tiltas", "gemEmoji": "🟣", "intro": "Vidutinio sudėtingumo iššūkis: Kiekvienas uždavinys — tiltas per bedugnę. Skaityk atidžiai ir rink teisingus veiksmus.", "gemText": "Uždavinių kristalas surinktas! Tiltas per bedugnę tvirtas."}, {"badge": "3 stotelė", "title": "Geometrijos laboratorija", "gemEmoji": "🟡", "intro": "Vidutinio sudėtingumo iššūkis: Figūros, plotai, perimetrai ir laikas — geometrijos pasaulis laukia tavo sprendimų.", "gemText": "Geometrijos kristalas surinktas! Figūros nebeturi paslapčių."}, {"badge": "4 stotelė", "title": "Duomenų observatorija", "gemEmoji": "🔴", "intro": "Vidutinio sudėtingumo iššūkis: Skaičiai, trupmenos, palyginimai — surink ir sugretink duomenis teisingai.", "gemText": "Duomenų kristalas surinktas! Paskutinis žingsnis prieš finalą."}], "sudetingas": [{"badge": "1 stotelė", "title": "Skaičių sala", "gemEmoji": "🔷", "intro": "Sudėtingiausia misijos dalis: Čia tikrinami skaičiai: gretimi skaičiai, skaitmenų reikšmės ir pagrindiniai veiksmai.", "gemText": "Skaičių kristalas surinktas! Skaičiai tau paklūsta."}, {"badge": "2 stotelė", "title": "Uždavinių tiltas", "gemEmoji": "🟣", "intro": "Sudėtingiausia misijos dalis: Kiekvienas uždavinys — tiltas per bedugnę. Skaityk atidžiai ir rink teisingus veiksmus.", "gemText": "Uždavinių kristalas surinktas! Tiltas per bedugnę tvirtas."}, {"badge": "3 stotelė", "title": "Geometrijos laboratorija", "gemEmoji": "🟡", "intro": "Sudėtingiausia misijos dalis: Figūros, plotai, perimetrai ir laikas — geometrijos pasaulis laukia tavo sprendimų.", "gemText": "Geometrijos kristalas surinktas! Figūros nebeturi paslapčių."}, {"badge": "4 stotelė", "title": "Duomenų observatorija", "gemEmoji": "🔴", "intro": "Sudėtingiausia misijos dalis: Skaičiai, trupmenos, palyginimai — surink ir sugretink duomenis teisingai.", "gemText": "Duomenų kristalas surinktas! Paskutinis žingsnis prieš finalą."}]};
+
+/* ============================================================ */
+let state = {
+  name:'', klase:'', tier:'', variant:'',
+  si:0, qi:0, gems:[false,false,false,false],
+  totalCorrect:0, firstTry:0, attemptsThisQ:0, solvedThisQ:false, wrongTotal:0,
+  startTime:0, elapsed:0, timerId:null, finalCode:'', grade:10
+};
+let CUR = null;      // dabartinio lygio+varianto duomenys
+let curOpts = [];    // sumaišyti dabartinio klausimo variantai
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime suskaičiuoti,
+   kiek kartų mokinys išėjo iš žaidimo lango (perjungė langą / atidarė
+   kitą programą) — tai matys mokytoja rezultatų lentelėje. */
+let leaveCount = 0, gameActive = false;
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function enableIntegrity(){
+  gameActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Delsa, kad viso ekrano įjungimo blur nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia.
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(gameActive && (document.hidden || !document.hasFocus())) onAway();
+  }, 1000);
+  // Išėjimas iš viso ekrano (Escape/F11) NEPAKEIČIA lango matomumo/fokuso (tab lieka
+  // aktyvus), tad blur/visibilitychange to nepagauna — sekam ATSKIRAI per fullscreenchange.
+  if(!window._fsListener){
+    window._fsListener = true;
+    document.addEventListener('fullscreenchange', function(){
+      if(gameActive && !document.fullscreenElement){ onAway(); onBack(); }
+    });
+  }
+}
+function onAway(){
+  if(!gameActive || away) return;
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš žaidimo lango (kartų: ${leaveCount}). Grįžk į žaidimą!`; }
+  refreshHud();
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;
+  return Math.round(ms/1000);
+}
+
+/* ---- atsakymų normalizavimas (eiliškumas/tarpai/ženklai) ----
+   Priima ir ">"/"<"/"=" (palyginimo užduotims), ne tik +/- prasidedančius. */
+function normalize(raw){
+  if(raw==null) return '';
+  let s = String(raw).toLowerCase();
+  s = s.replace(/\s+/g,'').replace(/,/g,'.').replace(/−/g,'-').replace(/·/g,'').replace(/\*/g,'');
+  if(s==='') return '';
+  if(s[0] !== '+' && s[0] !== '-' && s[0] !== '<' && s[0] !== '>' && s[0] !== '=') s = '+' + s;
+  let terms = s.match(/[+\-][^+\-]+/g) || [s];
+  terms = terms.map(t=>{
+    if(t[0] !== '+' && t[0] !== '-') return t;
+    let sign=t[0]; let body=t.slice(1); body=body.replace(/^1(?=[a-z])/,''); return sign+body;
+  });
+  terms.sort();
+  return terms.join('');
+}
+function answersMatch(u,c){ return normalize(u)===normalize(c); }
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+/* ---- navigacija ---- */
+function show(id){
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function hudHTML(){
+  const gemCls=['','g2','g3','g4'];
+  const gems=state.gems.map((on,i)=>`<span class="gem ${gemCls[i]} ${on?'on':''}"></span>`).join('');
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  const exitBadge = leaveCount>0 ? `<span class="timer" style="color:var(--bad)">⚠ <b>${leaveCount}</b></span>` : '';
+  return `<div class="who"><b>${escapeHtml(state.name)}</b> · ${escapeHtml(CUR?CUR.name:'')}</div>
+    <div class="spacer"></div><div class="gems">${gems}</div>
+    ${exitBadge}
+    <div class="timer">⏱ <b>${mm}:${ss}</b></div>`;
+}
+function refreshHud(){
+  ['hud-intro','hud-q','hud-gem','hud-code'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=hudHTML(); });
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* Graži trupmena: "2/9" (skaičius/skaičius) tekste -> laiptuota <span class="fr">.
+   Dalyba visada rašoma su ":", tad "/" reiškia TIK trupmeną (žr. matematikos-notacija/README.md). */
+function fmtMath(s){
+  return escapeHtml(s).replace(/(\d+)\/(\d+)/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+/* ---- Garso efektai (Web Audio API, be išorinių failų) ---- */
+let _actx = null;
+function _audioCtx(){
+  if(!_actx){
+    try{ _actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ _actx = null; }
+  }
+  if(_actx && _actx.state === 'suspended'){ _actx.resume().catch(()=>{}); }
+  return _actx;
+}
+function _tone(freq, start, dur, type, gain){
+  const ctx = _audioCtx(); if(!ctx) return;
+  const osc = ctx.createOscillator(), g = ctx.createGain();
+  osc.type = type || 'sine'; osc.frequency.value = freq;
+  const t0 = ctx.currentTime + start;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.linearRampToValueAtTime(gain||0.18, t0+0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  osc.connect(g); g.connect(ctx.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+function playWrongSound(){
+  _tone(220,0,.13,'square',.10); _tone(164,.11,.16,'square',.10);
+}
+function playGemSound(){
+  _tone(523.25,0,.11,'sine',.16); _tone(659.25,.09,.11,'sine',.16); _tone(783.99,.18,.24,'sine',.18);
+}
+function playWinSound(){
+  _tone(523.25,0,.11,'sine',.16); _tone(659.25,.11,.11,'sine',.16);
+  _tone(783.99,.22,.11,'sine',.16); _tone(1046.5,.33,.38,'sine',.2);
+}
+
+function startTimer(){
+  state.startTime=Date.now()-state.elapsed*1000;
+  if(state.timerId) clearInterval(state.timerId);
+  state.timerId=setInterval(()=>{ state.elapsed=Math.floor((Date.now()-state.startTime)/1000); refreshHud(); },1000);
+}
+
+/* ---- 1. sudėtingumo (tier) kortelės ---- */
+function renderTiers(){
+  const box=document.getElementById('tierCards');
+  const keys=Object.keys(LEVELS);
+  box.innerHTML=keys.map((k,i)=>{
+    const t=LEVELS[k];
+    return `<div class="lvl l${i+1}" data-tier="${k}" onclick="selectTier(this)">
+      <div class="n"><span class="dot"></span>${escapeHtml(t.name)}</div>
+      <div class="d">${escapeHtml(t.desc)}</div></div>`;
+  }).join('');
+}
+function selectTier(el){
+  document.querySelectorAll('#tierCards .lvl').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  state.tier = el.getAttribute('data-tier');
+  state.variant = '';
+  document.querySelectorAll('#variantCards .lvl').forEach(x=>x.classList.remove('sel'));
+  renderVariants();
+  document.getElementById('variantLabel').style.display='block';
+  document.getElementById('variantCards').style.display='grid';
+}
+
+/* ---- 2. varianto kortelės ---- */
+function renderVariants(){
+  const box=document.getElementById('variantCards');
+  const variants=LEVELS[state.tier].variants;
+  const keys=Object.keys(variants);
+  box.innerHTML=keys.map((k,i)=>{
+    return `<div class="lvl" data-variant="${k}" onclick="selectVariant(this)">
+      <div class="n"><span class="dot"></span>${i+1} variantas</div>
+      <div class="d">kiti skaičiai</div></div>`;
+  }).join('');
+}
+function selectVariant(el){
+  document.querySelectorAll('#variantCards .lvl').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  state.variant = el.getAttribute('data-variant');
+}
+
+/* ---- žaidimo eiga ---- */
+function startGame(){
+  const err=document.getElementById('startErr');
+  const n=document.getElementById('playerName').value.trim();
+  if(!n){ err.textContent='Įrašyk vardą ir pavardę.'; return; }
+  if(!state.tier){ err.textContent='Pasirink sudėtingumą (Lengvas / Vidutinis / Sudėtingas).'; return; }
+  if(!state.variant){ err.textContent='Pasirink variantą.'; return; }
+  err.textContent='';
+  state.name=n;
+  state.klase=document.getElementById('playerClass').value.trim();
+  CUR=LEVELS[state.tier].variants[state.variant];
+  state.finalCode=CUR.digits.join('');
+  state.si=0; state.qi=0;
+  startTimer();
+  enableIntegrity();
+  showIntro();
+}
+
+function showIntro(){
+  const m=STATION_META[state.tier][state.si];
+  document.getElementById('introBadge').textContent=m.badge;
+  document.getElementById('introTitle').textContent=m.title;
+  document.getElementById('introText').textContent=m.intro;
+  refreshHud(); show('s-intro');
+}
+function beginStation(){ state.qi=0; loadQuestion(); show('s-q'); }
+
+function loadQuestion(){
+  const m=STATION_META[state.tier][state.si];
+  const q=CUR.stations[state.si][state.qi];
+  state.attemptsThisQ=0; state.solvedThisQ=false;
+
+  refreshHud();
+  document.getElementById('qMeta').textContent=`${m.title} · Užduotis ${state.qi+1} iš ${CUR.stations[state.si].length}`;
+  document.getElementById('qExpr').innerHTML=fmtMath(q.expr);
+  let totalDone=0; for(let i=0;i<state.si;i++) totalDone+=CUR.stations[i].length; totalDone+=state.qi;
+  const TOTQ=CUR.stations.reduce((s,st)=>s+st.length,0);
+  document.getElementById('progBar').style.width=(totalDone/TOTQ*100)+'%';
+
+  const fb=document.getElementById('qFeedback'); fb.textContent=''; fb.className='feedback';
+  const hint=document.getElementById('qHint'); hint.innerHTML=fmtMath(q.hint||'Peržiūrėk užduotį atidžiai ir bandyk dar kartą.'); hint.classList.remove('show');
+  document.getElementById('qNextWrap').style.display='none';
+
+  const optsEl=document.getElementById('qOptions'), inputWrap=document.getElementById('qInputWrap'), mcActions=document.getElementById('qMcActions');
+  if(q.type==='mc'){
+    optsEl.style.display='grid'; inputWrap.style.display='none'; mcActions.style.display='flex';
+    curOpts=shuffle(q.opts);                 // <-- teisingas atsakymas atsitiktinėje vietoje
+    const L=['A','B','C','D','E','F'];
+    optsEl.innerHTML=curOpts.map((o,i)=>`<button class="opt" data-val="${escapeHtml(o)}" onclick="pickOption(this)"><span class="k">${L[i]}</span>${fmtMath(o)}</button>`).join('');
+  } else {
+    optsEl.style.display='none'; mcActions.style.display='none'; inputWrap.style.display='block';
+    const inp=document.getElementById('qInput'); inp.value=''; inp.disabled=false; inp.focus();
+    inp.onkeydown=(e)=>{ if(e.key==='Enter') submitInput(); };
+  }
+}
+
+function markCorrect(){
+  state.solvedThisQ=true; state.totalCorrect++;
+  if(state.attemptsThisQ===1) state.firstTry++;
+  const fb=document.getElementById('qFeedback');
+  fb.textContent = state.attemptsThisQ===1 ? '✔ Teisingai! Puiku.' : '✔ Teisingai! Pavyko.';
+  fb.className='feedback good';
+  document.getElementById('qNextWrap').style.display='flex';
+  document.getElementById('qNextBtn').focus();
+}
+function markWrong(){
+  state.wrongTotal++;
+  const fb=document.getElementById('qFeedback');
+  fb.textContent='✘ Dar ne. Pažiūrėk užuominą ir bandyk dar kartą.';
+  fb.className='feedback bad'; showHint();
+  playWrongSound();
+}
+function pickOption(btn){
+  if(state.solvedThisQ) return;
+  state.attemptsThisQ++;
+  const q=CUR.stations[state.si][state.qi];
+  if(answersMatch(btn.getAttribute('data-val'),q.ans)){
+    btn.classList.add('correct');
+    document.querySelectorAll('#qOptions .opt').forEach(b=>b.style.pointerEvents='none');
+    markCorrect();
+  } else { btn.classList.add('wrong'); btn.style.pointerEvents='none'; markWrong(); }
+}
+function submitInput(){
+  if(state.solvedThisQ) return;
+  const q=CUR.stations[state.si][state.qi];
+  const inp=document.getElementById('qInput'); const val=inp.value.trim();
+  if(val===''){ const fb=document.getElementById('qFeedback'); fb.textContent='Įrašyk atsakymą prieš tikrindamas.'; fb.className='feedback bad'; return; }
+  state.attemptsThisQ++;
+  if(answersMatch(val,q.ans)){ inp.disabled=true; markCorrect(); } else { markWrong(); }
+}
+function showHint(){ document.getElementById('qHint').classList.add('show'); }
+
+function nextQuestion(){
+  state.qi++;
+  if(state.qi<CUR.stations[state.si].length){ loadQuestion(); }
+  else { state.gems[state.si]=true; awardGem(); }
+}
+function awardGem(){
+  const m=STATION_META[state.tier][state.si];
+  refreshHud();
+  playGemSound();
+  document.getElementById('gemFrag').textContent=m.gemEmoji;
+  document.getElementById('gemTitle').textContent=`Neoxis kristalas ${state.si+1}/${state.gems.length} surinktas!`;
+  document.getElementById('gemText').textContent=m.gemText;
+  document.getElementById('gemDigit').textContent=CUR.digits[state.si];
+  document.getElementById('gemBtn').textContent=(state.si<state.gems.length-1)?'Į kitą stotelę ▸':'Į finalinę misiją ▸';
+  show('s-gem');
+}
+function afterGem(){ if(state.si<state.gems.length-1){ state.si++; showIntro(); } else { showCodeScreen(); } }
+
+function showCodeScreen(){
+  refreshHud();
+  document.getElementById('codeHint').innerHTML=CUR.digits.map(d=>`<div class="d">${d}</div>`).join('');
+  const inp=document.getElementById('codeInput'); inp.value='';
+  inp.onkeydown=(e)=>{ if(e.key==='Enter') submitCode(); };
+  show('s-code'); inp.focus();
+}
+function submitCode(){
+  const val=document.getElementById('codeInput').value.replace(/\s/g,'');
+  const fb=document.getElementById('codeFeedback');
+  if(val===state.finalCode){ fb.textContent='✔ Kodas teisingas! Sistema atrakinta...'; fb.className='feedback good'; setTimeout(winGame,700); }
+  else { fb.textContent='✘ Neteisingas kodas. Kristalų skaitmenys rodomi virš laukelio — įvesk juos iš eilės.'; fb.className='feedback bad'; }
+}
+
+function winGame(){
+  if(state.timerId) clearInterval(state.timerId);
+  gameActive = false;
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  const eb=document.getElementById('exitBanner'); if(eb) eb.style.display='none';
+  document.getElementById('winWho').textContent=`Puiku, ${state.name}! Variantas: ${CUR.name}. Tu suvaldei reiškinius ir grįžai į realybę.`;
+  const TOTG=CUR.stations.reduce((s,st)=>s+st.length,0);
+  document.getElementById('kScore').textContent=state.totalCorrect+'/'+TOTG;
+  document.getElementById('kFirst').textContent=state.firstTry;
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  document.getElementById('kTime').textContent=`${mm}:${ss}`;
+  state.grade=Math.max(4,10-state.wrongTotal);
+  document.getElementById('kGrade').textContent=state.grade;
+  const kLeave=document.getElementById('kLeave');
+  kLeave.textContent=leaveCount>0?leaveCount:'0';
+  kLeave.style.color=leaveCount>0?'var(--bad)':'var(--good)';
+  let msg;
+  if(state.firstTry>=Math.round(0.9*TOTG)) msg='Nuostabu! Reiškinius valdai kaip tikras ekspertas. 🏆';
+  else if(state.firstTry>=Math.round(0.7*TOTG)) msg='Labai gerai! Beveik viską išsprendei iš pirmo karto.';
+  else if(state.firstTry>=Math.round(0.45*TOTG)) msg='Gerai padirbėta! Dar šiek tiek praktikos ir bus puiku.';
+  else msg='Misija įveikta! Verta pakartoti temą dar kartą.';
+  document.getElementById('winMsg').textContent=msg;
+  show('s-win');
+  playWinSound();
+  sendToSheets();
+}
+
+/* ---- rezultatas ---- */
+function resultPayload(){
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  const TOTG=CUR.stations.reduce((s,st)=>s+st.length,0);
+  const pct=TOTG?state.totalCorrect/TOTG:0;
+  const nameParts=state.name.trim().split(/\s+/);
+  const vardas=nameParts[0]||state.name, pavarde=nameParts.slice(1).join(' ');
+  return {
+    laikas:new Date().toISOString(),
+    vardas:vardas, pavarde:pavarde, klase:state.klase, variantas:CUR.name,
+    viso_taskai:state.totalCorrect, viso_max:TOTG, procentai:pct, pazymys:state.grade,
+    is_pirmo_karto:state.firstTry, trukme:`${mm}:${ss}`, trukmeS:state.elapsed,
+    isejo_is_lango: leaveCount>0 ? (leaveCount+' ('+fmtDur(awaySeconds())+')') : 0
+  };
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Siunčiama per paslėptą formą į paslėptą iframe (ne fetch) — tai patikimiausias
+   būdas pasiekti Apps Script „web app", nepriklauso nuo CORS. Naudoja bendrą
+   „router" (žr. SHEETS_URL) su konkrečios šio žaidimo lentelės SHEET_ID. */
+let _sheetTimer=null;
+function sendToSheets(){
+  const st=document.getElementById('sentStatus');
+  if(!(typeof SHEETS_URL==='string' && SHEETS_URL.indexOf('http')===0)){
+    st.className='sent no';
+    st.textContent='ℹ Rezultatas neišsiųstas: mokytoja dar nenustatė Google Sheets nuorodos. Gali atsisiųsti atsargai.';
+    return;
+  }
+  st.className='sent'; st.textContent='⏳ Siunčiama mokytojai...';
+
+  const old=document.getElementById('sheetFrame'); if(old) old.remove();
+  const ifr=document.createElement('iframe');
+  ifr.name='sheetFrame'; ifr.id='sheetFrame'; ifr.style.display='none';
+  document.body.appendChild(ifr);
+
+  let done=false;
+  function ok(){
+    if(done) return; done=true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer=null; }
+    st.className='sent ok'; st.textContent='✔ Rezultatas išsiųstas mokytojai.';
+  }
+
+  const form=document.createElement('form');
+  form.method='POST'; form.action=SHEETS_URL; form.target='sheetFrame'; form.style.display='none';
+  const inp=document.createElement('input');
+  inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify(resultPayload());
+  form.appendChild(inp);
+  const inpSid=document.createElement('input');
+  inpSid.type='hidden'; inpSid.name='sheet_id'; inpSid.value=SHEET_ID;
+  form.appendChild(inpSid);
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  setTimeout(function(){ ifr.onload=ok; }, 0);
+  _sheetTimer=setTimeout(function(){
+    if(done) return; done=true;
+    st.className='sent no';
+    st.textContent='⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą ir parodyk mokytojai.';
+  }, 15000);
+}
+function downloadResult(){
+  const p=resultPayload();
+  const csv='Data;Vardas;Pavardė;Klasė;Variantas;Taškai;Iš viso;Iš pirmo karto;Trukmė;Įvertinimas;Išėjo iš lango\n'+
+    [p.laikas,p.vardas,p.pavarde,p.klase,p.variantas,p.viso_taskai,p.viso_max,p.is_pirmo_karto,p.trukme,p.pazymys,p.isejo_is_lango].join(';')+'\n';
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`rezultatas_${(p.vardas||'mokinys').replace(/\s+/g,'_')}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---- slaptažodžio užraktas (pašalink, jei s-lock sekcija pašalinta iš HTML) ---- */
+const ROOM_PASSWORD = 'nmpp2026'; // pvz. 'pabėgimas'
+function checkLock(){
+  const val = document.getElementById('lockInput').value.trim().toLowerCase();
+  const err = document.getElementById('lockErr');
+  if(val === ROOM_PASSWORD.toLowerCase()){
+    err.textContent = '';
+    show('s-start');
+  } else {
+    err.textContent = 'Neteisingas slaptažodis. Paklausk mokytojos Violetos.';
+    playWrongSound();
+  }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  const li = document.getElementById('lockInput');
+  if(li) li.addEventListener('keydown', e => { if(e.key==='Enter') checkLock(); });
+});
+
+/* ---- paleidimas ---- */
+renderTiers();
+</script>
+</body>
+</html>
