@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pirkimas išsimokėtinai: 8 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Pirkimas išsimokėtinai</h1>
+  <p class="klase">Matematika · 8 klasė · 3 skyrius „Finansiniai skaičiavimai" · 3.4 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra pirkimas išsimokėtinai</a></li>
+      <li><a href="#t2">Pasiskolinta suma ir permoka</a></li>
+      <li><a href="#t3">Efektyvi metinė palūkanų norma</a></li>
+      <li><a href="#t4">Pavyzdys. Paskola ar išsimokėtinai?</a></li>
+      <li><a href="#t5">Antras pavyzdys. Permoka ir efektyvi norma</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra pirkimas išsimokėtinai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pirkimas išsimokėtinai (lizingas)</span>: prekės pirkimo būdas, kai iš karto sumokamas tik <b>pradinis įnašas</b>,
+        o likusi kainos dalis grąžinama <b>dalimis</b> (dažniausiai kas mėnesį) per tam tikrą laikotarpį.</p>
+        <p>Skirtingai nei perkant grynais, mokant išsimokėtinai už atidėtą mokėjimą paprastai reikia sumokėti <b>daugiau</b>, nei kainuoja pati prekė.
+        Tas skirtumas: tarsi „mokestis" už tai, kad pardavėjas ar bankas leidžia atsiskaityti vėliau.</p>
+        <p class="pvz"><b>Kam to reikia?</b> Pirkimas išsimokėtinai leidžia įsigyti brangesnę prekę iš karto, o mokėti: palaipsniui iš kiekvieno mėnesio biudžeto.
+        Bet svarbu žinoti, <b>kiek iš tikrųjų permokama</b>, kad būtų galima palyginti su kitais būdais (grynaisiais, banko paskola).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Pasiskolinta suma ir permoka</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pasiskolinta suma</span>: ta prekės kainos dalis, kurios nepadengia pradinis įnašas.</p>
+        <div class="formule math"><span class="term-a">S</span> = <span class="term-b">C</span> − <span class="term-b">D</span></div>
+        <p style="margin-top:-4px; font-size:13.5px; color:var(--pilka)">čia <span class="math">S</span>: pasiskolinta suma, <span class="math">C</span>: prekės kaina, <span class="math">D</span>: pradinis įnašas.</p>
+        <p><span class="zenk">Permoka (palūkanos)</span>: kiek daugiau iš viso sumokama, palyginti su prekės kaina. Skaičiuojama iš <b>visos sumokėtos sumos</b>
+        (pradinis įnašas + visos mėnesio įmokos):</p>
+        <div class="formule math"><span class="term-a">P</span> = (<span class="term-b">D</span> + <span class="term-b">n</span> · <span class="term-b">m</span>) − <span class="term-b">C</span></div>
+        <p style="margin-top:-4px; font-size:13.5px; color:var(--pilka)">čia <span class="math">n</span>: mėnesių skaičius, <span class="math">m</span>: vieno mėnesio įmoka.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Prekė kainuoja 1000 Eur. Pradinis įnašas 200 Eur, likę 10 mėnesių mokama po 90 Eur.
+        Iš viso sumokėta: <span class="math">200 + 10 · 90 = 1100</span> Eur. Permoka: <span class="math">1100 − 1000 = <span class="gerai">100 Eur</span></span>.
+        Pasiskolinta suma: <span class="math">1000 − 200 = <span class="gerai">800 Eur</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Efektyvi metinė palūkanų norma</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Norint <b>palyginti</b> pirkimą išsimokėtinai su banko paskola, permoką patogu perskaičiuoti į <b>metinę paprastųjų palūkanų normą</b> <span class="math">p</span> (procentais).
+        Naudojama ta pati paprastųjų palūkanų formulė kaip ir paskoloms:</p>
+        <div class="formule math"><span class="term-a">P</span> = <span class="term-b">S</span> · <span class="term-a">p</span>/100 · <span class="term-b">t</span></div>
+        <p style="margin-top:-4px; font-size:13.5px; color:var(--pilka)">čia <span class="math">S</span>: pasiskolinta suma, <span class="math">t</span>: laikotarpis <b>metais</b> (mėnesių skaičius <span class="math">n</span> padalytas iš 12), <span class="math">p</span>: ieškoma efektyvi metinė norma.</p>
+        <p>Iš čia:</p>
+        <div class="formule math"><span class="term-a">p</span> = <span class="term-b">P</span> · 100 / (<span class="term-b">S</span> · <span class="term-b">t</span>)</div>
+        <p class="demesio"><b>Dėmesio.</b> Laikotarpį <span class="math">t</span> būtina paversti <b>metais</b>: <span class="math">t = n : 12</span>. Jei mokama 24 mėnesius, <span class="math">t = 2</span>; jei 6 mėnesius, <span class="math">t = 0,5</span>.
+        Nepavertus mėnesių metais, norma <span class="math">p</span> apskaičiuojama klaidingai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Pavyzdys. Paskola ar išsimokėtinai?</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Gerda nori nusipirkti dviratį, kuris kainuoja <b>4000 Eur</b>. Ji svarsto du variantus.</p>
+        <p class="pvz"><b>1 variantas: banko paskola 2 metams su 12 % metine paprastąja norma.</b><br>
+        Palūkanos: <span class="math">P = 4000 · 12/100 · 2 = <span class="gerai">960</span></span> Eur.<br>
+        Iš viso grąžina: <span class="math">4000 + 960 = <span class="gerai">4960</span></span> Eur.</p>
+        <p class="pvz"><b>2 variantas: pirkimas išsimokėtinai.</b> Pradinis įnašas 800 Eur, likusi suma dengiama per 24 mėnesius,
+        kas mėnesį mokant 5 % nuo 4000 Eur, t. y. po 200 Eur.<br>
+        Pasiskolinta suma: <span class="math">S = 4000 − 800 = <span class="gerai">3200</span></span> Eur.<br>
+        Iš viso sumokėta už dviratį: <span class="math">800 + 24 · 200 = <span class="gerai">5600</span></span> Eur.<br>
+        Permoka: <span class="math">5600 − 4000 = <span class="gerai">1600</span></span> Eur.<br>
+        Efektyvi metinė norma (<span class="math">t = 24 : 12 = 2</span>): <span class="math">1600 = 3200 · p/100 · 2 &rArr; p = <span class="gerai">25 %</span></span>.</p>
+        <p class="demesio"><b>Išvada.</b> Nors pradinis įnašas ir mėnesio įmoka atrodo patogūs, <b>efektyvi norma 25 %</b> gerokai didesnė už paskolos <b>12 %</b>.
+        Pirkimas išsimokėtinai šiuo atveju kainuoja daugiau: permoka <b>1600 Eur</b>, o paskolos atveju tik <b>960 Eur</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Antras pavyzdys. Permoka ir efektyvi norma</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Prekė kainuoja <b>2000 Eur</b>. Perkant išsimokėtinai sumokamas <b>500 Eur</b> pradinis įnašas, o likusi dalis dengiama per <b>12 mėnesių</b>, mokant po <b>150 Eur</b> kas mėnesį.</p>
+        <p class="pvz"><b>Sprendimas.</b><br>
+        Iš viso sumokėta: <span class="math">500 + 12 · 150 = 500 + 1800 = <span class="gerai">2300</span></span> Eur.<br>
+        Permoka: <span class="math">2300 − 2000 = <span class="gerai">300</span></span> Eur.<br>
+        Pasiskolinta suma: <span class="math">S = 2000 − 500 = <span class="gerai">1500</span></span> Eur.<br>
+        Laikotarpis metais: <span class="math">t = 12 : 12 = 1</span>.<br>
+        Efektyvi norma: <span class="math">300 = 1500 · p/100 · 1 &rArr; p = <span class="gerai">20 %</span></span>.</p>
+        <p class="pvz"><b>Papildomai: procentinis pabrangimas.</b> Kiek procentų prekė pabrango, palyginti su jos kaina?
+        <span class="math">300 : 2000 · 100 % = <span class="gerai">15 %</span></span>. (Tai <b>ne tas pats</b>, kas efektyvi metinė norma <span class="math">p</span>: pabrangimo procentas skaičiuojamas nuo <b>prekės kainos</b>, o <span class="math">p</span>: nuo <b>pasiskolintos sumos</b> ir dar priklauso nuo laikotarpio.)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">Permoka = D + n·m</span></td><td class="math"><span class="gerai">Permoka = (D + n·m) − C</span></td></tr>
+          <tr><td class="math"><span class="klaida">S = C + D</span></td><td class="math"><span class="gerai">S = C − D</span></td></tr>
+          <tr><td class="math"><span class="klaida">t = n (mėnesiais)</span></td><td class="math"><span class="gerai">t = n : 12 (metais)</span></td></tr>
+          <tr><td class="math"><span class="klaida">p skaičiuojama nuo C</span></td><td class="math"><span class="gerai">p skaičiuojama nuo S (pasiskolintos sumos)</span></td></tr>
+          <tr><td class="math"><span class="klaida">Permoka % = P/S·100</span></td><td class="math"><span class="gerai">Pabrangimo % = P/C·100</span> (dvi skirtingos reikšmės)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Visada pirmiausia surandu <b>visą sumokėtą sumą</b> (pradinis įnašas + visos įmokos),
+        tik tada iš jos atimu <b>prekės kainą</b>: taip gaunu tikrą permoką.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · 3 skyrius „Finansiniai skaičiavimai" · tema „Pirkimas išsimokėtinai" (3.4)
+  </footer>
+
+</div>
+</body>
+</html>

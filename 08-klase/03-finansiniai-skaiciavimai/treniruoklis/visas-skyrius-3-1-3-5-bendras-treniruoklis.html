@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Finansiniai skaičiavimai (8 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Finansiniai skaičiavimai (8 klasė)</h1>
+    <p id="paantraste">3. Finansiniai skaičiavimai · visos temos 3.1–3.5 · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// BENDRAS 3 skyriaus treniruoklis: apjungia visas 5 potemes (3.1-3.5).
+// Kiekviena poteme suvyniota i ATSKIRA IIFE (izoliuoti susikertantys helperiai).
+// Etiketes prefiksuotos potemes numeriu -> silpna vieta rodo, kuri poteme silpna.
+
+const GENERATORIAI = [].concat(
+  // ===== POTEME 3.1 (31-valiutu-kursai) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: VALIUTŲ KURSAI (8 klasė, 3.1).
+//
+// Trys uždavinių tipai:
+//  1) Turi S eurų, banko „parduoda“ kursas → kiek valiutos gausi (S · kursas).
+//  2) Turi F valiutos vienetų, banko „perka“ kursas → kiek eurų gausi (F : kursas).
+//  3) Du bankų kursai tai pačiai operacijai → kurį banką rinktis + skirtumas.
+//
+// ⚠ Pinigų suma visada apvalinama iki cento: r2(x) = Math.round(x*100)/100.
+// Dalybos atveju (2 ir 3b tipai) tikra reikšmė turi daug skaitmenų po kablelio —
+// tada steps rodo tarpinę reikšmę ir GALUTINĮ apvalintą atsakymą (tolerancija
+// dėl apvalinimo). Paskutinis steps žingsnis VISADA baigiasi ansText reikšme.
+//
+// Šablonas jau apibrėžia: randint, choice, nz, nf (LT skaičius su − ir ,), pm.
+// Čia papildomai apibrėžiam r2, rate3, CURR, EUR_SUMOS, VARDAI.
+
+function r2(x){ return Math.round(x*100)/100; }                 // apvalinimas iki cento
+function rate3(lo, hi){                                          // kursas su 3 skaitmenimis po kablelio
+  const a = Math.round(lo*1000), b = Math.round(hi*1000);
+  return randint(a, b) / 1000;
+}
+
+// Valiutos: pLo/pHi = „parduoda“ intervalas, kLo/kHi = „perka“ intervalas (visada mažesnis),
+// amt = tipiški sumų dydžiai tai valiutai (2 tipo uždaviniams — kiek valiutos turima).
+const CURR = [
+  { code:"USD", pLo:1.03, pHi:1.15, kLo:0.98, kHi:1.10, amt:[50,80,100,150,200,250,300,400,500,600] },
+  { code:"GBP", pLo:0.80, pHi:0.90, kLo:0.75, kHi:0.85, amt:[40,60,80,100,150,200,250,300,350,450] },
+  { code:"CHF", pLo:0.95, pHi:1.05, kLo:0.90, kHi:1.00, amt:[50,80,100,150,200,250,300,400,500,600] },
+  { code:"NOK", pLo:10.80, pHi:11.90, kLo:10.20, kHi:11.30, amt:[500,800,1000,1200,1500,2000,2500,3000,4000,5000] },
+  { code:"PLN", pLo:4.30, pHi:4.60, kLo:4.05, kHi:4.35, amt:[200,300,400,500,600,800,1000,1500,2000,2500] },
+];
+const EUR_SUMOS = [50,80,100,120,150,180,200,250,300,350,400,450,500,600];
+// vardas + lytis (m = vyriška), kad tinkamai suderintume dalyvius („iškeitęs“ / „iškeitusi“)
+const VARDAI = [
+  {v:"Rokas", m:true}, {v:"Eglė", m:false}, {v:"Justė", m:false}, {v:"Domas", m:true},
+  {v:"Kamilė", m:false}, {v:"Tomas", m:true}, {v:"Rūta", m:false}, {v:"Mantas", m:true},
+  {v:"Aistė", m:false}, {v:"Lukas", m:true}
+];
+
+const GENERATORIAI = [
+
+  // TIPAS 1a — perki valiutą už eurus („parduoda“ kursas), S · kursas
+  { label:"Perki valiutą (parduoda kursas)", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS), r = rate3(c.pLo, c.pHi);
+      const raw = S*r, ans = r2(raw);
+      return {
+        q: `Turi ${nf(S)} Eur ir nori juos iškeisti į ${c.code}. Banko kursas: ${c.code} parduoda ${nf(r)}. Kiek ${c.code} gausi?`,
+        ans, ansText: `${nf(ans)} ${c.code}`, pre: `${c.code} =`,
+        steps: [
+          `valiuta = eurai · parduoda kursas`,
+          `${nf(S)} · ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 1b — tas pats, kelionės kontekstas
+  { label:"Perki valiutą kelionėje (parduoda kursas)", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS), r = rate3(c.pLo, c.pHi), p = choice(VARDAI);
+      const raw = S*r, ans = r2(raw);
+      return {
+        q: `${p.v} keliauja į užsienį ir keičia ${nf(S)} Eur į ${c.code}. Banko kursas: ${c.code} parduoda ${nf(r)}. Kiek ${c.code} gaus ${p.v}?`,
+        ans, ansText: `${nf(ans)} ${c.code}`, pre: `${c.code} =`,
+        steps: [
+          `valiuta = eurai · parduoda kursas`,
+          `${nf(S)} · ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 2a — parduodi valiutą už eurus („perka“ kursas), F : kursas
+  { label:"Parduodi valiutą (perka kursas)", gen(){
+      const c = choice(CURR), F = choice(c.amt), r = rate3(c.kLo, c.kHi);
+      const raw = F/r, ans = r2(raw);
+      return {
+        q: `Turi ${nf(F)} ${c.code} ir nori juos iškeisti į eurus. Banko kursas: ${c.code} perka ${nf(r)}. Kiek eurų gausi?`,
+        ans, ansText: `${nf(ans)} Eur`, pre: "eurai =",
+        steps: [
+          `eurai = valiuta : perka kursas`,
+          `${nf(F)} : ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} Eur`
+        ]
+      };
+  }},
+
+  // TIPAS 2b — tas pats, grįžimo iš kelionės kontekstas
+  { label:"Parduodi valiutą, grįžai iš kelionės (perka kursas)", gen(){
+      const c = choice(CURR), F = choice(c.amt), r = rate3(c.kLo, c.kHi), p = choice(VARDAI);
+      const raw = F/r, ans = r2(raw);
+      const dalyvis = p.m ? "iškeitęs" : "iškeitusi";
+      return {
+        q: `${p.v} grįžo iš kelionės ir turi likusių ${nf(F)} ${c.code}. Banko kursas: ${c.code} perka ${nf(r)}. Kiek eurų gaus ${p.v}, ${dalyvis} pinigus?`,
+        ans, ansText: `${nf(ans)} Eur`, pre: "eurai =",
+        steps: [
+          `eurai = valiuta : perka kursas`,
+          `${nf(F)} : ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} Eur`
+        ]
+      };
+  }},
+
+  // TIPAS 3a — du bankai, perkant valiutą (parduoda) — renkiesi DIDESNĮ kursą
+  { label:"Kurio banko rinktis perkant valiutą", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS);
+      let rA = rate3(c.pLo, c.pHi), rB = rate3(c.pLo, c.pHi), tries = 0;
+      while(Math.abs(rA-rB) < 0.03 && tries < 30){ rB = rate3(c.pLo, c.pHi); tries++; }
+      const amtA = r2(S*rA), amtB = r2(S*rB);
+      const better = amtA > amtB ? "A" : "B";
+      const betterAmt = Math.max(amtA, amtB), worseAmt = Math.min(amtA, amtB);
+      const diff = r2(betterAmt - worseAmt);
+      return {
+        q: `Nori iškeisti ${nf(S)} Eur į ${c.code}. Bankas A: ${c.code} parduoda ${nf(rA)}; Bankas B: ${c.code} parduoda ${nf(rB)}. Kiek ${c.code} daugiau gausi, rinkdamasis palankesnį banką?`,
+        ans: diff, ansText: `${nf(diff)} ${c.code}`, pre: "skirtumas =",
+        steps: [
+          `Perkant valiutą apsimoka DIDESNIS „parduoda“ kursas → Bankas ${better}`,
+          `Bankas A: ${nf(S)} · ${nf(rA)} = ${nf(amtA)} ${c.code}`,
+          `Bankas B: ${nf(S)} · ${nf(rB)} = ${nf(amtB)} ${c.code}`,
+          `skirtumas = ${nf(betterAmt)} − ${nf(worseAmt)} = ${nf(diff)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 3b — du bankai, parduodant valiutą (perka) — renkiesi MAŽESNĮ kursą
+  { label:"Kurio banko rinktis parduodant valiutą", gen(){
+      const c = choice(CURR), F = choice(c.amt);
+      let rA = rate3(c.kLo, c.kHi), rB = rate3(c.kLo, c.kHi), tries = 0;
+      while(Math.abs(rA-rB) < 0.03 && tries < 30){ rB = rate3(c.kLo, c.kHi); tries++; }
+      const amtA = r2(F/rA), amtB = r2(F/rB);
+      const better = amtA > amtB ? "A" : "B";
+      const betterAmt = Math.max(amtA, amtB), worseAmt = Math.min(amtA, amtB);
+      const diff = r2(betterAmt - worseAmt);
+      return {
+        q: `Turi ${nf(F)} ${c.code} ir nori juos iškeisti į eurus. Bankas A: ${c.code} perka ${nf(rA)}; Bankas B: ${c.code} perka ${nf(rB)}. Kiek eurų daugiau gausi, rinkdamasis palankesnį banką?`,
+        ans: diff, ansText: `${nf(diff)} Eur`, pre: "skirtumas =",
+        steps: [
+          `Parduodant valiutą apsimoka MAŽESNIS „perka“ kursas → Bankas ${better}`,
+          `Bankas A: ${nf(F)} : ${nf(rA)} = ${nf(amtA)} Eur`,
+          `Bankas B: ${nf(F)} : ${nf(rB)} = ${nf(amtB)} Eur`,
+          `skirtumas = ${nf(betterAmt)} − ${nf(worseAmt)} = ${nf(diff)} Eur`
+        ]
+      };
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "3.1 " + g.label}); });
+  })(),
+  // ===== POTEME 3.2 (32-palukanos) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: 8 kl. 3.2 Paprastosios ir sudėtinės palūkanos.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3"). Čia IŠ NAUJO
+// jų neapibrėžiame, tik pridedame savo: round2(n) (apvalinimas iki šimtųjų),
+// sup(n) (viršutinis indeksas laipsniui).
+//
+// 4 uždavinių tipai (procedūrinis režimas, atsakymas visada iš anksto
+// apskaičiuotas, tada suapvalintas iki šimtųjų):
+//  1) Paprastosios palūkanos: Pₜ = S · p/100 · t
+//  2) Paprastosios palūkanos: grąžintina suma Sₜ = S + Pₜ
+//  3) Sudėtinės palūkanos (kasmet, t ≤ 4): Sₜ = S · (1 + p/100)^t
+//  4) Sudėtinės palūkanos m kartų per metus (t = 1): Sₘ = S · (1 + p/(100·m))^m
+
+function round2(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+function sup(n){
+  const m = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c => m[c] || c).join('');
+}
+
+const PRATE = [2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,9,10,12];
+
+const GENERATORIAI = [
+  // 1) Paprastosios palūkanos: palūkanų suma
+  { label:"Paprastosios palūkanos: suma", gen(){
+      const S = randint(2,60)*100;
+      const p = choice(PRATE);
+      const t = randint(1,6);
+      const ans = round2(S * p / 100 * t);
+      return {
+        q: `Banko indėlio duomenys: S = ${nf(S)} € (pradinis indėlis), p = ${nf(p)} % (metinė paprastųjų palūkanų norma), t = ${t} (metų skaičius). Apskaičiuok palūkanų sumą Pₜ. Atsakymą apvalink iki šimtųjų.`,
+        ans, pre:"Pₜ =",
+        steps:[
+          `Pₜ = S · p/100 · t`,
+          `Pₜ = ${nf(S)} · ${nf(p)}/100 · ${t}`,
+          `Pₜ = ${nf(ans)} €`
+        ]
+      };
+  }},
+
+  // 2) Paprastosios palūkanos: grąžintina suma
+  { label:"Paprastosios palūkanos: grąžintina suma", gen(){
+      const S = randint(2,60)*100;
+      const p = choice(PRATE);
+      const t = randint(1,6);
+      const Pt = round2(S * p / 100 * t);
+      const ans = round2(S + Pt);
+      return {
+        q: `Banko indėlio duomenys: S = ${nf(S)} € (pradinis indėlis), p = ${nf(p)} % (metinė paprastųjų palūkanų norma), t = ${t} (metų skaičius). Apskaičiuok grąžintiną sumą Sₜ (indėlis kartu su palūkanomis). Atsakymą apvalink iki šimtųjų.`,
+        ans, pre:"Sₜ =",
+        steps:[
+          `Pₜ = S · p/100 · t = ${nf(S)} · ${nf(p)}/100 · ${t} = ${nf(Pt)}`,
+          `Sₜ = S + Pₜ = ${nf(S)} + ${nf(Pt)}`,
+          `Sₜ = ${nf(ans)} €`
+        ]
+      };
+  }},
+
+  // 3) Sudėtinės palūkanos, skaičiuojamos kasmet (t ≤ 4)
+  { label:"Sudėtinės palūkanos (kasmet)", gen(){
+      const S = randint(2,60)*100;
+      const p = choice(PRATE);
+      const t = randint(2,4);
+      const ans = round2(S * Math.pow(1 + p/100, t));
+      return {
+        q: `Banko indėlio duomenys: S = ${nf(S)} € (pradinis indėlis), p = ${nf(p)} % (metinė sudėtinių palūkanų norma, skaičiuojama kasmet), t = ${t} (metų skaičius). Apskaičiuok sukauptą sumą Sₜ pasibaigus laikotarpiui. Atsakymą apvalink iki šimtųjų.`,
+        ans, pre:"Sₜ =",
+        steps:[
+          `Sₜ = S · (1 + p/100)${sup(t)}`,
+          `Sₜ = ${nf(S)} · (1 + ${nf(p)}/100)${sup(t)} = ${nf(S)} · ${nf(1+p/100)}${sup(t)}`,
+          `Sₜ = ${nf(ans)} €`
+        ]
+      };
+  }},
+
+  // 4) Sudėtinės palūkanos, skaičiuojamos m kartų per metus (t = 1)
+  { label:"Sudėtinės palūkanos (kelis kartus per metus)", gen(){
+      const S = randint(2,60)*100;
+      const p = choice(PRATE);
+      const m = choice([2,4]);
+      const kartai = m===2 ? "du kartus per metus (m = 2, pusmetinės sudėtinės palūkanos)"
+                            : "keturis kartus per metus (m = 4, ketvirtinės sudėtinės palūkanos)";
+      const ans = round2(S * Math.pow(1 + p/(100*m), m));
+      return {
+        q: `Banko indėlio duomenys: S = ${nf(S)} € (pradinis indėlis), p = ${nf(p)} % (metinė sudėtinių palūkanų norma), palūkanos skaičiuojamos ${kartai}, t = 1 (metų skaičius). Apskaičiuok sukauptą sumą Sₘ pasibaigus laikotarpiui. Atsakymą apvalink iki šimtųjų.`,
+        ans, pre:"Sₘ =",
+        steps:[
+          `Sₘ = S · (1 + p/(100 · m))${sup(m)}`,
+          `Sₘ = ${nf(S)} · (1 + ${nf(p)}/(100 · ${m}))${sup(m)} = ${nf(S)} · ${nf(1+p/(100*m))}${sup(m)}`,
+          `Sₘ = ${nf(ans)} €`
+        ]
+      };
+  }}
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "3.2 " + g.label}); });
+  })(),
+  // ===== POTEME 3.3 (33-palukanu-grafikai) =====
+  (function(){
+// Paprastosios palūkanos ir grafikai — kontrolinio treniruoklio generatoriai
+// (8 klasė, 3.3). Grafikų skaitymo čia nėra — treniruojami skaitiniai
+// uždaviniai iš pačių formulių:
+//   Pₜ = S · p/100 · t   (sukauptos palūkanos po t metų)
+//   Sₜ = S + Pₜ           (sukaupta suma po t metų)
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n). Čia tik `const GENERATORIAI = [...]`.
+//
+// AUKSINĖ TAISYKLĖ (atstatymo uždaviniams 3–4): visi keturi tipai kuriami iš
+// TŲ PAČIŲ pradinių S, p, t (parametrai(), su garantija, kad S·p·t dalijasi iš
+// 100 be liekanos) — todėl Pₜ ir Sₜ visada sveiki, o atstatant S arba p
+// atgaunama TIKSLIAI ta pati pradinė reikšmė, be apvalinimo paklaidos.
+
+function parametrai(){
+  const Sv=[1000,1500,2000,2500,3000,4000,5000,6000,8000,10000];
+  const pv=[2,3,4,5,6,8,10,12];
+  let S,p,t,tries=0;
+  do{ S=choice(Sv); p=choice(pv); t=randint(1,6); tries++; }
+  while((S*p*t)%100!==0 && tries<80);
+  if((S*p*t)%100!==0){ S=2000; p=5; t=2; } // fallback, garantuotai sveikas
+  return {S,p,t};
+}
+
+const GENERATORIAI = [
+
+  // 1 — Duota S, p, t — apskaičiuoti Pₜ
+  { label:"Palūkanų suma Pₜ", gen(){
+      const {S,p,t}=parametrai();
+      const koef=p/100*t, Pt=Math.round(S*koef);
+      return {
+        q:`Indėlis S = ${S} Eur, metinės palūkanos p = ${p} %. Kiek palūkanų susikaups per t = ${t} m.?`,
+        ans:Pt, ansText:`${Pt} Eur`, pre:"Pₜ =",
+        steps:[
+          `Pₜ = S · p : 100 · t`,
+          `Pₜ = ${S} · ${p} : 100 · ${t}`,
+          `Pₜ = ${S} · ${nf(koef)} = ${Pt} Eur`
+        ]};
+  }},
+
+  // 2 — Duota S, p, t — apskaičiuoti Sₜ
+  { label:"Sukaupta suma Sₜ", gen(){
+      const {S,p,t}=parametrai();
+      const koef=p/100*t, Pt=Math.round(S*koef), St=S+Pt;
+      return {
+        q:`Indėlis S = ${S} Eur, metinės palūkanos p = ${p} %. Kokia bus visa sukaupta suma po t = ${t} m.?`,
+        ans:St, ansText:`${St} Eur`, pre:"Sₜ =",
+        steps:[
+          `Pₜ = S · p : 100 · t = ${S} · ${nf(koef)} = ${Pt} Eur`,
+          `Sₜ = S + Pₜ`,
+          `Sₜ = ${S} + ${Pt} = ${St} Eur`
+        ]};
+  }},
+
+  // 3 — Duota p, t ir Pₜ — atstatyti S:  S = Pₜ : (p/100 · t)
+  { label:"Pradinės sumos S atstatymas", gen(){
+      const {S,p,t}=parametrai();
+      const koef=p/100*t, Pt=Math.round(S*koef);
+      return {
+        q:`Metinės palūkanos p = ${p} %, laikotarpis t = ${t} m. Po šio laikotarpio susikaupė Pₜ = ${Pt} Eur palūkanų. Kokia buvo pradinė suma S?`,
+        ans:S, ansText:`${S} Eur`, pre:"S =",
+        steps:[
+          `Pₜ = S · p : 100 · t  ⇒  S = Pₜ : (p : 100 · t)`,
+          `S = ${Pt} : (${p} : 100 · ${t})`,
+          `S = ${Pt} : ${nf(koef)} = ${S} Eur`
+        ]};
+  }},
+
+  // 4 — Duota S, t ir Sₜ — atstatyti p:  p = (Sₜ − S) : (S · t) · 100
+  { label:"Palūkanų normos p atstatymas", gen(){
+      const {S,p,t}=parametrai();
+      const koef=p/100*t, Pt=Math.round(S*koef), St=S+Pt;
+      return {
+        q:`Indėlis S = ${S} Eur. Po t = ${t} m. sukaupta suma tapo Sₜ = ${St} Eur. Kokios buvo metinės palūkanos p?`,
+        ans:p, ansText:`${p} %`, pre:"p =",
+        steps:[
+          `Pₜ = Sₜ − S = ${St} − ${S} = ${Pt} Eur`,
+          `Pₜ = S · p : 100 · t  ⇒  p = Pₜ : (S · t) · 100`,
+          `p = ${Pt} : (${S} · ${t}) · 100 = ${p} %`
+        ]}
+  }}
+
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "3.3 " + g.label}); });
+  })(),
+  // ===== POTEME 3.4 (34-pirkimas-issimoketinai) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai: „Pirkimas išsimokėtinai" (8 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3"). Čia tik apibrėžiam
+// papildomą pagalbininką r2() ir `const GENERATORIAI = [...]`.
+//
+// Terminai suderinti su konspektu (34-pirkimas-issimoketinai/konspektas.html):
+// C — prekės kaina, D — pradinis įnašas, S = C − D — pasiskolinta suma,
+// P = S · p/100 · t — permoka (t = mėnesių skaičius n, padalytas iš 12).
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas uždavinys sukonstruotas IŠ atsakymo (pasirenkam
+// „gražius" komponentus, tada suskaičiuojam duomenis), kad atsakymas visada
+// būtų tikslus ir švarus.
+
+function r2(n){ return Math.round(n*100)/100; }
+
+const PREKES = [
+  "Šaldytuvas", "Skalbimo mašina", "Indaplovė", "Dviratis",
+  "Nešiojamas kompiuteris", "Televizorius", "Išmanusis telefonas",
+  "Sofa", "Orkaitė", "Dulkių siurblys robotas"
+];
+
+const GENERATORIAI = [
+  // 1 tipas: duota kaina, įnašas, mėnesių skaičius, mėnesio įmoka -> permoka.
+  { label:"Permoka (žinoma mėnesio įmoka)", gen(){
+      const preke = choice(PREKES);
+      const n = choice([6,8,9,10,12,15,18,20,24]);
+      const idas = randint(3,25)*10;
+      const m0 = randint(4,20)*5;
+      const kaina = idas + n*m0;
+      const priedas = choice([1,1.5,2,2.5,3,4,5,6,8]);
+      const imoka = m0 + priedas;
+      const viso = idas + n*imoka;
+      const permoka = r2(viso - kaina);
+      return {
+        q:`${preke} kainuoja ${nf(kaina)} Eur. Perkant išsimokėtinai reikia sumokėti ${nf(idas)} Eur pradinį įnašą, o likusi dalis padalyta į ${n} mėnesio įmokas po ${nf(imoka)} Eur. Kiek eurų daugiau iš viso sumokama, negu kainuoja prekė (permoka)?`,
+        ans: permoka,
+        steps:[
+          `Iš viso sumokama: ${nf(idas)} + ${n} · ${nf(imoka)} = ${nf(idas)} + ${nf(n*imoka)} = ${nf(viso)} Eur`,
+          `Permoka = iš viso sumokėta − prekės kaina = ${nf(viso)} − ${nf(kaina)} = ${nf(permoka)} Eur`
+        ],
+        pre:"Permoka =",
+        ansText: nf(permoka)+" Eur"
+      };
+  }},
+
+  // 2 tipas: duota kaina, įnašas, mėnesių skaičius, viso sumokėta suma -> mėnesio įmoka.
+  { label:"Mėnesio įmoka (žinoma visa suma)", gen(){
+      const preke = choice(PREKES);
+      const n = choice([6,8,9,10,12,15,18,20,24]);
+      const idas = randint(3,25)*10;
+      const m0 = randint(4,20)*5;
+      const kaina = idas + n*m0;
+      const priedas = choice([1,1.5,2,2.5,3,4,5,6,8]);
+      const imoka0 = m0 + priedas;
+      const viso = idas + n*imoka0;
+      const ans = r2(imoka0);
+      return {
+        q:`${preke} kainuoja ${nf(kaina)} Eur. Perkant išsimokėtinai sumokamas ${nf(idas)} Eur pradinis įnašas, o likusi suma padalyta į ${n} vienodas mėnesio įmokas. Iš viso (su pradiniu įnašu) sumokama ${nf(viso)} Eur. Kiek eurų sudaro viena mėnesio įmoka?`,
+        ans: ans,
+        steps:[
+          `Įmokomis sumokama suma: ${nf(viso)} − ${nf(idas)} = ${nf(viso-idas)} Eur`,
+          `Mėnesio įmoka = ${nf(viso-idas)} : ${n} = ${nf(ans)} Eur`
+        ],
+        pre:"Mėnesio įmoka =",
+        ansText: nf(ans)+" Eur"
+      };
+  }},
+
+  // 3 tipas: duota kaina, įnašas, mėnesių skaičius (t metais) ir permoka -> efektyvi metinė norma p.
+  // Sukonstruota iš atsakymo: pasirenkam p0, tada permoka = S · p0/100 · t.
+  { label:"Efektyvi metinė palūkanų norma", gen(){
+      const preke = choice(PREKES);
+      const T_OPTS = [ {n:12,t:1}, {n:18,t:1.5}, {n:24,t:2}, {n:30,t:2.5}, {n:36,t:3} ];
+      const yo = choice(T_OPTS);
+      const n = yo.n, t = yo.t;
+      const pasiskolinta = randint(4,20)*100;
+      const idas = randint(2,15)*10;
+      const kaina = idas + pasiskolinta;
+      const P_OPTS = [4,5,6,7,7.5,8,9,10,12,12.5,15,18,20,22.5,25];
+      const p0 = choice(P_OPTS);
+      const permoka = r2(pasiskolinta * p0/100 * t);
+      return {
+        q:`${preke} kainuoja ${nf(kaina)} Eur. Perkant išsimokėtinai sumokamas ${nf(idas)} Eur pradinis įnašas, o likusi (pasiskolinta) suma išdalyta į mėnesio įmokas per ${n} mėnesius (t = ${nf(t)} metų). Bendra permoka (sumokėta daugiau negu pasiskolinta suma) yra ${nf(permoka)} Eur. Apskaičiuok efektyvią metinę paprastųjų palūkanų normą p (procentais); permoka = S · p/100 · t, čia S: pasiskolinta suma.`,
+        ans: p0,
+        steps:[
+          `Pasiskolinta suma S: ${nf(kaina)} − ${nf(idas)} = ${nf(pasiskolinta)} Eur`,
+          `S · t = ${nf(pasiskolinta)} · ${nf(t)} = ${nf(pasiskolinta*t)}`,
+          `p = permoka : (S · t) · 100 = ${nf(permoka)} : ${nf(pasiskolinta*t)} · 100 = ${nf(p0)} %`
+        ],
+        pre:"p =",
+        ansText: nf(p0)+" %"
+      };
+  }}
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "3.4 " + g.label}); });
+  })(),
+  // ===== POTEME 3.5 (35-mazejancios-palukanos) =====
+  (function(){
+// Kontrolinio treniruoklio generatoriai. Tema: Mažėjančiosios palūkanos (8 kl., 3.5).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3"). Čia jų iš naujo
+// NEAPIBRĖŽIAME. Papildomai apsibrėžiame r2() (apvalinimas iki 2 skaičių po
+// kablelio, nes pinigų sumos visada rodomos su 2 dp) ir cap() (didžioji raidė
+// sakinio pradžioje).
+//
+// Modelis: paskola S grąžinama per t metų lygiomis dalimis (kasmet S:t), o
+// palūkanos p % kiekvienais metais skaičiuojamos nuo LIKUSIOS (dar
+// negrąžintos) paskolos dalies PRIEŠ tų metų mokėjimą. Todėl palūkanos
+// kasmet mažėja tolygiai (aritmetine progresija).
+//
+// t parenkamas iš {2,3,4,5}; S = t · (paskolos dalis, 500–4000 Eur, dalis
+// po 100 Eur), todėl S dalijasi iš t be liekanos, o paskolos dalis visada
+// sveikas skaičius.
+
+function r2(x){ return Math.round(x*100)/100; }
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// Kelintasis mokėjimas žodžiu (vietoj skaitmens su priesaga, kad išvengtume
+// lietuviškų priesagų nevienodumo tarp „trečiasis" ir kitų skaitvardžių).
+const ORD_ACC = ["pirmąjį","antrąjį","trečiąjį","ketvirtąjį","penktąjį"];   // „per ...-ąjį mokėjimą"
+const ORD_GEN = ["pirmojo","antrojo","trečiojo","ketvirtojo","penktojo"]; // „...-ojo mokėjimo palūkanos"
+
+function bendraSitacija(){
+  const t = choice([2,3,4,5]);
+  const d = randint(5,40)*100;   // paskolos dalis kiekvienais metais (500–4000 Eur)
+  const S = t*d;                 // visa paskola
+  const p = randint(3,15);       // metinė palūkanų norma, %
+  const n = randint(1,t);        // kelintas mokėjimas
+  return { t, d, S, p, n };
+}
+
+const GENERATORIAI = [
+  // 1) n-ojo mokėjimo palūkanos
+  { label:"N-ojo mokėjimo palūkanos", gen(){
+      const {t,d,S,p,n} = bendraSitacija();
+      const L = S - (n-1)*d;                 // likusi negrąžinta dalis prieš n-ąjį mokėjimą
+      const pal = r2(L*p/100);                // to mokėjimo palūkanos
+      const q = `Paskola ${nf(S)} Eur grąžinama per ${t} metus lygiomis dalimis, kasmet mokant ${p} % palūkanų nuo likusios negrąžintos paskolos dalies. Kiek eurų palūkanų bus sumokėta per ${ORD_ACC[n-1]} mokėjimą?`;
+      const steps = [
+        `Paskolos dalis kiekvienais metais: ${nf(S)} : ${t} = ${nf(d)} Eur`,
+        n===1
+          ? `Prieš ${ORD_ACC[0]} mokėjimą negrąžinta visa paskola: ${nf(S)} Eur`
+          : `Prieš ${ORD_ACC[n-1]} mokėjimą negrąžinta paskolos dalis: ${nf(S)} − ${n-1} · ${nf(d)} = ${nf(L)} Eur`,
+        `${cap(ORD_GEN[n-1])} mokėjimo palūkanos: ${nf(L)} · ${p} % = ${nf(L)} · ${p} : 100 = ${nf(pal)} Eur`
+      ];
+      return { q, ans: pal, ansText: `${nf(pal)} Eur`, pre:"Palūkanos (Eur) =", steps };
+  }},
+
+  // 2) n-ojo mokėjimo bendra suma (paskolos dalis + palūkanos)
+  { label:"N-ojo mokėjimo bendra suma", gen(){
+      const {t,d,S,p,n} = bendraSitacija();
+      const L = S - (n-1)*d;
+      const pal = r2(L*p/100);
+      const suma = r2(d+pal);
+      const q = `Paskola ${nf(S)} Eur grąžinama per ${t} metus lygiomis dalimis, kasmet mokant ${p} % palūkanų nuo likusios negrąžintos paskolos dalies. Kiek eurų iš viso (paskolos dalis + palūkanos) bus sumokėta per ${ORD_ACC[n-1]} mokėjimą?`;
+      const steps = [
+        `Paskolos dalis kiekvienais metais: ${nf(S)} : ${t} = ${nf(d)} Eur`,
+        n===1
+          ? `Prieš ${ORD_ACC[0]} mokėjimą negrąžinta visa paskola: ${nf(S)} Eur`
+          : `Prieš ${ORD_ACC[n-1]} mokėjimą negrąžinta paskolos dalis: ${nf(S)} − ${n-1} · ${nf(d)} = ${nf(L)} Eur`,
+        `${cap(ORD_GEN[n-1])} mokėjimo palūkanos: ${nf(L)} · ${p} % = ${nf(pal)} Eur`,
+        `${cap(ORD_GEN[n-1])} mokėjimo bendra suma: ${nf(d)} + ${nf(pal)} = ${nf(suma)} Eur`
+      ];
+      return { q, ans: suma, ansText: `${nf(suma)} Eur`, pre:"Mokėjimo suma (Eur) =", steps };
+  }},
+
+  // 3) visos sumokėtos palūkanos per visą laikotarpį
+  { label:"Visos palūkanos per laikotarpį", gen(){
+      const {t,d,S,p} = bendraSitacija();
+      const sumN = t*(t+1)/2;                 // t + (t−1) + ... + 1
+      const total = r2(d*p/100*sumN);
+      const terms = []; for(let k=t;k>=1;k--) terms.push(k);
+      const q = `Paskola ${nf(S)} Eur grąžinama per ${t} metus lygiomis dalimis, kasmet mokant ${p} % palūkanų nuo likusios negrąžintos paskolos dalies. Kiek eurų palūkanų iš viso bus sumokėta per visą paskolos grąžinimo laikotarpį?`;
+      const steps = [
+        `Paskolos dalis kiekvienais metais: ${nf(S)} : ${t} = ${nf(d)} Eur`,
+        `Palūkanos mažėja tolygiai, todėl jų suma proporcinga skaičių sumai: ${terms.join(' + ')} = ${t} · (${t} + 1) : 2 = ${nf(sumN)}`,
+        `Visos palūkanos: ${nf(d)} · ${p} % · ${nf(sumN)} = ${nf(d)} · ${p} : 100 · ${nf(sumN)} = ${nf(total)} Eur`
+      ];
+      return { q, ans: total, ansText: `${nf(total)} Eur`, pre:"Visos palūkanos (Eur) =", steps };
+  }}
+];
+
+    return GENERATORIAI.map(function(g){ return Object.assign({}, g, {label: "3.5 " + g.label}); });
+  })()
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: Finansiniai skaičiavimai (8 klasė)", "subtitle": "3. Finansiniai skaičiavimai · visos temos 3.1–3.5 · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

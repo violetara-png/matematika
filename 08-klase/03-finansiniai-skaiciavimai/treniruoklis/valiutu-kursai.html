@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Valiutų kursai (8 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Valiutų kursai (8 klasė)</h1>
+    <p id="paantraste">Valiutų kursai · 8 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: VALIUTŲ KURSAI (8 klasė, 3.1).
+//
+// Trys uždavinių tipai:
+//  1) Turi S eurų, banko „parduoda“ kursas → kiek valiutos gausi (S · kursas).
+//  2) Turi F valiutos vienetų, banko „perka“ kursas → kiek eurų gausi (F : kursas).
+//  3) Du bankų kursai tai pačiai operacijai → kurį banką rinktis + skirtumas.
+//
+// ⚠ Pinigų suma visada apvalinama iki cento: r2(x) = Math.round(x*100)/100.
+// Dalybos atveju (2 ir 3b tipai) tikra reikšmė turi daug skaitmenų po kablelio —
+// tada steps rodo tarpinę reikšmę ir GALUTINĮ apvalintą atsakymą (tolerancija
+// dėl apvalinimo). Paskutinis steps žingsnis VISADA baigiasi ansText reikšme.
+//
+// Šablonas jau apibrėžia: randint, choice, nz, nf (LT skaičius su − ir ,), pm.
+// Čia papildomai apibrėžiam r2, rate3, CURR, EUR_SUMOS, VARDAI.
+
+function r2(x){ return Math.round(x*100)/100; }                 // apvalinimas iki cento
+function rate3(lo, hi){                                          // kursas su 3 skaitmenimis po kablelio
+  const a = Math.round(lo*1000), b = Math.round(hi*1000);
+  return randint(a, b) / 1000;
+}
+
+// Valiutos: pLo/pHi = „parduoda“ intervalas, kLo/kHi = „perka“ intervalas (visada mažesnis),
+// amt = tipiški sumų dydžiai tai valiutai (2 tipo uždaviniams — kiek valiutos turima).
+const CURR = [
+  { code:"USD", pLo:1.03, pHi:1.15, kLo:0.98, kHi:1.10, amt:[50,80,100,150,200,250,300,400,500,600] },
+  { code:"GBP", pLo:0.80, pHi:0.90, kLo:0.75, kHi:0.85, amt:[40,60,80,100,150,200,250,300,350,450] },
+  { code:"CHF", pLo:0.95, pHi:1.05, kLo:0.90, kHi:1.00, amt:[50,80,100,150,200,250,300,400,500,600] },
+  { code:"NOK", pLo:10.80, pHi:11.90, kLo:10.20, kHi:11.30, amt:[500,800,1000,1200,1500,2000,2500,3000,4000,5000] },
+  { code:"PLN", pLo:4.30, pHi:4.60, kLo:4.05, kHi:4.35, amt:[200,300,400,500,600,800,1000,1500,2000,2500] },
+];
+const EUR_SUMOS = [50,80,100,120,150,180,200,250,300,350,400,450,500,600];
+// vardas + lytis (m = vyriška), kad tinkamai suderintume dalyvius („iškeitęs“ / „iškeitusi“)
+const VARDAI = [
+  {v:"Rokas", m:true}, {v:"Eglė", m:false}, {v:"Justė", m:false}, {v:"Domas", m:true},
+  {v:"Kamilė", m:false}, {v:"Tomas", m:true}, {v:"Rūta", m:false}, {v:"Mantas", m:true},
+  {v:"Aistė", m:false}, {v:"Lukas", m:true}
+];
+
+const GENERATORIAI = [
+
+  // TIPAS 1a — perki valiutą už eurus („parduoda“ kursas), S · kursas
+  { label:"Perki valiutą (parduoda kursas)", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS), r = rate3(c.pLo, c.pHi);
+      const raw = S*r, ans = r2(raw);
+      return {
+        q: `Turi ${nf(S)} Eur ir nori juos iškeisti į ${c.code}. Banko kursas: ${c.code} parduoda ${nf(r)}. Kiek ${c.code} gausi?`,
+        ans, ansText: `${nf(ans)} ${c.code}`, pre: `${c.code} =`,
+        steps: [
+          `valiuta = eurai · parduoda kursas`,
+          `${nf(S)} · ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 1b — tas pats, kelionės kontekstas
+  { label:"Perki valiutą kelionėje (parduoda kursas)", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS), r = rate3(c.pLo, c.pHi), p = choice(VARDAI);
+      const raw = S*r, ans = r2(raw);
+      return {
+        q: `${p.v} keliauja į užsienį ir keičia ${nf(S)} Eur į ${c.code}. Banko kursas: ${c.code} parduoda ${nf(r)}. Kiek ${c.code} gaus ${p.v}?`,
+        ans, ansText: `${nf(ans)} ${c.code}`, pre: `${c.code} =`,
+        steps: [
+          `valiuta = eurai · parduoda kursas`,
+          `${nf(S)} · ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 2a — parduodi valiutą už eurus („perka“ kursas), F : kursas
+  { label:"Parduodi valiutą (perka kursas)", gen(){
+      const c = choice(CURR), F = choice(c.amt), r = rate3(c.kLo, c.kHi);
+      const raw = F/r, ans = r2(raw);
+      return {
+        q: `Turi ${nf(F)} ${c.code} ir nori juos iškeisti į eurus. Banko kursas: ${c.code} perka ${nf(r)}. Kiek eurų gausi?`,
+        ans, ansText: `${nf(ans)} Eur`, pre: "eurai =",
+        steps: [
+          `eurai = valiuta : perka kursas`,
+          `${nf(F)} : ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} Eur`
+        ]
+      };
+  }},
+
+  // TIPAS 2b — tas pats, grįžimo iš kelionės kontekstas
+  { label:"Parduodi valiutą, grįžai iš kelionės (perka kursas)", gen(){
+      const c = choice(CURR), F = choice(c.amt), r = rate3(c.kLo, c.kHi), p = choice(VARDAI);
+      const raw = F/r, ans = r2(raw);
+      const dalyvis = p.m ? "iškeitęs" : "iškeitusi";
+      return {
+        q: `${p.v} grįžo iš kelionės ir turi likusių ${nf(F)} ${c.code}. Banko kursas: ${c.code} perka ${nf(r)}. Kiek eurų gaus ${p.v}, ${dalyvis} pinigus?`,
+        ans, ansText: `${nf(ans)} Eur`, pre: "eurai =",
+        steps: [
+          `eurai = valiuta : perka kursas`,
+          `${nf(F)} : ${nf(r)} = ${nf(raw)}`,
+          `apvalinę iki cento: ${nf(ans)} Eur`
+        ]
+      };
+  }},
+
+  // TIPAS 3a — du bankai, perkant valiutą (parduoda) — renkiesi DIDESNĮ kursą
+  { label:"Kurio banko rinktis perkant valiutą", gen(){
+      const c = choice(CURR), S = choice(EUR_SUMOS);
+      let rA = rate3(c.pLo, c.pHi), rB = rate3(c.pLo, c.pHi), tries = 0;
+      while(Math.abs(rA-rB) < 0.03 && tries < 30){ rB = rate3(c.pLo, c.pHi); tries++; }
+      const amtA = r2(S*rA), amtB = r2(S*rB);
+      const better = amtA > amtB ? "A" : "B";
+      const betterAmt = Math.max(amtA, amtB), worseAmt = Math.min(amtA, amtB);
+      const diff = r2(betterAmt - worseAmt);
+      return {
+        q: `Nori iškeisti ${nf(S)} Eur į ${c.code}. Bankas A: ${c.code} parduoda ${nf(rA)}; Bankas B: ${c.code} parduoda ${nf(rB)}. Kiek ${c.code} daugiau gausi, rinkdamasis palankesnį banką?`,
+        ans: diff, ansText: `${nf(diff)} ${c.code}`, pre: "skirtumas =",
+        steps: [
+          `Perkant valiutą apsimoka DIDESNIS „parduoda“ kursas → Bankas ${better}`,
+          `Bankas A: ${nf(S)} · ${nf(rA)} = ${nf(amtA)} ${c.code}`,
+          `Bankas B: ${nf(S)} · ${nf(rB)} = ${nf(amtB)} ${c.code}`,
+          `skirtumas = ${nf(betterAmt)} − ${nf(worseAmt)} = ${nf(diff)} ${c.code}`
+        ]
+      };
+  }},
+
+  // TIPAS 3b — du bankai, parduodant valiutą (perka) — renkiesi MAŽESNĮ kursą
+  { label:"Kurio banko rinktis parduodant valiutą", gen(){
+      const c = choice(CURR), F = choice(c.amt);
+      let rA = rate3(c.kLo, c.kHi), rB = rate3(c.kLo, c.kHi), tries = 0;
+      while(Math.abs(rA-rB) < 0.03 && tries < 30){ rB = rate3(c.kLo, c.kHi); tries++; }
+      const amtA = r2(F/rA), amtB = r2(F/rB);
+      const better = amtA > amtB ? "A" : "B";
+      const betterAmt = Math.max(amtA, amtB), worseAmt = Math.min(amtA, amtB);
+      const diff = r2(betterAmt - worseAmt);
+      return {
+        q: `Turi ${nf(F)} ${c.code} ir nori juos iškeisti į eurus. Bankas A: ${c.code} perka ${nf(rA)}; Bankas B: ${c.code} perka ${nf(rB)}. Kiek eurų daugiau gausi, rinkdamasis palankesnį banką?`,
+        ans: diff, ansText: `${nf(diff)} Eur`, pre: "skirtumas =",
+        steps: [
+          `Parduodant valiutą apsimoka MAŽESNIS „perka“ kursas → Bankas ${better}`,
+          `Bankas A: ${nf(F)} : ${nf(rA)} = ${nf(amtA)} Eur`,
+          `Bankas B: ${nf(F)} : ${nf(rB)} = ${nf(amtB)} Eur`,
+          `skirtumas = ${nf(betterAmt)} − ${nf(worseAmt)} = ${nf(diff)} Eur`
+        ]
+      };
+  }}
+
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: Valiutų kursai (8 klasė)", "subtitle": "Valiutų kursai · 8 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi vedlys: Paprastosios palūkanos ir grafikai (8 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧭 Mokymosi vedlys „Miglė“</h1>
+    <p>Tema: <b>Paprastosios palūkanos ir grafikai</b> · 8 klasė · 3 skyrius „Finansiniai skaičiavimai“</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">M<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Miglė</div>
+        Sveika(s)! Aš: tavo mokymosi vedlė Miglė. Kartu išsiaiškinsime <b>paprasčiausias palūkanas</b> ir jų grafikus.<br><br>Pagrindinės formulės: palūkanos <b>Pₜ = S·p/100·t</b> (S: pradinė suma, p: metinė norma procentais, t: laikas metais), o sukaupta suma <b>Sₜ = S + Pₜ</b>. Kadangi t yra tik daugiklis, Pₜ grafikas yra tiesė per koordinačių pradžią (0; 0), o Sₜ grafikas: ta pati tiesė, tik paslinkta per S vienetų aukštyn.<br><br>Svarbu: <b>gatavo atsakymo aš neduosiu</b>. Vesiu tave klausimais ir vis stipresnėmis užuominomis, o atsakymą surasi <b>tu pati(s)</b>. Pabaigoje: įsivertinimo testas, kad pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">M<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Miglė</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('€')">€</button><button onclick="ins('%')">%</button><button onclick="ins('A')">A</button><button onclick="ins('B')">B</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">M<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Miglė</div>
+          Šaunu! Dabar: <b>10 klausimų</b> testas. Atsakyk pati(s), o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br>Rašyk <b>tik skaičių</b> (be „Eur“ ir be „%“ ženklo). Kur klausiama, kurio indėlio palūkanos didesnės, rašyk raidę <b>A</b> arba <b>B</b>.<br><span class="note">Išlaikai (6 ar daugiau): pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–: −]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo <b>ryšio tarp laiko ir palūkanų</b>. Paprastosios palūkanos skaičiuojamos pagal formulę Pₜ = S·p/100·t, kur S: pradinė (indėlio) suma, p: metinė palūkanų norma procentais, t: laikas metais. Kadangi t formulėje yra paprastas daugiklis, palūkanos Pₜ yra <b>tiesiogiai proporcingos</b> laikui t: jei t padidėja n kartų, tiek pat kartų padidėja ir Pₜ.", "expr": "S = 2000 Eur, p = 9 %. Po 1 metų (t = 1): P₁ = 180 Eur.", "q": "Kiek eurų bus palūkanos P₂ po 2 metų (t = 2), jei P₁ = 180 Eur, o Pₜ proporcinga t?", "accepted": ["360"], "hints": ["Palūkanos Pₜ tiesiogiai proporcingos laikui t: jei laikas padvigubėja, palūkanos irgi padvigubėja.", "Po 1 metų palūkanos yra 180 Eur. Po 2 metų laikas yra du kartus didesnis.", "Padaugink 180 iš 2, kad gautum palūkanas po 2 metų."]}, {"intro": "Palūkanas bet kuriam metų skaičiui apskaičiuoji tiesiog pagal formulę Pₜ = S·p/100·t, įstatęs S, p ir t reikšmes.", "expr": "S = 2000 Eur, p = 9 %, t = 3 metai.", "q": "Apskaičiuok palūkanas P₃ po 3 metų.", "accepted": ["540"], "hints": ["Naudok formulę Pₜ = S·p/100·t.", "Pirmiausia apskaičiuok, kiek palūkanų susikaupia per 1 metus: S·p/100 = 2000·9/100.", "Gautą 1 metų palūkanų reikšmę padaugink iš t = 3, kad gautum P₃."]}, {"intro": "Sukaupta suma sąskaitoje po t metų yra Sₜ = S + Pₜ: pradinė suma plius susikaupusios palūkanos.", "expr": "S = 2000 Eur, p = 9 %, t = 4 metai.", "q": "Kiek eurų iš viso bus sąskaitoje (S₄) po 4 metų?", "accepted": ["2720"], "hints": ["Pirmiausia apskaičiuok palūkanas P₄ pagal formulę Pₜ = S·p/100·t.", "P₄ = 2000·9/100·4. Apskaičiuok šią reikšmę.", "Sukaupta suma S₄ = pradinė suma S + palūkanos P₄. Sudėk 2000 su gauta P₄ reikšme."]}, {"intro": "Grafike Pₜ taškai visada guli ant tiesės, einančios per koordinačių pradžią (0; 0), nes Pₜ proporcinga t. Todėl tarp gretimų taškų reikšmė keičiasi <b>vienodu žingsniu</b>.", "expr": "Pₜ grafiko taškai: (1; 240), (2; 480), (3; 720).", "q": "Kokia bus Pₜ reikšmė, kai t = 4, jei šie taškai guli ant tiesės per (0; 0)?", "accepted": ["960"], "hints": ["Tiesė per (0; 0) reiškia, kad Pₜ auga tolygiai: kiekvienais metais tuo pačiu dydžiu.", "Palygink gretimus taškus: nuo t = 1 iki t = 2 reikšmė padidėjo nuo 240 iki 480, t. y. per 240. Toks pat žingsnis kartojasi kiekvienais metais.", "Prie paskutinės žinomos reikšmės (720, kai t = 3) pridėk tą patį žingsnį (240), kad gautum reikšmę, kai t = 4."]}, {"intro": "Kartais grafike matome tašką, bet nežinome palūkanų normos p. Ją galima atstatyti iš tos pačios formulės, jei žinome S, t ir Pₜ.", "expr": "Pₜ grafiko taškas (4; 560). Pradinė suma S = 2800 Eur.", "q": "Kokia metinė palūkanų norma p (procentais), jei taškas (4; 560) yra ant Pₜ grafiko?", "accepted": ["5"], "hints": ["Naudok tą pačią formulę Pₜ = S·p/100·t, tik dabar nežinomas p: reikia jį išreikšti iš formulės.", "Įrašęs žinomus dydžius gauni: 560 = 2800·p/100·4. Suskaičiuok koeficientą prie p dešinėje pusėje: 2800·4/100 = 112. Lieka 560 = 112·p.", "Padalink abi lygybės puses iš 112, kad rastum p."]}, {"intro": "Paskutinė užduotis: sujunkime viską: palygink du indėlius pagal susikaupusias palūkanas.", "expr": "Ieva: S = 4000 Eur, p = 6 %. Tomas: S = 1500 Eur, p = 4 %. Abu po t = 4 metų.", "q": "Kurio (Ievos ar Tomo) indėlio sukauptos GRYNOS PALŪKANOS po 4 metų didesnės? Įrašyk vardą.", "accepted": ["Ieva", "ieva", "Ievos", "ievos"], "hints": ["Apskaičiuok abiejų palūkanas atskirai pagal formulę Pₜ = S·p/100·t, naudodamas(-a) t = 4.", "Ievos: S = 4000, p = 6, t = 4: apskaičiuok Pₜ. Tomo: S = 1500, p = 4, t = 4: apskaičiuok Pₜ.", "Palygink abu gautus skaičius. Kurio jie didesni, to žmogaus vardą ir įrašyk."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki: tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk: spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "S = 2000 Eur, p = 9 %. Apskaičiuok palūkanas <span>P₄</span> po 4 metų (t = 4).", "acc": ["720"], "hint": "Naudok formulę Pₜ = S·p/100·t su t = 4."}, {"t": "S = 2000 Eur, p = 9 %. Apskaičiuok palūkanas <span>P₅</span> po 5 metų (t = 5).", "acc": ["900"], "hint": "Naudok formulę Pₜ = S·p/100·t su t = 5."}, {"t": "S = 2000 Eur, p = 9 %. Kokia sukaupta suma <span>S₂</span> po 2 metų?", "acc": ["2360"], "hint": "Pirmiausia apskaičiuok P₂ pagal formulę, tada pridėk ją prie S."}, {"t": "S = 2000 Eur, p = 9 %. Kokia sukaupta suma <span>S₃</span> po 3 metų?", "acc": ["2540"], "hint": "Pirmiausia apskaičiuok P₃ pagal formulę, tada pridėk ją prie S."}, {"t": "Pₜ grafiko taškai: (1; 240), (2; 480), (3; 720). Taškai guli ant tiesės per (0; 0). Kokia bus Pₜ reikšmė, kai <span>t = 5</span>?", "acc": ["1200"], "hint": "Žingsnis tarp gretimų taškų yra 240 (480 − 240). Nuo t = 3 (720) pridėk šį žingsnį du kartus, kad gautum t = 5."}, {"t": "Sₜ grafiko taškai: (1; 2940), (2; 3080), (3; 3220). Taškai guli ant tiesės. Kokia bus Sₜ reikšmė, kai <span>t = 4</span>?", "acc": ["3360"], "hint": "Rask žingsnį tarp gretimų taškų (3080 − 2940) ir pridėk jį prie paskutinės žinomos reikšmės (3220)."}, {"t": "Pₜ grafiko taškas (5; 300), pradinė suma S = 1500 Eur. Kokia metinė palūkanų norma <span>p</span> (procentais)?", "acc": ["4"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk p: 300 = 1500·p/100·5. Suskaičiuok koeficientą prie p."}, {"t": "Palūkanos po 2 metų yra P₂ = 480 Eur, o palūkanų norma p = 6 %. Kokia buvo pradinė suma <span>S</span>?", "acc": ["4000"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk S: 480 = S·6/100·2. Suskaičiuok koeficientą prie S."}, {"t": "Po t = 5 metų, kurio indėlio sukauptos GRYNOS PALŪKANOS didesnės: A (S = 2000 Eur, p = 9 %) ar B (S = 2800 Eur, p = 5 %)? Įrašyk A arba B.", "acc": ["A", "a"], "hint": "Apskaičiuok abiejų indėlių palūkanas P₅ atskirai pagal formulę ir palygink, kuris skaičius didesnis."}, {"t": "S = 2000 Eur, P₁ = 180 Eur. Sₜ grafikas yra Pₜ grafikas, paslinktas per S vienetų aukštyn. Kokia yra <span>S₁</span> reikšmė?", "acc": ["2180"], "hint": "S₁ = S + P₁. Sudėk pradinę sumą su duotomis palūkanomis."}]}, {"label": "variantas B", "qs": [{"t": "S = 4000 Eur, p = 6 %. Apskaičiuok palūkanas <span>P₅</span> po 5 metų (t = 5).", "acc": ["1200"], "hint": "Naudok formulę Pₜ = S·p/100·t su t = 5."}, {"t": "S = 4000 Eur, p = 6 %. Kokia sukaupta suma <span>S₁</span> po 1 metų?", "acc": ["4240"], "hint": "Pirmiausia apskaičiuok P₁, tada pridėk ją prie S."}, {"t": "S = 4000 Eur, p = 6 %. Kokia sukaupta suma <span>S₂</span> po 2 metų?", "acc": ["4480"], "hint": "Pirmiausia apskaičiuok P₂, tada pridėk ją prie S."}, {"t": "S = 4000 Eur, p = 6 %. Kokia sukaupta suma <span>S₃</span> po 3 metų?", "acc": ["4720"], "hint": "Pirmiausia apskaičiuok P₃, tada pridėk ją prie S."}, {"t": "Pₜ grafiko taškai: (1; 60), (2; 120), (3; 180). Taškai guli ant tiesės per (0; 0). Kokia bus Pₜ reikšmė, kai <span>t = 5</span>?", "acc": ["300"], "hint": "Žingsnis tarp gretimų taškų yra 60 (120 − 60). Nuo t = 3 (180) pridėk šį žingsnį du kartus, kad gautum t = 5."}, {"t": "Sₜ grafiko taškai: (1; 2180), (2; 2360), (3; 2540). Taškai guli ant tiesės. Kokia bus Sₜ reikšmė, kai <span>t = 5</span>?", "acc": ["2900"], "hint": "Rask žingsnį tarp gretimų taškų (2360 − 2180) ir pridėk jį du kartus prie paskutinės žinomos reikšmės (2540)."}, {"t": "Pₜ grafiko taškas (3; 540), pradinė suma S = 2000 Eur. Kokia metinė palūkanų norma <span>p</span> (procentais)?", "acc": ["9"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk p: 540 = 2000·p/100·3. Suskaičiuok koeficientą prie p."}, {"t": "Palūkanos po 3 metų yra P₃ = 180 Eur, o palūkanų norma p = 4 %. Kokia buvo pradinė suma <span>S</span>?", "acc": ["1500"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk S: 180 = S·4/100·3. Suskaičiuok koeficientą prie S."}, {"t": "Po t = 3 metų, kurio indėlio sukauptos GRYNOS PALŪKANOS didesnės: A (S = 1500 Eur, p = 4 %) ar B (S = 4000 Eur, p = 6 %)? Įrašyk A arba B.", "acc": ["B", "b"], "hint": "Apskaičiuok abiejų indėlių palūkanas po t = 3 metų atskirai ir palygink, kuris skaičius didesnis."}, {"t": "S = 4000 Eur, P₄ = 960 Eur. Sₜ grafikas yra Pₜ grafikas, paslinktas per S vienetų aukštyn. Kokia yra <span>S₄</span> reikšmė?", "acc": ["4960"], "hint": "Sₜ = S + Pₜ. Sudėk pradinę sumą su duotomis palūkanomis P₄."}]}, {"label": "variantas C", "qs": [{"t": "S = 1500 Eur, p = 4 %. Apskaičiuok palūkanas <span>P₁</span> po 1 metų (t = 1).", "acc": ["60"], "hint": "Naudok formulę Pₜ = S·p/100·t su t = 1."}, {"t": "S = 1500 Eur, p = 4 %. Apskaičiuok palūkanas <span>P₃</span> po 3 metų (t = 3).", "acc": ["180"], "hint": "Naudok formulę Pₜ = S·p/100·t su t = 3."}, {"t": "S = 1500 Eur, p = 4 %. Kokia sukaupta suma <span>S₂</span> po 2 metų?", "acc": ["1620"], "hint": "Pirmiausia apskaičiuok P₂, tada pridėk ją prie S."}, {"t": "S = 1500 Eur, p = 4 %. Kokia sukaupta suma <span>S₄</span> po 4 metų?", "acc": ["1740"], "hint": "Pirmiausia apskaičiuok P₄, tada pridėk ją prie S."}, {"t": "Pₜ grafiko taškai: (1; 140), (2; 280), (3; 420). Taškai guli ant tiesės per (0; 0). Kokia bus Pₜ reikšmė, kai <span>t = 5</span>?", "acc": ["700"], "hint": "Žingsnis tarp gretimų taškų yra 140 (280 − 140). Nuo t = 3 (420) pridėk šį žingsnį du kartus, kad gautum t = 5."}, {"t": "Sₜ grafiko taškai: (1; 4240), (2; 4480), (3; 4720). Taškai guli ant tiesės. Kokia bus Sₜ reikšmė, kai <span>t = 5</span>?", "acc": ["5200"], "hint": "Rask žingsnį tarp gretimų taškų (4480 − 4240) ir pridėk jį du kartus prie paskutinės žinomos reikšmės (4720)."}, {"t": "Pₜ grafiko taškas (2; 480), pradinė suma S = 4000 Eur. Kokia metinė palūkanų norma <span>p</span> (procentais)?", "acc": ["6"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk p: 480 = 4000·p/100·2. Suskaičiuok koeficientą prie p."}, {"t": "Palūkanos po 2 metų yra P₂ = 360 Eur, o palūkanų norma p = 9 %. Kokia buvo pradinė suma <span>S</span>?", "acc": ["2000"], "hint": "Iš formulės Pₜ = S·p/100·t išreikšk S: 360 = S·9/100·2. Suskaičiuok koeficientą prie S."}, {"t": "Po t = 1 metų, kurio indėlio sukauptos GRYNOS PALŪKANOS didesnės: A (S = 1500 Eur, p = 4 %) ar B (S = 2800 Eur, p = 5 %)? Įrašyk A arba B.", "acc": ["B", "b"], "hint": "Apskaičiuok abiejų indėlių palūkanas po t = 1 metų atskirai ir palygink, kuris skaičius didesnis."}, {"t": "S = 1500 Eur, P₅ = 300 Eur. Sₜ grafikas yra Pₜ grafikas, paslinktas per S vienetų aukštyn. Kokia yra <span>S₅</span> reikšmė?", "acc": ["1800"], "hint": "Sₜ = S + Pₜ. Sudėk pradinę sumą su duotomis palūkanomis P₅."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+': pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula: peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų: grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo: pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei: reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

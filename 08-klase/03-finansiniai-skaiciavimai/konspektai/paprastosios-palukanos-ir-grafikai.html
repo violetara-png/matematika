@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paprastosios palūkanos ir grafikai · 8 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .grafikas{margin:14px 0 0; text-align:center}
+  .grafikas svg{max-width:100%; height:auto}
+  .grafikas .pav{font-size:12.5px; color:var(--pilka); margin-top:4px}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Paprastosios palūkanos ir grafikai</h1>
+  <p class="klase">Matematika · 8 klasė · 3 skyrius „Finansiniai skaičiavimai" · 3.3 potemė</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Prisiminkime: paprastosios palūkanos</a></li>
+      <li><a href="#t2">Palūkanų priklausomybė nuo laiko. Pₜ grafikas</a></li>
+      <li><a href="#t3">Sukauptos sumos priklausomybė nuo laiko. Sₜ grafikas</a></li>
+      <li><a href="#t4">Kaip nubraižyti grafiką iš lentelės</a></li>
+      <li><a href="#t5">Ką rodo grafiko statumas</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Prisiminkime: paprastosios palūkanos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei į banką indėliui įdedame pradinę sumą <span class="term-a">S</span> (Eur) su metine <span class="term-a">paprastąja</span> palūkanų norma <span class="term-a">p</span> procentų, tai po <span class="term-a">t</span> metų susikaupusios palūkanos skaičiuojamos formule:</p>
+        <div class="formule math">P<sub>t</sub> = S · p/100 · t</div>
+        <p>O visa <span class="zenk">sukaupta suma</span> (indėlis kartu su palūkanomis) po t metų:</p>
+        <div class="formule math">S<sub>t</sub> = S + P<sub>t</sub></div>
+        <p class="pvz"><b>Svarbu.</b> Paprastosiose palūkanose kiekvienais metais palūkanos skaičiuojamos <b>tik nuo pradinės sumos S</b> (ne nuo praėjusių metų sukauptos sumos), todėl P<sub>t</sub> auga <b>tolygiai</b>, tiesiog proporcingai laikui t.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Palūkanų priklausomybė nuo laiko. P<sub>t</sub> grafikas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Formulė <span class="math">P<sub>t</sub> = S · p/100 · t</span> yra <span class="zenk">tiesinė funkcija</span> nuo t, nes S ir p yra pastovūs skaičiai (fiksuoti to indėlio dydžiai), o kintamasis yra tik <span class="term-a">t</span>. Todėl P<sub>t</sub> grafikas yra <b>tiesė</b>, einanti per pradžios tašką <span class="math">(0; 0)</span> (kai t = 0, palūkanų dar nesukaupta).</p>
+        <p><span class="zenk">Pavyzdys.</span> Gerda įdeda <span class="math">S = 4000</span> Eur indėlį su <span class="math">p = 12&nbsp;%</span> metine paprastąja norma. Kasmet palūkanos: <span class="math">4000 · 12/100 = 480</span> Eur.</p>
+        <table class="kort math">
+          <tr><th>t (metai)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><th>P<sub>t</sub> (Eur)</th><td>0</td><td>480</td><td>960</td><td>1440</td><td>1920</td></tr>
+        </table>
+        <div class="grafikas">
+          <svg width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math, serif">
+            <line x1="40" y1="300" x2="458" y2="300" stroke="#1c2430" stroke-width="2"/>
+            <polygon points="470,300 458,294 458,306" fill="#1c2430"/>
+            <line x1="70" y1="315" x2="70" y2="18" stroke="#1c2430" stroke-width="2"/>
+            <polygon points="70,6 64,18 76,18" fill="#1c2430"/>
+            <g stroke="#1c2430" stroke-width="1.5">
+              <line x1="160" y1="297" x2="160" y2="303"/>
+              <line x1="250" y1="297" x2="250" y2="303"/>
+              <line x1="340" y1="297" x2="340" y2="303"/>
+              <line x1="430" y1="297" x2="430" y2="303"/>
+            </g>
+            <g font-size="13" fill="#1c2430" text-anchor="middle">
+              <text x="70" y="317">0</text>
+              <text x="160" y="317">1</text>
+              <text x="250" y="317">2</text>
+              <text x="340" y="317">3</text>
+              <text x="430" y="317">4</text>
+            </g>
+            <text x="437" y="296" font-size="13" fill="#1c2430">t (metai)</text>
+            <g stroke="#1c2430" stroke-width="1.5">
+              <line x1="67" y1="300" x2="73" y2="300"/>
+              <line x1="67" y1="235" x2="73" y2="235"/>
+              <line x1="67" y1="170" x2="73" y2="170"/>
+              <line x1="67" y1="105" x2="73" y2="105"/>
+              <line x1="67" y1="40" x2="73" y2="40"/>
+            </g>
+            <g font-size="12.5" fill="#1c2430" text-anchor="end">
+              <text x="62" y="304">0</text>
+              <text x="62" y="239">500</text>
+              <text x="62" y="174">1000</text>
+              <text x="62" y="109">1500</text>
+              <text x="62" y="44">2000</text>
+            </g>
+            <text x="16" y="26" font-size="13" fill="#1c2430">P<tspan baseline-shift="sub" font-size="9">t</tspan> (Eur)</text>
+            <line x1="70" y1="300" x2="430" y2="50" stroke="#1e5fa8" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <circle cx="70" cy="300" r="4.5" fill="#1e5fa8"/>
+            <circle cx="160" cy="238" r="4.5" fill="#1e5fa8"/>
+            <circle cx="250" cy="175" r="4.5" fill="#1e5fa8"/>
+            <circle cx="340" cy="113" r="4.5" fill="#1e5fa8"/>
+            <circle cx="430" cy="50" r="4.5" fill="#1e5fa8"/>
+            <g font-size="12.5" fill="#1e5fa8" font-weight="700">
+              <text x="46" y="292">(0;0)</text>
+              <text x="160" y="224" text-anchor="middle">(1;480)</text>
+              <text x="250" y="161" text-anchor="middle">(2;960)</text>
+              <text x="340" y="99" text-anchor="middle">(3;1440)</text>
+              <text x="430" y="38" text-anchor="middle">(4;1920)</text>
+            </g>
+          </svg>
+          <p class="pav">1 pav. P<sub>t</sub> grafikas: Gerdos indėlio (S = 4000 Eur, p = 12 %) palūkanos priklausomai nuo t.</p>
+        </div>
+        <p class="demesio"><b>Dėmesio.</b> Grafike žymime tik <b>sveikuosius</b> metų taškus (t = 0, 1, 2, 3, …): palūkanos skaičiuojamos ir mokamos metų pabaigoje, tarpinių taškų nebraižome, nors punktyrinė tiesė per taškus padeda matyti augimo kryptį.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Sukauptos sumos priklausomybė nuo laiko. S<sub>t</sub> grafikas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kadangi <span class="math">S<sub>t</sub> = S + P<sub>t</sub></span>, o S yra pastovus skaičius, S<sub>t</sub> grafikas yra <b>tokia pati tiesė</b> kaip P<sub>t</sub>, tik <span class="zenk">paslinkta per S vienetų aukštyn</span> y ašimi. Grafikai <b>lygiagretūs</b>: vienodai statūs, tik S<sub>t</sub> prasideda ne nuo <span class="math">(0; 0)</span>, o nuo <span class="math">(0; S)</span> (nes ir dar nepraėjus nė metams, indėlis jau yra S eurų).</p>
+        <p><span class="zenk">Tas pats pavyzdys.</span> Gerdos S = 4000 Eur, p = 12&nbsp;%. Sukaupta suma S<sub>t</sub> = 4000 + P<sub>t</sub>:</p>
+        <table class="kort math">
+          <tr><th>t (metai)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><th>S<sub>t</sub> (Eur)</th><td>4000</td><td>4480</td><td>4960</td><td>5440</td><td>5920</td></tr>
+        </table>
+        <div class="grafikas">
+          <svg width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math, serif">
+            <line x1="40" y1="300" x2="458" y2="300" stroke="#1c2430" stroke-width="2"/>
+            <polygon points="470,300 458,294 458,306" fill="#1c2430"/>
+            <line x1="70" y1="315" x2="70" y2="18" stroke="#1c2430" stroke-width="2"/>
+            <polygon points="70,6 64,18 76,18" fill="#1c2430"/>
+            <g stroke="#1c2430" stroke-width="1.5">
+              <line x1="160" y1="297" x2="160" y2="303"/>
+              <line x1="250" y1="297" x2="250" y2="303"/>
+              <line x1="340" y1="297" x2="340" y2="303"/>
+              <line x1="430" y1="297" x2="430" y2="303"/>
+            </g>
+            <g font-size="13" fill="#1c2430" text-anchor="middle">
+              <text x="70" y="317">0</text>
+              <text x="160" y="317">1</text>
+              <text x="250" y="317">2</text>
+              <text x="340" y="317">3</text>
+              <text x="430" y="317">4</text>
+            </g>
+            <text x="437" y="296" font-size="13" fill="#1c2430">t (metai)</text>
+            <g stroke="#1c2430" stroke-width="1.5">
+              <line x1="67" y1="300" x2="73" y2="300"/>
+              <line x1="67" y1="235" x2="73" y2="235"/>
+              <line x1="67" y1="170" x2="73" y2="170"/>
+              <line x1="67" y1="105" x2="73" y2="105"/>
+              <line x1="67" y1="40" x2="73" y2="40"/>
+            </g>
+            <g font-size="12.5" fill="#1c2430" text-anchor="end">
+              <text x="62" y="304">4000</text>
+              <text x="62" y="239">4500</text>
+              <text x="62" y="174">5000</text>
+              <text x="62" y="109">5500</text>
+              <text x="62" y="44">6000</text>
+            </g>
+            <text x="10" y="26" font-size="13" fill="#1c2430">S<tspan baseline-shift="sub" font-size="9">t</tspan> (Eur)</text>
+            <line x1="70" y1="300" x2="430" y2="50" stroke="#0a7d52" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <circle cx="70" cy="300" r="4.5" fill="#0a7d52"/>
+            <circle cx="160" cy="238" r="4.5" fill="#0a7d52"/>
+            <circle cx="250" cy="175" r="4.5" fill="#0a7d52"/>
+            <circle cx="340" cy="113" r="4.5" fill="#0a7d52"/>
+            <circle cx="430" cy="50" r="4.5" fill="#0a7d52"/>
+            <g font-size="12.5" fill="#0a7d52" font-weight="700">
+              <text x="40" y="292">(0;4000)</text>
+              <text x="163" y="224" text-anchor="middle">(1;4480)</text>
+              <text x="253" y="161" text-anchor="middle">(2;4960)</text>
+              <text x="343" y="99" text-anchor="middle">(3;5440)</text>
+              <text x="430" y="38" text-anchor="middle">(4;5920)</text>
+            </g>
+          </svg>
+          <p class="pav">2 pav. S<sub>t</sub> grafikas: ta pati kryptis kaip P<sub>t</sub>, tik y ašyje paslinkta per S = 4000 Eur aukštyn.</p>
+        </div>
+        <p class="pvz"><b>Kaip patikrinti sau.</b> S<sub>0</sub> visada lygu pradiniam indėliui S (nes P<sub>0</sub> = 0). Jei tavo grafike S<sub>t</sub> prasideda nuo (0; 0), padarei klaidą.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Kaip nubraižyti grafiką iš lentelės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Žingsniai.</span> 1) Apskaičiuok P<sub>t</sub> kiekvienam t pagal formulę. 2) Sudaryk lentelę. 3) Kiekvieną porą (t; P<sub>t</sub>) pažymėk kaip tašką koordinačių plokštumoje. 4) Sujunk taškus tiese (ar punktyru, kaip orientacinę liniją), nes tai tiesinė priklausomybė.</p>
+        <p><span class="zenk">Pavyzdys.</span> Indėlis S = 2500 Eur, p = 6&nbsp;%. Kasmet palūkanos: <span class="math">2500 · 6/100 = 150</span> Eur.</p>
+        <table class="kort math">
+          <tr><th>t (metai)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><th>P<sub>t</sub> (Eur)</th><td>0</td><td>150</td><td>300</td><td>450</td><td>600</td></tr>
+          <tr><th>S<sub>t</sub> (Eur)</th><td>2500</td><td>2650</td><td>2800</td><td>2950</td><td>3100</td></tr>
+        </table>
+        <p class="pvz"><b>Sekantis skirtumas.</b> Patogus būdas patikrinti save: kiekvienais metais ir P<sub>t</sub>, ir S<sub>t</sub> padidėja <b>tuo pačiu pastoviu žingsniu</b> (čia po 150 Eur). Jei žingsnis kaskart skiriasi, klaida skaičiavime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Ką rodo grafiko statumas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kiek per metus paauga P<sub>t</sub> (ir S<sub>t</sub>), rodo dydis <span class="math">k = S · p/100</span>: tai grafiko <span class="zenk">krypties koeficientas</span> (Eur per metus). Kuo <span class="term-a">k didesnis</span>, tuo <span class="term-a">statesnis</span> grafikas.</p>
+        <table class="kort math">
+          <tr><th>Indėlis</th><th>S (Eur)</th><th>p (%)</th><th>k = S·p/100 (Eur/metus)</th></tr>
+          <tr><td>Gerdos</td><td>4000</td><td>12</td><td class="gerai">480</td></tr>
+          <tr><td>2500/6%</td><td>2500</td><td>6</td><td>150</td></tr>
+        </table>
+        <p class="demesio"><b>Dėmesio.</b> Statumas priklauso <b>nuo abiejų</b> dydžių: ir S, ir p. Didesnis procentas p arba didesnė pradinė suma S abu didina k, taigi grafikas gali būti status arba dėl didelio S, arba dėl didelio p (arba dėl abiejų). Kartais skirtingi indėliai (skirtingi S ir p) duoda <b>tą patį</b> k: tokių grafikų statumas sutampa, nors indėliai visai kitokie.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">S<sub>t</sub> grafikas prasideda nuo (0;0)</span></td><td class="math"><span class="gerai">S<sub>t</sub> prasideda nuo (0;S)</span>: indėlis jau yra prieš pirmus metus</td></tr>
+          <tr><td class="math"><span class="klaida">P<sub>t</sub> ir S<sub>t</sub> yra tas pats</span></td><td class="math"><span class="gerai">P<sub>t</sub> yra tik palūkanos, S<sub>t</sub> = S + P<sub>t</sub></span> yra visa suma</td></tr>
+          <tr><td class="math"><span class="klaida">P<sub>3</sub> = S · p/100</span> (pamiršta t)</td><td class="math"><span class="gerai">P<sub>3</sub> = S · p/100 · 3</span>, būtina dauginti iš t</td></tr>
+          <tr><td class="math"><span class="klaida">Grafike taškai tarp metų (t = 1,5)</span></td><td class="math"><span class="gerai">t yra tik sveikieji skaičiai</span> (0, 1, 2, 3, …), palūkanos skaičiuojamos metų pabaigoje</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš braižydamas paklausk: ar tai P<sub>t</sub> (vien palūkanos, prasideda nuo 0), ar S<sub>t</sub> (visa suma, prasideda nuo S)? Abu grafikai yra tiesės, abu lygiagretūs, skiriasi tik pradžios taškas y ašyje.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 8 klasės matematikos kursas · tema „Paprastosios palūkanos ir grafikai" (3.3)
+  </footer>
+
+</div>
+</body>
+</html>

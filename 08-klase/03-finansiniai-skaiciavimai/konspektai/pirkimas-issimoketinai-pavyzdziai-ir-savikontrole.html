@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Pirkimas išsimokėtinai: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Pirkimas išsimokėtinai: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 8 klasė · 3 skyrius „Finansiniai skaičiavimai" · 3.4 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── card 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Pasiskolinta suma ir permoka</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pasiskolinta suma S = kaina C − pradinis įnašas D. Permoka P = (D + n·m) − C, čia n: mėnesių skaičius, m: mėnesio įmoka.</div>
+    <div class="ex">
+      <div class="q">Prekė kainuoja 2000 Eur. Pradinis įnašas 500 Eur, likusi suma dengiama per 12 mėnesių po 150 Eur.</div>
+      <div class="line">Iš viso sumokėta: 500 + 12 · 150 = 500 + 1800 = <span class="res">2300 Eur</span></div>
+      <div class="line">Permoka: 2300 − 2000 = <span class="res">300 Eur</span> &nbsp;<span class="muted2">(sumokėta 300 Eur daugiau, nei kainuoja prekė)</span></div>
+      <div class="line">Pasiskolinta suma: S = 2000 − 500 = <span class="res">1500 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── card 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Efektyvi metinė palūkanų norma</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> iš P = S · p/100 · t (t: laikotarpis metais, t = n : 12) išreiškiame p = P · 100 / (S · t).</div>
+    <div class="ex">
+      <div class="q">Dviratis kainuoja 4000 Eur. Pradinis įnašas 800 Eur, likusi suma dengiama per 24 mėnesius po 200 Eur.</div>
+      <div class="line">Iš viso sumokėta: 800 + 24 · 200 = <span class="res">5600 Eur</span></div>
+      <div class="line">Permoka: 5600 − 4000 = <span class="res">1600 Eur</span>;&nbsp; S = 4000 − 800 = <span class="res">3200 Eur</span>;&nbsp; t = 24 : 12 = 2</div>
+      <div class="line">1600 = 3200 · p/100 · 2 &rArr; p = 1600 · 100 / (3200 · 2) = <span class="res">25 %</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── card 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Palyginimas. Paskola ar išsimokėtinai?</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> norint palyginti, apskaičiuojame, kiek iš viso reikia sumokėti abiem atvejais, ir renkamės pigesnį variantą.</div>
+    <div class="ex">
+      <div class="q">Prekė kainuoja 1200 Eur. A variantas: paskola 2 metams su 9 % metine paprastąja norma. B variantas: išsimokėtinai: 240 Eur pradinis įnašas + 18 mėnesio įmokų po 70 Eur.</div>
+      <div class="line">A: palūkanos = 1200 · 9/100 · 2 = 216 Eur &rArr; iš viso <span class="res">1416 Eur</span></div>
+      <div class="line">B: 240 + 18 · 70 = <span class="res">1500 Eur</span></div>
+      <div class="line">Skirtumas: 1500 − 1416 = 84 Eur &rArr; <span class="res">A variantas (paskola) pigesnis 84 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmiausia surask visą sumokėtą sumą (pradinis įnašas + visos mėnesio įmokos), tada iš jos atimk prekės kainą. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Iš viso sumokėta ir permoka</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Prekė 520 Eur; įnašas 100 Eur; 7 mėn. po 65 Eur.</li>
+        <li>Prekė 360 Eur; įnašas 60 Eur; 5 mėn. po 66 Eur.</li>
+        <li>Prekė 980 Eur; įnašas 200 Eur; 8 mėn. po 105 Eur.</li>
+        <li>Prekė 430 Eur; įnašas 70 Eur; 9 mėn. po 45 Eur.</li>
+        <li>Prekė 610 Eur; įnašas 130 Eur; 6 mėn. po 90 Eur.</li>
+        <li>Prekė 275 Eur; įnašas 55 Eur; 4 mėn. po 60 Eur.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Pasiskolinta suma ir efektyvi norma p</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>Prekė 900 Eur; įnašas 150 Eur; 12 mėn. po 68 Eur. Rask S ir p.</li>
+        <li>Prekė 1100 Eur; įnašas 300 Eur; 10 mėn. po 90 Eur. Rask S ir p.</li>
+        <li>Prekė 560 Eur; įnašas 80 Eur; 8 mėn. po 65 Eur. Rask S ir p.</li>
+        <li>Prekė 720 Eur; įnašas 120 Eur; 6 mėn. po 110 Eur. Rask S ir p.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Šeima perka virtuvės baldus už 1600 Eur. Sumokamas 320 Eur pradinis įnašas, likusi suma dengiama per 16 mėnesių po 90 Eur. Kiek iš viso sumokama ir kokia efektyvi metinė palūkanų norma p (apytiksliai)?</li>
+      <li>Prekė kainuoja 2400 Eur. Pradinis įnašas 600 Eur, likę 20 mėnesių mokama po 105 Eur. Apskaičiuok permoką ir efektyvią metinę normą p.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 555 Eur; permoka 35 Eur &nbsp;&nbsp; <b>2.</b> 390 Eur; permoka 30 Eur</div>
+    <div class="row math"><b>3.</b> 1040 Eur; permoka 60 Eur &nbsp;&nbsp; <b>4.</b> 475 Eur; permoka 45 Eur</div>
+    <div class="row math"><b>5.</b> 670 Eur; permoka 60 Eur &nbsp;&nbsp; <b>6.</b> 295 Eur; permoka 20 Eur</div>
+    <div class="row math"><b>7.</b> S = 750 Eur; p = 8,8 % &nbsp;&nbsp; <b>8.</b> S = 800 Eur; p = 15 %</div>
+    <div class="row math"><b>9.</b> S = 480 Eur; p = 12,5 % &nbsp;&nbsp; <b>10.</b> S = 600 Eur; p = 20 %</div>
+    <div class="row math"><b>11.</b> 320+16·90=1760 Eur; permoka=160 Eur; S=1280 Eur; t=16:12; p ≈ 9,38 %</div>
+    <div class="row math"><b>12.</b> 600+20·105=2700 Eur; permoka=300 Eur; S=1800 Eur; t=20:12; p = 10 %</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 8 klasės matematikos kursas · „Pirkimas išsimokėtinai" · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
