@@ -258,7 +258,7 @@ function renderTest(){
         <label class="opt"><input type="radio" name="mc${i}" value="${j}">
         <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
     </div>`).join('');
-  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  const KEYS = ['α','β','γ','δ','a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
   document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
     <div class="q">
       <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
@@ -273,7 +273,25 @@ function renderTest(){
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 // Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
 // markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+// Saugūs inline žymėjimo tagai (paryškinimui klausimo tekste) — atstatomi po esc() iš fiksuoto
+// sąrašo (be atributų, be dinaminio turinio), tad negalima jais įpinti savavališko HTML.
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
+  // {fr:SKAITIKLIS|VARDIKLIS} -> aiškus laiptuotos trupmenos žymeklis. Naudok šitą, kai
+  // skaitiklis/vardiklis NĖRA grynas skaitmuo (pvz. "1/cos²α", "sin2α/sinα",
+  // "(tanA+tanB)/(1−tanA·tanB)", "√2/2") — patikimiau nei spėlioti iš skliaustų/skaitmenų
+  // (žr. online-test-graikiskos-raides-ir-sqrt-trupmena.md apie ankstesnį spėjimo bug'ą).
+  out = out.replace(/\{fr:([^|{}]*)\|([^|{}]*)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // Skaitmuo/skaitmuo ARBA (N)π/skaitmuo (pvz. "3/4", "π/2", "3π/2") -> laiptuota trupmena.
+  out = out.replace(/(\d*π|\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  return out;
+}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
@@ -305,6 +323,7 @@ function normalize(s){
   s=s.toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,''); // laipsnio ženklas nesvarbus lyginant (74 == 74°)
   // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
   const _r=_rational(s); if(_r!==null) return 'r'+_r;
   if(!/^[+-]/.test(s)) s='+'+s;
@@ -314,8 +333,8 @@ function normalize(s){
     const mNum=rest.match(/^(\d*\.?\d*)/);
     let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
     let vars=rest.slice(mNum?mNum[1].length:0);
-    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
-    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    vars=vars.replace(/([a-zα-ω])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-zα-ω]/.test(ch)).sort().join('');
     return {coef:sign*coef,vars};
   }).filter(t=>t.coef!==0||t.vars!=='');
   const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});

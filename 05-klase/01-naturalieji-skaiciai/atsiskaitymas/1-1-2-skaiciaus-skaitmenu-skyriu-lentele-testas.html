@@ -275,10 +275,14 @@ function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 // markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
 // Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
 // funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+// Saugūs inline žymėjimo tagai (paryškinimui klausimo tekste) — atstatomi po esc() iš fiksuoto
+// sąrašo (be atributų, be dinaminio turinio), tad negalima jais įpinti savavališko HTML.
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
 function fmtMath(s){
   s = s + '';
   if(/<svg[\s>]/i.test(s)) return s;
   let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
   // {fr:SKAITIKLIS|VARDIKLIS} -> aiškus laiptuotos trupmenos žymeklis. Naudok šitą, kai
   // skaitiklis/vardiklis NĖRA grynas skaitmuo (pvz. "1/cos²α", "sin2α/sinα",
   // "(tanA+tanB)/(1−tanA·tanB)", "√2/2") — patikimiau nei spėlioti iš skliaustų/skaitmenų
