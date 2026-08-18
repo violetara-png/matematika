@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Palyginame natūraliuosius skaičius — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Palyginame natūraliuosius skaičius — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 1 skyrius „Natūralieji skaičiai“ · 1.3.2 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Palyginame pagal skaitmenų kiekį (1 taisyklė)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei du skaičiai turi <b>skirtingą</b> skaitmenų kiekį, didesnis tas, kuris turi <b>daugiau skaitmenų</b> — nesvarbu, kokie patys skaitmenys.</div>
+    <div class="ex">
+      <div class="q">Palygink <span class="math">9 999</span> ir <span class="math">10 000</span></div>
+      <div class="line">Skaičius <span class="math">9 999</span> sudarytas iš <b>4 skaitmenų</b>, o <span class="math">10 000</span> — iš <b>5 skaitmenų</b>. Skaitmenų kiekis skirtingas, tad daugiau skaitmenų turintis skaičius yra didesnis.</div>
+      <div class="line">&rArr; <span class="res">9 999 &lt; 10 000</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Palygink <span class="math">745</span> ir <span class="math">6 302</span></div>
+      <div class="line"><span class="math">745</span> turi 3 skaitmenis, <span class="math">6 302</span> — 4 skaitmenis. Daugiau skaitmenų turi antrasis skaičius, todėl jis didesnis.</div>
+      <div class="line">&rArr; <span class="res">745 &lt; 6 302</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Palyginame skaičius su vienodu skaitmenų kiekiu (2 taisyklė)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei skaitmenų kiekis <b>vienodas</b>, lyginame skaitmuo po skaitmens nuo <b>aukščiausio (kairiausio)</b> skyriaus, kol randame skyrių, kuriame skaitmenys skiriasi. Didesnis tas skaičius, kurio tame skyriuje skaitmuo didesnis.</div>
+    <div class="ex">
+      <div class="q">Palygink <span class="math">4 583</span> ir <span class="math">4 538</span></div>
+      <div class="line">Abu skaičiai turi po 4 skaitmenis. Lyginame nuo kairės: tūkstančiai (4 = 4) ir šimtai (5 = 5) sutampa. Dešimčių skyriuje <span class="math">8 &gt; 3</span> — čia ir randame skirtumą.</div>
+      <div class="line">&rArr; <span class="res">4 583 &gt; 4 538</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Palygink <span class="math">62 715</span> ir <span class="math">62 719</span></div>
+      <div class="line">Abu skaičiai turi po 5 skaitmenis. Pirmi keturi skaitmenys (6, 2, 7, 1) sutampa abiejuose skaičiuose. Vienetų skyriuje <span class="math">5 &lt; 9</span>.</div>
+      <div class="line">&rArr; <span class="res">62 715 &lt; 62 719</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Rikiuojame kelis skaičius</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> rikiuojant kelis skaičius, pirmiausia atskiriame tuos, kurie turi <b>mažiausiai skaitmenų</b> (1 taisyklė), o tada, jei skaitmenų kiekis vienodas, lyginame skaitmenis iš kairės (2 taisyklė).</div>
+    <div class="ex">
+      <div class="q">Surikiuok mažėjimo tvarka: <span class="math">5 200</span>, <span class="math">899</span>, <span class="math">5 020</span></div>
+      <div class="line">Skaičius <span class="math">899</span> turi tik 3 skaitmenis — mažiau nei kiti du (4 skaitmenys), tad jis iš karto mažiausias. Likusius du lyginame skaitmuo po skaitmens: tūkstančiai ir šimtai sutampa (5, 2), o dešimčių skyriuje <span class="math">2 &gt; 0</span>, todėl <span class="math">5 200 &gt; 5 020</span>.</div>
+      <div class="line">&rArr; <span class="res">5 200 &gt; 5 020 &gt; 899</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> palygink skaičių poras naudodamas ženklus <span class="math">&lt;</span>, <span class="math">&gt;</span> arba <span class="math">=</span>, o kur nurodyta, surikiuok skaičius nurodyta tvarka.</div>
+
+    <div class="grp">A grupė · Palyginimai ir rikiavimas</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Palygink: <span class="math">3 456</span> ir <span class="math">3 465</span></li>
+        <li>Palygink: <span class="math">78 901</span> ir <span class="math">9 999</span></li>
+        <li>Palygink: <span class="math">20 300</span> ir <span class="math">20 300</span></li>
+        <li>Palygink: <span class="math">601 200</span> ir <span class="math">601 020</span></li>
+        <li>Palygink: <span class="math">8 090</span> ir <span class="math">8 009</span></li>
+        <li>Palygink: <span class="math">1 000 000</span> ir <span class="math">999 999</span></li>
+        <li>Palygink: <span class="math">45 612</span> ir <span class="math">45 621</span></li>
+        <li>Palygink: <span class="math">7 200</span> ir <span class="math">720</span></li>
+        <li>Palygink: <span class="math">999</span> ir <span class="math">1 001</span></li>
+        <li>Palygink: <span class="math">300 405</span> ir <span class="math">300 450</span></li>
+        <li>Surikiuok <b>didėjimo</b> tvarka: <span class="math">4 305</span>, <span class="math">999</span>, <span class="math">4 350</span>, <span class="math">43</span></li>
+        <li>Surikiuok <b>mažėjimo</b> tvarka: <span class="math">12 090</span>, <span class="math">12 900</span>, <span class="math">1 290</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="13">
+      <li>Viename mieste gyvena <span class="math">128 450</span> gyventojų, kitame — <span class="math">128 405</span> gyventojai. Kuriame mieste gyventojų daugiau?</li>
+      <li>Sandėlyje yra trys prekių partijos: <span class="math">2 300</span> vnt., <span class="math">2 030</span> vnt. ir <span class="math">23 000</span> vnt. Surikiuok partijas <b>didėjimo</b> tvarka pagal prekių kiekį.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 3 456 &lt; 3 465</div>
+    <div class="row"><b>2.</b> 78 901 &gt; 9 999</div>
+    <div class="row"><b>3.</b> 20 300 = 20 300</div>
+    <div class="row"><b>4.</b> 601 200 &gt; 601 020</div>
+    <div class="row"><b>5.</b> 8 090 &gt; 8 009</div>
+    <div class="row"><b>6.</b> 1 000 000 &gt; 999 999</div>
+    <div class="row"><b>7.</b> 45 612 &lt; 45 621</div>
+    <div class="row"><b>8.</b> 7 200 &gt; 720</div>
+    <div class="row"><b>9.</b> 999 &lt; 1 001</div>
+    <div class="row"><b>10.</b> 300 405 &lt; 300 450</div>
+    <div class="row"><b>11.</b> 43 &lt; 999 &lt; 4 305 &lt; 4 350</div>
+    <div class="row"><b>12.</b> 12 900 &gt; 12 090 &gt; 1 290</div>
+    <div class="row"><b>13.</b> Pirmajame mieste (128 450 &gt; 128 405)</div>
+    <div class="row"><b>14.</b> 2 030 &lt; 2 300 &lt; 23 000</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Palyginame natūraliuosius skaičius“ (1.3.2) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

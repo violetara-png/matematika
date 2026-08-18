@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaitmens reikšmė — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:9px;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaitmens reikšmė — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 1 skyrius „Natūralieji skaičiai“ · 1.2.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Ta pati skaitmuo — skirtinga reikšmė</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kiekvienas skaitmuo skaičiuje stovi savo <em class="v">skyriuje</em> (vienetų, dešimčių, šimtų, tūkstančių ir t. t.). To paties skaitmens <em class="v">reikšmė</em> skirtinguose skyriuose yra skirtinga: <span class="math">skaitmens reikšmė = skaitmuo · skyriaus vienetas</span>.</div>
+    <div class="ex">
+      <div class="q">Skaičiuje <span class="math">4 444</span> visi keturi skaitmenys yra <b>4</b>. Kokia kiekvieno jų reikšmė?</div>
+      <div class="line">tūkstančių skyriuje: <span class="math">4 · 1000</span> &nbsp;&rArr;&nbsp; <span class="res">4000</span></div>
+      <div class="line">šimtų skyriuje: <span class="math">4 · 100</span> &nbsp;&rArr;&nbsp; <span class="res">400</span></div>
+      <div class="line">dešimčių skyriuje: <span class="math">4 · 10</span> &nbsp;&rArr;&nbsp; <span class="res">40</span></div>
+      <div class="line">vienetų skyriuje: <span class="math">4 · 1</span> &nbsp;&rArr;&nbsp; <span class="res">4</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Nurodyto skaitmens reikšmės radimas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Žingsniai:</b> 1) rask nurodytą skaitmenį skaičiuje; 2) nustatyk, kuriame <em class="v">skyriuje</em> jis stovi; 3) skaitmenį padaugink iš to skyriaus vieneto.</div>
+    <div class="ex">
+      <div class="q">Skaičiuje <span class="math">68 245</span> kokia skaitmens <b>6</b> reikšmė?</div>
+      <div class="line">Skaitmuo <b>6</b> stovi <em class="v">dešimties tūkstančių</em> skyriuje (skyriaus vienetas — <span class="math">10 000</span>).</div>
+      <div class="line"><span class="math">6 · 10 000 =</span> <span class="res">60 000</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Skaičiuje <span class="math">913 056</span> kokia skaitmens <b>3</b> reikšmė?</div>
+      <div class="line">Skaitmuo <b>3</b> stovi <em class="v">tūkstančių</em> skyriuje (skyriaus vienetas — <span class="math">1000</span>).</div>
+      <div class="line"><span class="math">3 · 1000 =</span> <span class="res">3000</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Skaičiaus išskaidymas pagal skyrius</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> kiekvieną skaičių galima užrašyti kaip jo skaitmenų <em class="v">reikšmių sumą</em>, tai vadinama skaičiaus <em class="v">išskaidymu pagal skyrius</em>. Skyrių, kuriame stovi skaitmuo <b>0</b>, sumoje galima praleisti — jis reikšmės nekeičia.</div>
+    <div class="ex">
+      <div class="q">Išskaidyk skaičių <span class="math">3 452</span> pagal skyrius.</div>
+      <div class="line"><span class="math">3 452 = 3000 + 400 + 50 + 2</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Išskaidyk skaičių <span class="math">60 709</span> pagal skyrius.</div>
+      <div class="line">Skyriai: <span class="math">6</span> — dešimtys tūkst., <span class="math">0</span> — tūkstančiai, <span class="math">7</span> — šimtai, <span class="math">0</span> — dešimtys, <span class="math">9</span> — vienetai.</div>
+      <div class="line"><span class="math">60 709 = 60 000 + 700 + 9</span> <span class="muted2">(nulinius skyrius praleidome)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> primink sau — <em class="v">skaitmuo</em> tik parodo, koks ženklas (0–9) parašytas, o <em class="v">reikšmė</em> priklauso nuo skyriaus, kuriame jis stovi. Natūralieji skaičiai prasideda nuo <span class="math">1</span> (0 natūraliuoju skaičiumi nelaikomas).</div>
+
+    <div class="grp">A grupė · nurodyto skaitmens reikšmė</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Skaičiuje <span class="math">8 943</span> kokia skaitmens <b>9</b> reikšmė?</li>
+        <li>Skaičiuje <span class="math">27 156</span> kokia skaitmens <b>2</b> reikšmė?</li>
+        <li>Skaičiuje <span class="math">305 618</span> kokia skaitmens <b>5</b> reikšmė?</li>
+        <li>Skaičiuje <span class="math">71 402</span> kokia skaitmens <b>7</b> reikšmė?</li>
+        <li>Skaičiuje <span class="math">4 000 000</span> kokia skaitmens <b>4</b> reikšmė?</li>
+        <li>Skaičiuje <span class="math">918</span> kokia skaitmens <b>1</b> reikšmė?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · išskaidymas pagal skyrius</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Išskaidyk skaičių <span class="math">5 274</span> sumos pavidalu.</li>
+        <li>Išskaidyk skaičių <span class="math">60 803</span> sumos pavidalu.</li>
+        <li>Išskaidyk skaičių <span class="math">913 056</span> sumos pavidalu.</li>
+        <li>Kokį skaičių sudaro suma <span class="math">400 000 + 20 000 + 5 000 + 70 + 3</span>?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Naujas automobilis kainuoja <span class="math">24 850</span> eurų. Kokia skaitmens <b>4</b> reikšmė šioje kainoje?</li>
+      <li>Mieste gyvena <span class="math">305 412</span> gyventojai. Kokia skaitmens <b>5</b> reikšmė šiame skaičiuje? Užrašyk skaičių <span class="math">305 412</span> sumos pavidalu pagal skyrius.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 900</div>
+    <div class="row"><b>2.</b> 20 000</div>
+    <div class="row"><b>3.</b> 5000</div>
+    <div class="row"><b>4.</b> 70 000</div>
+    <div class="row"><b>5.</b> 4 000 000</div>
+    <div class="row"><b>6.</b> 10</div>
+    <div class="row"><b>7.</b> 5 274 = 5000 + 200 + 70 + 4</div>
+    <div class="row"><b>8.</b> 60 803 = 60 000 + 800 + 3</div>
+    <div class="row"><b>9.</b> 913 056 = 900 000 + 10 000 + 3 000 + 50 + 6</div>
+    <div class="row"><b>10.</b> 425 073</div>
+    <div class="row"><b>11.</b> skaitmuo <b>4</b> stovi tūkstančių skyriuje &nbsp;&rArr;&nbsp; reikšmė 4000</div>
+    <div class="row"><b>12.</b> skaitmuo <b>5</b> stovi tūkstančių skyriuje &nbsp;&rArr;&nbsp; reikšmė 5000; <span class="math">305 412 = 300 000 + 5 000 + 400 + 10 + 2</span></div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaitmens reikšmė“ (1.2.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

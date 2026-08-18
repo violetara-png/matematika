@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Romėniškieji skaitmenys — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Romėniškieji skaitmenys — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 1 skyrius „Natūralieji skaičiai" · 1.5.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Pagrindiniai ženklai. kartojimas ir sudėjimas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> 7 pagrindiniai ženklai — <span class="math">I=1, V=5, X=10, L=50, C=100, D=500, M=1000</span>. Tas pats ženklas gali kartotis iš eilės ne daugiau kaip <b>3 kartus</b> (reikšmes sudedame). Jei mažesnis ženklas parašytas <b>po</b> didesnio (jo dešinėje), reikšmes taip pat <b>sudedame</b>.</div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math">III</span> ir <span class="math">XX</span> į paprastus skaičius</div>
+      <div class="line"><span class="math">III = 1+1+1</span> &nbsp;&rArr;&nbsp; <span class="res">3</span> &nbsp;&nbsp;·&nbsp;&nbsp; <span class="math">XX = 10+10</span> &nbsp;&rArr;&nbsp; <span class="res">20</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math">VI</span> ir <span class="math">XXVII</span> į paprastus skaičius</div>
+      <div class="line"><span class="math">VI = 5+1</span> (V didesnis, I dešinėje — sudedam) &nbsp;&rArr;&nbsp; <span class="res">6</span></div>
+      <div class="line"><span class="math">XXVII = 10+10+5+1+1</span> &nbsp;&rArr;&nbsp; <span class="res">27</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Atimties taisyklė. mažesnis ženklas kairėje</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei mažesnis ženklas parašytas <b>prieš</b> didesnį (jo kairėje), mažesnysis <b>atimamas</b> iš didesnio. Atimtis galima tik su šešiomis griežtai nustatytomis poromis: <span class="math">IV, IX, XL, XC, CD, CM</span>. Jokių kitų atimčių (pvz. „VX" ar „IL") NĖRA.</div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math">IV</span> ir <span class="math">XC</span> į paprastus skaičius</div>
+      <div class="line"><span class="math">IV = 5−1</span> (I mažesnis ir kairėje nuo V — atimam) &nbsp;&rArr;&nbsp; <span class="res">4</span></div>
+      <div class="line"><span class="math">XC = 100−10</span> &nbsp;&rArr;&nbsp; <span class="res">90</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math">CM</span> į paprastą skaičių</div>
+      <div class="line"><span class="math">CM = 1000−100</span> (C mažesnis ir kairėje nuo M — atimam) &nbsp;&rArr;&nbsp; <span class="res">900</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Skaitome ir rašome ilgesnius skaičius</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> ilgesnį romėnišką skaičių skaidome į dalis (tūkstančiai, šimtai, dešimtys, vienetai) ir kiekvieną dalį apskaičiuojame atskirai pagal a), b), c) taisykles, tada rezultatus sudedame. Rašydami priešinga kryptimi, tą patį skaičių skaidome į tūkstančius, šimtus, dešimtis, vienetus ir kiekvieną dalį užrašome romėniškai.</div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math"><b>XXIV</b></span> į paprastą skaičių</div>
+      <div class="line">Skaidome: <span class="math">XX = 20</span>, <span class="math">IV = 5−1 = 4</span> (I prieš V — atimtis). Sudedame: <span class="math">20 + 4</span> &nbsp;&rArr;&nbsp; <span class="res">24</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Paversk <span class="math"><b>MCMXXIV</b></span> į paprastą skaičių</div>
+      <div class="line"><span class="math">M = 1000</span>, <span class="math">CM = 1000−100 = 900</span>, <span class="math">XX = 20</span>, <span class="math">IV = 4</span>. Sudedame: <span class="math">1000 + 900 + 20 + 4</span> &nbsp;&rArr;&nbsp; <span class="res">1924</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Paversk skaičių <span class="math"><b>1994</b></span> į romėniškus skaitmenis</div>
+      <div class="line">Skaidome: <span class="math">1994 = 1000 + 900 + 90 + 4</span>. Kiekvieną dalį užrašome romėniškai: <span class="math">1000 = M</span>, <span class="math">900 = CM</span>, <span class="math">90 = XC</span>, <span class="math">4 = IV</span>. Sujungiame: &nbsp;&rArr;&nbsp; <span class="res">MCMXCIV</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmiausia paversk romėniškus skaitmenis į paprastus, paskui — atvirkščiai. Atmink, kad tas pats ženklas nesikartoja daugiau kaip 3 kartus, o atimtis galima tik su poromis <span class="math">IV, IX, XL, XC, CD, CM</span>.</div>
+
+    <div class="grp">A grupė · romėniškas skaičius → paprastas</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Paversk <span class="math">VIII</span> į paprastą skaičių.</li>
+        <li>Paversk <span class="math">XVI</span> į paprastą skaičių.</li>
+        <li>Paversk <span class="math">XLII</span> į paprastą skaičių.</li>
+        <li>Paversk <span class="math">XCIV</span> į paprastą skaičių.</li>
+        <li>Paversk <span class="math">CDXLIV</span> į paprastą skaičių.</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · paprastas skaičius → romėniškas</div>
+    <div class="two">
+      <ol class="tasks" start="6">
+        <li>Paversk <span class="math">24</span> į romėnišką skaičių.</li>
+        <li>Paversk <span class="math">49</span> į romėnišką skaičių.</li>
+        <li>Paversk <span class="math">90</span> į romėnišką skaičių.</li>
+        <li>Paversk <span class="math">279</span> į romėnišką skaičių.</li>
+        <li>Paversk <span class="math">2026</span> į romėnišką skaičių.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Kino filmo pabaigos titruose nurodyti pagaminimo metai romėniškais skaitmenimis: <span class="math">MCMXCV</span>. Kuriais metais pagamintas filmas?</li>
+      <li>Senovinio bokšto laikrodžio ciferblate trumpoji rodyklė sustojo ties skaitmeniu <span class="math">IX</span>. Kurią valandą rodo laikrodis?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> VIII = 5+1+1+1 = <b>8</b></div>
+    <div class="row"><b>2.</b> XVI = 10+5+1 = <b>16</b></div>
+    <div class="row"><b>3.</b> XLII = (50−10)+1+1 = <b>42</b></div>
+    <div class="row"><b>4.</b> XCIV = (100−10)+(5−1) = <b>94</b></div>
+    <div class="row"><b>5.</b> CDXLIV = (500−100)+(50−10)+(5−1) = <b>444</b></div>
+    <div class="row"><b>6.</b> 24 = 20+4 = <b>XXIV</b></div>
+    <div class="row"><b>7.</b> 49 = 40+9 = <b>XLIX</b></div>
+    <div class="row"><b>8.</b> 90 = 100−10 = <b>XC</b></div>
+    <div class="row"><b>9.</b> 279 = 200+70+9 = <b>CCLXXIX</b></div>
+    <div class="row"><b>10.</b> 2026 = 2000+20+6 = <b>MMXXVI</b></div>
+    <div class="row"><b>11.</b> MCMXCV = 1000+900+90+5 = <b>1995 m.</b></div>
+    <div class="row"><b>12.</b> IX = 10−1 = 9, taigi laikrodis rodo <b>9 valandą</b></div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Romėniškieji skaitmenys" (1.5.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

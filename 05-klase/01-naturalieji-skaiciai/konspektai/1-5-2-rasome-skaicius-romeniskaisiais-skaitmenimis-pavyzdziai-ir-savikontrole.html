@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Rašome skaičius romėniškaisiais skaitmenimis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Rašome skaičius romėniškaisiais skaitmenimis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 1 skyrius „Natūralieji skaičiai“ · 1.5.2 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Algoritmas: kaip užrašyti skaičių romėniškai</div>
+  <div class="body">
+    <div class="green">
+      <b class="kw">Taisyklė:</b> skaičių <b>IŠSKAIDOME SKYRIUM SUMA</b> (tūkstančiai, šimtai, dešimtys, vienetai), kiekvieną narį verčiame romėniškai <b>ATSKIRAI</b> pagal lentelę, o tada visus užrašus <b>SUJUNGIAME</b> iš eilės nuo didžiausio skyriaus iki mažiausio.
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk skaičių <span class="math">368</span> romėniškaisiais skaitmenimis.</div>
+      <div class="line">1) Skaidome skyrium suma: <span class="math">368 = 300 + 60 + 8</span>.</div>
+      <div class="line">2) Verčiame kiekvieną narį atskirai: <span class="math">300 = CCC</span>, <span class="math">60 = LX</span>, <span class="math">8 = VIII</span>.</div>
+      <div class="line">3) Sujungiame iš eilės: <span class="math">CCC + LX + VIII</span> &rArr; <span class="res">CCCLXVIII</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sudėtingesni pavyzdžiai (keli skyriai su „4“ ir „9“)</div>
+  <div class="body">
+    <div class="ex">
+      <div class="q">Užrašyk skaičių <span class="math">1994</span> romėniškaisiais skaitmenimis.</div>
+      <div class="line">Skaidome: <span class="math">1994 = 1000 + 900 + 90 + 4</span>.</div>
+      <div class="line">Verčiame atskirai: <span class="math">1000 = M</span>, <span class="math">900 = CM</span>, <span class="math">90 = XC</span>, <span class="math">4 = IV</span>.</div>
+      <div class="line">Sujungiame: <span class="math">M + CM + XC + IV</span> &rArr; <span class="res">MCMXCIV</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk skaičių <span class="math">2026</span> romėniškaisiais skaitmenimis (šie metai).</div>
+      <div class="line">Skaidome: <span class="math">2026 = 2000 + 0 + 20 + 6</span> (šimtų skyriuje — 0, jo neužrašome).</div>
+      <div class="line">Verčiame atskirai: <span class="math">2000 = MM</span>, <span class="math">20 = XX</span>, <span class="math">6 = VI</span>.</div>
+      <div class="line">Sujungiame: <span class="math">MM + XX + VI</span> &rArr; <span class="res">MMXXVI</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Dažna klaida: kiek kartų gali kartotis ženklas</div>
+  <div class="body">
+    <div class="green">
+      <b class="kw">Taisyklė:</b> ženklai <span class="math">I, X, C, M</span> iš eilės gali kartotis <b>DAUGIAUSIA 3 KARTUS</b> (<span class="math">III, XXX, CCC, MMM</span>), o ženklai <span class="math">V, L, D</span> <b>NIEKADA nesikartoja</b>. Jei skaidant skyrių gautųsi 4 ar daugiau vienodų ženklų iš eilės, naudojamas atimties atvejis (žr. skyrių lentelę konspekte).
+    </div>
+    <div class="ex">
+      <div class="q">Ar galima skaičių <span class="math">40</span> užrašyti kaip <span class="math">XXXX</span>?</div>
+      <div class="line"><b>Ne.</b> Keturi vienodi ženklai iš eilės — klaida. <span class="math">40</span> priklauso dešimtų skyriui, o jo skaitmuo 4 pagal lentelę žymimas <span class="math">XL</span> (dešimt prieš penkiasdešimt).</div>
+      <div class="line"><span class="math">40</span> &rArr; <span class="res">XL</span> &nbsp;<span class="muted2">(ne XXXX)</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Palygink: <span class="math">3</span> ir <span class="math">4</span>.</div>
+      <div class="line"><span class="math">3 = I + I + I</span> &rArr; <span class="res">III</span> &nbsp;<span class="muted2">(trys ženklai iš eilės — leidžiama)</span></div>
+      <div class="line"><span class="math">4 ≠ IIII</span> &nbsp;<span class="muted2">(keturi ženklai iš eilės — draudžiama)</span> &rArr; <span class="math">4 =</span> <span class="res">IV</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kiekvieną skaičių išskaidyk skyrium suma, kiekvieną narį versk atskirai pagal lentelę, tada sujunk. Atsakymus rašyk didžiosiomis raidėmis.</div>
+
+    <div class="grp">A grupė · iki 100</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Užrašyk romėniškai: <span class="math">7</span></li>
+        <li>Užrašyk romėniškai: <span class="math">14</span></li>
+        <li>Užrašyk romėniškai: <span class="math">29</span></li>
+        <li>Užrašyk romėniškai: <span class="math">45</span></li>
+        <li>Užrašyk romėniškai: <span class="math">68</span></li>
+        <li>Užrašyk romėniškai: <span class="math">94</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · šimtai ir tūkstančiai</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Užrašyk romėniškai: <span class="math">156</span></li>
+        <li>Užrašyk romėniškai: <span class="math">399</span></li>
+        <li>Užrašyk romėniškai: <span class="math">444</span></li>
+        <li>Užrašyk romėniškai: <span class="math">777</span></li>
+        <li>Užrašyk romėniškai: <span class="math">1848</span></li>
+        <li>Užrašyk romėniškai: <span class="math">2019</span></li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="13">
+      <li>Šie mokslo metai skaičiuojami nuo <span class="math">2026</span>-ųjų. Užrašyk šį skaičių romėniškaisiais skaitmenimis.</li>
+      <li>Filmo titruose pabaigoje užrašyta pagaminimo data — <span class="math">MCMXCV</span>. Kuriais metais (arabiškuoju skaičiumi) pagamintas filmas?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> VII</div>
+    <div class="row"><b>2.</b> XIV</div>
+    <div class="row"><b>3.</b> XXIX</div>
+    <div class="row"><b>4.</b> XLV</div>
+    <div class="row"><b>5.</b> LXVIII</div>
+    <div class="row"><b>6.</b> XCIV</div>
+    <div class="row"><b>7.</b> CLVI</div>
+    <div class="row"><b>8.</b> CCCXCIX</div>
+    <div class="row"><b>9.</b> CDXLIV</div>
+    <div class="row"><b>10.</b> DCCLXXVII</div>
+    <div class="row"><b>11.</b> MDCCCXLVIII</div>
+    <div class="row"><b>12.</b> MMXIX</div>
+    <div class="row"><b>13.</b> MMXXVI</div>
+    <div class="row"><b>14.</b> 1995</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Rašome skaičius romėniškaisiais skaitmenimis“ (1.5.2) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
