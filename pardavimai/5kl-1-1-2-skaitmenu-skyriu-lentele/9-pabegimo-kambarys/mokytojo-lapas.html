@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.1.2 Skaičiaus skaitmenų skyrių lentelė · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:130px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.1.2 Skaičiaus skaitmenų skyrių lentelė</b> · 5 klasė · Skaitmenų archyvas · 6 skrynios · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 skaičių mįsles iš eilės (skaitmenų klasės ir skyriai, nenuliniai skaitmenys, kiek
+    klasių sudaro skaičių, skaičius iš žodžių, paslaptingas skaičius iš dviejų klasių, kombinuota
+    užduotis). Kiekvienos mįslės atsakymas yra vienas archyvo kodo skaitmuo (iš eilės nuo 1 iki
+    6 skrynios). Surinkęs visą kodą ir įvedęs jį į duris, mokinys „pabėga". Skirtingi variantai turi
+    kitus skaičius ir kitą kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos skrynios.</li>
+      <li>Galima spręsti komandomis po 2 — vienas skaičiuoja, kitas tikrina.</li>
+      <li>Skrynios 1–2 apie skaitmenis konkrečioje klasėje/skyriuje ir nenulinius skaitmenis, 3 — kiek
+        klasių sudaro skaičių, 4 — skaičius iš žodžių, 5 — paslaptingas skaičius (klasės sudedamos),
+        6 — kombinuota užduotis (du skaitmenys ir jų skirtumas).</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"144525", rows:[
+   [1,"Pirmoji spyna: skaitmens namai","5 218 493 — Koks skaitmuo yra jo TŪKSTANČIŲ klasės DEŠIMČIŲ skyriuje?","5 218 493 → milijonų klasė „5\", tūkstančių klasė „218\", vienetų klasė „493\". Tūkstančių klasės skyriai: šimtai 2, dešimtys 1, vienetai 8. Dešimčių skyriaus skaitmuo = 1.",1],
+   [2,"Antroji spyna: nenulinių pėdsakų skaičiuoklė","620 004 003 — Kiek IŠ VISO šio skaičiaus skaitmenų NĖRA lygūs nuliui?","Skaitmenys: 6,2,0,0,0,4,0,0,3. Nenuliniai: 6, 2, 4, 3 → iš viso 4.",4],
+   [3,"Trečioji spyna: klasių skaičiuoklė","4 372 018 560 — Iš KIEK klasių sudarytas šis skaičius?","4 372 018 560 → milijardų klasė „4\", milijonų „372\", tūkstančių „018\", vienetų „560\" → iš viso 4 klasės.",4],
+   [4,"Ketvirtoji spyna: žodžių šifras","„aštuoni milijonai penkiasdešimt trys tūkstančiai devyni\" — Koks yra TŪKSTANČIŲ klasės DEŠIMČIŲ skyriaus skaitmuo?","Žodžiai → 8 053 009. Tūkstančių klasė „053\": šimtai 0, dešimtys 5, vienetai 3. Dešimčių skyriaus skaitmuo = 5.",5],
+   [5,"Penktoji spyna: paslaptingas skaičius","Šešiaženklis skaičius: TŪKSTANČIŲ klasė = 407, VIENETŲ klasė = 215. Koks yra VIENETŲ klasės ŠIMTŲ skyriaus skaitmuo?","Skaičius = 407 215. Vienetų klasė „215\": šimtai 2, dešimtys 1, vienetai 5. Šimtų skyriaus skaitmuo = 2.",2],
+   [6,"Šeštoji spyna: dvigubas šifras","8 306 152 — (A) MILIJONŲ klasės skaitmuo; (B) TŪKSTANČIŲ klasės ŠIMTŲ skyriaus skaitmuo. Skirtumas?","8 306 152 → milijonų klasė „8\" (A = 8), tūkstančių klasė „306\": šimtai 3 (B = 3). Skirtumas 8 − 3 = 5.",5],
+ ]},
+ { code:"633217", rows:[
+   [1,"Pirmoji spyna: skaitmens namai","7 461 382 — Koks skaitmuo yra jo TŪKSTANČIŲ klasės DEŠIMČIŲ skyriuje?","7 461 382 → milijonų klasė „7\", tūkstančių klasė „461\": šimtai 4, dešimtys 6, vienetai 1. Dešimčių skyriaus skaitmuo = 6.",6],
+   [2,"Antroji spyna: nenulinių pėdsakų skaičiuoklė","502 000 004 — Kiek IŠ VISO šio skaičiaus skaitmenų NĖRA lygūs nuliui?","Skaitmenys: 5,0,2,0,0,0,0,0,4. Nenuliniai: 5, 2, 4 → iš viso 3.",3],
+   [3,"Trečioji spyna: klasių skaičiuoklė","63 405 190 — Iš KIEK klasių sudarytas šis skaičius?","63 405 190 → milijonų klasė „63\" (2 skaitmenys), tūkstančių „405\", vienetų „190\" → iš viso 3 klasės.",3],
+   [4,"Ketvirtoji spyna: žodžių šifras","„šeši milijonai šimtas dvidešimt keturi tūkstančiai septyni\" — Koks yra TŪKSTANČIŲ klasės DEŠIMČIŲ skyriaus skaitmuo?","Žodžiai → 6 124 007. Tūkstančių klasė „124\": šimtai 1, dešimtys 2, vienetai 4. Dešimčių skyriaus skaitmuo = 2.",2],
+   [5,"Penktoji spyna: paslaptingas skaičius","Šešiaženklis skaičius: TŪKSTANČIŲ klasė = 583, VIENETŲ klasė = 129. Koks yra VIENETŲ klasės ŠIMTŲ skyriaus skaitmuo?","Skaičius = 583 129. Vienetų klasė „129\": šimtai 1, dešimtys 2, vienetai 9. Šimtų skyriaus skaitmuo = 1.",1],
+   [6,"Šeštoji spyna: dvigubas šifras","9 247 631 — (A) MILIJONŲ klasės skaitmuo; (B) TŪKSTANČIŲ klasės ŠIMTŲ skyriaus skaitmuo. Skirtumas?","9 247 631 → milijonų klasė „9\" (A = 9), tūkstančių klasė „247\": šimtai 2 (B = 2). Skirtumas 9 − 2 = 7.",7],
+ ]},
+ { code:"424635", rows:[
+   [1,"Pirmoji spyna: skaitmens namai","2 843 671 — Koks skaitmuo yra jo TŪKSTANČIŲ klasės DEŠIMČIŲ skyriuje?","2 843 671 → milijonų klasė „2\", tūkstančių klasė „843\": šimtai 8, dešimtys 4, vienetai 3. Dešimčių skyriaus skaitmuo = 4.",4],
+   [2,"Antroji spyna: nenulinių pėdsakų skaičiuoklė","400 000 007 — Kiek IŠ VISO šio skaičiaus skaitmenų NĖRA lygūs nuliui?","Skaitmenys: 4,0,0,0,0,0,0,0,7. Nenuliniai: 4, 7 → iš viso 2.",2],
+   [3,"Trečioji spyna: klasių skaičiuoklė","5 802 349 761 — Iš KIEK klasių sudarytas šis skaičius?","5 802 349 761 → milijardų klasė „5\", milijonų „802\", tūkstančių „349\", vienetų „761\" → iš viso 4 klasės.",4],
+   [4,"Ketvirtoji spyna: žodžių šifras","„trys milijonai devyni šimtai šešiasdešimt tūkstančių keturi\" — Koks yra TŪKSTANČIŲ klasės DEŠIMČIŲ skyriaus skaitmuo?","Žodžiai → 3 960 004. Tūkstančių klasė „960\": šimtai 9, dešimtys 6, vienetai 0. Dešimčių skyriaus skaitmuo = 6.",6],
+   [5,"Penktoji spyna: paslaptingas skaičius","Šešiaženklis skaičius: TŪKSTANČIŲ klasė = 215, VIENETŲ klasė = 348. Koks yra VIENETŲ klasės ŠIMTŲ skyriaus skaitmuo?","Skaičius = 215 348. Vienetų klasė „348\": šimtai 3, dešimtys 4, vienetai 8. Šimtų skyriaus skaitmuo = 3.",3],
+   [6,"Šeštoji spyna: dvigubas šifras","6 174 528 — (A) MILIJONŲ klasės skaitmuo; (B) TŪKSTANČIŲ klasės ŠIMTŲ skyriaus skaitmuo. Skirtumas?","6 174 528 → milijonų klasė „6\" (A = 6), tūkstančių klasė „174\": šimtai 1 (B = 1). Skirtumas 6 − 1 = 5.",5],
+ ]},
+ { code:"252421", rows:[
+   [1,"Pirmoji spyna: skaitmens namai","3 927 156 — Koks skaitmuo yra jo TŪKSTANČIŲ klasės DEŠIMČIŲ skyriuje?","3 927 156 → milijonų klasė „3\", tūkstančių klasė „927\": šimtai 9, dešimtys 2, vienetai 7. Dešimčių skyriaus skaitmuo = 2.",2],
+   [2,"Antroji spyna: nenulinių pėdsakų skaičiuoklė","123 000 405 — Kiek IŠ VISO šio skaičiaus skaitmenų NĖRA lygūs nuliui?","Skaitmenys: 1,2,3,0,0,0,4,0,5. Nenuliniai: 1, 2, 3, 4, 5 → iš viso 5.",5],
+   [3,"Trečioji spyna: klasių skaičiuoklė","741 296 — Iš KIEK klasių sudarytas šis skaičius?","741 296 → tūkstančių klasė „741\", vienetų klasė „296\" → iš viso 2 klasės.",2],
+   [4,"Ketvirtoji spyna: žodžių šifras","„septyni milijonai keturiasdešimt trys tūkstančiai aštuoni\" — Koks yra TŪKSTANČIŲ klasės DEŠIMČIŲ skyriaus skaitmuo?","Žodžiai → 7 043 008. Tūkstančių klasė „043\": šimtai 0, dešimtys 4, vienetai 3. Dešimčių skyriaus skaitmuo = 4.",4],
+   [5,"Penktoji spyna: paslaptingas skaičius","Šešiaženklis skaičius: TŪKSTANČIŲ klasė = 609, VIENETŲ klasė = 274. Koks yra VIENETŲ klasės ŠIMTŲ skyriaus skaitmuo?","Skaičius = 609 274. Vienetų klasė „274\": šimtai 2, dešimtys 7, vienetai 4. Šimtų skyriaus skaitmuo = 2.",2],
+   [6,"Šeštoji spyna: dvigubas šifras","4 358 219 — (A) MILIJONŲ klasės skaitmuo; (B) TŪKSTANČIŲ klasės ŠIMTŲ skyriaus skaitmuo. Skirtumas?","4 358 219 → milijonų klasė „4\" (A = 4), tūkstančių klasė „358\": šimtai 3 (B = 3). Skirtumas 4 − 3 = 1.",1],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Stotelė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Archyvo kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
