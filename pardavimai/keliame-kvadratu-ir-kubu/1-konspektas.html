@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keliame kvadratu ir kubu · 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Keliame kvadratu ir kubu</h1>
+  <p class="klase">Matematika · 7 klasė · Laipsniai · antrasis ir trečiasis laipsnis</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Skaičiaus kvadratas ir kvadrato plotas</a></li>
+      <li><a href="#t2">Skaičiaus kubas ir kubo tūris</a></li>
+      <li><a href="#t3">Neigiamo skaičiaus kvadratas ir kubas (ženklai)</a></li>
+      <li><a href="#t4">Veiksmų tvarka su laipsniais</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Skaičiaus kvadratas ir kvadrato plotas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skaičiaus <b>a</b> <span class="zenk">kvadratas</span> yra to skaičiaus sandauga su savimi: <span class="math">a · a = a²</span>. Tai <b>antrasis laipsnis</b>.</p>
+        <p>Skaitome: „a kvadratu“ arba „a antruoju laipsniu“.</p>
+        <div class="formule">a · a = <span class="term-a">a²</span></div>
+        <p>Pavadinimas neatsitiktinis: kvadrato, kurio kraštinė <span class="math">a</span>, <b>plotas</b> lygus <span class="math">S = a²</span>.</p>
+        <div class="formule">Kvadrato plotas: <span class="term-a">S = a²</span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">6² = 6 · 6 = <span class="gerai">36</span></span><br>
+        <span class="math">0,7² = 0,7 · 0,7 = <span class="gerai">0,49</span></span><br>
+        <span class="math">(<span class="fr"><span>3</span><span>4</span></span>)² = <span class="fr"><span>3 · 3</span><span>4 · 4</span></span> = <span class="gerai"><span class="fr"><span>9</span><span>16</span></span></span></span><br>
+        Kvadrato kraštinė 7 cm, tad plotas <span class="math">S = 7² = <span class="gerai">49</span> cm²</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Kvadratu keliama trupmena <b>ir</b> skaitiklis, <b>ir</b> vardiklis: <span class="math">(<span class="fr"><span>3</span><span>4</span></span>)² = <span class="fr"><span>9</span><span>16</span></span></span>, o ne <span class="math"><span class="fr"><span>3</span><span>16</span></span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Skaičiaus kubas ir kubo tūris</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skaičiaus <b>a</b> <span class="zenk">kubas</span> yra trijų vienodų dauginamųjų sandauga: <span class="math">a · a · a = a³</span>. Tai <b>trečiasis laipsnis</b>.</p>
+        <p>Skaitome: „a kubu“ arba „a trečiuoju laipsniu“.</p>
+        <div class="formule">a · a · a = <span class="term-a">a³</span></div>
+        <p>Kubo, kurio briauna <span class="math">a</span>, <b>tūris</b> lygus <span class="math">V = a³</span>.</p>
+        <div class="formule">Kubo tūris: <span class="term-a">V = a³</span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">6³ = 6 · 6 · 6 = <span class="gerai">216</span></span><br>
+        <span class="math">0,7³ = 0,7 · 0,7 · 0,7 = <span class="gerai">0,343</span></span><br>
+        <span class="math">(<span class="fr"><span>3</span><span>4</span></span>)³ = <span class="fr"><span>3 · 3 · 3</span><span>4 · 4 · 4</span></span> = <span class="gerai"><span class="fr"><span>27</span><span>64</span></span></span></span><br>
+        Kubo briauna 4 cm, tad tūris <span class="math">V = 4³ = <span class="gerai">64</span> cm³</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Plotas matuojamas kvadratiniais vienetais (cm²), o tūris, kubiniais (cm³). Nesupainiok: plotui, kvadratas, tūriui, kubas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Neigiamo skaičiaus kvadratas ir kubas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Neigiamo skaičiaus kvadratas</span> yra <b>teigiamas</b>: jei <span class="math">a &lt; 0</span>, tai <span class="math">a² &gt; 0</span> (minusas dauginamas iš minuso duoda pliusą).</p>
+        <p><span class="zenk">Neigiamo skaičiaus kubas</span> yra <b>neigiamas</b>: jei <span class="math">a &lt; 0</span>, tai <span class="math">a³ &lt; 0</span> (trys minusai duoda minusą).</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">(−6)² = (−6) · (−6) = <span class="gerai">36</span></span> &nbsp;(teigiamas)<br>
+        <span class="math">(−0,7)² = <span class="gerai">0,49</span></span> &nbsp;(teigiamas)<br>
+        <span class="math">(−6)³ = (−6) · (−6) · (−6) = <span class="gerai">−216</span></span> &nbsp;(neigiamas)<br>
+        <span class="math">(−<span class="fr"><span>3</span><span>4</span></span>)³ = <span class="gerai">−<span class="fr"><span>27</span><span>64</span></span></span></span> &nbsp;(neigiamas)</p>
+        <p class="demesio"><b>Labai svarbu.</b> Skliaustai keičia viską:<br>
+        <span class="math">(−5)² = 25</span> &nbsp;(kvadratu keliamas <b>visas</b> −5),<br>
+        <span class="math">−5² = −25</span> &nbsp;(kvadratu keliamas <b>tik 5</b>, o minusas lieka priekyje).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Veiksmų tvarka su laipsniais</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Reiškinyje pirmiausia atliekame <span class="zenk">kėlimą laipsniu</span> (kvadratu, kubu), tik paskui daugybą, dalybą, o gale, sudėtį ir atimtį.</p>
+        <div class="formule">1) laipsniai &nbsp;→&nbsp; 2) · ir : &nbsp;→&nbsp; 3) + ir −</div>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        <span class="math">(−3)² · 5 − (−2)³ =</span><br>
+        <span class="math">= 9 · 5 − (−8) =</span> &nbsp;(pirma laipsniai)<br>
+        <span class="math">= 45 + 8 =</span> &nbsp;(paskui daugyba, minuso ir minuso — pliusas)<br>
+        <span class="math">= <span class="gerai">53</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Atimti <span class="math">(−8)</span> reiškia pridėti 8: <span class="math">45 − (−8) = 45 + 8 = 53</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="klaida">−5² = 25</td><td class="gerai">−5² = −25 (keliama tik 5)</td></tr>
+          <tr><td class="klaida">(−5)² = −25</td><td class="gerai">(−5)² = 25 (keliamas visas −5)</td></tr>
+          <tr><td class="klaida">(−6)³ = 216</td><td class="gerai">(−6)³ = −216 (kubas neigiamas)</td></tr>
+          <tr><td class="klaida">(<span class="fr"><span>3</span><span>4</span></span>)² = <span class="fr"><span>3</span><span>16</span></span></td><td class="gerai">(<span class="fr"><span>3</span><span>4</span></span>)² = <span class="fr"><span>9</span><span>16</span></span> (keliami abu)</td></tr>
+          <tr><td class="klaida">6² = 12</td><td class="gerai">6² = 36 (ne 6 · 2, o 6 · 6)</td></tr>
+          <tr><td class="klaida">plotas 7 cm³</td><td class="gerai">plotas 49 cm² (kvadratiniai vienetai)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmiausia pažiūriu, ar minusas yra skliaustuose: <span class="math">(−a)²</span> teigiamas, o <span class="math">−a²</span> neigiamas. Kvadratas — plotui (cm²), kubas — tūriui (cm³). Reiškinyje laipsnis skaičiuojamas pirmas.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · „Keliame kvadratu ir kubu“
+  </footer>
+
+</div>
+</body>
+</html>

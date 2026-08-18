@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.1.1 Skaičius ir skaitmuo · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:130px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.1.1 Skaičius ir skaitmuo</b> · 5 klasė · Skaitmenų kambarys · 6 skrynelės · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 skaičių ir skaitmens mįsles iš eilės (skirtingų skaitmenų kiekis, skaitmenų kiekis
+    skaičiuje, didžiausio ir mažiausio skaičiaus sudarymas iš duotų skaitmenų, dvi gudrios mįslės
+    pabaigoje). Kiekvienos mįslės atsakymas yra vienas kambario kodo skaitmuo (iš eilės nuo 1 iki 6
+    skrynelės). Surinkęs visą kodą ir įvedęs jį į duris, mokinys „pabėga". Skirtingi variantai turi
+    kitus skaičius ir kitą kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos skrynelės.</li>
+      <li>Galima spręsti komandomis po 2 — vienas skaičiuoja, kitas tikrina.</li>
+      <li>Skrynelės 1–2 apie skaitmenų ir skaičiaus ilgio skaičiavimą, 3–4 apie didžiausio/mažiausio
+        skaičiaus sudarymą iš duotų skaitmenų, 5–6 — gudresnės mįslės apie skaitmenų savybes.</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"463702", rows:[
+   [1,"Skaitmenų šeimyna","3 040 550 — Kiek SKIRTINGŲ skaitmenų panaudota šiam skaičiui užrašyti?","Skaitmenys: 3,0,4,0,5,5,0. Skirtingi: 3, 0, 4, 5 → iš viso 4.",4],
+   [2,"Skaičiaus ilgio matas","274 918 — Kiek skaitmenų turi šis skaičius?","274 918 turi skaitmenis 2,7,4,9,1,8 → iš viso 6 skaitmenys (šešiaženklis skaičius).",6],
+   [3,"Didžiausio skaičiaus paslaptis","Skaitmenys 8, 1, 6, 3, 0 — sudaryk DIDŽIAUSIĄ skaičių. Koks jo ŠIMTŲ skyriaus skaitmuo?","Rikiuojant mažėjančia tvarka: 8,6,3,1,0 → 86 310. Šimtų skyriaus skaitmuo = 3.",3],
+   [4,"Mažiausio skaičiaus priešingybė","Skaitmenys 7, 0, 4, 2, 9 — sudaryk MAŽIAUSIĄ skaičių (be pirmaujančio nulio). Koks jo DEŠIMČIŲ skyriaus skaitmuo?","Mažiausias nenulinis pirmas (2), likusieji didėjančia tvarka su nuliu: 2,0,4,7,9 → 20 479. Dešimčių skyriaus skaitmuo = 7.",7],
+   [5,"Skaitmens mįslė","Esu skaitmuo, kuris negali būti kairiausiu daugiaženklio skaičiaus skaitmeniu.","Tai nulis (0) — skaičius, prasidedantis nuliu, nebūtų teisingai užrašytas daugiaženklis skaičius.",0],
+   [6,"Archyvo sergėtojo mįslė","Šimtų sk.=9, dešimčių+vienetų suma=8, dešimčių lyginis, didesnis už vienetų, mažesnis už 7.","Tinka dešimtys∈{0,2,4,6} (lyginiai, <7): 0→8 (0>8 ne), 2→6 (2>6 ne), 4→4 (nelygu, ne), 6→2 (6>2 taip, skaitmenys 9,6,2 skirtingi) → vienetų skaitmuo = 2.",2],
+ ]},
+ { code:"374693", rows:[
+   [1,"Skaitmenų šeimyna","6 070 660 — Kiek SKIRTINGŲ skaitmenų panaudota šiam skaičiui užrašyti?","Skaitmenys: 6,0,7,0,6,6,0. Skirtingi: 6, 0, 7 → iš viso 3.",3],
+   [2,"Skaičiaus ilgio matas","3 582 914 — Kiek skaitmenų turi šis skaičius?","3 582 914 turi skaitmenis 3,5,8,2,9,1,4 → iš viso 7 skaitmenys (septyniaženklis skaičius).",7],
+   [3,"Didžiausio skaičiaus paslaptis","Skaitmenys 9, 2, 5, 0, 4 — sudaryk DIDŽIAUSIĄ skaičių. Koks jo ŠIMTŲ skyriaus skaitmuo?","Rikiuojant mažėjančia tvarka: 9,5,4,2,0 → 95 420. Šimtų skyriaus skaitmuo = 4.",4],
+   [4,"Mažiausio skaičiaus priešingybė","Skaitmenys 6, 0, 3, 8, 1 — sudaryk MAŽIAUSIĄ skaičių (be pirmaujančio nulio). Koks jo DEŠIMČIŲ skyriaus skaitmuo?","Mažiausias nenulinis pirmas (1), likusieji didėjančia tvarka su nuliu: 1,0,3,6,8 → 10 368. Dešimčių skyriaus skaitmuo = 6.",6],
+   [5,"Skaitmens mįslė","Esu didžiausias iš visų dešimties skaitmenų (0–9).","Didžiausias skaitmuo yra 9.",9],
+   [6,"Archyvo sergėtojo mįslė","Šimtų sk.=7, dešimčių+vienetų suma=9, dešimčių lyginis, didesnis už vienetų, mažesnis už 8.","Tinka dešimtys∈{0,2,4,6} (lyginiai, <8): 0→9 (ne), 2→7 (2>7 ne), 4→5 (4>5 ne), 6→3 (6>3 taip, skaitmenys 7,6,3 skirtingi) → vienetų skaitmuo = 3.",3],
+ ]},
+ { code:"455524", rows:[
+   [1,"Skaitmenų šeimyna","8 090 220 — Kiek SKIRTINGŲ skaitmenų panaudota šiam skaičiui užrašyti?","Skaitmenys: 8,0,9,0,2,2,0. Skirtingi: 8, 0, 9, 2 → iš viso 4.",4],
+   [2,"Skaičiaus ilgio matas","47 583 — Kiek skaitmenų turi šis skaičius?","47 583 turi skaitmenis 4,7,5,8,3 → iš viso 5 skaitmenys (penkiaženklis skaičius).",5],
+   [3,"Didžiausio skaičiaus paslaptis","Skaitmenys 7, 3, 9, 0, 5 — sudaryk DIDŽIAUSIĄ skaičių. Koks jo ŠIMTŲ skyriaus skaitmuo?","Rikiuojant mažėjančia tvarka: 9,7,5,3,0 → 97 530. Šimtų skyriaus skaitmuo = 5.",5],
+   [4,"Mažiausio skaičiaus priešingybė","Skaitmenys 5, 0, 2, 8, 1 — sudaryk MAŽIAUSIĄ skaičių (be pirmaujančio nulio). Koks jo DEŠIMČIŲ skyriaus skaitmuo?","Mažiausias nenulinis pirmas (1), likusieji didėjančia tvarka su nuliu: 1,0,2,5,8 → 10 258. Dešimčių skyriaus skaitmuo = 5.",5],
+   [5,"Skaitmens mįslė","Esu mažiausias skaitmuo, kurį parašius du kartus (kaip dviženklį skaičių) gaunamas skaičius, didesnis už 20.","11=11, 22=22. 22>20, o 11 ne. Mažiausias tinkantis skaitmuo = 2.",2],
+   [6,"Archyvo sergėtojo mįslė","Šimtų sk.=5, dešimčių+vienetų suma=10, dešimčių lyginis, didesnis už vienetų, mažesnis už 8.","Tinka dešimtys∈{0,2,4,6} (lyginiai, <8): 0→10 (neįmanoma), 2→8 (2>8 ne), 4→6 (4>6 ne), 6→4 (6>4 taip, skaitmenys 5,6,4 skirtingi) → vienetų skaitmuo = 4.",4],
+ ]},
+ { code:"384615", rows:[
+   [1,"Skaitmenų šeimyna","2 002 772 — Kiek SKIRTINGŲ skaitmenų panaudota šiam skaičiui užrašyti?","Skaitmenys: 2,0,0,2,7,7,2. Skirtingi: 2, 0, 7 → iš viso 3.",3],
+   [2,"Skaičiaus ilgio matas","19 384 726 — Kiek skaitmenų turi šis skaičius?","19 384 726 turi skaitmenis 1,9,3,8,4,7,2,6 → iš viso 8 skaitmenys (aštuoniaženklis skaičius).",8],
+   [3,"Didžiausio skaičiaus paslaptis","Skaitmenys 4, 8, 2, 6, 1 — sudaryk DIDŽIAUSIĄ skaičių. Koks jo ŠIMTŲ skyriaus skaitmuo?","Rikiuojant mažėjančia tvarka: 8,6,4,2,1 → 86 421. Šimtų skyriaus skaitmuo = 4.",4],
+   [4,"Mažiausio skaičiaus priešingybė","Skaitmenys 9, 0, 3, 6, 5 — sudaryk MAŽIAUSIĄ skaičių (be pirmaujančio nulio). Koks jo DEŠIMČIŲ skyriaus skaitmuo?","Mažiausias nenulinis pirmas (3), likusieji didėjančia tvarka su nuliu: 3,0,5,6,9 → 30 569. Dešimčių skyriaus skaitmuo = 6.",6],
+   [5,"Skaitmens mįslė","Padauginus mane iš bet kurio kito skaitmens, gaunamas tas pats skaitmuo.","Tai vienetas (1) — daugybos neutralusis elementas: n·1=n.",1],
+   [6,"Archyvo sergėtojo mįslė","Šimtų sk.=3, dešimčių+vienetų suma=11, dešimčių lyginis, didesnis už vienetų, mažesnis už 9.","Tinka dešimtys∈{0,2,4,6,8} (lyginiai, <9): 0→11 (neįmanoma), 2→9 (2>9 ne), 4→7 (4>7 ne), 6→5 (6>5 taip, skaitmenys 3,6,5 skirtingi) → tinka; 8→3 (8>3 taip, bet vienetų=3 sutampa su šimtų sk.=3, neleidžiama, nes visi skirtingi) → lieka vienintelis tinkamas: vienetų skaitmuo = 5.",5],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Stotelė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Kambario kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
