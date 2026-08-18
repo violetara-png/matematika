@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: 7 klasės I dalies žinių diagnostinis testas (temos 1–6)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="7-diagnostika-i-dalis",WANT="19pqerj",LABEL="Diagnostinis testas · I dalis · temos 1–6";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>7 klasės I dalies žinių diagnostinis testas (temos 1–6)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "7 klasės I dalies žinių diagnostinis testas (temos 1–6)", "dalykas": "Matematika", "trukme_min": 45, "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "levels": [{"id": "lengvas", "label": "Lengvas lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Kas yra teiginys?", "options": ["Tvirtinimas, apie kurį galima pasakyti, ar jis teisingas, ar klaidingas.", "Bet koks sakinys su skaičiais.", "Klausimas, į kurį reikia atsakyti.", "Prašymas ką nors atlikti."], "correct": 0}, {"q": "Trikampio du kampai lygūs 40° ir 60°. Koks trečias kampas?", "options": ["100°", "80°", "95°", "65°"], "correct": 1}, {"q": "Kam lygu 3²?", "options": ["6", "8", "9", "12"], "correct": 2}, {"q": "Sandaugą a² · a³ užrašykite laipsniu su vienu rodikliu.", "options": ["a⁶", "a²", "a³", "a⁵"], "correct": 3}, {"q": "Reiškinį (a²)³ užrašykite laipsniu su vienu rodikliu.", "options": ["a⁶", "a⁵", "a²", "a³"], "correct": 0}, {"q": "Kam lygus 2⁰ (kai 2 ≠ 0)?", "options": ["0", "1", "2", "neturi prasmės"], "correct": 1}, {"q": "Dydis pakito 400 → 440. Keliais procentais jis padidėjo?", "options": ["9 1/11 %", "5 %", "10 %", "15 %"], "correct": 2}, {"q": "S = 500 Eur, p = 4 %, t = 1 m. Rask paprastąsias palūkanas P (Eur).", "options": ["2000", "40", "2", "20"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 10 %, o vėliau naujoji kaina sumažėjo 10 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["-1 %", "0 %", "4 %", "-5 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-2 = -7", "-2 > -7", "0 < -2", "-7 > -2"], "correct": 1}, {"q": "Išspręsk nelygybę x + 3 < 7.", "options": ["x > 4", "x < 10", "x < 4", "x > 10"], "correct": 2}, {"q": "Išspręsk nelygybę 2x + 3 < 13.", "options": ["x > 5", "x < 6", "x < 8", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 1; x ≤ 6}. Koks didžiausias sveikasis sprendinys?", "options": ["6", "7", "1", "5"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (18 Eur) kainavo mažiau nei 24 Eur“ (x – pieštuko kaina)?", "options": ["3x + 18 > 24", "3x + 18 < 24", "3x + 18 ≤ 24", "3x − 18 < 24"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 2, y = 12. Koks yra k?", "options": ["14", "48", "24", "12"], "correct": 2}, {"q": "y = 24/x. Apskaičiuok y, kai x = 4.", "options": ["4", "12", "1/6", "6"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["darbininkų skaičius ir laikas, per kurį atliekamas tas pats darbas (pastovi darbo apimtis)", "prekės kiekis ir bendra kaina (esant pastoviai kainai už vienetą)", "kelio ilgis ir laikas, kai greitis pastovus", "žmogaus amžius ir jo ūgis"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 16 cm. Raskite AM.", "options": ["16 cm", "8 cm", "4 cm", "10 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 62°. Koks kitas vidaus priešinis kampas?", "options": ["118°", "31°", "62°", "72°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 35°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["35°", "55°", "45°", "145°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 35° ir 95°. Rask trečią kampą (įrašyk su °).", "a": "NTDCsA=="}, {"q": "Keturkampio trys kampai lygūs 85°, 95° ir 90°. Rask ketvirtą kampą (įrašyk su °).", "a": "OTDCsA=="}, {"q": "Apskaičiuok 5².", "a": "MjU="}, {"q": "Sandaugą a² · a⁴ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "Ng=="}, {"q": "Apskaičiuok 2⁻³. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "OA=="}, {"q": "Kokia skaičiaus 3 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Dydis pakito 300 → 360. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MjA="}, {"q": "Dydis pakito 400 → 320. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MjA="}, {"q": "S = 600 Eur, p = 4 %, t = 1 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MjQ="}, {"q": "Į banką padėta S = 1000 Eur suma, sudėtinių palūkanų norma p = 10 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MTIxMA=="}, {"q": "Išspręsk nelygybę x + 4 < 9 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "NA=="}, {"q": "Išspręsk nelygybę 2x + 5 < 15 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NQ=="}, {"q": "Sistema {x ≥ 2; x < 8}. Koks mažiausias sveikasis sprendinys?", "a": "Mg=="}, {"q": "Automobilis važiuoja 50 km/h greičiu, kelias ne ilgesnis kaip 150 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 30/x. Apskaičiuok y, kai x = 5. Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 3, y = 8. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "MjQ="}, {"q": "4 darbininkai atlieka darbą per 12 dienų. Per kiek dienų tą patį darbą atliktų 6 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "OA=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 18 cm. Raskite AM. Įrašykite tik skaičių.", "a": "OQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 65°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "MTE1"}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 40°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "NDA="}]}, {"id": 2, "mc": [{"q": "Kuris iš šių sakinių YRA teiginys?", "options": ["2 + 2 = 5", "Ar jau baigei pamoką?", "Užrašyk savo vardą.", "Šiandien gražus oras."], "correct": 0}, {"q": "Trikampio du kampai lygūs 50° ir 70°. Koks trečias kampas?", "options": ["120°", "60°", "75°", "45°"], "correct": 1}, {"q": "Kam lygu 4²?", "options": ["8", "15", "16", "20"], "correct": 2}, {"q": "Sandaugą a³ · a⁴ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹²", "a³", "a⁴", "a⁷"], "correct": 3}, {"q": "Reiškinį (a³)² užrašykite laipsniu su vienu rodikliu.", "options": ["a⁶", "a⁵", "a³", "a²"], "correct": 0}, {"q": "Kam lygus 3⁰ (kai 3 ≠ 0)?", "options": ["0", "1", "3", "neturi prasmės"], "correct": 1}, {"q": "Dydis pakito 800 → 960. Keliais procentais jis padidėjo?", "options": ["16 2/3 %", "10 %", "20 %", "25 %"], "correct": 2}, {"q": "S = 800 Eur, p = 5 %, t = 1 m. Rask paprastąsias palūkanas P (Eur).", "options": ["4000", "80", "4", "40"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 20 %, o vėliau naujoji kaina sumažėjo 10 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["8 %", "10 %", "13 %", "4 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-3 = -8", "-3 > -8", "0 < -3", "-8 > -3"], "correct": 1}, {"q": "Išspręsk nelygybę x + 4 < 9.", "options": ["x > 5", "x < 13", "x < 5", "x > 13"], "correct": 2}, {"q": "Išspręsk nelygybę 3x + 2 < 17.", "options": ["x > 5", "x < 6", "x < 6 1/3", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 2; x ≤ 7}. Koks mažiausias sveikasis sprendinys?", "options": ["3", "2", "4", "7"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (20 Eur) kainavo mažiau nei 30 Eur“ (x – pieštuko kaina)?", "options": ["3x + 20 > 30", "3x + 20 < 30", "3x + 20 ≤ 30", "3x − 20 < 30"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 3, y = 8. Koks yra k?", "options": ["11", "48", "24", "12"], "correct": 2}, {"q": "y = 36/x. Apskaičiuok y, kai x = 6.", "options": ["4,5", "12", "1/6", "6"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["automobilio greitis ir kelionės trukmė (esant pastoviam atstumui)", "darbo užmokestis ir dirbtų valandų skaičius", "prekės kiekis ir bendra kaina", "kvadrato kraštinė ir perimetras"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 20 cm. Raskite AM.", "options": ["20 cm", "10 cm", "5 cm", "12 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas atitinkamasis kampas lygus 74°. Koks kitas atitinkamasis kampas?", "options": ["106°", "37°", "74°", "84°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 48°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["48°", "42°", "58°", "132°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 25° ir 65°. Rask trečią kampą (įrašyk su °).", "a": "OTDCsA=="}, {"q": "Keturkampio trys kampai lygūs 100°, 110° ir 60°. Rask ketvirtą kampą (įrašyk su °).", "a": "OTDCsA=="}, {"q": "Apskaičiuok 6².", "a": "MzY="}, {"q": "Sandaugą a³ · a³ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "Ng=="}, {"q": "Apskaičiuok 3⁻². Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "OQ=="}, {"q": "Kokia skaičiaus 70 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "Nw=="}, {"q": "Dydis pakito 600 → 750. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MjU="}, {"q": "Dydis pakito 500 → 375. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MjU="}, {"q": "S = 900 Eur, p = 3 %, t = 1 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "Mjc="}, {"q": "Į banką padėta S = 1500 Eur suma, sudėtinių palūkanų norma p = 5 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MTY1Myw3NQ=="}, {"q": "Išspręsk nelygybę x + 5 < 12 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "Ng=="}, {"q": "Išspręsk nelygybę 3x + 4 < 19 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NQ=="}, {"q": "Sistema {x ≥ 1; x < 6}. Koks mažiausias sveikasis sprendinys?", "a": "MQ=="}, {"q": "Automobilis važiuoja 60 km/h greičiu, kelias ne ilgesnis kaip 180 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 40/x. Apskaičiuok y, kai x = 8. Įrašyk tik skaičių.", "a": "NQ=="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 4, y = 6. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "MjQ="}, {"q": "6 darbininkai atlieka darbą per 8 dienų. Per kiek dienų tą patį darbą atliktų 8 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 22 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MTE="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 78°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "MTAy"}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 55°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "MTI1"}]}, {"id": 3, "mc": [{"q": "Teiginys gali būti…", "options": ["tik teisingas arba tik klaidingas", "ir teisingas, ir klaidingas vienu metu", "nei teisingas, nei klaidingas", "teisingas, jei su juo sutinka dauguma"], "correct": 0}, {"q": "Trikampio du kampai lygūs 30° ir 80°. Koks trečias kampas?", "options": ["110°", "70°", "85°", "55°"], "correct": 1}, {"q": "Kam lygu 6²?", "options": ["12", "35", "36", "42"], "correct": 2}, {"q": "Sandaugą a² · a⁵ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁰", "a²", "a⁵", "a⁷"], "correct": 3}, {"q": "Reiškinį (a²)⁴ užrašykite laipsniu su vienu rodikliu.", "options": ["a⁸", "a⁶", "a²", "a⁴"], "correct": 0}, {"q": "Kam lygus 5⁰ (kai 5 ≠ 0)?", "options": ["0", "1", "5", "neturi prasmės"], "correct": 1}, {"q": "Dydis pakito 1200 → 1500. Keliais procentais jis padidėjo?", "options": ["20 %", "12,5 %", "25 %", "30 %"], "correct": 2}, {"q": "S = 1000 Eur, p = 3 %, t = 1 m. Rask paprastąsias palūkanas P (Eur).", "options": ["3000", "60", "3", "30"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 5 %, o vėliau naujoji kaina sumažėjo 20 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["-16 %", "-15 %", "-11 %", "-20 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-4 = -9", "-4 > -9", "0 < -4", "-9 > -4"], "correct": 1}, {"q": "Išspręsk nelygybę x + 5 < 8.", "options": ["x > 3", "x < 13", "x < 3", "x > 13"], "correct": 2}, {"q": "Išspręsk nelygybę 2x + 5 < 15.", "options": ["x > 5", "x < 6", "x < 10", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 0; x ≤ 5}. Koks didžiausias sveikasis sprendinys?", "options": ["5", "6", "0", "4"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (15 Eur) kainavo mažiau nei 21 Eur“ (x – pieštuko kaina)?", "options": ["3x + 15 > 21", "3x + 15 < 21", "3x + 15 ≤ 21", "3x − 15 < 21"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 4, y = 6. Koks yra k?", "options": ["10", "48", "24", "12"], "correct": 2}, {"q": "y = 48/x. Apskaičiuok y, kai x = 8.", "options": ["4,8", "12", "1/6", "6"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["stačiakampio ilgis ir plotis, kai plotas pastovus", "kvadrato kraštinė ir jo perimetras", "prekės svoris ir jos kaina (pastovi kaina už kg)", "žmonių skaičius ir jų amžių suma"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 24 cm. Raskite AM.", "options": ["24 cm", "12 cm", "6 cm", "14 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas išorės priešinis kampas lygus 58°. Koks kitas išorės priešinis kampas?", "options": ["122°", "29°", "58°", "68°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 63°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["63°", "27°", "73°", "117°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 48° ir 72°. Rask trečią kampą (įrašyk su °).", "a": "NjDCsA=="}, {"q": "Keturkampio trys kampai lygūs 92°, 88° ir 96°. Rask ketvirtą kampą (įrašyk su °).", "a": "ODTCsA=="}, {"q": "Apskaičiuok 8².", "a": "NjQ="}, {"q": "Sandaugą a⁴ · a² užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "Ng=="}, {"q": "Apskaičiuok 2⁻⁴. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MTY="}, {"q": "Kokia skaičiaus 500 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "NQ=="}, {"q": "Dydis pakito 900 → 990. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MTA="}, {"q": "Dydis pakito 800 → 720. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MTA="}, {"q": "S = 1200 Eur, p = 5 %, t = 1 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "NjA="}, {"q": "Į banką padėta S = 2000 Eur suma, sudėtinių palūkanų norma p = 20 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "Mjg4MA=="}, {"q": "Išspręsk nelygybę x + 6 < 11 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "NA=="}, {"q": "Išspręsk nelygybę 4x + 3 < 15 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "Mw=="}, {"q": "Sistema {x ≥ 3; x < 9}. Koks mažiausias sveikasis sprendinys?", "a": "Mw=="}, {"q": "Automobilis važiuoja 45 km/h greičiu, kelias ne ilgesnis kaip 135 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 60/x. Apskaičiuok y, kai x = 10. Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 5, y = 9. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NDU="}, {"q": "8 darbininkai atlieka darbą per 6 dienų. Per kiek dienų tą patį darbą atliktų 12 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "NA=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 26 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MTM="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 92°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "ODg="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 63°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "NjM="}]}, {"id": 4, "mc": [{"q": "Kuris sakinys NĖRA teiginys?", "options": ["Kelintą valandą prasideda pamoka?", "7 yra pirminis skaičius.", "3 + 4 = 8.", "Visi kvadratai yra stačiakampiai."], "correct": 0}, {"q": "Trikampio du kampai lygūs 45° ir 55°. Koks trečias kampas?", "options": ["100°", "80°", "95°", "65°"], "correct": 1}, {"q": "Kam lygu 7²?", "options": ["14", "48", "49", "56"], "correct": 2}, {"q": "Sandaugą a⁴ · a² užrašykite laipsniu su vienu rodikliu.", "options": ["a⁸", "a⁴", "a²", "a⁶"], "correct": 3}, {"q": "Reiškinį (a⁴)² užrašykite laipsniu su vienu rodikliu.", "options": ["a⁸", "a⁶", "a⁴", "a²"], "correct": 0}, {"q": "Kam lygus 10⁰ (kai 10 ≠ 0)?", "options": ["0", "1", "10", "neturi prasmės"], "correct": 1}, {"q": "Dydis pakito 1600 → 2400. Keliais procentais jis padidėjo?", "options": ["33 1/3 %", "25 %", "50 %", "55 %"], "correct": 2}, {"q": "S = 1200 Eur, p = 6 %, t = 1 m. Rask paprastąsias palūkanas P (Eur).", "options": ["7200", "144", "7,2", "72"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 15 %, o vėliau naujoji kaina sumažėjo 5 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["9,25 %", "10 %", "14,25 %", "5,25 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-1 = -6", "-1 > -6", "0 < -1", "-6 > -1"], "correct": 1}, {"q": "Išspręsk nelygybę x + 2 < 6.", "options": ["x > 4", "x < 8", "x < 4", "x > 8"], "correct": 2}, {"q": "Išspręsk nelygybę 4x + 1 < 21.", "options": ["x > 5", "x < 6", "x < 5,5", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 3; x ≤ 8}. Koks mažiausias sveikasis sprendinys?", "options": ["4", "3", "5", "8"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (24 Eur) kainavo mažiau nei 32 Eur“ (x – pieštuko kaina)?", "options": ["3x + 24 > 32", "3x + 24 < 32", "3x + 24 ≤ 32", "3x − 24 < 32"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 6, y = 4. Koks yra k?", "options": ["10", "48", "24", "12"], "correct": 2}, {"q": "y = 60/x. Apskaičiuok y, kai x = 12.", "options": ["4 2/7", "10", "0,2", "5"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["dalyvių skaičius ir kiekvieno dalis, kai dalijamas tas pats pyragas", "mokinio pažymiai ir jo amžius", "kelio ilgis ir sudegto kuro kiekis (pastovus sunaudojimas)", "prekės kaina ir PVM suma"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 28 cm. Raskite AM.", "options": ["28 cm", "14 cm", "7 cm", "16 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 86°. Koks kitas vidaus priešinis kampas?", "options": ["94°", "43°", "86°", "96°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 72°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["72°", "18°", "82°", "108°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 33° ir 87°. Rask trečią kampą (įrašyk su °).", "a": "NjDCsA=="}, {"q": "Keturkampio trys kampai lygūs 105°, 95° ir 85°. Rask ketvirtą kampą (įrašyk su °).", "a": "NzXCsA=="}, {"q": "Apskaičiuok 9².", "a": "ODE="}, {"q": "Sandaugą a² · a⁵ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "Nw=="}, {"q": "Apskaičiuok 5⁻². Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MjU="}, {"q": "Kokia skaičiaus 900 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "OA=="}, {"q": "Dydis pakito 1500 → 2250. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "NTA="}, {"q": "Dydis pakito 1000 → 500. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "NTA="}, {"q": "S = 1500 Eur, p = 6 %, t = 1 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "OTA="}, {"q": "Į banką padėta S = 2500 Eur suma, sudėtinių palūkanų norma p = 4 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MjcwNA=="}, {"q": "Išspręsk nelygybę x + 3 < 8 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "NA=="}, {"q": "Išspręsk nelygybę 2x + 7 < 23 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "OA=="}, {"q": "Sistema {x ≥ 0; x < 5}. Koks mažiausias sveikasis sprendinys?", "a": "MA=="}, {"q": "Automobilis važiuoja 55 km/h greičiu, kelias ne ilgesnis kaip 165 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 80/x. Apskaičiuok y, kai x = 16. Įrašyk tik skaičių.", "a": "NQ=="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 6, y = 7. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NDI="}, {"q": "3 darbininkai atlieka darbą per 20 dienų. Per kiek dienų tą patį darbą atliktų 4 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "MTU="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 30 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MTU="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 104°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "NzY="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 77°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "MTAz"}]}]}, {"id": "vidutinis", "label": "Vidutinis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Teiginyje „Jei skaičius dalijasi iš 4, tai jis dalijasi iš 2\" kas yra SĄLYGA?", "options": ["skaičius dalijasi iš 4", "skaičius dalijasi iš 2", "skaičius yra lyginis", "teiginys yra teisingas"], "correct": 0}, {"q": "Trikampio du kampai lygūs 37° ir 68°. Koks trečias kampas?", "options": ["105°", "75°", "90°", "60°"], "correct": 1}, {"q": "Kam lygu 12²?", "options": ["24", "132", "144", "168"], "correct": 2}, {"q": "Sandaugą a³ · a⁵ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁵", "a³", "a⁵", "a⁸"], "correct": 3}, {"q": "Reiškinį (a³)⁵ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁵", "a⁸", "a³", "a⁵"], "correct": 0}, {"q": "Kam lygus 2⁻³?", "options": ["-1/8", "1/8", "8", "1/6"], "correct": 1}, {"q": "Dydis pakito 1000 → 1150. Keliais procentais jis padidėjo?", "options": ["13 1/23 %", "7,5 %", "15 %", "20 %"], "correct": 2}, {"q": "S = 1500 Eur, p = 5 %, t = 2 m. Rask paprastąsias palūkanas P (Eur).", "options": ["15000", "300", "15", "150"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 20 %, o vėliau naujoji kaina sumažėjo 15 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["2 %", "5 %", "7 %", "-2 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-2,5 = -7,5", "-2,5 > -7,5", "0 < -2,5", "-7,5 > -2,5"], "correct": 1}, {"q": "Išspręsk nelygybę 2x < 12.", "options": ["x < 24", "x > 6", "x < 6", "x < 7"], "correct": 2}, {"q": "Išspręsk nelygybę 3x + 4 < 19.", "options": ["x > 5", "x < 6", "x < 7 2/3", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 3; x ≤ 9}. Koks didžiausias sveikasis sprendinys?", "options": ["9", "10", "3", "8"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (22 Eur) kainavo mažiau nei 34 Eur“ (x – pieštuko kaina)?", "options": ["3x + 22 > 34", "3x + 22 < 34", "3x + 22 ≤ 34", "3x − 22 < 34"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 5, y = 9. Koks yra k?", "options": ["14", "90", "45", "45/2"], "correct": 2}, {"q": "y = 72/x. Apskaičiuok y, kai x = 9.", "options": ["6 6/11", "16", "0,125", "8"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["vandens debitas (l/min) ir laikas, per kurį pripildomas tas pats baseinas", "kelionės atstumas ir sudeginto kuro kiekis", "darbininkų atlyginimas ir jų darbo valandos", "trikampio kraštinė ir jo perimetras"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 27 cm. Raskite AM.", "options": ["27 cm", "13,5 cm", "6,75 cm", "15,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 103°. Koks kitas vidaus priešinis kampas?", "options": ["77°", "51,5°", "103°", "113°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 97°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["97°", "7°", "107°", "83°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 41° ir 76°. Rask trečią kampą (įrašyk su °).", "a": "NjPCsA=="}, {"q": "Keturkampio trys kampai lygūs 78°, 116° ir 92°. Rask ketvirtą kampą (įrašyk su °).", "a": "NzTCsA=="}, {"q": "Apskaičiuok 4³.", "a": "NjQ="}, {"q": "Sandaugą a⁵ · a² užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "Nw=="}, {"q": "Apskaičiuok 2⁻⁴. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MTY="}, {"q": "Kokia skaičiaus 3 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Dydis pakito 1200 → 1560. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MzA="}, {"q": "Dydis pakito 1200 → 1020. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MTU="}, {"q": "S = 1600 Eur, p = 6 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MTky"}, {"q": "Į banką padėta S = 2000 Eur suma, sudėtinių palūkanų norma p = 5 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MjIwNQ=="}, {"q": "Išspręsk nelygybę x + 5 < 16 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "MTA="}, {"q": "Išspręsk nelygybę 3x + 6 < 27 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "Nw=="}, {"q": "Sistema {x ≥ 4; x < 12}. Koks mažiausias sveikasis sprendinys?", "a": "NA=="}, {"q": "Automobilis važiuoja 70 km/h greičiu, kelias ne ilgesnis kaip 210 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 84/x. Apskaičiuok y, kai x = 12. Įrašyk tik skaičių.", "a": "Nw=="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 7, y = 6. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NDI="}, {"q": "5 darbininkai atlieka darbą per 18 dienų. Per kiek dienų tą patį darbą atliktų 9 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "MTA="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 31 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MTUsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 111°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "Njk="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 85°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "ODU="}]}, {"id": 2, "mc": [{"q": "Koks yra teiginio „Jei lyja, tai šlapia\" ATVIRKŠTINIS teiginys?", "options": ["Jei šlapia, tai lyja", "Jei nelyja, tai nešlapia", "Jei šlapia, tai nelyja", "Jei lyja, tai nešlapia"], "correct": 0}, {"q": "Trikampio du kampai lygūs 42° ir 53°. Koks trečias kampas?", "options": ["95°", "85°", "100°", "70°"], "correct": 1}, {"q": "Kam lygu 13²?", "options": ["26", "156", "169", "195"], "correct": 2}, {"q": "Sandaugą a⁴ · a⁶ užrašykite laipsniu su vienu rodikliu.", "options": ["a²⁴", "a⁴", "a⁶", "a¹⁰"], "correct": 3}, {"q": "Reiškinį (a²)⁵ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁰", "a⁷", "a²", "a⁵"], "correct": 0}, {"q": "Kam lygus 3⁻³?", "options": ["-1/27", "1/27", "27", "1/9"], "correct": 1}, {"q": "Dydis pakito 1400 → 1820. Keliais procentais jis padidėjo?", "options": ["23 1/13 %", "15 %", "30 %", "35 %"], "correct": 2}, {"q": "S = 2000 Eur, p = 6 %, t = 2 m. Rask paprastąsias palūkanas P (Eur).", "options": ["24000", "480", "24", "240"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 25 %, o vėliau naujoji kaina sumažėjo 10 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["12,5 %", "15 %", "17,5 %", "8,5 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-3,2 = -8,1", "-3,2 > -8,1", "0 < -3,2", "-8,1 > -3,2"], "correct": 1}, {"q": "Išspręsk nelygybę 3x < 18.", "options": ["x < 54", "x > 6", "x < 6", "x < 7"], "correct": 2}, {"q": "Išspręsk nelygybę 4x + 3 < 27.", "options": ["x > 6", "x < 7", "x < 7,5", "x < 6"], "correct": 3}, {"q": "Nelygybių sistema {x > 5; x ≤ 11}. Koks mažiausias sveikasis sprendinys?", "options": ["6", "5", "7", "11"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (26 Eur) kainavo mažiau nei 40 Eur“ (x – pieštuko kaina)?", "options": ["3x + 26 > 40", "3x + 26 < 40", "3x + 26 ≤ 40", "3x − 26 < 40"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 6, y = 12. Koks yra k?", "options": ["18", "144", "72", "36"], "correct": 2}, {"q": "y = 90/x. Apskaičiuok y, kai x = 10.", "options": ["7,5", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["staliukų skaičius restorane ir vietų vienam staliukui, kai bendras vietų skaičius pastovus", "prekės kiekis ir bendra suma, mokant vienodą kainą už vienetą", "žmogaus svoris ir ūgis", "kvadrato plotas ir kraštinė"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 33 cm. Raskite AM.", "options": ["33 cm", "16,5 cm", "8,25 cm", "18,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas atitinkamasis kampas lygus 97°. Koks kitas atitinkamasis kampas?", "options": ["83°", "48,5°", "97°", "107°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 112°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["112°", "22°", "122°", "68°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 39° ir 88°. Rask trečią kampą (įrašyk su °).", "a": "NTPCsA=="}, {"q": "Keturkampio trys kampai lygūs 86°, 104° ir 98°. Rask ketvirtą kampą (įrašyk su °).", "a": "NzLCsA=="}, {"q": "Apskaičiuok 5³.", "a": "MTI1"}, {"q": "Sandaugą a³ · a⁶ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "OQ=="}, {"q": "Apskaičiuok 3⁻³. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "Mjc="}, {"q": "Kokia skaičiaus 70 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "Nw=="}, {"q": "Dydis pakito 1600 → 2240. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "NDA="}, {"q": "Dydis pakito 1500 → 1050. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MzA="}, {"q": "S = 2000 Eur, p = 5 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MjAw"}, {"q": "Į banką padėta S = 2500 Eur suma, sudėtinių palūkanų norma p = 10 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MzAyNQ=="}, {"q": "Išspręsk nelygybę x + 7 < 20 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "MTI="}, {"q": "Išspręsk nelygybę 5x + 3 < 28 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NQ=="}, {"q": "Sistema {x ≥ 2; x < 10}. Koks mažiausias sveikasis sprendinys?", "a": "Mg=="}, {"q": "Automobilis važiuoja 65 km/h greičiu, kelias ne ilgesnis kaip 195 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 96/x. Apskaičiuok y, kai x = 8. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 8, y = 9. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NzI="}, {"q": "10 darbininkai atlieka darbą per 9 dienų. Per kiek dienų tą patį darbą atliktų 15 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "Ng=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 37 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MTgsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 123°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "NTc="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 98°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "ODI="}]}, {"id": 3, "mc": [{"q": "Teiginyje „Jei keturkampis yra kvadratas, tai jo visi kampai statūs\" kas yra IŠVADA?", "options": ["jo visi kampai statūs", "keturkampis yra kvadratas", "keturkampis turi 4 kampus", "keturkampis yra stačiakampis"], "correct": 0}, {"q": "Trikampio du kampai lygūs 58° ir 64°. Koks trečias kampas?", "options": ["122°", "58°", "73°", "43°"], "correct": 1}, {"q": "Kam lygu 14²?", "options": ["28", "182", "196", "224"], "correct": 2}, {"q": "Sandaugą a⁵ · a³ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁵", "a⁵", "a³", "a⁸"], "correct": 3}, {"q": "Reiškinį (a⁴)³ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹²", "a⁷", "a⁴", "a³"], "correct": 0}, {"q": "Kam lygus 4⁻³?", "options": ["-1/64", "1/64", "64", "1/12"], "correct": 1}, {"q": "Dydis pakito 1800 → 2520. Keliais procentais jis padidėjo?", "options": ["28 4/7 %", "20 %", "40 %", "45 %"], "correct": 2}, {"q": "S = 2500 Eur, p = 4 %, t = 2 m. Rask paprastąsias palūkanas P (Eur).", "options": ["20000", "400", "20", "200"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 10 %, o vėliau naujoji kaina sumažėjo 25 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["-17,5 %", "-15 %", "-12,5 %", "-21,5 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-4,4 = -9,6", "-4,4 > -9,6", "0 < -4,4", "-9,6 > -4,4"], "correct": 1}, {"q": "Išspręsk nelygybę 4x < 20.", "options": ["x < 80", "x > 5", "x < 5", "x < 6"], "correct": 2}, {"q": "Išspręsk nelygybę 5x + 7 < 32.", "options": ["x > 5", "x < 6", "x < 7,8", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 2; x ≤ 8}. Koks didžiausias sveikasis sprendinys?", "options": ["8", "9", "2", "7"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (19 Eur) kainavo mažiau nei 29 Eur“ (x – pieštuko kaina)?", "options": ["3x + 19 > 29", "3x + 19 < 29", "3x + 19 ≤ 29", "3x − 19 < 29"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 8, y = 6. Koks yra k?", "options": ["14", "96", "48", "24"], "correct": 2}, {"q": "y = 108/x. Apskaičiuok y, kai x = 12.", "options": ["7 5/7", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["mašinų skaičius statybvietėje ir laikas, per kurį atliekamas tas pats darbas", "degalų kiekis bake ir nuvažiuotas atstumas (pastovus sąnaudos)", "darbo užmokestis ir darbo dienų skaičius", "skaičiaus kvadratas ir pats skaičius"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 39 cm. Raskite AM.", "options": ["39 cm", "19,5 cm", "9,75 cm", "21,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas išorės priešinis kampas lygus 115°. Koks kitas išorės priešinis kampas?", "options": ["65°", "57,5°", "115°", "125°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 84°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["84°", "6°", "94°", "96°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 52° ir 61°. Rask trečią kampą (įrašyk su °).", "a": "NjfCsA=="}, {"q": "Keturkampio trys kampai lygūs 95°, 121° ir 74°. Rask ketvirtą kampą (įrašyk su °).", "a": "NzDCsA=="}, {"q": "Apskaičiuok 6³.", "a": "MjE2"}, {"q": "Sandaugą a⁴ · a⁴ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "OA=="}, {"q": "Apskaičiuok 4⁻³. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "NjQ="}, {"q": "Kokia skaičiaus 500 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "NQ=="}, {"q": "Dydis pakito 2000 → 2300. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MTU="}, {"q": "Dydis pakito 1800 → 1080. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "NDA="}, {"q": "S = 2400 Eur, p = 4 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MTky"}, {"q": "Į banką padėta S = 3000 Eur suma, sudėtinių palūkanų norma p = 4 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "MzI0NCw4"}, {"q": "Išspręsk nelygybę x + 6 < 17 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "MTA="}, {"q": "Išspręsk nelygybę 2x + 9 < 21 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "Ng=="}, {"q": "Sistema {x ≥ 5; x < 14}. Koks mažiausias sveikasis sprendinys?", "a": "NQ=="}, {"q": "Automobilis važiuoja 80 km/h greičiu, kelias ne ilgesnis kaip 240 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 108/x. Apskaičiuok y, kai x = 9. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 9, y = 8. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NzI="}, {"q": "6 darbininkai atlieka darbą per 15 dienų. Per kiek dienų tą patį darbą atliktų 10 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "OQ=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 41 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MjAsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 68°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "MTEy"}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 109°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "MTA5"}]}, {"id": 4, "mc": [{"q": "Ar teiginio „Jei x > 5, tai x > 0\" atvirkštinis teiginys „Jei x > 0, tai x > 5\" visada teisingas?", "options": ["Ne, pvz. x = 2 > 0, bet x < 5", "Taip, visada teisingas", "Taip, nes abu teiginiai lygiaverčiai", "Ne, nes x negali būti teigiamas"], "correct": 0}, {"q": "Trikampio du kampai lygūs 29° ir 97°. Koks trečias kampas?", "options": ["126°", "54°", "69°", "39°"], "correct": 1}, {"q": "Kam lygu 16²?", "options": ["32", "240", "256", "288"], "correct": 2}, {"q": "Sandaugą a⁶ · a² užrašykite laipsniu su vienu rodikliu.", "options": ["a¹²", "a⁶", "a²", "a⁸"], "correct": 3}, {"q": "Reiškinį (a⁵)² užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁰", "a⁷", "a⁵", "a²"], "correct": 0}, {"q": "Kam lygus 5⁻³?", "options": ["-1/125", "1/125", "125", "1/15"], "correct": 1}, {"q": "Dydis pakito 2200 → 3520. Keliais procentais jis padidėjo?", "options": ["37,5 %", "30 %", "60 %", "65 %"], "correct": 2}, {"q": "S = 1800 Eur, p = 7 %, t = 2 m. Rask paprastąsias palūkanas P (Eur).", "options": ["25200", "504", "25,2", "252"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 30 %, o vėliau naujoji kaina sumažėjo 10 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["17 %", "20 %", "22 %", "13 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-1,7 = -6,3", "-1,7 > -6,3", "0 < -1,7", "-6,3 > -1,7"], "correct": 1}, {"q": "Išspręsk nelygybę 5x < 25.", "options": ["x < 125", "x > 5", "x < 5", "x < 6"], "correct": 2}, {"q": "Išspręsk nelygybę 2x + 5 < 15.", "options": ["x > 5", "x < 6", "x < 10", "x < 5"], "correct": 3}, {"q": "Nelygybių sistema {x > 4; x ≤ 10}. Koks mažiausias sveikasis sprendinys?", "options": ["5", "4", "6", "10"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (28 Eur) kainavo mažiau nei 42 Eur“ (x – pieštuko kaina)?", "options": ["3x + 28 > 42", "3x + 28 < 42", "3x + 28 ≤ 42", "3x − 28 < 42"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 4, y = 15. Koks yra k?", "options": ["19", "120", "60", "30"], "correct": 2}, {"q": "y = 126/x. Apskaičiuok y, kai x = 14.", "options": ["7,875", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["greitis ir laikas, per kurį įveikiamas tas pats atstumas", "prekių kiekis sandėlyje ir jų bendra vertė", "žmonių amžius ir jų ūgis", "kelio ilgis ir degalų sąnaudos (pastovus sunaudojimas 100 km)"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 45 cm. Raskite AM.", "options": ["45 cm", "22,5 cm", "11,25 cm", "24,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 68°. Koks kitas vidaus priešinis kampas?", "options": ["112°", "34°", "68°", "78°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 126°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["126°", "36°", "136°", "54°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 47° ir 69°. Rask trečią kampą (įrašyk su °).", "a": "NjTCsA=="}, {"q": "Keturkampio trys kampai lygūs 108°, 89° ir 101°. Rask ketvirtą kampą (įrašyk su °).", "a": "NjLCsA=="}, {"q": "Apskaičiuok 7³.", "a": "MzQz"}, {"q": "Sandaugą a⁶ · a³ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "OQ=="}, {"q": "Apskaičiuok 5⁻⁴. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "NjI1"}, {"q": "Kokia skaičiaus 900 000 000 eilė (n reiškinyje a·10ⁿ)? Įrašyk tik skaičių.", "a": "OA=="}, {"q": "Dydis pakito 2400 → 3840. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "NjA="}, {"q": "Dydis pakito 2000 → 1600. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MjA="}, {"q": "S = 1800 Eur, p = 7 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MjUy"}, {"q": "Į banką padėta S = 3500 Eur suma, sudėtinių palūkanų norma p = 20 % per metus. Kokia bus sukaupta suma po 2 metų? Įrašyk tik skaičių (Eur).", "a": "NTA0MA=="}, {"q": "Išspręsk nelygybę x + 4 < 13 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "OA=="}, {"q": "Išspręsk nelygybę 4x + 5 < 29 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "Ng=="}, {"q": "Sistema {x ≥ 3; x < 9}. Koks mažiausias sveikasis sprendinys?", "a": "Mw=="}, {"q": "Automobilis važiuoja 75 km/h greičiu, kelias ne ilgesnis kaip 225 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 120/x. Apskaičiuok y, kai x = 10. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 4, y = 12. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NDg="}, {"q": "12 darbininkai atlieka darbą per 10 dienų. Per kiek dienų tą patį darbą atliktų 18 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "NiAyLzM="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 47 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MjMsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 137°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "NDM="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 72°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "MTA4"}]}]}, {"id": "aukstesnysis", "label": "Aukštesnysis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[92, 10], [82, 9], [72, 8], [62, 7], [52, 6], [42, 5], [32, 4], [22, 3], [12, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Kuo aksioma skiriasi nuo teoremos?", "options": ["Aksioma priimama be įrodymo, teorema — įrodoma remiantis aksiomomis.", "Aksioma visada klaidinga, teorema — teisinga.", "Aksioma taikoma tik geometrijoje, teorema — tik algebroje.", "Skirtumo nėra, tai sinonimai."], "correct": 0}, {"q": "Keturkampio trys kampai lygūs 90°, 100° ir 80°. Koks ketvirtas kampas?", "options": ["170°", "90°", "190°", "270°"], "correct": 1}, {"q": "Kam lygu (1 1/2)²?", "options": ["3", "2 1/2", "2 1/4", "-2 1/4"], "correct": 2}, {"q": "Sandaugą a⁴ · a⁶ užrašykite laipsniu su vienu rodikliu.", "options": ["a²⁴", "a⁴", "a⁶", "a¹⁰"], "correct": 3}, {"q": "Reiškinį (a³)⁴ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹²", "a⁷", "a³", "a⁴"], "correct": 0}, {"q": "Kokia skaičiaus 400 000 000 eilė standartinėje išraiškoje (4·10ⁿ)?", "options": ["7", "8", "9", "10"], "correct": 1}, {"q": "Dydis pakito 2000 → 2240. Keliais procentais jis padidėjo?", "options": ["10 5/7 %", "6 %", "12 %", "17 %"], "correct": 2}, {"q": "S = 3000 Eur, p = 4,5 %, t = 3 m. Rask paprastąsias palūkanas P (Eur).", "options": ["40500", "810", "40,5", "405"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 25 %, o vėliau naujoji kaina sumažėjo 10 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["12,5 %", "15 %", "17,5 %", "8,5 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-1,5 = -4,5", "-1,5 > -4,5", "0 < -1,5", "-4,5 > -1,5"], "correct": 1}, {"q": "Išspręsk nelygybę -2x < 8.", "options": ["x < -4", "x > 4", "x > -4", "x < 4"], "correct": 2}, {"q": "Išspręsk nelygybę -2x + 5 < 1.", "options": ["x < 2", "x > 3", "x > -3", "x > 2"], "correct": 3}, {"q": "Nelygybių sistema {x > -2; x ≤ 3}. Koks didžiausias sveikasis sprendinys?", "options": ["3", "4", "-2", "2"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (30 Eur) kainavo mažiau nei 45 Eur“ (x – pieštuko kaina)?", "options": ["3x + 30 > 45", "3x + 30 < 45", "3x + 30 ≤ 45", "3x − 30 < 45"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 3, y = 16. Koks yra k?", "options": ["19", "96", "48", "24"], "correct": 2}, {"q": "y = 144/x. Apskaičiuok y, kai x = 16.", "options": ["8", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["dviratininkų skaičius ir laikas, per kurį jie kartu nuveš tą patį krovinį (pastovus darbo kiekis)", "prekės kaina ir nupirktas kiekis, mokant vienodą sumą (pastovi bendra suma, o ne kaina)", "trikampio kampų suma ir kraštinių skaičius", "skaičiaus modulis ir jo priešingas skaičius"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 35 cm. Raskite AM.", "options": ["35 cm", "17,5 cm", "8,75 cm", "19,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 132,5°. Koks kitas vidaus priešinis kampas?", "options": ["47,5°", "66,25°", "132,5°", "142,5°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 143°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["143°", "53°", "153°", "37°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 63° ir 84°. Rask trečią kampą (įrašyk su °).", "a": "MzPCsA=="}, {"q": "Trikampio kampai yra proporcingi skaičiams 1 : 2 : 3. Koks didžiausias trikampio kampas (įrašyk su °)?", "a": "OTDCsA=="}, {"q": "Apskaičiuok 1,5² (tik skaičių, su kableliu, jei reikia).", "a": "MiwyNQ=="}, {"q": "Sandaugą a³ · a⁸ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "MTE="}, {"q": "Apskaičiuok 2⁻⁵. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MzI="}, {"q": "Kokia skaičiaus 0,0004 eilė (su minuso ženklu)?", "a": "LTQ="}, {"q": "Dydis pakito 2500 → 2800. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydis pakito 2800 → 2464. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MTI="}, {"q": "S = 3200 Eur, p = 5,5 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MzUy"}, {"q": "Į banką padėta S = 4000 Eur suma, sudėtinių palūkanų norma p = 5 % per metus. Kokia bus sukaupta suma po 3 metų? Įrašyk tik skaičių (Eur).", "a": "NDYzMCw1"}, {"q": "Išspręsk nelygybę x + 7 < -2 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "LTEw"}, {"q": "Išspręsk nelygybę -3x + 4 < -8 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NA=="}, {"q": "Sistema {x ≥ -3; x < 2}. Koks mažiausias sveikasis sprendinys?", "a": "LTM="}, {"q": "Automobilis važiuoja 90 km/h greičiu, kelias ne ilgesnis kaip 270 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 132/x. Apskaičiuok y, kai x = 11. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 6, y = 11. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NjY="}, {"q": "9 darbininkai atlieka darbą per 20 dienų. Per kiek dienų tą patį darbą atliktų 12 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "MTU="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 53 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MjYsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 142°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "Mzg="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 121°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "MTIx"}]}, {"id": 2, "mc": [{"q": "Norint PANEIGTI teiginį „Visi lyginiai skaičiai dalijasi iš 4\", pakanka…", "options": ["rasti vieną priešpavyzdį, pvz., skaičių 6", "patikrinti visus lyginius skaičius iki begalybės", "įrodyti teiginį teoremos forma", "paimti nelyginį skaičių kaip pavyzdį"], "correct": 0}, {"q": "Keturkampio trys kampai lygūs 95°, 105° ir 75°. Koks ketvirtas kampas?", "options": ["160°", "85°", "190°", "275°"], "correct": 1}, {"q": "Kam lygu (2 1/2)²?", "options": ["5", "6 1/2", "6 1/4", "-6 1/4"], "correct": 2}, {"q": "Sandaugą a⁵ · a⁷ užrašykite laipsniu su vienu rodikliu.", "options": ["a³⁵", "a⁵", "a⁷", "a¹²"], "correct": 3}, {"q": "Reiškinį (a⁴)⁶ užrašykite laipsniu su vienu rodikliu.", "options": ["a²⁴", "a¹⁰", "a⁴", "a⁶"], "correct": 0}, {"q": "Kokia skaičiaus 7 000 000 000 eilė standartinėje išraiškoje (7·10ⁿ)?", "options": ["8", "9", "10", "11"], "correct": 1}, {"q": "Dydis pakito 2600 → 3068. Keliais procentais jis padidėjo?", "options": ["15 15/59 %", "9 %", "18 %", "23 %"], "correct": 2}, {"q": "S = 3500 Eur, p = 5,5 %, t = 3 m. Rask paprastąsias palūkanas P (Eur).", "options": ["57750", "1155", "57,75", "577,5"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 15 %, o vėliau naujoji kaina sumažėjo 25 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["-13,75 %", "-10 %", "-8,75 %", "-17,75 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-1,25 = -2,75", "-1,25 > -2,75", "0 < -1,25", "-2,75 > -1,25"], "correct": 1}, {"q": "Išspręsk nelygybę -3x < 12.", "options": ["x < -4", "x > 4", "x > -4", "x < 4"], "correct": 2}, {"q": "Išspręsk nelygybę -3x + 7 < -2.", "options": ["x < 3", "x > 4", "x > -1 2/3", "x > 3"], "correct": 3}, {"q": "Nelygybių sistema {x > -4; x ≤ 2}. Koks mažiausias sveikasis sprendinys?", "options": ["-3", "-4", "-2", "2"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (35 Eur) kainavo mažiau nei 52 Eur“ (x – pieštuko kaina)?", "options": ["3x + 35 > 52", "3x + 35 < 52", "3x + 35 ≤ 52", "3x − 35 < 52"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 9, y = 4. Koks yra k?", "options": ["13", "72", "36", "18"], "correct": 2}, {"q": "y = 162/x. Apskaičiuok y, kai x = 18.", "options": ["8,1", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["slėgis ir tūris, kai dujų kiekis ir temperatūra pastovūs (Boilio dėsnis)", "kelio ilgis ir jam įveikti sunaudotas laikas, kai greitis pastovus", "prekės kaina ir PVM tarifas", "kvadrato kraštinė ir jo plotas"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 49 cm. Raskite AM.", "options": ["49 cm", "24,5 cm", "12,25 cm", "26,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas atitinkamasis kampas lygus 148°. Koks kitas atitinkamasis kampas?", "options": ["32°", "74°", "148°", "158°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 157°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["157°", "67°", "167°", "23°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 58° ir 77°. Rask trečią kampą (įrašyk su °).", "a": "NDXCsA=="}, {"q": "Trikampio kampai yra proporcingi skaičiams 2 : 3 : 4. Koks didžiausias trikampio kampas (įrašyk su °)?", "a": "ODDCsA=="}, {"q": "Apskaičiuok 2,5² (tik skaičių, su kableliu, jei reikia).", "a": "NiwyNQ=="}, {"q": "Sandaugą a⁵ · a⁴ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "OQ=="}, {"q": "Apskaičiuok 3⁻⁴. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "ODE="}, {"q": "Kokia skaičiaus 0,00003 eilė (su minuso ženklu)?", "a": "LTU="}, {"q": "Dydis pakito 3000 → 3540. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MTg="}, {"q": "Dydis pakito 3200 → 2624. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MTg="}, {"q": "S = 3800 Eur, p = 6,5 %, t = 3 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "NzQx"}, {"q": "Į banką padėta S = 4500 Eur suma, sudėtinių palūkanų norma p = 4 % per metus. Kokia bus sukaupta suma po 3 metų? Įrašyk tik skaičių (Eur).", "a": "NTA2MSw4ODg="}, {"q": "Išspręsk nelygybę x + 9 < -4 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "LTE0"}, {"q": "Išspręsk nelygybę -2x + 6 < -10 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "OA=="}, {"q": "Sistema {x ≥ -1; x < 4}. Koks mažiausias sveikasis sprendinys?", "a": "LTE="}, {"q": "Automobilis važiuoja 85 km/h greičiu, kelias ne ilgesnis kaip 255 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 156/x. Apskaičiuok y, kai x = 12. Įrašyk tik skaičių.", "a": "MTM="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 5, y = 13. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NjU="}, {"q": "15 darbininkai atlieka darbą per 12 dienų. Per kiek dienų tą patį darbą atliktų 20 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "OQ=="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 59 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MjksNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 156°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "MjQ="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 133°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "NDc="}]}, {"id": 3, "mc": [{"q": "Kas yra APIBRĖŽIMAS matematikoje?", "options": ["tikslus sąvokos paaiškinimas, nusakantis jos esmines savybes", "teiginys, priimamas be įrodymo", "loginis samprotavimas, pagrindžiantis teiginį", "bet koks matematinis sakinys"], "correct": 0}, {"q": "Keturkampio trys kampai lygūs 88°, 112° ir 70°. Koks ketvirtas kampas?", "options": ["160°", "90°", "202°", "270°"], "correct": 1}, {"q": "Kam lygu (1 1/3)²?", "options": ["2 2/3", "2 1/36", "1 7/9", "-1 7/9"], "correct": 2}, {"q": "Sandaugą a³ · a⁷ užrašykite laipsniu su vienu rodikliu.", "options": ["a²¹", "a³", "a⁷", "a¹⁰"], "correct": 3}, {"q": "Reiškinį (a²)⁶ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹²", "a⁸", "a²", "a⁶"], "correct": 0}, {"q": "Kokia skaičiaus 20 000 000 eilė standartinėje išraiškoje (2·10ⁿ)?", "options": ["6", "7", "8", "9"], "correct": 1}, {"q": "Dydis pakito 3200 → 4320. Keliais procentais jis padidėjo?", "options": ["25 25/27 %", "17,5 %", "35 %", "40 %"], "correct": 2}, {"q": "S = 4000 Eur, p = 6,5 %, t = 3 m. Rask paprastąsias palūkanas P (Eur).", "options": ["78000", "1560", "78", "780"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 30 %, o vėliau naujoji kaina sumažėjo 15 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["10,5 %", "15 %", "15,5 %", "6,5 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-2 1/3 = -4 1/3", "-2 1/3 > -4 1/3", "0 < -2 1/3", "-4 1/3 > -2 1/3"], "correct": 1}, {"q": "Išspręsk nelygybę -4x < 16.", "options": ["x < -4", "x > 4", "x > -4", "x < 4"], "correct": 2}, {"q": "Išspręsk nelygybę -4x + 3 < -9.", "options": ["x < 3", "x > 4", "x > 1,5", "x > 3"], "correct": 3}, {"q": "Nelygybių sistema {x > -1; x ≤ 4}. Koks didžiausias sveikasis sprendinys?", "options": ["4", "5", "-1", "3"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (25 Eur) kainavo mažiau nei 38 Eur“ (x – pieštuko kaina)?", "options": ["3x + 25 > 38", "3x + 25 < 38", "3x + 25 ≤ 38", "3x − 25 < 38"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 5, y = 12. Koks yra k?", "options": ["17", "120", "60", "30"], "correct": 2}, {"q": "y = 180/x. Apskaičiuok y, kai x = 15.", "options": ["10 10/17", "24", "1/12", "12"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["darbininkų, dirbančių vienodu tempu, skaičius ir laikas tam pačiam darbui atlikti", "banko palūkanų norma ir metų skaičius", "prekės kiekis kilogramais ir bendra kaina (fiksuota kaina/kg)", "trikampio kraštinė ir priešais esantis kampas"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 63 cm. Raskite AM.", "options": ["63 cm", "31,5 cm", "15,75 cm", "33,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas išorės priešinis kampas lygus 113°. Koks kitas išorės priešinis kampas?", "options": ["67°", "56,5°", "113°", "123°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 168°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["168°", "78°", "178°", "12°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 71° ir 66°. Rask trečią kampą (įrašyk su °).", "a": "NDPCsA=="}, {"q": "Trikampio kampai yra proporcingi skaičiams 1 : 3 : 5. Koks didžiausias trikampio kampas (įrašyk su °)?", "a": "MTAwwrA="}, {"q": "Apskaičiuok 1,2² (tik skaičių, su kableliu, jei reikia).", "a": "MSw0NA=="}, {"q": "Sandaugą a² · a⁹ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "MTE="}, {"q": "Apskaičiuok 4⁻⁴. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MjU2"}, {"q": "Kokia skaičiaus 0,000007 eilė (su minuso ženklu)?", "a": "LTY="}, {"q": "Dydis pakito 3600 → 4860. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "MzU="}, {"q": "Dydis pakito 3600 → 2340. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "MzU="}, {"q": "S = 4400 Eur, p = 4,5 %, t = 2 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "Mzk2"}, {"q": "Į banką padėta S = 5000 Eur suma, sudėtinių palūkanų norma p = 10 % per metus. Kokia bus sukaupta suma po 3 metų? Įrašyk tik skaičių (Eur).", "a": "NjY1NQ=="}, {"q": "Išspręsk nelygybę x + 8 < -3 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "LTEy"}, {"q": "Išspręsk nelygybę -4x + 3 < -15 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NCw1"}, {"q": "Sistema {x ≥ -4; x < 1}. Koks mažiausias sveikasis sprendinys?", "a": "LTQ="}, {"q": "Automobilis važiuoja 95 km/h greičiu, kelias ne ilgesnis kaip 285 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 168/x. Apskaičiuok y, kai x = 14. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 7, y = 10. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NzA="}, {"q": "10 darbininkai atlieka darbą per 18 dienų. Per kiek dienų tą patį darbą atliktų 15 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 67 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MzMsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 98°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "ODI="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 146°. Koks jam vertikalusis kampas (priešais esantis)? Įrašyk tik skaičių.", "a": "MTQ2"}]}, {"id": 4, "mc": [{"q": "Kas yra ĮRODYMAS?", "options": ["loginė samprotavimų grandinė, pagrindžianti teiginio teisingumą", "sąvokos paaiškinimas", "teiginys, priimamas be pagrindimo", "pavyzdys, iliustruojantis teiginį"], "correct": 0}, {"q": "Keturkampio trys kampai lygūs 102°, 96° ir 84°. Koks ketvirtas kampas?", "options": ["162°", "78°", "174°", "282°"], "correct": 1}, {"q": "Kam lygu (1 3/4)²?", "options": ["3 1/2", "3 5/16", "3 1/16", "-3 1/16"], "correct": 2}, {"q": "Sandaugą a⁶ · a⁴ užrašykite laipsniu su vienu rodikliu.", "options": ["a²⁴", "a⁶", "a⁴", "a¹⁰"], "correct": 3}, {"q": "Reiškinį (a⁵)³ užrašykite laipsniu su vienu rodikliu.", "options": ["a¹⁵", "a⁸", "a⁵", "a³"], "correct": 0}, {"q": "Kokia skaičiaus 90 000 000 000 eilė standartinėje išraiškoje (9·10ⁿ)?", "options": ["9", "10", "11", "12"], "correct": 1}, {"q": "Dydis pakito 3800 → 5510. Keliais procentais jis padidėjo?", "options": ["31 1/29 %", "22,5 %", "45 %", "50 %"], "correct": 2}, {"q": "S = 4500 Eur, p = 3,5 %, t = 3 m. Rask paprastąsias palūkanas P (Eur).", "options": ["47250", "945", "47,25", "472,5"], "correct": 3}, {"q": "Prekės kaina pirmiausia padidėjo 20 %, o vėliau naujoji kaina sumažėjo 30 %. Kiek procentų (palyginti su pradine kaina) pakito kaina iš viso?", "options": ["-16 %", "-10 %", "-11 %", "-20 %"], "correct": 0}, {"q": "Kuris teiginys teisingas?", "options": ["-2/3 = -2 2/3", "-2/3 > -2 2/3", "0 < -2/3", "-2 2/3 > -2/3"], "correct": 1}, {"q": "Išspręsk nelygybę -5x < 20.", "options": ["x < -4", "x > 4", "x > -4", "x < 4"], "correct": 2}, {"q": "Išspręsk nelygybę -5x + 9 < -11.", "options": ["x < 4", "x > 5", "x > 0,4", "x > 4"], "correct": 3}, {"q": "Nelygybių sistema {x > -5; x ≤ 1}. Koks mažiausias sveikasis sprendinys?", "options": ["-4", "-5", "-3", "1"], "correct": 0}, {"q": "Kuria nelygybe užrašysi teiginį „3 pieštukai ir knyga (40 Eur) kainavo mažiau nei 58 Eur“ (x – pieštuko kaina)?", "options": ["3x + 40 > 58", "3x + 40 < 58", "3x + 40 ≤ 58", "3x − 40 < 58"], "correct": 1}, {"q": "Formulė y = k/x. Kai x = 12, y = 5. Koks yra k?", "options": ["17", "120", "60", "30"], "correct": 2}, {"q": "y = 198/x. Apskaičiuok y, kai x = 22.", "options": ["8,25", "18", "1/9", "9"], "correct": 3}, {"q": "Kurie iš šių dydžių pavyzdžių yra ATVIRKŠČIAI proporcingi?", "options": ["žmonių, dalijančių fiksuotą sumą pinigų per pusiau, skaičius ir kiekvieno dalis", "kelio atstumas ir sunaudotų degalų kiekis (pastovios sąnaudos/km)", "kvadrato perimetras ir kraštinės ilgis", "skaičiaus eilė standartinėje išraiškoje ir pats skaičius"], "correct": 0}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 77 cm. Raskite AM.", "options": ["77 cm", "38,5 cm", "19,25 cm", "40,5 cm"], "correct": 1}, {"q": "Tiesės a ir b lygiagrečios (a∥b), jas kerta kirstinė. Vienas vidaus priešinis kampas lygus 127,5°. Koks kitas vidaus priešinis kampas?", "options": ["52,5°", "63,75°", "127,5°", "137,5°"], "correct": 2}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 109°. Koks gretimas jam kampas (kartu sudaro 180°)?", "options": ["109°", "19°", "119°", "71°"], "correct": 3}], "open": [{"q": "Trikampio du kampai lygūs 54° ir 91°. Rask trečią kampą (įrašyk su °).", "a": "MzXCsA=="}, {"q": "Trikampio kampai yra proporcingi skaičiams 3 : 4 : 5. Koks didžiausias trikampio kampas (įrašyk su °)?", "a": "NzXCsA=="}, {"q": "Apskaičiuok 0,4² (tik skaičių, su kableliu, jei reikia).", "a": "MCwxNg=="}, {"q": "Sandaugą a⁷ · a³ užrašyk laipsniu su vienu rodikliu. Įrašyk tik rodiklį (skaičių).", "a": "MTA="}, {"q": "Apskaičiuok 6⁻³. Rezultatas 1/aⁿ — įrašyk vardiklį (skaičių).", "a": "MjE2"}, {"q": "Kokia skaičiaus 0,002 eilė (su minuso ženklu)?", "a": "LTM="}, {"q": "Dydis pakito 4200 → 6090. Keliais procentais jis padidėjo? Įrašyk tik skaičių.", "a": "NDU="}, {"q": "Dydis pakito 4000 → 2200. Keliais procentais jis sumažėjo? Įrašyk tik skaičių.", "a": "NDU="}, {"q": "S = 5000 Eur, p = 7,5 %, t = 3 m. Rask paprastąsias palūkanas P. Įrašyk tik skaičių (Eur).", "a": "MTEyNQ=="}, {"q": "Į banką padėta S = 5500 Eur suma, sudėtinių palūkanų norma p = 20 % per metus. Kokia bus sukaupta suma po 3 metų? Įrašyk tik skaičių (Eur).", "a": "OTUwNA=="}, {"q": "Išspręsk nelygybę x + 6 < -5 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "LTEy"}, {"q": "Išspręsk nelygybę -5x + 8 < -13 ir užrašyk sprendinių srities kraštinę reikšmę (skaičių, be nelygybės ženklo).", "a": "NCwy"}, {"q": "Sistema {x ≥ -2; x < 3}. Koks mažiausias sveikasis sprendinys?", "a": "LTI="}, {"q": "Automobilis važiuoja 72 km/h greičiu, kelias ne ilgesnis kaip 216 km. Kiek daugiausiai valandų truks kelionė? Įrašyk tik skaičių.", "a": "Mw=="}, {"q": "y = 180/x. Apskaičiuok y, kai x = 15. Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Dydžiai x ir y atvirkščiai proporcingi. Kai x = 9, y = 8. Rask proporcingumo koeficientą k. Įrašyk tik skaičių.", "a": "NzI="}, {"q": "20 darbininkai atlieka darbą per 15 dienų. Per kiek dienų tą patį darbą atliktų 25 darbininkų (dirbdami tokiu pat tempu)? Įrašyk tik skaičių.", "a": "MTI="}, {"q": "Tiesėje pažymėti taškai A, B, M taip, kad M — atkarpos AB vidurio taškas. AB = 73 cm. Raskite AM. Įrašykite tik skaičių.", "a": "MzYsNQ=="}, {"q": "a∥b, kirstinė juos kerta. Vienas vienpusis kampas lygus 163°. Koks kitas vienpusis kampas (jie kartu sudaro 180°)? Įrašyk tik skaičių (be laipsnio ženklo).", "a": "MTc="}, {"q": "Dvi tiesės susikerta, vienas kampas lygus 158°. Koks gretimas jam kampas? Įrašyk tik skaičių.", "a": "MjI="}]}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,''); // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>
