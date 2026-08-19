@@ -210,9 +210,13 @@ async function nextRound(){
 
   if(mode === 'color'){
     const fixedShape = randItem(SHAPES);
-    const baseColor = randItem(COLORS);
-    let oddColor = randItem(COLORS);
-    while(oddColor.name === baseColor.name) oddColor = randItem(COLORS);
+    const hue = Math.floor(Math.random() * 360);
+    const sat = 55;
+    const gap = Math.max(6, 20 - level * 1.2);
+    const baseL = 50;
+    const oddL = Math.random() < 0.5 ? baseL + gap : baseL - gap;
+    const baseColor = {hex: 'hsl(' + hue + ',' + sat + '%,' + baseL + '%)'};
+    const oddColor = {hex: 'hsl(' + hue + ',' + sat + '%,' + oddL + '%)'};
     taskVal.textContent = 'Rask kitokios SPALVOS ' + SHAPE_NAMES_ACC[fixedShape];
     cells = Array.from({length: cellCount}, () => ({shape: fixedShape, color: baseColor}));
     answerIndex = Math.floor(Math.random() * cellCount);
