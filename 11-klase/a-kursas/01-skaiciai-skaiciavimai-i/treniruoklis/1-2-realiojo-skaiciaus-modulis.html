@@ -67,13 +67,18 @@
   .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
   .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
   .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1 id="antraste">Kontrolinio treniruoklis: Realiojo skaičiaus modulis (11 klasė, A kursas)</h1>
-    <p id="paantraste">Realiojo skaičiaus modulis · 11 klasė A kursas · treniruokis, kol būsi pasiruošęs</p>
+    <p id="paantraste">Realiojo skaičiaus modulis · 11 klasė · A kursas · treniruokis, kol būsi pasiruošęs</p>
   </header>
 
   <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
@@ -132,6 +137,14 @@ const NEKVADRATAI = [2,3,5,6,7,8,10,11,12,13,14,15,17,18,19,20];
 
 function sgn(x){ return x>=0 ? 1 : -1; }
 function opTxt(op){ return op>0 ? '+' : '−'; }
+// {sqrt:...}/{cbrt:...}/{root:N|...} žymekliai — fmtMath() (treniruoklis šablonas) paverčia
+// tikru √ su overline. Rašyk juos vietoj plokščio "√" simbolio, kad atsivertų kaip vadovėlyje.
+function sq(inner){ return `{sqrt:${inner}}`; }
+function rootWrap(power, inner){
+  if(power===2) return `{sqrt:${inner}}`;
+  if(power===3) return `{cbrt:${inner}}`;
+  return `{root:${power}|${inner}}`;
+}
 
 const GENERATORIAI = [
 
@@ -169,13 +182,13 @@ const GENERATORIAI = [
       const b = k*s1 + op*m*s2;
       const a = -(k*s1*p + op*m*s2*q);
       const opis = op>0 ? '+' : '−';
-      const t1 = s1>0 ? `√${n} − ${p}` : `${p} − √${n}`;
-      const t2 = s2>0 ? `√${n} − ${q}` : `${q} − √${n}`;
-      const q_ = `${k}|√${n} − ${p}| ${opis} ${m}|√${n} − ${q}| = a + b·√${n}. Raskite a + b reikšmę.`;
+      const t1 = s1>0 ? `${sq(n)} − ${p}` : `${p} − ${sq(n)}`;
+      const t2 = s2>0 ? `${sq(n)} − ${q}` : `${q} − ${sq(n)}`;
+      const q_ = `${k}|${sq(n)} − ${p}| ${opis} ${m}|${sq(n)} − ${q}| = a + b·${sq(n)}. Raskite a + b reikšmę.`;
       return { q:q_, ans:a+b, steps:[
-        `√${n} ${s1>0?'>':'<'} ${p}, todėl |√${n} − ${p}| = ${t1}`,
-        `√${n} ${s2>0?'>':'<'} ${q}, todėl |√${n} − ${q}| = ${t2}`,
-        `${k}(${t1}) ${opis} ${m}(${t2}) = ${nf(b)}·√${n} ${pm(a)}`,
+        `${sq(n)} ${s1>0?'>':'<'} ${p}, todėl |${sq(n)} − ${p}| = ${t1}`,
+        `${sq(n)} ${s2>0?'>':'<'} ${q}, todėl |${sq(n)} − ${q}| = ${t2}`,
+        `${k}(${t1}) ${opis} ${m}(${t2}) = ${nf(b)}·${sq(n)} ${pm(a)}`,
         `a = ${nf(a)}, b = ${nf(b)} ⟹ a + b = ${nf(a+b)}`
       ]};
   }},
@@ -203,12 +216,12 @@ const GENERATORIAI = [
       do{ n = choice(NEKVADRATAI); p = randint(3,9); tries++; }
       while (Math.sqrt(n) >= p && tries<50);   // reikia p > sqrt(n)
       const c = randint(2,9), d = randint(2,9);
-      const q = `Apskaičiuokite reiškinio |${c}√${n} − ${c*p}| : (${p} − √${n})  +  (${d*p} − ${d}√${n}) : |${p} − √${n}|  reikšmę.`;
+      const q = `Apskaičiuokite reiškinio |${c}${sq(n)} − ${c*p}| : (${p} − ${sq(n)})  +  (${d*p} − ${d}${sq(n)}) : |${p} − ${sq(n)}|  reikšmę.`;
       return { q, ans: c+d, steps:[
-        `√${n} < ${p}, todėl ${p} − √${n} > 0`,
-        `${c}√${n} − ${c*p} = ${c}(√${n} − ${p}) = −${c}(${p} − √${n}), todėl |${c}√${n} − ${c*p}| = ${c}(${p} − √${n})`,
-        `${d*p} − ${d}√${n} = ${d}(${p} − √${n}) > 0, todėl |${p} − √${n}| = ${p} − √${n}`,
-        `${c}(${p}−√${n}) : (${p}−√${n})  +  ${d}(${p}−√${n}) : (${p}−√${n}) = ${c} + ${d} = ${nf(c+d)}`
+        `${sq(n)} < ${p}, todėl ${p} − ${sq(n)} > 0`,
+        `${c}${sq(n)} − ${c*p} = ${c}(${sq(n)} − ${p}) = −${c}(${p} − ${sq(n)}), todėl |${c}${sq(n)} − ${c*p}| = ${c}(${p} − ${sq(n)})`,
+        `${d*p} − ${d}${sq(n)} = ${d}(${p} − ${sq(n)}) > 0, todėl |${p} − ${sq(n)}| = ${p} − ${sq(n)}`,
+        `${c}(${p}−${sq(n)}) : (${p}−${sq(n)})  +  ${d}(${p}−${sq(n)}) : (${p}−${sq(n)}) = ${c} + ${d} = ${nf(c+d)}`
       ]};
   }},
 
@@ -224,13 +237,15 @@ const GENERATORIAI = [
       const oddTerm = diff;                   // ^oddPow saknis oddPow -> diff (islaiko zenkla)
       const total = evenTerm + op*oddTerm;
       const opis = op>0 ? '+' : '−';
-      const evRoot = evenPow===2?'√':(evenPow===4?'⁴√':'⁶√');
-      const odRoot = oddPow===3?'³√':'⁵√';
-      const q = `Apskaičiuokite reiškinio ${evRoot}((x − (${nf(c)}))${evenPow===2?'²':'^'+evenPow}) ${opis} ${odRoot}((x − (${nf(c)}))${oddPow===3?'³':'^'+oddPow}) reikšmę, kai x = ${nf(x0)}.`;
+      const evExp = evenPow===2?'²':'^'+evenPow;
+      const odExp = oddPow===3?'³':'^'+oddPow;
+      const evPart = rootWrap(evenPow, `(x − (${nf(c)}))${evExp}`);
+      const odPart = rootWrap(oddPow, `(x − (${nf(c)}))${odExp}`);
+      const q = `Apskaičiuokite reiškinio ${evPart} ${opis} ${odPart} reiškinį, kai x = ${nf(x0)}.`;
       return { q, ans: total, steps:[
         `x − (${nf(c)}) = ${nf(x0)} − (${nf(c)}) = ${nf(diff)}`,
-        `${evRoot}(${nf(diff)}${evenPow===2?'²':'^'+evenPow}) = |${nf(diff)}| = ${evenTerm}  (lyginė šaknis — visada modulis)`,
-        `${odRoot}(${nf(diff)}${oddPow===3?'³':'^'+oddPow}) = ${nf(diff)}  (nelyginė šaknis — be modulio)`,
+        `${rootWrap(evenPow, nf(diff)+evExp)} = |${nf(diff)}| = ${evenTerm}  (lyginė šaknis — visada modulis)`,
+        `${rootWrap(oddPow, nf(diff)+odExp)} = ${nf(diff)}  (nelyginė šaknis — be modulio)`,
         `${evenTerm} ${opis} (${nf(oddTerm)}) = ${nf(total)}`
       ]};
   }},
@@ -247,7 +262,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: Realiojo skaičiaus modulis (11 klasė, A kursas)", "subtitle": "Realiojo skaičiaus modulis · 11 klasė A kursas · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "Atsakymas =", "simboliai": ["−", "/"]};
+const META = {"title": "Kontrolinio treniruoklis: Realiojo skaičiaus modulis (11 klasė, A kursas)", "subtitle": "Realiojo skaičiaus modulis · 11 klasė · A kursas · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
@@ -266,11 +281,21 @@ function initTekstai(){
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtMath(s){
   if(/<svg[\s>]/i.test(s)) return s;
-  return esc(s)
+  let out = esc(s)
     .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
     .replace(/\^([▢□])/g, '<sup>$1</sup>')
     .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
     .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline. Kilpa iki
+  // nekintamo taško leidžia įdėtąsias šaknis (žymeklis šalia žymeklio).
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
 }
 
 function naujas(){
