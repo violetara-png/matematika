@@ -23,17 +23,16 @@
   .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
   .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
   .stat .lbl{font-size:13px; color:var(--muted)}
-  .timerWrap{width:100%; max-width:300px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:14px}
+  .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:20px}
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
-  .mask{display:grid; grid-template-columns:repeat(5,1fr); gap:3px; width:100%; max-width:220px; aspect-ratio:5/7; margin:0 0 20px}
-  .dot{border-radius:4px}
-  .answers{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; width:100%; max-width:360px; margin-bottom:20px}
-  .ans{aspect-ratio:1/1; border-radius:12px; border:2px solid #d8dee6; cursor:pointer;
-    font-size:clamp(18px,4.5vw,24px); font-weight:700; display:flex; align-items:center; justify-content:center;
+  .pattern{font-size:clamp(36px,10vw,56px); font-weight:700; letter-spacing:6px; margin:0 0 28px; color:var(--ink)}
+  .answers{display:flex; flex-direction:column; gap:10px; width:100%; max-width:340px; margin-bottom:20px}
+  .ans{border-radius:12px; border:2px solid #d8dee6; cursor:pointer;
+    font-size:clamp(20px,5vw,26px); font-weight:700; padding:16px; display:flex; align-items:center; justify-content:center;
     background:var(--card); color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08);
     transition:transform .1s, filter .15s, background .15s; user-select:none}
-  .ans:active{transform:scale(.92)}
+  .ans:active{transform:scale(.97)}
   .ans.correct{background:#dcfce7; border-color:var(--ok)}
   .ans.wrong{background:#fee2e2; border-color:var(--bad)}
   .ans.disabled{cursor:default}
@@ -53,7 +52,7 @@
 <header>
   <a class="grizti" href="./">← Dėmesys ir pastabumas</a>
   <h1>🎭 Skaitmens kaukė</h1>
-  <p>Tarp panašių spalvų taškelių paslėptas skaičius — atspėk kuris</p>
+  <p>Vieną ar kelis skaitmenis dengia „*“ — atspėk, kuris skaičius tinka</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -61,35 +60,22 @@
     <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
   </div>
   <div class="timerWrap"><div class="timerBar" id="timerBar"></div></div>
+  <div class="pattern" id="pattern">–</div>
   <div class="msg info" id="msg">Paspausk „Pradėti“</div>
-  <div class="mask" id="mask"></div>
   <div class="answers" id="answers"></div>
   <div class="controls">
     <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> spalvotame taškelių lauke paslėptas vienas skaitmuo (0–9) — jis nupieštas šiek tiek kitokio atspalvio taškeliais.
-    Įsižiūrėk ir spragtelėk teisingą skaičių apačioje, kol nepasibaigė laikas.
-    Kiekvienas lygis skaičiai paslepiami vis subtiliau.
+    <b>Kaip žaisti:</b> viršuje parodytas skaičiaus šablonas, kuriame vieną ar kelis skaitmenis dengia „*“ (bet kuris skaitmuo tinka toje vietoje).
+    Iš variantų apačioje spragtelėk tą skaičių, kuris tiksliai atitinka nedengtus skaitmenis jų vietose.
+    Skaičiavimų nereikia — tik dėmesio kiekvienai pozicijai.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
-const FONT = {
-  0: ['01110','10001','10011','10101','11001','10001','01110'],
-  1: ['00100','01100','00100','00100','00100','00100','01110'],
-  2: ['01110','10001','00001','00010','00100','01000','11111'],
-  3: ['11111','00010','00100','00010','00001','10001','01110'],
-  4: ['00010','00110','01010','10010','11111','00010','00010'],
-  5: ['11111','10000','11110','00001','00001','10001','01110'],
-  6: ['00110','01000','10000','11110','10001','10001','01110'],
-  7: ['11111','00001','00010','00100','01000','01000','01000'],
-  8: ['01110','10001','10001','01110','10001','10001','01110'],
-  9: ['01110','10001','10001','01111','00001','00010','01100']
-};
-
-const maskEl = document.getElementById('mask');
+const patternEl = document.getElementById('pattern');
 const answersEl = document.getElementById('answers');
 const levelEl = document.getElementById('level');
 const bestEl = document.getElementById('best');
@@ -103,18 +89,8 @@ let soundOn = true;
 let level = 0;
 let best = parseInt(localStorage.getItem('skaitmensKaukeBest') || '0', 10);
 bestEl.textContent = best;
-let answer = -1;
+let correctNum = '';
 let timeoutHandle = null;
-
-const ansButtons = [];
-for(let d = 0; d <= 9; d++){
-  const b = document.createElement('div');
-  b.className = 'ans';
-  b.textContent = d;
-  b.addEventListener('click', () => handlePick(d, b));
-  answersEl.appendChild(b);
-  ansButtons.push(b);
-}
 
 let audioCtx = null;
 function unlockAudio(){
@@ -187,33 +163,57 @@ async function startGame(){
   await nextRound();
 }
 
-function jitter(range){ return (Math.random() * 2 - 1) * range; }
+function randomNumber(digitCount){
+  let digits = [1 + Math.floor(Math.random() * 9)];
+  for(let i = 1; i < digitCount; i++) digits.push(Math.floor(Math.random() * 10));
+  return digits;
+}
 
 async function nextRound(){
   accepting = false;
-  answer = Math.floor(Math.random() * 10);
-  const pattern = FONT[answer];
-  const hue = Math.floor(Math.random() * 360);
-  const gap = Math.max(9, 32 - level * 2.5);
-  const dirUp = Math.random() < 0.5;
-  const lightBg = 55, lightDigit = dirUp ? 55 + gap : 55 - gap;
-  const timeLimit = Math.max(4500, 9500 - level * 350);
+  const digitCount = Math.min(3 + Math.floor(level / 3), 5);
+  const maskedCount = level >= 5 ? 2 : 1;
+  const numOptions = level >= 8 ? 4 : 3;
+  const timeLimit = Math.max(3500, 8000 - level * 350);
 
-  maskEl.innerHTML = '';
-  for(let r = 0; r < 7; r++){
-    for(let c = 0; c < 5; c++){
-      const on = pattern[r][c] === '1';
-      const base = on ? lightDigit : lightBg;
-      const l = Math.min(85, Math.max(15, base + jitter(4)));
-      const s = 45 + jitter(6);
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      dot.style.background = 'hsl(' + hue + ', ' + s + '%, ' + l + '%)';
-      maskEl.appendChild(dot);
-    }
+  const digits = randomNumber(digitCount);
+  correctNum = digits.join('');
+
+  const positions = [];
+  while(positions.length < maskedCount){
+    const p = Math.floor(Math.random() * digitCount);
+    if(!positions.includes(p)) positions.push(p);
   }
-  ansButtons.forEach(b => { b.className = 'ans'; });
-  setMsg('Koks skaičius paslėptas?', 'info');
+  const patternStr = digits.map((d, i) => positions.includes(i) ? '*' : d).join(' ');
+  patternEl.textContent = patternStr;
+
+  const options = new Set([correctNum]);
+  let guardCount = 0;
+  while(options.size < numOptions && guardCount < 500){
+    guardCount++;
+    const cand = randomNumber(digitCount);
+    const candNum = cand.join('');
+    if(candNum === correctNum) continue;
+    const matchesPattern = digits.every((d, i) => positions.includes(i) || cand[i] === d);
+    if(matchesPattern) continue;
+    options.add(candNum);
+  }
+  const optList = [...options];
+  for(let i = optList.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [optList[i], optList[j]] = [optList[j], optList[i]];
+  }
+
+  answersEl.innerHTML = '';
+  optList.forEach(num => {
+    const el = document.createElement('div');
+    el.className = 'ans';
+    el.textContent = num;
+    el.addEventListener('click', () => handlePick(num, el));
+    answersEl.appendChild(el);
+  });
+
+  setMsg('Kuris skaičius tinka šablonui?', 'info');
   accepting = true;
   startTimer(timeLimit);
 }
@@ -221,22 +221,28 @@ async function nextRound(){
 function endRound(){
   accepting = false;
   stopTimer();
-  ansButtons.forEach(b => b.classList.add('disabled'));
+  document.querySelectorAll('.ans').forEach(b => b.classList.add('disabled'));
+}
+
+function markCorrectAnswer(){
+  document.querySelectorAll('.ans').forEach(b => {
+    if(b.textContent === correctNum) b.classList.add('correct');
+  });
 }
 
 function timeUp(){
   if(!accepting) return;
   accepting = false;
   errorBeep();
-  ansButtons[answer].classList.add('correct');
-  ansButtons.forEach(b => b.classList.add('disabled'));
-  setMsg('Laikas baigėsi! Buvo ' + answer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  markCorrectAnswer();
+  document.querySelectorAll('.ans').forEach(b => b.classList.add('disabled'));
+  setMsg('Laikas baigėsi! Buvo ' + correctNum + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
   startBtn.textContent = '↻ Iš naujo';
 }
 
-function handlePick(d, el){
+function handlePick(num, el){
   if(!accepting) return;
-  if(d === answer){
+  if(num === correctNum){
     endRound();
     el.classList.add('correct');
     beep(320 + level * 15);
@@ -253,8 +259,8 @@ function handlePick(d, el){
     endRound();
     el.classList.add('wrong');
     errorBeep();
-    ansButtons[answer].classList.add('correct');
-    setMsg('Ne tas skaičius. Buvo ' + answer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    markCorrectAnswer();
+    setMsg('Ne tas skaičius. Buvo ' + correctNum + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
     startBtn.textContent = '↻ Iš naujo';
   }
 }
