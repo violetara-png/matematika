@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Atsiskaitymo testas: 1.4.2 Apvaliname iki nurodyto skyriaus</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<header><h1>Atsiskaitymo testas: 1.4.2 Apvaliname iki nurodyto skyriaus</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Atsiskaitymo testas: 1.4.2 Apvaliname iki nurodyto skyriaus", "dalykas": "Matematika", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Apvalinimą iki bet kurio skyriaus supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai — dažniausiai pamirštama pakeisti visus žemesnius skaitmenis nuliais."], [45, "Patenkinamai — verta pakartoti temą, ypač „pernešimo“ atvejį."], [0, "Reikia pakartoti temą ir pasitreniruoti su treniruokliu."]]}, "variants": [{"id": 1, "mc": [{"q": "Apvalinant skaičių iki nurodyto skyriaus, į kurį skaitmenį reikia pažiūrėti, kad nuspręstum, apvalinti aukštyn ar žemyn?", "options": ["Į patį pažymėtą skaitmenį", "Į sekantį (dešiniau esantį) skaitmenį", "Į skaitmenį, esantį kairiau pažymėto", "Į paskutinį (vienetų skyriaus) skaitmenį"], "correct": 1}, {"q": "Kada apvalindami skaičių turime PADIDINTI pažymėtą skaitmenį per 1?", "options": ["Kai sekantis skaitmuo yra 5, 6, 7, 8 arba 9", "Visada, nesvarbu koks sekantis skaitmuo", "Niekada — skaitmuo nesikeičia", "Kai sekantis skaitmuo yra 0, 1, 2, 3 arba 4"], "correct": 0}, {"q": "Suapvalinus skaičių iki nurodyto skyriaus, kas nutinka VISIEMS skaitmenims, esantiems PO pažymėtojo (dešiniau)?", "options": ["Jie visi pakeičiami nuliais", "Jie sukeičiami vietomis su pažymėtu skaitmeniu", "Jie lieka nepakitę", "Jie ištrinami ir skaičius sutrumpėja"], "correct": 0}, {"q": "Apvalinant skaičių, kai pažymėtas skaitmuo yra 9, o jį reikia didinti per 1, kas įvyksta?", "options": ["Tokio skaičiaus apvalinti negalima", "Skaitmuo lieka 9, nes didesnio skaitmens nėra", "Vienetas „pernešamas“ į kitą, kairiau esantį (aukštesnį) skyrių", "Skaičius apvalinamas žemyn, kad būtų išvengta problemos"], "correct": 2}, {"q": "Suapvalink skaičių 4 790 iki šimtų.", "options": ["4 800", "4 801", "4 700", "4 900"], "correct": 0}, {"q": "Suapvalink skaičių 98 754 iki tūkstančių.", "options": ["99 000", "99 054", "100 000", "98 000"], "correct": 0}, {"q": "Suapvalink skaičių 296 431 iki dešimt tūkstančių.", "options": ["310 000", "290 000", "300 431", "300 000"], "correct": 3}, {"q": "Suapvalink skaičių 18 951 iki šimtų.", "options": ["19 001", "18 900", "19 000", "19 002"], "correct": 2}, {"q": "Suapvalink skaičių 209 724 iki tūkstančių.", "options": ["210 001", "210 024", "210 000", "209 000"], "correct": 2}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 7 300.", "options": ["7 250", "7 300", "7 150", "7 200"], "correct": 0}], "open": [{"q": "Suapvalink skaičių 84 155 iki šimtų.", "a": "ODQyMDA="}, {"q": "Suapvalink skaičių 2 913 iki šimtų.", "a": "MjkwMA=="}, {"q": "Suapvalink skaičių 294 741 iki tūkstančių.", "a": "Mjk1MDAw"}, {"q": "Suapvalink skaičių 69 396 iki tūkstančių.", "a": "NjkwMDA="}, {"q": "Suapvalink skaičių 100 865 iki dešimt tūkstančių.", "a": "MTAwMDAw"}, {"q": "Suapvalink skaičių 985 130 iki dešimt tūkstančių.", "a": "OTkwMDAw"}, {"q": "Suapvalink skaičių 47 995 iki šimtų.", "a": "NDgwMDA="}, {"q": "Suapvalink skaičių 246 978 iki šimtų.", "a": "MjQ3MDAw"}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 4 700.", "a": "NDY1MA=="}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki tūkstančių gautume 52 000.", "a": "NTE1MDA="}]}, {"id": 2, "mc": [{"q": "Apvalinant skaičių iki nurodyto skyriaus, į kurį skaitmenį reikia pažiūrėti, kad nuspręstum, apvalinti aukštyn ar žemyn?", "options": ["Į sekantį (dešiniau esantį) skaitmenį", "Į skaitmenį, esantį kairiau pažymėto", "Į paskutinį (vienetų skyriaus) skaitmenį", "Į patį pažymėtą skaitmenį"], "correct": 0}, {"q": "Kada apvalindami skaičių turime PADIDINTI pažymėtą skaitmenį per 1?", "options": ["Visada, nesvarbu koks sekantis skaitmuo", "Niekada — skaitmuo nesikeičia", "Kai sekantis skaitmuo yra 0, 1, 2, 3 arba 4", "Kai sekantis skaitmuo yra 5, 6, 7, 8 arba 9"], "correct": 3}, {"q": "Suapvalinus skaičių iki nurodyto skyriaus, kas nutinka VISIEMS skaitmenims, esantiems PO pažymėtojo (dešiniau)?", "options": ["Jie sukeičiami vietomis su pažymėtu skaitmeniu", "Jie lieka nepakitę", "Jie ištrinami ir skaičius sutrumpėja", "Jie visi pakeičiami nuliais"], "correct": 3}, {"q": "Apvalinant skaičių, kai pažymėtas skaitmuo yra 9, o jį reikia didinti per 1, kas įvyksta?", "options": ["Skaitmuo lieka 9, nes didesnio skaitmens nėra", "Vienetas „pernešamas“ į kitą, kairiau esantį (aukštesnį) skyrių", "Skaičius apvalinamas žemyn, kad būtų išvengta problemos", "Tokio skaičiaus apvalinti negalima"], "correct": 1}, {"q": "Suapvalink skaičių 408 015 iki šimtų.", "options": ["408 001", "408 000", "408 005", "408 100"], "correct": 1}, {"q": "Suapvalink skaičių 46 080 iki tūkstančių.", "options": ["46 000", "46 080", "47 000", "46 001"], "correct": 0}, {"q": "Suapvalink skaičių 113 888 iki dešimt tūkstančių.", "options": ["110 001", "110 888", "110 000", "120 000"], "correct": 2}, {"q": "Suapvalink skaičių 64 954 iki šimtų.", "options": ["65 004", "65 000", "64 900", "65 001"], "correct": 1}, {"q": "Suapvalink skaičių 279 640 iki tūkstančių.", "options": ["280 040", "280 001", "279 000", "280 000"], "correct": 3}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 1 500.", "options": ["1 500", "1 450", "1 350", "1 400"], "correct": 1}], "open": [{"q": "Suapvalink skaičių 6 846 iki šimtų.", "a": "NjgwMA=="}, {"q": "Suapvalink skaičių 76 466 iki šimtų.", "a": "NzY1MDA="}, {"q": "Suapvalink skaičių 368 492 iki tūkstančių.", "a": "MzY4MDAw"}, {"q": "Suapvalink skaičių 988 267 iki tūkstančių.", "a": "OTg4MDAw"}, {"q": "Suapvalink skaičių 966 156 iki dešimt tūkstančių.", "a": "OTcwMDAw"}, {"q": "Suapvalink skaičių 203 451 iki dešimt tūkstančių.", "a": "MjAwMDAw"}, {"q": "Suapvalink skaičių 29 973 iki šimtų.", "a": "MzAwMDA="}, {"q": "Suapvalink skaičių 363 989 iki šimtų.", "a": "MzY0MDAw"}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 7 700.", "a": "NzY1MA=="}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki tūkstančių gautume 64 000.", "a": "NjM1MDA="}]}, {"id": 3, "mc": [{"q": "Apvalinant skaičių iki nurodyto skyriaus, į kurį skaitmenį reikia pažiūrėti, kad nuspręstum, apvalinti aukštyn ar žemyn?", "options": ["Į skaitmenį, esantį kairiau pažymėto", "Į paskutinį (vienetų skyriaus) skaitmenį", "Į patį pažymėtą skaitmenį", "Į sekantį (dešiniau esantį) skaitmenį"], "correct": 3}, {"q": "Kada apvalindami skaičių turime PADIDINTI pažymėtą skaitmenį per 1?", "options": ["Niekada — skaitmuo nesikeičia", "Kai sekantis skaitmuo yra 0, 1, 2, 3 arba 4", "Kai sekantis skaitmuo yra 5, 6, 7, 8 arba 9", "Visada, nesvarbu koks sekantis skaitmuo"], "correct": 2}, {"q": "Suapvalinus skaičių iki nurodyto skyriaus, kas nutinka VISIEMS skaitmenims, esantiems PO pažymėtojo (dešiniau)?", "options": ["Jie lieka nepakitę", "Jie ištrinami ir skaičius sutrumpėja", "Jie visi pakeičiami nuliais", "Jie sukeičiami vietomis su pažymėtu skaitmeniu"], "correct": 2}, {"q": "Apvalinant skaičių, kai pažymėtas skaitmuo yra 9, o jį reikia didinti per 1, kas įvyksta?", "options": ["Vienetas „pernešamas“ į kitą, kairiau esantį (aukštesnį) skyrių", "Skaičius apvalinamas žemyn, kad būtų išvengta problemos", "Tokio skaičiaus apvalinti negalima", "Skaitmuo lieka 9, nes didesnio skaitmens nėra"], "correct": 0}, {"q": "Suapvalink skaičių 388 199 iki šimtų.", "options": ["388 209", "388 300", "388 100", "388 200"], "correct": 3}, {"q": "Suapvalink skaičių 816 542 iki tūkstančių.", "options": ["817 000", "816 000", "818 000", "817 042"], "correct": 0}, {"q": "Suapvalink skaičių 828 164 iki dešimt tūkstančių.", "options": ["830 000", "840 000", "830 164", "820 000"], "correct": 0}, {"q": "Suapvalink skaičių 47 967 iki šimtų.", "options": ["48 007", "48 001", "47 900", "48 000"], "correct": 3}, {"q": "Suapvalink skaičių 759 610 iki tūkstančių.", "options": ["760 001", "760 010", "759 000", "760 000"], "correct": 3}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 7 500.", "options": ["7 500", "7 400", "7 450", "7 350"], "correct": 2}], "open": [{"q": "Suapvalink skaičių 7 077 iki šimtų.", "a": "NzEwMA=="}, {"q": "Suapvalink skaičių 30 466 iki šimtų.", "a": "MzA1MDA="}, {"q": "Suapvalink skaičių 71 066 iki tūkstančių.", "a": "NzEwMDA="}, {"q": "Suapvalink skaičių 613 238 iki tūkstančių.", "a": "NjEzMDAw"}, {"q": "Suapvalink skaičių 450 587 iki dešimt tūkstančių.", "a": "NDUwMDAw"}, {"q": "Suapvalink skaičių 238 474 iki dešimt tūkstančių.", "a": "MjQwMDAw"}, {"q": "Suapvalink skaičių 6 961 iki šimtų.", "a": "NzAwMA=="}, {"q": "Suapvalink skaičių 990 967 iki šimtų.", "a": "OTkxMDAw"}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 2 100.", "a": "MjA1MA=="}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki tūkstančių gautume 70 000.", "a": "Njk1MDA="}]}, {"id": 4, "mc": [{"q": "Apvalinant skaičių iki nurodyto skyriaus, į kurį skaitmenį reikia pažiūrėti, kad nuspręstum, apvalinti aukštyn ar žemyn?", "options": ["Į paskutinį (vienetų skyriaus) skaitmenį", "Į patį pažymėtą skaitmenį", "Į sekantį (dešiniau esantį) skaitmenį", "Į skaitmenį, esantį kairiau pažymėto"], "correct": 2}, {"q": "Kada apvalindami skaičių turime PADIDINTI pažymėtą skaitmenį per 1?", "options": ["Kai sekantis skaitmuo yra 0, 1, 2, 3 arba 4", "Kai sekantis skaitmuo yra 5, 6, 7, 8 arba 9", "Visada, nesvarbu koks sekantis skaitmuo", "Niekada — skaitmuo nesikeičia"], "correct": 1}, {"q": "Suapvalinus skaičių iki nurodyto skyriaus, kas nutinka VISIEMS skaitmenims, esantiems PO pažymėtojo (dešiniau)?", "options": ["Jie ištrinami ir skaičius sutrumpėja", "Jie visi pakeičiami nuliais", "Jie sukeičiami vietomis su pažymėtu skaitmeniu", "Jie lieka nepakitę"], "correct": 1}, {"q": "Apvalinant skaičių, kai pažymėtas skaitmuo yra 9, o jį reikia didinti per 1, kas įvyksta?", "options": ["Skaičius apvalinamas žemyn, kad būtų išvengta problemos", "Tokio skaičiaus apvalinti negalima", "Skaitmuo lieka 9, nes didesnio skaitmens nėra", "Vienetas „pernešamas“ į kitą, kairiau esantį (aukštesnį) skyrių"], "correct": 3}, {"q": "Suapvalink skaičių 209 047 iki šimtų.", "options": ["209 001", "209 000", "209 100", "209 007"], "correct": 1}, {"q": "Suapvalink skaičių 566 243 iki tūkstančių.", "options": ["566 001", "566 043", "566 000", "567 000"], "correct": 2}, {"q": "Suapvalink skaičių 288 868 iki dešimt tūkstančių.", "options": ["280 000", "290 000", "300 000", "290 868"], "correct": 1}, {"q": "Suapvalink skaičių 30 966 iki šimtų.", "options": ["31 001", "31 006", "31 000", "30 900"], "correct": 2}, {"q": "Suapvalink skaičių 639 800 iki tūkstančių.", "options": ["639 000", "640 001", "640 002", "640 000"], "correct": 3}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 5 300.", "options": ["5 250", "5 150", "5 200", "5 300"], "correct": 0}], "open": [{"q": "Suapvalink skaičių 36 139 iki šimtų.", "a": "MzYxMDA="}, {"q": "Suapvalink skaičių 539 087 iki šimtų.", "a": "NTM5MTAw"}, {"q": "Suapvalink skaičių 808 362 iki tūkstančių.", "a": "ODA4MDAw"}, {"q": "Suapvalink skaičių 362 010 iki tūkstančių.", "a": "MzYyMDAw"}, {"q": "Suapvalink skaičių 321 979 iki dešimt tūkstančių.", "a": "MzIwMDAw"}, {"q": "Suapvalink skaičių 300 641 iki dešimt tūkstančių.", "a": "MzAwMDAw"}, {"q": "Suapvalink skaičių 7 977 iki šimtų.", "a": "ODAwMA=="}, {"q": "Suapvalink skaičių 931 981 iki šimtų.", "a": "OTMyMDAw"}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki šimtų gautume 3 400.", "a": "MzM1MA=="}, {"q": "Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki tūkstančių gautume 28 000.", "a": "Mjc1MDA="}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>

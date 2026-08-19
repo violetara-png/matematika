@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.4.2 Apvaliname iki nurodyto skyriaus · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:130px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.4.2 Apvaliname iki nurodyto skyriaus</b> · 5 klasė · Apvalinimo skyrius (Senojo skaičių archyvo dalis) · 6 stalčiai · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 apvalinimo mįsles iš eilės (šimtai, tūkstančiai, dešimt tūkstančių su pernešimu,
+    atvirkštinė mįslė, milijonų pernešimas, teiginių patikra). Kiekvienos mįslės atsakymas yra vienas
+    laboratorijos kodo skaitmuo (iš eilės nuo 1 iki 6 stalčiaus). Surinkęs visą kodą ir įvedęs jį į
+    duris, mokinys „pabėga". Skirtingi variantai turi kitus skaičius ir kitą kodą, kad gretimai
+    sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvieno stalčiaus.</li>
+      <li>Stalčiai 1–2 — paprastas apvalinimas be pernešimo (šimtai, tūkstančiai); stalčiai 3 ir 5 —
+        pernešimas per visą klasę (9 virsta 0, „1\" keliauja aukščiau); stalčius 4 — atvirkštinė mįslė
+        (mažiausias skaičius, kuris apvalinamas iki duotos reikšmės); stalčius 6 — penkių teiginių
+        patikra, reikia suskaičiuoti klaidingus.</li>
+      <li>Priminkite pernešimo taisyklę: jei skyriaus skaitmuo jau yra 9 ir jį reikia didinti per 1,
+        jis virsta 0, o „1" pridedamas prie kaimyninio, aukštesnio skyriaus (kartais net kelių skyrių
+        iš eilės, jei ir jie buvo 9).</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"571131", rows:[
+   [1,"Pirmasis stalčius: šimtų sargas","728 461 — Apvalink šį skaičių iki ŠIMTŲ skyriaus tikslumo. Koks skaitmuo lieka ŠIMTŲ skyriuje po apvalinimo?","Dešimčių skyriaus skaitmuo = 6 (≥5) → apvalinama aukštyn: šimtų skaitmuo 4 tampa 5. 728 461 ≈ 728 500. Šimtų skyrius = 5.",5],
+   [2,"Antrasis stalčius: tūkstančių bokštas","157 382 — Apvalink šį skaičių iki TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo lieka TŪKSTANČIŲ skyriuje po apvalinimo?","Šimtų skyriaus skaitmuo = 3 (&lt;5) → apvalinama žemyn: tūkstančių skaitmuo lieka 7. 157 382 ≈ 157 000. Tūkstančių skyrius = 7.",7],
+   [3,"Trečiasis stalčius: didysis pernešimas","95 729 — Apvalink šį skaičių iki DEŠIMT TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda ŠIMTŲ TŪKSTANČIŲ skyriuje rezultate?","Tūkstančių skyriaus skaitmuo = 5 (≥5) → apvalinama aukštyn: dešimt tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į šimtų tūkstančių skyrių (kurio anksčiau nebuvo, taigi 0+1=1). 95 729 ≈ 100 000. Šimtų tūkstančių skyrius = 1.",1],
+   [4,"Ketvirtasis stalčius: atvirkštinis kelias","Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki ŠIMTŲ skyriaus gautume 4 200. Koks yra šio mažiausio skaičiaus ŠIMTŲ skyriaus skaitmuo?","Visi skaičiai nuo 4 150 iki 4 249 apvalinami iki 4 200. Mažiausias iš jų = 4 200 − 50 = 4 150. Šimtų skyrius = 1.",1],
+   [5,"Penktasis stalčius: milijonų skliautas","2 951 743 — Apvalink šį skaičių iki ŠIMTŲ TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda MILIJONŲ skyriuje rezultate?","Dešimt tūkstančių skyriaus skaitmuo = 5 (≥5) → apvalinama aukštyn: šimtų tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į milijonų skyrių: 2 + 1 = 3. 2 951 743 ≈ 3 000 000. Milijonų skyrius = 3.",3],
+   [6,"Šeštasis stalčius: teisybės sietas","Penki teiginiai: a) 4 273→4 300 (iki šimtų); b) 68 940→69 000 (iki tūkst.); c) 152 380→152 000 (iki tūkst.); d) 7 951→7 900 (iki šimtų); e) 296 507→300 000 (iki dešimt tūkst.). Kiek NETEISINGI?","a) tikra 4 300 — teisingas. b) tikra 69 000 — teisingas. c) tikra 152 000 — teisingas. d) tikra 8 000 (nes tūkstančių skaitmuo 7 gauna pernešimą) — NETEISINGAS. e) tikra 300 000 — teisingas. Neteisingų: 1 (tik d).",1],
+ ]},
+ { code:"255762", rows:[
+   [1,"Pirmasis stalčius: šimtų sargas","364 219 — Apvalink šį skaičių iki ŠIMTŲ skyriaus tikslumo. Koks skaitmuo lieka ŠIMTŲ skyriuje po apvalinimo?","Dešimčių skyriaus skaitmuo = 1 (&lt;5) → apvalinama žemyn: šimtų skaitmuo lieka 2. 364 219 ≈ 364 200. Šimtų skyrius = 2.",2],
+   [2,"Antrasis stalčius: tūkstančių bokštas","284 951 — Apvalink šį skaičių iki TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo lieka TŪKSTANČIŲ skyriuje po apvalinimo?","Šimtų skyriaus skaitmuo = 9 (≥5) → apvalinama aukštyn: tūkstančių skaitmuo 4 + 1 = 5. 284 951 ≈ 285 000. Tūkstančių skyrius = 5.",5],
+   [3,"Trečiasis stalčius: didysis pernešimas","497 214 — Apvalink šį skaičių iki DEŠIMT TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda ŠIMTŲ TŪKSTANČIŲ skyriuje rezultate?","Tūkstančių skyriaus skaitmuo = 7 (≥5) → apvalinama aukštyn: dešimt tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į šimtų tūkstančių skyrių: 4 + 1 = 5. 497 214 ≈ 500 000. Šimtų tūkstančių skyrius = 5.",5],
+   [4,"Ketvirtasis stalčius: atvirkštinis kelias","Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki ŠIMTŲ skyriaus gautume 7 800. Koks yra šio mažiausio skaičiaus ŠIMTŲ skyriaus skaitmuo?","Visi skaičiai nuo 7 750 iki 7 849 apvalinami iki 7 800. Mažiausias iš jų = 7 800 − 50 = 7 750. Šimtų skyrius = 7.",7],
+   [5,"Penktasis stalčius: milijonų skliautas","5 968 214 — Apvalink šį skaičių iki ŠIMTŲ TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda MILIJONŲ skyriuje rezultate?","Dešimt tūkstančių skyriaus skaitmuo = 6 (≥5) → apvalinama aukštyn: šimtų tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į milijonų skyrių: 5 + 1 = 6. 5 968 214 ≈ 6 000 000. Milijonų skyrius = 6.",6],
+   [6,"Šeštasis stalčius: teisybės sietas","Penki teiginiai: a) 5 638→5 600 (iki šimtų); b) 74 260→74 000 (iki tūkst.); c) 3 962→3 900 (iki šimtų); d) 418 720→420 000 (iki dešimt tūkst.); e) 82 549→82 000 (iki tūkst.). Kiek NETEISINGI?","a) tikra 5 600 — teisingas. b) tikra 74 000 — teisingas. c) tikra 4 000 (pernešimas) — NETEISINGAS. d) tikra 420 000 — teisingas. e) tikra 83 000 (šimtų skyriaus skaitmuo 5 ≥5, taigi apvalinama aukštyn) — NETEISINGAS. Neteisingų: 2 (c ir e).",2],
+ ]},
+ { code:"823523", rows:[
+   [1,"Pirmasis stalčius: šimtų sargas","513 847 — Apvalink šį skaičių iki ŠIMTŲ skyriaus tikslumo. Koks skaitmuo lieka ŠIMTŲ skyriuje po apvalinimo?","Dešimčių skyriaus skaitmuo = 4 (&lt;5) → apvalinama žemyn: šimtų skaitmuo lieka 8. 513 847 ≈ 513 800. Šimtų skyrius = 8.",8],
+   [2,"Antrasis stalčius: tūkstančių bokštas","602 138 — Apvalink šį skaičių iki TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo lieka TŪKSTANČIŲ skyriuje po apvalinimo?","Šimtų skyriaus skaitmuo = 1 (&lt;5) → apvalinama žemyn: tūkstančių skaitmuo lieka 2. 602 138 ≈ 602 000. Tūkstančių skyrius = 2.",2],
+   [3,"Trečiasis stalčius: didysis pernešimas","298 467 — Apvalink šį skaičių iki DEŠIMT TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda ŠIMTŲ TŪKSTANČIŲ skyriuje rezultate?","Tūkstančių skyriaus skaitmuo = 8 (≥5) → apvalinama aukštyn: dešimt tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į šimtų tūkstančių skyrių: 2 + 1 = 3. 298 467 ≈ 300 000. Šimtų tūkstančių skyrius = 3.",3],
+   [4,"Ketvirtasis stalčius: atvirkštinis kelias","Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki ŠIMTŲ skyriaus gautume 3 600. Koks yra šio mažiausio skaičiaus ŠIMTŲ skyriaus skaitmuo?","Visi skaičiai nuo 3 550 iki 3 649 apvalinami iki 3 600. Mažiausias iš jų = 3 600 − 50 = 3 550. Šimtų skyrius = 5.",5],
+   [5,"Penktasis stalčius: milijonų skliautas","1 957 384 — Apvalink šį skaičių iki ŠIMTŲ TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda MILIJONŲ skyriuje rezultate?","Dešimt tūkstančių skyriaus skaitmuo = 5 (≥5) → apvalinama aukštyn: šimtų tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į milijonų skyrių: 1 + 1 = 2. 1 957 384 ≈ 2 000 000. Milijonų skyrius = 2.",2],
+   [6,"Šeštasis stalčius: teisybės sietas","Penki teiginiai: a) 6 145→6 100 (iki šimtų); b) 29 780→30 000 (iki tūkst.); c) 8 973→8 900 (iki šimtų); d) 531 260→540 000 (iki dešimt tūkst.); e) 47 385→48 000 (iki tūkst.). Kiek NETEISINGI?","a) tikra 6 100 — teisingas. b) tikra 30 000 — teisingas. c) tikra 9 000 (pernešimas) — NETEISINGAS. d) tikra 530 000 (tūkstančių skyriaus skaitmuo 1 &lt;5, taigi apvalinama žemyn) — NETEISINGAS. e) tikra 47 000 (šimtų skyriaus skaitmuo 3 &lt;5, taigi apvalinama žemyn) — NETEISINGAS. Neteisingų: 3 (c, d, e).",3],
+ ]},
+ { code:"467094", rows:[
+   [1,"Pirmasis stalčius: šimtų sargas","846 372 — Apvalink šį skaičių iki ŠIMTŲ skyriaus tikslumo. Koks skaitmuo lieka ŠIMTŲ skyriuje po apvalinimo?","Dešimčių skyriaus skaitmuo = 7 (≥5) → apvalinama aukštyn: šimtų skaitmuo 3 + 1 = 4. 846 372 ≈ 846 400. Šimtų skyrius = 4.",4],
+   [2,"Antrasis stalčius: tūkstančių bokštas","375 649 — Apvalink šį skaičių iki TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo lieka TŪKSTANČIŲ skyriuje po apvalinimo?","Šimtų skyriaus skaitmuo = 6 (≥5) → apvalinama aukštyn: tūkstančių skaitmuo 5 + 1 = 6. 375 649 ≈ 376 000. Tūkstančių skyrius = 6.",6],
+   [3,"Trečiasis stalčius: didysis pernešimas","695 821 — Apvalink šį skaičių iki DEŠIMT TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda ŠIMTŲ TŪKSTANČIŲ skyriuje rezultate?","Tūkstančių skyriaus skaitmuo = 5 (≥5) → apvalinama aukštyn: dešimt tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į šimtų tūkstančių skyrių: 6 + 1 = 7. 695 821 ≈ 700 000. Šimtų tūkstančių skyrius = 7.",7],
+   [4,"Ketvirtasis stalčius: atvirkštinis kelias","Rask MAŽIAUSIĄ natūralųjį skaičių, kurį suapvalinę iki ŠIMTŲ skyriaus gautume 6 100. Koks yra šio mažiausio skaičiaus ŠIMTŲ skyriaus skaitmuo?","Visi skaičiai nuo 6 050 iki 6 149 apvalinami iki 6 100. Mažiausias iš jų = 6 100 − 50 = 6 050. Šimtų skyrius = 0.",0],
+   [5,"Penktasis stalčius: milijonų skliautas","8 951 748 — Apvalink šį skaičių iki ŠIMTŲ TŪKSTANČIŲ skyriaus tikslumo. Koks skaitmuo atsiranda MILIJONŲ skyriuje rezultate?","Dešimt tūkstančių skyriaus skaitmuo = 5 (≥5) → apvalinama aukštyn: šimtų tūkstančių skaitmuo 9 + 1 = 10 → virsta 0, o „1\" keliauja į milijonų skyrių: 8 + 1 = 9. 8 951 748 ≈ 9 000 000. Milijonų skyrius = 9.",9],
+   [6,"Šeštasis stalčius: teisybės sietas","Penki teiginiai: a) 3 728→3 700 (iki šimtų); b) 56 340→57 000 (iki tūkst.); c) 9 481→9 400 (iki šimtų); d) 624 870→630 000 (iki dešimt tūkst.); e) 18 350→19 000 (iki tūkst.). Kiek NETEISINGI?","a) tikra 3 700 — teisingas. b) tikra 56 000 (šimtų skyriaus skaitmuo 3 &lt;5, taigi apvalinama žemyn) — NETEISINGAS. c) tikra 9 500 (dešimčių skyriaus skaitmuo 8 ≥5, taigi apvalinama aukštyn) — NETEISINGAS. d) tikra 620 000 (tūkstančių skyriaus skaitmuo 4 &lt;5, taigi apvalinama žemyn) — NETEISINGAS. e) tikra 18 000 (šimtų skyriaus skaitmuo 3 &lt;5, taigi apvalinama žemyn) — NETEISINGAS. Neteisingų: 4 (b, c, d, e).",4],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Stotelė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Laboratorijos kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
