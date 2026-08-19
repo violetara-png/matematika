@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.5.1 Romėniškieji skaitmenys · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:120px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.5.1 Romėniškieji skaitmenys</b> · 5 klasė · Romos skaitininko seifas · 6 skrynios · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 romėniškų skaitmenų mįsles iš eilės — nuo paprastos sudėties (I, V, X, L, C, D, M),
+    per vieną atimties porą (IV, IX, XL, XC), šimtų atimtį (CD, CM), metų / amžiaus mįslę, iki
+    didelių skaičių su keliomis atimties poromis iš eilės. Kiekvienos mįslės atsakymas yra vienas
+    požemio kodo skaitmuo (iš eilės nuo 1 iki 6 skrynios). Surinkęs visą kodą ir įvedęs jį į duris,
+    mokinys „pabėga". Skirtingi variantai turi kitus romėniškus užrašus ir kitą kodą, kad gretimai
+    sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos skrynios.</li>
+      <li>Galima spręsti komandomis po 2 — vienas verčia raides į skaičius, kitas tikrina sudėtį/atimtį.</li>
+      <li>Skrynios 1–2 — pagrindinė romėniškų skaitmenų sudėtis/atimtis, 3 — šimtų atimtis (CD/CM),
+        4 — metų ir amžiaus mįslė, 5–6 — dideli skaičiai su keliomis atimties poromis iš eilės.</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+      <li>Amžiaus taisyklė (4 spyna): amžius = pilni šimtai metų + 1 (pvz. 1995 m. → 20 amžius,
+        nes 1901–2000 sudaro 20 amžių) — priminkite prieš žaidimą, jei tema dar nauja.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"796034", rows:[
+   [1,"Pirmoji spyna: paprastas užrašas","XXXVII — vien tik sudėtis, atimties nėra. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","XXXVII = X+X+X+V+I+I = 10+10+10+5+1+1 = 37. Vienetų skaitmuo = 7.",7],
+   [2,"Antroji spyna: mažesnis prieš didesnį","XIX — mažesnis ženklas stovi prieš didesnį. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","XIX = X + IX(10−1) = 10 + 9 = 19. Vienetų skaitmuo = 9.",9],
+   [3,"Trečioji spyna: šimtininko ženklas","CDXCVI — mažesnis ženklas prieš šimtininką. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","CDXCVI = CD(500−100=400) + XC(100−10=90) + VI(6) = 496. Vienetų skaitmuo = 6.",6],
+   [4,"Ketvirtoji spyna: metų mįslė","MCMXCV — metai romėniškai. Kelintame amžiuje jie prasidėjo? Koks yra AMŽIAUS skaičiaus VIENETŲ skyriaus skaitmuo?","MCMXCV = M(1000)+CM(900)+XC(90)+V(5) = 1995. 1995 m. patenka į 1901–2000 intervalą → 20 amžius. Vienetų skaitmuo = 0.",0],
+   [5,"Penktoji spyna: didysis skaičius","MMCDXCIII — didelis skaičius, kelios atimties poros. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MMCDXCIII = MM(2000)+CD(400)+XC(90)+III(3) = 2493. Vienetų skaitmuo = 3.",3],
+   [6,"Šeštoji spyna: paskutinis šifras","MMCMXCIV — sunkiausia spyna, kelios atimties poros iš eilės. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MMCMXCIV = MM(2000)+CM(900)+XC(90)+IV(4) = 2994. Vienetų skaitmuo = 4.",4],
+ ]},
+ { code:"874962", rows:[
+   [1,"Pirmoji spyna: paprastas užrašas","LVIII — vien tik sudėtis, atimties nėra. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","LVIII = L+V+I+I+I = 50+5+1+1+1 = 58. Vienetų skaitmuo = 8.",8],
+   [2,"Antroji spyna: mažesnis prieš didesnį","XLVII — mažesnis ženklas stovi prieš didesnį. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","XLVII = XL(40) + VII(7) = 47. Vienetų skaitmuo = 7.",7],
+   [3,"Trečioji spyna: šimtininko ženklas","CMXLIV — mažesnis ženklas prieš šimtininką. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","CMXLIV = CM(900) + XL(40) + IV(4) = 944. Vienetų skaitmuo = 4.",4],
+   [4,"Ketvirtoji spyna: metų mįslė","MDCCCXII — metai romėniškai. Kelintame amžiuje jie prasidėjo? Koks yra AMŽIAUS skaičiaus VIENETŲ skyriaus skaitmuo?","MDCCCXII = M(1000)+D(500)+CCC(300)+X(10)+II(2) = 1812. 1812 m. patenka į 1801–1900 intervalą → 19 amžius. Vienetų skaitmuo = 9.",9],
+   [5,"Penktoji spyna: didysis skaičius","MMMCDXCVI — didelis skaičius, kelios atimties poros. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MMMCDXCVI = MMM(3000)+CD(400)+XC(90)+VI(6) = 3496. Vienetų skaitmuo = 6.",6],
+   [6,"Šeštoji spyna: paskutinis šifras","MCMXCII — sunkiausia spyna, kelios atimties poros iš eilės. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MCMXCII = M(1000)+CM(900)+XC(90)+II(2) = 1992. Vienetų skaitmuo = 2.",2],
+ ]},
+ { code:"285749", rows:[
+   [1,"Pirmoji spyna: paprastas užrašas","LXII — vien tik sudėtis, atimties nėra. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","LXII = L+X+I+I = 50+10+1+1 = 62. Vienetų skaitmuo = 2.",2],
+   [2,"Antroji spyna: mažesnis prieš didesnį","XCVIII — mažesnis ženklas stovi prieš didesnį. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","XCVIII = XC(90) + VIII(8) = 98. Vienetų skaitmuo = 8.",8],
+   [3,"Trečioji spyna: šimtininko ženklas","CDXCV — mažesnis ženklas prieš šimtininką. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","CDXCV = CD(400) + XC(90) + V(5) = 495. Vienetų skaitmuo = 5.",5],
+   [4,"Ketvirtoji spyna: metų mįslė","MDCLXVI — metai romėniškai. Kelintame amžiuje jie prasidėjo? Koks yra AMŽIAUS skaičiaus VIENETŲ skyriaus skaitmuo?","MDCLXVI = M(1000)+D(500)+C(100)+L(50)+X(10)+V(5)+I(1) = 1666. 1666 m. patenka į 1601–1700 intervalą → 17 amžius. Vienetų skaitmuo = 7.",7],
+   [5,"Penktoji spyna: didysis skaičius","MMDCCXCIV — didelis skaičius, kelios atimties poros. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MMDCCXCIV = MM(2000)+DCC(700)+XC(90)+IV(4) = 2794. Vienetų skaitmuo = 4.",4],
+   [6,"Šeštoji spyna: paskutinis šifras","MCDXCIX — sunkiausia spyna, kelios atimties poros iš eilės. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MCDXCIX = M(1000)+CD(400)+XC(90)+IX(9) = 1499. Vienetų skaitmuo = 9.",9],
+ ]},
+ { code:"248169", rows:[
+   [1,"Pirmoji spyna: paprastas užrašas","LXXII — vien tik sudėtis, atimties nėra. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","LXXII = L+X+X+I+I = 50+10+10+1+1 = 72. Vienetų skaitmuo = 2.",2],
+   [2,"Antroji spyna: mažesnis prieš didesnį","XIV — mažesnis ženklas stovi prieš didesnį. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","XIV = X + IV(4) = 14. Vienetų skaitmuo = 4.",4],
+   [3,"Trečioji spyna: šimtininko ženklas","CDXCVIII — mažesnis ženklas prieš šimtininką. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","CDXCVIII = CD(400) + XC(90) + VIII(8) = 498. Vienetų skaitmuo = 8.",8],
+   [4,"Ketvirtoji spyna: metų mįslė","MMXXIV — metai romėniškai. Kelintame amžiuje jie prasidėjo? Koks yra AMŽIAUS skaičiaus VIENETŲ skyriaus skaitmuo?","MMXXIV = MM(2000)+XX(20)+IV(4) = 2024. 2024 m. patenka į 2001–2100 intervalą → 21 amžius. Vienetų skaitmuo = 1.",1],
+   [5,"Penktoji spyna: didysis skaičius","MMMCDXLVI — didelis skaičius, kelios atimties poros. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MMMCDXLVI = MMM(3000)+CD(400)+XL(40)+VI(6) = 3446. Vienetų skaitmuo = 6.",6],
+   [6,"Šeštoji spyna: paskutinis šifras","MCMLXXXIX — sunkiausia spyna, kelios atimties poros iš eilės. Paversk į įprastą skaičių. Koks yra VIENETŲ skyriaus skaitmuo?","MCMLXXXIX = M(1000)+CM(900)+LXXX(80)+IX(9) = 1989. Vienetų skaitmuo = 9.",9],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Stotelė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Požemio kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

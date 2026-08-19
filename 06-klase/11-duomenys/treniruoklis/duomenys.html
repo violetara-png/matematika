@@ -63,6 +63,9 @@
 
   .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
   .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
 </style>
 </head>
 <body>
@@ -291,11 +294,21 @@ function initTekstai(){
   $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
 }
 
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
 function naujas(){
   S.dabartinis = makeProblem();
   S.atsakyta = false;
   $('tipas').textContent = S.dabartinis.label;
-  $('klausimas').textContent = S.dabartinis.q;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
   $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
   $('atsakymas').value = '';
   $('atsakymas').disabled = false;
@@ -331,10 +344,10 @@ function tikrinti(){
 
   const v = $('verdiktas');
   v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.textContent='✓ Teisingai! Atsakymas: '+atsTekstas(S.dabartinis); }
-  else { v.className='verdiktas v-ne'; v.textContent='✗ Neteisingai. Teisingas atsakymas: '+atsTekstas(S.dabartinis); }
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
 
-  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${s}</li>`).join('');
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
   $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
   $('atsakymas').disabled = true;
   $('tikrinti').style.display='none';
