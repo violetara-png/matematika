@@ -26,9 +26,10 @@
   .timerWrap{width:100%; max-width:400px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:14px}
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
-  .target{display:flex; align-items:center; gap:12px; background:var(--card); border-radius:16px; box-shadow:var(--shadow);
-    padding:12px 20px; margin-bottom:16px}
-  .target .lbl2{font-size:13px; color:var(--muted); font-weight:600}
+  .task{background:var(--card); border-radius:16px; box-shadow:var(--shadow);
+    padding:14px 20px; margin-bottom:16px; text-align:center}
+  .task .lbl2{font-size:13px; color:var(--muted); font-weight:600; margin-bottom:2px}
+  .task .taskVal{font-size:19px; font-weight:700; color:var(--accent)}
   .board{display:grid; gap:8px; width:100%; max-width:400px; margin:0 0 20px}
   .cell{aspect-ratio:1/1; border-radius:12px; border:3px solid #d8dee6; cursor:pointer;
     display:flex; align-items:center; justify-content:center; background:var(--card);
@@ -59,7 +60,7 @@
 <header>
   <a class="grizti" href="./">← Dėmesys ir pastabumas</a>
   <h1>🔺 Spalva ir forma</h1>
-  <p>Rask figūrą, kuri sutampa IR spalva, IR forma</p>
+  <p>Kiekvieną kartą pasakoma, ar ieškoti kitokios spalvos, ar kitokios formos</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -67,10 +68,9 @@
     <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
   </div>
   <div class="timerWrap"><div class="timerBar" id="timerBar"></div></div>
-  <div class="target">
-    <div class="lbl2">Ieškok:</div>
-    <div class="cell" id="targetCell" style="cursor:default; width:56px; height:56px"></div>
-    <div class="lbl2" id="targetLabel"></div>
+  <div class="task">
+    <div class="lbl2">Užduotis:</div>
+    <div class="taskVal" id="taskVal">–</div>
   </div>
   <div class="msg info" id="msg">Paspausk „Pradėti“</div>
   <div class="board" id="board"></div>
@@ -79,14 +79,15 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> viršuje parodyta pavyzdinė figūra (spalva + forma). Tinklelyje daug panašių figūrų — kai kurios tos pačios spalvos, kai kurios tos pačios formos, bet tik VIENA sutampa abiem požymiais.
-    Spragtelėk ją, kol nepasibaigė laikas.
+    <b>Kaip žaisti:</b> užduotis pasako, ar ieškoti kitokios <b>spalvos</b>, ar kitokios <b>formos</b> figūros.
+    Visos tinklelio figūros vienodos tuo požymiu, tik viena skiriasi — ją ir spragtelėk, kol nepasibaigė laikas.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
 const SHAPES = ['circle','square','triangle','diamond'];
 const SHAPE_NAMES = {circle:'apskritimas', square:'kvadratas', triangle:'trikampis', diamond:'rombas'};
+const SHAPE_NAMES_ACC = {circle:'apskritimą', square:'kvadratą', triangle:'trikampį', diamond:'rombą'};
 const COLORS = [
   {name:'raudona', hex:'#e11d48'},
   {name:'mėlyna', hex:'#2563eb'},
@@ -97,8 +98,7 @@ const COLORS = [
 ];
 
 const board = document.getElementById('board');
-const targetCell = document.getElementById('targetCell');
-const targetLabel = document.getElementById('targetLabel');
+const taskVal = document.getElementById('taskVal');
 const levelEl = document.getElementById('level');
 const bestEl = document.getElementById('best');
 const msgEl = document.getElementById('msg');
@@ -203,24 +203,30 @@ async function nextRound(){
   const cellCount = Math.min(9 + level * 2, 30);
   const cols = Math.ceil(Math.sqrt(cellCount));
   board.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
-  const timeLimit = Math.max(2500, 7000 - level * 250);
+  const timeLimit = Math.max(2800, 7500 - level * 250);
 
-  const targetShape = randItem(SHAPES);
-  const targetColor = randItem(COLORS);
-  paintShape(targetCell, targetShape, targetColor.hex);
-  targetLabel.textContent = targetColor.name + ' ' + SHAPE_NAMES[targetShape];
+  const mode = Math.random() < 0.5 ? 'color' : 'shape';
+  let cells;
 
-  const cells = [{shape: targetShape, color: targetColor}];
-  while(cells.length < cellCount){
-    const s = randItem(SHAPES), c = randItem(COLORS);
-    if(s === targetShape && c.name === targetColor.name) continue;
-    cells.push({shape: s, color: c});
+  if(mode === 'color'){
+    const fixedShape = randItem(SHAPES);
+    const baseColor = randItem(COLORS);
+    let oddColor = randItem(COLORS);
+    while(oddColor.name === baseColor.name) oddColor = randItem(COLORS);
+    taskVal.textContent = 'Rask kitokios SPALVOS ' + SHAPE_NAMES_ACC[fixedShape];
+    cells = Array.from({length: cellCount}, () => ({shape: fixedShape, color: baseColor}));
+    answerIndex = Math.floor(Math.random() * cellCount);
+    cells[answerIndex] = {shape: fixedShape, color: oddColor};
+  }else{
+    const fixedColor = randItem(COLORS);
+    const baseShape = randItem(SHAPES);
+    let oddShape = randItem(SHAPES);
+    while(oddShape === baseShape) oddShape = randItem(SHAPES);
+    taskVal.textContent = 'Rask kitokios FORMOS figūrą (spalva: ' + fixedColor.name + ')';
+    cells = Array.from({length: cellCount}, () => ({shape: baseShape, color: fixedColor}));
+    answerIndex = Math.floor(Math.random() * cellCount);
+    cells[answerIndex] = {shape: oddShape, color: fixedColor};
   }
-  for(let i = cells.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [cells[i], cells[j]] = [cells[j], cells[i]];
-  }
-  answerIndex = cells.findIndex(c => c.shape === targetShape && c.color.name === targetColor.name);
 
   board.innerHTML = '';
   cells.forEach((cellData, i) => {
@@ -230,7 +236,7 @@ async function nextRound(){
     el.addEventListener('click', () => handlePick(i, el));
     board.appendChild(el);
   });
-  setMsg('Rask tokią pat figūrą!', 'info');
+  setMsg('Rask kitokią figūrą!', 'info');
   accepting = true;
   startTimer(timeLimit);
 }
