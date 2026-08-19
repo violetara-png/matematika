@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atmintis · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:520px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:110px}
+  .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .board{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:100%; max-width:360px; margin:8px 0 20px}
+  .tile{aspect-ratio:1/1; border-radius:16px; border:none; cursor:pointer; font-size:clamp(22px,5vw,32px);
+    font-weight:700; color:#fff; box-shadow:0 4px 10px rgba(0,0,0,.18); transition:transform .1s, filter .15s; user-select:none}
+  .tile:active{transform:scale(.94)}
+  .tile.active{filter:brightness(1.55); transform:scale(1.04)}
+  .tile.wrong{filter:brightness(.6) saturate(2)}
+  .tile.disabled{cursor:default}
+  .t0{background:#e11d48} .t1{background:#2563eb} .t2{background:#16a34a}
+  .t3{background:#d97706} .t4{background:#7c3aed} .t5{background:#0891b2}
+  .t6{background:#db2777} .t7{background:#65a30d} .t8{background:#4b5563}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Proto mankšta</a>
+  <h1>🧠 Atminties treniruoklis</h1>
+  <p>Atsimink seką, pakartok ją, kelk lygį</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
+  </div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“ ir stebėk seką</div>
+  <div class="board" id="board"></div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> paspaudus „Pradėti“, langeliai vienas po kito sušvis tam tikra tvarka.
+    Kai seka baigsis, pakartok ją, spustelėdama(s) langelius <b>ta pačia tvarka</b>.
+    Kiekvienas teisingai pakartotas raundas prideda po vieną naują langelį prie sekos.
+    Galima naudoti ir klaviatūros skaičius 1–9 (atitinka langelio numerį).
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const N = 9;
+const board = document.getElementById('board');
+const levelEl = document.getElementById('level');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+
+let sequence = [];
+let playerStep = 0;
+let accepting = false;
+let soundOn = true;
+let best = parseInt(localStorage.getItem('atmintiesTreniruoklisBest') || '0', 10);
+bestEl.textContent = best;
+
+const tiles = [];
+for(let i=0;i<N;i++){
+  const b = document.createElement('button');
+  b.className = 'tile t' + i + ' disabled';
+  b.textContent = i+1;
+  b.addEventListener('click', () => handlePick(i));
+  board.appendChild(b);
+  tiles.push(b);
+}
+
+let audioCtx = null;
+function beep(i){
+  if(!soundOn) return;
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = 220 + i * 45;
+  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.28);
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function setTilesDisabled(disabled){
+  tiles.forEach(t => t.classList.toggle('disabled', disabled));
+  accepting = !disabled;
+}
+
+function flashTile(i, cls, ms){
+  return new Promise(resolve => {
+    tiles[i].classList.add(cls);
+    setTimeout(() => { tiles[i].classList.remove(cls); resolve(); }, ms);
+  });
+}
+
+async function playSequence(){
+  setTilesDisabled(true);
+  setMsg('Žiūrėk...', 'info');
+  await sleep(500);
+  const speed = Math.max(260, 620 - sequence.length * 12);
+  for(const i of sequence){
+    beep(i);
+    await flashTile(i, 'active', speed * 0.6);
+    await sleep(speed * 0.35);
+  }
+  playerStep = 0;
+  setMsg('Dabar tavo eilė — pakartok seką', 'info');
+  setTilesDisabled(false);
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function addToSequence(){
+  sequence.push(Math.floor(Math.random() * N));
+}
+
+function startGame(){
+  sequence = [];
+  playerStep = 0;
+  levelEl.textContent = '0';
+  startBtn.textContent = '↻ Iš naujo';
+  addToSequence();
+  playSequence();
+}
+
+async function handlePick(i){
+  if(!accepting) return;
+  if(i === sequence[playerStep]){
+    beep(i);
+    await flashTile(i, 'active', 200);
+    playerStep++;
+    if(playerStep === sequence.length){
+      levelEl.textContent = sequence.length;
+      if(sequence.length > best){
+        best = sequence.length;
+        bestEl.textContent = best;
+        localStorage.setItem('atmintiesTreniruoklisBest', String(best));
+      }
+      setMsg('Puiku! Kitas raundas...', 'ok');
+      setTilesDisabled(true);
+      await sleep(700);
+      addToSequence();
+      playSequence();
+    }
+  }else{
+    setTilesDisabled(true);
+    await flashTile(i, 'wrong', 500);
+    setMsg('Nepavyko. Pasiektas lygis: ' + levelEl.textContent + '. Spausk „Iš naujo“.', 'bad');
+    startBtn.textContent = '↻ Iš naujo';
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  const n = parseInt(e.key, 10);
+  if(!isNaN(n) && n >= 1 && n <= N) handlePick(n - 1);
+});
+</script>
+</body>
+</html>
