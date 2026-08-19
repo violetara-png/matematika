@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.4.1 Apvaliname iki dešimčių · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:130px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.4.1 Apvaliname iki dešimčių</b> · 5 klasė · Apvalinimo seifas · 6 spynos · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 apvalinimo iki dešimčių uždavinius iš eilės (paprastas apvalinimas žemyn, paprastas
+    apvalinimas aukštyn, persikėlimas per dešimtį/šimtą, tekstinė mįslė, dviejų skaičių palyginimas,
+    sunkesnis keturženklis skaičius su dvigubu persikėlimu). Kiekvieno uždavinio atsakymas yra vienas
+    seifo kodo skaitmuo (iš eilės nuo 1 iki 6 spynos). Surinkęs visą kodą ir įvedęs jį į seifą, mokinys
+    „pabėga". Skirtingi variantai turi kitus skaičius ir kitą kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos spynos.</li>
+      <li>Pagrindinė taisyklė, kurią primename per visas 6 spynas: žiūrime į VIENETŲ skaitmenį. Jei jis
+        0–4 — apvalinam žemyn (vienetai tampa 0, kiti skaitmenys nesikeičia). Jei jis 5–9 — apvalinam
+        aukštyn (dešimčių skaitmuo padidėja 1, vienetai tampa 0); jei dešimčių skaitmuo prieš tai buvo 9,
+        jis „persineša" — tampa 0, o kitas skaitmuo kairėje padidėja 1 (kaip 95 → 100).</li>
+      <li>Spynos 1–2 — tiesioginis apvalinimas žemyn/aukštyn, 3 — persikėlimas per dešimtį/šimtą,
+        4 — tekstinė mįslė (didžiausias/mažiausias galimas skaitmuo), 5–6 — sunkesnės (dviejų skaičių
+        palyginimas ir keturženklis skaičius su dvigubu persikėlimu).</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"634984", rows:[
+   [1,"Apvalink žemyn","462 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","462 → vienetų skaitmuo 2 (0–4) → apvalinam ŽEMYN: vienetai tampa 0, dešimtys nesikeičia → 460. Dešimčių skaitmuo = 6.",6],
+   [2,"Apvalink aukštyn","528 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","528 → vienetų skaitmuo 8 (5–9) → apvalinam AUKŠTYN: dešimčių skaitmuo 2+1=3, vienetai 0 → 530. Dešimčių skaitmuo = 3.",3],
+   [3,"Persikėlimas per dešimtį","396 — apvalink iki dešimčių (kaip 95 → 100). Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","396 → vienetų skaitmuo 6 (5–9) → aukštyn: dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 3+1=4, dešimtys 0 → 400. Šimtų skaitmuo = 4.",4],
+   [4,"Sandėlininko mįslė","Suapvalintas skaičius = 260. Tikrasis skaičius MAŽESNIS už 260. Koks DIDŽIAUSIAS galimas vienetų skaitmuo?","Iki 260 apvalinami skaičiai 255–264. Kad tikrasis būtų mažesnis už 260 IR apvalintas AUKŠTYN, jis turi būti 255–259 (vienetai 5–9). Didžiausias vienetų skaitmuo = 9 (skaičius 259).",9],
+   [5,"Dviejų skaičių dvikova","546 ir 483 — apvalink abu iki dešimčių. Kurio suapvalinto skaičiaus DEŠIMČIŲ skaitmuo didesnis?","546 → vienetai 6 (aukštyn) → 550 (dešimčių skaitmuo 5). 483 → vienetai 3 (žemyn) → 480 (dešimčių skaitmuo 8). 8 > 5, taigi didesnis skaitmuo = 8.",8],
+   [6,"Keturženklis iššūkis","2 397 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","2397 → vienetai 7 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 3+1=4, dešimtys 0 → 2400. Šimtų skaitmuo = 4.",4],
+ ]},
+ { code:"353179", rows:[
+   [1,"Apvalink žemyn","731 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","731 → vienetų skaitmuo 1 (0–4) → žemyn → 730. Dešimčių skaitmuo = 3.",3],
+   [2,"Apvalink aukštyn","645 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","645 → vienetų skaitmuo 5 (5–9) → aukštyn: dešimčių skaitmuo 4+1=5 → 650. Dešimčių skaitmuo = 5.",5],
+   [3,"Persikėlimas per dešimtį","297 — apvalink iki dešimčių (kaip 95 → 100). Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","297 → vienetai 7 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 2+1=3, dešimtys 0 → 300. Šimtų skaitmuo = 3.",3],
+   [4,"Sandėlininko mįslė","Suapvalintas skaičius = 340. Tikrasis skaičius DIDESNIS už 340. Koks MAŽIAUSIAS galimas vienetų skaitmuo?","Iki 340 apvalinami skaičiai 335–344. Kad tikrasis būtų didesnis už 340 (griežtai) IR apvalintas ŽEMYN, jis turi būti 341–344 (vienetai 1–4). Mažiausias vienetų skaitmuo = 1 (skaičius 341).",1],
+   [5,"Dviejų skaičių dvikova","618 ir 372 — apvalink abu iki dešimčių. Kurio suapvalinto skaičiaus DEŠIMČIŲ skaitmuo didesnis?","618 → vienetai 8 (aukštyn) → 620 (dešimčių skaitmuo 2). 372 → vienetai 2 (žemyn) → 370 (dešimčių skaitmuo 7). 7 > 2, taigi didesnis skaitmuo = 7.",7],
+   [6,"Keturženklis iššūkis","5 896 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","5896 → vienetai 6 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 8+1=9, dešimtys 0 → 5900. Šimtų skaitmuo = 9.",9],
+ ]},
+ { code:"572963", rows:[
+   [1,"Apvalink žemyn","854 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","854 → vienetų skaitmuo 4 (0–4) → žemyn → 850. Dešimčių skaitmuo = 5.",5],
+   [2,"Apvalink aukštyn","367 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","367 → vienetų skaitmuo 7 (5–9) → aukštyn: dešimčių skaitmuo 6+1=7 → 370. Dešimčių skaitmuo = 7.",7],
+   [3,"Persikėlimas per dešimtį","195 — apvalink iki dešimčių (kaip 95 → 100). Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","195 → vienetai 5 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 1+1=2, dešimtys 0 → 200. Šimtų skaitmuo = 2.",2],
+   [4,"Sandėlininko mįslė","Suapvalintas skaičius = 470. Tikrasis skaičius MAŽESNIS už 470. Koks DIDŽIAUSIAS galimas vienetų skaitmuo?","Iki 470 apvalinami skaičiai 465–474. Kad tikrasis būtų mažesnis už 470 IR apvalintas AUKŠTYN, jis turi būti 465–469 (vienetai 5–9). Didžiausias vienetų skaitmuo = 9 (skaičius 469).",9],
+   [5,"Dviejų skaičių dvikova","725 ir 258 — apvalink abu iki dešimčių. Kurio suapvalinto skaičiaus DEŠIMČIŲ skaitmuo didesnis?","725 → vienetai 5 (aukštyn) → 730 (dešimčių skaitmuo 3). 258 → vienetai 8 (aukštyn) → 260 (dešimčių skaitmuo 6). 6 > 3, taigi didesnis skaitmuo = 6.",6],
+   [6,"Keturženklis iššūkis","7 295 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","7295 → vienetai 5 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 2+1=3, dešimtys 0 → 7300. Šimtų skaitmuo = 3.",3],
+ ]},
+ { code:"466154", rows:[
+   [1,"Apvalink žemyn","942 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","942 → vienetų skaitmuo 2 (0–4) → žemyn → 940. Dešimčių skaitmuo = 4.",4],
+   [2,"Apvalink aukštyn","256 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus DEŠIMČIŲ skaitmuo?","256 → vienetų skaitmuo 6 (5–9) → aukštyn: dešimčių skaitmuo 5+1=6 → 260. Dešimčių skaitmuo = 6.",6],
+   [3,"Persikėlimas per dešimtį","596 — apvalink iki dešimčių (kaip 95 → 100). Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","596 → vienetai 6 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 5+1=6, dešimtys 0 → 600. Šimtų skaitmuo = 6.",6],
+   [4,"Sandėlininko mįslė","Suapvalintas skaičius = 580. Tikrasis skaičius DIDESNIS už 580. Koks MAŽIAUSIAS galimas vienetų skaitmuo?","Iki 580 apvalinami skaičiai 575–584. Kad tikrasis būtų didesnis už 580 (griežtai) IR apvalintas ŽEMYN, jis turi būti 581–584 (vienetai 1–4). Mažiausias vienetų skaitmuo = 1 (skaičius 581).",1],
+   [5,"Dviejų skaičių dvikova","431 ir 649 — apvalink abu iki dešimčių. Kurio suapvalinto skaičiaus DEŠIMČIŲ skaitmuo didesnis?","431 → vienetai 1 (žemyn) → 430 (dešimčių skaitmuo 3). 649 → vienetai 9 (aukštyn) → 650 (dešimčių skaitmuo 5). 5 > 3, taigi didesnis skaitmuo = 5.",5],
+   [6,"Keturženklis iššūkis","8 397 — apvalink iki dešimčių. Koks yra suapvalinto skaičiaus ŠIMTŲ skaitmuo?","8397 → vienetai 7 (aukštyn) → dešimčių skaitmuo 9+1=10 → persineša: šimtų skaitmuo 3+1=4, dešimtys 0 → 8400. Šimtų skaitmuo = 4.",4],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Spyna</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Seifo kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
