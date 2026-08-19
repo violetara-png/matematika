@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dauginamojo iškėlimas prieš skliaustus · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:420px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0 10px; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:16px}
+  .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
+  .timerBar.hurry{background:var(--bad)}
+  .expr{font-size:clamp(24px,7vw,34px); font-weight:700; margin:0 0 18px; text-align:center}
+  .answers{display:flex; flex-direction:column; gap:10px; width:100%; max-width:340px; margin-bottom:20px}
+  .ans{border-radius:12px; border:2px solid #d8dee6; cursor:pointer;
+    font-size:clamp(17px,4.6vw,21px); font-weight:700; padding:14px; display:flex; align-items:center; justify-content:center;
+    background:var(--card); color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .1s, filter .15s, background .15s; user-select:none}
+  .ans:active{transform:scale(.97)}
+  .ans.correct{background:#dcfce7; border-color:var(--ok)}
+  .ans.wrong{background:#fee2e2; border-color:var(--bad)}
+  .ans.disabled{cursor:default}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← 8 klasė</a>
+  <h1>🧮 Dauginamojo iškėlimas</h1>
+  <p>Iškelk bendrą (didžiausią) dauginamąjį prieš skliaustus</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
+  </div>
+  <div class="timerWrap"><div class="timerBar" id="timerBar"></div></div>
+  <div class="expr" id="expr">–</div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“</div>
+  <div class="answers" id="answers"></div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> parodomas reiškinys, pvz. 12x² + 18x. Iš keturių variantų spragtelėk teisingą iškėlimą prieš skliaustus,
+    pvz. 6x(2x + 3) — svarbu iškelti DIDŽIAUSIĄ bendrą dauginamąjį, ne bet kokį.
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const exprEl = document.getElementById('expr');
+const answersEl = document.getElementById('answers');
+const levelEl = document.getElementById('level');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+const timerBar = document.getElementById('timerBar');
+
+let accepting = false;
+let soundOn = true;
+let level = 0;
+let best = parseInt(localStorage.getItem('iskelimasBest') || '0', 10);
+bestEl.textContent = best;
+let correctStr = '';
+let timeoutHandle = null;
+
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
+}
+function beep(freq){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.26, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.24);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.24);
+}
+function errorBeep(){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.4);
+  gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.45);
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+function randItem(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function gcd(a, b){ a = Math.abs(a); b = Math.abs(b); while(b){ [a, b] = [b, a % b]; } return a; }
+
+function formatTerm(coef, deg, letter, isFirst){
+  if(coef === 0) return '';
+  const sign = coef < 0 ? ' − ' : (isFirst ? '' : ' + ');
+  const absCoef = Math.abs(coef);
+  const numPart = (absCoef === 1 && deg > 0) ? '' : String(absCoef);
+  const letterPart = deg === 2 ? letter + '²' : deg === 1 ? letter : '';
+  return sign + numPart + letterPart;
+}
+function formatPoly(terms, letter){
+  const filtered = terms.filter(t => t.coef !== 0);
+  return filtered.map((t, i) => formatTerm(t.coef, t.deg, letter, i === 0)).join('');
+}
+
+function startTimer(ms){
+  timerBar.classList.remove('hurry');
+  timerBar.style.transition = 'none';
+  timerBar.style.width = '100%';
+  void timerBar.offsetWidth;
+  timerBar.style.transition = 'width ' + ms + 'ms linear';
+  timerBar.style.width = '0%';
+  setTimeout(() => timerBar.classList.add('hurry'), ms * 0.6);
+  timeoutHandle = setTimeout(timeUp, ms);
+}
+
+function stopTimer(){
+  if(timeoutHandle){ clearTimeout(timeoutHandle); timeoutHandle = null; }
+  timerBar.style.transition = 'none';
+}
+
+async function startGame(){
+  unlockAudio();
+  level = 0;
+  levelEl.textContent = '0';
+  startBtn.textContent = '↻ Iš naujo';
+  await nextRound();
+}
+
+async function nextRound(){
+  accepting = false;
+  const letters = ['x', 'y', 'a', 'b', 'm', 'n'];
+  const letter = randItem(letters);
+  const kMax = Math.min(9 + Math.floor(level / 3), 15);
+  const k = 2 + Math.floor(Math.random() * (kMax - 1));
+  let c1, c2;
+  do{
+    c1 = 1 + Math.floor(Math.random() * 9);
+    c2 = 1 + Math.floor(Math.random() * 9);
+  }while(gcd(c1, c2) !== 1);
+  const sign = Math.random() < 0.5 ? -1 : 1;
+  const d2 = Math.random() < 0.5 ? 0 : 1;
+
+  const origDeg1 = d2 === 0 ? 1 : 2;
+  const origDeg2 = d2 === 0 ? 0 : 1;
+  exprEl.textContent = formatPoly([{coef:k*c1,deg:origDeg1},{coef:sign*k*c2,deg:origDeg2}], letter) + ' = ?';
+
+  function prefix(kk){ return (kk === 1 ? '' : String(kk)) + (d2 === 1 ? letter : ''); }
+  function inner(c2mult){ return '(' + formatPoly([{coef:c1,deg:1},{coef:sign*c2mult,deg:0}], letter) + ')'; }
+
+  correctStr = prefix(k) + inner(c2);
+  const options = shuffle([
+    correctStr,
+    prefix(k) + inner(-c2),
+    prefix(k + 1) + inner(c2),
+    prefix(k) + inner(k * c2),
+  ]);
+
+  answersEl.innerHTML = '';
+  options.forEach(str => {
+    const el = document.createElement('div');
+    el.className = 'ans';
+    el.textContent = str;
+    el.addEventListener('click', () => handlePick(str, el));
+    answersEl.appendChild(el);
+  });
+
+  const timeLimit = Math.max(8000, 15000 - level * 400);
+  setMsg('Kuris iškėlimas teisingas?', 'info');
+  accepting = true;
+  startTimer(timeLimit);
+}
+
+function endRound(){
+  accepting = false;
+  stopTimer();
+  document.querySelectorAll('.ans').forEach(b => b.classList.add('disabled'));
+}
+
+function markCorrect(){
+  document.querySelectorAll('.ans').forEach(b => {
+    if(b.textContent === correctStr) b.classList.add('correct');
+  });
+}
+
+function timeUp(){
+  if(!accepting) return;
+  accepting = false;
+  errorBeep();
+  markCorrect();
+  document.querySelectorAll('.ans').forEach(b => b.classList.add('disabled'));
+  setMsg('Laikas baigėsi! Teisingas: ' + correctStr + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  startBtn.textContent = '↻ Iš naujo';
+}
+
+function handlePick(str, el){
+  if(!accepting) return;
+  if(str === correctStr){
+    endRound();
+    el.classList.add('correct');
+    beep(320 + level * 15);
+    level++;
+    levelEl.textContent = level;
+    if(level > best){
+      best = level;
+      bestEl.textContent = best;
+      localStorage.setItem('iskelimasBest', String(best));
+    }
+    setMsg('Puiku! Kitas raundas...', 'ok');
+    sleep(800).then(nextRound);
+  }else{
+    endRound();
+    el.classList.add('wrong');
+    errorBeep();
+    markCorrect();
+    setMsg('Ne tas variantas. Teisingas: ' + correctStr + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    startBtn.textContent = '↻ Iš naujo';
+  }
+}
+</script>
+</body>
+</html>
