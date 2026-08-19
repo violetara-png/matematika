@@ -139,6 +139,7 @@ function sgn(x){ return x>=0 ? 1 : -1; }
 function opTxt(op){ return op>0 ? '+' : '−'; }
 // {sqrt:...}/{cbrt:...}/{root:N|...} žymekliai — fmtMath() (treniruoklis šablonas) paverčia
 // tikru √ su overline. Rašyk juos vietoj plokščio "√" simbolio, kad atsivertų kaip vadovėlyje.
+function nfp(n){ return n<0 ? `(${nf(n)})` : nf(n); }
 function sq(inner){ return `{sqrt:${inner}}`; }
 function rootWrap(power, inner){
   if(power===2) return `{sqrt:${inner}}`;
@@ -202,10 +203,10 @@ const GENERATORIAI = [
       const v1 = Math.abs(x0-c1), v2 = Math.abs(x0-c2);
       const total = k1*v1 + op*k2*v2;
       const opis = op>0 ? '+' : '−';
-      const q = `Apskaičiuokite reiškinio ${k1===1?'':k1}|x − (${nf(c1)})| ${opis} ${k2===1?'':k2}|x − (${nf(c2)})| reikšmę, kai x = ${nf(x0)}.`;
+      const q = `Apskaičiuokite reiškinio ${k1===1?'':k1}|x − ${nfp(c1)}| ${opis} ${k2===1?'':k2}|x − ${nfp(c2)}| reikšmę, kai x = ${nf(x0)}.`;
       return { q, ans: total, steps:[
-        `|${nf(x0)} − (${nf(c1)})| = |${nf(x0-c1)}| = ${v1}`,
-        `|${nf(x0)} − (${nf(c2)})| = |${nf(x0-c2)}| = ${v2}`,
+        `|${nf(x0)} − ${nfp(c1)}| = |${nf(x0-c1)}| = ${v1}`,
+        `|${nf(x0)} − ${nfp(c2)}| = |${nf(x0-c2)}| = ${v2}`,
         `${k1}·${v1} ${opis} ${k2}·${v2} = ${nf(total)}`
       ]};
   }},
@@ -239,14 +240,14 @@ const GENERATORIAI = [
       const opis = op>0 ? '+' : '−';
       const evExp = evenPow===2?'²':'^'+evenPow;
       const odExp = oddPow===3?'³':'^'+oddPow;
-      const evPart = rootWrap(evenPow, `(x − (${nf(c)}))${evExp}`);
-      const odPart = rootWrap(oddPow, `(x − (${nf(c)}))${odExp}`);
+      const evPart = rootWrap(evenPow, `(x − ${nfp(c)})${evExp}`);
+      const odPart = rootWrap(oddPow, `(x − ${nfp(c)})${odExp}`);
       const q = `Apskaičiuokite reiškinio ${evPart} ${opis} ${odPart} reiškinį, kai x = ${nf(x0)}.`;
       return { q, ans: total, steps:[
-        `x − (${nf(c)}) = ${nf(x0)} − (${nf(c)}) = ${nf(diff)}`,
+        `x − ${nfp(c)} = ${nf(x0)} − ${nfp(c)} = ${nf(diff)}`,
         `${rootWrap(evenPow, nf(diff)+evExp)} = |${nf(diff)}| = ${evenTerm}  (lyginė šaknis — visada modulis)`,
         `${rootWrap(oddPow, nf(diff)+odExp)} = ${nf(diff)}  (nelyginė šaknis — be modulio)`,
-        `${evenTerm} ${opis} (${nf(oddTerm)}) = ${nf(total)}`
+        `${evenTerm} ${opis} ${nfp(oddTerm)} = ${nf(total)}`
       ]};
   }},
 
