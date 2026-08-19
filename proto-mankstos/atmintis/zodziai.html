@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Žodžių rikiuoklė · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:420px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .board{display:flex; flex-direction:column; gap:10px; width:100%; margin:8px 0 20px}
+  .word{border-radius:14px; border:2px solid #d8dee6; cursor:pointer; font-size:19px; font-weight:700;
+    display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--card); color:var(--ink);
+    box-shadow:0 3px 8px rgba(0,0,0,.08); transition:transform .1s, filter .15s, background .15s; user-select:none}
+  .word:active{transform:scale(.98)}
+  .word .num{flex:none; width:26px; height:26px; border-radius:50%; background:#e2e8f0; color:var(--muted);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700}
+  .word.disabled{cursor:default}
+  .word.found{background:#dcfce7; border-color:var(--ok)}
+  .word.found .num{background:var(--ok); color:#fff}
+  .word.wrong{background:#fee2e2; border-color:var(--bad)}
+  .word.reveal{background:#eef2f7; border-color:var(--accent2)}
+  .word.reveal .num{background:var(--accent2); color:#fff}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Atmintis</a>
+  <h1>🔤 Žodžių rikiuoklė</h1>
+  <p>Atsimink žodžių tvarką ir atkurk ją</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
+    <div class="stat"><div class="num" id="found">0/0</div><div class="lbl">Rasta</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
+  </div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“ ir įsimink tvarką</div>
+  <div class="board" id="board"></div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> trumpam parodomi žodžiai sunumeruota tvarka (1, 2, 3...).
+    Kai numeriai pasislepia ir žodžiai susimaišo vietomis, spragtelėk juos <b>ta pačia tvarka</b>, kokia buvo parodyta iš pradžių.
+    Suklydus, raundas baigiasi ir parodoma teisinga tvarka.
+    Kiekvienas pilnai atkurtas raundas prideda dar vieną žodį.
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const WORDS = ['namas','saulė','medis','upė','jūra','langas','stalas','kėdė','duona','pienas',
+  'vanduo','oras','diena','naktis','ruduo','žiema','vasara','kaimas','gėlė','žuvis',
+  'katė','šuo','arklys','karvė','avis','ožka','vilkas','lapė','meška','kalnas',
+  'miškas','laukas','sodas','klasė','šeima','mama','tėtis','sūnus','duktė','sesuo',
+  'akis','ranka','koja','galva','širdis','oda','lūpos','nosis','ausis','balsas',
+  'žodis','knyga','raidė','spalva','forma','dydis','laikas','metai','mėnuo','lietus',
+  'vėjas','ugnis','akmuo','medus','druska','cukrus','sūris','mėsa','žolė','šaknis',
+  'lapas','šaka','sėkla','uoga','grybas'];
+
+const board = document.getElementById('board');
+const levelEl = document.getElementById('level');
+const foundEl = document.getElementById('found');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+
+let order = [];
+let nextIndex = 0;
+let accepting = false;
+let soundOn = true;
+let level = 0;
+let best = parseInt(localStorage.getItem('zodziuRikiuokleBest') || '0', 10);
+bestEl.textContent = best;
+
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
+}
+function beep(freq){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.26, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.24);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.24);
+}
+function errorBeep(){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.4);
+  gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.45);
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function pickWords(n){
+  const pool = [...WORDS];
+  for(let i = pool.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, n);
+}
+
+function shuffledIndices(n){
+  const idx = Array.from({length: n}, (_, i) => i);
+  for(let i = idx.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [idx[i], idx[j]] = [idx[j], idx[i]];
+  }
+  return idx;
+}
+
+async function startGame(){
+  unlockAudio();
+  level = 0;
+  levelEl.textContent = '0';
+  startBtn.textContent = '↻ Iš naujo';
+  await nextRound();
+}
+
+async function nextRound(){
+  accepting = false;
+  nextIndex = 0;
+  const n = Math.min(3 + level, WORDS.length);
+  order = pickWords(n);
+  board.innerHTML = '';
+  const els = order.map((w, i) => {
+    const el = document.createElement('div');
+    el.className = 'word disabled';
+    el.innerHTML = '<span class="num">' + (i + 1) + '</span><span class="txt"></span>';
+    el.querySelector('.txt').textContent = w;
+    board.appendChild(el);
+    return el;
+  });
+  foundEl.textContent = '0/' + n;
+  setMsg('Įsimink tvarką...', 'info');
+  const showTime = Math.max(1500, 2800 - level * 130);
+  await sleep(showTime);
+
+  const displayOrder = shuffledIndices(n);
+  board.innerHTML = '';
+  displayOrder.forEach(origIndex => {
+    const el = document.createElement('div');
+    el.className = 'word';
+    el.innerHTML = '<span class="num">?</span><span class="txt"></span>';
+    el.querySelector('.txt').textContent = order[origIndex];
+    el.dataset.origIndex = origIndex;
+    el.addEventListener('click', () => handlePick(origIndex, el));
+    board.appendChild(el);
+  });
+  setMsg('Dabar spragtelėk žodžius ta pačia tvarka', 'info');
+  accepting = true;
+}
+
+function handlePick(origIndex, el){
+  if(!accepting) return;
+  if(el.classList.contains('found')) return;
+  if(origIndex === nextIndex){
+    nextIndex++;
+    beep(260 + nextIndex * 30);
+    el.classList.add('found');
+    el.classList.add('disabled');
+    el.querySelector('.num').textContent = nextIndex;
+    foundEl.textContent = nextIndex + '/' + order.length;
+    if(nextIndex === order.length){
+      accepting = false;
+      level++;
+      levelEl.textContent = level;
+      if(level > best){
+        best = level;
+        bestEl.textContent = best;
+        localStorage.setItem('zodziuRikiuokleBest', String(best));
+      }
+      setMsg('Puiku! Kitas raundas...', 'ok');
+      sleep(900).then(nextRound);
+    }
+  }else{
+    accepting = false;
+    errorBeep();
+    el.classList.add('wrong');
+    el.classList.add('disabled');
+    board.querySelectorAll('.word').forEach(w => {
+      w.classList.add('disabled');
+      if(!w.classList.contains('found') && !w.classList.contains('wrong')){
+        w.classList.add('reveal');
+        w.querySelector('.num').textContent = parseInt(w.dataset.origIndex, 10) + 1;
+      }
+    });
+    setMsg('Nepavyko. Rasta ' + nextIndex + ' iš ' + order.length + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    startBtn.textContent = '↻ Iš naujo';
+  }
+}
+</script>
+</body>
+</html>
