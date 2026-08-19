@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spalvų poros · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:460px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .board{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; width:100%; max-width:400px; margin:8px 0 20px}
+  .card{aspect-ratio:1/1; border-radius:14px; border:3px solid #d8dee6; cursor:pointer; font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; background:var(--accent2); color:#fff; text-align:center; padding:4px;
+    box-shadow:0 3px 8px rgba(0,0,0,.08); transition:transform .1s, filter .15s, box-shadow .15s; user-select:none}
+  .card:active{transform:scale(.94)}
+  .card.matched{box-shadow:0 0 0 3px rgba(21,128,61,.35); cursor:default}
+  .card.disabled{cursor:default}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Atmintis</a>
+  <h1>🎨 Spalvų poros</h1>
+  <p>Atverk dvi korteles ir surask vienodų spalvų poras</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
+    <div class="stat"><div class="num" id="found">0/0</div><div class="lbl">Poros</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
+  </div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“ ir atversk pirmą kortą</div>
+  <div class="board" id="board"></div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> spragtelėk dvi korteles iš eilės. Jei spalvos sutampa, kortelės lieka atverstos.
+    Jei ne, jos vėl apsiverčia, o tu bandai toliau — nėra pralaimėjimo, tik bandymai.
+    Suradus visas poras, prasideda kitas raundas su viena pora daugiau.
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const COLORS = [
+  {name:'raudona', bg:'#e11d48', text:'#fff'},
+  {name:'mėlyna', bg:'#2563eb', text:'#fff'},
+  {name:'žalia', bg:'#16a34a', text:'#fff'},
+  {name:'geltona', bg:'#eab308', text:'#1f2937'},
+  {name:'oranžinė', bg:'#f97316', text:'#fff'},
+  {name:'violetinė', bg:'#7c3aed', text:'#fff'},
+  {name:'rožinė', bg:'#db2777', text:'#fff'},
+  {name:'ruda', bg:'#78350f', text:'#fff'},
+  {name:'pilka', bg:'#4b5563', text:'#fff'},
+  {name:'žydra', bg:'#0891b2', text:'#fff'},
+  {name:'juoda', bg:'#111827', text:'#fff'}
+];
+
+const board = document.getElementById('board');
+const levelEl = document.getElementById('level');
+const foundEl = document.getElementById('found');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+
+let accepting = false;
+let soundOn = true;
+let level = 0;
+let best = parseInt(localStorage.getItem('spalvuPorosBest') || '0', 10);
+bestEl.textContent = best;
+
+let firstCard = null;
+let matchedPairs = 0;
+let targetPairs = 0;
+
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
+}
+function beep(freq){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.26, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.24);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.24);
+}
+function missBeep(){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.3);
+  gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.32);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.32);
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+async function startGame(){
+  unlockAudio();
+  level = 0;
+  levelEl.textContent = '0';
+  startBtn.textContent = '↻ Iš naujo';
+  await nextRound();
+}
+
+async function nextRound(){
+  accepting = false;
+  firstCard = null;
+  matchedPairs = 0;
+  targetPairs = Math.min(3 + level, COLORS.length);
+  foundEl.textContent = '0/' + targetPairs;
+  setMsg('Atverk dvi korteles, kad surastum porą', 'info');
+
+  const idxPairs = [...Array(targetPairs).keys()];
+  const deck = shuffle([...idxPairs, ...idxPairs]);
+  board.innerHTML = '';
+  deck.forEach(colorIndex => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.dataset.colorIndex = colorIndex;
+    el.addEventListener('click', () => handlePick(el));
+    board.appendChild(el);
+  });
+  accepting = true;
+}
+
+function reveal(el){
+  const c = COLORS[parseInt(el.dataset.colorIndex, 10)];
+  el.style.background = c.bg;
+  el.style.color = c.text;
+  el.style.borderColor = c.bg;
+  el.textContent = c.name;
+}
+function hide(el){
+  el.style.background = '';
+  el.style.color = '';
+  el.style.borderColor = '';
+  el.textContent = '';
+}
+
+function handlePick(el){
+  if(!accepting) return;
+  if(el.textContent || el.classList.contains('matched')) return;
+
+  reveal(el);
+
+  if(!firstCard){
+    firstCard = el;
+    return;
+  }
+
+  const second = el;
+  if(firstCard.dataset.colorIndex === second.dataset.colorIndex){
+    beep(300 + matchedPairs * 25);
+    firstCard.classList.add('matched');
+    second.classList.add('matched');
+    firstCard = null;
+    matchedPairs++;
+    foundEl.textContent = matchedPairs + '/' + targetPairs;
+    if(matchedPairs === targetPairs){
+      accepting = false;
+      level++;
+      levelEl.textContent = level;
+      if(level > best){
+        best = level;
+        bestEl.textContent = best;
+        localStorage.setItem('spalvuPorosBest', String(best));
+      }
+      setMsg('Puiku! Kitas raundas...', 'ok');
+      sleep(1000).then(nextRound);
+    }
+  }else{
+    accepting = false;
+    missBeep();
+    setMsg('Ne pora — bandyk dar kartą', 'bad');
+    sleep(700).then(() => {
+      hide(firstCard);
+      hide(second);
+      firstCard = null;
+      accepting = true;
+      setMsg('Atverk dvi korteles, kad surastum porą', 'info');
+    });
+  }
+}
+</script>
+</body>
+</html>
