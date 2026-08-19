@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.5.2 Romėniškieji skaitmenys · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:120px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.5.2 Rašome skaičius romėniškaisiais skaitmenimis</b> · 5 klasė · Metraštininko seifas · 6 skrynios · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 užduotis iš eilės, kuriose reikia UŽRAŠYTI arabiškąjį skaičių romėniškaisiais
+    skaitmenimis (paprastas skaičius, skaičius su atimties ženklu, skaičius su šimtais ir tūkstančiais,
+    amžiaus radimas iš metų, dviejų metų palyginimas, pilnas metų skaidymas). Kiekvienos užduoties
+    atsakymas — iš KIEK raidžių (simbolių) susideda romėniškasis užrašymas (arba raidžių skirtumas
+    tarp dviejų užrašymų) — yra vienas seifo kodo skaitmuo (iš eilės nuo 1 iki 6 skrynios). Surinkęs
+    visą kodą ir įvedęs jį į seifą, mokinys „pabėga". Skirtingi variantai turi kitus skaičius ir kitą
+    kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos skrynios.</li>
+      <li>Priminkite reikšmes: I=1, V=5, X=10, L=50, C=100, D=500, M=1000; kai skyriuje skaitmuo yra
+        4 arba 9, mažesnis ženklas rašomas PRIEŠ didesnį (IV, IX, XL, XC, CD, CM).</li>
+      <li>Skrynios 1–2 — paprastas užrašymas ir su atimties ženklu, 3 — su šimtais/tūkstančiais,
+        4 — amžiaus radimas iš metų, 5 — dviejų metų palyginimas, 6 — pilnas metų skaidymas
+        (pagal vadovėlio pavyzdį 1918 = M + CM + X + VIII).</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"647318", rows:[
+   [1,"Paprastas įrašas","Užrašyk 68 romėniškai. Iš kiek raidžių susideda?","68 = 60 + 8 = LX + VIII = LXVIII. Raidės: L,X,V,I,I,I = 6.",6],
+   [2,"Metraštininko gudrybė","Užrašyk 94 romėniškai. Iš kiek raidžių susideda?","94 = 90 + 4 = XC + IV = XCIV. Raidės: X,C,I,V = 4.",4],
+   [3,"Didysis metraštis","Užrašyk 749 romėniškai (749 = DCC + XL + IX). Iš kiek raidžių susideda?","749 = 700 + 40 + 9 = DCC + XL + IX = DCCXLIX. Raidės: D,C,C,X,L,I,X = 7.",7],
+   [4,"Amžių sąrašas","1832 metai — kuris amžius? Užrašyk amžiaus numerį romėniškai, suskaičiuok raides.","1832 → amžius = 18 + 1 = 19 (1801–1900 = XIX a.). 19 = XIX. Raidės: X,I,X = 3.",3],
+   [5,"Dviejų metraščių dvikova","1944 ir 1616 — užrašyk abu romėniškai, rask raidžių skirtumą.","1944 = M+CM+XL+IV = MCMXLIV (7 raidės). 1616 = M+DC+X+VI = MDCXVI (6 raidės). Skirtumas = 7 − 6 = 1.",1],
+   [6,"Paskutinis įrašas","1918 = M+CM+X+VIII = MCMXVIII. Iš kiek raidžių susideda?","1918 = M+CM+X+VIII = MCMXVIII. Raidės: M,C,M,X,V,I,I,I = 8.",8],
+ ]},
+ { code:"766516", rows:[
+   [1,"Paprastas įrašas","Užrašyk 78 romėniškai. Iš kiek raidžių susideda?","78 = 70 + 8 = LXX + VIII = LXXVIII. Raidės: L,X,X,V,I,I,I = 7.",7],
+   [2,"Metraštininko gudrybė","Užrašyk 84 romėniškai. Iš kiek raidžių susideda?","84 = 80 + 4 = LXXX + IV = LXXXIV. Raidės: L,X,X,X,I,V = 6.",6],
+   [3,"Didysis metraštis","Užrašyk 649 romėniškai (649 = DC + XL + IX). Iš kiek raidžių susideda?","649 = 600 + 40 + 9 = DC + XL + IX = DCXLIX. Raidės: D,C,X,L,I,X = 6.",6],
+   [4,"Amžių sąrašas","1756 metai — kuris amžius? Užrašyk amžiaus numerį romėniškai, suskaičiuok raides.","1756 → amžius = 17 + 1 = 18 (1701–1800 = XVIII a.). 18 = XVIII. Raidės: X,V,I,I,I = 5.",5],
+   [5,"Dviejų metraščių dvikova","1272 ir 1408 — užrašyk abu romėniškai, rask raidžių skirtumą.","1272 = M+CC+LXX+II = MCCLXXII (8 raidės). 1408 = M+CD+VIII = MCDVIII (7 raidės). Skirtumas = 8 − 7 = 1.",1],
+   [6,"Paskutinis įrašas","2024 = MM+XX+IV = MMXXIV. Iš kiek raidžių susideda?","2024 = MM+XX+IV = MMXXIV. Raidės: M,M,X,X,I,V = 6.",6],
+ ]},
+ { code:"359439", rows:[
+   [1,"Paprastas įrašas","Užrašyk 56 romėniškai. Iš kiek raidžių susideda?","56 = 50 + 6 = L + VI = LVI. Raidės: L,V,I = 3.",3],
+   [2,"Metraštininko gudrybė","Užrašyk 39 romėniškai. Iš kiek raidžių susideda?","39 = 30 + 9 = XXX + IX = XXXIX. Raidės: X,X,X,I,X = 5.",5],
+   [3,"Didysis metraštis","Užrašyk 384 romėniškai (384 = CCC + LXXX + IV). Iš kiek raidžių susideda?","384 = 300 + 80 + 4 = CCC + LXXX + IV = CCCLXXXIV. Raidės: C,C,C,L,X,X,X,I,V = 9.",9],
+   [4,"Amžių sąrašas","1699 metai — kuris amžius? Užrašyk amžiaus numerį romėniškai, suskaičiuok raides.","1699 → amžius = 16 + 1 = 17 (1601–1700 = XVII a.). 17 = XVII. Raidės: X,V,I,I = 4.",4],
+   [5,"Dviejų metraščių dvikova","1876 ir 1523 — užrašyk abu romėniškai, rask raidžių skirtumą.","1876 = M+DCCC+LXX+VI = MDCCCLXXVI (10 raidžių). 1523 = M+D+XX+III = MDXXIII (7 raidės). Skirtumas = 10 − 7 = 3.",3],
+   [6,"Paskutinis įrašas","1849 = M+DCCC+XL+IX = MDCCCXLIX. Iš kiek raidžių susideda?","1849 = M+DCCC+XL+IX = MDCCCXLIX. Raidės: M,D,C,C,C,X,L,I,X = 9.",9],
+ ]},
+ { code:"536446", rows:[
+   [1,"Paprastas įrašas","Užrašyk 27 romėniškai. Iš kiek raidžių susideda?","27 = 20 + 7 = XX + VII = XXVII. Raidės: X,X,V,I,I = 5.",5],
+   [2,"Metraštininko gudrybė","Užrašyk 19 romėniškai. Iš kiek raidžių susideda?","19 = 10 + 9 = X + IX = XIX. Raidės: X,I,X = 3.",3],
+   [3,"Didysis metraštis","Užrašyk 264 romėniškai (264 = CC + LX + IV). Iš kiek raidžių susideda?","264 = 200 + 60 + 4 = CC + LX + IV = CCLXIV. Raidės: C,C,L,X,I,V = 6.",6],
+   [4,"Amžių sąrašas","1245 metai — kuris amžius? Užrašyk amžiaus numerį romėniškai, suskaičiuok raides.","1245 → amžius = 12 + 1 = 13 (1201–1300 = XIII a.). 13 = XIII. Raidės: X,I,I,I = 4.",4],
+   [5,"Dviejų metraščių dvikova","1355 ir 1978 — užrašyk abu romėniškai, rask raidžių skirtumą.","1355 = M+CCC+L+V = MCCCLV (6 raidės). 1978 = M+CM+LXX+VIII = MCMLXXVIII (10 raidžių). Skirtumas = 10 − 6 = 4.",4],
+   [6,"Paskutinis įrašas","1592 = M+D+XC+II = MDXCII. Iš kiek raidžių susideda?","1592 = M+D+XC+II = MDXCII. Raidės: M,D,X,C,I,I = 6.",6],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Skrynia</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Seifo kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
