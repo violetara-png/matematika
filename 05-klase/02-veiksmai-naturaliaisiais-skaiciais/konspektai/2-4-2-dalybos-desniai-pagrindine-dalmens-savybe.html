@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dalybos dėsniai. Pagrindinė dalmens savybė — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Dalybos dėsniai. Pagrindinė dalmens savybė</h1>
+  <p class="klase">Matematika · 5 klasė · 2.4.2 tema · veiksmai su natūraliaisiais skaičiais</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Dalyba iš 1 ir dalyba iš savęs</a></li>
+      <li><a href="#t2">Dalyba, kai dalinys lygus 0. Dalyba iš 0</a></li>
+      <li><a href="#t3">Pagrindinė dalmens savybė</a></li>
+      <li><a href="#t4">Pagrindinės dalmens savybės taikymas</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Dalyba iš 1 ir dalyba iš savęs</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Bet kurį skaičių padalijus iš 1, gaunamas tas pats skaičius.</span></p>
+        <div class="formule math"><span class="term-a">a</span> : 1 = <span class="term-a">a</span></div>
+        <p><span class="zenk">Bet kurį skaičių (išskyrus 0) padalijus iš savęs, gaunamas 1.</span></p>
+        <div class="formule math"><span class="term-a">a</span> : <span class="term-a">a</span> = 1 &nbsp;&nbsp;<span style="font-size:15px; color:var(--pilka)">(kai a ≠ 0)</span></div>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">84 : 1 = 84</span> &nbsp;&nbsp; <span class="math">125 : 1 = 125</span><br>
+        <span class="math">84 : 84 = 1</span> &nbsp;&nbsp; <span class="math">125 : 125 = 1</span></p>
+        <p>Šias dvi taisykles verta žinoti mintinai — jos padeda greitai skaičiuoti be jokių veiksmų raštu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Dalyba, kai dalinys lygus 0. Dalyba iš 0</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">0 padalijus iš bet kurio skaičiaus (ne 0), gaunama 0.</span></p>
+        <div class="formule math">0 : <span class="term-a">a</span> = 0 &nbsp;&nbsp;<span style="font-size:15px; color:var(--pilka)">(kai a ≠ 0)</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Jei 6 vaikams reikia padalyti 0 saldainių, kiekvienam teks <span class="math"><b>0 : 6 = 0</b></span> saldainių.</p>
+        <p class="demesio"><b>Dėmesio.</b> Skaičius 0 <b>nėra natūralusis</b> skaičius (natūralieji skaičiai prasideda nuo 1). Lygybėje <span class="math">0 : a = 0</span> abu nuliai yra <b>sveikieji</b> skaičiai, o ne natūralieji — patį veiksmą (0 : a) atliekame su natūraliuoju dalikliu a, o dalinys ir dalmuo šiuo atveju yra sveikasis skaičius 0.</p>
+        <p style="margin-top:12px"><span class="zenk">Dalyba iš 0 negalima.</span></p>
+        <div class="formule math"><span class="term-a">a</span> : 0 — <span class="term-b">negalima</span></div>
+        <p>Kodėl? Dalyba yra veiksmas, atvirkštinis daugybai: jei <span class="math">a : b = c</span>, tai <span class="math">c · b = a</span>. Padalijus iš 0 turėtume rasti tokį skaičių c, kad <span class="math">c · 0 = a</span>. Bet <span class="math">c · 0</span> visada lygu <b>0</b>, todėl, jei <span class="math">a ≠ 0</span>, tokio skaičiaus c <b>nėra</b> — dalyba neįmanoma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Pagrindinė dalmens savybė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalinį ir daliklį padauginus arba padalijus iš to paties natūraliojo skaičiaus, dalmuo nepakinta.</span></p>
+        <div class="formule math"><span class="term-a">a</span> : <span class="term-b">b</span> = (<span class="term-a">a</span>·<span class="uzd" style="color:#6a1b9a">k</span>) : (<span class="term-b">b</span>·<span class="uzd" style="color:#6a1b9a">k</span>) = (<span class="term-a">a</span>:<span class="uzd" style="color:#6a1b9a">k</span>) : (<span class="term-b">b</span>:<span class="uzd" style="color:#6a1b9a">k</span>)</div>
+        <p>Čia <b>a</b> — dalinys, <b>b</b> — daliklis, <b>k</b> — bet koks natūralusis skaičius (dalijant iš k, ir a, ir b turi iš jo dalytis be liekanos).</p>
+        <p class="pvz"><b>Pavyzdys (dauginame).</b><br>
+        <span class="math">72 : 8 = 9</span><br>
+        <span class="math">(72·3) : (8·3) = 216 : 24 = <span class="gerai">9</span></span> — dalmuo tas pats!</p>
+        <p class="pvz"><b>Pavyzdys (dalijame — taip patogu mintinai skaičiuoti).</b><br>
+        <span class="math">4800 : 600 = (4800:100) : (600:100) = 48 : 6 = <span class="gerai">8</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Pagrindinės dalmens savybės taikymas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taikymas 1. Mintinis skaičiavimas.</span> Didelius skaičius su nuliais dalybos gale patogu sutrumpinti — nubraukti vienodą nulių skaičių iš dalinio ir daliklio.</p>
+        <p class="pvz"><span class="math">36 000 : 4 000 = 36 : 4 = <span class="gerai">9</span></span></p>
+        <p style="margin-top:14px"><span class="zenk">Taikymas 2. Sąskaitos ir proporcingi dydžiai.</span> Jei perkame daugiau to paties prekės vienetų, kiekį ir kainą padauginame iš to paties skaičiaus — vieneto kaina (dalmuo) nepasikeičia.</p>
+        <p class="pvz"><b>Pavyzdys.</b> 5 sąsiuviniai kainuoja 6 €. Vieneto kaina <span class="math">6 : 5</span> (€ vienam sąsiuviniui). Jei pirksime <span class="math">5·4 = 20</span> sąsiuvinių, jie kainuos <span class="math">6·4 = 24</span> €, nes <span class="math">6 : 5 = 24 : 20</span> — vieneto kaina ta pati.</p>
+        <p style="margin-top:14px"><span class="zenk">Taikymas 3. Greitis ir atstumas.</span> Važiuojant tuo pačiu greičiu, atstumą ir laiką padauginus (padalijus) iš to paties skaičiaus, greitis (dalmuo <span class="math">atstumas : laikas</span>) nepasikeičia.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Per 3 val. nuvažiuota 15 km, greitis <span class="math">15 : 3 = 5</span> km/val. Per 6 val. (2 kartus ilgiau) tuo pačiu greičiu bus nuvažiuota <span class="math">15·2 = 30</span> km, nes <span class="math">15 : 3 = 30 : 6 = 5</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">a : 0 = 0</span></td><td class="math"><span class="gerai">dalyba iš 0 negalima</span></td></tr>
+          <tr><td class="math"><span class="klaida">0 : a = negalima</span></td><td class="math"><span class="gerai">0 : a = 0</span> (kai a ≠ 0)</td></tr>
+          <tr><td class="math"><span class="klaida">a : a = a</span></td><td class="math"><span class="gerai">a : a = 1</span> (kai a ≠ 0)</td></tr>
+          <tr><td class="math"><span class="klaida">(a·k) : b = a : b</span></td><td class="math">dauginame <b>abu</b>: <span class="gerai">(a·k) : (b·k) = a : b</span></td></tr>
+          <tr><td class="math"><span class="klaida">liekana ≥ daliklis</span></td><td class="math"><span class="gerai">liekana visada mažesnė už daliklį</span></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pagrindinę dalmens savybę taikau <b>abiem</b> — ir daliniui, ir dalikliui — iš karto tuo pačiu skaičiumi. Jei padauginu ar padalinu tik vieną iš jų, dalmuo <b>pasikeičia</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Dalybos dėsniai. Pagrindinė dalmens savybė“ (2.4.2)
+  </footer>
+
+</div>
+</body>
+</html>

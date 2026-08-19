@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių daugyba. Daugybos perstatomumo dėsnis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių daugyba. Daugybos perstatomumo dėsnis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.3.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Sandauga — vienodų dėmenų suma</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> a + a + … + a (n dėmenų) = a · n.</div>
+    <div class="ex">
+      <div class="q">Sandėlyje 5 dėžės po 1 204 obuolius. Kiek iš viso?</div>
+      <div class="line">1 204 + 1 204 + 1 204 + 1 204 + 1 204 = 1 204 · 5 = <span class="res">6 020</span> obuolių.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Užrašyk sandauga: 37 + 37 + 37 + 37 + 37 + 37.</div>
+      <div class="line">Dėmuo 37 kartojasi 6 kartus &rArr; 37 · 6 = <span class="res">222</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Daugybos nariai. Perstatomumo dėsnis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> a · b = b · a (sukeitus daugiklius vietomis, sandauga nepasikeičia).</div>
+    <div class="ex">
+      <div class="q">Sode 23 obelų eilės po 6 obelis. Kiek iš viso obelų?</div>
+      <div class="line">23 · 6 = <span class="res">138</span>. Patikra: 6 · 23 = <span class="res">138</span> — sutampa.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Klasėje 8 kėdžių eilės po 15 kėdžių. Kiek iš viso kėdžių?</div>
+      <div class="line">8 · 15 = <span class="res">120</span>. Patikra: 15 · 8 = <span class="res">120</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Daugyba iš 1 ir iš 0</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> a · 1 = a; a · 0 = 0 (0 čia sveikasis skaičius, ne natūralusis — natūralieji prasideda nuo 1).</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 4 567 · 1 ir 0 · 829.</div>
+      <div class="line">4 567 · 1 = <span class="res">4 567</span>; &nbsp; 0 · 829 = <span class="res">0</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Žinoma, kad x · 7 = 0. Kam lygus x?</div>
+      <div class="line">Kadangi 7 ≠ 0, sandauga gali būti lygi 0 tik jei x = <span class="res">0</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Daugyba mintinai iš 10, 100, 1000</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> prie skaičiaus iš dešinės prirašome tiek nulių, kiek jų turi daugiklis (10, 100 ar 1000).</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 68 · 10, 68 · 100, 68 · 1000.</div>
+      <div class="line">68 · 10 = <span class="res">680</span>; 68 · 100 = <span class="res">6 800</span>; 68 · 1000 = <span class="res">68 000</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 705 · 100.</div>
+      <div class="line">Prirašom du nulius &rArr; 705 · 100 = <span class="res">70 500</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 5 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Daugyba stulpeliu</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> dauginame iš kiekvieno skaitmens atskirai, antrą tarpinę sandaugą pastumiame per skyrių, tada sudedame.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok stulpeliu: 347 · 26.</div>
+      <div class="line">347 · 6 = 2 082; 347 · 20 = 6 940; sudedame: 2 082 + 6 940 = <span class="res">9 022</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok stulpeliu: 456 · 7.</div>
+      <div class="line">6 · 7 = 42 (rašom 2, persinešam 4); 5 · 7 = 35, + 4 = 39 (rašom 9, persinešam 3); 4 · 7 = 28, + 3 = 31 &rArr; <span class="res">3 192</span>.</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> naudokis taisyklėmis iš konspekto. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Sandauga — vienodų dėmenų suma</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>63 + 63 + 63 + 63 + 63 = ?</li>
+        <li>19 + 19 + 19 + 19 + 19 + 19 + 19 = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Perstatomumo dėsnis (patikrink sukeisdamas daugiklius)</div>
+    <div class="two">
+      <ol class="tasks math" start="3">
+        <li>18 · 7 = ?</li>
+        <li>32 · 14 = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">C. Daugyba iš 1 ir iš 0</div>
+    <div class="two">
+      <ol class="tasks math" start="5">
+        <li>940 · 1 = ? &nbsp;&nbsp; 0 · 387 = ?</li>
+        <li>Jei x · 6 = 0, kam lygus x?</li>
+      </ol>
+    </div>
+
+    <div class="grp">D. Daugyba mintinai iš 10, 100, 1000</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>26 · 10 = ? &nbsp; 26 · 100 = ? &nbsp; 26 · 1000 = ?</li>
+        <li>480 · 100 = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">E. Daugyba stulpeliu (iš vienaženklio)</div>
+    <div class="two">
+      <ol class="tasks math" start="9">
+        <li>316 · 5 = ?</li>
+        <li>124 · 8 = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">F. Daugyba stulpeliu (iš daugiaženklio)</div>
+    <div class="two">
+      <ol class="tasks math" start="11">
+        <li>213 · 32 = ?</li>
+        <li>407 · 24 = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="13">
+      <li>16 dėžučių po 24 pieštukus kiekvienoje. Kiek iš viso pieštukų?</li>
+      <li>Kino bilietas kainuoja 8 eurus. Kiek sumokės 35 mokiniai?</li>
+      <li>Sode 45 obelys, kiekviena duoda po 60 kg obuolių. Kiek kilogramų obuolių iš viso?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 315 &nbsp;&nbsp; <b>2.</b> 133 &nbsp;&nbsp; <b>3.</b> 126 &nbsp;&nbsp; <b>4.</b> 448</div>
+    <div class="row math"><b>5.</b> 940; 0 &nbsp;&nbsp; <b>6.</b> x = 0 &nbsp;&nbsp; <b>7.</b> 260; 2 600; 26 000</div>
+    <div class="row math"><b>8.</b> 48 000 &nbsp;&nbsp; <b>9.</b> 1 580 &nbsp;&nbsp; <b>10.</b> 992</div>
+    <div class="row math"><b>11.</b> 6 816 &nbsp;&nbsp; <b>12.</b> 9 768</div>
+    <div class="row math"><b>13.</b> 16 · 24 = 384 pieštukai</div>
+    <div class="row math"><b>14.</b> 8 · 35 = 280 eurų</div>
+    <div class="row math"><b>15.</b> 45 · 60 = 2 700 kg</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaičių daugyba. Daugybos perstatomumo dėsnis“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių daugyba. Daugybos perstatomumo dėsnis — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:19px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .stulp{font-family:"Cambria Math",Cambria,Georgia,serif; text-align:right; white-space:pre; font-size:17px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px; padding:10px 18px; display:inline-block; margin:10px auto 0}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių daugyba. Daugybos perstatomumo dėsnis</h1>
+  <p class="klase">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.3.1 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Sandauga — vienodų dėmenų suma</a></li>
+      <li><a href="#t2">Daugybos nariai. Perstatomumo dėsnis</a></li>
+      <li><a href="#t3">Daugyba iš 1 ir iš 0</a></li>
+      <li><a href="#t4">Daugyba mintinai iš 10, 100, 1000</a></li>
+      <li><a href="#t5">Daugyba stulpeliu</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">2.3.1 a</span> Sandauga — vienodų dėmenų suma</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Daugyba</span> — tai veiksmas, kuriuo <b>trumpai užrašome kelių vienodų dėmenų sumą</b>.</p>
+        <div class="formule">a + a + … + a <span class="pilka">(n dėmenų)</span> &nbsp;=&nbsp; <span class="term-a">a</span> · <span class="term-b">n</span></div>
+        <p>Veiksmo rezultatas vadinamas <b>sandauga</b>, o skaičiai, kuriuos dauginame, <b>daugikliais</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Sandėlyje sukrautos 5 dėžės, kiekvienoje po 1 204 obuolius. Kiek obuolių iš viso? <span class="math">1 204 + 1 204 + 1 204 + 1 204 + 1 204 = 1 204 · 5 = 6 020</span> obuolių.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Sumą užrašyk sandauga: <span class="math">37 + 37 + 37 + 37 + 37 + 37</span>. Dėmuo <b>37</b> kartojasi <b>6</b> kartus, tad <span class="math">37 + 37 + 37 + 37 + 37 + 37 = 37 · 6 = 222</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Antrasis daugiklis (kiek kartų kartojasi dėmuo) parodo, <b>kiek vienodų dėmenų sudedame</b>. Jei dėmenys skirtingi (pvz. <span class="math">37 + 38</span>), sumos daugyba užrašyti negalima.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2.3.1 b</span> Daugybos nariai. Perstatomumo dėsnis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Daugyba</span>: <b>dauginamasis</b> · <b>dauginamasis</b> = <b>sandauga</b>. Trumpiau: <span class="math">a · b = c</span>.</p>
+        <table class="kort">
+          <tr><th>23</th><th>·</th><th>6</th><th>=</th><th>138</th></tr>
+          <tr><td>dauginamasis</td><td></td><td>dauginamasis</td><td></td><td>sandauga</td></tr>
+        </table>
+        <div class="formule"><b>Daugybos perstatomumo dėsnis:</b> &nbsp; <span class="term-a">a</span> · <span class="term-b">b</span> = <span class="term-b">b</span> · <span class="term-a">a</span></div>
+        <p>Sukeitus daugiklius vietomis, <b>sandauga nepasikeičia</b>. Šiuo dėsniu patogu <b>patikrinti</b>, ar sandauga apskaičiuota teisingai.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Sode pasodinta 23 obelų eilės, kiekvienoje eilėje po 6 obelis. Kiek iš viso obelų? <span class="math">23 · 6 = 138</span>. Patikrinkime sukeitę daugiklius: <span class="math">6 · 23 = 138</span> — sutampa, tad sandauga rasta teisingai.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Klasėje sustatytos 8 kėdžių eilės, kiekvienoje eilėje po 15 kėdžių. <span class="math">8 · 15 = 120</span> kėdžių. Patikra: <span class="math">15 · 8 = 120</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Perstatomumo dėsnis galioja <b>tik daugybai ir sudėčiai</b>. Dalybai ir atimčiai jis <b>negalioja</b>: pavyzdžiui, <span class="math">12 : 3 ≠ 3 : 12</span> ir <span class="math">12 − 3 ≠ 3 − 12</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">2.3.1 c</span> Daugyba iš 1 ir iš 0</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <div class="formule">a · 1 = 1 · a = <span class="term-a">a</span></div>
+        <p>Padauginę bet kurį skaičių iš <b>1</b>, gauname <b>tą patį skaičių</b> — daugyba iš vieneto skaičiaus nekeičia.</p>
+        <div class="formule">a · 0 = 0 · a = <span class="term-b">0</span></div>
+        <p>Padauginę bet kurį skaičių iš <b>0</b>, visada gauname <b>0</b>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Lietuvos matematikos programoje <b>natūralieji skaičiai prasideda nuo 1</b> — <b>0 nėra natūralusis skaičius</b>, jis priklauso <b>sveikiesiems skaičiams</b>. Todėl savybėje <span class="math">a · 0 = 0</span> skaičius <b>0</b> yra sveikasis, o ne natūralusis skaičius — jis atsiranda kaip <b>rezultatas</b>, nors dauginame natūraliuosius skaičius.</p>
+        <div class="formule">Jei <span class="math">a · b = 0</span>, tai <span class="math">a = 0</span> arba <span class="math">b = 0</span>.</div>
+        <p>Sandauga lygi nuliui tada ir tik tada, kai <b>bent vienas</b> iš daugiklių lygus nuliui.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">4 567 · 1 = 4 567</span>; &nbsp; <span class="math">0 · 829 = 0</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Žinoma, kad <span class="math">x · 7 = 0</span>. Kadangi <span class="math">7 ≠ 0</span>, tai turi būti <span class="math">x = 0</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">2.3.1 d</span> Daugyba mintinai iš 10, 100, 1000</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <div class="formule">Dauginant iš <b>10</b>, <b>100</b> ar <b>1000</b>, prie skaičiaus <b>iš dešinės prirašome tiek nulių</b>, kiek jų turi daugiklis.</div>
+        <table class="kort">
+          <tr><th>Daugiklis</th><th>Nulių</th><th>Pavyzdys</th></tr>
+          <tr><td class="math">10</td><td>1</td><td class="math">68 · 10 = 680</td></tr>
+          <tr><td class="math">100</td><td>2</td><td class="math">68 · 100 = 6 800</td></tr>
+          <tr><td class="math">1000</td><td>3</td><td class="math">68 · 1 000 = 68 000</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">705 · 100 = 70 500</span> (prie 705 prirašome du nulius).</p>
+        <p class="demesio"><b>Dėmesio.</b> Skaičius nulių, kuriuos prirašome, <b>visada</b> lygus daugiklyje esančių nulių skaičiui — dauginant iš 1 000 prirašomi <b>trys</b> nuliai, o ne du ar keturi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">2.3.1 e</span> Daugyba stulpeliu</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Daugybos stulpeliu algoritmas</span> (kai daugiklis daugiaženklis):</p>
+        <ol style="margin:6px 0 10px; padding-left:22px">
+          <li>Skaičius užrašome vieną po kitu, vienetus po vienetais.</li>
+          <li>Dauginame iš <b>kiekvieno</b> apatinio skaičiaus skaitmens atskirai (pradedant nuo vienetų), gaudami <b>tarpines sandaugas</b>.</li>
+          <li>Dauginant iš dešimčių skaitmens, tarpinę sandaugą <b>pastumiame per vieną skyrių į kairę</b> (arba prirašome nulį iš dešinės).</li>
+          <li>Visas tarpines sandaugas <b>sudedame</b> — gauname galutinę sandaugą.</li>
+        </ol>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok <span class="math">347 · 26</span>.</p>
+        <div class="stulp math">   3 4 7
+  ×    2 6
+———————————
+  2 0 8 2   (347 · 6)
+6 9 4 0    (347 · 20)
+———————————
+9 0 2 2</div>
+        <p class="pvz math">Patikra sukeitus daugiklius: <span class="math">26 · 347 = 9 022</span> — sutampa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">manoma, kad sukeitus daugiklius sandauga pasikeičia</span></td><td class="math">23 · 6 = 6 · 23 = <span class="gerai">138</span> (perstatomumo dėsnis)</td></tr>
+          <tr><td><span class="klaida">0 laikomas natūraliuoju skaičiumi</span></td><td>0 yra <span class="gerai">sveikasis</span> skaičius, natūralieji prasideda nuo 1</td></tr>
+          <tr><td class="math"><span class="klaida">68 · 100 = 680</span> (per mažai nulių)</td><td class="math">68 · 100 = <span class="gerai">6 800</span> (du nuliai, nes 100 turi du nulius)</td></tr>
+          <tr><td><span class="klaida">dauginant stulpeliu antra tarpinė sandauga rašoma po pirmąja, nepastūmus</span></td><td>ji <span class="gerai">pastumiama per skyrių į kairę</span> (dauginant iš dešimčių)</td></tr>
+          <tr><td><span class="klaida">manoma, kad daugyba tai tik „greita sudėtis“, nesvarbi tvarka</span></td><td class="math">a · n reiškia <span class="gerai">n vienodų dėmenų a</span> sumą</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Sandaugą <b>visada gali patikrinti</b> sukeitęs daugiklius vietomis (perstatomumo dėsnis) — jei rezultatai sutampa, skaičiavimas tikriausiai teisingas.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Skaičių daugyba. Daugybos perstatomumo dėsnis“ (2.3.1)
+  </footer>
+
+</div>
+</body>
+</html>

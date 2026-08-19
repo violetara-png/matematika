@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių atimtis: pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių atimtis: pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.2.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Atimties komponentai ir patikra</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> <span class="math">turinys − atėminys = skirtumas</span> (<span class="math">a − b = c</span>). Atimtis yra atvirkštinis veiksmas sudėčiai: patikriname sudėję: <span class="math">c + b = a</span>.</div>
+    <div class="ex">
+      <div class="q">Kuprinė kainuoja <span class="math">652</span> Eur, o batai kainuoja <span class="math">418</span> Eur. Kiek kuprinė brangesnė už batus?</div>
+      <div class="line">Turinys: <span class="math">652</span>, atėminys: <span class="math">418</span>. <span class="math">652 − 418 = 234</span>.</div>
+      <div class="line">&rArr; <span class="res">234</span> (Eur) <span class="muted2">Patikra: 234 + 418 = 652 ✓</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Sodininkas užaugino <span class="math">573</span> obuolius, o kriaušių užaugino <span class="math">296</span>. Kiek daugiau obuolių negu kriaušių jis užaugino?</div>
+      <div class="line">Turinys: <span class="math">573</span> (obuoliai), atėminys: <span class="math">296</span> (kriaušės). <span class="math">573 − 296 = 277</span>.</div>
+      <div class="line">&rArr; <span class="res">277</span> <span class="muted2">Patikra: 277 + 296 = 573 ✓</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Atimtis mintinai</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> atėminį skaidome į patogias dalis arba apvaliname iki apvalaus skaičiaus, po to rezultatą pataisome.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok mintinai: <span class="math">436 − 89</span> (apvalink atėminį iki 90).</div>
+      <div class="line"><span class="math">436 − 90 = 346</span>. Kadangi atėmėme 1 daugiau negu reikėjo, grąžiname: <span class="math">346 + 1 = 347</span>.</div>
+      <div class="line">&rArr; <span class="res">347</span> <span class="muted2">Patikra: 347 + 89 = 436 ✓</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok mintinai: <span class="math">618 − 254</span> (skaidyk atėminį: 254 = 200 + 54).</div>
+      <div class="line"><span class="math">618 − 200 = 418</span>, tada <span class="math">418 − 54 = 364</span>.</div>
+      <div class="line">&rArr; <span class="res">364</span> <span class="muted2">Patikra: 364 + 254 = 618 ✓</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Atimtis stulpeliu (su skolinimusi, mišrūs dydžiai)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> skaičius rašome vieną po kitu pagal skyrius, atimame iš dešinės į kairę; kai viršutinis skaitmuo mažesnis už apatinį, pasiskoliname vienetą iš kaimyninio skyriaus (jis tampa 10 vienetų). Mišrius dydžius (pvz. km ir m) prieš atimant paverčiame į vieną vienetą.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok stulpeliu: <span class="math">7342 − 4586</span>.</div>
+      <div class="line">Vienetai: <span class="math">2 &lt; 6</span>, todėl skoliname: <span class="math">12 − 6 = 6</span>. Dešimtys: <span class="math">3 &lt; 8</span> (liko 3), todėl skoliname: <span class="math">13 − 8 = 5</span>. Šimtai: <span class="math">2 &lt; 5</span> (liko 2), todėl skoliname: <span class="math">12 − 5 = 7</span>. Tūkstančiai: <span class="math">6 − 4 = 2</span>.</div>
+      <div class="line">&rArr; <span class="res">2756</span> <span class="muted2">Patikra: 2756 + 4586 = 7342 ✓</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Sunkvežimis vežė <span class="math">9 t 240 kg</span> žvyro. Iškrovus <span class="math">6 t 375 kg</span>, kiek žvyro liko?</div>
+      <div class="line">Paverčiame į kg: <span class="math">9 t 240 kg = 9240 kg</span>, <span class="math">6 t 375 kg = 6375 kg</span>. <span class="math">9240 − 6375 = 2865</span> (kg).</div>
+      <div class="line">&rArr; <span class="res">2865 kg = 2 t 865 kg</span> <span class="muted2">Patikra: 2865 + 6375 = 9240 ✓</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Trūkstamo dėmens radimas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> nežinomą turinį randame: prie skirtumo pridėję atėminį (<span class="math">x − b = c &rArr; x = c + b</span>); nežinomą atėminį randame: iš turinio atėmę skirtumą (<span class="math">a − x = c &rArr; x = a − c</span>).</div>
+    <div class="ex">
+      <div class="q">Raskime <span class="math">x</span>: <span class="math">x − 178 = 236</span>.</div>
+      <div class="line">Nežinomas turinys: <span class="math">x = 236 + 178 = 414</span>.</div>
+      <div class="line">&rArr; <span class="res">x = 414</span> <span class="muted2">Patikra: 414 − 178 = 236 ✓</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Raskime <span class="math">x</span>: <span class="math">652 − x = 287</span>.</div>
+      <div class="line">Nežinomas atėminys: <span class="math">x = 652 − 287 = 365</span>.</div>
+      <div class="line">&rArr; <span class="res">x = 365</span> <span class="muted2">Patikra: 652 − 365 = 287 ✓</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> kiekvieną atsakymą pasitikrink sudėdamas jį su atėminiu: turi gautis turinys. Atsakymus rašyk sąsiuvinyje, po to pasitikrink puslapio gale.</div>
+
+    <div class="grp">A grupė · Atimtis mintinai</div>
+    <ol class="tasks">
+      <li>Apskaičiuok mintinai: <span class="math">350 − 80</span>.</li>
+      <li>Apskaičiuok mintinai (apvalink atėminį): <span class="math">482 − 196</span>.</li>
+      <li>Apskaičiuok mintinai (skaidyk atėminį): <span class="math">725 − 258</span>.</li>
+    </ol>
+
+    <div class="grp">B grupė · Atimtis stulpeliu</div>
+    <ol class="tasks" start="4">
+      <li>Apskaičiuok stulpeliu: <span class="math">8342 − 5769</span>.</li>
+      <li>Apskaičiuok stulpeliu: <span class="math">50 203 − 27 456</span>.</li>
+      <li>Krovinys sveria <span class="math">6 t 180 kg</span>. Iškrovus <span class="math">2 t 450 kg</span>, kiek krovinio liko? (atsakymą užrašyk tonomis ir kilogramais)</li>
+    </ol>
+
+    <div class="grp">C grupė · Trūkstamo dėmens radimas</div>
+    <ol class="tasks" start="7">
+      <li>Raskite <span class="math">x</span>: <span class="math">x − 245 = 318</span>.</li>
+      <li>Raskite <span class="math">x</span>: <span class="math">900 − x = 376</span>.</li>
+    </ol>
+
+    <div class="grp">D grupė · Skirtumo pokytis</div>
+    <ol class="tasks" start="9">
+      <li>Žinoma, kad <span class="math">800 − 350 = 450</span>. Koks bus skirtumas, jei turinį (800) padidinsime 60, o atėminys liks tas pats?</li>
+      <li>Žinoma, kad <span class="math">800 − 350 = 450</span>. Koks bus skirtumas, jei atėminį (350) padidinsime 60, o turinys liks tas pats?</li>
+    </ol>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Sandėlyje buvo <span class="math">3250 kg</span> bulvių. Per savaitę parduota <span class="math">1875 kg</span>. Kiek bulvių liko sandėlyje?</li>
+      <li>Du miestus skiria <span class="math">462 km</span>. Automobilis jau nuvažiavo <span class="math">287 km</span>. Kiek kilometrų dar liko nuvažiuoti?</li>
+    </ol>
+
+    <div class="grp">Papildomas iššūkis · Simetriniai skaičiai</div>
+    <ol class="tasks" start="13">
+      <li>Iš skaičiaus <span class="math">732</span> atimk jo „apverstą“ skaičių (<span class="math">237</span>). Ar gautas skirtumas simetrinis (skaitomas vienodai iš abiejų pusių)? Jei ne: pakartok veiksmą su gautu skaičiumi, kol gausi simetrinį skaičių.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 270</div>
+    <div class="row"><b>2.</b> 286</div>
+    <div class="row"><b>3.</b> 467</div>
+    <div class="row"><b>4.</b> 2573</div>
+    <div class="row"><b>5.</b> 22 747</div>
+    <div class="row"><b>6.</b> 3730 kg = 3 t 730 kg</div>
+    <div class="row"><b>7.</b> x = 563</div>
+    <div class="row"><b>8.</b> x = 524</div>
+    <div class="row"><b>9.</b> 510 (skirtumas padidėja tiek pat, kiek padidėjo turinys)</div>
+    <div class="row"><b>10.</b> 390 (skirtumas sumažėja tiek pat, kiek padidėjo atėminys)</div>
+    <div class="row"><b>11.</b> 1375 kg</div>
+    <div class="row"><b>12.</b> 175 km</div>
+    <div class="row"><b>13.</b> 732 − 237 = 495 (dar ne simetrinis) &rarr; 594 − 495 = <b>99</b> (simetrinis!)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaičių atimtis“ (2.2.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

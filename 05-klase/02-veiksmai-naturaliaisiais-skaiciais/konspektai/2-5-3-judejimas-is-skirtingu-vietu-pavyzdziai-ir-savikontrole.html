@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Judėjimas iš skirtingų vietų — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  .red{background:var(--red-bg);border-left:5px solid var(--red-bd);border-radius:10px;padding:9px 14px;margin-bottom:9px;}
+  .red b.kw{color:var(--red-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Judėjimas iš skirtingų vietų — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · veiksmai su natūraliaisiais skaičiais (2.5.3) · susitikimo ir pasivijimo uždaviniai, atstumo, laiko ir greičio radimas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Susitikimas. Atstumo radimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai kūnai juda vienas kito link, s = (v₁ + v₂) · t — greičiai sudedami.</div>
+    <div class="ex">
+      <div class="q">Priešpriešiais: v₁ = 16 km/h, v₂ = 24 km/h, t = 3 val.</div>
+      <div class="line">s = (16 + 24) · 3 = 40 · 3 = <span class="res">120 km</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Priešpriešiais: v₁ = 24 km/h, v₂ = 30 km/h, t = 2 val.</div>
+      <div class="line">s = (24 + 30) · 2 = 54 · 2 = <span class="res">108 km</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Pasivijimas. Atstumo radimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kai kūnai juda ta pačia kryptimi, s = (v₁ − v₂) · t — greičiai atimami (v₁ &gt; v₂, v₁ besivejantis).</div>
+    <div class="ex">
+      <div class="q">Ta pačia kryptimi: v₁ = 28 km/h, v₂ = 16 km/h, t = 4 val.</div>
+      <div class="line">s = (28 − 16) · 4 = 12 · 4 = <span class="res">48 km</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ta pačia kryptimi: v₁ = 32 km/h, v₂ = 15 km/h, t = 5 val.</div>
+      <div class="line">s = (32 − 15) · 5 = 17 · 5 = <span class="res">85 km</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Susitikimo laiko ir greičio radimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> t = s : (v₁ + v₂); nežinomas greitis v₂ = s : t − v₁.</div>
+    <div class="ex">
+      <div class="q">s = 108 km, v₁ = 20 km/h, v₂ = 16 km/h. Po kiek valandų susitiks?</div>
+      <div class="line">t = 108 : (20 + 16) = 108 : 36 = <span class="res">3 val.</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">s = 90 km, t = 3 val., v₁ = 28 km/h. Koks kito greitis?</div>
+      <div class="line">v₂ = 90 : 3 − 28 = 30 − 28 = <span class="res">2 km/h</span> <span class="muted2">(pavyzdys, kad matytum veiksmų tvarką — tikruose uždaviniuose greičiai realistiškesni)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Pasivijimo laiko ir greičio radimas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> t = s : (v₁ − v₂); besivejančiojo greitis v₁ = s : t + v₂.</div>
+    <div class="ex">
+      <div class="q">s = 40 km, v₁ = 24 km/h, v₂ = 16 km/h. Po kiek valandų pasivys?</div>
+      <div class="line">t = 40 : (24 − 16) = 40 : 8 = <span class="res">5 val.</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">s = 21 km, t = 3 val., v₂ = 9 km/h. Koks besivejančiojo greitis?</div>
+      <div class="line">v₁ = 21 : 3 + 9 = 7 + 9 = <span class="res">16 km/h</span></div>
+    </div>
+    <div class="red" style="font-family:'Segoe UI',sans-serif"><b class="kw">Dėmesio:</b> prieš spręsdamas visada nustatyk, ar kūnai juda vienas kito link (SUDĖTI), ar ta pačia kryptimi (ATIMTI).</div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmiausia nustatyk, ar kūnai juda priešpriešiais, ar ta pačia kryptimi, tada taikyk tinkamą formulę. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Atstumo radimas</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Priešpriešiais: v₁=18 km/h, v₂=22 km/h, t=3 val. s = </li>
+        <li>Ta pačia kryptimi: v₁=35 km/h, v₂=20 km/h, t=4 val. s = </li>
+        <li>Priešpriešiais: v₁=26 km/h, v₂=14 km/h, t=5 val. s = </li>
+        <li>Ta pačia kryptimi: v₁=48 km/h, v₂=30 km/h, t=3 val. s = </li>
+        <li>Priešpriešiais: v₁=16 km/h, v₂=19 km/h, t=6 val. s = </li>
+        <li>Ta pačia kryptimi: v₁=52 km/h, v₂=28 km/h, t=2 val. s = </li>
+      </ol>
+    </div>
+
+    <div class="grp">Laiko ir greičio radimas</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>Priešpriešiais: s=108 km, v₁=20 km/h, v₂=16 km/h. t = </li>
+        <li>Ta pačia kryptimi: s=40 km, v₁=24 km/h, v₂=16 km/h. t = </li>
+        <li>Priešpriešiais: s=90 km, t=3 val., v₁=28 km/h. v₂ = </li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="10">
+      <li>Iš dviejų sodybų, esančių 210 km viena nuo kitos, tuo pačiu metu viena kitos link išvažiavo dviratininkas 30 km/h ir motociklininkas 40 km/h greičiu. Po kiek valandų jie susitiks?</li>
+      <li>Sunkvežimis, važiuojantis 60 km/h greičiu, vejasi lengvąjį automobilį, esantį 45 km priekyje ir važiuojantį ta pačia kryptimi 45 km/h greičiu. Po kiek valandų sunkvežimis pasivys automobilį?</li>
+      <li>Traukinys iš stoties A važiuoja 80 km/h greičiu, o iš stoties B, esančios 280 km atstumu, priešpriešiais važiuoja kitas traukinys 60 km/h greičiu. Abu traukiniai išvažiavo tuo pačiu metu. Po kiek valandų jie susitiks?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> (18+22)·3=120 km &nbsp;&nbsp; <b>2.</b> (35−20)·4=60 km &nbsp;&nbsp; <b>3.</b> (26+14)·5=200 km</div>
+    <div class="row math"><b>4.</b> (48−30)·3=54 km &nbsp;&nbsp; <b>5.</b> (16+19)·6=210 km &nbsp;&nbsp; <b>6.</b> (52−28)·2=48 km</div>
+    <div class="row math"><b>7.</b> 108:36=3 val. &nbsp;&nbsp; <b>8.</b> 40:8=5 val. &nbsp;&nbsp; <b>9.</b> 30−28=2 km/h</div>
+    <div class="row math"><b>10.</b> 210:(30+40)=3 val.</div>
+    <div class="row math"><b>11.</b> 45:(60−45)=3 val.</div>
+    <div class="row math"><b>12.</b> 280:(80+60)=2 val.</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Judėjimas iš skirtingų vietų“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

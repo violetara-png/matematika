@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Atimties dėsniai (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Mokymosi asistentas „Neda“</h1>
+    <p>Tema: <b>Atimties dėsniai</b> · 5 klasė · 2.2.2</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">N<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Neda</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime <b>atimties dėsnius</b>: kaip iš skaičiaus atimti sumą, kaip atimti nulį ir patį skaičių iš savęs, kaip patogiai sugrupuoti skaičiavimus ir kaip rasti trūkstamą skaičių dėsnio lygybėje.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">N<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Neda</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button><button onclick="ins('−')">−</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">N<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Neda</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk paprastai — vieną skaičių, pvz. <b>190</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo <b>sumos atėmimo iš skaičiaus</b>. Prisimink dėsnį: <b>a − (b + c) = a − b − c</b> — kiekvieną dėmenį galima atimti atskirai.", "expr": "560 − (230 + 140)", "q": "Apskaičiuok šio reiškinio reikšmę.", "accepted": ["190"], "hints": ["Skliaustuose yra suma. Prisimink dėsnį: a − (b + c) = a − b − c.", "Pirmiausia apskaičiuok skliaustuose esančią sumą: 230 + 140.", "230 + 140 = 370. Dabar atimk šitą sumą iš 560."]}, {"intro": "Dabar — <b>ypatingas atvejis</b>: skaičius atimamas iš savęs.", "expr": "529 − 529", "q": "Apskaičiuok šio reiškinio reikšmę.", "accepted": ["0"], "hints": ["Pažiūrėk atidžiai — abu skaičiai vienodi.", "Kai iš skaičiaus atimame patį save, kiek lieka?", "Prisimink taisyklę: a − a = 0. Pritaikyk ją čia ir įrašyk rezultatą."]}, {"intro": "Kylame aukščiau — <b>patogus grupavimas</b>. Atėminius galima atimti bet kokia tvarka.", "expr": "430 − 130 − 270", "q": "Apskaičiuok patogiausiu būdu.", "accepted": ["30"], "hints": ["Atėminius galima atimti bet kokia tvarka — pasirink patogesnę.", "Pažiūrėk, kuri pora (430 ir 130, ar 430 ir 270) duoda apvalesnį tarpinį rezultatą.", "430 − 130 = 300. Dabar atimk 270 iš gauto rezultato."]}, {"intro": "Sujunkime įgūdžius: <b>trūkstamo skaičiaus radimas</b> dėsnio lygybėje.", "expr": "920 − (340 + ▢) = 920 − 340 − 180", "q": "Kokį skaičių žymi ▢?", "accepted": ["180"], "hints": ["Palygink abi lygybės puses: viena su skliaustais, kita be jų.", "Pagal dėsnį a − (b + c) = a − b − c, langelis atitinka tą patį skaičių, kuris kitoje pusėje parašytas atskirai.", "Dešinėje pusėje po 920 − 340 parašytas skaičius 180 — būtent jis atitinka langelį."]}, {"intro": "Paskutinė ir sunkiausia — <b>žodinis uždavinys</b> su suminiu atėminiu. Sujunk viską, ko išmokai.", "expr": "Turguje buvo 850 kg obuolių. Pirmą dieną pardavė 320 kg, antrą dieną — dar 180 kg.", "q": "Kiek kilogramų obuolių liko turguje?", "accepted": ["350"], "hints": ["Tai suminio atėminio uždavinys — reikia iš karto atimti abu parduotus kiekius.", "Užrašyk reiškinį: pradinis kiekis atimti (pirmos dienos + antros dienos pardavimai).", "320 + 180 = 500. Dabar atimk šitą sumą iš 850."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Apskaičiuok: <span>670 − (240 + 130)</span>.", "acc": ["300"], "hint": "Pirma apskaičiuok skliaustuose esančią sumą 240+130, tada atimk ją iš 670."}, {"t": "Apskaičiuok: <span>940 − 410 − 260</span>.", "acc": ["270"], "hint": "Atimk atėminius vieną po kito: 940−410, tada dar 260."}, {"t": "Apskaičiuok: <span>529 − 529</span>.", "acc": ["0"], "hint": "Skaičius atimtas iš savęs."}, {"t": "Apskaičiuok: <span>386 − 0</span>.", "acc": ["386"], "hint": "Iš skaičiaus atėmus nulį, skaičius nesikeičia."}, {"t": "Patogiai sugrupavęs apskaičiuok: <span>430 − 130 − 270</span>.", "acc": ["30"], "hint": "430−130=300 yra apvalus skaičius, tada atimk 270."}, {"t": "Apskaičiuok: <span>905 − 260 − 145</span>.", "acc": ["500"], "hint": "905−260=645, tada atimk 145."}, {"t": "Kokį skaičių žymi ▢: <span>920 − (340 + ▢) = 920 − 340 − 180</span>?", "acc": ["180"], "hint": "Langelis atitinka dėmenį, parašytą be skliaustų kitoje pusėje."}, {"t": "Kokį skaičių žymi ▢: <span>650 − 210 − ▢ = 650 − (210 + 95)</span>?", "acc": ["95"], "hint": "Langelis atitinka skliaustuose esantį antrą dėmenį."}, {"t": "Sandėlyje buvo 850 kg bulvių. Pardavė 320 kg ir 180 kg. Kiek kilogramų liko?", "acc": ["350"], "hint": "850 − (320+180)."}, {"t": "Mokykloje 640 mokinių. Sporto būrelį lanko 210, meno būrelį — 185 (skirtingi mokiniai). Kiek mokinių nelanko nė vieno būrelio?", "acc": ["245"], "hint": "640 − (210+185)."}]}, {"label": "variantas B", "qs": [{"t": "Apskaičiuok: <span>590 − (210 + 160)</span>.", "acc": ["220"], "hint": "Pirma apskaičiuok skliaustuose esančią sumą 210+160, tada atimk ją iš 590."}, {"t": "Apskaičiuok: <span>830 − 360 − 240</span>.", "acc": ["230"], "hint": "Atimk atėminius vieną po kito: 830−360, tada dar 240."}, {"t": "Apskaičiuok: <span>647 − 647</span>.", "acc": ["0"], "hint": "Skaičius atimtas iš savęs."}, {"t": "Apskaičiuok: <span>257 − 0</span>.", "acc": ["257"], "hint": "Iš skaičiaus atėmus nulį, skaičius nesikeičia."}, {"t": "Patogiai sugrupavęs apskaičiuok: <span>360 − 110 − 140</span>.", "acc": ["110"], "hint": "360−110=250, tada atimk 140."}, {"t": "Apskaičiuok: <span>815 − 230 − 185</span>.", "acc": ["400"], "hint": "815−230=585, tada atimk 185."}, {"t": "Kokį skaičių žymi ▢: <span>760 − (290 + ▢) = 760 − 290 − 185</span>?", "acc": ["185"], "hint": "Langelis atitinka dėmenį, parašytą be skliaustų kitoje pusėje."}, {"t": "Kokį skaičių žymi ▢: <span>540 − 90 − ▢ = 540 − (90 + 160)</span>?", "acc": ["160"], "hint": "Langelis atitinka skliaustuose esantį antrą dėmenį."}, {"t": "Sandėlyje buvo 760 kg bulvių. Pardavė 290 kg ir 210 kg. Kiek kilogramų liko?", "acc": ["260"], "hint": "760 − (290+210)."}, {"t": "Mokykloje 560 mokinių. Sporto būrelį lanko 220, meno būrelį — 170 (skirtingi mokiniai). Kiek mokinių nelanko nė vieno būrelio?", "acc": ["170"], "hint": "560 − (220+170)."}]}, {"label": "variantas C", "qs": [{"t": "Apskaičiuok: <span>720 − (260 + 140)</span>.", "acc": ["320"], "hint": "Pirma apskaičiuok skliaustuose esančią sumą 260+140, tada atimk ją iš 720."}, {"t": "Apskaičiuok: <span>910 − 380 − 270</span>.", "acc": ["260"], "hint": "Atimk atėminius vieną po kito: 910−380, tada dar 270."}, {"t": "Apskaičiuok: <span>413 − 413</span>.", "acc": ["0"], "hint": "Skaičius atimtas iš savęs."}, {"t": "Apskaičiuok: <span>468 − 0</span>.", "acc": ["468"], "hint": "Iš skaičiaus atėmus nulį, skaičius nesikeičia."}, {"t": "Patogiai sugrupavęs apskaičiuok: <span>510 − 150 − 260</span>.", "acc": ["100"], "hint": "510−150=360, tada atimk 260."}, {"t": "Apskaičiuok: <span>870 − 190 − 235</span>.", "acc": ["445"], "hint": "870−190=680, tada atimk 235."}, {"t": "Kokį skaičių žymi ▢: <span>830 − (310 + ▢) = 830 − 310 − 195</span>?", "acc": ["195"], "hint": "Langelis atitinka dėmenį, parašytą be skliaustų kitoje pusėje."}, {"t": "Kokį skaičių žymi ▢: <span>470 − 80 − ▢ = 470 − (80 + 150)</span>?", "acc": ["150"], "hint": "Langelis atitinka skliaustuose esantį antrą dėmenį."}, {"t": "Sandėlyje buvo 720 kg bulvių. Pardavė 260 kg ir 190 kg. Kiek kilogramų liko?", "acc": ["270"], "hint": "720 − (260+190)."}, {"t": "Mokykloje 480 mokinių. Sporto būrelį lanko 190, meno būrelį — 160 (skirtingi mokiniai). Kiek mokinių nelanko nė vieno būrelio?", "acc": ["130"], "hint": "480 − (190+160)."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

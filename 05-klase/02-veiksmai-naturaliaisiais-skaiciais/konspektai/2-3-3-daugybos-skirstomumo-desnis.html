@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daugybos skirstomumo dėsnis — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:19px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Daugybos skirstomumo dėsnis</h1>
+  <p class="klase">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.3.3 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Sumos daugyba iš skaičiaus (atskliaudimas)</a></li>
+      <li><a href="#t2">Skirtumo daugyba iš skaičiaus</a></li>
+      <li><a href="#t3">Bendro dauginamojo iškėlimas už skliaustų</a></li>
+      <li><a href="#t4">Skirstomumo dėsnis mintiniam skaičiavimui</a></li>
+      <li><a href="#t5">Stačiakampio perimetras trimis būdais</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">2.3.3 a</span> Sumos daugyba iš skaičiaus (atskliaudimas)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Daugybos skirstomumo dėsnis sudėties atžvilgiu</span> leidžia sumą padauginti iš skaičiaus, padauginant <b>kiekvieną dėmenį atskirai</b> ir sudedant rezultatus.</p>
+        <div class="formule">(<span class="term-a">a</span> + <span class="term-a">b</span>) · <span class="term-b">c</span> &nbsp;=&nbsp; <span class="term-a">a</span> · <span class="term-b">c</span> + <span class="term-a">b</span> · <span class="term-b">c</span></div>
+        <p>Skliaustų „atsikratymą" šiuo būdu vadiname <b>atskliaudimu</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Dėžutėje saldainiai sudėti eilutėmis: 3 eilutės po 4 saldainius ir dar 5 eilutės po 4 saldainius. Kiek iš viso saldainių? <span class="math">(3 + 5) · 4 = 3 · 4 + 5 · 4 = 12 + 20 = 32</span> saldainiai.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok atskliaudęs: <span class="math">(7 + 9) · 6 = 7 · 6 + 9 · 6 = 42 + 54 = 96</span>. Patikra be atskliaudimo: <span class="math">(7 + 9) · 6 = 16 · 6 = 96</span> — sutampa.</p>
+        <div class="demesio"><b>Dėmesio.</b> Dauginant sumą iš skaičiaus, <b>daugikliu</b> reikia padauginti <b>abu dėmenis</b>, o ne tik vieną. Klaidinga: <span class="klaida math">(7 + 9) · 6 = 7 + 9 · 6</span>. Teisinga: <span class="gerai math">(7 + 9) · 6 = 7 · 6 + 9 · 6</span>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2.3.3 b</span> Skirtumo daugyba iš skaičiaus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Toks pat dėsnis galioja ir <b>atimčiai</b> — skirtumą padauginame iš skaičiaus, padaugindami <b>kiekvieną narį atskirai</b>.</p>
+        <div class="formule">(<span class="term-a">a</span> − <span class="term-a">b</span>) · <span class="term-b">c</span> &nbsp;=&nbsp; <span class="term-a">a</span> · <span class="term-b">c</span> − <span class="term-a">b</span> · <span class="term-b">c</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> Sandėlyje buvo 130 dėžių, 4 dėžės buvo sugadintos ir grąžintos. Likusios dėžės iškrautos, kiekvienoje po 5 kg prekių. <span class="math">(130 − 4) · 5 = 130 · 5 − 4 · 5 = 650 − 20 = 630</span> kg.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok atskliaudęs: <span class="math">(215 − 8) · 3 = 215 · 3 − 8 · 3 = 645 − 24 = 621</span>. Patikra: <span class="math">(215 − 8) · 3 = 207 · 3 = 621</span> — sutampa.</p>
+        <div class="demesio"><b>Dėmesio.</b> Atimties atveju svarbi <b>narių tvarka</b> — pirmasis narys (mažmuo) visada lieka pirmas: <span class="math">(a − b) · c = a·c − b·c</span>, o ne <span class="klaida math">b·c − a·c</span>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">2.3.3 c</span> Bendro dauginamojo iškėlimas už skliaustų</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Atvirkštinis veiksmas</span> atskliaudimui — kai du reiškiniai turi <b>bendrą dauginamąjį</b>, jį galima <b>iškelti už skliaustų</b>.</p>
+        <div class="formule"><span class="term-a">a</span> · <span class="term-b">c</span> + <span class="term-a">b</span> · <span class="term-b">c</span> &nbsp;=&nbsp; (<span class="term-a">a</span> + <span class="term-a">b</span>) · <span class="term-b">c</span></div>
+        <p>Analogiškai atimčiai: <span class="math">a·c − b·c = (a − b) · c</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok patogiausiu būdu: <span class="math">68 · 23 + 23 · 32</span>. Bendras dauginamasis — <b>23</b>: <span class="math">68 · 23 + 23 · 32 = 23 · (68 + 32) = 23 · 100 = 2 300</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok: <span class="math">47 · 26 − 26 · 17</span>. Bendras dauginamasis — <b>26</b>: <span class="math">47 · 26 − 26 · 17 = 26 · (47 − 17) = 26 · 30 = 780</span>.</p>
+        <div class="demesio"><b>Dėmesio.</b> Bendrą dauginamąjį iškeliame <b>tik tada</b>, kai jis kartojasi <b>abiejose sandaugose</b>. Prieš iškeliant patogu jį <b>pabraukti ar apibrėžti abiejuose nariuose</b>, kad nesuklystum.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">2.3.3 d</span> Skirstomumo dėsnis mintiniam skaičiavimui</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skirstomumo dėsnis padeda <b>patogiai skaičiuoti mintinai</b> — skaičių, kurį dauginame, „skaidome" į apvalų skaičių ir mažą priedą ar atimtinį.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok mintinai: <span class="math">8 · 97</span>. Skaičių 97 patogu užrašyti kaip <span class="math">100 − 3</span>: <span class="math">8 · 97 = 8 · (100 − 3) = 8 · 100 − 8 · 3 = 800 − 24 = 776</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuok mintinai: <span class="math">9 · 204</span>. Skaičių 204 užrašome kaip <span class="math">200 + 4</span>: <span class="math">9 · 204 = 9 · (200 + 4) = 9 · 200 + 9 · 4 = 1 800 + 36 = 1 836</span>.</p>
+        <div class="demesio"><b>Dėmesio.</b> Skaidyti verta iki <b>apvalaus</b> skaičiaus (10, 100, 200, 1000…), su kuriuo daugyba atliekama mintinai lengviausiai.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">2.3.3 e</span> Stačiakampio perimetras trimis būdais</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Stačiakampio, kurio kraštinės <b>a</b> ir <b>b</b>, perimetrą galima apskaičiuoti <b>trimis lygiaverčiais būdais</b> — visi jie gaunami vienas iš kito naudojant skirstomumo dėsnį.</p>
+        <table class="kort">
+          <tr><th>Būdas</th><th>Užrašymas</th><th>Kodėl lygu tam pačiam</th></tr>
+          <tr><td>1. Sudedame visas 4 kraštines</td><td class="math">a + a + b + b</td><td>tiesiog perimetro apibrėžimas</td></tr>
+          <tr><td>2. Sudedame poras, dauginame iš 2</td><td class="math">2 · a + 2 · b</td><td class="math">a+a=2a, b+b=2b</td></tr>
+          <tr><td>3. Sudedame kraštines, tada dauginame</td><td class="math">2 · (a + b)</td><td>skirstomumo dėsnis: <span class="math">2(a+b)=2a+2b</span></td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> Stačiakampio kraštinės <span class="math">a = 15</span> cm ir <span class="math">b = 9</span> cm. Visi trys būdai duoda tą patį rezultatą: <span class="math">15+15+9+9 = 48</span>; &nbsp; <span class="math">2·15+2·9 = 30+18 = 48</span>; &nbsp; <span class="math">2·(15+9) = 2·24 = 48</span> cm.</p>
+        <div class="demesio"><b>Dėmesio.</b> Reiškinius <b>gali palyginti neatlikdamas veiksmų</b>, jei atpažįsti skirstomumo dėsnio struktūrą — pvz. <span class="math">2·(a+b)</span> ir <span class="math">2a+2b</span> visada lygūs, o <span class="math">a+2b</span> paprastai <b>nelygus</b> perimetrui.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">(7+9)·6 = 7+9·6</span></td><td class="math">(7+9)·6 = <span class="gerai">7·6 + 9·6</span> (padauginame abu dėmenis)</td></tr>
+          <tr><td><span class="klaida">iškeliant dauginamąjį, jis pridedamas prie sumos, o ne dauginamas</span></td><td class="math">a·c+b·c = <span class="gerai">(a+b)·c</span>, ne (a+b+c)</td></tr>
+          <tr><td class="math"><span class="klaida">(130−4)·5 = 4·5 − 130·5</span> (sukeista narių tvarka)</td><td class="math">(130−4)·5 = <span class="gerai">130·5 − 4·5</span> (mažmuo lieka pirmas)</td></tr>
+          <tr><td>bendras dauginamasis „iškeliamas", kai jis <span class="klaida">nesikartoja</span> abiejose sandaugose</td><td>iškelti galima <span class="gerai">tik bendrą</span> dauginamąjį, esantį abiejuose nariuose</td></tr>
+          <tr><td class="math"><span class="klaida">perimetras = a + b</span> (sudedamos tik dvi kraštinės)</td><td class="math">perimetras = <span class="gerai">2·(a+b) = 2a+2b</span> (visos keturios kraštinės)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Dauginant sumą ar skirtumą iš skaičiaus, <b>kiekvienas</b> narys skliaustuose dauginamas iš to paties skaičiaus — nei vienas narys „nepamirštamas".</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Daugybos skirstomumo dėsnis“ (2.3.3)
+  </footer>
+
+</div>
+</body>
+</html>

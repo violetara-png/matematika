@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atimties dėsniai — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:19px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Atimties dėsniai</h1>
+  <p class="klase">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.2.2 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Sumos atėmimas iš skaičiaus</a></li>
+      <li><a href="#t2">Atimtis su nuliu ir su savimi</a></li>
+      <li><a href="#t3">Patogus grupavimas skaičiuojant</a></li>
+      <li><a href="#t4">Trūkstamo skaičiaus radimas dėsnio lygybėje</a></li>
+      <li><a href="#t5">Teisingumo tikrinimas be skaičiavimo</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">2.2.2.1</span> Sumos atėmimas iš skaičiaus</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Kontekstas.</b> Sandėlyje buvo <span class="math">120</span> dėžių. Per dieną išvežė <span class="math">40</span> dėžes ryte ir dar <span class="math">50</span> dėžių vakare. Kiek dėžių liko? Iš viso išvežė <span class="math">40 + 50 = 90</span> dėžes, todėl liko <span class="math">120 − (40 + 50) = 120 − 90 = 30</span> dėžės. Bet tą patį atsakymą galima gauti ir kitaip — atimant kiekvieną dėmenį <b>atskirai</b>: <span class="math">120 − 40 − 50 = 80 − 50 = 30</span>.</p>
+        <div class="formule">
+          <span class="term-a">a</span> − (<span class="term-b">b</span> + <span class="term-b">c</span>) = <span class="term-a">a</span> − <span class="term-b">b</span> − <span class="term-b">c</span>
+        </div>
+        <p><span class="zenk">Norint iš skaičiaus atimti sumą, galima atimti kiekvieną dėmenį atskirai.</span> Abu būdai duoda tą patį rezultatą — antrasis dažnai patogesnis, nes nereikia skaičiuoti skliaustuose.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">560 − (230 + 140)</span>. I būdas: <span class="math">560 − (230 + 140) = 560 − 370 = 190</span>. II būdas: <span class="math">560 − 230 − 140 = 330 − 140 = 190</span>. Abu būdai — <span class="gerai">190</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Atimant dėmenis atskirai, prieš <b>abu</b> juos rašomas <b>minusas</b> — ne pirmą minus, antrą plius. Klaida <span class="klaida">120 − 40 + 50</span> reiškia visai kitą (ir neteisingą) veiksmą.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2.2.2.2</span> Atimtis su nuliu ir su savimi</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <div class="formule"><span class="term-a">a</span> − 0 = <span class="term-a">a</span></div>
+        <p>Iš bet kurio skaičiaus atėmus <b>0</b>, skaičius nepasikeičia — juk nieko neatėmėme.</p>
+        <div class="formule"><span class="term-a">a</span> − <span class="term-a">a</span> = 0</div>
+        <p>Iš skaičiaus atėmus <b>jį patį</b>, gauname <b>0</b>. Tai vienintelis atvejis šioje temoje, kai rezultatas gali būti 0 — pats skaičius <span class="math">a</span> yra natūralusis (didesnis arba lygus 1), bet <b>skirtumas</b> <span class="math">a − a</span> nulis būti gali, nes 0 yra teisėtas atimties rezultatas, tik ne natūralusis skaičius.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">418 − 0 = 418</span>. Vaikinas turėjo 418 litų santaupų ir nieko neišleido — tebeturi <span class="gerai">418</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">734 − 734 = 0</span>. Krepšyje buvo 734 obuoliai, visus išpardavė — krepšyje liko <span class="gerai">0</span> obuolių.</p>
+        <p class="demesio"><b>Dėmesio.</b> Nepainiok: <span class="math">a − 0 = a</span> (skaičius <b>nesikeičia</b>), o <span class="math">a − a = 0</span> (skaičius <b>išnyksta</b>). Tai du visiškai skirtingi atvejai — vieną kartą atimame nulį, kitą kartą atimame patį skaičių.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">2.2.2.3</span> Patogus grupavimas skaičiuojant</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kadangi atėminius (skaičius, kuriuos atimame) galima atimti <b>bet kokia tvarka</b>, apskaičiuoti reiškinį galime <b>patogiausiu būdu</b> — pirmiausia atimdami tą atėminį, kuris duoda apvalų skaičių.</p>
+        <div class="formule"><span class="term-a">a</span> − <span class="term-b">b</span> − <span class="term-b">c</span> = <span class="term-a">a</span> − <span class="term-b">c</span> − <span class="term-b">b</span></div>
+        <p><span class="zenk">Sudėčiai galioja perstatomumo dėsnis, todėl atėminius galima sukeisti vietomis</span> — rezultatas nepasikeis. Tai naudinga, kai vienas iš atėminių „papildo“ pirmąjį skaičių iki apvalaus.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">430 − 130 − 270</span>. Patogiau pirmiau atimti 130, nes <span class="math">430 − 130 = 300</span> — apvalus skaičius: <span class="math">430 − 130 − 270 = 300 − 270 = <b>30</b></span>. Jei atimtume iš eilės, būtų sunkiau: <span class="math">430 − 130 = 300</span>, taigi tvarka čia sutapo, bet paimkime kitą: <span class="math">430 − 270 − 130 = 160 − 130 = <b>30</b></span> — tas pats atsakymas.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">(360 + 240) − (110 + 90)</span>. Skliaustus atskleidus: <span class="math">360 + 240 − 110 − 90</span>. Patogu sugrupuoti taip: <span class="math">(360 − 110) + (240 − 90) = 250 + 150 = <b>400</b></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Grupuojame tik tam, kad <b>lengviau skaičiuotume</b> — rezultatas nuo tvarkos nepriklauso. Prieš pradėdamas skaičiuoti, apsidairyk, kurie skaičiai kartu duoda apvalią sumą ar skirtumą.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">2.2.2.4</span> Trūkstamo skaičiaus radimas dėsnio lygybėje</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kartais reikia rasti, koks skaičius slepiasi po langeliu <span class="math">▢</span>, kad dėsnio lygybė būtų teisinga. Tam pakanka atpažinti, kuriai dėsnio daliai atitinka langelis — atsakymas dažnai matomas iš karto, be skaičiavimų.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">920 − (340 + ▢) = 920 − 340 − 180</span>. Pagal dėsnį <span class="math">a − (b + c) = a − b − c</span> matome, kad <span class="math">▢</span> atitinka <span class="math">c</span>, taigi <span class="math">▢ = <b class="gerai">180</b></span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">650 − 210 − ▢ = 650 − (210 + 95)</span>. Skliaustuose esanti suma turi būti lygi <span class="math">210 + ▢</span>, todėl <span class="math">▢ = <b class="gerai">95</b></span>.</p>
+        <div class="konsp" style="margin-top:6px">
+          <p><b>Kaip spręsti.</b> 1) Nustatau, kuri lygybės pusė parašyta su skliaustais, o kuri — be jų. 2) Palyginu atitinkamus dėmenis (atėminius) abiejose pusėse. 3) Langelis lygus tam atėminiui, kurio trūksta kitoje pusėje.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">2.2.2.5</span> Teisingumo tikrinimas be skaičiavimo</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Dėsnius žinodami, galime pasakyti, ar lygybė teisinga, <b>net neatlikę atimties</b> — pakanka patikrinti, ar abi lygybės pusės atitinka tą patį dėsnį.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar teisinga <span class="math">758 − 340 − 18 = 758 − 18 − 340</span>? Taip — abiejose pusėse tas pats skaičius <span class="math">758</span>, o atėminiai <span class="math">340</span> ir <span class="math">18</span> tik sukeisti vietomis. Pagal perstatomumo dėsnį lygybė <span class="gerai">teisinga</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Ar teisinga <span class="math">615 − (270 + 45) = 615 − 270 + 45</span>? Kairėje pusėje abu dėmenys atimami (dėsnis <span class="math">a−(b+c)=a−b−c</span>), o dešinėje prieš <span class="math">45</span> parašytas <b>pliusas</b>. Tai <span class="klaida">neteisinga</span> lygybė — dešinėje turėtų būti <span class="math">615 − 270 − 45</span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Tikrindamas žiūrėk į <b>ženklus</b> prieš kiekvieną narį, ne tik į naudojamus skaičius — dažniausia klaidų priežastis yra pamirštas ar sukeistas ženklas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">a − (b + c) = a − b + c</span></td><td class="math">a − (b + c) = <span class="gerai">a − b − c</span> (abu dėmenys atimami)</td></tr>
+          <tr><td class="math"><span class="klaida">a − a = a</span></td><td class="math">a − a = <span class="gerai">0</span> (skaičius atimtas iš savęs)</td></tr>
+          <tr><td class="math"><span class="klaida">a − 0 = 0</span></td><td class="math">a − 0 = <span class="gerai">a</span> (skaičius nepasikeičia)</td></tr>
+          <tr><td>manoma, kad grupuojant tvarką keisti negalima</td><td>atėminius galima atimti <span class="gerai">bet kokia tvarka</span> — rezultatas tas pats</td></tr>
+          <tr><td class="math"><span class="klaida">120 − 40 − 50 = 120 − (40 − 50)</span></td><td>skliaustuose visada <span class="gerai">suma</span> (40 + 50), ne skirtumas</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Atimant sumą iš skaičiaus, <b>kiekvienas</b> dėmuo atimamas atskirai, ir prieš <b>abu</b> rašomas minusas. Atėminius galima atimti bet kokia tvarka — rink tokią, kuri duoda apvaliausią tarpinį rezultatą.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Atimties dėsniai“ (2.2.2)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Judėjimas iš tos pačios vietos — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Judėjimas iš tos pačios vietos</h1>
+  <p class="klase">Matematika · 5 klasė · 2.5.2 tema · veiksmai su natūraliaisiais skaičiais</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Judėjimas priešingomis kryptimis</a></li>
+      <li><a href="#t2">Judėjimas ta pačia kryptimi</a></li>
+      <li><a href="#t3">Greičio radimas iš atstumo ir laiko</a></li>
+      <li><a href="#t4">Laiko radimas iš atstumo ir greičių</a></li>
+      <li><a href="#t5">Taikymas žodiniuose uždaviniuose</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Judėjimas priešingomis kryptimis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei du kūnai IŠ TOS PAČIOS VIETOS pradeda judėti TUO PAČIU METU PRIEŠINGOMIS kryptimis, tai jie tolsta vienas nuo kito iš karto DVIEM greičiais — todėl atstumas tarp jų po laiko t lygus greičių sumos ir laiko sandaugai.</span></p>
+        <div class="formule math"><span class="term-a">s</span> = (<span class="term-b">v<sub>1</sub></span> + <span class="term-b">v<sub>2</sub></span>) · <span class="term-a">t</span></div>
+        <p><span class="math">s</span> — atstumas tarp kūnų (km arba m), <span class="math">v<sub>1</sub></span> ir <span class="math">v<sub>2</sub></span> — jų greičiai, <span class="math">t</span> — laikas, praėjęs nuo starto. Sumą <span class="math">v<sub>1</sub> + v<sub>2</sub></span> vadiname <b>artėjimo (tolimo) greičiu</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        Du dviratininkai išvažiuoja iš tos pačios sodybos tuo pačiu metu priešingomis kryptimis. Vieno greitis <span class="math">14</span> km/h, kito — <span class="math">16</span> km/h. Koks atstumas bus tarp jų po <span class="math">3</span> valandų?<br>
+        <span class="math">s = (v<sub>1</sub> + v<sub>2</sub>) · t = (14 + 16) · 3 = 30 · 3 = <span class="gerai">90 km</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Judėjimas ta pačia kryptimi</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei du kūnai IŠ TOS PAČIOS VIETOS pradeda judėti TUO PAČIU METU TA PAČIA kryptimi, o vienas jų juda greičiau už kitą, tai greitesnysis palaipsniui atitolsta nuo lėtesniojo. Atstumas tarp jų po laiko t lygus greičių SKIRTUMO ir laiko sandaugai.</span></p>
+        <div class="formule math"><span class="term-a">s</span> = (<span class="term-b">v<sub>1</sub></span> − <span class="term-b">v<sub>2</sub></span>) · <span class="term-a">t</span>,&nbsp; kai <span class="math">v<sub>1</sub> &gt; v<sub>2</sub></span></div>
+        <p>Skirtumą <span class="math">v<sub>1</sub> − v<sub>2</sub></span> vadiname <b>tolimo greičiu tos pačios krypties atveju</b> — jis visada mažesnis už greitesniojo kūno greitį, nes lėtesnysis „vejasi" iš paskos.</p>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        Iš to paties kiemo tuo pačiu metu ta pačia kryptimi išvažiuoja du paspirtukai: vieno greitis <span class="math">18</span> km/h, kito — <span class="math">12</span> km/h. Koks bus atstumas tarp jų po <span class="math">2</span> valandų?<br>
+        <span class="math">s = (v<sub>1</sub> − v<sub>2</sub>) · t = (18 − 12) · 2 = 6 · 2 = <span class="gerai">12 km</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Iš didesnio greičio VISADA atimame mažesnį (<span class="math">v<sub>1</sub> &gt; v<sub>2</sub></span>), kad rezultatas būtų natūralusis skaičius. Jei greičiai lygūs (<span class="math">v<sub>1</sub> = v<sub>2</sub></span>), atstumas tarp kūnų nesikeičia — lieka <span class="math">0</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Greičio radimas iš atstumo ir laiko</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei žinomas atstumas tarp kūnų po laiko t ir vieno kūno greitis, kito kūno greitį (ar greičių sumą/skirtumą) randame ATVIRKŠTINIU veiksmu — dalybe.</span></p>
+        <div class="formule math">Priešingos kryptys: <span class="term-b">v<sub>1</sub></span> + <span class="term-b">v<sub>2</sub></span> = <span class="term-a">s</span> : <span class="term-a">t</span> &nbsp;&nbsp;&nbsp; Ta pati kryptis: <span class="term-b">v<sub>1</sub></span> − <span class="term-b">v<sub>2</sub></span> = <span class="term-a">s</span> : <span class="term-a">t</span></div>
+        <p>Suradus greičių sumą (ar skirtumą), o žinant vieno kūno greitį, kito greitį randame paprastu veiksmu (atimtimi arba sudėtimi).</p>
+        <p class="pvz"><b>Pavyzdys.</b><br>
+        Du bėgikai bėga iš tos pačios vietos priešingomis kryptimis. Po <span class="math">5</span> minučių atstumas tarp jų pasidarė <span class="math">900</span> m. Vieno bėgiko greitis — <span class="math">100</span> m/min. Koks kito bėgiko greitis?<br>
+        <span class="math">v<sub>1</sub> + v<sub>2</sub> = s : t = 900 : 5 = 180</span> (m/min)<br>
+        <span class="math">v<sub>2</sub> = 180 − v<sub>1</sub> = 180 − 100 = <span class="gerai">80 m/min</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Laiko radimas iš atstumo ir greičių</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Jei žinomas atstumas tarp kūnų ir abu greičiai, laiką, per kurį šis atstumas susidarė, randame atstumą padalydami iš greičių sumos (priešingos kryptys) arba iš greičių skirtumo (ta pati kryptis).</span></p>
+        <div class="formule math">Priešingos kryptys: <span class="term-a">t</span> = <span class="term-a">s</span> : (<span class="term-b">v<sub>1</sub></span> + <span class="term-b">v<sub>2</sub></span>) &nbsp;&nbsp;&nbsp; Ta pati kryptis: <span class="term-a">t</span> = <span class="term-a">s</span> : (<span class="term-b">v<sub>1</sub></span> − <span class="term-b">v<sub>2</sub></span>)</div>
+        <p class="pvz"><b>Pavyzdys (priešingos kryptys).</b><br>
+        Du draugai išvažiuoja dviračiais iš tos pačios sodybos tuo pačiu metu priešingomis kryptimis, greičiai — <span class="math">13</span> km/h ir <span class="math">17</span> km/h. Po kiek laiko atstumas tarp jų bus <span class="math">90</span> km?<br>
+        <span class="math">t = s : (v<sub>1</sub> + v<sub>2</sub>) = 90 : (13 + 17) = 90 : 30 = <span class="gerai">3 val.</span></span></p>
+        <p class="pvz"><b>Pavyzdys (ta pati kryptis).</b><br>
+        Iš to paties čiuožyklos kampo tuo pačiu metu ta pačia kryptimi startuoja du čiuožėjai, greičiai — <span class="math">15</span> km/h ir <span class="math">9</span> km/h. Po kiek laiko atstumas tarp jų bus <span class="math">18</span> km?<br>
+        <span class="math">t = s : (v<sub>1</sub> − v<sub>2</sub>) = 18 : (15 − 9) = 18 : 6 = <span class="gerai">3 val.</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Taikymas žodiniuose uždaviniuose</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Prieš spręsdami žodinį uždavinį visada nustatome DU dalykus: (1) ar kūnai juda PRIEŠINGOMIS, ar TA PAČIA kryptimi, (2) ką reikia rasti — atstumą, greitį ar laiką.</p>
+        <p class="pvz"><b>Pavyzdys (gyvūnai, ta pati kryptis).</b> Šuo ir katinas išbėgo iš to paties kiemo tuo pačiu metu ta pačia kryptimi. Šuns greitis — <span class="math">7</span> m/min, katino — <span class="math">4</span> m/min. Koks bus atstumas tarp jų po <span class="math">5</span> minučių?<br>
+        <span class="math">s = (v<sub>1</sub> − v<sub>2</sub>) · t = (7 − 4) · 5 = 3 · 5 = <span class="gerai">15 m</span></span></p>
+        <p class="pvz"><b>Pavyzdys (valtys, priešingos kryptys).</b> Nuo to paties tilto tuo pačiu metu priešingomis kryptimis upe irkluoja dvi valtys, greičiai — <span class="math">6</span> km/h ir <span class="math">9</span> km/h. Koks bus atstumas tarp jų po <span class="math">4</span> valandų?<br>
+        <span class="math">s = (v<sub>1</sub> + v<sub>2</sub>) · t = (6 + 9) · 4 = 15 · 4 = <span class="gerai">60 km</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Šioje temoje abu kūnai VISADA startuoja iš to paties taško tuo pačiu metu. Jei kūnai išvyksta iš SKIRTINGŲ vietų (ar skirtingu metu), formulės kitos — tai jau kita tema, „Judėjimas iš skirtingų vietų".</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">Priešingos kryptys: s = (v<sub>1</sub> − v<sub>2</sub>) · t</span></td><td class="math"><span class="gerai">s = (v<sub>1</sub> + v<sub>2</sub>) · t</span> (priešingomis kryptimis kūnai TOLSTA abiem greičiais iš karto — greičiai sudedami)</td></tr>
+          <tr><td class="math"><span class="klaida">Ta pati kryptis: s = (v<sub>1</sub> + v<sub>2</sub>) · t</span></td><td class="math"><span class="gerai">s = (v<sub>1</sub> − v<sub>2</sub>) · t</span> (ta pačia kryptimi kūnai tolsta LĖČIAU — greičiai atimami)</td></tr>
+          <tr><td class="math"><span class="klaida">Ta pati kryptis: v<sub>2</sub> − v<sub>1</sub> (mažesnis iš didesnio pamirštamas)</span></td><td class="math"><span class="gerai">v<sub>1</sub> − v<sub>2</sub>, kai v<sub>1</sub> &gt; v<sub>2</sub></span> (visada iš didesnio greičio atimame mažesnį)</td></tr>
+          <tr><td class="math"><span class="klaida">Laiko radimas: t = s · (v<sub>1</sub> + v<sub>2</sub>)</span></td><td class="math"><span class="gerai">t = s : (v<sub>1</sub> + v<sub>2</sub>)</span> (laikas — atstumas PADALYTAS iš greičių sumos, o ne padaugintas)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pirmiausia atsakau į klausimą „kūnai artėja/tolsta PRIEŠINGOMIS ar juda TA PAČIA kryptimi?" — tada renkuosi sudėtį (priešingos) arba atimtį (ta pati). Tik po to sprendžiu, ką iš trijų dydžių (s, v<sub>1</sub>+v<sub>2</sub> ar v<sub>1</sub>−v<sub>2</sub>, t) reikia rasti.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Judėjimas iš tos pačios vietos“ (2.5.2)
+  </footer>
+
+</div>
+</body>
+</html>

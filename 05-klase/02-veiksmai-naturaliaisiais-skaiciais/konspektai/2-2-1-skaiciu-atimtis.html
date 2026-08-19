@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.2.1 Skaičių atimtis: 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna: temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia: taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė: pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona: dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė: užduotis / iššūkis */
+    --uzd-sv:#f4ecfa;
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.55; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  h3.sub{font-size:15.5px; color:var(--tema); margin:20px 0 8px; padding-top:14px; border-top:1px dashed var(--linija)}
+  h3.sub:first-child{margin-top:0; padding-top:0; border-top:none}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .issukis{
+    background:var(--uzd-sv); border-left:4px solid var(--uzd);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .issukis b{color:var(--uzd)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:19px; font-family:"Cambria Math",Cambria,Georgia,serif;
+    background:var(--tema-sv); border-radius:6px; padding:10px 8px; margin:10px 0 0;
+  }
+  .stulp{display:inline-flex; flex-direction:column; font-family:"Cambria Math",Consolas,monospace;
+    font-size:21px; margin:10px 0 4px}
+  .stulp .r{display:flex; justify-content:flex-end}
+  .stulp .r span{width:26px; text-align:center}
+  .stulp .op{color:var(--pilka); font-weight:700}
+  .stulp .line{border-top:2px solid #1c2430; margin:2px 0 3px}
+  .stulp .rez span{color:var(--pvz); font-weight:700}
+  .kroky{margin:8px 0 0; padding-left:20px; font-size:14.5px}
+  .kroky li{margin:3px 0}
+  table.dklaidos{width:100%; border-collapse:collapse; margin:8px 0 0; font-size:14px}
+  table.dklaidos th, table.dklaidos td{border:1px solid var(--linija); padding:8px 10px; text-align:left; vertical-align:top}
+  table.dklaidos th{background:var(--demesio-sv); color:var(--demesio)}
+  table.dklaidos td.ok{color:var(--taisykle); font-weight:600}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>2.2.1 Skaičių atimtis</h1>
+  <p class="klase">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“ · 2.2.1 tema</p>
+
+  <section class="potema" id="t221">
+    <h2><span class="nr">2.2.1</span> Skaičių atimtis</h2>
+    <div class="vidus">
+
+      <h3 class="sub">Atimties komponentai</h3>
+      <div class="konsp">
+        <p><span class="zenk">Atimtis</span>: veiksmas, kuriuo sužinome, kiek vienas skaičius yra didesnis (mažesnis) už kitą, arba kiek liko, kai dalis buvo paimta. Atimties nariai turi savo pavadinimus:</p>
+        <div class="formule"><span class="term-a">turinys</span> − <span class="term-b">atėminys</span> = skirtumas</div>
+        <p style="margin-top:8px">Užrašome trumpiau: <span class="math"><b>a − b = c</b></span>, kur <span class="term-a">a</span> yra turinys, <span class="term-b">b</span> yra atėminys, <span class="math">c</span> yra skirtumas.</p>
+        <p><span class="zenk">Patikra.</span> Atimtis yra veiksmas, <b>atvirkštinis sudėčiai</b>: jei <span class="math">a − b = c</span>, tai <span class="math"><b>c + b = a</b></span>. Atlikę atimtį, visada galime pasitikrinti: prie gauto skirtumo pridėję atėminį, turime gauti pradinį turinį.</p>
+      </div>
+      <p class="pvz"><b>1 pavyzdys.</b> Dviratis kainuoja <span class="math">386</span> Eur, o paspirtukas kainuoja <span class="math">149</span> Eur. Kiek dviratis brangesnis už paspirtuką?<br>
+        Turinys: <span class="term-a">386</span>, atėminys: <span class="term-b">149</span>. <span class="math">386 − 149 = <b>237</b></span> (Eur).<br>
+        <b>Patikra:</b> <span class="math">237 + 149 = 386</span> ✓: sutampa su turiniu, atimtis atlikta teisingai.</p>
+
+      <h3 class="sub">Atimtis mintinai</h3>
+      <div class="konsp">
+        <p>Atimdami mintinai, atėminį patogu <span class="zenk">suskaidyti į dalis</span> arba jį <span class="zenk">apvalinti</span> ir po to pataisyti rezultatą.</p>
+      </div>
+      <p class="pvz"><b>2 pavyzdys (skaidymas).</b> <span class="math">524 − 87</span>. Atėminį <span class="math">87</span> skaidome į <span class="math">80 + 7</span>: <span class="math">524 − 80 = 444</span>, tada <span class="math">444 − 7 = <b>437</b></span>.<br>
+        <b>Patikra:</b> <span class="math">437 + 87 = 524</span> ✓</p>
+      <p class="pvz"><b>3 pavyzdys (apvalinimas).</b> <span class="math">763 − 58</span>. Atėminį apvaliname iki <span class="math">60</span>: <span class="math">763 − 60 = 703</span>. Kadangi atėmėme <b>2 daugiau</b>, negu reikėjo, tuos <span class="math">2</span> grąžiname: <span class="math">703 + 2 = <b>705</b></span>.<br>
+        <b>Patikra:</b> <span class="math">705 + 58 = 763</span> ✓</p>
+
+      <h3 class="sub">Atimtis stulpeliu</h3>
+      <div class="konsp">
+        <p>Didelius skaičius atimame <span class="zenk">stulpeliu</span>: skaičius rašome vieną po kitu taip, kad sutaptų vienodi skyriai (vienetai po vienetų, dešimtys po dešimčių ir t. t.), o atimame <b>nuo paskutinio skyriaus (iš dešinės) į kairę</b>.</p>
+        <p>Jei viršutinis (turinio) skaitmuo yra <b>mažesnis</b> už apatinį (atėminio), iš kaimyninio, kairiau esančio skyriaus <span class="zenk">pasiskoliname vieną vienetą</span>: jis tampa <b>10 vienetų</b> tame skyriuje, kuriame trūksta.</p>
+      </div>
+      <p class="pvz"><b>4 pavyzdys.</b> <span class="math">6213 − 4578</span>.</p>
+      <div class="stulp">
+        <div class="r"><span></span><span>6</span><span>2</span><span>1</span><span>3</span></div>
+        <div class="r"><span class="op">−</span><span>4</span><span>5</span><span>7</span><span>8</span></div>
+        <div class="line"></div>
+        <div class="r rez"><span></span><span>1</span><span>6</span><span>3</span><span>5</span></div>
+      </div>
+      <ol class="kroky">
+        <li>Vienetai: <span class="math">3 &lt; 8</span>, todėl skoliname iš dešimčių: <span class="math">13 − 8 = 5</span>.</li>
+        <li>Dešimtys: paskolinę liko <span class="math">0</span>, taigi <span class="math">0 &lt; 7</span>, todėl skoliname iš šimtų: <span class="math">10 − 7 = 3</span>.</li>
+        <li>Šimtai: paskolinę liko <span class="math">1</span>, taigi <span class="math">1 &lt; 5</span>, todėl skoliname iš tūkstančių: <span class="math">11 − 5 = 6</span>.</li>
+        <li>Tūkstančiai: paskolinę liko <span class="math">5</span>, taigi <span class="math">5 − 4 = 1</span>.</li>
+      </ol>
+      <p class="pvz">Gauname <span class="math">6213 − 4578 = <b>1635</b></span>. <b>Patikra:</b> <span class="math">1635 + 4578 = 6213</span> ✓</p>
+
+      <div class="demesio"><b>Mišrūs (matavimo vienetų) skaičiai.</b> Jeigu dydžiai užrašyti dviem vienetais (pvz. km ir m, arba t ir kg), prieš atimant juos <b>paverčiame į vieną, mažesnį, vienetą</b>: tik tada galima atimti stulpeliu.</div>
+      <p class="pvz"><b>5 pavyzdys.</b> Kelio atkarpa yra <span class="math">8 km 340 m</span>. Nuvažiavus <span class="math">5 km 675 m</span>, kiek liko?<br>
+        Paverčiame į metrus: <span class="math">8 km 340 m = 8340 m</span>, <span class="math">5 km 675 m = 5675 m</span>.<br>
+        <span class="math">8340 − 5675 = <b>2665</b></span> (m) <span class="math">= <b>2 km 665 m</b></span>.<br>
+        <b>Patikra:</b> <span class="math">2665 + 5675 = 8340</span> ✓</p>
+
+      <h3 class="sub">Trūkstamo dėmens radimas</h3>
+      <div class="konsp">
+        <p>Jei atimties lygybėje <span class="math">a − b = c</span> nežinomas <b>atėminys arba turinys</b>, jį randame naudodamiesi atimties ir sudėties ryšiu:</p>
+        <p>• jei nežinomas <span class="term-b">atėminys</span> (<span class="math">a − x = c</span>): <span class="math"><b>x = a − c</b></span> (iš turinio atimame skirtumą);</p>
+        <p>• jei nežinomas <span class="term-a">turinys</span> (<span class="math">x − b = c</span>): <span class="math"><b>x = c + b</b></span> (prie skirtumo pridedame atėminį).</p>
+      </div>
+      <p class="pvz"><b>6 pavyzdys.</b> <span class="math">x − 156 = 289</span>. Nežinomas turinys, todėl <span class="math">x = 289 + 156 = <b>445</b></span>.<br>
+        <b>Patikra:</b> <span class="math">445 − 156 = 289</span> ✓</p>
+      <p class="pvz"><b>7 pavyzdys.</b> <span class="math">734 − x = 268</span>. Nežinomas atėminys, todėl <span class="math">x = 734 − 268 = <b>466</b></span>.<br>
+        <b>Patikra:</b> <span class="math">734 − 466 = 268</span> ✓</p>
+
+      <h3 class="sub">Skirtumo pokytis</h3>
+      <div class="konsp">
+        <p>Kaip kinta skirtumas, kai keičiame turinį arba atėminį?</p>
+        <p>• <span class="zenk">Turinį padidinę (sumažinę)</span> per tam tikrą skaičių ir atėminio nekeisdami: <b>skirtumas padidėja (sumažėja) tiek pat</b>.</p>
+        <p>• <span class="zenk">Atėminį padidinę (sumažinę)</span> per tam tikrą skaičių ir turinio nekeisdami: <b>skirtumas sumažėja (padidėja) tiek pat</b> (priešingai!).</p>
+      </div>
+      <p class="pvz"><b>8 pavyzdys.</b> Žinome, kad <span class="math">800 − 350 = 450</span>.<br>
+        Jei turinį padidinsime <span class="math">60</span> (bus <span class="math">860 − 350</span>), skirtumas irgi padidės <span class="math">60</span>: <span class="math"><b>510</b></span>.<br>
+        Jei atėminį padidinsime <span class="math">60</span> (bus <span class="math">800 − 410</span>), skirtumas sumažės <span class="math">60</span>: <span class="math"><b>390</b></span>.</p>
+
+      <div class="issukis"><b>Iššūkis: simetriniai skaičiai.</b> Simetrinis skaičius (palindromas): skaičius, kuris skaitomas vienodai iš abiejų pusių, pvz. <span class="math">373</span>, <span class="math">4884</span>. Pabandyk: iš skaičiaus <span class="math">954</span> atimk jo „apverstą“ skaičių (skaitmenis surašytus atvirkštine tvarka): <span class="math">459</span>. Gauni <span class="math">954 − 459 = 495</span>. Ar <span class="math">495</span> simetrinis? Ne: pakartok veiksmą su juo: <span class="math">594 − 495 = 99</span>. O <span class="math">99</span> jau simetrinis! Įdomu, kad labai daug trijų skaitmenų skaičių šiuo veiksmu „nuveda“ būtent prie <span class="math">495</span>. Patikrink su savo skaičiumi!</div>
+
+      <h3 class="sub">Dažnos klaidos</h3>
+      <table class="dklaidos">
+        <tr><th>Klaida</th><th>Teisingai</th></tr>
+        <tr><td>Sukeičiamas turinys su atėminiu: atimamas mažesnis iš didesnio, nepaisant uždavinio prasmės.</td><td class="ok">Visada atimame <b>iš turinio</b> (to, iš kurio „imama“) atėminį, tokia tvarka, kokia nurodyta uždavinyje.</td></tr>
+        <tr><td>Stulpelio atimtyje pamirštama pasiskolinti: tiesiog atimamas mažesnis skaitmuo iš didesnio, sukeičiant juos vietomis.</td><td class="ok">Kai viršutinis skaitmuo mažesnis, <b>būtina pasiskolinti</b> vienetą iš kaimyninio, kairiau esančio skyriaus.</td></tr>
+        <tr><td>Mišriuose dydžiuose (pvz. km ir m) atimama neperskaičiavus abiejų dydžių į tą patį vienetą.</td><td class="ok">Prieš atimant abu dydžius <b>paverčiame į vieną (mažesnį) vienetą</b>.</td></tr>
+        <tr><td>Rezultatas nepatikrinamas ir lieka nepastebėta skaičiavimo klaida.</td><td class="ok">Skirtumą visada <b>patikriname sudėję</b> jį su atėminiu: turi gautis turinys.</td></tr>
+      </table>
+
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Skaičių atimtis“ (2.2.1)
+  </footer>
+
+</div>
+</body>
+</html>

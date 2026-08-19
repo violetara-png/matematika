@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Skaičių dalyba. Dalyba kampu (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>➗ Mokymosi asistentas „Kamilė“</h1>
+    <p>Tema: <b>Skaičių dalyba. Dalyba kampu</b> · 5 klasė · 2.4.1</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">K<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Kamilė</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime <b>dalybą</b>: sužinosime, kaip vadinasi dalybos dalys, kaip patikrinti dalybą daugybinant ir kaip dalyti <b>kampu</b> — tiek vienaženkliu, tiek dviženkliu dalikliu.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">K<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Kamilė</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">K<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Kamilė</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk kaip paprastą skaičių, pvz. <b>84</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo dalybos dalių pavadinimų. Lygybėje <b>63 : 7 = 9</b> skaičius 63 — <b>dalinys</b> (skaičius, kurį dalijame), 7 — <b>daliklis</b> (skaičius, iš kurio dalijame), o 9 — <b>dalmuo</b> (dalybos rezultatas). Galioja ryšys: dalinys : daliklis = dalmuo, arba atvirkščiai — daliklis = dalinys : dalmuo.", "expr": "84 : ☐ = 7", "q": "Koks skaičius turi būti vietoj ☐ (daliklis), jei dalinys yra 84, o dalmuo — 7?", "accepted": ["12"], "hints": ["Prisimink ryšį: dalinys : daliklis = dalmuo. Čia žinome dalinį (84) ir dalmenį (7), o daliklio dar nežinome — todėl daliklis = dalinys : dalmuo.", "Skaičiuok 84 : 7. Prisimink daugybos lentelę: 7 · 10 = 70.", "Iki 84 nuo 70 dar trūksta 14. Kiek kartų 7 telpa į 14? Pridėk šį skaičių prie 10."]}, {"intro": "Dalybą visada galima <b>patikrinti daugyba</b>: jei dalmuo padauginsi iš daliklio, turi gautis dalinys.", "expr": "133 : 7 = 19", "q": "Patikrink šią dalybą dauginant: kiek yra 19 · 7? (Jei skaičius sutaps su daliniu 133, dalyba teisinga.)", "accepted": ["133"], "hints": ["Patikrai naudojame atvirkštinį veiksmą — daugybą: dalmuo padaugintas iš daliklio turi duoti dalinį.", "Padalink daugybą į dvi lengvesnes dalis: 19 · 7 = (20 · 7) − (1 · 7).", "20 · 7 = 140, o 1 · 7 = 7. Dabar atimk: 140 − 7."]}, {"intro": "Dabar dalyba <b>kampu</b> vienaženkliu dalikliu. Dalinamo skaičiaus skaitmenis imame po vieną iš kairės, kiekvieną kartą dalindami iš daliklio ir prirašydami likusią liekaną prie kito skaitmens.", "expr": "875 : 5", "q": "Apskaičiuok reiškinio reikšmę, dalydamas kampu.", "accepted": ["175"], "hints": ["Pradėk nuo kairiausio dalinio skaitmens: 8 : 5 = ? Kiek kartų 5 telpa į 8 ir kiek lieka?", "8 : 5 = 1, liko 3. Prie liekanos 3 prirašyk kitą dalinio skaitmenį (7) — gauni 37. Padalink 37 : 5.", "37 : 5 = 7, liko 2. Prie liekanos prirašyk paskutinį dalinio skaitmenį (5) — gauni 25. Padalink 25 : 5 ir surašyk visus tris dalmens skaitmenis iš eilės (pirmą, antrą ir šį)."]}, {"intro": "Kai daliklis <b>dviženklis</b>, dalybos principas tas pats — tik dažnai reikia iškart imti du pirmus dalinio skaitmenis, nes vienas skaitmuo yra mažesnis už daliklį.", "expr": "972 : 36", "q": "Apskaičiuok reiškinio reikšmę, dalydamas kampu.", "accepted": ["27"], "hints": ["Pirmas dalinio skaitmuo (9) yra mažesnis už daliklį (36), todėl imk du pirmus skaitmenis kartu: 97.", "97 : 36 = 2 (nes 36 · 2 = 72, o 36 · 3 = 108 jau per daug). Atimk: 97 − 72 = 25, ir prirašyk paskutinį dalinio skaitmenį (2) — gauni 252.", "Padalink 252 : 36 (pabandyk 36 · 7) ir surašyk abu dalmens skaitmenis iš eilės — pirmą ir šį."]}, {"intro": "Dalybą naudojame ir <b>teksto uždaviniuose</b> — kai reikia sužinoti, kiek vienetų tenka vienai grupei.", "expr": "Mokykla nupirko 456 sąsiuvinius ir supakavo juos į dėžes, kiekvienoje po 24 sąsiuvinius.", "q": "Kiek dėžių prireikė?", "accepted": ["19"], "hints": ["Norint sužinoti, kiek dėžių prireikė, visą sąsiuvinių kiekį reikia padalyti iš to, kiek jų telpa vienoje dėžėje: 456 : 24.", "Pirmas skaitmuo (4) mažesnis už daliklį (24), todėl imk du pirmus skaitmenis: 45 : 24 = 1 (nes 24 · 1 = 24), liko 21.", "Prie liekanos 21 prirašyk paskutinį skaitmenį (6) — gauni 216. Padalink 216 : 24 (pabandyk 24 · 9) ir surašyk abu dalmens skaitmenis."]}, {"intro": "Paskutinė užduotis — dalyba, susijusi su <b>greičiu</b>. Pastoviu greičiu judant, greitis parodo, kiek kelio nuvažiuojama per vieną laiko vienetą (pvz. per vieną valandą).", "expr": "Automobilis per 6 valandas nuvažiavo 372 km, važiuodamas pastoviu greičiu.", "q": "Koks buvo automobilio greitis (km/val.)?", "accepted": ["62"], "hints": ["Greitis parodo, kiek kilometrų nuvažiuojama per VIENĄ valandą — tai bendras kelias, padalytas iš laiko: 372 : 6.", "Pirmas dalinio skaitmuo (3) mažesnis už daliklį (6), todėl imk du pirmus skaitmenis: 37 : 6 = 6 (nes 6 · 6 = 36), liko 1.", "Prie liekanos 1 prirašyk paskutinį skaitmenį (2) — gauni 12. Padalink 12 : 6 ir surašyk abu dalmens skaitmenis iš eilės."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Koks yra daliklis lygybėje <span>84 : ☐ = 7</span>?", "acc": ["12"], "hint": "Daliklis = dalinys : dalmuo. 7 · 10 = 70, o iki 84 dar trūksta 14 — kiek kartų 7 telpa į 14? Sudėk abu skaičius."}, {"t": "Dalmuo yra 23, daliklis — 6. Koks yra dalinys?", "acc": ["138"], "hint": "Dalinys = dalmuo · daliklis. 23 · 6 = 20 · 6 + 3 · 6 = 120 + 18. Sudėk šiuos du rezultatus."}, {"t": "Apskaičiuok, dalydamas kampu: <span>728 : 8</span>", "acc": ["91"], "hint": "72 : 8 = 9 (nes 8 · 9 = 72), liko 0. Prirašyk paskutinį skaitmenį 8 ir padalink 8 : 8."}, {"t": "Apskaičiuok, dalydamas kampu: <span>954 : 9</span>", "acc": ["106"], "hint": "9 : 9 = 1, liko 0. Kitas skaitmuo (5) mažesnis už 9, todėl dalmuo turi 0. Prirašyk 4 — gauni 54, padalink 54 : 9."}, {"t": "Apskaičiuok, dalydamas kampu: <span>546 : 26</span>", "acc": ["21"], "hint": "54 : 26 = 2 (26 · 2 = 52), liko 2. Prirašyk paskutinį skaitmenį 6 — gauni 26, padalink 26 : 26."}, {"t": "Apskaičiuok, dalydamas kampu: <span>828 : 36</span>", "acc": ["23"], "hint": "82 : 36 = 2 (36 · 2 = 72), liko 10. Prirašyk paskutinį skaitmenį 8 — gauni 108, padalink 108 : 36 (pabandyk 36 · 3)."}, {"t": "Kepykla iškepė 504 bandeles ir sudėjo jas į pakuotes po 28 bandeles. Kiek pakuočių gavosi?", "acc": ["18"], "hint": "504 : 28. 50 : 28 = 1 (28), liko 22. Prirašyk 4 — gauni 224, padalink 224 : 28 (pabandyk 28 · 8)."}, {"t": "Dviratininkas per 7 valandas nuvažiavo 322 km pastoviu greičiu. Koks buvo greitis (km/val.)?", "acc": ["46"], "hint": "322 : 7. 32 : 7 = 4 (28), liko 4. Prirašyk 2 — gauni 42, padalink 42 : 7."}, {"t": "Sodininkas 375 obuolius sudėjo į dėžutes po 15 obuolių. Kiek dėžučių prireikė?", "acc": ["25"], "hint": "375 : 15. 37 : 15 = 2 (30), liko 7. Prirašyk 5 — gauni 75, padalink 75 : 15 (pabandyk 15 · 5)."}, {"t": "Dalinys yra 918, dalmuo — 27. Koks daliklis?", "acc": ["34"], "hint": "Daliklis = dalinys : dalmuo = 918 : 27. 91 : 27 = 3 (81), liko 10. Prirašyk 8 — gauni 108, padalink 108 : 27 (pabandyk 27 · 4)."}]}, {"label": "variantas B", "qs": [{"t": "Koks yra daliklis lygybėje <span>96 : ☐ = 8</span>?", "acc": ["12"], "hint": "Daliklis = dalinys : dalmuo. 8 · 10 = 80, o iki 96 dar trūksta 16 — kiek kartų 8 telpa į 16? Sudėk abu skaičius."}, {"t": "Dalmuo yra 34, daliklis — 7. Koks yra dalinys?", "acc": ["238"], "hint": "Dalinys = dalmuo · daliklis. 34 · 7 = 30 · 7 + 4 · 7 = 210 + 28. Sudėk šiuos du rezultatus."}, {"t": "Apskaičiuok, dalydamas kampu: <span>636 : 6</span>", "acc": ["106"], "hint": "6 : 6 = 1, liko 0. Kitas skaitmuo (3) mažesnis už 6, todėl dalmuo turi 0. Prirašyk 6 — gauni 36, padalink 36 : 6."}, {"t": "Apskaičiuok, dalydamas kampu: <span>875 : 7</span>", "acc": ["125"], "hint": "8 : 7 = 1, liko 1. Prirašyk 7 — gauni 17, padalink 17 : 7 = 2, liko 3. Prirašyk paskutinį skaitmenį 5 — gauni 35, padalink 35 : 7."}, {"t": "Apskaičiuok, dalydamas kampu: <span>483 : 21</span>", "acc": ["23"], "hint": "48 : 21 = 2 (21 · 2 = 42), liko 6. Prirašyk paskutinį skaitmenį 3 — gauni 63, padalink 63 : 21 (pabandyk 21 · 3)."}, {"t": "Apskaičiuok, dalydamas kampu: <span>912 : 24</span>", "acc": ["38"], "hint": "91 : 24 = 3 (24 · 3 = 72), liko 19. Prirašyk paskutinį skaitmenį 2 — gauni 192, padalink 192 : 24 (pabandyk 24 · 8)."}, {"t": "Sandėlyje 468 knygas sudėjo į dėžes po 18 knygų. Kiek dėžių prireikė?", "acc": ["26"], "hint": "468 : 18. 46 : 18 = 2 (36), liko 10. Prirašyk 8 — gauni 108, padalink 108 : 18 (pabandyk 18 · 6)."}, {"t": "Traukinys per 8 valandas nuvažiavo 456 km pastoviu greičiu. Koks buvo greitis (km/val.)?", "acc": ["57"], "hint": "456 : 8. 45 : 8 = 5 (40), liko 5. Prirašyk 6 — gauni 56, padalink 56 : 8."}, {"t": "Ūkininkas 432 bulves sudėjo į maišus po 16 bulvių. Kiek maišų prireikė?", "acc": ["27"], "hint": "432 : 16. 43 : 16 = 2 (32), liko 11. Prirašyk 2 — gauni 112, padalink 112 : 16 (pabandyk 16 · 7)."}, {"t": "Dalinys yra 741, dalmuo — 39. Koks daliklis?", "acc": ["19"], "hint": "Daliklis = dalinys : dalmuo = 741 : 39. 74 : 39 = 1 (39), liko 35. Prirašyk 1 — gauni 351, padalink 351 : 39 (pabandyk 39 · 9)."}]}, {"label": "variantas C", "qs": [{"t": "Koks yra daliklis lygybėje <span>108 : ☐ = 9</span>?", "acc": ["12"], "hint": "Daliklis = dalinys : dalmuo. 9 · 10 = 90, o iki 108 dar trūksta 18 — kiek kartų 9 telpa į 18? Sudėk abu skaičius."}, {"t": "Dalmuo yra 27, daliklis — 8. Koks yra dalinys?", "acc": ["216"], "hint": "Dalinys = dalmuo · daliklis. 27 · 8 = 20 · 8 + 7 · 8 = 160 + 56. Sudėk šiuos du rezultatus."}, {"t": "Apskaičiuok, dalydamas kampu: <span>972 : 4</span>", "acc": ["243"], "hint": "9 : 4 = 2, liko 1. Prirašyk 7 — gauni 17, padalink 17 : 4 = 4, liko 1. Prirašyk paskutinį skaitmenį 2 — gauni 12, padalink 12 : 4."}, {"t": "Apskaičiuok, dalydamas kampu: <span>819 : 7</span>", "acc": ["117"], "hint": "8 : 7 = 1, liko 1. Prirašyk 1 — gauni 11, padalink 11 : 7 = 1, liko 4. Prirašyk paskutinį skaitmenį 9 — gauni 49, padalink 49 : 7."}, {"t": "Apskaičiuok, dalydamas kampu: <span>736 : 32</span>", "acc": ["23"], "hint": "73 : 32 = 2 (32 · 2 = 64), liko 9. Prirašyk paskutinį skaitmenį 6 — gauni 96, padalink 96 : 32 (pabandyk 32 · 3)."}, {"t": "Apskaičiuok, dalydamas kampu: <span>833 : 49</span>", "acc": ["17"], "hint": "83 : 49 = 1 (49 · 1 = 49), liko 34. Prirašyk paskutinį skaitmenį 3 — gauni 343, padalink 343 : 49 (pabandyk 49 · 7)."}, {"t": "Gamykla pagamino 588 detales ir supakavo į dėžes po 21 detalę. Kiek dėžių prireikė?", "acc": ["28"], "hint": "588 : 21. 58 : 21 = 2 (42), liko 16. Prirašyk 8 — gauni 168, padalink 168 : 21 (pabandyk 21 · 8)."}, {"t": "Automobilis per 9 valandas nuvažiavo 585 km pastoviu greičiu. Koks buvo greitis (km/val.)?", "acc": ["65"], "hint": "585 : 9. 58 : 9 = 6 (54), liko 4. Prirašyk 5 — gauni 45, padalink 45 : 9."}, {"t": "Pardavėja 312 obuolių sudėjo į dėžutes po 12 obuolių. Kiek dėžučių prireikė?", "acc": ["26"], "hint": "312 : 12. 31 : 12 = 2 (24), liko 7. Prirašyk 2 — gauni 72, padalink 72 : 12 (pabandyk 12 · 6)."}, {"t": "Dalinys yra 828, dalmuo — 36. Koks daliklis?", "acc": ["23"], "hint": "Daliklis = dalinys : dalmuo = 828 : 36. 82 : 36 = 2 (72), liko 10. Prirašyk 8 — gauni 108, padalink 108 : 36 (pabandyk 36 · 3)."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

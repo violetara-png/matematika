@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Kelio formulė — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Kelio formulė — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · veiksmai su natūraliaisiais skaičiais · 2.5.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kelio formulė: s = v · t</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> nuvažiuotas kelias lygus greičio ir laiko sandaugai.</div>
+    <div class="ex">
+      <div class="q">v = 60 km/h, t = 4 val. Koks kelias?</div>
+      <div class="line">s = v · t = 60 · 4 &nbsp;&rArr;&nbsp; <span class="res">240 km</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">v = 8 m/s, t = 7 s. Koks kelias?</div>
+      <div class="line">s = 8 · 7 = <span class="res">56 m</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Greičio radimas: v = s : t</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> greitis lygus keliui, padalytam iš laiko.</div>
+    <div class="ex">
+      <div class="q">s = 200 km, t = 4 val. Koks greitis?</div>
+      <div class="line">v = s : t = 200 : 4 = <span class="res">50 km/h</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">s = 336 km, t = 6 val. Koks greitis?</div>
+      <div class="line">v = 336 : 6 = <span class="res">56 km/h</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Laiko radimas: t = s : v</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> laikas lygus keliui, padalytam iš greičio.</div>
+    <div class="ex">
+      <div class="q">s = 280 km, v = 70 km/h. Koks laikas?</div>
+      <div class="line">t = s : v = 280 : 70 = <span class="res">4 val.</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">s = 405 km, v = 45 km/h. Koks laikas?</div>
+      <div class="line">t = 405 : 45 = <span class="res">9 val.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Vidutinis greitis</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> vidutinis greitis = visas kelias : visas laikas (NE greičių aritmetinis vidurkis).</div>
+    <div class="ex">
+      <div class="q">Automobilis 3 val. važiavo 100 km/h greičiu, o po to 2 val. — 80 km/h greičiu. Koks vidutinis greitis?</div>
+      <div class="line">Kelias: 100·3 + 80·2 = 300 + 160 = 460 km. &nbsp; Laikas: 3 + 2 = 5 val.</div>
+      <div class="line">v<sub>vid</sub> = 460 : 5 = <span class="res">92 km/h</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 5 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Valties judėjimas upe</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> pasroviui v = v<sub>sav</sub> + v<sub>sr</sub>; prieš srovę v = v<sub>sav</sub> − v<sub>sr</sub>.</div>
+    <div class="ex">
+      <div class="q">Valties savasis greitis 9 km/h, srovės greitis 3 km/h, laikas 5 val. Koks kelias pasroviui ir prieš srovę?</div>
+      <div class="line">Pasroviui: v = 9+3 = 12 km/h, s = 12 · 5 = <span class="res">60 km</span></div>
+      <div class="line">Prieš srovę: v = 9−3 = 6 km/h, s = 6 · 5 = <span class="res">30 km</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> naudok formules s = v·t, v = s:t, t = s:v. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Kelio radimas (s = v · t)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>v = 65 km/h, t = 3 val. s = ?</li>
+        <li>v = 8 m/s, t = 9 s. s = ?</li>
+        <li>v = 120 km/h, t = 2 val. s = ?</li>
+        <li>v = 7 km/h, t = 6 val. (paspirtukas) s = ?</li>
+        <li>v = 95 km/h, t = 4 val. s = ?</li>
+        <li>v = 10 m/s, t = 12 s. s = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Greičio ir laiko radimas</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>s = 270 km, t = 3 val. v = ?</li>
+        <li>s = 192 km, v = 48 km/h. t = ?</li>
+        <li>s = 224 km, t = 4 val. v = ?</li>
+        <li>s = 450 km, v = 75 km/h. t = ?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Automobilis 3 val. važiavo 85 km/h greičiu, o po to 2 val. — 100 km/h greičiu. Koks buvo automobilio vidutinis greitis per visą kelionę?</li>
+      <li>Valties savasis greitis 7 km/h, upės srovės greitis 2 km/h. Kokį kelią valtis nuplauks per 4 valandas pasroviui ir kokį — prieš srovę?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> 195 km &nbsp;&nbsp; <b>2.</b> 72 m &nbsp;&nbsp; <b>3.</b> 240 km &nbsp;&nbsp; <b>4.</b> 42 km</div>
+    <div class="row math"><b>5.</b> 380 km &nbsp;&nbsp; <b>6.</b> 120 m &nbsp;&nbsp; <b>7.</b> 90 km/h &nbsp;&nbsp; <b>8.</b> 4 val.</div>
+    <div class="row math"><b>9.</b> 56 km/h &nbsp;&nbsp; <b>10.</b> 6 val.</div>
+    <div class="row math"><b>11.</b> kelias 255+200=455 km, laikas 5 val., vid. greitis = <b>91 km/h</b></div>
+    <div class="row math"><b>12.</b> pasroviui (7+2)·4 = <b>36 km</b>; prieš srovę (7−2)·4 = <b>20 km</b></div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Kelio formulė“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

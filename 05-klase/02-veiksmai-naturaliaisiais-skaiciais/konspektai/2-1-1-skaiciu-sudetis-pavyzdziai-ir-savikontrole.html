@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Skaičių sudėtis. Perstatomumo dėsnis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .stulp{font-family:'Consolas',monospace;font-size:12pt;background:#fbfaf7;border:1px solid var(--bd);
+    border-radius:8px;padding:6px 12px;display:inline-block;margin:4px 0;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<h1>Skaičių sudėtis. Perstatomumo dėsnis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais" · 2.1.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Dėmenys, suma, perstatomumo dėsnis, sudėtis su 0</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Sudedami skaičiai vadinami <span class="term">dėmenimis</span>, rezultatas — <span class="term">suma</span>: <span class="math">a + b = c</span>. <span class="term">Perstatomumo dėsnis</span>: <span class="math">a + b = b + a</span> — sukeitus dėmenis vietomis, suma nepakinta. Jei vienas dėmuo lygus 0, suma lygi kitam dėmeniui: <span class="math">a + 0 = a</span>.</div>
+    <div class="ex">
+      <div class="q">Sudėtyje <span class="math">247 + 513 = 760</span> nurodyk dėmenis ir sumą.</div>
+      <div class="line">Dėmenys: <b>247</b> ir <b>513</b> &nbsp;&rArr;&nbsp; <span class="res">suma 760</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Patikrink, ar teisingai suskaičiuota: <span class="math">419 + 356 = 775</span>.</div>
+      <div class="line">Sukeičiame dėmenis: <span class="math">356 + 419 = 775</span> &nbsp;&rArr;&nbsp; <span class="res">sumos sutampa, suskaičiuota teisingai</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Vienos suknelės kaina — <span class="math">245 Eur</span>. Vyksta akcija: antra tokia pati suknelė — nemokamai. Kiek reikės sumokėti už abi sukneles?</div>
+      <div class="line">Antros suknelės kaina lygi 0 &nbsp;&rArr;&nbsp; <span class="math">245 + 0 = 245</span> &nbsp;&rArr;&nbsp; <span class="res">245 Eur</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Sudėjimas stulpeliu</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Sudedant didelius skaičius, juos rašome stulpeliu — <b>lygiuojame pagal dešinę pusę</b> (vienetus po vienetais, dešimtis po dešimtimis ir t. t.). Sudedame skyrių po skyriaus, pradedant nuo vienetų; jei skyriaus suma ≥ 10, vienetą <b>pernešame</b> į kitą, kairiau esantį skyrių.</div>
+    <div class="ex">
+      <div class="q">Suskaičiuok stulpeliu: <span class="math">3&nbsp;487 + 2&nbsp;695</span>.</div>
+      <div class="line"><span class="stulp">&nbsp;&nbsp;3487<br>+ 2695<br>————<br>&nbsp;&nbsp;6182</span></div>
+      <div class="line">Vienetai: 7+5=12 (rašom 2, 1 pernešam). Dešimtys: 8+9+1=18 (rašom 8, 1 pernešam). Šimtai: 4+6+1=11 (rašom 1, 1 pernešam). Tūkstančiai: 3+2+1=6 &nbsp;&rArr;&nbsp; <span class="res">6182</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Sandėlyje buvo <span class="math">5&nbsp;400</span> dėžių obuolių. Atvežė dar <span class="math">3&nbsp;700</span> dėžių. Kiek dėžių obuolių iš viso sandėlyje?</div>
+      <div class="line"><span class="math">5&nbsp;400 + 3&nbsp;700</span> &nbsp;&rArr;&nbsp; <span class="res">9&nbsp;100 dėžių</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> atsakyk į klausimus raštu, tada pasitikrink atsakymus lapo apačioje.</div>
+
+    <div class="grp">A grupė · Dėmenys, suma, perstatomumo dėsnis</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Sudėtyje <span class="math">236 + 543 = 779</span> nurodyk dėmenis ir sumą.</li>
+        <li>Suskaičiuok mintinai: <span class="math">4&nbsp;900 + 2&nbsp;600</span>.</li>
+        <li>NESKAIČIUODAMAS sumų, palygink ir parašyk ženklą (&lt;, &gt; arba =): <span class="math">583 + 417 &nbsp;□&nbsp; 417 + 583</span>.</li>
+        <li>NESKAIČIUODAMAS sumų, palygink: <span class="math">583 + 417 &nbsp;□&nbsp; 583 + 418</span>.</li>
+        <li>NESKAIČIUODAMAS sumų, palygink: <span class="math">900 + 258 &nbsp;□&nbsp; 258 + 899</span>.</li>
+        <li>Žinodamas, kad <span class="math">528 + 347 = 875</span>, be papildomo skaičiavimo nurodyk sumą <span class="math">528 + 357</span> (antras dėmuo padidintas 10).</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Sudėjimas stulpeliu ir žodiniai uždaviniai</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Suskaičiuok stulpeliu: <span class="math">24&nbsp;675 + 8&nbsp;348</span>.</li>
+        <li>Suskaičiuok stulpeliu: <span class="math">356&nbsp;420 + 178&nbsp;965</span>.</li>
+        <li>Akiniai kainuoja <span class="math">187 Eur</span>, dėklas jiems — <span class="math">23 Eur</span>. Kiek iš viso reikės sumokėti?</li>
+        <li>Pirmą dieną turistas nuėjo <span class="math">24 km</span>, antrą dieną — <span class="math">19 km</span>. Koks bendras nueitas atstumas?</li>
+        <li>Vieni batai kainuoja <span class="math">89 Eur</span>. Vyksta akcija „antra pora — nemokamai". Kiek reikės sumokėti už dvi poras batų?</li>
+        <li>Iš skaitmenų 2, 6 ir 9 (kiekvieną panaudojant lygiai vieną kartą) sudarytas didžiausias galimas triženklis skaičius. Raskite šio skaičiaus ir jo „apversto" skaičiaus (skaitmenys surašyti priešinga tvarka) sumą.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> dėmenys 236 ir 543, suma 779</div>
+    <div class="row"><b>2.</b> 7&nbsp;500</div>
+    <div class="row"><b>3.</b> = (tie patys dėmenys, tik sukeisti vietomis)</div>
+    <div class="row"><b>4.</b> &lt; (antras dėmuo dešinėje pusėje didesnis)</div>
+    <div class="row"><b>5.</b> &gt; (900+258=1158, o 258+899=1157)</div>
+    <div class="row"><b>6.</b> 885</div>
+    <div class="row"><b>7.</b> 33&nbsp;023</div>
+    <div class="row"><b>8.</b> 535&nbsp;385</div>
+    <div class="row"><b>9.</b> 210 Eur</div>
+    <div class="row"><b>10.</b> 43 km</div>
+    <div class="row"><b>11.</b> 89 Eur</div>
+    <div class="row"><b>12.</b> 962 + 269 = 1&nbsp;231</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaičių sudėtis. Sudėties perstatomumo dėsnis" (2.1.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

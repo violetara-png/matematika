@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Skaičių daugyba. Daugybos perstatomumo dėsnis (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>✖️ Mokymosi asistentas „Emilis“</h1>
+    <p>Tema: <b>Skaičių daugyba. Daugybos perstatomumo dėsnis</b> · 5 klasė · 2 skyrius „Veiksmai su natūraliaisiais skaičiais“</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">E<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Emilis</div>
+        Sveikas! Aš — Emilis, tavo mokymosi asistentas. Šiandien kartu atrasime, kaip veikia <b>daugyba</b>: kad sandauga — tai vienodų dėmenų suma, kaip veikia <b>daugybos perstatomumo dėsnis</b>, kas nutinka dauginant iš 1 ir iš 0, kaip daugyba iš 10, 100, 1000 ir kaip daugyba stulpeliu.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Emilis</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Emilis</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk tiesiog skaičiumi arba trumpu žodžiu, pvz. <b>288</b> arba <b>ne</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pačios daugybos prasmės. Prisimink: daugyba — tai kelių vienodų dėmenų sumos trumpas užrašymas.", "expr": "Kepykla iškepė 6 padėklus bandelių, kiekviename padėkle po 48 bandeles.", "q": "Kiek bandelių iškepta iš viso?", "accepted": ["288"], "hints": ["Jei sudėtum 48 lygiai 6 kartus (48+48+48+48+48+48), tai duotų tą patį rezultatą, kaip ir daugyba.", "Trumpiau tai užrašoma sandauga: 48 · 6. Apskaičiuok šią sandaugą.", "48 · 6 — padauginęs gausi tris skaitmenis. Patikrink savo skaičiavimą dar kartą prieš įrašydamas."]}, {"intro": "Puiku! Dabar pažiūrėkime į daugybos perstatomumo dėsnį — sukeitus daugiklius vietomis, sandauga nepasikeičia.", "expr": "Sandėlyje sukrautos 17 dėžės, kiekvienoje dėžėje po 24 obuolius.", "q": "Kiek obuolių iš viso? (Kai apskaičiuosi, patikrink save sukeitęs daugiklius vietomis — rezultatas turėtų sutapti.)", "accepted": ["408"], "hints": ["Reikia apskaičiuoti 17 · 24 arba, jei patogiau, 24 · 17 — pagal perstatomumo dėsnį rezultatas bus tas pats.", "Padaugink stulpeliu: pirma padaugink iš vienetų skaitmens, tada iš dešimčių skaitmens, ir sudėk tarpines sandaugas.", "Kai gausi rezultatą, sukeisk daugiklius vietomis ir padaugink dar kartą — jei skaičiai sutampa, tavo atsakymas teisingas."]}, {"intro": "Dabar apie ypatingą daugiklį — vienetą. Padauginus bet kurį skaičių iš 1, skaičius nepasikeičia.", "expr": "Viename vagone važiuoja 375 keleiviai. Traukinį šiandien sudaro tik VIENAS toks vagonas.", "q": "Kiek keleivių yra šiame traukinyje?", "accepted": ["375"], "hints": ["Traukinį sudaro tik 1 vagonas, tad reikia apskaičiuoti 375 · 1.", "Prisimink taisyklę: bet kurį skaičių padauginus iš 1, gauname TĄ PATĮ skaičių.", "Taigi 375 · 1 lygu tiksliai tam pačiam skaičiui, kuris buvo duotas užduotyje."]}, {"intro": "O dabar kitas ypatingas daugiklis — nulis. Padauginus bet kurį skaičių iš 0, visada gauname 0.", "expr": "Sandėlyje šiuo metu yra 0 (nulis) dėžių, o kiekvienoje tokioje dėžėje tilptų po 128 knygas.", "q": "Kiek knygų šiuo metu iš tikrųjų yra sandėlyje?", "accepted": ["0"], "hints": ["Reikia apskaičiuoti 128 · 0 (arba 0 · 128, nes daugiklius galima sukeisti vietomis).", "Prisimink taisyklę: bet kurį skaičių padauginus iš 0, visada gauname 0, nesvarbu, koks buvo kitas daugiklis.", "Kadangi dėžių iš viso nėra (jų 0), knygų sandėlyje irgi negali būti daugiau nei..."]}, {"intro": "Prieš tęsiant, svarbus dalykas apie patį skaičių 0.", "expr": "Prisimink, kokie skaičiai Lietuvos programoje vadinami natūraliaisiais.", "q": "Ar skaičius 0 yra natūralusis skaičius? Atsakyk „taip“ arba „ne“.", "accepted": ["ne"], "hints": ["Natūralieji skaičiai — tai skaičiai, kuriais skaičiuojame daiktus: 1, 2, 3, 4… Nuo kurio skaičiaus jie prasideda?", "Jei natūralieji skaičiai prasideda nuo 1, ar 0 gali būti tarp jų?", "0 priklauso KITAI skaičių grupei — sveikiesiems skaičiams, o ne natūraliesiems. Tad atsakymas į klausimą „ar 0 natūralusis?“ yra..."]}, {"intro": "Dabar pasitreniruokime daugybą mintinai iš 10, 100 ir 1000 — patogus būdas didesniems skaičiams.", "expr": "Prekybos centras užsakė 47 dėžes kompiuterio dalių, kiekvienoje dėžėje lygiai po 100 dalių.", "q": "Kiek dalių iš viso užsakyta?", "accepted": ["4700"], "hints": ["Reikia apskaičiuoti 47 · 100.", "Dauginant iš 100, prie skaičiaus iš dešinės prirašomi tiek nulių, kiek jų turi pats daugiklis 100.", "100 turi du nulius, tad prie 47 iš dešinės prirašyk du nulius."]}, {"intro": "Paskutinė, sunkiausia užduotis — daugyba stulpeliu, kai abu daugikliai daugiaženkliai.", "expr": "Gamykla per vieną dieną pagamina 236 detales. Gamykla dirbo 34 dienas iš eilės.", "q": "Kiek detalių gamykla pagamino per visas 34 dienas?", "accepted": ["8024"], "hints": ["Reikia apskaičiuoti 236 · 34 stulpeliu — tai du daugikliai, kurių abu daugiaženkliai.", "Pirma padaugink 236 iš 4 (vienetų skaitmens), tada padaugink 236 iš 30 (arba iš 3, pastumdamas rezultatą per vieną skyrių į kairę).", "Sudėk abi tarpines sandaugas — jų suma ir bus galutinis atsakymas."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Sandėlyje sukrautos 8 dėžės, kiekvienoje dėžėje po 136 knygas. Kiek knygų iš viso?", "acc": ["1088"], "hint": "Reikia apskaičiuoti 8 · 136 (arba 136 · 8, pagal perstatomumo dėsnį — tas pats rezultatas)."}, {"t": "Apskaičiuok ir patikrink sukeitęs daugiklius vietomis: 23 · 19 = ?", "acc": ["437"], "hint": "Padaugink stulpeliu: 23 · 19, tada patikrink sukeitęs — 19 · 23 turi duoti tą patį."}, {"t": "Viename autobuse važiuoja 482 keleiviai. Šiandien važiuoja tik VIENAS toks autobusas. Kiek keleivių iš viso?", "acc": ["482"], "hint": "Bet kurį skaičių padauginus iš 1, jis nepasikeičia."}, {"t": "Sandėlyje yra 0 dėžių, kiekvienoje tilptų po 350 obuolių. Kiek obuolių šiuo metu sandėlyje?", "acc": ["0"], "hint": "Bet kurį skaičių padauginus iš 0, visada gauname 0."}, {"t": "Ar skaičius 0 yra natūralusis skaičius? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Natūralieji skaičiai prasideda nuo 1, o 0 priklauso sveikiesiems skaičiams."}, {"t": "Apskaičiuok mintinai: 76 · 10 = ?", "acc": ["760"], "hint": "Dauginant iš 10, prie skaičiaus iš dešinės prirašomas vienas nulis."}, {"t": "Prekybos centras užsakė 239 dėžes, kiekvienoje po 100 detalių. Kiek detalių iš viso?", "acc": ["23900"], "hint": "Dauginant iš 100, prie skaičiaus iš dešinės prirašomi du nuliai."}, {"t": "Apskaičiuok stulpeliu: 347 · 6 = ?", "acc": ["2082"], "hint": "Padaugink kiekvieną skaičiaus 347 skaitmenį iš 6, pradėdamas nuo vienetų, nepamiršk persinešimo."}, {"t": "Apskaičiuok stulpeliu: 418 · 25 = ?", "acc": ["10450"], "hint": "Padaugink 418 iš 5, tada 418 iš 20, ir sudėk tarpines sandaugas."}, {"t": "Sode pasodinta 15 obelų eilių, kiekvienoje eilėje po 18 obelų. Kiek iš viso obelų?", "acc": ["270"], "hint": "Reikia apskaičiuoti 15 · 18."}]}, {"label": "variantas B", "qs": [{"t": "Sandėlyje sukrautos 9 dėžės, kiekvienoje dėžėje po 124 knygas. Kiek knygų iš viso?", "acc": ["1116"], "hint": "Reikia apskaičiuoti 9 · 124 (arba 124 · 9, pagal perstatomumo dėsnį — tas pats rezultatas)."}, {"t": "Apskaičiuok ir patikrink sukeitęs daugiklius vietomis: 26 · 17 = ?", "acc": ["442"], "hint": "Padaugink stulpeliu: 26 · 17, tada patikrink sukeitęs — 17 · 26 turi duoti tą patį."}, {"t": "Viename autobuse važiuoja 657 keleiviai. Šiandien važiuoja tik VIENAS toks autobusas. Kiek keleivių iš viso?", "acc": ["657"], "hint": "Bet kurį skaičių padauginus iš 1, jis nepasikeičia."}, {"t": "Sandėlyje yra 0 dėžių, kiekvienoje tilptų po 420 obuolių. Kiek obuolių šiuo metu sandėlyje?", "acc": ["0"], "hint": "Bet kurį skaičių padauginus iš 0, visada gauname 0."}, {"t": "Ar skaičius 0 yra natūralusis skaičius? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Natūralieji skaičiai prasideda nuo 1, o 0 priklauso sveikiesiems skaičiams."}, {"t": "Apskaičiuok mintinai: 83 · 10 = ?", "acc": ["830"], "hint": "Dauginant iš 10, prie skaičiaus iš dešinės prirašomas vienas nulis."}, {"t": "Prekybos centras užsakė 164 dėžes, kiekvienoje po 100 detalių. Kiek detalių iš viso?", "acc": ["16400"], "hint": "Dauginant iš 100, prie skaičiaus iš dešinės prirašomi du nuliai."}, {"t": "Apskaičiuok stulpeliu: 529 · 7 = ?", "acc": ["3703"], "hint": "Padaugink kiekvieną skaičiaus 529 skaitmenį iš 7, pradėdamas nuo vienetų, nepamiršk persinešimo."}, {"t": "Apskaičiuok stulpeliu: 273 · 32 = ?", "acc": ["8736"], "hint": "Padaugink 273 iš 2, tada 273 iš 30, ir sudėk tarpines sandaugas."}, {"t": "Sode pasodinta 12 obelų eilių, kiekvienoje eilėje po 21 obelą. Kiek iš viso obelų?", "acc": ["252"], "hint": "Reikia apskaičiuoti 12 · 21."}]}, {"label": "variantas C", "qs": [{"t": "Sandėlyje sukrautos 7 dėžės, kiekvienoje dėžėje po 158 knygas. Kiek knygų iš viso?", "acc": ["1106"], "hint": "Reikia apskaičiuoti 7 · 158 (arba 158 · 7, pagal perstatomumo dėsnį — tas pats rezultatas)."}, {"t": "Apskaičiuok ir patikrink sukeitęs daugiklius vietomis: 31 · 14 = ?", "acc": ["434"], "hint": "Padaugink stulpeliu: 31 · 14, tada patikrink sukeitęs — 14 · 31 turi duoti tą patį."}, {"t": "Viename autobuse važiuoja 794 keleiviai. Šiandien važiuoja tik VIENAS toks autobusas. Kiek keleivių iš viso?", "acc": ["794"], "hint": "Bet kurį skaičių padauginus iš 1, jis nepasikeičia."}, {"t": "Sandėlyje yra 0 dėžių, kiekvienoje tilptų po 275 obuolius. Kiek obuolių šiuo metu sandėlyje?", "acc": ["0"], "hint": "Bet kurį skaičių padauginus iš 0, visada gauname 0."}, {"t": "Ar skaičius 0 yra natūralusis skaičius? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Natūralieji skaičiai prasideda nuo 1, o 0 priklauso sveikiesiems skaičiams."}, {"t": "Apskaičiuok mintinai: 95 · 10 = ?", "acc": ["950"], "hint": "Dauginant iš 10, prie skaičiaus iš dešinės prirašomas vienas nulis."}, {"t": "Prekybos centras užsakė 316 dėžių, kiekvienoje po 100 detalių. Kiek detalių iš viso?", "acc": ["31600"], "hint": "Dauginant iš 100, prie skaičiaus iš dešinės prirašomi du nuliai."}, {"t": "Apskaičiuok stulpeliu: 462 · 8 = ?", "acc": ["3696"], "hint": "Padaugink kiekvieną skaičiaus 462 skaitmenį iš 8, pradėdamas nuo vienetų, nepamiršk persinešimo."}, {"t": "Apskaičiuok stulpeliu: 356 · 19 = ?", "acc": ["6764"], "hint": "Padaugink 356 iš 9, tada 356 iš 10, ir sudėk tarpines sandaugas."}, {"t": "Sode pasodinta 17 obelų eilių, kiekvienoje eilėje po 14 obelų. Kiek iš viso obelų?", "acc": ["238"], "hint": "Reikia apskaičiuoti 17 · 14."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

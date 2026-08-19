@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · Kelio formulė · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(20px,4vw,28px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:20px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:44px;height:56px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:26px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(360px,92%);padding:15px;font-size:26px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Naktinė pamaina</span>
+    <h1>Užrakintas <span class="amber">traukinių depas</span></h1>
+    <div class="sub">Pabėgimo kambarys · Kelio formulė · 5 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Budėtojau,</span> tavo pirmoji naktinė pamaina depe baigėsi taip, kad automatinė
+      signalizacija netyčia užrakino tave viduje. Elektroninės durys atsidarys tik surinkus teisingą
+      <b>10 skaitmenų kodą</b>. Ant seno dispečerio pulto randi paliktą žinutę:</p>
+      <p style="margin:12px 0 0"><i>„Depe viskas skaičiuojama <b>kelio formule</b>: s = v · t. Kiekvieną spyną
+      atrakinsi išspręsdamas po vieną uždavinį apie kelią, greitį ar laiką — ji duos vieną galutinio kodo
+      skaitmenį. Surink visus dešimt iš eilės ir dink pro duris, kol sargas nepastebėjo."</i></p>
+      <p style="margin:12px 0 0">Spręsk atidžiai. Prisimink: <b>s = v·t</b>, <b>v = s:t</b>, <b>t = s:v</b>,
+      o vidutinis greitis — visas kelias per visą laiką.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 spynų.</b> Atrakinamos iš eilės, sprendžiant kelio uždavinius.</div>
+      <div class="rule"><b>🔢 Kiekviena spyna</b> duoda po vieną durų kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis pabėgimo rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą durų kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti pabėgimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Depo durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 spynos):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🚂💨</div>
+    <h2>Pabėgai iš depo!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, naktinis oras šaltas ir
+      malonus. Kelio formulę dabar moki geriau nei bet kuris dispečeris.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · matematikos pabėgimo kambarys · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Laikas randamas kelią padalijus iš greičio: t = s : v.",
+  "Ir čia naudok t = s : v — kelią padalyk iš greičio.",
+  "Apskaičiuok kelią s = v · t, o tada pažiūrėk tik į JO paskutinį (vienetų) skaitmenį.",
+  "Vėl s = v · t, o atsakymas — tik nuvažiuoto kelio vienetų skaitmuo.",
+  "Pirma rask kiekvienos atkarpos kelią (v·t), sudėk juos, tada padalyk iš viso laiko (abiejų atkarpų valandų sumos). Tai NĖRA greičių vidurkis!",
+  "Pasroviui greitis = savasis greitis + srovės greitis.",
+  "Prieš srovę greitis = savasis greitis MINUS srovės greitis.",
+  "15 minučių = ¼ valandos. Padalyk greitį iš 4.",
+  "Vėl s = v · t, atsakymas — tik nuvažiuoto kelio vienetų skaitmuo.",
+  "Sudėk abiejų kelionės dalių valandas — gausi visą kelionės laiką.",
+];
+
+/* ================= 4 VARIANTAI · kelio formulė ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 9844895625 --- */
+ [
+  { title:"Pirma spyna: kelionės žurnalas", eq:"81 : 9", q:"Traukinys nuvažiavo 81 km, važiuodamas 9 km/h greičiu. Per kiek valandų jis tai padarė?", ans:9 },
+  { title:"Antra spyna: kito depo atstumas", eq:"88 : 11", q:"Iki kito depo yra 88 km. Kiek valandų reikės važiuoti 11 km/h greičiu?", ans:8 },
+  { title:"Trečia spyna: greitasis traukinys", eq:"14 · 6", q:"Traukinys važiuoja 14 km/h greičiu 6 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:4 },
+  { title:"Ketvirta spyna: prekinis vagonas", eq:"11 · 4", q:"Prekinis traukinys važiuoja 11 km/h greičiu 4 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:4 },
+  { title:"Penkta spyna: vidutinis greitis", eq:"(5·1 + 9·3) : (1+3)", q:"Traukinys 1 val. važiavo 5 km/h greičiu, o po to 3 val. — 9 km/h greičiu. Koks vidutinis greitis per visą kelionę?", ans:8 },
+  { title:"Šešta spyna: manevrinė valtis pasroviui", eq:"8 + 1", q:"Prižiūrėtojo valties savasis greitis 8 km/h, srovė 1 km/h. Koks valties greitis PASROVIUI?", ans:9 },
+  { title:"Septinta spyna: valtis prieš srovę", eq:"6 − 1", q:"Kitos valties savasis greitis 6 km/h, srovė 1 km/h. Koks valties greitis PRIEŠ SROVĘ?", ans:5 },
+  { title:"Aštunta spyna: manevrinis lokomotyvas", eq:"24 : 4", q:"Manevrinis lokomotyvas juda 24 km/h greičiu. Kokį kelią (km) jis nuvažiuoja per 15 minučių?", ans:6 },
+  { title:"Devinta spyna: naktinis ekspresas", eq:"6 · 7", q:"Naktinis ekspresas važiuoja 6 km/h greičiu 7 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:2 },
+  { title:"Dešimta spyna: paskutinė mįslė", eq:"", q:"Kelionė suskaidyta į dvi dalis: pirma dalis truko 3 val., antra — 2 val. Kiek IŠ VISO valandų truko visa kelionė?", ans:5 },
+ ],
+ /* --- VARIANTAS 2 · kodas 4660869254 --- */
+ [
+  { title:"Pirma spyna: kelionės žurnalas", eq:"28 : 7", q:"Traukinys nuvažiavo 28 km, važiuodamas 7 km/h greičiu. Per kiek valandų jis tai padarė?", ans:4 },
+  { title:"Antra spyna: kito depo atstumas", eq:"36 : 6", q:"Iki kito depo yra 36 km. Kiek valandų reikės važiuoti 6 km/h greičiu?", ans:6 },
+  { title:"Trečia spyna: greitasis traukinys", eq:"14 · 4", q:"Traukinys važiuoja 14 km/h greičiu 4 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:6 },
+  { title:"Ketvirta spyna: prekinis vagonas", eq:"8 · 5", q:"Prekinis traukinys važiuoja 8 km/h greičiu 5 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:0 },
+  { title:"Penkta spyna: vidutinis greitis", eq:"(10·1 + 7·2) : (1+2)", q:"Traukinys 1 val. važiavo 10 km/h greičiu, o po to 2 val. — 7 km/h greičiu. Koks vidutinis greitis per visą kelionę?", ans:8 },
+  { title:"Šešta spyna: manevrinė valtis pasroviui", eq:"4 + 2", q:"Prižiūrėtojo valties savasis greitis 4 km/h, srovė 2 km/h. Koks valties greitis PASROVIUI?", ans:6 },
+  { title:"Septinta spyna: valtis prieš srovę", eq:"10 − 1", q:"Kitos valties savasis greitis 10 km/h, srovė 1 km/h. Koks valties greitis PRIEŠ SROVĘ?", ans:9 },
+  { title:"Aštunta spyna: manevrinis lokomotyvas", eq:"8 : 4", q:"Manevrinis lokomotyvas juda 8 km/h greičiu. Kokį kelią (km) jis nuvažiuoja per 15 minučių?", ans:2 },
+  { title:"Devinta spyna: naktinis ekspresas", eq:"11 · 5", q:"Naktinis ekspresas važiuoja 11 km/h greičiu 5 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:5 },
+  { title:"Dešimta spyna: paskutinė mįslė", eq:"", q:"Kelionė suskaidyta į dvi dalis: pirma dalis truko 2 val., antra — 2 val. Kiek IŠ VISO valandų truko visa kelionė?", ans:4 },
+ ],
+ /* --- VARIANTAS 3 · kodas 4363755367 --- */
+ [
+  { title:"Pirma spyna: kelionės žurnalas", eq:"44 : 11", q:"Traukinys nuvažiavo 44 km, važiuodamas 11 km/h greičiu. Per kiek valandų jis tai padarė?", ans:4 },
+  { title:"Antra spyna: kito depo atstumas", eq:"36 : 12", q:"Iki kito depo yra 36 km. Kiek valandų reikės važiuoti 12 km/h greičiu?", ans:3 },
+  { title:"Trečia spyna: greitasis traukinys", eq:"11 · 6", q:"Traukinys važiuoja 11 km/h greičiu 6 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:6 },
+  { title:"Ketvirta spyna: prekinis vagonas", eq:"9 · 7", q:"Prekinis traukinys važiuoja 9 km/h greičiu 7 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:3 },
+  { title:"Penkta spyna: vidutinis greitis", eq:"(10·1 + 6·3) : (1+3)", q:"Traukinys 1 val. važiavo 10 km/h greičiu, o po to 3 val. — 6 km/h greičiu. Koks vidutinis greitis per visą kelionę?", ans:7 },
+  { title:"Šešta spyna: manevrinė valtis pasroviui", eq:"4 + 1", q:"Prižiūrėtojo valties savasis greitis 4 km/h, srovė 1 km/h. Koks valties greitis PASROVIUI?", ans:5 },
+  { title:"Septinta spyna: valtis prieš srovę", eq:"7 − 2", q:"Kitos valties savasis greitis 7 km/h, srovė 2 km/h. Koks valties greitis PRIEŠ SROVĘ?", ans:5 },
+  { title:"Aštunta spyna: manevrinis lokomotyvas", eq:"12 : 4", q:"Manevrinis lokomotyvas juda 12 km/h greičiu. Kokį kelią (km) jis nuvažiuoja per 15 minučių?", ans:3 },
+  { title:"Devinta spyna: naktinis ekspresas", eq:"11 · 6", q:"Naktinis ekspresas važiuoja 11 km/h greičiu 6 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:6 },
+  { title:"Dešimta spyna: paskutinė mįslė", eq:"", q:"Kelionė suskaidyta į dvi dalis: pirma dalis truko 4 val., antra — 3 val. Kiek IŠ VISO valandų truko visa kelionė?", ans:7 },
+ ],
+ /* --- VARIANTAS 4 · kodas 7786756746 --- */
+ [
+  { title:"Pirma spyna: kelionės žurnalas", eq:"63 : 9", q:"Traukinys nuvažiavo 63 km, važiuodamas 9 km/h greičiu. Per kiek valandų jis tai padarė?", ans:7 },
+  { title:"Antra spyna: kito depo atstumas", eq:"77 : 11", q:"Iki kito depo yra 77 km. Kiek valandų reikės važiuoti 11 km/h greičiu?", ans:7 },
+  { title:"Trečia spyna: greitasis traukinys", eq:"7 · 4", q:"Traukinys važiuoja 7 km/h greičiu 4 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:8 },
+  { title:"Ketvirta spyna: prekinis vagonas", eq:"14 · 4", q:"Prekinis traukinys važiuoja 14 km/h greičiu 4 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:6 },
+  { title:"Penkta spyna: vidutinis greitis", eq:"(5·2 + 11·1) : (2+1)", q:"Traukinys 2 val. važiavo 5 km/h greičiu, o po to 1 val. — 11 km/h greičiu. Koks vidutinis greitis per visą kelionę?", ans:7 },
+  { title:"Šešta spyna: manevrinė valtis pasroviui", eq:"4 + 1", q:"Prižiūrėtojo valties savasis greitis 4 km/h, srovė 1 km/h. Koks valties greitis PASROVIUI?", ans:5 },
+  { title:"Septinta spyna: valtis prieš srovę", eq:"9 − 3", q:"Kitos valties savasis greitis 9 km/h, srovė 3 km/h. Koks valties greitis PRIEŠ SROVĘ?", ans:6 },
+  { title:"Aštunta spyna: manevrinis lokomotyvas", eq:"28 : 4", q:"Manevrinis lokomotyvas juda 28 km/h greičiu. Kokį kelią (km) jis nuvažiuoja per 15 minučių?", ans:7 },
+  { title:"Devinta spyna: naktinis ekspresas", eq:"14 · 6", q:"Naktinis ekspresas važiuoja 14 km/h greičiu 6 val. Koks nuvažiuoto kelio VIENETŲ skaitmuo?", ans:4 },
+  { title:"Dešimta spyna: paskutinė mįslė", eq:"", q:"Kelionė suskaidyta į dvi dalis: pirma dalis truko 3 val., antra — 3 val. Kiek IŠ VISO valandų truko visa kelionė?", ans:6 },
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">Atsakymas =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šios spynos skaitmuo durų kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Spyna atsirakino.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas kodas. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 spynos.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis pabėgėlis (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs pabėgėlis";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors sargas jau pabudo. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

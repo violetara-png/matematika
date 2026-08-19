@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių dalyba. Dalyba kampu — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .kampu-wrap{margin:12px 0; overflow-x:auto; text-align:center}
+  .kampu{font-family:"Consolas","Courier New",monospace; font-size:15px; line-height:1.4;
+    background:#fff; border:1px solid var(--linija); border-radius:6px; padding:10px 18px;
+    display:inline-block; white-space:pre; text-align:left; color:#1c2430}
+  .kampu-cap{font-size:12.5px; color:var(--pilka); margin-top:4px; text-align:center}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių dalyba. Dalyba kampu</h1>
+  <p class="klase">Matematika · 5 klasė · 2.4.1 tema · veiksmai su natūraliaisiais skaičiais</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Dalybos komponentai</a></li>
+      <li><a href="#t2">Dalyba — atvirkštinis daugybos veiksmas. Patikra</a></li>
+      <li><a href="#t3">Dalyba kampu vienaženkliu dalikliu</a></li>
+      <li><a href="#t4">Dalyba kampu dviženkliu dalikliu</a></li>
+      <li><a href="#t5">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Dalybos komponentai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalyba</span> — veiksmas, kuriuo sužinome, kiek kartų vienas skaičius telpa kitame, arba kaip skaičių padalyti į lygias dalis.</p>
+        <div class="formule math"><span class="term-a">dalinys</span> : <span class="term-b">daliklis</span> = dalmuo</div>
+        <p>Pavyzdžiui: <span class="math"><b>84</b> : <b>4</b> = <b>21</b></span> — skaičius <b class="term-a">84</b> yra <b>dalinys</b>, skaičius <b class="term-b">4</b> yra <b>daliklis</b>, o rezultatas <b>21</b> yra <b>dalmuo</b>.</p>
+        <table class="kort">
+          <tr><th>84</th><th>:</th><th>4</th><th>=</th><th>21</th></tr>
+          <tr><td>dalinys</td><td></td><td>daliklis</td><td></td><td>dalmuo</td></tr>
+        </table>
+        <p class="demesio"><b>Dėmesio.</b> 5 klasėje dalijame taip, kad dalmuo visada būtų <b>natūralusis skaičius</b> — dalyba <b>be liekanos</b> (dalinys dalijasi iš daliklio tiksliai). Primename: natūralieji skaičiai prasideda nuo <b>1</b> (0 tarp jų nėra).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Dalyba — atvirkštinis daugybos veiksmas. Patikra</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalyba yra atvirkštinis veiksmas daugybai.</span> Jeigu <span class="math">dalinys : daliklis = dalmuo</span>, tai <span class="math">dalmuo · daliklis = dalinys</span>.</p>
+        <div class="formule math">jei <span class="term-a">a</span> : <span class="term-b">b</span> = <span class="zenk" style="color:#1c2430">c</span>, tai <span class="zenk" style="color:#1c2430">c</span> · <span class="term-b">b</span> = <span class="term-a">a</span></div>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">84 : 4 = 21</span>. <b>Patikra:</b> <span class="math">21 · 4 = <span class="gerai">84</span></span> — sutampa su daliniu, taigi dalyba atlikta teisingai.</p>
+        <p>Šitaip <b>visada</b> galima patikrinti, ar dalybą atlikome be klaidų — sandauga (dalmuo × daliklis) privalo sutapti su daliniu.</p>
+        <p class="demesio"><b>Kaip rasti klaidą pavyzdyje?</b> Mokinys parašė: <span class="math">96 : 8 = 11</span>. Patikra: <span class="math">11 · 8 = 88</span>. Kadangi <span class="math">88 ≠ 96</span>, tai <b>klaida</b>! Teisingas atsakymas — <span class="math">96 : 8 = <span class="gerai">12</span></span>, nes <span class="math">12 · 8 = 96</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Dalyba kampu vienaženkliu dalikliu</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Dalyba kampu</span> — būdas dalyti didesnius skaičius: dalinio skaitmenis nagrinėjame <b>po vieną, iš kairės į dešinę</b>, o dalmens skaitmenis surašome iš eilės virš brūkšnio, po dalikliu.</p>
+        <p><b>Žingsniai:</b> <b>1)</b> imame tiek dalinio skaitmenų iš kairės, kad sudarytas skaičius būtų <b>ne mažesnis</b> už daliklį; <b>2)</b> randame, kiek kartų daliklis telpa tame skaičiuje — tai dalmens skaitmuo; <b>3)</b> dauginame ir <b>atimame</b>, gauname liekaną (ji <b>visada mažesnė</b> už daliklį); <b>4)</b> „nusikeliame“ (nurašome) kitą dalinio skaitmenį prie liekanos ir kartojame, kol nusikeliame visus skaitmenis.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">936 : 4</span></p>
+        <div class="kampu-wrap">
+<pre class="kampu">  9  3  6 │ 4
+          │ ───
+ −8       │ 234
+  ─
+  1
+   −12
+    ──
+     1
+      −16
+       ──
+        0</pre>
+          <p class="kampu-cap">9:4=2 (liek. 1) → nusikeliame 3, gauname 13:4=3 (liek. 1) → nusikeliame 6, gauname 16:4=4 (liek. 0)</p>
+        </div>
+        <p class="gerai" style="text-align:center; font-size:17px">936 : 4 = 234</p>
+        <p class="pvz"><b>Kitas pavyzdys (be brėžinio).</b> <span class="math">725 : 5</span>: <span class="math">7:5=1</span> (liek. 2) → nusikeliame 2, <span class="math">22:5=4</span> (liek. 2) → nusikeliame 5, <span class="math">25:5=5</span> (liek. 0). <span class="math">725 : 5 = <span class="gerai">145</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Dalyba kampu dviženkliu dalikliu</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai daliklis <b>dviženklis</b>, veikiame lygiai taip pat — tik iš karto reikia imti daugiau dalinio skaitmenų, kad sudarytas skaičius būtų ne mažesnis už daliklį. Kiekviename žingsnyje sunkiausia dalis — <b>atspėti</b> dalmens skaitmenį taip, kad sandauga netaptų didesnė už nagrinėjamą skaičių.</p>
+        <p class="pvz"><b>Pavyzdys.</b> <span class="math">3285 : 15</span></p>
+        <div class="kampu-wrap">
+<pre class="kampu">  3  2  8  5 │ 15
+             │ ───
+   −30       │ 219
+    ──
+     2
+      −15
+       ──
+       13
+        −135
+         ───
+           0</pre>
+          <p class="kampu-cap">32:15=2 (liek. 2) → nusikeliame 8, gauname 28:15=1 (liek. 13) → nusikeliame 5, gauname 135:15=9 (liek. 0)</p>
+        </div>
+        <p class="gerai" style="text-align:center; font-size:17px">3285 : 15 = 219</p>
+        <p class="demesio"><b>Dėmesio.</b> Kiekviename žingsnyje <b>liekana privalo būti mažesnė už daliklį</b> (čia — mažesnė už 15). Jeigu liekana išeina lygi ar didesnė už daliklį, dalmens skaitmuo parinktas <b>per mažas</b> — reikia imti didesnį.</p>
+        <p class="pvz"><b>Kitas pavyzdys (be brėžinio).</b> <span class="math">4784 : 26</span>: <span class="math">47:26=1</span> (liek. 21) → nusikeliame 8, <span class="math">218:26=8</span> (liek. 10) → nusikeliame 4, <span class="math">104:26=4</span> (liek. 0). <span class="math">4784 : 26 = <span class="gerai">184</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr>
+            <td class="math"><span class="klaida">3612 : 12 = 31</span><br><span style="font-size:12px; color:var(--pilka)">(pamiršo užrašyti 0, kai 1&lt;12)</span></td>
+            <td class="math"><span class="gerai">301</span><br><span style="font-size:12px; color:var(--pilka)">nusikėlus 1, jis mažesnis už 12 → dalmens skaitmuo 0, nusikeliame toliau</span></td>
+          </tr>
+          <tr>
+            <td class="math"><span class="klaida">72 : 8 = 7 (liekana 16)</span></td>
+            <td class="math"><span class="gerai">72 : 8 = 9</span> (liekana 0)<br><span style="font-size:12px; color:var(--pilka)">liekana 16 ≥ 8 — parinktas per mažas skaitmuo</span></td>
+          </tr>
+          <tr>
+            <td class="math"><span class="klaida">168 : 8 = 20</span> (patikra: 20·8=160≠168)</td>
+            <td class="math"><span class="gerai">168 : 8 = 21</span> (patikra: 21·8=168 ✓)</td>
+          </tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> <b>1)</b> Skaitmenis nusikeliu <b>po vieną</b>, iš eilės. <b>2)</b> Po kiekvieno žingsnio patikrinu — <b>liekana turi būti mažesnė už daliklį</b>. <b>3)</b> Baigęs — <b>patikrinu daugindamas</b> (dalmuo × daliklis = dalinys).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 5 klasės matematikos kursas · tema „Skaičių dalyba. Dalyba kampu“ (2.4.1)
+  </footer>
+
+</div>
+</body>
+</html>

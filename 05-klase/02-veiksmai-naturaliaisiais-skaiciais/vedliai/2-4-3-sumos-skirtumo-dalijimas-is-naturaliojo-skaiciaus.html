@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Sumos (skirtumo) dalijimas iš natūraliojo skaičiaus (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧮 Mokymosi asistentas „Emilija“</h1>
+    <p>Tema: <b>Sumos (skirtumo) dalijimas iš natūraliojo skaičiaus</b> · 5 klasė · 2.4.3</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">E<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Emilija</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime <b>sumos ir skirtumo dalijimo iš skaičiaus</b> savybę: (a + b) : c = a : c + b : c (ir (a − b) : c = a : c − b : c).<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Emilija</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">E<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Emilija</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymus rašyk kaip paprastą skaičių, pvz. <b>25</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pačios <b>sumos dalijimo iš skaičiaus</b> savybės: (a + b) : c = a : c + b : c. Kiekvieną dėmenį galima padalyti iš skaičiaus ATSKIRAI, o tada sudėti dalmenis.", "expr": "(48 + 27) : 3", "q": "Apskaičiuok reiškinio reikšmę patogiausiu būdu, padalydamas kiekvieną dėmenį atskirai.", "accepted": ["25"], "hints": ["Vietoj to, kad pirma sudėtum 48 ir 27, o tada dalintum iš 3, padalyk kiekvieną dėmenį iš 3 atskirai.", "48 : 3 = 16, o 27 : 3 = 9. Dabar šiuos du dalmenis reikia sudėti.", "Apskaičiuok 16 + 9."]}, {"intro": "Ta pati savybė galioja ir <b>atimčiai</b>: (a − b) : c = a : c − b : c.", "expr": "(72 − 45) : 9", "q": "Apskaičiuok reiškinio reikšmę patogiausiu būdu, padalydamas kiekvieną skaičių iš 9 atskirai.", "accepted": ["3"], "hints": ["Padalyk 72 iš 9 ir 45 iš 9 atskirai, o tada gautus dalmenis atimk.", "72 : 9 = 8, o 45 : 9 = 5.", "Apskaičiuok 8 − 5."]}, {"intro": "Šia savybe patogu naudotis ir dalinant DVIŽENKLĮ skaičių: jį galima užrašyti kaip dešimčių ir vienetų sumą.", "expr": "84 : 4", "q": "Užrašyk 84 kaip dešimčių ir vienetų sumą (84 = 80 + 4), tada padalyk kiekvieną dėmenį iš 4 atskirai ir sudėk.", "accepted": ["21"], "hints": ["84 = 80 + 4. Todėl 84 : 4 = (80 + 4) : 4 = 80 : 4 + 4 : 4.", "80 : 4 = 20, o 4 : 4 = 1.", "Apskaičiuok 20 + 1."]}, {"intro": "Dabar — <b>trūkstamo skaičiaus radimas</b>. Lygybės abi pusės sudarytos iš tų pačių skaičių, tik vienoje pusėje jau padalyta.", "expr": "36 : 6 + ☐ : 6 = (36 + 42) : 6", "q": "Koks skaičius turi būti vietoj ☐, kad lygybė būtų teisinga? (Skaičiuoti dalybos nereikia.)", "accepted": ["42"], "hints": ["Dešinėje pusėje skliaustuose sudedami skaičiai 36 ir 42.", "Kairėje pusėje jau yra 36 : 6. Kurio iš dviejų skaičių (36 ar 42) dar nėra kairėje?", "Vietoj ☐ turi būti tas skaičius, kurio kairėje dar nėra: 42."]}, {"intro": "Paskutinė ir sunkiausia — <b>teksto uždavinys</b>. Reikia patį susidaryti reiškinį, o tada pritaikyti skirtumo dalijimo savybę.", "expr": "Gyvūnų prieglaudoje buvo 64 katės.", "q": "Per savaitę 16 kačių įsivaikino, o likusias paskirstė po lygiai į 6 narvus. Kiek kačių kiekviename narve?", "accepted": ["8"], "hints": ["Pirmiausia surask, kiek kačių liko prieglaudoje: 64 − 16.", "64 − 16 = 48. Dabar šį skaičių reikia padalyti iš narvų skaičiaus.", "Apskaičiuok 48 : 6."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Apskaičiuok patogiausiu būdu: <span>(56 + 36) : 4</span>", "acc": ["23"], "hint": "56 : 4 = 14, o 36 : 4 = 9. Sudėk gautus dalmenis."}, {"t": "Apskaičiuok patogiausiu būdu: <span>(63 − 28) : 7</span>", "acc": ["5"], "hint": "63 : 7 = 9, o 28 : 7 = 4. Atimk gautus dalmenis."}, {"t": "Užrašyk 96 skaitmenų skyrių suma ir apskaičiuok: <span>96 : 3 = (90 + 6) : 3</span>", "acc": ["32"], "hint": "90 : 3 = 30, o 6 : 3 = 2. Sudėk gautus dalmenis."}, {"t": "Įrašyk trūkstamą skaičių: <span>24 : 4 + ☐ : 4 = (24 + 32) : 4</span>", "acc": ["32"], "hint": "Dešinėje sudedami 24 ir 32. Kairėje jau yra 24 : 4 — kurio dar trūksta?"}, {"t": "Įrašyk trūkstamą skaičių: <span>54 : 6 − ☐ : 6 = (54 − 18) : 6</span>", "acc": ["18"], "hint": "Dešinėje atimamas 18 iš 54. Kairėje jau yra 54 : 6 — kurio skaičiaus dar trūksta?"}, {"t": "Apskaičiuok patogiausiu būdu: <span>(24 + 16 + 12) : 4</span>", "acc": ["13"], "hint": "Padalyk kiekvieną dėmenį iš 4 atskirai: 24:4=6, 16:4=4, 12:4=3. Sudėk juos."}, {"t": "Kuri lygybė teisingai parodo sumos dalijimo savybę? Įrašyk numerį (1–4).<br>1) (36 + 18) : 6 = 36:6 + 18:6<br>2) (36 + 18) : 6 = 36 + 18:6<br>3) (36 + 18) : 6 = 36:6 · 18:6<br>4) (36 + 18) : 6 = (36:6) : (18:6)", "acc": ["1"], "hint": "Sumos dalijimo savybė sako, kad KIEKVIENAS dėmuo dalijamas atskirai, o gauti dalmenys SUDEDAMI (ne dauginami, ne dalijami)."}, {"t": "Trikampio kraštinės lygios 15 cm, 20 cm ir 25 cm. Aplink trikampį apjuosta virvutė (lygi perimetrui) supjaustyta į 4 cm ilgio dalis. Kiek tokių dalių gauta?", "acc": ["15"], "hint": "Perimetras: 15+20+25=60 (cm). Padalyk kiekvieną kraštinę iš 4 atskirai ir sudėk dalmenis (arba iš karto 60:4)."}, {"t": "Ūkyje buvo 45 avys. Pardavė 15, o likusias paskirstė po lygiai į 3 tvartus. Kiek avių kiekviename tvarte?", "acc": ["10"], "hint": "Pirma surask, kiek avių liko: 45 − 15 = 30. Tada padalyk iš 3."}, {"t": "Sandėlyje yra dvi kabelio dalys: 24 m ir 32 m ilgio. Abi dalis sukirpo į 4 m ilgio gabalus. Kiek tokių gabalų gauta iš viso?", "acc": ["14"], "hint": "24 : 4 = 6, o 32 : 4 = 8. Sudėk gautus gabalų skaičius."}]}, {"label": "variantas B", "qs": [{"t": "Apskaičiuok patogiausiu būdu: <span>(64 + 24) : 8</span>", "acc": ["11"], "hint": "64 : 8 = 8, o 24 : 8 = 3. Sudėk gautus dalmenis."}, {"t": "Apskaičiuok patogiausiu būdu: <span>(81 − 36) : 9</span>", "acc": ["5"], "hint": "81 : 9 = 9, o 36 : 9 = 4. Atimk gautus dalmenis."}, {"t": "Užrašyk 75 skaitmenų skyrių suma ir apskaičiuok: <span>75 : 5 = (70 + 5) : 5</span>", "acc": ["15"], "hint": "70 : 5 = 14, o 5 : 5 = 1. Sudėk gautus dalmenis."}, {"t": "Įrašyk trūkstamą skaičių: <span>16 : 8 + ☐ : 8 = (16 + 28) : 8</span>", "acc": ["28"], "hint": "Dešinėje sudedami 16 ir 28. Kairėje jau yra 16 : 8 — kurio dar trūksta?"}, {"t": "Įrašyk trūkstamą skaičių: <span>64 : 8 − ☐ : 8 = (64 − 24) : 8</span>", "acc": ["24"], "hint": "Dešinėje atimamas 24 iš 64. Kairėje jau yra 64 : 8 — kurio skaičiaus dar trūksta?"}, {"t": "Apskaičiuok patogiausiu būdu: <span>(18 + 27 + 9) : 3</span>", "acc": ["18"], "hint": "Padalyk kiekvieną dėmenį iš 3 atskirai: 18:3=6, 27:3=9, 9:3=3. Sudėk juos."}, {"t": "Kuri lygybė teisingai parodo skirtumo dalijimo savybę? Įrašyk numerį (1–4).<br>1) (54 − 18) : 6 = 54 − 18:6<br>2) (54 − 18) : 6 = 54:6 − 18:6<br>3) (54 − 18) : 6 = 54:6 · 18:6<br>4) (54 − 18) : 6 = (54:6) : (18:6)", "acc": ["2"], "hint": "Skirtumo dalijimo savybė sako, kad KIEKVIENAS narys dalijamas atskirai, o gauti dalmenys ATIMAMI (ne dauginami, ne dalijami)."}, {"t": "Trikampio kraštinės lygios 18 cm, 24 cm ir 30 cm. Aplink trikampį apjuosta virvutė (lygi perimetrui) supjaustyta į 6 cm ilgio dalis. Kiek tokių dalių gauta?", "acc": ["12"], "hint": "Perimetras: 18+24+30=72 (cm). Padalyk kiekvieną kraštinę iš 6 atskirai ir sudėk dalmenis (arba iš karto 72:6)."}, {"t": "Ūkyje buvo 56 vištos. Pardavė 24, o likusias paskirstė po lygiai į 4 narvus. Kiek vištų kiekviename narve?", "acc": ["8"], "hint": "Pirma surask, kiek vištų liko: 56 − 24 = 32. Tada padalyk iš 4."}, {"t": "Sandėlyje yra dvi virvės: 36 m ir 48 m ilgio. Abi virves sukirpo į 6 m ilgio gabalus. Kiek tokių gabalų gauta iš viso?", "acc": ["14"], "hint": "36 : 6 = 6, o 48 : 6 = 8. Sudėk gautus gabalų skaičius."}]}, {"label": "variantas C", "qs": [{"t": "Apskaičiuok patogiausiu būdu: <span>(45 + 30) : 5</span>", "acc": ["15"], "hint": "45 : 5 = 9, o 30 : 5 = 6. Sudėk gautus dalmenis."}, {"t": "Apskaičiuok patogiausiu būdu: <span>(54 − 24) : 6</span>", "acc": ["5"], "hint": "54 : 6 = 9, o 24 : 6 = 4. Atimk gautus dalmenis."}, {"t": "Užrašyk 69 skaitmenų skyrių suma ir apskaičiuok: <span>69 : 3 = (60 + 9) : 3</span>", "acc": ["23"], "hint": "60 : 3 = 20, o 9 : 3 = 3. Sudėk gautus dalmenis."}, {"t": "Įrašyk trūkstamą skaičių: <span>16 : 8 + ☐ : 8 = (16 + 40) : 8</span>", "acc": ["40"], "hint": "Dešinėje sudedami 16 ir 40. Kairėje jau yra 16 : 8 — kurio dar trūksta?"}, {"t": "Įrašyk trūkstamą skaičių: <span>63 : 9 − ☐ : 9 = (63 − 27) : 9</span>", "acc": ["27"], "hint": "Dešinėje atimamas 27 iš 63. Kairėje jau yra 63 : 9 — kurio skaičiaus dar trūksta?"}, {"t": "Apskaičiuok patogiausiu būdu: <span>(16 + 20 + 14) : 2</span>", "acc": ["25"], "hint": "Padalyk kiekvieną dėmenį iš 2 atskirai: 16:2=8, 20:2=10, 14:2=7. Sudėk juos."}, {"t": "Kuri lygybė teisingai parodo sumos dalijimo savybę? Įrašyk numerį (1–4).<br>1) (28 + 35) : 7 = 28:7 + 35:7<br>2) (28 + 35) : 7 = 28 + 35:7<br>3) (28 + 35) : 7 = 28:7 · 35:7<br>4) (28 + 35) : 7 = (28:7) : (35:7)", "acc": ["1"], "hint": "Sumos dalijimo savybė sako, kad KIEKVIENAS dėmuo dalijamas atskirai, o gauti dalmenys SUDEDAMI (ne dauginami, ne dalijami)."}, {"t": "Trikampio kraštinės lygios 21 cm, 14 cm ir 28 cm. Aplink trikampį apjuosta virvutė (lygi perimetrui) supjaustyta į 7 cm ilgio dalis. Kiek tokių dalių gauta?", "acc": ["9"], "hint": "Perimetras: 21+14+28=63 (cm). Padalyk kiekvieną kraštinę iš 7 atskirai ir sudėk dalmenis (arba iš karto 63:7)."}, {"t": "Ūkyje buvo 63 žąsys. Pardavė 27, o likusias paskirstė po lygiai į 6 narvus. Kiek žąsų kiekviename narve?", "acc": ["6"], "hint": "Pirma surask, kiek žąsų liko: 63 − 27 = 36. Tada padalyk iš 6."}, {"t": "Sandėlyje yra dvi medžiagos juostos: 42 m ir 35 m ilgio. Abi dalis sukirpo į 7 m ilgio gabalus. Kiek tokių gabalų gauta iš viso?", "acc": ["11"], "hint": "42 : 7 = 6, o 35 : 7 = 5. Sudėk gautus gabalų skaičius."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
