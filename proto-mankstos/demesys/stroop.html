@@ -185,7 +185,7 @@ async function nextRound(){
   wordEl.textContent = wordColor.name.toUpperCase();
   wordEl.style.color = inkColor.hex;
 
-  const opts = new Set([inkColor.name]);
+  const opts = new Set([inkColor.name, wordColor.name]);
   while(opts.size < 3){
     opts.add(randItem(COLORS).name);
   }
