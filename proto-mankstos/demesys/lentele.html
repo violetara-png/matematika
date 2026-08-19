@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Šultės lentelė · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:440px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:24px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .board{display:grid; gap:8px; width:100%; max-width:400px; margin:8px 0 20px}
+  .cell{aspect-ratio:1/1; border-radius:12px; border:2px solid #d8dee6; cursor:pointer;
+    font-size:clamp(16px,4.5vw,24px); font-weight:700; display:flex; align-items:center; justify-content:center;
+    background:var(--card); color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .1s, filter .15s, background .15s; user-select:none}
+  .cell:active{transform:scale(.92)}
+  .cell.found{background:#dcfce7; border-color:var(--ok); cursor:default}
+  .cell.wrong{background:#fee2e2; border-color:var(--bad)}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Dėmesys ir pastabumas</a>
+  <h1>⏱️ Šultės lentelė</h1>
+  <p>Surask skaičius nuo 1 iki N didėjimo tvarka — kuo greičiau</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="next">–</div><div class="lbl">Ieškok</div></div>
+    <div class="stat"><div class="num" id="time">0.0</div><div class="lbl">Laikas, s</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordinis lygis</div></div>
+  </div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“</div>
+  <div class="board" id="board"></div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> skaičiai nuo 1 iki N išbarstyti atsitiktinai. Spragtelėk juos didėjimo tvarka (1, 2, 3...) kuo greičiau.
+    Klaidingas spustelėjimas tiesiog nesiskaito — nėra pralaimėjimo, tik laikas.
+    Suradus visus, lentelė padidėja kitam raundui.
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const board = document.getElementById('board');
+const nextEl = document.getElementById('next');
+const timeEl = document.getElementById('time');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+
+let accepting = false;
+let soundOn = true;
+let level = 0;
+let best = parseInt(localStorage.getItem('sultesLentelesBest') || '0', 10);
+bestEl.textContent = best;
+let nextNumber = 1;
+let total = 0;
+let startTime = 0;
+let tickHandle = null;
+
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
+}
+function beep(freq){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.16);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.16);
+}
+function winBeep(){
+  if(!soundOn || !audioCtx) return;
+  [520, 660, 780].forEach((f, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = f;
+    const t = audioCtx.currentTime + i * 0.09;
+    gain.gain.setValueAtTime(0.22, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(t); osc.stop(t + 0.22);
+  });
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+async function startGame(){
+  unlockAudio();
+  level = 0;
+  startBtn.textContent = '↻ Iš naujo';
+  await nextRound();
+}
+
+function startStopwatch(){
+  startTime = performance.now();
+  timeEl.textContent = '0.0';
+  tickHandle = setInterval(() => {
+    timeEl.textContent = ((performance.now() - startTime) / 1000).toFixed(1);
+  }, 100);
+}
+
+function stopStopwatch(){
+  if(tickHandle){ clearInterval(tickHandle); tickHandle = null; }
+  timeEl.textContent = ((performance.now() - startTime) / 1000).toFixed(1);
+}
+
+async function nextRound(){
+  accepting = false;
+  const gridSize = Math.min(3 + level, 6);
+  total = gridSize * gridSize;
+  nextNumber = 1;
+  nextEl.textContent = nextNumber;
+  board.style.gridTemplateColumns = 'repeat(' + gridSize + ', 1fr)';
+
+  const numbers = shuffle(Array.from({length: total}, (_, i) => i + 1));
+  board.innerHTML = '';
+  numbers.forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'cell';
+    el.textContent = n;
+    el.dataset.n = n;
+    el.addEventListener('click', () => handlePick(n, el));
+    board.appendChild(el);
+  });
+  setMsg('Rask skaičius didėjimo tvarka nuo 1!', 'info');
+  accepting = true;
+  startStopwatch();
+}
+
+function handlePick(n, el){
+  if(!accepting) return;
+  if(el.classList.contains('found')) return;
+  if(n === nextNumber){
+    beep(300 + nextNumber * 6);
+    el.classList.add('found');
+    nextNumber++;
+    if(nextNumber > total){
+      accepting = false;
+      stopStopwatch();
+      winBeep();
+      level++;
+      if(level > best){
+        best = level;
+        bestEl.textContent = best;
+        localStorage.setItem('sultesLentelesBest', String(best));
+      }
+      nextEl.textContent = '✓';
+      setMsg('Puiku! Laikas: ' + timeEl.textContent + ' s. Kitas raundas...', 'ok');
+      sleep(1200).then(nextRound);
+    }else{
+      nextEl.textContent = nextNumber;
+    }
+  }else{
+    el.classList.add('wrong');
+    setTimeout(() => el.classList.remove('wrong'), 250);
+  }
+}
+</script>
+</body>
+</html>
