@@ -51,7 +51,7 @@
 <header>
   <a class="grizti" href="./">← Dėmesys ir pastabumas</a>
   <h1>🎯 Rask kitokį paveikslėlį</h1>
-  <p>Visi veidukai vienodi, tik vienas kitoks — surask jį, kol tiksi laikas</p>
+  <p>Visi veidukai vienodi, tik vienas šypsosi arba liūdi kitaip — surask jį, kol tiksi laikas</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -66,14 +66,14 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> tinklelyje visi veidukai vienodi, tik vienas skiriasi.
+    <b>Kaip žaisti:</b> tinklelyje visi veidukai tos pačios spalvos, skiriasi tik burnos linija — šypsena arba liūdesys.
     Spragtelėk tą kitokį langelį, kol nepasibaigė laikas apačioje.
     Suklydus arba neišspėjus laiku, raundas baigiasi. Kiekvienas teisingas raundas prideda langelių ir sutrumpina laiką.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
-const FACES = ['😀','😢','😡','😴','😱','🥳','😎','🤔','😍','🤯','🙄','😷','🤢','😇','🥶','🥵'];
+const PAIR = ['🙂','🙁'];
 
 const board = document.getElementById('board');
 const levelEl = document.getElementById('level');
@@ -169,10 +169,9 @@ async function nextRound(){
   board.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
   const timeLimit = Math.max(1800, 6000 - level * 220);
 
-  const baseIdx = Math.floor(Math.random() * FACES.length);
-  let oddIdx = Math.floor(Math.random() * FACES.length);
-  while(oddIdx === baseIdx) oddIdx = Math.floor(Math.random() * FACES.length);
-  const base = FACES[baseIdx], odd = FACES[oddIdx];
+  const flip = Math.random() < 0.5;
+  const base = flip ? PAIR[0] : PAIR[1];
+  const odd = flip ? PAIR[1] : PAIR[0];
   oddIndex = Math.floor(Math.random() * cellCount);
 
   board.innerHTML = '';
