@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.3.2 Palyginame natūraliuosius skaičius · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:120px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.3.2 Palyginame natūraliuosius skaičius</b> · 5 klasė · Archyvo seifas · 6 dėžutės · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 natūraliųjų skaičių palyginimo uždavinius iš eilės (kiek skaičių didesni už ribą,
+    kiek reikia pridėti prie mažesnio, kiek nelygybių klaidingos, kortelių rikiavimas didėjimo tvarka,
+    nesutampantis skyrius, bylų rikiavimas mažėjimo tvarka). Kiekvieno uždavinio atsakymas yra vienas
+    seifo kodo skaitmuo (iš eilės nuo 1 iki 6 dėžutės). Surinkęs visą kodą ir įvedęs jį į seifą,
+    mokinys „pabėga". Skirtingi variantai turi kitus skaičius ir kitą kodą, kad gretimai sėdintys
+    spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos dėžutės.</li>
+      <li>Pagrindinė mintis, kurią primename per visas 6 dėžutes: pirma lyginam skaitmenų KIEKĮ (daugiau
+        skaitmenų — didesnis skaičius), o tik jei kiekis vienodas, žiūrim skyrius nuo kairės (aukščiausio)
+        į dešinę, kol randam pirmą nesutampantį.</li>
+      <li>Dėžutės 1–2 — tiesioginis palyginimas ir skirtumo skaičiavimas, 3 — klaidingų ženklų paieška,
+        4 — rikiavimo mįslė, 5–6 — sunkesnės (nesutampančio skyriaus paieška ir keturių bylų rikiavimas).</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"373466", rows:[
+   [1,"Archyvo lentyna","84 408, 804 408, 76 500, 128 300, 999 999, 45 000 — kiek IŠ JŲ didesni už 100 000?","84 408 (5 skaitm., ne), 804 408 (6 skaitm., taip), 76 500 (5 skaitm., ne), 128 300 (6 skaitm., taip), 999 999 (6 skaitm., taip), 45 000 (5 skaitm., ne). Didesnių: 3.",3],
+   [2,"Kaimyninės bylos","748 512 ir 748 519 — kiek reikia PRIDĖTI prie mažesnio, kad gautum didesnį?","Skaičiai sutampa iki vienetų skyriaus: 519 − 512 = 7.",7],
+   [3,"Klaidingi ženklai","804 408>84 408; 7 070 700<7 077 700; 2 019<959; 128 300>128 030; 45 600<45 060; 999 999>1 000 000 — kiek NETEISINGŲ?","1) teisinga (6 sk.>5 sk.). 2) teisinga (skiriasi tūkst. sk.: 0<7). 3) NETEISINGA (2 019 turi 4 sk., 959 — 3, taigi 2 019>959). 4) teisinga (skiriasi šimtų sk.: 3>0). 5) NETEISINGA (45 600>45 060, nes 6>0 šimtų sk.). 6) NETEISINGA (999 999 turi 6 sk., 1 000 000 — 7, taigi 999 999<1 000 000). Neteisingų: 3.",3],
+   [4,"Pamestos kortelės","91, 452, 3 004, 8 190, 15 700 — surikiuok didėjimo tvarka. Kelintoje vietoje 8 190?","Tvarka pagal skaitmenų kiekį: 91, 452, 3 004, 8 190, 15 700. Skaičius 8 190 — 4-oje vietoje.",4],
+   [5,"Nesutampantis skyrius","618 274 ir 618 819 — pirmi 3 skaitmenys sutampa. Koks skirtumas tarp ketvirtųjų?","Ketvirtieji skaitmenys — 2 ir 8. Skirtumas = 8 − 2 = 6.",6],
+   [6,"Paskutinės bylos","7 260, 72 600, 7 026, 7 620 — surikiuok mažėjimo tvarka. Koks dešimčių skaitmuo trečios vietos skaičiaus?","Mažėjimo tvarka: 72 600, 7 620, 7 260, 7 026 (4-skaitmenių grupėje lyginant antrą skyrių: 6>2>0). 3-oje vietoje — 7 260, jo dešimčių skaitmuo = 6.",6],
+ ]},
+ { code:"483354", rows:[
+   [1,"Archyvo lentyna","93 205, 913 205, 246 700, 502 300, 888 888, 39 000 — kiek IŠ JŲ didesni už 200 000?","93 205 (ne), 913 205 (taip), 246 700 (taip), 502 300 (taip), 888 888 (taip), 39 000 (ne). Didesnių: 4.",4],
+   [2,"Kaimyninės bylos","356 821 ir 356 829 — kiek reikia PRIDĖTI prie mažesnio, kad gautum didesnį?","829 − 821 = 8.",8],
+   [3,"Klaidingi ženklai","913 205>93 205; 8 040 600<8 044 600; 3 402>13 402; 246 700>246 070; 62 500<62 050; 700 000>7 000 000 — kiek NETEISINGŲ?","1) teisinga. 2) teisinga (skiriasi dešimt. tūkst. sk.: 0<4). 3) NETEISINGA (3 402 turi mažiau skaitmenų nei 13 402). 4) teisinga (skiriasi šimtų sk.: 7>0). 5) NETEISINGA (62 500>62 050, nes 5>0 šimtų sk.). 6) NETEISINGA (700 000 turi 6 sk., 7 000 000 — 7). Neteisingų: 3.",3],
+   [4,"Pamestos kortelės","76, 284, 5 190, 8 302, 14 600 — surikiuok didėjimo tvarka. Kelintoje vietoje 5 190?","Tvarka: 76, 284, 5 190, 8 302, 14 600. Skaičius 5 190 — 3-ioje vietoje.",3],
+   [5,"Nesutampantis skyrius","357 481 ir 357 908 — pirmi 3 skaitmenys sutampa. Koks skirtumas tarp ketvirtųjų?","Ketvirtieji skaitmenys — 4 ir 9. Skirtumas = 9 − 4 = 5.",5],
+   [6,"Paskutinės bylos","6 140, 61 400, 6 014, 6 410 — surikiuok mažėjimo tvarka. Koks dešimčių skaitmuo trečios vietos skaičiaus?","Mažėjimo tvarka: 61 400, 6 410, 6 140, 6 014. 3-ioje vietoje — 6 140, jo dešimčių skaitmuo = 4.",4],
+ ]},
+ { code:"453454", rows:[
+   [1,"Archyvo lentyna","57 302, 507 302, 68 900, 305 600, 777 777, 428 000 — kiek IŠ JŲ didesni už 300 000?","57 302 (ne), 507 302 (taip), 68 900 (ne), 305 600 (taip), 777 777 (taip), 428 000 (taip). Didesnių: 4.",4],
+   [2,"Kaimyninės bylos","173 946 ir 173 951 — kiek reikia PRIDĖTI prie mažesnio, kad gautum didesnį?","951 − 946 = 5.",5],
+   [3,"Klaidingi ženklai","507 302>57 302; 6 030 500<6 033 500; 4 208>14 208; 305 600>305 060; 71 300<71 030; 600 000>6 000 000 — kiek NETEISINGŲ?","1) teisinga. 2) teisinga. 3) NETEISINGA (4 208 turi mažiau skaitmenų nei 14 208). 4) teisinga (skiriasi šimtų sk.: 6>0). 5) NETEISINGA (71 300>71 030, nes 3>0 šimtų sk.). 6) NETEISINGA (600 000 turi 6 sk., 6 000 000 — 7). Neteisingų: 3.",3],
+   [4,"Pamestos kortelės","68, 293, 4 802, 7 140, 16 300 — surikiuok didėjimo tvarka. Kelintoje vietoje 7 140?","Tvarka: 68, 293, 4 802, 7 140, 16 300. Skaičius 7 140 — 4-oje vietoje.",4],
+   [5,"Nesutampantis skyrius","512 364 ir 512 897 — pirmi 3 skaitmenys sutampa. Koks skirtumas tarp ketvirtųjų?","Ketvirtieji skaitmenys — 3 ir 8. Skirtumas = 8 − 3 = 5.",5],
+   [6,"Paskutinės bylos","5 340, 53 400, 5 034, 5 430 — surikiuok mažėjimo tvarka. Koks dešimčių skaitmuo trečios vietos skaičiaus?","Mažėjimo tvarka: 53 400, 5 430, 5 340, 5 034. 3-ioje vietoje — 5 340, jo dešimčių skaitmuo = 4.",4],
+ ]},
+ { code:"263386", rows:[
+   [1,"Archyvo lentyna","39 104, 639 104, 74 200, 305 900, 666 666, 19 000 — kiek IŠ JŲ didesni už 400 000?","39 104 (ne), 639 104 (taip), 74 200 (ne), 305 900 (ne, nes 3<4 šimto tūkst. sk.), 666 666 (taip), 19 000 (ne). Didesnių: 2.",2],
+   [2,"Kaimyninės bylos","235 803 ir 235 809 — kiek reikia PRIDĖTI prie mažesnio, kad gautum didesnį?","809 − 803 = 6.",6],
+   [3,"Klaidingi ženklai","639 104>39 104; 5 020 400<5 024 400; 6 305>16 305; 305 900>305 090; 83 200<83 020; 400 000>4 000 000 — kiek NETEISINGŲ?","1) teisinga. 2) teisinga. 3) NETEISINGA (6 305 turi mažiau skaitmenų nei 16 305). 4) teisinga (skiriasi šimtų sk.: 9>0). 5) NETEISINGA (83 200>83 020, nes 2>0 šimtų sk.). 6) NETEISINGA (400 000 turi 6 sk., 4 000 000 — 7). Neteisingų: 3.",3],
+   [4,"Pamestos kortelės","59, 318, 3 921, 6 470, 12 800 — surikiuok didėjimo tvarka. Kelintoje vietoje 3 921?","Tvarka: 59, 318, 3 921, 6 470, 12 800. Skaičius 3 921 — 3-ioje vietoje.",3],
+   [5,"Nesutampantis skyrius","372 145 ir 372 926 — pirmi 3 skaitmenys sutampa. Koks skirtumas tarp ketvirtųjų?","Ketvirtieji skaitmenys — 1 ir 9. Skirtumas = 9 − 1 = 8.",8],
+   [6,"Paskutinės bylos","4 160, 41 600, 4 016, 4 610 — surikiuok mažėjimo tvarka. Koks dešimčių skaitmuo trečios vietos skaičiaus?","Mažėjimo tvarka: 41 600, 4 610, 4 160, 4 016. 3-ioje vietoje — 4 160, jo dešimčių skaitmuo = 6.",6],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Dėžutė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Seifo kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
