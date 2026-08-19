@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atimtis · Proto mankšta</title>
+<title>Sveikųjų atimtis · Proto mankšta</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -29,15 +29,16 @@
   .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:16px; display:none}
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
-  .expr{font-size:clamp(28px,8vw,42px); font-weight:700; margin:0 0 16px; text-align:center}
+  .expr{font-size:clamp(24px,7vw,36px); font-weight:700; margin:0 0 16px; text-align:center}
   .display{width:100%; max-width:280px; padding:14px; font-size:26px; text-align:center; font-weight:700;
     border:2px solid var(--accent2); border-radius:12px; background:#fff; color:var(--ink); margin-bottom:14px; min-height:26px}
   .keys{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; max-width:280px; margin-bottom:18px}
   .key{padding:16px 0; font-size:22px; font-weight:700; border:none; border-radius:12px; background:#fff;
     color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .1s, background .15s}
   .key:active{transform:scale(.94)}
-  .key.enter{background:var(--accent2); color:#fff}
+  .key.enter{background:var(--accent2); color:#fff; grid-column:span 3}
   .key.back{background:#fee2e2; color:var(--bad)}
+  .key.minus{background:#e0e7ff; color:var(--accent)}
   .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
   .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
   .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
@@ -52,13 +53,13 @@
 </head>
 <body>
 <header>
-  <a class="grizti" href="./">← Greitas skaičiavimas</a>
-  <h1>➖ Atimtis</h1>
-  <p>Natūraliųjų skaičių atimtis — kuo greičiau ir tiksliau</p>
+  <a class="grizti" href="../">← 6 klasė</a>
+  <h1>🔢 Sveikųjų atimtis</h1>
+  <p>Įskaitant a − (−b) atvejį — atimame neigiamą skaičių</p>
 </header>
 <div class="wrap">
   <div class="settings" id="settingsBox">
-    <div class="lbl2">Kiek skaitmenų turi skaičiai?</div>
+    <div class="lbl2">Kiek skaitmenų turi skaičiai (be ženklo)?</div>
     <select id="digitsSelect">
       <option value="2">Dviženkliai (10–99)</option>
       <option value="3">Triženkliai (100–999)</option>
@@ -79,8 +80,8 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> pasirink skaitmenų kiekį ir paspausk „Pradėti“. Mažesnysis skaičius visada atimamas iš didesniojo — atsakymas visada natūralusis skaičius.
-    Įrašyk skirtumą klaviatūra ir spausk ✓, kol nepasibaigė laikas.
+    <b>Kaip žaisti:</b> pasirink skaitmenų kiekį ir paspausk „Pradėti“. Skaičiai gali būti teigiami arba neigiami — kai atimamas skaičius neigiamas, jis rodomas skliausteliuose, pvz. „a − (−b)“ (atimti neigiamą — tas pats, kas pridėti teigiamą).
+    Jei atsakymas neigiamas, pirma spausk „−“, tada skaičius — ir spausk ✓, kol nepasibaigė laikas.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
@@ -107,7 +108,7 @@ let correctDiff = 0;
 let typed = '';
 let timeoutHandle = null;
 
-function bestKey(){ return 'atimtisBest_' + digitCount; }
+function bestKey(){ return 'sveikAtimtisBest_' + digitCount; }
 
 let audioCtx = null;
 function unlockAudio(){
@@ -156,10 +157,14 @@ function setMsg(text, cls){
 
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-const keyLabels = ['1','2','3','4','5','6','7','8','9','⌫','0','✓'];
+const keyLabels = ['1','2','3','4','5','6','7','8','9','−','0','⌫','✓'];
 keyLabels.forEach(label => {
   const b = document.createElement('button');
-  b.className = 'key' + (label === '⌫' ? ' back' : '') + (label === '✓' ? ' enter' : '');
+  let cls = 'key';
+  if(label === '⌫') cls += ' back';
+  if(label === '✓') cls += ' enter';
+  if(label === '−') cls += ' minus';
+  b.className = cls;
   b.textContent = label;
   b.addEventListener('click', () => handleKey(label));
   keysEl.appendChild(b);
@@ -172,16 +177,23 @@ function handleKey(label){
   }else if(label === '✓'){
     submitAnswer();
     return;
+  }else if(label === '−'){
+    if(typed.startsWith('-')) typed = typed.slice(1);
+    else if(typed === '') typed = '-';
   }else{
-    if(typed.length < 7) typed += label;
+    if(typed.length < 8) typed += label;
   }
   displayEl.textContent = typed || ' ';
 }
 
-function randomNumber(digits){
+function randomMagnitude(digits){
   let n = String(1 + Math.floor(Math.random() * 9));
   for(let i = 1; i < digits; i++) n += String(Math.floor(Math.random() * 10));
   return parseInt(n, 10);
+}
+
+function formatTerm(n){
+  return n < 0 ? '(' + n + ')' : String(n);
 }
 
 function startTimer(ms){
@@ -217,13 +229,16 @@ async function nextRound(){
   accepting = false;
   typed = '';
   displayEl.textContent = ' ';
-  let a = randomNumber(digitCount);
-  let b = randomNumber(digitCount);
-  if(a === b){ b = a > 1 ? a - 1 : a + 1; }
-  if(b > a){ const t = a; a = b; b = t; }
+
+  const aSign = Math.random() < 0.5 ? -1 : 1;
+  const a = aSign * randomMagnitude(digitCount);
+  // atimamas skaičius (b) daznai neigiamas, kad dažnai pasitaikytų a − (−b) atvejis
+  const bSign = Math.random() < 0.6 ? -1 : 1;
+  const b = bSign * randomMagnitude(digitCount);
+
   correctDiff = a - b;
-  exprEl.textContent = a + ' − ' + b + ' = ?';
-  const baseTime = 8000 + digitCount * 2500;
+  exprEl.textContent = formatTerm(a) + ' − ' + formatTerm(b) + ' = ?';
+  const baseTime = 9500 + digitCount * 2800;
   const timeLimit = Math.max(baseTime * 0.5, baseTime - level * 400);
   setMsg('Įrašyk skirtumą ir spausk ✓', 'info');
   accepting = true;
@@ -245,7 +260,7 @@ function timeUp(){
 }
 
 function submitAnswer(){
-  if(!accepting || typed === '') return;
+  if(!accepting || typed === '' || typed === '-') return;
   const val = parseInt(typed, 10);
   if(val === correctDiff){
     endRound();
@@ -273,6 +288,7 @@ document.addEventListener('keydown', (e) => {
   if(e.key >= '0' && e.key <= '9') handleKey(e.key);
   else if(e.key === 'Backspace') handleKey('⌫');
   else if(e.key === 'Enter') handleKey('✓');
+  else if(e.key === '-' || e.key === '−') handleKey('−');
 });
 </script>
 </body>

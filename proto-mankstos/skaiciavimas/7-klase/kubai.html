@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dalyba · Proto mankšta</title>
+<title>Kubai · Proto mankšta</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -26,7 +26,7 @@
   .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:16px; display:none}
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
-  .expr{font-size:clamp(28px,8vw,42px); font-weight:700; margin:0 0 16px; text-align:center}
+  .expr{font-size:clamp(30px,8.5vw,46px); font-weight:700; margin:0 0 16px; text-align:center}
   .display{width:100%; max-width:280px; padding:14px; font-size:26px; text-align:center; font-weight:700;
     border:2px solid var(--accent2); border-radius:12px; background:#fff; color:var(--ink); margin-bottom:14px; min-height:26px}
   .keys{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; max-width:280px; margin-bottom:18px}
@@ -49,9 +49,9 @@
 </head>
 <body>
 <header>
-  <a class="grizti" href="./">← Greitas skaičiavimas</a>
-  <h1>➗ Dalyba</h1>
-  <p>Daugybos lentelės ribose, visada dalijasi be liekanos</p>
+  <a class="grizti" href="../">← 7 klasė</a>
+  <h1>x³ Kubai</h1>
+  <p>Skaičių nuo 1 iki 10 kėlimas kubu</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -68,8 +68,8 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> skaičiai visada dalijasi be liekanos (nuo 1 iki 10, aukštesniuose lygiuose šiek tiek daugiau).
-    Įrašyk dalmenį ir spausk ✓, kol nepasibaigė laikas.
+    <b>Kaip žaisti:</b> keliame kubu skaičius nuo 1 iki 10 (a³ = a × a × a).
+    Įrašyk atsakymą ir spausk ✓, kol nepasibaigė laikas.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
@@ -88,9 +88,9 @@ const timerWrap = document.getElementById('timerWrap');
 let accepting = false;
 let soundOn = true;
 let level = 0;
-let best = parseInt(localStorage.getItem('dalybaBest') || '0', 10);
+let best = parseInt(localStorage.getItem('kubaiBest') || '0', 10);
 bestEl.textContent = best;
-let correctQuotient = 0;
+let correctAnswer = 0;
 let typed = '';
 let timeoutHandle = null;
 
@@ -158,7 +158,7 @@ function handleKey(label){
     submitAnswer();
     return;
   }else{
-    if(typed.length < 5) typed += label;
+    if(typed.length < 4) typed += label;
   }
   displayEl.textContent = typed || ' ';
 }
@@ -192,14 +192,11 @@ async function nextRound(){
   accepting = false;
   typed = '';
   displayEl.textContent = ' ';
-  const maxFactor = Math.min(10 + Math.floor(level / 3), 15);
-  const divisor = 2 + Math.floor(Math.random() * (maxFactor - 1));
-  const quotient = 1 + Math.floor(Math.random() * maxFactor);
-  const dividend = divisor * quotient;
-  correctQuotient = quotient;
-  exprEl.textContent = dividend + ' ÷ ' + divisor + ' = ?';
+  const a = 1 + Math.floor(Math.random() * 10);
+  correctAnswer = a * a * a;
+  exprEl.textContent = a + '³ = ?';
   const timeLimit = Math.max(3800, 7500 - level * 300);
-  setMsg('Įrašyk dalmenį ir spausk ✓', 'info');
+  setMsg('Įrašyk atsakymą ir spausk ✓', 'info');
   accepting = true;
   startTimer(timeLimit);
 }
@@ -213,14 +210,14 @@ function timeUp(){
   if(!accepting) return;
   accepting = false;
   errorBeep();
-  setMsg('Laikas baigėsi! Buvo ' + correctQuotient + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  setMsg('Laikas baigėsi! Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
   startBtn.textContent = '↻ Iš naujo';
 }
 
 function submitAnswer(){
   if(!accepting || typed === '') return;
   const val = parseInt(typed, 10);
-  if(val === correctQuotient){
+  if(val === correctAnswer){
     endRound();
     beep(320 + level * 15);
     level++;
@@ -228,14 +225,14 @@ function submitAnswer(){
     if(level > best){
       best = level;
       bestEl.textContent = best;
-      localStorage.setItem('dalybaBest', String(best));
+      localStorage.setItem('kubaiBest', String(best));
     }
     setMsg('Puiku! Kitas raundas...', 'ok');
     sleep(700).then(nextRound);
   }else{
     endRound();
     errorBeep();
-    setMsg('Neteisingai. Buvo ' + correctQuotient + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    setMsg('Neteisingai. Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
     startBtn.textContent = '↻ Iš naujo';
   }
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sudėtis · Proto mankšta</title>
+<title>Keli veiksmai · Proto mankšta</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -19,24 +19,20 @@
   .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
   .grizti:hover{opacity:1; text-decoration:underline}
   .wrap{width:100%; max-width:420px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
-  .settings{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:18px 20px; margin-bottom:16px; width:100%; max-width:340px}
-  .settings .lbl2{font-size:13px; color:var(--muted); font-weight:600; margin-bottom:8px; text-align:center}
-  .settings select{width:100%; padding:12px; font-size:16px; border:2px solid #d8dee6; border-radius:10px; background:#fff; color:var(--ink)}
-  .stats{display:flex; gap:10px; justify-content:center; margin:0 0 10px; flex-wrap:wrap}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0 10px; flex-wrap:wrap}
   .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
   .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
   .stat .lbl{font-size:13px; color:var(--muted)}
   .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:16px; display:none}
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
-  .expr{font-size:clamp(28px,8vw,42px); font-weight:700; margin:0 0 16px; text-align:center}
+  .expr{font-size:clamp(22px,6.5vw,32px); font-weight:700; margin:0 0 16px; text-align:center}
   .display{width:100%; max-width:280px; padding:14px; font-size:26px; text-align:center; font-weight:700;
     border:2px solid var(--accent2); border-radius:12px; background:#fff; color:var(--ink); margin-bottom:14px; min-height:26px}
   .keys{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; max-width:280px; margin-bottom:18px}
   .key{padding:16px 0; font-size:22px; font-weight:700; border:none; border-radius:12px; background:#fff;
     color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .1s, background .15s}
   .key:active{transform:scale(.94)}
-  .key.wide{grid-column:span 1}
   .key.enter{background:var(--accent2); color:#fff}
   .key.back{background:#fee2e2; color:var(--bad)}
   .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
@@ -53,19 +49,11 @@
 </head>
 <body>
 <header>
-  <a class="grizti" href="./">← Greitas skaičiavimas</a>
-  <h1>➕ Sudėtis</h1>
-  <p>Natūraliųjų skaičių sudėtis — kuo greičiau ir tiksliau</p>
+  <a class="grizti" href="../">← 5 klasė</a>
+  <h1>🧮 Keli veiksmai</h1>
+  <p>Natūralieji skaičiai, veiksmų tvarka, gali būti su skliaustais</p>
 </header>
 <div class="wrap">
-  <div class="settings" id="settingsBox">
-    <div class="lbl2">Kiek skaitmenų turi sudedami skaičiai?</div>
-    <select id="digitsSelect">
-      <option value="2">Dviženkliai (10–99)</option>
-      <option value="3">Triženkliai (100–999)</option>
-      <option value="4">Keturženkliai (1000–9999)</option>
-    </select>
-  </div>
   <div class="stats">
     <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
     <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
@@ -74,15 +62,14 @@
   <div class="expr" id="expr">–</div>
   <div class="display" id="display">&nbsp;</div>
   <div class="keys" id="keys"></div>
-  <div class="msg info" id="msg">Pasirink skaitmenų kiekį ir paspausk „Pradėti“</div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“</div>
   <div class="controls">
     <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> pasirink, kiek skaitmenų turi sudedami skaičiai, tada spausk „Pradėti“.
-    Įrašyk sumos atsakymą klaviatūra apačioje ir spausk ✓, kol nepasibaigė laikas.
-    Suklydus arba neišspėjus laiku, raundas baigiasi.
+    <b>Kaip žaisti:</b> reiškinyje du veiksmai — atlik juos teisinga tvarka (daugyba/dalyba pirma, jei nėra skliaustų;
+    skliausteliuose esantis veiksmas visada pirmas). Įrašyk galutinį atsakymą ir spausk ✓, kol nepasibaigė laikas.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
@@ -97,19 +84,15 @@ const startBtn = document.getElementById('startBtn');
 const soundBtn = document.getElementById('soundBtn');
 const timerBar = document.getElementById('timerBar');
 const timerWrap = document.getElementById('timerWrap');
-const settingsBox = document.getElementById('settingsBox');
-const digitsSelect = document.getElementById('digitsSelect');
 
 let accepting = false;
 let soundOn = true;
 let level = 0;
-let digitCount = 2;
-let best = 0;
-let correctSum = 0;
+let best = parseInt(localStorage.getItem('keliVeiksmaiBest') || '0', 10);
+bestEl.textContent = best;
+let correctAnswer = 0;
 let typed = '';
 let timeoutHandle = null;
-
-function bestKey(){ return 'sudetisBest_' + digitCount; }
 
 let audioCtx = null;
 function unlockAudio(){
@@ -175,15 +158,74 @@ function handleKey(label){
     submitAnswer();
     return;
   }else{
-    if(typed.length < 7) typed += label;
+    if(typed.length < 6) typed += label;
   }
-  displayEl.textContent = typed || ' ';
+  displayEl.textContent = typed || ' ';
 }
 
-function randomNumber(digits){
-  let n = String(1 + Math.floor(Math.random() * 9));
-  for(let i = 1; i < digits; i++) n += String(Math.floor(Math.random() * 10));
-  return parseInt(n, 10);
+function apply(x, op, y){
+  if(op === '+') return x + y;
+  if(op === '-') return x - y;
+  if(op === '×') return x * y;
+  return x / y;
+}
+function divisorsOf(n){
+  const abs = Math.abs(n);
+  const out = [];
+  for(let d = 2; d <= abs; d++) if(abs % d === 0) out.push(d);
+  return out;
+}
+function randItem(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+function genRound(){
+  const ops = ['+', '-', '×', '÷'];
+  for(let tries = 0; tries < 300; tries++){
+    const op1 = randItem(ops);
+    const op2 = randItem(ops);
+    let a, b, r1;
+    if(op1 === '÷'){
+      b = 2 + Math.floor(Math.random() * (9 + level));
+      r1 = 1 + Math.floor(Math.random() * (10 + level));
+      a = b * r1;
+    }else if(op1 === '×'){
+      a = 1 + Math.floor(Math.random() * (10 + level));
+      b = 1 + Math.floor(Math.random() * (10 + level));
+      r1 = a * b;
+    }else{
+      a = 1 + Math.floor(Math.random() * (20 + level * 2));
+      b = 1 + Math.floor(Math.random() * (20 + level * 2));
+      if(op1 === '-'){
+        if(a < b){ const t = a; a = b; b = t; }
+        if(a === b){ if(a > 1) b = a - 1; else a = a + 1; }
+      }
+      r1 = apply(a, op1, b);
+    }
+    if(r1 < 1) continue;
+
+    let c, r2;
+    if(op2 === '÷'){
+      const divs = divisorsOf(r1).filter(d => d !== Math.abs(r1));
+      if(r1 === 0 || divs.length === 0) continue;
+      c = randItem(divs);
+      r2 = r1 / c;
+      if(!Number.isInteger(r2)) continue;
+    }else if(op2 === '×'){
+      c = 1 + Math.floor(Math.random() * (10 + level));
+      r2 = r1 * c;
+    }else{
+      c = 1 + Math.floor(Math.random() * (20 + level * 2));
+      if(op2 === '-' && r1 - c < 1){
+        if(r1 <= 1) continue;
+        c = 1 + Math.floor(Math.random() * (r1 - 1));
+      }
+      r2 = apply(r1, op2, c);
+    }
+    if(r2 < 1) continue;
+
+    const needsParens = (op1 === '+' || op1 === '-') && (op2 === '×' || op2 === '÷');
+    return {a, op1, b, op2, c, r2, needsParens};
+  }
+  return null;
 }
 
 function startTimer(ms){
@@ -205,10 +247,6 @@ function stopTimer(){
 
 async function startGame(){
   unlockAudio();
-  digitCount = parseInt(digitsSelect.value, 10);
-  best = parseInt(localStorage.getItem(bestKey()) || '0', 10);
-  bestEl.textContent = best;
-  settingsBox.style.display = 'none';
   level = 0;
   levelEl.textContent = '0';
   startBtn.textContent = '↻ Iš naujo';
@@ -218,14 +256,15 @@ async function startGame(){
 async function nextRound(){
   accepting = false;
   typed = '';
-  displayEl.textContent = ' ';
-  const a = randomNumber(digitCount);
-  const b = randomNumber(digitCount);
-  correctSum = a + b;
-  exprEl.textContent = a + ' + ' + b + ' = ?';
-  const baseTime = 8000 + digitCount * 2500;
-  const timeLimit = Math.max(baseTime * 0.5, baseTime - level * 400);
-  setMsg('Įrašyk sumą ir spausk ✓', 'info');
+  displayEl.textContent = ' ';
+  const r = genRound();
+  if(!r){ await nextRound(); return; }
+  correctAnswer = r.r2;
+  exprEl.textContent = r.needsParens
+    ? '(' + r.a + ' ' + r.op1 + ' ' + r.b + ') ' + r.op2 + ' ' + r.c + ' = ?'
+    : r.a + ' ' + r.op1 + ' ' + r.b + ' ' + r.op2 + ' ' + r.c + ' = ?';
+  const timeLimit = Math.max(6000, 13000 - level * 400);
+  setMsg('Įrašyk atsakymą ir spausk ✓', 'info');
   accepting = true;
   startTimer(timeLimit);
 }
@@ -239,15 +278,14 @@ function timeUp(){
   if(!accepting) return;
   accepting = false;
   errorBeep();
-  setMsg('Laikas baigėsi! Buvo ' + correctSum + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  setMsg('Laikas baigėsi! Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
   startBtn.textContent = '↻ Iš naujo';
-  settingsBox.style.display = 'block';
 }
 
 function submitAnswer(){
   if(!accepting || typed === '') return;
   const val = parseInt(typed, 10);
-  if(val === correctSum){
+  if(val === correctAnswer){
     endRound();
     beep(320 + level * 15);
     level++;
@@ -255,16 +293,15 @@ function submitAnswer(){
     if(level > best){
       best = level;
       bestEl.textContent = best;
-      localStorage.setItem(bestKey(), String(best));
+      localStorage.setItem('keliVeiksmaiBest', String(best));
     }
     setMsg('Puiku! Kitas raundas...', 'ok');
-    sleep(700).then(nextRound);
+    sleep(800).then(nextRound);
   }else{
     endRound();
     errorBeep();
-    setMsg('Neteisingai. Buvo ' + correctSum + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    setMsg('Neteisingai. Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
     startBtn.textContent = '↻ Iš naujo';
-    settingsBox.style.display = 'block';
   }
 }
 

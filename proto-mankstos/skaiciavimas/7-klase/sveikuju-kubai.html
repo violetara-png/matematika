@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daugyba · Proto mankšta</title>
+<title>Sveikųjų kubai · Proto mankšta</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -33,8 +33,9 @@
   .key{padding:16px 0; font-size:22px; font-weight:700; border:none; border-radius:12px; background:#fff;
     color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; transition:transform .1s, background .15s}
   .key:active{transform:scale(.94)}
-  .key.enter{background:var(--accent2); color:#fff}
+  .key.enter{background:var(--accent2); color:#fff; grid-column:span 3}
   .key.back{background:#fee2e2; color:var(--bad)}
+  .key.minus{background:#e0e7ff; color:var(--accent)}
   .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
   .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
   .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
@@ -49,9 +50,9 @@
 </head>
 <body>
 <header>
-  <a class="grizti" href="./">← Greitas skaičiavimas</a>
-  <h1>✖️ Daugyba</h1>
-  <p>Daugybos lentelės ribose — kuo greičiau ir tiksliau</p>
+  <a class="grizti" href="../">← 7 klasė</a>
+  <h1>x³ Sveikųjų kubai</h1>
+  <p>Neigiamo skaičiaus kubas visada neigiamas</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -68,8 +69,8 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> daugini du skaičius nuo 1 iki 10 (aukštesniuose lygiuose šiek tiek daugiau).
-    Įrašyk sandaugą ir spausk ✓, kol nepasibaigė laikas.
+    <b>Kaip žaisti:</b> keliame kubu skaičius nuo 1 iki 10, kai kurie neigiami (rodomi skliausteliuose), pvz. (−4)³.
+    Atsimink: neigiamo skaičiaus kubas visada neigiamas. Jei atsakymas neigiamas, pirma spausk „−“, tada skaičių, ir spausk ✓.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
@@ -88,9 +89,9 @@ const timerWrap = document.getElementById('timerWrap');
 let accepting = false;
 let soundOn = true;
 let level = 0;
-let best = parseInt(localStorage.getItem('daugybaBest') || '0', 10);
+let best = parseInt(localStorage.getItem('sveikKubaiBest') || '0', 10);
 bestEl.textContent = best;
-let correctProduct = 0;
+let correctAnswer = 0;
 let typed = '';
 let timeoutHandle = null;
 
@@ -141,10 +142,14 @@ function setMsg(text, cls){
 
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-const keyLabels = ['1','2','3','4','5','6','7','8','9','⌫','0','✓'];
+const keyLabels = ['1','2','3','4','5','6','7','8','9','−','0','⌫','✓'];
 keyLabels.forEach(label => {
   const b = document.createElement('button');
-  b.className = 'key' + (label === '⌫' ? ' back' : '') + (label === '✓' ? ' enter' : '');
+  let cls = 'key';
+  if(label === '⌫') cls += ' back';
+  if(label === '✓') cls += ' enter';
+  if(label === '−') cls += ' minus';
+  b.className = cls;
   b.textContent = label;
   b.addEventListener('click', () => handleKey(label));
   keysEl.appendChild(b);
@@ -157,6 +162,9 @@ function handleKey(label){
   }else if(label === '✓'){
     submitAnswer();
     return;
+  }else if(label === '−'){
+    if(typed.startsWith('-')) typed = typed.slice(1);
+    else if(typed === '') typed = '-';
   }else{
     if(typed.length < 5) typed += label;
   }
@@ -192,13 +200,12 @@ async function nextRound(){
   accepting = false;
   typed = '';
   displayEl.textContent = ' ';
-  const maxFactor = Math.min(10 + Math.floor(level / 3), 15);
-  const a = 1 + Math.floor(Math.random() * maxFactor);
-  const b = 1 + Math.floor(Math.random() * maxFactor);
-  correctProduct = a * b;
-  exprEl.textContent = a + ' × ' + b + ' = ?';
-  const timeLimit = Math.max(3500, 7000 - level * 300);
-  setMsg('Įrašyk sandaugą ir spausk ✓', 'info');
+  const magnitude = 1 + Math.floor(Math.random() * 10);
+  const a = (Math.random() < 0.5 ? -1 : 1) * magnitude;
+  correctAnswer = a * a * a;
+  exprEl.textContent = (a < 0 ? '(' + a + ')' : a) + '³ = ?';
+  const timeLimit = Math.max(4200, 8000 - level * 300);
+  setMsg('Įrašyk atsakymą ir spausk ✓', 'info');
   accepting = true;
   startTimer(timeLimit);
 }
@@ -212,14 +219,14 @@ function timeUp(){
   if(!accepting) return;
   accepting = false;
   errorBeep();
-  setMsg('Laikas baigėsi! Buvo ' + correctProduct + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  setMsg('Laikas baigėsi! Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
   startBtn.textContent = '↻ Iš naujo';
 }
 
 function submitAnswer(){
-  if(!accepting || typed === '') return;
+  if(!accepting || typed === '' || typed === '-') return;
   const val = parseInt(typed, 10);
-  if(val === correctProduct){
+  if(val === correctAnswer){
     endRound();
     beep(320 + level * 15);
     level++;
@@ -227,14 +234,14 @@ function submitAnswer(){
     if(level > best){
       best = level;
       bestEl.textContent = best;
-      localStorage.setItem('daugybaBest', String(best));
+      localStorage.setItem('sveikKubaiBest', String(best));
     }
     setMsg('Puiku! Kitas raundas...', 'ok');
     sleep(700).then(nextRound);
   }else{
     endRound();
     errorBeep();
-    setMsg('Neteisingai. Buvo ' + correctProduct + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    setMsg('Neteisingai. Buvo ' + correctAnswer + '. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
     startBtn.textContent = '↻ Iš naujo';
   }
 }
@@ -244,6 +251,7 @@ document.addEventListener('keydown', (e) => {
   if(e.key >= '0' && e.key <= '9') handleKey(e.key);
   else if(e.key === 'Backspace') handleKey('⌫');
   else if(e.key === 'Enter') handleKey('✓');
+  else if(e.key === '-' || e.key === '−') handleKey('−');
 });
 </script>
 </body>
