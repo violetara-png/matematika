@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · Trikampio pusiaukampinės · 7 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(20px,4vw,28px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:20px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:44px;height:56px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:26px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(360px,92%);padding:15px;font-size:26px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Geometrijos observatorija</span>
+    <h1>Pusiaukampinių <span class="amber">observatorijos</span> salė</h1>
+    <div class="sub">Pabėgimo kambarys · Trikampio pusiaukampinės · 7 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Tyrėjau,</span> observatorijos salė, kurioje senasis matematikas
+      tyrinėjo trikampius, užrakinta dešimčia spynų. Ant durų kabo lentelė su jo užrašu:</p>
+      <p style="margin:12px 0 0"><i>„Pusiaukampinė dalija kampą per pusę, o visos trys susikerta
+      viename taške — įbrėžto apskritimo centre. Surink dešimt skaitmenų iš spynų, ir observatorijos
+      durys atsivers."</i></p>
+      <p style="margin:12px 0 0">Spręsk ramiai, iš eilės. Observatorijos laikrodis jau tiksi.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 spynų.</b> Atrakinamos iš eilės, sprendžiant pusiaukampinių uždavinius.</div>
+      <div class="rule"><b>🔢 Kiekviena spyna</b> duoda po vieną seifo kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis tyrėjo rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą seifo kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti tyrimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Observatorijos durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 spynos):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏃💨</div>
+    <h2>Pabėgai iš observatorijos!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė. Dabar tu
+      pusiaukampines skaičiuoji greičiau negu observatorijos laikrodis tiksi.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · matematikos pabėgimo kambarys · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+ "Prisimink: pusiaukampinė dalija kampą į DVI LYGIAS dalis — ∠BAM = ∠MAC.",
+ "∠BAM sudaro tik pusę viso kampo ∠BAC — todėl norint rasti ∠BAM, ∠BAC reikia padalyti iš 2.",
+ "Pagalvok, kiek pusiaukampinių iš viso turi trikampis ir per kiek bendrų taškų jos eina.",
+ "Lygiašonio trikampio pusiaukampinė iš viršūninio kampo sutampa su aukštine — o aukštinė su pagrindu sudaro statųjį kampą.",
+ "Pirmiausia trikampio kampų suma (180°) padeda rasti visą ∠A, tada padalyk jį pusiau.",
+ "Trikampyje ABM irgi galioja kampų suma 180° — sudėk ∠B ir ∠BAM, atimk iš 180°.",
+ "Skaičiuok žingsniais: pirma ∠B + ∠C, tada jų pusę, tada atimk iš 180°.",
+ "AM pusiaukampinė reiškia, kad abi kampo išraiškos LYGIOS — sulygink jas ir spręsk lygtį su x.",
+ "Pirma rask ∠A iš kampų sumos, po to ∠BAM (pusę), tada ∠AMB, o ∠AMC papildo ∠AMB iki 180°.",
+ "Skaičiuok atidžiai raidę po raidės, nepamiršk lietuviškų raidžių su nosinėmis ir ilgosiomis (Š, Ū, Ė ir pan.)."
+];
+
+/* ================= 4 VARIANTAI · trikampio pusiaukampinės ================= */
+const VARIANTS = [
+ [
+  {
+   "title": "Pirmoji spyna. Kampo pusiaukampinė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 37°. Apskaičiuok ∠BAC ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 7
+  },
+  {
+   "title": "Antroji spyna. Kampo pusė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = 126°. Apskaičiuok ∠BAM ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 3
+  },
+  {
+   "title": "Trečioji spyna. Susikirtimo taškas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampis turi tris pusiaukampines. Kiek iš viso pusiaukampinių turi bet kuris trikampis?",
+   "ans": 3
+  },
+  {
+   "title": "Ketvirtoji spyna. Lygiašonis trikampis",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Lygiašonio trikampio ABC (AB = AC) viršūninis kampas A = 64°. AM — pusiaukampinė iš A (kartu ir aukštinė). Apskaičiuok ∠AMB ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Penktoji spyna. Kampas su pusiaukampine",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 88°, ∠C = 78°, AM — pusiaukampinė iš viršūnės A. Koks yra ∠BAM?",
+   "ans": 7
+  },
+  {
+   "title": "Šeštoji spyna. Kampas trikampyje ABM",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Su tais pačiais duomenimis (∠B = 88°, ∠C = 78°, ∠BAM = 7°) apskaičiuok ∠AMB ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 5
+  },
+  {
+   "title": "Septintoji spyna. Susikirtimo taško kampas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = 58°. Apskaičiuok ∠BIC žingsnis po žingsnio ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Aštuntoji spyna. Algebrinė lygtis",
+   "eq": "5x = 2x + 21",
+   "lead": "x =",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 5x, ∠MAC = (2x + 21)°. Koks x?",
+   "ans": 7
+  },
+  {
+   "title": "Devintoji spyna. Dviejų žingsnių uždavinys",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 61°, ∠C = 89°, AM — pusiaukampinė iš viršūnės A. Apskaičiuok pirmiausia ∠AMB, tada ∠AMC. Įrašyk ∠AMC VIENETŲ skaitmenį.",
+   "ans": 6
+  },
+  {
+   "title": "Paskutinė spyna. Baigiamoji mįslė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Paskutinė spyna! Kiek raidžių yra žodyje „TRIKAMPIS“?",
+   "ans": 9
+  }
+ ],
+ [
+  {
+   "title": "Pirmoji spyna. Kampo pusiaukampinė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 29°. Apskaičiuok ∠BAC ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 5
+  },
+  {
+   "title": "Antroji spyna. Kampo pusė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = 138°. Apskaičiuok ∠BAM ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Trečioji spyna. Susikirtimo taškas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Per kiek bendrų taškų eina visos trys trikampio pusiaukampinės?",
+   "ans": 1
+  },
+  {
+   "title": "Ketvirtoji spyna. Lygiašonis trikampis",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Lygiašonio trikampio ABC (AB = AC) viršūninis kampas A = 48°. AM — pusiaukampinė iš A (kartu ir aukštinė). Apskaičiuok ∠AMB ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Penktoji spyna. Kampas su pusiaukampine",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 91°, ∠C = 73°, AM — pusiaukampinė iš viršūnės A. Koks yra ∠BAM?",
+   "ans": 8
+  },
+  {
+   "title": "Šeštoji spyna. Kampas trikampyje ABM",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Su tais pačiais duomenimis (∠B = 91°, ∠C = 73°, ∠BAM = 8°) apskaičiuok ∠AMB ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 1
+  },
+  {
+   "title": "Septintoji spyna. Susikirtimo taško kampas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = 42°. Apskaičiuok ∠BIC žingsnis po žingsnio ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 1
+  },
+  {
+   "title": "Aštuntoji spyna. Algebrinė lygtis",
+   "eq": "6x = 4x + 12",
+   "lead": "x =",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 6x, ∠MAC = (4x + 12)°. Koks x?",
+   "ans": 6
+  },
+  {
+   "title": "Devintoji spyna. Dviejų žingsnių uždavinys",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 57°, ∠C = 91°, AM — pusiaukampinė iš viršūnės A. Apskaičiuok pirmiausia ∠AMB, tada ∠AMC. Įrašyk ∠AMC VIENETŲ skaitmenį.",
+   "ans": 3
+  },
+  {
+   "title": "Paskutinė spyna. Baigiamoji mįslė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Paskutinė spyna! Kiek raidžių yra žodyje „VIRŠŪNĖ“?",
+   "ans": 7
+  }
+ ],
+ [
+  {
+   "title": "Pirmoji spyna. Kampo pusiaukampinė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 53°. Apskaičiuok ∠BAC ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 0
+  },
+  {
+   "title": "Antroji spyna. Kampo pusė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = 114°. Apskaičiuok ∠BAM ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 7
+  },
+  {
+   "title": "Trečioji spyna. Susikirtimo taškas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Pusiaukampinių susikirtimo taškas yra ĮBRĖŽTO apskritimo centras. Įrašyk 1, jei tai teisinga, 0 jei ne.",
+   "ans": 1
+  },
+  {
+   "title": "Ketvirtoji spyna. Lygiašonis trikampis",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Lygiašonio trikampio ABC (AB = AC) viršūninis kampas A = 72°. AM — pusiaukampinė iš A (kartu ir aukštinė). Apskaičiuok ∠AMB ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Penktoji spyna. Kampas su pusiaukampine",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 96°, ∠C = 74°, AM — pusiaukampinė iš viršūnės A. Koks yra ∠BAM?",
+   "ans": 5
+  },
+  {
+   "title": "Šeštoji spyna. Kampas trikampyje ABM",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Su tais pačiais duomenimis (∠B = 96°, ∠C = 74°, ∠BAM = 5°) apskaičiuok ∠AMB ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Septintoji spyna. Susikirtimo taško kampas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = 66°. Apskaičiuok ∠BIC žingsnis po žingsnio ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 3
+  },
+  {
+   "title": "Aštuntoji spyna. Algebrinė lygtis",
+   "eq": "7x = 4x + 18",
+   "lead": "x =",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 7x, ∠MAC = (4x + 18)°. Koks x?",
+   "ans": 6
+  },
+  {
+   "title": "Devintoji spyna. Dviejų žingsnių uždavinys",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 48°, ∠C = 94°, AM — pusiaukampinė iš viršūnės A. Apskaičiuok pirmiausia ∠AMB, tada ∠AMC. Įrašyk ∠AMC VIENETŲ skaitmenį.",
+   "ans": 7
+  },
+  {
+   "title": "Paskutinė spyna. Baigiamoji mįslė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Paskutinė spyna! Kiek raidžių yra žodyje „KRAŠTINĖ“?",
+   "ans": 8
+  }
+ ],
+ [
+  {
+   "title": "Pirmoji spyna. Kampo pusiaukampinė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 44°. Apskaičiuok ∠BAC ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 8
+  },
+  {
+   "title": "Antroji spyna. Kampo pusė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = 98°. Apskaičiuok ∠BAM ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Trečioji spyna. Susikirtimo taškas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Kiek pusiaukampinių pakanka nubrėžti, kad rastum jų bendrą susikirtimo tašką (trečia jau eina per jį pati)?",
+   "ans": 2
+  },
+  {
+   "title": "Ketvirtoji spyna. Lygiašonis trikampis",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Lygiašonio trikampio ABC (AB = AC) viršūninis kampas A = 56°. AM — pusiaukampinė iš A (kartu ir aukštinė). Apskaičiuok ∠AMB ir įrašyk jo DEŠIMČIŲ skaitmenį.",
+   "ans": 9
+  },
+  {
+   "title": "Penktoji spyna. Kampas su pusiaukampine",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 69°, ∠C = 93°, AM — pusiaukampinė iš viršūnės A. Koks yra ∠BAM?",
+   "ans": 9
+  },
+  {
+   "title": "Šeštoji spyna. Kampas trikampyje ABM",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Su tais pačiais duomenimis (∠B = 69°, ∠C = 93°, ∠BAM = 9°) apskaičiuok ∠AMB ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 2
+  },
+  {
+   "title": "Septintoji spyna. Susikirtimo taško kampas",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = 76°. Apskaičiuok ∠BIC žingsnis po žingsnio ir įrašyk jo VIENETŲ skaitmenį.",
+   "ans": 8
+  },
+  {
+   "title": "Aštuntoji spyna. Algebrinė lygtis",
+   "eq": "8x = 5x + 15",
+   "lead": "x =",
+   "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 8x, ∠MAC = (5x + 15)°. Koks x?",
+   "ans": 5
+  },
+  {
+   "title": "Devintoji spyna. Dviejų žingsnių uždavinys",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Trikampyje ABC: ∠B = 43°, ∠C = 97°, AM — pusiaukampinė iš viršūnės A. Apskaičiuok pirmiausia ∠AMB, tada ∠AMC. Įrašyk ∠AMC VIENETŲ skaitmenį.",
+   "ans": 3
+  },
+  {
+   "title": "Paskutinė spyna. Baigiamoji mįslė",
+   "eq": "",
+   "lead": "Atsakymas:",
+   "q": "Paskutinė spyna! Kiek raidžių yra žodyje „KAMPAS“?",
+   "ans": 6
+  }
+ ]
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">${st.lead||'Atsakymas:'}</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šios spynos skaitmuo seifo kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Spyna atsivėrė.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas skaičius. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 spynos.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis tyrėjas (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs tyrėjas";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors observatorijos sargas jau pabudo. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

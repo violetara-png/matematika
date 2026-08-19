@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kvadratas — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .diag{text-align:center; margin:12px 0}
+  .diag figcaption{font-size:12.5px; color:var(--pilka); margin-top:4px}
+
+  .kv-svg{display:block;margin:10px auto}
+  .kv-svg .s-side{stroke:#1e5fa8;stroke-width:2.4;fill:none}
+  .kv-svg .s-cev{stroke:#0a7d52;stroke-width:2.2}
+  .kv-svg .s-mark{stroke:#0a7d52;stroke-width:2}
+  .kv-svg .s-arc{stroke:#0a7d52;stroke-width:2;fill:none}
+  .kv-svg .s-right{fill:none;stroke:#5b6472;stroke-width:1.6}
+  .kv-svg .pt{fill:#1c2430}
+  .kv-svg .pt-hi{fill:#c62828}
+  .kv-svg .ln-lbl{font-size:14px;font-style:italic;fill:#1c2430;font-weight:700}
+  .kv-svg .num45{font-size:13px;fill:#c62828;font-weight:800}
+  .kv-coord .grid{stroke:#e3e7ee;stroke-width:1}
+  .kv-coord .axis{stroke:#5b6472;stroke-width:1.6}
+  .kv-coord .ax-lbl{font-size:12px;fill:#5b6472;font-style:italic}
+  .kv-coord .tick-lbl{font-size:10.5px;fill:#8a93a6}
+
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Kvadratas</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai" · 7.8 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra kvadratas</a></li>
+      <li><a href="#t2">Kvadrato perimetras</a></li>
+      <li><a href="#t3">Kvadrato plotas</a></li>
+      <li><a href="#t4">Įstrižainių savybės</a></li>
+      <li><a href="#t5">Plotas per įstrižainę</a></li>
+      <li><a href="#t6">Kvadratas koordinačių plokštumoje</a></li>
+      <li><a href="#t7">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra kvadratas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kvadratas</span> — keturkampis (lygiagretainis), kurio <b>visos keturios kraštinės lygios</b> IR <b>visi keturi kampai statūs</b> (90°).</p>
+        <div class="diag"><figure>
+<svg width="250" height="200" viewBox="0 0 250 200" class="kv-svg">
+<polygon class="s-side" points="70,25 180,25 180,135 70,135"/>
+<path class="s-right" d="M 78 25 L 78 33 L 70 33"/>
+<path class="s-right" d="M 172 25 L 172 33 L 180 33"/>
+<path class="s-right" d="M 172 135 L 172 127 L 180 127"/>
+<path class="s-right" d="M 78 135 L 78 127 L 70 127"/>
+<line class="s-mark" x1="125.0" y1="21.5" x2="125.0" y2="28.5"/>
+<line class="s-mark" x1="183.5" y1="80.0" x2="176.5" y2="80.0"/>
+<line class="s-mark" x1="125.0" y1="131.5" x2="125.0" y2="138.5"/>
+<line class="s-mark" x1="73.5" y1="80.0" x2="66.5" y2="80.0"/>
+<circle class="pt" cx="70" cy="25" r="2.4"/><text class="ln-lbl" x="62" y="17" text-anchor="middle">A</text>
+<circle class="pt" cx="180" cy="25" r="2.4"/><text class="ln-lbl" x="190" y="17" text-anchor="middle">B</text>
+<circle class="pt" cx="180" cy="135" r="2.4"/><text class="ln-lbl" x="190" y="149" text-anchor="middle">C</text>
+<circle class="pt" cx="70" cy="135" r="2.4"/><text class="ln-lbl" x="62" y="149" text-anchor="middle">D</text>
+</svg>
+<figcaption>Kvadratas ABCD: AB = BC = CD = DA, visi kampai 90°</figcaption></figure></div>
+        <p><span class="zenk">Ryšys su kitomis figūromis.</span> Kvadratas — tai vienu metu:</p>
+        <ul>
+          <li><b class="term-a">Stačiakampis</b>, kurio visos kraštinės lygios;</li>
+          <li><b class="term-b">Rombas</b>, kurio visi kampai statūs.</li>
+        </ul>
+        <p class="pvz"><b>Kitaip tariant.</b> Kvadratas turi <b>visas</b> lygiagretainio, stačiakampio ir rombo savybes — tai jų „bendra dalis": lygiagrečios ir lygios priešingos kraštinės (kaip lygiagretainio), lygūs statūs kampai (kaip stačiakampio) ir lygios visos keturios kraštinės (kaip rombo).</p>
+        <p class="demesio"><b>Dėmesio.</b> Kiekvienas kvadratas yra ir stačiakampis, ir rombas — bet <b>ne</b> kiekvienas stačiakampis ar rombas yra kvadratas (jam dar reikia arba lygių kraštinių, arba statų kampo).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Kvadrato perimetras</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kadangi visos keturios kraštinės lygios, perimetras skaičiuojamas kraštinę <span class="math">a</span> padauginus iš 4:</p>
+        <div class="formule math">P = 4·a &nbsp;&nbsp;&nbsp;arba, atvirkščiai,&nbsp;&nbsp;&nbsp; a = P : 4</div>
+        <div class="diag"><figure>
+<svg width="250" height="200" viewBox="0 0 250 200" class="kv-svg">
+<polygon class="s-side" points="70,25 180,25 180,135 70,135"/>
+<path class="s-right" d="M 78 25 L 78 33 L 70 33"/>
+<path class="s-right" d="M 172 25 L 172 33 L 180 33"/>
+<path class="s-right" d="M 172 135 L 172 127 L 180 127"/>
+<path class="s-right" d="M 78 135 L 78 127 L 70 127"/>
+<line class="s-mark" x1="125.0" y1="21.5" x2="125.0" y2="28.5"/>
+<line class="s-mark" x1="183.5" y1="80.0" x2="176.5" y2="80.0"/>
+<line class="s-mark" x1="125.0" y1="131.5" x2="125.0" y2="138.5"/>
+<line class="s-mark" x1="73.5" y1="80.0" x2="66.5" y2="80.0"/>
+<circle class="pt" cx="70" cy="25" r="2.4"/><text class="ln-lbl" x="62" y="17" text-anchor="middle">A</text>
+<circle class="pt" cx="180" cy="25" r="2.4"/><text class="ln-lbl" x="190" y="17" text-anchor="middle">B</text>
+<circle class="pt" cx="180" cy="135" r="2.4"/><text class="ln-lbl" x="190" y="149" text-anchor="middle">C</text>
+<circle class="pt" cx="70" cy="135" r="2.4"/><text class="ln-lbl" x="62" y="149" text-anchor="middle">D</text>
+<text class="ln-lbl math" x="125.0" y="15" text-anchor="middle">a</text>
+</svg>
+<figcaption>Kvadrato kraštinė a; perimetras — visų keturių kraštinių suma</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Kvadrato kraštinė <span class="math">a = 12 cm</span>. Koks jo perimetras?<br>
+        <span class="math">P = 4 · 12 cm = <span class="gerai">48 cm</span></span></p>
+        <p class="pvz"><b>Atvirkštinis pavyzdys.</b> Kvadrato perimetras <span class="math">P = 48 cm</span>. Kokia jo kraštinė?<br>
+        <span class="math">a = 48 cm : 4 = <span class="gerai">12 cm</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kvadrato plotas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kvadrato plotas lygus kraštinės kvadratui:</p>
+        <div class="formule math">S = a² &nbsp;&nbsp;&nbsp;arba, atvirkščiai,&nbsp;&nbsp;&nbsp; a = √S</div>
+        <p class="pvz"><b>Pavyzdys.</b> Kvadrato kraštinė <span class="math">a = 9 m</span>. Koks jo plotas?<br>
+        <span class="math">S = 9² = 9 · 9 m² = <span class="gerai">81 m²</span></span></p>
+        <p class="pvz"><b>Atvirkštinis pavyzdys.</b> Kvadrato plotas <span class="math">S = 64 cm²</span>. Kokia jo kraštinė?<br>
+        <span class="math">a = √64 cm² = <span class="gerai">8 cm</span></span> (nes 8 · 8 = 64)</p>
+        <p class="demesio"><b>Dėmesio.</b> Nepainiok perimetro ir ploto formulių: <span class="math">P = 4a</span> (kartojame sudėjimą — <b>ilgis</b>), <span class="math">S = a²</span> (kraštinę <b>dauginame iš savęs</b> — <b>paviršius</b>). Matavimo vienetai skiriasi: <span class="math">P</span> — cm, m…; <span class="math">S</span> — cm², m²…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Įstrižainių savybės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybės.</span> Kvadrato dvi įstrižainės (pvz. <span class="math">AC</span> ir <span class="math">BD</span>):</p>
+        <ul>
+          <li><b>lygios</b> (<span class="math">AC = BD</span>);</li>
+          <li><b>dalija viena kitą pusiau</b> susikirtimo taške <span class="math">O</span> (<span class="math">AO = OC = BO = OD</span>);</li>
+          <li><b>statmenos</b> viena kitai (<span class="math">AC ⊥ BD</span>, kertasi 90° kampu);</li>
+          <li><b>dalija kiekvieno kampo kampą pusiau</b> — kiekvienas 90° kampas padalijamas į du <b>45°</b> kampus.</li>
+        </ul>
+        <div class="diag"><figure>
+<svg width="250" height="200" viewBox="0 0 250 200" class="kv-svg">
+<polygon class="s-side" points="70,25 180,25 180,135 70,135"/>
+<line class="s-cev" x1="70" y1="25" x2="180" y2="135"/>
+<line class="s-cev" x1="180" y1="25" x2="70" y2="135"/>
+<path class="s-right" d="M 131.4 73.6 L 125.0 67.3 L 118.6 73.6"/>
+<line class="s-mark" x1="95.0" y1="55.0" x2="100.0" y2="50.0"/>
+<line class="s-mark" x1="150.0" y1="50.0" x2="155.0" y2="55.0"/>
+<line class="s-mark" x1="155.0" y1="105.0" x2="150.0" y2="110.0"/>
+<line class="s-mark" x1="100.0" y1="110.0" x2="95.0" y2="105.0"/>
+<path class="s-arc" d="M 83.0 25.0 A 13 13 0 0 0 79.2 34.2"/>
+<path class="s-arc" d="M 79.2 34.2 A 13 13 0 0 0 70.0 38.0"/>
+<path class="s-arc" d="M 180.0 38.0 A 13 13 0 0 0 170.8 34.2"/>
+<path class="s-arc" d="M 170.8 34.2 A 13 13 0 0 0 167.0 25.0"/>
+<path class="s-arc" d="M 167.0 135.0 A 13 13 0 0 0 170.8 125.8"/>
+<path class="s-arc" d="M 170.8 125.8 A 13 13 0 0 0 180.0 122.0"/>
+<path class="s-arc" d="M 70.0 122.0 A 13 13 0 0 0 79.2 125.8"/>
+<path class="s-arc" d="M 79.2 125.8 A 13 13 0 0 0 83.0 135.0"/>
+<text class="num45" x="94.0" y="34.9" text-anchor="middle">45°</text>
+<circle class="pt" cx="70" cy="25" r="2.4"/><text class="ln-lbl" x="62" y="17" text-anchor="middle">A</text>
+<circle class="pt" cx="180" cy="25" r="2.4"/><text class="ln-lbl" x="190" y="17" text-anchor="middle">B</text>
+<circle class="pt" cx="180" cy="135" r="2.4"/><text class="ln-lbl" x="190" y="149" text-anchor="middle">C</text>
+<circle class="pt" cx="70" cy="135" r="2.4"/><text class="ln-lbl" x="62" y="149" text-anchor="middle">D</text>
+<circle class="pt-hi" cx="125.0" cy="80.0" r="2.6"/>
+<text class="ln-lbl" x="136.0" y="74.0" text-anchor="middle">O</text>
+</svg>
+<figcaption>Įstrižainės AC ir BD lygios, statmenos, dalija viena kitą ir visus kampus pusiau (po 45°)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Kvadrato <span class="math">ABCD</span> įstrižainė <span class="math">AC</span> dalija jį į du trikampius <span class="math">ABC</span> ir <span class="math">ACD</span>. Koks šių trikampių tipas?<br>
+        Kadangi <span class="math">∠B = 90°</span> (kvadrato kampas), o <span class="math">AB = BC</span> (kvadrato kraštinės), trikampis <span class="math">ABC</span> yra <span class="gerai">statusis lygiašonis</span>, jo kampai — <span class="gerai">45°, 45°, 90°</span>.</p>
+        <p class="pvz"><b>Algebrinis pavyzdys.</b> Kvadrato <span class="math">ABCD</span> įstrižainė <span class="math">AC</span>. Žinoma, kad <span class="math">∠DAC = (2x + 5)°</span>. Rasti <span class="math">x</span>.<br>
+        Įstrižainė dalija statų kampą <span class="math">∠DAB</span> pusiau, todėl <span class="math">∠DAC = 45°</span>:<br>
+        <span class="math">2x + 5 = 45 &nbsp;⇒&nbsp; 2x = 40 &nbsp;⇒&nbsp; x = <span class="gerai">20</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Plotas per įstrižainę</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kadangi įstrižainė <span class="math">d</span> dalija kvadratą į du lygiašonius statžiuosius trikampius, plotą galima rasti ir žinant tik įstrižainę:</p>
+        <div class="formule math">S = d² : 2 &nbsp;&nbsp;&nbsp;arba, atvirkščiai,&nbsp;&nbsp;&nbsp; d = √(2S)</div>
+        <div class="diag"><figure>
+<svg width="250" height="200" viewBox="0 0 250 200" class="kv-svg">
+<polygon class="s-side" points="70,25 180,25 180,135 70,135"/>
+<line class="s-cev" x1="70" y1="25" x2="180" y2="135"/>
+<path class="s-right" d="M 172 25 L 172 33 L 180 33"/>
+<path class="s-right" d="M 78 135 L 78 127 L 70 127"/>
+<circle class="pt" cx="70" cy="25" r="2.4"/><text class="ln-lbl" x="62" y="17" text-anchor="middle">A</text>
+<circle class="pt" cx="180" cy="25" r="2.4"/><text class="ln-lbl" x="190" y="17" text-anchor="middle">B</text>
+<circle class="pt" cx="180" cy="135" r="2.4"/><text class="ln-lbl" x="190" y="149" text-anchor="middle">C</text>
+<circle class="pt" cx="70" cy="135" r="2.4"/><text class="ln-lbl" x="62" y="149" text-anchor="middle">D</text>
+<text class="ln-lbl math" x="109.0" y="72.0" text-anchor="middle" style="fill:#0a7d52">d = 8 dm</text>
+</svg>
+<figcaption>Kvadrato įstrižainė d = 8 dm</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Kvadrato įstrižainė <span class="math">d = 8 dm</span>. Koks jo plotas?<br>
+        <span class="math">S = d² : 2 = 8² : 2 = 64 : 2 = <span class="gerai">32 dm²</span></span></p>
+        <p class="pvz"><b>Atvirkštinis pavyzdys.</b> Kvadrato plotas <span class="math">S = 18 cm²</span>. Kokia jo įstrižainė?<br>
+        <span class="math">d² = 2S = 2 · 18 = 36 &nbsp;⇒&nbsp; d = √36 = <span class="gerai">6 cm</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Formulė <span class="math">S = d² : 2</span> tinka <b>TIK kvadratui</b> (nes tik jo įstrižainės lygios ir statmenos). Kitiems keturkampiams ji netaikoma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Kvadratas koordinačių plokštumoje</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai kvadrato kraštinės <b>lygiagrečios koordinačių ašims</b>, kraštinės ilgį randame kaip taškų koordinačių <b>skirtumą</b> (be šaknų): jei dvi viršūnės turi tą pačią <span class="math">x</span> koordinatę, kraštinė = <span class="math">y</span> koordinačių skirtumas (ir atvirkščiai).</p>
+        <div class="diag"><figure>
+<svg width="300" height="280" viewBox="0 0 300 280" class="kv-svg kv-coord">
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="59.8" y1="246.0" x2="59.8" y2="34.0"/>
+<line class="grid" x1="85.6" y1="246.0" x2="85.6" y2="34.0"/>
+<line class="grid" x1="111.3" y1="246.0" x2="111.3" y2="34.0"/>
+<line class="grid" x1="137.1" y1="246.0" x2="137.1" y2="34.0"/>
+<line class="grid" x1="162.9" y1="246.0" x2="162.9" y2="34.0"/>
+<line class="grid" x1="188.7" y1="246.0" x2="188.7" y2="34.0"/>
+<line class="grid" x1="214.4" y1="246.0" x2="214.4" y2="34.0"/>
+<line class="grid" x1="240.2" y1="246.0" x2="240.2" y2="34.0"/>
+<line class="grid" x1="266.0" y1="246.0" x2="266.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="266.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="222.4" x2="266.0" y2="222.4"/>
+<line class="grid" x1="34.0" y1="198.9" x2="266.0" y2="198.9"/>
+<line class="grid" x1="34.0" y1="175.3" x2="266.0" y2="175.3"/>
+<line class="grid" x1="34.0" y1="151.8" x2="266.0" y2="151.8"/>
+<line class="grid" x1="34.0" y1="128.2" x2="266.0" y2="128.2"/>
+<line class="grid" x1="34.0" y1="104.7" x2="266.0" y2="104.7"/>
+<line class="grid" x1="34.0" y1="81.1" x2="266.0" y2="81.1"/>
+<line class="grid" x1="34.0" y1="57.6" x2="266.0" y2="57.6"/>
+<line class="grid" x1="34.0" y1="34.0" x2="266.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="151.8" x2="266.0" y2="151.8"/>
+<line class="axis" x1="137.1" y1="246.0" x2="137.1" y2="34.0"/>
+<text class="ax-lbl" x="274.0" y="155.8">x</text>
+<text class="ax-lbl" x="133.1" y="28.0">y</text>
+<text class="ax-lbl" x="127.1" y="165.8">0</text>
+<text class="tick-lbl" x="34.0" y="164.8" text-anchor="middle">-4</text>
+<text class="tick-lbl" x="59.8" y="164.8" text-anchor="middle">-3</text>
+<text class="tick-lbl" x="85.6" y="164.8" text-anchor="middle">-2</text>
+<text class="tick-lbl" x="111.3" y="164.8" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="162.9" y="164.8" text-anchor="middle">1</text>
+<text class="tick-lbl" x="188.7" y="164.8" text-anchor="middle">2</text>
+<text class="tick-lbl" x="214.4" y="164.8" text-anchor="middle">3</text>
+<text class="tick-lbl" x="240.2" y="164.8" text-anchor="middle">4</text>
+<text class="tick-lbl" x="266.0" y="164.8" text-anchor="middle">5</text>
+<text class="tick-lbl" x="128.1" y="249.0" text-anchor="end">-4</text>
+<text class="tick-lbl" x="128.1" y="225.4" text-anchor="end">-3</text>
+<text class="tick-lbl" x="128.1" y="201.9" text-anchor="end">-2</text>
+<text class="tick-lbl" x="128.1" y="178.3" text-anchor="end">-1</text>
+<text class="tick-lbl" x="128.1" y="131.2" text-anchor="end">1</text>
+<text class="tick-lbl" x="128.1" y="107.7" text-anchor="end">2</text>
+<text class="tick-lbl" x="128.1" y="84.1" text-anchor="end">3</text>
+<text class="tick-lbl" x="128.1" y="60.6" text-anchor="end">4</text>
+<text class="tick-lbl" x="128.1" y="37.0" text-anchor="end">5</text>
+<polygon class="s-side" points="85.6,198.9 85.6,81.1 214.4,81.1 214.4,198.9"/>
+<circle class="pt" cx="85.6" cy="198.9" r="2.6"/>
+<text class="ln-lbl" x="69.6" y="215.9" text-anchor="middle">A(-2;-2)</text>
+<circle class="pt" cx="85.6" cy="81.1" r="2.6"/>
+<text class="ln-lbl" x="69.6" y="71.1" text-anchor="middle">B(-2;3)</text>
+<circle class="pt" cx="214.4" cy="81.1" r="2.6"/>
+<text class="ln-lbl" x="230.4" y="71.1" text-anchor="middle">C(3;3)</text>
+<circle class="pt" cx="214.4" cy="198.9" r="2.6"/>
+<text class="ln-lbl" x="230.4" y="215.9" text-anchor="middle">D(3;-2)</text>
+</svg>
+<figcaption>Kvadratas ABCD: A(−2; −2), B(−2; 3), C(3; 3), D(3; −2)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Duoti kvadrato viršūnių taškai <span class="math">A(−2; −2)</span>, <span class="math">B(−2; 3)</span>, <span class="math">C(3; 3)</span>, <span class="math">D(3; −2)</span>. Rasti kraštinę, perimetrą ir plotą.<br>
+        Kraštinė <span class="math">AB</span>: taškai <span class="math">A</span> ir <span class="math">B</span> turi tą pačią <span class="math">x</span> koordinatę (−2), tad <span class="math">AB = 3 − (−2) = <span class="gerai">5</span></span>.<br>
+        Perimetras: <span class="math">P = 4 · 5 = <span class="gerai">20</span></span>.<br>
+        Plotas: <span class="math">S = 5² = <span class="gerai">25</span></span>.</p>
+        <p class="demesio"><b>Dėmesio.</b> Kraštinę randame kaip <b>skirtumą</b> (didesnę koordinatę atėmus mažesnę), o ne sumą — atstumas visada teigiamas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">P = a²</span></td><td class="math"><span class="gerai">P = 4a</span> — perimetras iš kraštinių SUMOS, o ne kvadrato</td></tr>
+          <tr><td class="math"><span class="klaida">S = 4a</span></td><td class="math"><span class="gerai">S = a²</span> — plotas iš kraštinės KVADRATO, o ne padauginus iš 4</td></tr>
+          <tr><td class="math"><span class="klaida">kvadratas nėra stačiakampis ar rombas</span></td><td class="math"><span class="gerai">kvadratas YRA ir stačiakampis, ir rombas</span> — jis turi abiejų savybes</td></tr>
+          <tr><td class="math"><span class="klaida">S = d² : 2 taikoma bet kuriam keturkampiui</span></td><td class="math"><span class="gerai">tinka TIK kvadratui</span> — dėl lygių ir statmenų įstrižainių</td></tr>
+          <tr><td class="math"><span class="klaida">koordinatėse kraštinę sudeda</span></td><td class="math"><span class="gerai">kraštinė = koordinačių SKIRTUMAS</span> (moduliu), ne suma</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pamatęs kvadratą uždavinyje, iškart pasižymėk: <b>visos 4 kraštinės lygios, visi 4 kampai statūs, įstrižainės lygios ir statmenos, dalija kampus po 45°</b>. Tada rinkis reikiamą formulę pagal tai, kas duota (kraštinė, perimetras, plotas ar įstrižainė).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Kvadratas" (7.8)
+  </footer>
+
+</div>
+</body>
+</html>

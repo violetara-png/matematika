@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Trapecija — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Trapecija — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai“ · tema 7.9</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kampas prie tos pačios šoninės kraštinės</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kampai prie tos pačios šoninės kraštinės papildo vienas kitą iki 180°.</div>
+    <div class="ex">
+      <div class="q">Trapecijos ABCD kampas ∠A = 73° (prie šoninės kraštinės AD). Raskite ∠D.</div>
+      <div class="line">∠D = 180° − 73° = <span class="res">107°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Ketvirtas kampas iš trijų duotų</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> bet kurio keturkampio (taigi ir trapecijos) visų kampų suma lygi 360°.</div>
+    <div class="ex">
+      <div class="q">Trapecijos ABCD kampai ∠A = 68°, ∠B = 104°, ∠D = 95°. Raskite ∠C.</div>
+      <div class="line">∠C = 360° − (68° + 104° + 95°) = 360° − 267° = <span class="res">93°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Perimetras iš pagrindų ir šoninių sumų</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> P = (a+b) + (c+d), kur a,b — pagrindai, c,d — šoninės kraštinės.</div>
+    <div class="ex">
+      <div class="q">Trapecijos pagrindų ilgių suma 75 cm, šoninių kraštinių ilgių suma 42 cm. Raskite perimetrą.</div>
+      <div class="line">P = 75 + 42 = <span class="res">117 cm</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Perimetras iš keturių atskirų kraštinių</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> tiesiog sudedame visų keturių kraštinių (dviejų pagrindų ir dviejų šoninių) ilgius.</div>
+    <div class="ex">
+      <div class="q">Trapecijos pagrindai lygūs 26 cm ir 19 cm, šoninės kraštinės — 14 cm ir 11 cm. Raskite perimetrą.</div>
+      <div class="line">P = 26 + 19 + 14 + 11 = <span class="res">70 cm</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 5 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">5</span> Trapecija ar lygiagretainis?</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei lygiagreti tik viena kraštinių pora — trapecija; jei abi — lygiagretainis.</div>
+    <div class="ex">
+      <div class="q">Keturkampyje ABCD kraštinė AB ∥ DC, o kraštinės AD ir BC — nelygiagrečios. Kokia tai figūra?</div>
+      <div class="line">Lygiagreti tik viena pora (AB ir DC) → <span class="res">trapecija</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirmiausia atsakyk į sąvokų klausimus (A grupė), tada apskaičiuok (B grupė ir žodiniai uždaviniai). Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A grupė. Sąvokos ir apibrėžimai</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Kas yra trapecija?</li>
+        <li>Kaip vadinasi lygiagrečios trapecijos kraštinės?</li>
+        <li>Kaip vadinasi nelygiagrečios trapecijos kraštinės?</li>
+        <li>Kam lygi kampų, esančių prie tos pačios šoninės kraštinės, suma?</li>
+        <li>Ar trapecijos priešingi kampai visada lygūs? Kodėl?</li>
+        <li>Kuo trapecija skiriasi nuo lygiagretainio?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė. Skaičiavimas</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>Trapecijos ABCD kampas ∠A = 57° (šoninė AD). Raskite ∠D.</li>
+        <li>Trapecijos ABCD kampas ∠B = 124° (šoninė BC). Raskite ∠C.</li>
+        <li>Trapecijos pagrindai 22 cm ir 18 cm, šoninės kraštinės 13 cm ir 10 cm. Raskite perimetrą.</li>
+        <li>Trapecijos pagrindų ilgių suma 64 cm, šoninių kraštinių ilgių suma 33 cm. Raskite perimetrą.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks math" start="11">
+      <li>Trapecijos ABCD kampai ∠A = 71°, ∠B = 109°, ∠C = 85°. Raskite ∠D.</li>
+      <li>Trapecijos perimetras 108 cm, pagrindų ilgių suma 61 cm. Raskite šoninių kraštinių ilgių sumą.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> keturkampis, kurio viena kraštinių pora lygiagreti, kita — ne &nbsp;&nbsp; <b>2.</b> pagrindai</div>
+    <div class="row math"><b>3.</b> šoninės kraštinės &nbsp;&nbsp; <b>4.</b> 180°</div>
+    <div class="row math"><b>5.</b> ne, trapecijoje tokios taisyklės nėra (skirtingai nuo lygiagretainio)</div>
+    <div class="row math"><b>6.</b> lygiagretainyje lygiagrečios ABI kraštinių poros, trapecijoje — tik viena (pagrindai)</div>
+    <div class="row math"><b>7.</b> ∠D=180−57=123° &nbsp;&nbsp; <b>8.</b> ∠C=180−124=56°</div>
+    <div class="row math"><b>9.</b> P=22+18+13+10=63 cm &nbsp;&nbsp; <b>10.</b> P=64+33=97 cm</div>
+    <div class="row math"><b>11.</b> ∠D=360−(71+109+85)=95°</div>
+    <div class="row math"><b>12.</b> šoninių suma=108−61=47 cm</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Trapecija“ · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

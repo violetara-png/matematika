@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: rombas (7 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: rombas (7 klasė)</h1>
+    <p id="paantraste">Rombas · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: Rombas (7 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia apibrėžiami: SVG brėžinio pagalbininkas ir `const GENERATORIAI = [...]`.
+//
+// TEORIJA:
+// - Rombas — lygiagretainis, kurio visos keturios kraštinės lygios.
+// - Priešingi kampai lygūs, gretimų kampų suma lygi 180°.
+// - Įstrižainės dalija viena kitos kampus pusiau ir yra viena kitai statmenos.
+// - Įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau.
+// - Perimetras P = 4 · a.
+//
+// TAISYKLĖ: kiekvienas uždavinys generuojamas taip, kad atsakymas visada būtų
+// sveikasis skaičius. Įstrižainių (Pitagoro teoremos) uždaviniams naudojami
+// TIK trys patikrinti trejetai (kraštinė, pusė d1, pusė d2):
+//   a=10, h1=6,  h2=8  -> d1=12, d2=16
+//   a=13, h1=5,  h2=12 -> d1=10, d2=24
+//   a=15, h1=9,  h2=12 -> d1=18, d2=24
+
+// --- SVG brėžinio pagalbininkas (generinis rombas ABCD, A viršuje) ---
+function svgRombas(o){
+  o = o || {};
+  const sideLabel = o.sideLabel || '';
+  const d1Label = o.d1Label || '';
+  const d2Label = o.d2Label || '';
+  const angleLabel = o.angleLabel || '';
+  const diag = o.showDiag ? `<line x1="160" y1="20" x2="160" y2="200" stroke="#c9603f" stroke-width="1.6"/>
+    <line x1="40" y1="110" x2="280" y2="110" stroke="#c9603f" stroke-width="1.6"/>
+    <path d="M154,110 L154,104 L160,104" fill="none" stroke="#4a6d8c" stroke-width="1.4"/>` : '';
+  const arc = o.showAngle ? `<path d="M160,44 A62,62 0 0 1 208,78" fill="none" stroke="#4a6d8c" stroke-width="1.6"/>` : '';
+  return `<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="160,20 280,110 160,200 40,110" fill="none" stroke="#2c2620" stroke-width="2"/>
+    ${diag}
+    ${arc}
+    <text x="160" y="14" font-size="14" fill="#2c2620" text-anchor="middle">A</text>
+    <text x="292" y="114" font-size="14" fill="#2c2620" text-anchor="start">B</text>
+    <text x="160" y="216" font-size="14" fill="#2c2620" text-anchor="middle">C</text>
+    <text x="28" y="114" font-size="14" fill="#2c2620" text-anchor="end">D</text>
+    <text x="222" y="60" font-size="13" fill="#2c2620" text-anchor="middle">${sideLabel}</text>
+    <text x="172" y="55" font-size="12.5" fill="#c9603f" text-anchor="start">${d1Label}</text>
+    <text x="165" y="126" font-size="12.5" fill="#c9603f" text-anchor="start">${d2Label}</text>
+    <text x="205" y="50" font-size="12.5" fill="#4a6d8c" text-anchor="start">${angleLabel}</text>
+  </svg>`;
+}
+
+// Trys patikrinti Pitagoro trejetai (a, pusė d1, pusė d2, d1, d2).
+const ROMBO_TREJETAI = [
+  { a:10, h1:6, h2:8,  d1:12, d2:16 },
+  { a:13, h1:5, h2:12, d1:10, d2:24 },
+  { a:15, h1:9, h2:12, d1:18, d2:24 }
+];
+
+// Kampų santykiai a:b, kurių suma dalo 180 be liekanos (sveiki laipsniai).
+const ROMBO_SANTYKIAI = [[1,2],[2,3],[1,3],[1,4],[2,7],[1,5],[4,5],[5,7],[1,8],[7,8]];
+
+const GENERATORIAI = [
+
+  // 1) Kraštinė -> perimetras.
+  { label:"Perimetras", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const a = randint(3,30);
+      const P = 4*a;
+      const q = `Rombo kraštinė lygi a = ${nf(a)} ${vnt}. Apskaičiuok rombo perimetrą.`
+        + svgRombas({ sideLabel:`a = ${nf(a)}` });
+      return { q, ans:P, pre:'P =', ansText:`${nf(P)} ${vnt}`, steps:[
+        `Rombo visos keturios kraštinės lygios, todėl perimetras P = 4 · a.`,
+        `P = 4 · ${nf(a)} = ${nf(P)} ${vnt}`
+      ]};
+  }},
+
+  // 2) Perimetras -> kraštinė.
+  { label:"Kraštinė", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const a = randint(3,30);
+      const P = 4*a;
+      const q = `Rombo perimetras P = ${nf(P)} ${vnt}. Apskaičiuok rombo kraštinės ilgį.`
+        + svgRombas({ sideLabel:'a = ?' });
+      return { q, ans:a, pre:'a =', ansText:`${nf(a)} ${vnt}`, steps:[
+        `Rombo perimetras P = 4 · a, todėl a = P : 4.`,
+        `a = ${nf(P)} : 4 = ${nf(a)} ${vnt}`
+      ]};
+  }},
+
+  // 3) Vienas kampas -> gretimas kampas (suma 180°).
+  { label:"Gretimi kampai", gen(){
+      const angle = randint(10,170);
+      const other = 180-angle;
+      const q = `Rombo ABCD kampas prie viršūnės A lygus ${angle}°. Apskaičiuok gretimą kampą prie viršūnės B.`
+        + svgRombas({ showAngle:true, angleLabel:`${angle}°` });
+      return { q, ans:other, pre:'∠B =', ansText:`${other}°`, steps:[
+        `Rombas yra lygiagretainis, todėl gretimų kampų suma lygi 180°.`,
+        `∠B = 180° − ${angle}° = ${other}°`
+      ]};
+  }},
+
+  // 4) Kampų santykis -> abu kampai (klausiama didesniojo).
+  { label:"Kampų santykis", gen(){
+      const [p,q0] = choice(ROMBO_SANTYKIAI);
+      const k = 180/(p+q0);
+      const small = p*k, big = q0*k;
+      const q = `Rombo dviejų gretimų kampų santykis yra ${p} : ${q0}. Apskaičiuok didesnįjį iš šių kampų.`
+        + svgRombas({ showAngle:true, angleLabel:'?' });
+      return { q, ans:big, pre:'kampas =', ansText:`${big}°`, steps:[
+        `Gretimų kampų suma lygi 180°, todėl vieną kampų dalį sudaro 180° : (${p} + ${q0}) = 180° : ${p+q0} = ${k}°.`,
+        `Mažesnysis kampas = ${p} · ${k}° = ${small}°, didesnysis kampas = ${q0} · ${k}° = ${big}°.`
+      ]};
+  }},
+
+  // 5) Įstrižainė per Pitagoro teoremą (a, d1 -> d2; a, d2 -> d1; d1, d2 -> a).
+  { label:"Įstrižainė (Pitagoro teorema)", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const T = choice(ROMBO_TREJETAI);
+      let d1=T.d1, d2=T.d2, h1=T.h1, h2=T.h2;
+      if(choice([true,false])){ const td=d1, th=h1; d1=d2; h1=h2; d2=td; h2=th; }
+      const a = T.a;
+      const mode = choice([0,1,2]);
+
+      if(mode===2){
+        const q = `Rombo įstrižainės lygios d₁ = ${nf(d1)} ${vnt} ir d₂ = ${nf(d2)} ${vnt}. Apskaičiuok rombo kraštinės ilgį.`
+          + svgRombas({ showDiag:true, d1Label:`d₁ = ${nf(d1)}`, d2Label:`d₂ = ${nf(d2)}` });
+        return { q, ans:a, pre:'a =', ansText:`${nf(a)} ${vnt}`, steps:[
+          `Rombo įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau ir yra su jomis statmenas.`,
+          `Pusės įstrižainių: d₁ : 2 = ${nf(d1)} : 2 = ${nf(h1)} ${vnt}, d₂ : 2 = ${nf(d2)} : 2 = ${nf(h2)} ${vnt}.`,
+          `Šios pusės ir kraštinė sudaro statųjį trikampį, todėl pagal Pitagoro teoremą: a² = (d₁:2)² + (d₂:2)² = ${nf(h1)}² + ${nf(h2)}² = ${h1*h1} + ${h2*h2} = ${h1*h1+h2*h2}.`,
+          `a = √${h1*h1+h2*h2} = ${nf(a)} ${vnt}`
+        ]};
+      }
+
+      const givenD = mode===0 ? d1 : d2, givenH = mode===0 ? h1 : h2;
+      const targetD = mode===0 ? d2 : d1, targetH = mode===0 ? h2 : h1;
+      const givenLbl = mode===0 ? 'd₁' : 'd₂', targetLbl = mode===0 ? 'd₂' : 'd₁';
+      const svgOpts = { showDiag:true };
+      svgOpts[mode===0?'d1Label':'d2Label'] = `${givenLbl} = ${nf(givenD)}`;
+      svgOpts[mode===0?'d2Label':'d1Label'] = `${targetLbl} = ?`;
+      const q = `Rombo kraštinė a = ${nf(a)} ${vnt}, viena įstrižainė ${givenLbl} = ${nf(givenD)} ${vnt}. Apskaičiuok kitą rombo įstrižainę ${targetLbl}.`
+        + svgRombas(svgOpts);
+      return { q, ans:targetD, pre:`${targetLbl} =`, ansText:`${nf(targetD)} ${vnt}`, steps:[
+        `Rombo įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau ir yra su jomis statmenas.`,
+        `Žinomos įstrižainės pusė: ${givenLbl} : 2 = ${nf(givenD)} : 2 = ${nf(givenH)} ${vnt}.`,
+        `Pagal Pitagoro teoremą: a² = (${givenLbl}:2)² + (${targetLbl}:2)², todėl (${targetLbl}:2)² = a² − (${givenLbl}:2)² = ${a}² − ${givenH}² = ${a*a} − ${givenH*givenH} = ${a*a-givenH*givenH}.`,
+        `${targetLbl} : 2 = √${a*a-givenH*givenH} = ${nf(targetH)} ${vnt}, todėl ${targetLbl} = 2 · ${nf(targetH)} = ${nf(targetD)} ${vnt}`
+      ]};
+  }},
+
+  // 6) Pusiaukampinė: įstrižainė dalija viršūnės kampą pusiau.
+  { label:"Pusiaukampinė", gen(){
+      const half = randint(10,80);
+      const full = 2*half;
+      const mode = choice(['fullToHalf','halfToFull']);
+      if(mode==='fullToHalf'){
+        const q = `Rombo kampas prie viršūnės A lygus ${full}°. Šį kampą pusiau dalija rombo įstrižainė AC. Koks yra kampas tarp šios įstrižainės ir kraštinės AB?`
+          + svgRombas({ showDiag:true, showAngle:true, angleLabel:`${full}°` });
+        return { q, ans:half, pre:'kampas =', ansText:`${half}°`, steps:[
+          `Rombo įstrižainė dalija viršūnės kampą, iš kurio išeina, pusiau.`,
+          `Ieškomas kampas = ${full}° : 2 = ${half}°`
+        ]};
+      }
+      const q = `Rombo įstrižainė AC dalija kampą prie viršūnės A pusiau. Kampas tarp įstrižainės AC ir kraštinės AB lygus ${half}°. Koks yra visas rombo kampas prie viršūnės A?`
+        + svgRombas({ showDiag:true, showAngle:true, angleLabel:`${half}°` });
+      return { q, ans:full, pre:'∠A =', ansText:`${full}°`, steps:[
+        `Rombo įstrižainė dalija viršūnės kampą, iš kurio išeina, pusiau, todėl visas kampas yra dvigubai didesnis už pusę.`,
+        `∠A = 2 · ${half}° = ${full}°`
+      ]};
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: rombas (7 klasė)", "subtitle": "Rombas · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Trikampio pusiaukampinės (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📐 Mokymosi asistentas „Marius“</h1>
+    <p>Tema: <b>Trikampio pusiaukampinės</b> · 7 klasė · 7.4</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">M<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Marius</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Šiandien kartu išsiaiškinsime, kas yra trikampio <b>pusiaukampinė</b>, kaip ji dalija kampą pusiau, kur susikerta visos trys pusiaukampinės ir kaip su jomis skaičiuoti kampus.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">M<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Marius</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('+')">+</button><button onclick="ins('−')">−</button><button onclick="ins('·')">·</button><button onclick="ins('(')">(</button><button onclick="ins(')')">)</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">M<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Marius</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Kampus rašyk vien skaičiumi (be laipsnio ženklo), pvz. <b>76</b>. Aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo <b>apibrėžimo</b>. Trikampio pusiaukampinė — atkarpa nuo viršūnės iki priešingos kraštinės, kuri dalija tos viršūnės kampą <b>per pusę</b>. Brėžinyje AM — pusiaukampinė iš viršūnės A, taškas M yra ant kraštinės BC.", "expr": "<svg width=\"220\" height=\"175\" viewBox=\"-4 -47.1 208 205.1\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"100,-21.1 22,132 178,132\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"100\" y1=\"-21.1\" x2=\"100\" y2=\"132\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><path d=\"M 93.2 -7.7 A 15 15 0 0 1 100 -6.1\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><path d=\"M 100 -6.1 A 15 15 0 0 1 106.8 -7.7\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><text x=\"92.5\" y=\"10\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">27°</text><text x=\"107.5\" y=\"10\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">?</text><circle cx=\"100\" cy=\"-21.1\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"-31.1\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"22\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"12\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"178\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"188\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text><circle cx=\"100\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"150\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">M</text></svg>", "q": "AM — trikampio ABC pusiaukampinė, ∠BAM = 27°. Koks yra ∠MAC?", "accepted": ["27"], "hints": ["Pusiaukampinė turi vieną svarbiausią savybę — pagalvok, ką ji daro su kampu, iš kurio nubrėžta.", "Ji dalija kampą ∠BAC į DVI LYGIAS dalis: ∠BAM ir ∠MAC.", "Jei viena dalis lygi 27°, kokia turi būti kita dalis, kad jos būtų lygios?"]}, {"intro": "Dabar panaudokime šią savybę, kad rastume <b>visą kampą</b>.", "expr": "<svg width=\"220\" height=\"175\" viewBox=\"-4 -9.6 208 167.6\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"100,16.4 22,132 178,132\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"100\" y1=\"16.4\" x2=\"100\" y2=\"132\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><path d=\"M 91.6 28.8 A 15 15 0 0 1 100 31.4\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><path d=\"M 100 31.4 A 15 15 0 0 1 108.4 28.8\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><text x=\"90.6\" y=\"47\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">34°</text><text x=\"109.4\" y=\"47\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">?</text><circle cx=\"100\" cy=\"16.4\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"6.4\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"22\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"12\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"178\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"188\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text><circle cx=\"100\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"150\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">M</text></svg>", "q": "AM — trikampio ABC pusiaukampinė, ∠BAM = 34°. Koks yra visas kampas ∠BAC?", "accepted": ["68"], "hints": ["∠BAC susideda iš dviejų dalių: ∠BAM ir ∠MAC.", "Kadangi AM pusiaukampinė, abi dalys lygios po 34°. ∠BAC = ∠BAM + ∠MAC.", "Sudėk 34° + 34° — tai ir bus ∠BAC."]}, {"intro": "Trikampis turi <b>tris</b> pusiaukampines — po vieną iš kiekvienos viršūnės. Su jomis susijusi įdomi savybė.", "expr": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. Pusiaukampinė iš viršūnės A taip pat eina per tą patį tašką I.", "q": "Per kiek bendrų taškų (be pačių viršūnių) eina VISOS trys trikampio pusiaukampinės?", "accepted": ["1"], "hints": ["Pagalvok, kiek pusiaukampinių susikerta viename taške — vieną, dvi ar visas tris?", "Šis bendras taškas yra trikampyje įbrėžto apskritimo centras.", "Visos trys pusiaukampinės eina per VIENĄ tą patį tašką — įrašyk, kiek tai taškų."]}, {"intro": "Pažiūrėkime, kas nutinka <b>lygiašoniame</b> trikampyje, kai pusiaukampinė nubrėžta iš viršūninio kampo (tarp šoninių kraštinių).", "expr": "<svg width=\"220\" height=\"175\" viewBox=\"-1 16.9 202 159.1\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"100,42.9 25,150 175,150\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"100\" y1=\"42.9\" x2=\"100\" y2=\"150\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><rect x=\"92\" y=\"142\" width=\"8\" height=\"8\" style=\"fill:none;stroke:#5b6472;stroke-width:1.6\"/><circle cx=\"100\" cy=\"42.9\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"32.9\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"25\" cy=\"150\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"15\" y=\"156\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"175\" cy=\"150\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"185\" y=\"156\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text><circle cx=\"100\" cy=\"150\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"168\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">M</text></svg>", "q": "Trikampis ABC lygiašonis (AB = AC). AM — pusiaukampinė iš viršūninio kampo A. Koks yra ∠AMB (kvadratėlis brėžinyje žymi statųjį kampą)?", "accepted": ["90"], "hints": ["Lygiašonio trikampio pusiaukampinė iš viršūninio kampo sutampa su dar dviem specialiom atkarpom — su kuriomis?", "Ji sutampa su AUKŠTINE — o aukštinė su kraštine BC sudaro statųjį kampą.", "Statusis kampas laipsniais lygus…"]}, {"intro": "Dabar sudėtingiau — panaudosime pusiaukampinę KARTU su trikampio kampų suma.", "expr": "<svg width=\"230\" height=\"180\" viewBox=\"-4 -2.9 208 160.9\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"120.1,23.1 22,132 178,132\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"120.1\" y1=\"23.1\" x2=\"106.7\" y2=\"132\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><path d=\"M 32 120.9 A 15 15 0 0 0 37 132\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><path d=\"M 171 118.8 A 15 15 0 0 1 163 132\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><text x=\"47.6\" y=\"120.6\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">48°</text><text x=\"154\" y=\"117.6\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">62°</text><circle cx=\"120.1\" cy=\"23.1\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"120.1\" y=\"13.1\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"22\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"12\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"178\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"188\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text><circle cx=\"106.7\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"106.7\" y=\"150\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">M</text></svg>", "q": "Trikampyje ABC: ∠B = 48°, ∠C = 62°, AM — pusiaukampinė iš viršūnės A. Koks yra ∠BAM?", "accepted": ["35"], "hints": ["Pirmiausia rask visą kampą ∠A, naudodamas trikampio kampų sumą (180°).", "∠A = 180° − 48° − 62°. O ∠BAM yra tik PUSĖ šio kampo.", "Apskaičiuok ∠A, tada padalyk jį iš 2."]}, {"intro": "Grįžkime prie susikirtimo taško I — panagrinėkime, koks kampas susidaro TARP dviejų pusiaukampinių.", "expr": "<svg width=\"230\" height=\"190\" viewBox=\"-8 6.9 216 169.1\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"100,32.9 18,150 182,150\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"18\" y1=\"150\" x2=\"100\" y2=\"107.3\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><line x1=\"182\" y1=\"150\" x2=\"100\" y2=\"107.3\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><line x1=\"100\" y1=\"32.9\" x2=\"100\" y2=\"107.3\" style=\"stroke:#9aa4b2;stroke-width:1.6;stroke-dasharray:3 3\"/><path d=\"M 91.4 45.2 A 15 15 0 0 1 108.6 45.2\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><text x=\"100\" y=\"58.9\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">70°</text><circle cx=\"100\" cy=\"107.3\" r=\"3\" style=\"fill:#c62828\"/><text x=\"108\" y=\"101.3\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">I</text><circle cx=\"100\" cy=\"32.9\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"22.9\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"18\" cy=\"150\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"8\" y=\"156\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"182\" cy=\"150\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"192\" y=\"156\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text></svg>", "q": "Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = 70°. Koks yra ∠BIC? Skaičiuok žingsnis po žingsnio.", "accepted": ["125"], "hints": ["1 žingsnis: rask ∠B + ∠C = 180° − ∠A.", "2 žingsnis: kadangi I — pusiaukampinių susikirtimo taškas, ∠IBC + ∠ICB = (∠B + ∠C) : 2. Tai — trikampio BIC dviejų kampų suma.", "3 žingsnis: trikampyje BIC kampų suma 180°, taigi ∠BIC = 180° − (∠IBC + ∠ICB). Apskaičiuok šį skirtumą."]}, {"intro": "Paskutinė ir sunkiausia — <b>algebrinis</b> uždavinys su pusiaukampine.", "expr": "<svg width=\"220\" height=\"175\" viewBox=\"-4 -14.1 208 172.1\" style=\"display:block;margin:8px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px\"><polygon points=\"100,11.9 22,132 178,132\" style=\"fill:none;stroke:#1e5fa8;stroke-width:2.2\"/><line x1=\"100\" y1=\"11.9\" x2=\"100\" y2=\"132\" style=\"stroke:#0a7d52;stroke-width:2.2\"/><path d=\"M 91.8 24.5 A 15 15 0 0 1 100 26.9\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><path d=\"M 100 26.9 A 15 15 0 0 1 108.2 24.5\" style=\"fill:none;stroke-width:2;stroke:#0a7d52\"/><text x=\"90.9\" y=\"42.6\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">3x</text><text x=\"109.1\" y=\"42.6\" text-anchor=\"middle\" style=\"font-size:13px;font-weight:800;fill:#c62828\">x+22</text><circle cx=\"100\" cy=\"11.9\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"1.9\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">A</text><circle cx=\"22\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"12\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">B</text><circle cx=\"178\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"188\" y=\"138\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">C</text><circle cx=\"100\" cy=\"132\" r=\"2.4\" style=\"fill:#1c2430\"/><text x=\"100\" y=\"150\" text-anchor=\"middle\" style=\"font-size:13px;font-style:italic;font-weight:700;fill:#1c2430\">M</text></svg>", "q": "AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = 3x, ∠MAC = (x + 22)°. Rask x.", "accepted": ["11"], "hints": ["Kadangi AM pusiaukampinė, ∠BAM ir ∠MAC yra LYGŪS. Užrašyk lygtį 3x = x + 22.", "Perkelk narius su x į vieną pusę: 3x − x = 22, tai yra 2x = 22.", "Padalyk abi lygties puses iš 2 — gausi x reikšmę."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "AM — trikampio ABC pusiaukampinė, ∠BAM = 41°. Koks ∠BAC?", "acc": ["82"], "hint": "∠BAC = ∠BAM + ∠MAC = 41° + 41°."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠BAC = 104°. Koks ∠BAM?", "acc": ["52"], "hint": "∠BAM = ∠BAC : 2."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠MAC = 37°. Koks ∠BAC?", "acc": ["74"], "hint": "∠BAC = ∠BAM + ∠MAC = 37° + 37°."}, {"t": "Per kiek bendrų taškų eina visos trys trikampio pusiaukampinės?", "acc": ["1"], "hint": "Jos visos susikerta tame pačiame VIENAME taške."}, {"t": "Lygiašonio trikampio ABC (AB=AC) pusiaukampinė AM iš viršūninio kampo A. Koks ∠AMB?", "acc": ["90"], "hint": "AM sutampa su aukštine, todėl AM ⊥ BC."}, {"t": "Trikampyje ABC: ∠B = 53°, ∠C = 61°, AM pusiaukampinė iš A. Koks ∠BAM?", "acc": ["33"], "hint": "∠A = 180° − 53° − 61°, tada padalyk iš 2."}, {"t": "Su tais pačiais duomenimis (∠B=53°, ∠C=61°, ∠BAM=33°) koks ∠AMB?", "acc": ["94"], "hint": "Trikampyje ABM kampų suma 180°: ∠AMB = 180° − 53° − 33°."}, {"t": "Pusiaukampinės iš B ir C susikerta I. ∠A = 58°. Kam lygu ∠B + ∠C?", "acc": ["122"], "hint": "∠B + ∠C = 180° − ∠A."}, {"t": "Su tais pačiais duomenimis (∠B+∠C=122°) koks ∠BIC?", "acc": ["119"], "hint": "Pusė sumos = 61°. ∠BIC = 180° − 61°."}, {"t": "AM pusiaukampinė, ∠BAM = 4x, ∠MAC = (2x + 26)°. Rask x.", "acc": ["13"], "hint": "4x = 2x + 26 → 2x = 26."}]}, {"label": "variantas B", "qs": [{"t": "AM — trikampio ABC pusiaukampinė, ∠BAM = 36°. Koks ∠BAC?", "acc": ["72"], "hint": "∠BAC = ∠BAM + ∠MAC = 36° + 36°."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠BAC = 126°. Koks ∠BAM?", "acc": ["63"], "hint": "∠BAM = ∠BAC : 2."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠MAC = 48°. Koks ∠BAC?", "acc": ["96"], "hint": "∠BAC = ∠BAM + ∠MAC = 48° + 48°."}, {"t": "Per kiek bendrų taškų eina visos trys trikampio pusiaukampinės?", "acc": ["1"], "hint": "Jos visos susikerta tame pačiame VIENAME taške."}, {"t": "Lygiašonio trikampio ABC (AB=AC) pusiaukampinė AM iš viršūninio kampo A. Koks ∠AMB?", "acc": ["90"], "hint": "AM sutampa su aukštine, todėl AM ⊥ BC."}, {"t": "Trikampyje ABC: ∠B = 47°, ∠C = 69°, AM pusiaukampinė iš A. Koks ∠BAM?", "acc": ["32"], "hint": "∠A = 180° − 47° − 69°, tada padalyk iš 2."}, {"t": "Su tais pačiais duomenimis (∠B=47°, ∠C=69°, ∠BAM=32°) koks ∠AMB?", "acc": ["101"], "hint": "Trikampyje ABM kampų suma 180°: ∠AMB = 180° − 47° − 32°."}, {"t": "Pusiaukampinės iš B ir C susikerta I. ∠A = 42°. Kam lygu ∠B + ∠C?", "acc": ["138"], "hint": "∠B + ∠C = 180° − ∠A."}, {"t": "Su tais pačiais duomenimis (∠B+∠C=138°) koks ∠BIC?", "acc": ["111"], "hint": "Pusė sumos = 69°. ∠BIC = 180° − 69°."}, {"t": "AM pusiaukampinė, ∠BAM = 5x, ∠MAC = (3x + 18)°. Rask x.", "acc": ["9"], "hint": "5x = 3x + 18 → 2x = 18."}]}, {"label": "variantas C", "qs": [{"t": "AM — trikampio ABC pusiaukampinė, ∠BAM = 29°. Koks ∠BAC?", "acc": ["58"], "hint": "∠BAC = ∠BAM + ∠MAC = 29° + 29°."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠BAC = 138°. Koks ∠BAM?", "acc": ["69"], "hint": "∠BAM = ∠BAC : 2."}, {"t": "AM — trikampio ABC pusiaukampinė, ∠MAC = 53°. Koks ∠BAC?", "acc": ["106"], "hint": "∠BAC = ∠BAM + ∠MAC = 53° + 53°."}, {"t": "Per kiek bendrų taškų eina visos trys trikampio pusiaukampinės?", "acc": ["1"], "hint": "Jos visos susikerta tame pačiame VIENAME taške."}, {"t": "Lygiašonio trikampio ABC (AB=AC) pusiaukampinė AM iš viršūninio kampo A. Koks ∠AMB?", "acc": ["90"], "hint": "AM sutampa su aukštine, todėl AM ⊥ BC."}, {"t": "Trikampyje ABC: ∠B = 39°, ∠C = 77°, AM pusiaukampinė iš A. Koks ∠BAM?", "acc": ["32"], "hint": "∠A = 180° − 39° − 77°, tada padalyk iš 2."}, {"t": "Su tais pačiais duomenimis (∠B=39°, ∠C=77°, ∠BAM=32°) koks ∠AMB?", "acc": ["109"], "hint": "Trikampyje ABM kampų suma 180°: ∠AMB = 180° − 39° − 32°."}, {"t": "Pusiaukampinės iš B ir C susikerta I. ∠A = 76°. Kam lygu ∠B + ∠C?", "acc": ["104"], "hint": "∠B + ∠C = 180° − ∠A."}, {"t": "Su tais pačiais duomenimis (∠B+∠C=104°) koks ∠BIC?", "acc": ["128"], "hint": "Pusė sumos = 52°. ∠BIC = 180° − 52°."}, {"t": "AM pusiaukampinė, ∠BAM = 6x, ∠MAC = (4x + 20)°. Rask x.", "acc": ["10"], "hint": "6x = 4x + 20 → 2x = 20."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

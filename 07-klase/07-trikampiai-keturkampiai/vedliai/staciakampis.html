@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stačiakampis — mokymosi asistentas (7 klasė)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  .expr svg{display:block;max-width:100%;height:auto;margin:0 auto}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Stačiakampis</h1>
+    <p>Matematika · 7 klasė · 7.6 tema · mokymosi asistentas</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rita</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu išsiaiškinsime, kas yra <b>stačiakampis</b>, kokias savybes turi jo kraštinės ir įstrižainės, ir išmoksime skaičiuoti kraštines iš perimetro bei kampus prie įstrižainių susikirtimo taško.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(String.fromCharCode(176))">°</button><button onclick="ins(',')">,</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Kampą rašyk su „°" arba be jo — abu tinka.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".")
+    .replace(/°/g,"");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* Bendras SVG stačiakampio brėžinys (statmens žymės + pasirinktinai įstrižainės) */
+function rectFig(diagonals, angLabel){
+  const x1=30,y1=22,x2=190,y2=126, t=9;
+  let s = `<svg width="220" height="150" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<polygon points="${x1},${y1} ${x2},${y1} ${x2},${y2} ${x1},${y2}" fill="none" stroke="#1e5fa8" stroke-width="2.2"/>`;
+  if(diagonals){
+    s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#0a7d52" stroke-width="1.8" stroke-dasharray="4,3"/>`;
+    s += `<line x1="${x2}" y1="${y1}" x2="${x1}" y2="${y2}" stroke="#0a7d52" stroke-width="1.8" stroke-dasharray="4,3"/>`;
+    s += `<text x="${(x1+x2)/2+6}" y="${(y1+y2)/2-6}" font-size="13" font-style="italic" fill="#2c2620">O</text>`;
+  }
+  s += `<path d="M ${x1} ${y1+t} L ${x1+t} ${y1+t} L ${x1+t} ${y1}" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<path d="M ${x2-t} ${y1} L ${x2-t} ${y1+t} L ${x2} ${y1+t}" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<path d="M ${x2} ${y2-t} L ${x2-t} ${y2-t} L ${x2-t} ${y2}" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<path d="M ${x1+t} ${y2} L ${x1+t} ${y2-t} L ${x1} ${y2-t}" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<text x="${x1-14}" y="${y1-6}" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">A</text>`;
+  s += `<text x="${x2+6}" y="${y1-6}" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">B</text>`;
+  s += `<text x="${x2+6}" y="${y2+16}" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">C</text>`;
+  s += `<text x="${x1-14}" y="${y2+16}" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">D</text>`;
+  if(angLabel) s += `<text x="${(x1+x2)/2-20}" y="${(y1+y2)/2-14}" font-size="12" font-weight="700" fill="#b25c00">${angLabel}</text>`;
+  s += `</svg>`;
+  return s;
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+{
+  intro: "Labas! Aš — tavo mokymosi asistentė. Šiandien mokysimės apie <b>stačiakampį</b>. Pradėkime nuo apibrėžimo.",
+  expr: rectFig(false,null),
+  q: "Pažiūrėk į brėžinį — visi keturi kampai pažymėti kvadratėliu (status kampas). Stačiakampis yra lygiagretainis, kurio VISI keturi kampai statūs. Kiek laipsnių turi kiekvienas stačiakampio kampas?",
+  hints: [
+    "Statusis kampas — tai kampas, lygus vienam konkrečiam laipsnių skaičiui. Prisimink iš geometrijos: statmenys sudaro tokį kampą.",
+    "Statusis kampas visada lygus 90°."
+  ],
+  accepted: ["90","90°"]
+},
+{
+  intro: "Puiku! Kadangi stačiakampis yra lygiagretainis, jam galioja visos lygiagretainio savybės.",
+  expr: rectFig(false,null),
+  q: "Lygiagretainyje priešingos kraštinės lygios. Jei stačiakampio ABCD kraštinė AB = 12 cm, kam lygi priešinga jai kraštinė CD?",
+  hints: [
+    "Priešingos kraštinės lygiagretainyje (taigi ir stačiakampyje) visada lygios viena kitai.",
+    "AB ir CD yra viena priešais kitą, todėl CD = AB."
+  ],
+  accepted: ["12","12cm","12 cm"]
+},
+{
+  intro: "Dabar išmoksime skaičiuoti kraštines, kai duotas perimetras ir santykis.",
+  expr: "P = 2·(a+b),  a : b = 2 : 3,  P = 40 cm",
+  q: "Kraštinės — 2k ir 3k. Perimetras 2·(2k+3k) = 40, t.y. 10k = 40. Koks yra k?",
+  hints: [
+    "Padalink abi lygties puses iš 10: k = 40 : 10.",
+    "40 : 10 = 4"
+  ],
+  accepted: ["4"]
+},
+{
+  intro: "Radome k = 4. Dabar apskaičiuokime pačias kraštines.",
+  expr: "a = 2k,  b = 3k,  k = 4",
+  q: "Kam lygi ilgesnė kraštinė b (b = 3k)?",
+  hints: [
+    "b = 3 · 4",
+    "3 · 4 = 12"
+  ],
+  accepted: ["12","12cm","12 cm"]
+},
+{
+  intro: "Puikiai! Dabar pereiname prie svarbiausios stačiakampio ypatybės — įstrižainių.",
+  expr: rectFig(true,null),
+  q: "Stačiakampio įstrižainės AC ir BD susikerta taške O. Stačiakampyje įstrižainės NE TIK dalijasi pusiau (kaip kiekviename lygiagretainyje), bet ir yra LYGIOS. Tai reiškia, kad AO = OC = BO = OD. Kiek IŠ VISO tokių atkarpų (AO, BO, CO, DO) yra tarpusavyje lygios?",
+  hints: [
+    "Suskaičiuok atkarpas: AO, BO, CO, DO — kiek jų parašyta?",
+    "Jų yra keturios, ir visos jos lygios."
+  ],
+  accepted: ["4","keturios"]
+},
+{
+  intro: "Kadangi AO=OD, trikampis AOD yra lygiašonis. Tai leidžia rasti jo kampus.",
+  expr: rectFig(true,"120°"),
+  q: "Trikampio AOD kampas prie viršūnės O (∠AOD) lygus 120°. Kadangi OA = OD, kampai prie pagrindo AD lygūs: ∠OAD = ∠ODA. Trikampio kampų suma — 180°. Kam lygus ∠OAD?",
+  hints: [
+    "∠OAD + ∠ODA = 180° − 120° = 60°. O jie abu lygūs vienas kitam.",
+    "60° : 2 = 30°"
+  ],
+  accepted: ["30","30°"]
+},
+{
+  intro: "Puikiai! Dabar — gretimas kampas prie to paties taško O.",
+  expr: rectFig(true,"120°"),
+  q: "Kampai ∠AOD ir ∠AOB yra gretimi — kartu jie sudaro tiesę per įstrižainę BD, todėl jų suma = 180°. Jei ∠AOD = 120°, kam lygus ∠AOB?",
+  hints: [
+    "∠AOB = 180° − ∠AOD",
+    "180° − 120° = 60°"
+  ],
+  accepted: ["60","60°"]
+},
+{
+  intro: "Paskutinė užduotis — kraštinių ir įstrižainės ryšys per Pitagoro teoremą.",
+  expr: "a = 6 cm,  b = 8 cm",
+  q: "Stačiakampio kraštinė ir įstrižainė, nubrėžta iš tos pačios viršūnės, sudaro stačiąjį trikampį (kraštinės — statiniai, įstrižainė — įžambinė). Kraštinės 6 cm ir 8 cm. Kam lygi įstrižainė d = √(a² + b²)?",
+  hints: [
+    "d = √(6² + 8²) = √(36 + 64) = √100",
+    "√100 = 10"
+  ],
+  accepted: ["10","10cm","10 cm"]
+}
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [
+{ label:"variantas A", qs:[
+  {t:"Stačiakampio kraštinių santykis a : b = 2 : 3, perimetras 40 cm. Kam lygi trumpesnė kraštinė (cm)?", acc:["8"], hint:"10k=40, k=4. a=2·4."},
+  {t:"Stačiakampio kraštinių santykis a : b = 2 : 3, perimetras 40 cm. Kam lygi ilgesnė kraštinė (cm)?", acc:["12"], hint:"10k=40, k=4. b=3·4."},
+  {t:"Stačiakampio perimetras 56 cm, viena kraštinė 8 cm ilgesnė už kitą. Kam lygi ilgesnė kraštinė (cm)?", acc:["18"], hint:"a+b=28. Ilgesnė=(28+8):2."},
+  {t:"Stačiakampio perimetras 56 cm, viena kraštinė 8 cm ilgesnė už kitą. Kam lygi trumpesnė kraštinė (cm)?", acc:["10"], hint:"a+b=28. Trumpesnė=(28−8):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 120°. Kam lygus ∠OAD?", acc:["30","30°"], hint:"Trikampis AOD lygiašonis. (180−120):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 120°. Kam lygus gretimas ∠AOB?", acc:["60","60°"], hint:"∠AOB=180−∠AOD."},
+  {t:"Stačiakampio kraštinės 6 cm ir 8 cm. Kam lygi įstrižainė (cm)?", acc:["10"], hint:"d=√(6²+8²)=√100."},
+  {t:"Stačiakampio įstrižainė 13 cm, viena kraštinė 5 cm. Kam lygi kita kraštinė (cm)?", acc:["12"], hint:"kita=√(13²−5²)=√144."},
+  {t:"Stačiakampio kraštinės 9 cm ir 12 cm. Koks stačiakampio perimetras (cm)?", acc:["42"], hint:"P=2·(9+12)."},
+  {t:"Stačiakampio kraštinės 9 cm ir 12 cm. Koks stačiakampio plotas (cm²)?", acc:["108"], hint:"S=a·b=9·12."}
+]},
+{ label:"variantas B", qs:[
+  {t:"Stačiakampio kraštinių santykis a : b = 1 : 2, perimetras 36 cm. Kam lygi trumpesnė kraštinė (cm)?", acc:["6"], hint:"6k=36, k=6. a=1·6."},
+  {t:"Stačiakampio kraštinių santykis a : b = 1 : 2, perimetras 36 cm. Kam lygi ilgesnė kraštinė (cm)?", acc:["12"], hint:"6k=36, k=6. b=2·6."},
+  {t:"Stačiakampio perimetras 64 cm, viena kraštinė 6 cm ilgesnė už kitą. Kam lygi ilgesnė kraštinė (cm)?", acc:["19"], hint:"a+b=32. Ilgesnė=(32+6):2."},
+  {t:"Stačiakampio perimetras 64 cm, viena kraštinė 6 cm ilgesnė už kitą. Kam lygi trumpesnė kraštinė (cm)?", acc:["13"], hint:"a+b=32. Trumpesnė=(32−6):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 100°. Kam lygus ∠OAD?", acc:["40","40°"], hint:"(180−100):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 100°. Kam lygus gretimas ∠AOB?", acc:["80","80°"], hint:"180−100."},
+  {t:"Stačiakampio kraštinės 9 cm ir 12 cm. Kam lygi įstrižainė (cm)?", acc:["15"], hint:"d=√(9²+12²)=√225."},
+  {t:"Stačiakampio įstrižainė 25 cm, viena kraštinė 7 cm. Kam lygi kita kraštinė (cm)?", acc:["24"], hint:"kita=√(25²−7²)=√576."},
+  {t:"Stačiakampio kraštinės 6 cm ir 8 cm. Koks stačiakampio perimetras (cm)?", acc:["28"], hint:"P=2·(6+8)."},
+  {t:"Stačiakampio kraštinės 6 cm ir 8 cm. Koks stačiakampio plotas (cm²)?", acc:["48"], hint:"S=a·b=6·8."}
+]},
+{ label:"variantas C", qs:[
+  {t:"Stačiakampio kraštinių santykis a : b = 3 : 4, perimetras 56 cm. Kam lygi trumpesnė kraštinė (cm)?", acc:["12"], hint:"14k=56, k=4. a=3·4."},
+  {t:"Stačiakampio kraštinių santykis a : b = 3 : 4, perimetras 56 cm. Kam lygi ilgesnė kraštinė (cm)?", acc:["16"], hint:"14k=56, k=4. b=4·4."},
+  {t:"Stačiakampio perimetras 48 cm, viena kraštinė 10 cm ilgesnė už kitą. Kam lygi ilgesnė kraštinė (cm)?", acc:["17"], hint:"a+b=24. Ilgesnė=(24+10):2."},
+  {t:"Stačiakampio perimetras 48 cm, viena kraštinė 10 cm ilgesnė už kitą. Kam lygi trumpesnė kraštinė (cm)?", acc:["7"], hint:"a+b=24. Trumpesnė=(24−10):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 140°. Kam lygus ∠OAD?", acc:["20","20°"], hint:"(180−140):2."},
+  {t:"Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 140°. Kam lygus gretimas ∠AOB?", acc:["40","40°"], hint:"180−140."},
+  {t:"Stačiakampio kraštinės 5 cm ir 12 cm. Kam lygi įstrižainė (cm)?", acc:["13"], hint:"d=√(5²+12²)=√169."},
+  {t:"Stačiakampio įstrižainė 17 cm, viena kraštinė 8 cm. Kam lygi kita kraštinė (cm)?", acc:["15"], hint:"kita=√(17²−8²)=√225."},
+  {t:"Stačiakampio kraštinės 5 cm ir 12 cm. Koks stačiakampio perimetras (cm)?", acc:["34"], hint:"P=2·(5+12)."},
+  {t:"Stačiakampio kraštinės 5 cm ir 12 cm. Koks stačiakampio plotas (cm²)?", acc:["60"], hint:"S=a·b=5·12."}
+]}
+];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

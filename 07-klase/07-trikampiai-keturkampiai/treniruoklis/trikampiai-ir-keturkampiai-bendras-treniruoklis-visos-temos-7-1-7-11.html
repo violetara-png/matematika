@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bendras kontrolinio treniruoklis: Trikampiai ir keturkampiai (7 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Bendras kontrolinio treniruoklis: Trikampiai ir keturkampiai (7 klasė)</h1>
+    <p id="paantraste">7 skyrius Trikampiai ir keturkampiai, 7.1-7.11, visos potemes viename treniruoklyje</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// BENDRAS 7 kl. 7 skyriaus „Trikampiai ir keturkampiai" kontrolinio treniruoklio generatorius.
+// Sujungia visų 11 potemių (7.1–7.11) generatorius į vieną treniruoklį.
+// Kiekvienos potemės kodas suvyniotas į atskirą IIFE (potemės turi savo
+// pagalbines funkcijas/const'us, kai kurie pavadinimai kartojasi tarp
+// potemių — pvz. angleArc(), vsub()/vadd()/vmul() ir pan. — todėl IIFE
+// izoliacija būtina).
+// Etiketės prefiksuotos potemės numeriu, kad „silpna vieta" rodytų, kuri
+// konkreti potemė mokiniui sunkiausiai sekasi.
+
+const GENERATORIAI = [].concat(
+
+// ==================== 7.1 Trikampių rūšys ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.1 "Trikampių rūšys".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) ("+ 3" / "− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius kuria uždavinį IŠ atsakymo
+// (pasirenka tikslinę rūšį / reikšmę, tada sukonstruoja duomenis), todėl
+// atsakymas visada teisingas ir geometriškai galimas.
+//
+// Temos turinys: trikampiai pagal kampus (smailusis <90°, statusis =90°,
+// bukasis >90°; kampų suma 180°), trikampiai pagal kraštines (įvairiakraštis,
+// lygiašonis, lygiakraštis).
+
+const SCALENE_RATIOS = [[2,3,4],[3,4,5],[3,5,6],[4,5,6],[2,4,5],[3,5,7],[4,6,7],[5,6,7]];
+const ISO_RATIOS = [[2,2,3],[3,3,4],[3,3,5],[4,4,5],[4,4,7],[5,5,6],[5,5,8],[5,5,9],[2,2,1]];
+
+function genKampuTrejetas(target){
+  // Konstruojame du duotus kampus A,B (visada <90°), kad trečiasis C = 180−A−B
+  // vienareikšmiškai nulemtų rūšį (smailusis/statusis/bukasis).
+  let A,B,C;
+  if(target==='statusis'){
+    A = randint(15,74); C = 90; B = 90 - A;
+  } else if(target==='bukasis'){
+    C = randint(91,150);
+    const sum = 180 - C;
+    const loA = 15, hiA = Math.max(15, sum-15);
+    A = randint(loA, hiA); B = sum - A;
+  } else { // smailusis
+    C = randint(20,89);
+    const sum = 180 - C;
+    const loA = Math.max(15, sum-89);
+    const hiA = Math.max(loA, Math.min(89, sum-15));
+    A = randint(loA, hiA); B = sum - A;
+  }
+  return {A,B,C};
+}
+
+function genKampaiKintamuoju(){
+  for(let tries=0; tries<200; tries++){
+    const S = randint(4,12);
+    let x0 = Math.round(180/S) + choice([-1,0,1]);
+    if(x0 < 4) continue;
+    const o = 180 - S*x0;
+    if(Math.abs(o) > 25) continue;
+    const c1 = randint(1, S-2);
+    const c2 = randint(1, S-c1-1);
+    const c3 = S - c1 - c2;
+    if(c3 < 1) continue;
+    const idx = randint(0,2);
+    const coefs = [c1,c2,c3];
+    const angles = coefs.map((c,i)=> c*x0 + (i===idx ? o : 0));
+    if(angles.every(v=> v>0 && v<170)){
+      return {S,x0,o,coefs,idx,angles};
+    }
+  }
+  return {S:10,x0:19,o:-10,coefs:[2,5,3],idx:1,angles:[38,85,57]};
+}
+
+const GENERATORIAI = [
+  { label:"Trikampio rūšis pagal kampus", gen(){
+      const target = choice(['smailusis','statusis','bukasis']);
+      const {A,B,C} = genKampuTrejetas(target);
+      let paskutinis;
+      if(C<90) paskutinis = `Visi trys kampai (${A}°, ${B}°, ${C}°) mažesni už 90°, todėl trikampis smailusis`;
+      else if(C===90) paskutinis = `Vienas kampas lygus 90°, todėl trikampis statusis`;
+      else paskutinis = `Vienas kampas didesnis už 90° (${C}°), todėl trikampis bukasis`;
+      return {
+        q:`Trikampio du kampai yra ${A}° ir ${B}°. Kokios rūšies šis trikampis pagal kampus?`,
+        ans: target, ansType:'text', pre:'Trikampis yra:',
+        steps:[
+          `Trikampio vidaus kampų suma lygi 180°`,
+          `Trečiasis kampas: 180° − ${A}° − ${B}° = ${C}°`,
+          paskutinis
+        ]
+      };
+  }},
+  { label:"Trikampio rūšis pagal kraštines", gen(){
+      const target = choice(['ivairiakrastis','lygiasonis','lygiakrastis']);
+      let ratio;
+      if(target==='lygiakrastis') ratio = [1,1,1];
+      else if(target==='lygiasonis') ratio = choice(ISO_RATIOS);
+      else ratio = choice(SCALENE_RATIOS);
+      const k = randint(2,9);
+      const sides = ratio.map(r=>r*k);
+      const P = sides.reduce((s,x)=>s+x,0);
+      const sumRatio = ratio.reduce((s,x)=>s+x,0);
+      const word = target==='lygiakrastis' ? 'lygiakraštis' : target==='lygiasonis' ? 'lygiašonis' : 'įvairiakraštis';
+      const [a,b,c] = sides;
+      let paskutinis;
+      if(target==='lygiakrastis') paskutinis = `Visos trys kraštinės lygios, todėl trikampis ${word}`;
+      else if(target==='lygiasonis') paskutinis = `Dvi kraštinės lygios, trečia skiriasi, todėl trikampis ${word}`;
+      else paskutinis = `Visos trys kraštinės skirtingo ilgio, todėl trikampis ${word}`;
+      return {
+        q:`Trikampio kraštinių santykis a : b : c = ${ratio.join(' : ')}, o perimetras P = ${nf(P)} cm. Kokios rūšies šis trikampis pagal kraštines?`,
+        ans: word, ansType:'text', pre:'Trikampis yra:',
+        steps:[
+          `Viena santykio dalis: P : (${ratio.join(' + ')}) = ${nf(P)} : ${sumRatio} = ${nf(k)} cm`,
+          `Kraštinės: a = ${ratio[0]} · ${nf(k)} = ${nf(a)} cm, b = ${ratio[1]} · ${nf(k)} = ${nf(b)} cm, c = ${ratio[2]} · ${nf(k)} = ${nf(c)} cm`,
+          paskutinis
+        ]
+      };
+  }},
+  { label:"Lygiašonio trikampio kraštinės", gen(){
+      const legCase = choice([true,false]);
+      if(legCase){
+        // Duotas pagrindas b, ieškoma šoninės kraštinės.
+        const b = randint(4,20);
+        const m = randint(Math.ceil((b+1)/2), b+15);
+        const P = 2*m + b;
+        return {
+          q:`Lygiašonio trikampio pagrindas yra ${nf(b)} cm, perimetras P = ${nf(P)} cm. Raskite trikampio šoninės kraštinės ilgį.`,
+          ans:m, pre:'Šoninė kraštinė =', ansText:`${nf(m)} cm`,
+          steps:[
+            `Lygiašonio trikampio dvi šoninės kraštinės lygios, pažymėkime jas x`,
+            `2x + pagrindas = P, todėl 2x = ${nf(P)} − ${nf(b)} = ${nf(P-b)}`,
+            `x = ${nf(P-b)} : 2 = ${nf(m)} cm`
+          ]
+        };
+      } else {
+        // Duota šoninė kraštinė m, ieškomas pagrindas b (turi tenkinti trikampio nelygybę 2m > b).
+        const m = randint(4,20);
+        const b = randint(1, 2*m-1);
+        const P = 2*m + b;
+        return {
+          q:`Lygiašonio trikampio šoninė kraštinė yra ${nf(m)} cm, perimetras P = ${nf(P)} cm. Raskite trikampio pagrindo ilgį.`,
+          ans:b, pre:'Pagrindas =', ansText:`${nf(b)} cm`,
+          steps:[
+            `Lygiašonio trikampio dvi šoninės kraštinės lygios ${nf(m)} cm, jų suma = 2 · ${nf(m)} = ${nf(2*m)} cm`,
+            `Pagrindas = P − 2 · šoninė = ${nf(P)} − ${nf(2*m)} = ${nf(b)} cm`,
+            `Patikriname: 2 · ${nf(m)} = ${nf(2*m)} > ${nf(b)} — trikampio nelygybė tenkinama, pagrindas = ${nf(b)} cm`
+          ]
+        };
+      }
+  }},
+  { label:"Trikampių perimetrų lygtis", gen(){
+      let ca,cb,cc,pa,pb,pc,x0,sideA,sideB,sideC,tries=0;
+      do{
+        ca = randint(1,3); cb = randint(1,3); cc = randint(1,3);
+        pa = nz(-6,10); pb = nz(-6,10); pc = nz(-6,10);
+        x0 = randint(3,12);
+        sideA = ca*x0+pa; sideB = cb*x0+pb; sideC = cc*x0+pc;
+        tries++;
+      } while((sideA<=0 || sideB<=0 || sideC<=0) && tries<80);
+      if(sideA<=0 || sideB<=0 || sideC<=0){ ca=1;cb=1;cc=1;pa=2;pb=3;pc=4;x0=6;sideA=8;sideB=9;sideC=10; }
+      const P2 = sideA+sideB+sideC;
+      const A = ca+cb+cc;
+      const B = pa+pb+pc;
+      const term = (c,p) => (c===1 ? 'x' : `${c}x`) + ' ' + pm(p);
+      return {
+        q:`Vieno trikampio kraštinės yra (${term(ca,pa)}) cm, (${term(cb,pb)}) cm ir (${term(cc,pc)}) cm. Šio trikampio perimetras lygus kito trikampio, kurio perimetras ${nf(P2)} cm, perimetrui. Raskite x reikšmę.`,
+        ans:x0, pre:'x =', ansText:`${nf(x0)}`,
+        steps:[
+          `Pirmojo trikampio perimetras: (${term(ca,pa)}) + (${term(cb,pb)}) + (${term(cc,pc)}) = ${A}x ${pm(B)}`,
+          `${A}x ${pm(B)} = ${nf(P2)}`,
+          `${A}x = ${nf(P2)} ${pm(-B)} = ${nf(P2-B)}`,
+          `x = ${nf(P2-B)} : ${A} = ${nf(x0)}`
+        ]
+      };
+  }},
+  { label:"Kampai su kintamuoju", gen(){
+      const {S,x0,o,coefs,idx,angles} = genKampaiKintamuoju();
+      const terms = coefs.map((c,i)=>{
+        const coefStr = c===1 ? 'x' : `${c}x`;
+        if(i===idx && o!==0) return `(${coefStr} ${pm(o)})`;
+        return coefStr;
+      });
+      return {
+        q:`Trikampio kampai yra ${terms[0]}°, ${terms[1]}° ir ${terms[2]}°. Trikampio vidaus kampų suma lygi 180°. Apskaičiuokite x reikšmę.`,
+        ans:x0, pre:'x =', ansText:`${nf(x0)}`,
+        steps:[
+          `${terms[0]} + ${terms[1]} + ${terms[2]} = 180`,
+          `${S}x ${pm(o)} = 180`,
+          `${S}x = 180 ${pm(-o)} = ${nf(180-o)}`,
+          `x = ${nf(180-o)} : ${S} = ${nf(x0)}. Kampai: ${nf(angles[0])}°, ${nf(angles[1])}°, ${nf(angles[2])}°`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.1 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.2 Trikampio aukštinės ====================
+(function(){
+// 7 kl. 7.2 „Trikampio aukštinės" — kontrolinio treniruoklio generatoriai.
+// Pagalbininkai (randint, choice, nz, nf, pm) apibrėžti šablone, čia nenaudojami iš naujo.
+//
+// Teorija: aukštinė — statmuo iš viršūnės į priešingos kraštinės tiesę.
+// Stačiojo trikampio aukštinė į įžambinę: h = (a·b):c. Plotas: S = a·h:2.
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius konstruoja uždavinį taip, kad
+// atsakymas visada būtų tikslus (nesikartojantis floating-point triukšmas).
+
+// ---------- Vektorių pagalbininkai (bendri SVG braižymui) ----------
+function _sub(a,b){ return [a[0]-b[0], a[1]-b[1]]; }
+function _add(a,b){ return [a[0]+b[0], a[1]+b[1]]; }
+function _mul(a,s){ return [a[0]*s, a[1]*s]; }
+function _norm(a){ const L=Math.hypot(a[0],a[1])||1; return [a[0]/L, a[1]/L]; }
+function _f(v){ const r=Math.round(v*10)/10; return (r===0?0:r).toString(); }
+
+// Stataus kampo žymė (kvadratėlis) taške P, kur du kraštai statmeni — kryptys
+// dir1, dir2 (nebūtinai ašiniai, bet TURI būti statmeni), t — žymės dydis px.
+function _rightTick(P, dir1, dir2, t){
+  const p1=_add(P,_mul(dir1,t));
+  const p2=_add(p1,_mul(dir2,t));
+  const p3=_add(P,_mul(dir2,t));
+  return `M ${_f(p1[0])} ${_f(p1[1])} L ${_f(p2[0])} ${_f(p2[1])} L ${_f(p3[0])} ${_f(p3[1])}`;
+}
+
+// ---------- SVG 1: stačiojo trikampio aukštinė į įžambinę ----------
+// Dešinysis kampas taške A(statiniai a — vertikalus, b — horizontalus),
+// aukštinė iš A į BC, pagrindas H = A + (a²b/c², ab²/c²) santykinai nuo A.
+function rightTriangleAltSvg(a,b){
+  const c2=a*a+b*b;
+  const W=230,H=180, pad=36;
+  const s = Math.min((W-2*pad)/b, (H-2*pad)/a);
+  const ox=pad, oy=H-pad-10;
+  const A=[ox,oy], B=[ox,oy-a*s], C=[ox+b*s,oy];
+  const Hx = ox + (a*a*b/c2)*s, Hy = oy - (a*b*b/c2)*s;
+  const Hp=[Hx,Hy];
+  const dirA = _norm(_sub(A,Hp)), dirC = _norm(_sub(C,Hp));
+  const dirUp = _norm(_sub(B,A)), dirRight = _norm(_sub(C,A));
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<polygon points="${_f(A[0])},${_f(A[1])} ${_f(B[0])},${_f(B[1])} ${_f(C[0])},${_f(C[1])}" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  svg += `<line x1="${_f(A[0])}" y1="${_f(A[1])}" x2="${_f(Hx)}" y2="${_f(Hy)}" stroke="#0a7d52" stroke-width="2" stroke-dasharray="5,3"/>`;
+  svg += `<path d="${_rightTick(A,dirUp,dirRight,10)}" fill="none" stroke="#2c2620" stroke-width="1.4"/>`;
+  svg += `<path d="${_rightTick(Hp,dirA,dirC,9)}" fill="none" stroke="#2c2620" stroke-width="1.4"/>`;
+  svg += `<text x="${_f(A[0]-12)}" y="${_f(A[1]+14)}" font-size="14" font-weight="700" fill="#2c2620">A</text>`;
+  svg += `<text x="${_f(B[0]-4)}" y="${_f(B[1]-8)}" font-size="14" font-weight="700" fill="#2c2620">B</text>`;
+  svg += `<text x="${_f(C[0]+6)}" y="${_f(C[1]+14)}" font-size="14" font-weight="700" fill="#2c2620">C</text>`;
+  svg += `<text x="${_f(Hx+6)}" y="${_f(Hy+16)}" font-size="13" font-style="italic" fill="#2c2620">H</text>`;
+  svg += `<text x="${_f((A[0]+B[0])/2-16)}" y="${_f((A[1]+B[1])/2)}" font-size="13" font-weight="700" fill="#b25c00">${a}</text>`;
+  svg += `<text x="${_f((A[0]+C[0])/2-6)}" y="${_f(A[1]+22)}" font-size="13" font-weight="700" fill="#b25c00">${b}</text>`;
+  svg += `</svg>`;
+  return svg;
+}
+
+// ---------- SVG 2: kraštinės dalys pagal santykį (schematinis) ----------
+function ratioTriangleSvg(L,p,q){
+  const W=240,H=130, pad=30;
+  const s=(W-2*pad)/L;
+  const ox=pad, oy=H-40;
+  const A=[ox,oy], C=[ox+L*s,oy];
+  const B1x = ox + (L*p/(p+q))*s;
+  const B1=[B1x,oy], Bp=[B1x,oy-50];
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<polygon points="${_f(A[0])},${_f(A[1])} ${_f(Bp[0])},${_f(Bp[1])} ${_f(C[0])},${_f(C[1])}" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  svg += `<line x1="${_f(Bp[0])}" y1="${_f(Bp[1])}" x2="${_f(B1[0])}" y2="${_f(B1[1])}" stroke="#0a7d52" stroke-width="2" stroke-dasharray="5,3"/>`;
+  svg += `<path d="${_rightTick(B1,[0,-1],[-1,0],8)}" fill="none" stroke="#2c2620" stroke-width="1.4"/>`;
+  svg += `<text x="${_f(A[0]-12)}" y="${_f(A[1]+16)}" font-size="14" font-weight="700" fill="#2c2620">A</text>`;
+  svg += `<text x="${_f(C[0]+6)}" y="${_f(C[1]+16)}" font-size="14" font-weight="700" fill="#2c2620">C</text>`;
+  svg += `<text x="${_f(Bp[0]-4)}" y="${_f(Bp[1]-8)}" font-size="14" font-weight="700" fill="#2c2620">B</text>`;
+  svg += `<text x="${_f(B1[0]+6)}" y="${_f(B1[1]+16)}" font-size="12" font-style="italic" fill="#2c2620">B₁</text>`;
+  svg += `</svg>`;
+  return svg;
+}
+
+// ---------- SVG 3: kampas prie aukštinės pagrindo (schematinis, statusis H) ----------
+function altAngleSvg(vertexLabel, baseLabel1, baseLabel2, footLabel){
+  const W=220,H=150;
+  const A=[30,120], C=[190,120], B=[70,30], Hp=[70,120];
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<polygon points="${A[0]},${A[1]} ${B[0]},${B[1]} ${C[0]},${C[1]}" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  svg += `<line x1="${B[0]}" y1="${B[1]}" x2="${Hp[0]}" y2="${Hp[1]}" stroke="#0a7d52" stroke-width="2" stroke-dasharray="5,3"/>`;
+  svg += `<path d="${_rightTick(Hp,[0,-1],[1,0],9)}" fill="none" stroke="#2c2620" stroke-width="1.4"/>`;
+  svg += `<text x="16" y="136" font-size="14" font-weight="700" fill="#2c2620">${baseLabel1}</text>`;
+  svg += `<text x="196" y="136" font-size="14" font-weight="700" fill="#2c2620">${baseLabel2}</text>`;
+  svg += `<text x="58" y="22" font-size="14" font-weight="700" fill="#2c2620">${vertexLabel}</text>`;
+  svg += `<text x="74" y="136" font-size="12" font-style="italic" fill="#2c2620">${footLabel}</text>`;
+  svg += `</svg>`;
+  return svg;
+}
+
+const GENERATORIAI = [
+  { label:"Aukštinė stačiajame trikampyje", gen(){
+      const k = randint(1,6);
+      const a = 3*k, b = 4*k, c = 5*k;
+      const h = (a*b)/c;
+      const svg = rightTriangleAltSvg(a,b);
+      return {
+        q:`Stačiojo trikampio statiniai lygūs ${a} cm ir ${b} cm. Apskaičiuok aukštinę, nubrėžtą į įžambinę (cm).${svg}`,
+        ans: h,
+        steps:[
+          `Įžambinė: c = √(${a}² + ${b}²) = √${a*a+b*b} = ${c} cm`,
+          `Aukštinė: h = (a · b) : c = (${a} · ${b}) : ${c}`,
+          `h = ${nf(h)} cm`
+        ]
+      };
+  }},
+  { label:"Kraštinės dalis pagal santykį", gen(){
+      const parts = [[1,2],[1,3],[1,4],[2,3],[2,5],[3,4],[3,5],[4,5],[1,5],[2,7]];
+      const [p,q] = choice(parts);
+      const n = randint(2,9);
+      const L = (p+q)*n;
+      const AB1 = p*n, B1C = q*n;
+      const askAB1 = choice([true,false]);
+      const ans = askAB1 ? AB1 : B1C;
+      const svg = ratioTriangleSvg(L,p,q);
+      return {
+        q:`Trikampio ABC kraštinė AC = ${L} cm. Aukštinė BB₁ (nubrėžta į AC) padalija ją santykiu AB₁ : B₁C = ${p} : ${q}. Kam lygi atkarpa ${askAB1?'AB₁':'B₁C'} (cm)?${svg}`,
+        ans: ans,
+        steps:[
+          `Iš viso dalių santykyje: ${p} + ${q} = ${p+q}`,
+          `Viena dalis: ${L} : ${p+q} = ${n} cm`,
+          `AB₁ = ${p} · ${n} = ${AB1} cm,  B₁C = ${q} · ${n} = ${B1C} cm`,
+          `${askAB1?'AB₁':'B₁C'} = ${ans} cm`
+        ]
+      };
+  }},
+  { label:"Trikampio plotas per aukštinę", gen(){
+      const a = randint(4,18)*2;      // lyginis, kad a·h visada lyginis
+      const h = randint(4,20);
+      const S = (a*h)/2;
+      const svg = ratioTriangleSvg(a,1,1); // schema: pagrindas + aukštinė, be santykio žymės reikšmės
+      return {
+        q:`Trikampio kraštinė (pagrindas) lygi ${a} cm, į ją nubrėžta aukštinė lygi ${h} cm. Apskaičiuok trikampio plotą (cm²).${svg}`,
+        ans: S,
+        steps:[
+          `S = a · h : 2 = ${a} · ${h} : 2`,
+          `S = ${a*h} : 2`,
+          `S = ${S} cm²`
+        ]
+      };
+  }},
+  { label:"Kampas su aukštine (duotas ∠A)", gen(){
+      const x = randint(20,80);
+      const ans = 90-x;
+      const svg = altAngleSvg('B','A','C','H');
+      return {
+        q:`Trikampyje ABC aukštinė BH nubrėžta iš viršūnės B į kraštinę AC (H — tarp A ir C). Kampas BAC = ${x}°. Trikampyje ABH kampas prie H — statusis. Koks yra kampas ABH (laipsniais)?${svg}`,
+        ans: ans,
+        steps:[
+          `Trikampyje ABH kampų suma = 180°, kampas prie H = 90°`,
+          `∠BAH + ∠ABH = 180° − 90° = 90°`,
+          `∠ABH = 90° − ${x}° = ${ans}°`
+        ]
+      };
+  }},
+  { label:"Kampas su aukštine (duotas ∠C)", gen(){
+      const x = randint(20,80);
+      const ans = 90-x;
+      const svg = altAngleSvg('B','A','C','H');
+      return {
+        q:`Trikampyje ABC aukštinė BH nubrėžta iš viršūnės B į kraštinę AC (H — tarp A ir C). Kampas BCA = ${x}°. Trikampyje BHC kampas prie H — statusis. Koks yra kampas HBC (laipsniais)?${svg}`,
+        ans: ans,
+        steps:[
+          `Trikampyje BHC kampų suma = 180°, kampas prie H = 90°`,
+          `∠BCH + ∠HBC = 180° − 90° = 90°`,
+          `∠HBC = 90° − ${x}° = ${ans}°`
+        ]
+      };
+  }},
+  { label:"Trikampio rūšis pagal aukštinių susikirtimą", gen(){
+      const kase = choice(['viduje','virsuneje','isoreje']);
+      let ans, desc, taisykle, pavad;
+      if(kase==='viduje'){ ans=1; desc='trikampio VIDUJE'; taisykle='visos trys aukštinės ir jų susikirtimo taškas — trikampio viduje tik tada, kai visi kampai smailūs'; pavad='smailusis (kodas 1)'; }
+      else if(kase==='virsuneje'){ ans=2; desc='SUTAMPA su viena iš trikampio viršūnių'; taisykle='dvi aukštinės sutampa su statiniais ir susikerta stačiojo kampo viršūnėje tik stačiajame trikampyje'; pavad='statusis (kodas 2)'; }
+      else{ ans=3; desc='UŽ trikampio ribų (kraštinių tęsiniuose)'; taisykle='dvi aukštinės nubrėžtos į kraštinių tęsinius (už trikampio) tik bukajame trikampyje'; pavad='bukasis (kodas 3)'; }
+      return {
+        q:`Trikampio ABC aukštinių susikirtimo taškas yra ${desc}. Kokios rūšies (pagal kampus) yra šis trikampis? Įrašyk kodą: 1 – smailusis, 2 – statusis, 3 – bukasis.`,
+        ans: ans,
+        steps:[
+          `Taškas yra ${desc}`,
+          `Tai būdinga trikampiui, kuriame ${taisykle}`,
+          `Trikampis — ${pavad}`,
+          `Kodas = ${ans}`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.2 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.3 Trikampio pusiaukraštinės ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: Trikampio pusiaukraštinės (7 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia apibrėžiami: SVG brėžinių pagalbininkai ir `const GENERATORIAI = [...]`.
+//
+// TEORIJA:
+// - Pusiaukraštinė — atkarpa nuo trikampio viršūnės iki priešingos kraštinės
+//   vidurio taško.
+// - Jei D yra AB vidurio taškas, tai AD = DB = AB : 2, arba AB = 2 · AD.
+// - Lygiašonio trikampio pusiaukraštinė, nubrėžta į pagrindą, sutampa su
+//   aukštine ir pusiaukampine (todėl ji statmena pagrindui).
+//
+// TAISYKLĖ: kiekvienas uždavinys generuojamas IŠ atsakymo (arba iš tiesos,
+// kuri po to lieka skaičių ryšyje), todėl atsakymas visada teisingas.
+
+// --- SVG brėžinių pagalbininkai (koordinatės tikslios, D TIKRAI per vidurį) ---
+
+// Trikampis ABC su pusiaukraštine CD, D yra AB vidurio taškas.
+// A=(40,190) B=(280,190) C=(170,30) D=vidurio taškas(A,B)=(160,190) tiksliai.
+function svgTrikampisD(o){
+  o = o || {};
+  const AD = o.adLabel || '', DB = o.dbLabel || '', BC = o.bcLabel || '', AC = o.acLabel || '';
+  return `<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="40,190 280,190 170,30" fill="none" stroke="#2c2620" stroke-width="2"/>
+    <line x1="170" y1="30" x2="160" y2="190" stroke="#c9603f" stroke-width="2"/>
+    <circle cx="160" cy="190" r="3.5" fill="#c9603f"/>
+    <line x1="100" y1="184" x2="100" y2="196" stroke="#2c2620" stroke-width="2"/>
+    <line x1="220" y1="184" x2="220" y2="196" stroke="#2c2620" stroke-width="2"/>
+    <text x="26" y="207" font-size="15" fill="#2c2620">A</text>
+    <text x="283" y="207" font-size="15" fill="#2c2620">B</text>
+    <text x="170" y="20" font-size="15" fill="#2c2620" text-anchor="middle">C</text>
+    <text x="160" y="209" font-size="12" fill="#c9603f" text-anchor="middle">D</text>
+    <text x="100" y="176" font-size="12.5" fill="#2c2620" text-anchor="middle">${AD}</text>
+    <text x="220" y="176" font-size="12.5" fill="#2c2620" text-anchor="middle">${DB}</text>
+    <text x="238" y="112" font-size="12.5" fill="#2c2620" text-anchor="start">${BC}</text>
+    <text x="92" y="112" font-size="12.5" fill="#2c2620" text-anchor="end">${AC}</text>
+  </svg>`;
+}
+
+// Lygiašonis trikampis ABC (AB=BC), pusiaukraštinė BD į pagrindą AC.
+// A=(40,190) C=(280,190) B=(160,30) D=vidurio taškas(A,C)=(160,190) tiksliai,
+// todėl BD vertikali (statmena AC) — vizualiai rodo aukštinės sutapimą.
+function svgLygiasonisD(angleA){
+  return `<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="40,190 280,190 160,30" fill="none" stroke="#2c2620" stroke-width="2"/>
+    <line x1="160" y1="30" x2="160" y2="190" stroke="#c9603f" stroke-width="2"/>
+    <path d="M152,190 L152,182 L160,182" fill="none" stroke="#4a6d8c" stroke-width="1.6"/>
+    <line x1="104.8" y1="113.6" x2="95.2" y2="106.4" stroke="#2c2620" stroke-width="2"/>
+    <line x1="224.8" y1="106.4" x2="215.2" y2="113.6" stroke="#2c2620" stroke-width="2"/>
+    <text x="26" y="207" font-size="15" fill="#2c2620">A</text>
+    <text x="283" y="207" font-size="15" fill="#2c2620">C</text>
+    <text x="160" y="20" font-size="15" fill="#2c2620" text-anchor="middle">B</text>
+    <text x="160" y="207" font-size="12" fill="#c9603f" text-anchor="middle">D</text>
+    <text x="63" y="178" font-size="13" fill="#2c2620" text-anchor="start">${angleA}°</text>
+    <text x="140" y="55" font-size="13" fill="#4a6d8c" text-anchor="end">?</text>
+  </svg>`;
+}
+
+// Trikampio nelygybės patikra (a,b,c — bet kokia tvarka).
+function trikampoNelygybe(a,b,c){
+  return (a+b>c) && (a+c>b) && (b+c>a);
+}
+
+const GENERATORIAI = [
+
+  // 1) D — AB vidurio taškas; žinant AD, BC, AC → perimetras.
+  { label:"Perimetras (vidurio taškas)", gen(){
+      const vnt = choice(['cm','dm','m']);
+      let AD, BC, AC, AB, tries=0;
+      do{
+        AD = randint(4,20);
+        AB = 2*AD;
+        BC = randint(5,30);
+        AC = randint(5,30);
+        tries++;
+      } while(!trikampoNelygybe(AB,BC,AC) && tries<60);
+      const P = AB+BC+AC;
+      const q = `Trikampyje ABC nubrėžta pusiaukraštinė CD: D yra kraštinės AB vidurio taškas. Žinoma: AD = ${nf(AD)} ${vnt}, BC = ${nf(BC)} ${vnt}, AC = ${nf(AC)} ${vnt}. Apskaičiuok trikampio ABC perimetrą.`
+        + svgTrikampisD({adLabel:`AD = ${nf(AD)}`, dbLabel:'DB = ?', bcLabel:`BC = ${nf(BC)}`, acLabel:`AC = ${nf(AC)}`});
+      return { q, ans:P, pre:'P =', ansText:`${nf(P)} ${vnt}`, steps:[
+        `AB = 2 · AD = 2 · ${nf(AD)} = ${nf(AB)} ${vnt}`,
+        `P = AB + BC + AC = ${nf(AB)} + ${nf(BC)} + ${nf(AC)} = ${nf(P)} ${vnt}`
+      ]};
+  }},
+
+  // 2) Žinant visą kraštinę AB (lyginę) → pusiaukraštinės atkarpa AD = AB/2.
+  { label:"Pusiaukraštinės atkarpa", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const AD = randint(3,20);
+      const AB = 2*AD;
+      const q = `Trikampyje ABC nubrėžta pusiaukraštinė CD į kraštinę AB: D yra AB vidurio taškas. Kraštinė AB = ${nf(AB)} ${vnt}. Koks yra atkarpos AD ilgis?`
+        + svgTrikampisD({adLabel:'AD = ?', dbLabel:'DB = ?', bcLabel:'BC', acLabel:'AC'});
+      return { q, ans:AD, pre:'AD =', ansText:`${nf(AD)} ${vnt}`, steps:[
+        `AD = DB = AB : 2`,
+        `AD = ${nf(AB)} : 2 = ${nf(AD)} ${vnt}`
+      ]};
+  }},
+
+  // 3) Žinant perimetrą ir dvi kraštines → trečioji kraštinė, tada jos pusė.
+  { label:"Trečioji kraštinė", gen(){
+      const vnt = choice(['cm','dm','m']);
+      let AD, BC, AC, AB, tries=0;
+      do{
+        AD = randint(4,18);
+        AB = 2*AD;
+        BC = randint(5,25);
+        AC = randint(5,25);
+        tries++;
+      } while(!trikampoNelygybe(AB,BC,AC) && tries<60);
+      const P = AB+BC+AC;
+      const q = `Trikampio ABC perimetras P = ${nf(P)} ${vnt}. Žinomos dvi kraštinės: BC = ${nf(BC)} ${vnt}, AC = ${nf(AC)} ${vnt}. Taškas D yra trečiosios kraštinės AB vidurio taškas. Koks yra atkarpos AD ilgis?`
+        + svgTrikampisD({adLabel:'AD = ?', dbLabel:'DB = ?', bcLabel:`BC = ${nf(BC)}`, acLabel:`AC = ${nf(AC)}`});
+      return { q, ans:AD, pre:'AD =', ansText:`${nf(AD)} ${vnt}`, steps:[
+        `AB = P − BC − AC = ${nf(P)} − ${nf(BC)} − ${nf(AC)} = ${nf(AB)} ${vnt}`,
+        `AD = AB : 2 = ${nf(AB)} : 2 = ${nf(AD)} ${vnt}`
+      ]};
+  }},
+
+  // 4) Lygiašonio trikampio pusiaukraštinė į pagrindą = aukštinė → trūkstamas kampas.
+  { label:"Lygiašonio trikampio kampas", gen(){
+      const angleA = randint(20,70);
+      const ans = 90 - angleA;
+      const q = `Trikampis ABC lygiašonis, AB = BC. Pusiaukraštinė BD nubrėžta į pagrindą AC: D yra AC vidurio taškas. Kadangi trikampis lygiašonis, pusiaukraštinė BD sutampa su aukštine, todėl ∠BDA = 90°. Žinoma, kad ∠BAC = ${angleA}°. Raskite kampą ∠ABD.`
+        + svgLygiasonisD(angleA);
+      return { q, ans, pre:'∠ABD =', ansText:`${ans}°`, steps:[
+        `∠ADB = 90° (BD yra aukštinė, sutampanti su pusiaukraštine)`,
+        `∠ABD = 180° − 90° − ${angleA}° = ${ans}°`
+      ]};
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.3 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.4 Trikampio pusiaukampinės ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.4 Trikampio pusiaukampinės.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// 5 uždavinių tipai:
+//   1. AM pusiaukampinė, duotas ∠BAM arba ∠MAC → rasti ∠BAC (=2×duotasis)
+//   2. AM pusiaukampinė, duotas ∠BAC → rasti ∠BAM (=∠BAC/2)
+//   3. Trikampyje ABC duoti ∠B,∠C, AM pusiaukampinė iš A → rasti ∠AMB arba ∠AMC
+//   4. Pusiaukampinės iš B,C susikerta I, duotas ∠A → rasti ∠BIC
+//   5. Algebrinis: ∠BAM=a·x, ∠MAC=b·x+c (lygūs) → rasti x
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas uždavinys konstruojamas IŠ atsakymo, todėl
+// atsakymas visada teisingas ir švarus.
+//
+// ⚠ BRĖŽINYS: kiekvienam uždaviniui pridedamas SVG trikampis su pusiaukampine
+// (arba su trimis pusiaukampinėmis, 4 tipui). Lankų algoritmas — angleArc() —
+// portuotas iš tools/breziniu_zymejimas.py::angle_arc (tas pats sweep pagal
+// cross-product principas, naudojamas kitur šiame projekte statiniams
+// brėžiniams). Trikampio geometrija konstruojama IŠ nurodytų kampų
+// (apexFromBaseAngles), kad brėžinys visada atitiktų rodomas reikšmes.
+
+// ---------- 2D vektorių pagalbininkai ----------
+function vsub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function vadd(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function vmul(a, s) { return [a[0] * s, a[1] * s]; }
+function vlen(a) { return Math.hypot(a[0], a[1]); }
+function vnorm(a) { const L = vlen(a); return [a[0] / L, a[1] / L]; }
+
+function angleArc(vertex, a, b, r) {
+  r = r || 15;
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  const cross = ua[0] * ub[1] - ua[1] * ub[0];
+  const sweep = cross < 0 ? 1 : 0;
+  const p1 = vadd(vertex, vmul(ua, r)), p2 = vadd(vertex, vmul(ub, r));
+  return 'M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) +
+    ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+}
+
+function angleLabelPos(vertex, a, b, r) {
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  let bis = vadd(ua, ub);
+  const L = vlen(bis);
+  bis = L > 1e-6 ? [bis[0] / L, bis[1] / L] : ua;
+  return vadd(vertex, vmul(bis, r));
+}
+
+// Randa apex tašką A (SVG erdvė, y žemyn), kad kampai prie B,C atitiktų
+// nurodytas reikšmes; B ir C ant tos pačios horizontalios linijos.
+function apexFromBaseAngles(B, C, angBdeg, angCdeg) {
+  const aB = angBdeg * Math.PI / 180, aC = angCdeg * Math.PI / 180;
+  const dB = [Math.cos(aB), -Math.sin(aB)];
+  const dC = [-Math.cos(aC), -Math.sin(aC)];
+  const denom = dB[0] * dC[1] - dB[1] * dC[0];
+  const t = ((C[0] - B[0]) * dC[1] - (C[1] - B[1]) * dC[0]) / denom;
+  return [B[0] + t * dB[0], B[1] + t * dB[1]];
+}
+
+function bisectorFoot(A, B, C) {
+  const AB = vlen(vsub(B, A)), AC = vlen(vsub(C, A));
+  const t = AB / (AB + AC);
+  return [B[0] + t * (C[0] - B[0]), B[1] + t * (C[1] - B[1])];
+}
+
+function incenter(A, B, C) {
+  const a = vlen(vsub(B, C)), b = vlen(vsub(A, C)), c = vlen(vsub(A, B));
+  const s = a + b + c;
+  return [(a * A[0] + b * B[0] + c * C[0]) / s, (a * A[1] + b * B[1] + c * C[1]) / s];
+}
+
+const COL_SIDE = '#1e5fa8', COL_CEV = '#0a7d52', COL_PT = '#1c2430', COL_HI = '#c62828';
+
+function svgOpen(w, h) {
+  return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h +
+    '" style="display:block;margin:10px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">';
+}
+// Auto-derina viewBox pagal REALIĄ taškų (ir jų etikečių) apribojantį stačiakampį,
+// kad kraštutiniai kampai (labai plokšti / labai statūs trikampiai) niekada
+// neišlįstų už matomos srities — rodomas dydis (dispW x dispH) visada tas pats,
+// tik vidinė koordinačių sistema (viewBox) prisitaiko prie figūros.
+function fitSvgOpen(points, dispW, dispH, pad) {
+  pad = pad === undefined ? 42 : pad;
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  points.forEach(function (p) {
+    if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
+    if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
+  });
+  minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+  const w = maxX - minX, h = maxY - minY;
+  return '<svg width="' + dispW + '" height="' + dispH + '" viewBox="' +
+    minX.toFixed(1) + ' ' + minY.toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1) +
+    '" style="display:block;margin:10px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">';
+}
+function ptLbl(p, name, dx, dy, hi) {
+  const col = hi ? COL_HI : COL_PT;
+  return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" style="fill:' + col + '"/>' +
+    '<text x="' + (p[0] + dx).toFixed(1) + '" y="' + (p[1] + dy).toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">' + name + '</text>';
+}
+function numLbl(p, text, color) {
+  return '<text x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-weight:800;fill:' + (color || COL_HI) + ';font-family:Segoe UI,sans-serif">' + text + '</text>';
+}
+function lineSeg(p, q, color, w) {
+  return '<line x1="' + p[0].toFixed(1) + '" y1="' + p[1].toFixed(1) + '" x2="' + q[0].toFixed(1) + '" y2="' + q[1].toFixed(1) +
+    '" style="stroke:' + color + ';stroke-width:' + (w || 2.2) + '"/>';
+}
+function arcPath(d, color) {
+  return '<path d="' + d + '" style="fill:none;stroke-width:2;stroke:' + color + '"/>';
+}
+
+// ---------- Tipas 1 ir 2 ir 5 diagrama: trikampis su viena pusiaukampine, apex=2g ----------
+// showTexts: trumpos etiketės ("58°","?") dedamos PRIE lankelių (tipas 1,2).
+// aboveLines: pilnos frazės ("∠BAM = 5x", "∠MAC = (2x + 18)°") dedamos DVIEM
+// eilutėm VIRŠ viršūnės A — naudojama, kai tekstas per ilgas tilpti prie
+// siauro lankelio (tipas 5, algebrinės išraiškos), kad etiketės nepersidengtų.
+function bisectorSvg(gDeg, showTexts, aboveLines) {
+  // gDeg — pusė kampo (∠BAM=∠MAC=gDeg), apex = 2*gDeg
+  const B = [22, 132], C = [178, 132];
+  const baseAng = 90 - gDeg; // apex_from_base_angles su lygiais kampais -> isoceles, M = vidurio taškas
+  const A = apexFromBaseAngles(B, C, baseAng, baseAng);
+  const M = bisectorFoot(A, B, C);
+  const extraPts = [];
+  let lp1 = null, lp2 = null;
+  if (showTexts) {
+    lp1 = angleLabelPos(A, B, M, 34); lp2 = angleLabelPos(A, M, C, 34);
+    extraPts.push(lp1, lp2);
+  }
+  if (aboveLines) {
+    extraPts.push([A[0] - 60, A[1] - 34], [A[0] + 60, A[1] - 34], [A[0], A[1] - 58]);
+  }
+  let s = fitSvgOpen([A, B, C, M].concat(extraPts), 230, 190, 24);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(A, M, COL_CEV);
+  s += arcPath(angleArc(A, B, M, 15), COL_CEV);
+  s += arcPath(angleArc(A, M, C, 15), COL_CEV);
+  if (showTexts) {
+    s += numLbl(lp1, showTexts[0], COL_HI) + numLbl(lp2, showTexts[1], COL_HI);
+  }
+  if (aboveLines) {
+    s += '<text x="' + A[0].toFixed(1) + '" y="' + (A[1] - 34).toFixed(1) +
+      '" text-anchor="middle" style="font-size:12.5px;font-weight:800;fill:' + COL_HI + ';font-family:Segoe UI,sans-serif">' + aboveLines[0] + '</text>';
+    s += '<text x="' + A[0].toFixed(1) + '" y="' + (A[1] - 18).toFixed(1) +
+      '" text-anchor="middle" style="font-size:12.5px;font-weight:800;fill:' + COL_HI + ';font-family:Segoe UI,sans-serif">' + aboveLines[1] + '</text>';
+  }
+  s += ptLbl(A, 'A', 0, aboveLines ? -52 : -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6) + ptLbl(M, 'M', 0, 18);
+  s += '</svg>';
+  return s;
+}
+
+// ---------- Tipas 3 diagrama: trikampis su B,C kampais + pusiaukampine iš A ----------
+function bisectorBCSvg(angB, angC) {
+  const B = [22, 132], C = [178, 132];
+  const A = apexFromBaseAngles(B, C, angB, angC);
+  const M = bisectorFoot(A, B, C);
+  const lpB = angleLabelPos(B, A, M, 28), lpC = angleLabelPos(C, A, M, 28);
+  let s = fitSvgOpen([A, B, C, M, lpB, lpC], 230, 185, 26);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(A, M, COL_CEV);
+  s += arcPath(angleArc(B, A, M, 15), COL_CEV);
+  s += arcPath(angleArc(C, A, M, 15), COL_CEV);
+  s += numLbl(lpB, angB + '°', COL_HI) + numLbl(lpC, angC + '°', COL_HI);
+  s += ptLbl(A, 'A', 0, -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6) + ptLbl(M, 'M', 0, 18);
+  s += '</svg>';
+  return s;
+}
+
+// ---------- Tipas 4 diagrama: incenter, duotas ∠A, ieškom ∠BIC ----------
+function incenterSvg(angA) {
+  const B = [18, 150], C = [182, 150];
+  const half = (180 - angA) / 2;
+  const A = apexFromBaseAngles(B, C, half, half);
+  const I = incenter(A, B, C);
+  const lpA = angleLabelPos(A, B, C, 26);
+  let s = fitSvgOpen([A, B, C, I, lpA], 230, 195, 26);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(B, I, COL_CEV) + lineSeg(C, I, COL_CEV);
+  s += '<line x1="' + A[0].toFixed(1) + '" y1="' + A[1].toFixed(1) + '" x2="' + I[0].toFixed(1) + '" y2="' + I[1].toFixed(1) + '" style="stroke:#9aa4b2;stroke-width:1.6;stroke-dasharray:3 3"/>';
+  s += arcPath(angleArc(A, B, C, 15), COL_CEV);
+  s += numLbl(lpA, angA + '°', COL_HI);
+  s += '<circle cx="' + I[0].toFixed(1) + '" cy="' + I[1].toFixed(1) + '" r="3" style="fill:' + COL_HI + '"/>';
+  s += '<text x="' + (I[0] + 8).toFixed(1) + '" y="' + (I[1] - 6).toFixed(1) + '" style="font-size:13px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">I</text>';
+  s += ptLbl(A, 'A', 0, -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6);
+  s += '</svg>';
+  return s;
+}
+
+const GENERATORIAI = [
+  // 1: AM pusiaukampinė, duotas ∠BAM arba ∠MAC -> rasti ∠BAC
+  { label: "1: ∠BAM/∠MAC duotas → ∠BAC", gen() {
+      const g = randint(28, 75);
+      const bac = 2 * g;
+      const givenIsBAM = choice([true, false]);
+      const svg = bisectorSvg(g, givenIsBAM ? [g + '°', '?'] : ['?', g + '°']);
+      const givenName = givenIsBAM ? '∠BAM' : '∠MAC';
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ${givenName} = ${g}°. Rask ∠BAC.` + svg;
+      return {
+        q, ans: bac, pre: '∠BAC =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC = ${g}°`,
+          `∠BAC = ∠BAM + ∠MAC = ${g}° + ${g}° = ${nf(bac)}`
+        ]
+      };
+  }},
+
+  // 2: AM pusiaukampinė, duotas ∠BAC -> rasti ∠BAM
+  { label: "2: ∠BAC duotas → ∠BAM", gen() {
+      const half = randint(28, 75);
+      const bac = 2 * half;
+      const svg = bisectorSvg(half, ['?', '?']);
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = ${bac}°. Rask ∠BAM.` + svg;
+      return {
+        q, ans: half, pre: '∠BAM =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC = ½·∠BAC`,
+          `∠BAM = ${bac}° : 2 = ${nf(half)}`
+        ]
+      };
+  }},
+
+  // 3: trikampyje duoti ∠B,∠C, AM pusiaukampinė iš A -> rasti ∠AMB arba ∠AMC
+  { label: "3: ∠B,∠C duoti → ∠AMB/∠AMC", gen() {
+      let B, C, A;
+      do {
+        B = randint(30, 80); C = randint(30, 80);
+        A = 180 - B - C;
+      } while (A < 20 || A > 120 || A % 2 !== 0);
+      const bam = A / 2;
+      const amb = 180 - B - bam;
+      const amc = 180 - amb;
+      const askAMB = choice([true, false]);
+      const target = askAMB ? amb : amc;
+      const targetName = askAMB ? '∠AMB' : '∠AMC';
+      const svg = bisectorBCSvg(B, C);
+      const q = `Trikampyje ABC: ∠B = ${B}°, ∠C = ${C}°, AM — pusiaukampinė iš viršūnės A. Rask ${targetName}.` + svg;
+      const steps = [
+        `∠A = 180° − ${B}° − ${C}° = ${nf(A)}`,
+        `∠BAM = ${A}° : 2 = ${nf(bam)}`
+      ];
+      if (askAMB) {
+        steps.push(`∠AMB = 180° − ${B}° − ${bam}° = ${nf(amb)}`);
+      } else {
+        steps.push(`∠AMB = 180° − ${B}° − ${bam}° = ${nf(amb)}`);
+        steps.push(`∠AMC = 180° − ${amb}° = ${nf(amc)}`);
+      }
+      return { q, ans: target, pre: targetName + ' =', steps };
+  }},
+
+  // 4: pusiaukampinės iš B,C susikerta I, duotas ∠A -> rasti ∠BIC
+  { label: "4: ∠A duotas → ∠BIC (susikirtimo taškas)", gen() {
+      const A = 2 * randint(15, 70); // lyginis, kad pusė sveika
+      const half = (180 - A) / 2;
+      const bic = 180 - half;
+      const svg = incenterSvg(A);
+      const q = `Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = ${A}°. Rask ∠BIC.` + svg;
+      return {
+        q, ans: bic, pre: '∠BIC =',
+        steps: [
+          `∠B + ∠C = 180° − ${A}° = ${nf(180 - A)}`,
+          `∠IBC + ∠ICB = ${nf(180 - A)}° : 2 = ${nf(half)}`,
+          `∠BIC = 180° − ${half}° = ${nf(bic)}`
+        ]
+      };
+  }},
+
+  // 5: algebrinis, ∠BAM=a·x, ∠MAC=b·x+c (lygūs) -> rasti x
+  { label: "5: ∠BAM = ax, ∠MAC = bx+c → x", gen() {
+      let a, b, x0, c, val;
+      do {
+        a = randint(3, 6);
+        b = randint(2, a - 1); // a > b, kad c teigiamas
+        x0 = randint(3, 12);
+        c = (a - b) * x0; // a*x0 = b*x0 + c
+        val = a * x0;
+      } while (val < 28 || val > 75); // apex nei per status, nei per plokščias -> etiketės neperdengia
+      const term2 = b + 'x ' + pm(c);
+      const svg = bisectorSvg(val, null, ['∠BAM = ' + a + 'x', '∠MAC = (' + term2 + ')°']);
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = ${a}x, ∠MAC = (${term2})°. Rask x.` + svg;
+      return {
+        q, ans: x0, pre: 'x =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC`,
+          `${a}x = ${term2}`,
+          `${nf(a - b)}x = ${nf(c)}`,
+          `x = ${nf(c)} : ${nf(a - b)} = ${nf(x0)}`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.4 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.5 Lygiagretainis ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.5 "Lygiagretainis".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) ("+ 3" / "− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius kuria uždavinį IŠ atsakymo
+// (pasirenka tikslinę reikšmę, tada sukonstruoja duomenis), todėl
+// atsakymas visada teisingas ir geometriškai galimas.
+//
+// Temos turinys: lygiagretainio kampai (gretimų suma 180°, priešingi lygūs),
+// perimetras (P=2(a+b)), kraštinės iš santykio/skirtumo, įstrižainės
+// (susikirtimo taškas dalija pusiau), pusiaukampinė dalija kraštinę (BM=AB).
+
+const RATIOS = [[2,3],[3,4],[2,5],[3,5],[4,5],[3,7],[2,7],[4,7],[5,6],[3,8]];
+
+function gcd2(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+
+function genRatioSides(){
+  for(let tries=0; tries<200; tries++){
+    const [p,q] = choice(RATIOS);
+    const k = randint(2,9);
+    const parts = p+q;
+    const s = parts*k; // a+b
+    const P = 2*s;
+    const a = p*k, b = q*k;
+    if(a===b) continue;
+    return {P, p, q, k, a, b};
+  }
+  return {P:80, p:3, q:5, k:5, a:15, b:25};
+}
+
+function genDiffSides(){
+  for(let tries=0; tries<200; tries++){
+    const b = randint(6,26);
+    const d = randint(2,16);
+    const a = b + d;
+    const P = 2*(a+b);
+    if(a>0 && b>0) return {P, d, a, b};
+  }
+  return {P:60, d:8, a:19, b:11};
+}
+
+function genDiag(){
+  for(let tries=0; tries<300; tries++){
+    const c1 = randint(2,6), c2 = randint(2,6);
+    if(c1===c2) continue;
+    const p1 = nz(-15,15), p2 = nz(-15,15);
+    const num = p2-p1, den = c1-c2;
+    if(den===0) continue;
+    if(num % den !== 0) continue;
+    const x = num/den;
+    if(x<=0) continue;
+    const AO = c1*x+p1;
+    if(AO<=0) continue;
+    return {c1,p1,c2,p2,x,AO,AC:2*AO};
+  }
+  return {c1:3,p1:6,c2:1,p2:18,x:6,AO:24,AC:48};
+}
+
+const GENERATORIAI = [
+  { label:"Kampas B iš kampo A (gretimi kampai)", gen(){
+      const A = randint(20,160);
+      const B = 180 - A;
+      return {
+        q:`Lygiagretainio ABCD kampas ∠A = ${A}°. Kam lygus kampas ∠B?`,
+        ans: B, pre:'∠B =', ansText:`${nf(B)}°`,
+        steps:[
+          `∠A ir ∠B yra gretimi kampai (abu prie kraštinės AB)`,
+          `Gretimų kampų suma lygiagretainyje lygi 180°`,
+          `∠B = 180° − ${A}° = ${nf(B)}°`
+        ]
+      };
+  }},
+  { label:"Kampas C iš kampo A (priešingi kampai)", gen(){
+      const A = randint(20,160);
+      return {
+        q:`Lygiagretainio ABCD kampas ∠A = ${A}°. Kam lygus kampas ∠C?`,
+        ans: A, pre:'∠C =', ansText:`${nf(A)}°`,
+        steps:[
+          `∠C yra priešingas kampui ∠A`,
+          `Priešingi lygiagretainio kampai lygūs tarpusavyje`,
+          `∠C = ∠A = ${nf(A)}°`
+        ]
+      };
+  }},
+  { label:"Perimetras iš dviejų gretimų kraštinių", gen(){
+      const a = randint(6,28);
+      const b = nz(6,28);
+      const P = 2*(a+b);
+      return {
+        q:`Lygiagretainio gretimos kraštinės lygios ${nf(a)} cm ir ${nf(b)} cm. Koks lygiagretainio perimetras?`,
+        ans: P, pre:'P =', ansText:`${nf(P)} cm`,
+        steps:[
+          `Lygiagretainio priešingos kraštinės lygios, todėl P = 2 · (a + b)`,
+          `P = 2 · (${nf(a)} + ${nf(b)}) = 2 · ${nf(a+b)}`,
+          `P = ${nf(P)} cm`
+        ]
+      };
+  }},
+  { label:"Kraštinė iš santykio ir perimetro", gen(){
+      const {P,p,q,k,a,b} = genRatioSides();
+      const target = choice(['mazesnioji','didesnioji']);
+      const val = target==='mazesnioji' ? Math.min(a,b) : Math.max(a,b);
+      const dalis = target==='mazesnioji' ? Math.min(p,q) : Math.max(p,q);
+      const zodis = target==='mazesnioji' ? 'mažesnioji' : 'didesnioji';
+      return {
+        q:`Lygiagretainio perimetras ${nf(P)} cm, gretimų kraštinių santykis ${p} : ${q}. Kiek centimetrų yra ${zodis} kraštinė?`,
+        ans: val, pre:`${zodis[0].toUpperCase()+zodis.slice(1)} kraštinė =`, ansText:`${nf(val)} cm`,
+        steps:[
+          `Kraštinių suma: a + b = ${nf(P)} : 2 = ${nf(P/2)} cm`,
+          `Santykio dalių suma: ${p} + ${q} = ${p+q}. Vienos dalies vertė: k = ${nf(P/2)} : ${p+q} = ${nf(k)}`,
+          `${zodis[0].toUpperCase()+zodis.slice(1)} kraštinė = ${dalis} · ${nf(k)} = ${nf(val)} cm`
+        ]
+      };
+  }},
+  { label:"Kraštinė iš skirtumo ir perimetro", gen(){
+      const {P,d,a,b} = genDiffSides();
+      const target = choice(['trumpesnioji','ilgesnioji']);
+      const val = target==='trumpesnioji' ? b : a;
+      return {
+        q:`Lygiagretainio perimetras ${nf(P)} cm, viena kraštinė ${nf(d)} cm ilgesnė už kitą. Kiek centimetrų yra ${target} kraštinė?`,
+        ans: val, pre:`${target[0].toUpperCase()+target.slice(1)} kraštinė =`, ansText:`${nf(val)} cm`,
+        steps:[
+          `Kraštinių suma: a + b = ${nf(P)} : 2 = ${nf(P/2)} cm; skirtumas: a − b = ${nf(d)} cm`,
+          `Sudėję lygtis: 2a = ${nf(P/2)} + ${nf(d)} = ${nf(P/2+d)} ⟹ a = ${nf(a)} cm`,
+          `Tada b = ${nf(P/2)} − ${nf(a)} = ${nf(b)} cm. ${target[0].toUpperCase()+target.slice(1)} kraštinė = ${nf(val)} cm`
+        ]
+      };
+  }},
+  { label:"Įstrižainių atkarpų lygybė (AO=OC)", gen(){
+      const {c1,p1,c2,p2,x,AO,AC} = genDiag();
+      const term = (c,p) => (c===1?'x':`${c}x`) + ' ' + pm(p);
+      const askAC = choice([true,false]);
+      if(askAC){
+        return {
+          q:`Lygiagretainio ABCD įstrižainės susikerta taške O. AO = (${term(c1,p1)}) cm, OC = (${term(c2,p2)}) cm, kai x = ${nf(x)}. Kam lygus visos įstrižainės AC ilgis?`,
+          ans: AC, pre:'AC =', ansText:`${nf(AC)} cm`,
+          steps:[
+            `Taškas O dalija įstrižainę AC pusiau, todėl AO = OC`,
+            `AO = ${c1}·${nf(x)} ${pm(p1)} = ${nf(AO)} cm`,
+            `AC = AO + OC = 2 · ${nf(AO)} = ${nf(AC)} cm`
+          ]
+        };
+      }
+      return {
+        q:`Lygiagretainio ABCD įstrižainės susikerta taške O. AO = (${term(c1,p1)}) cm, OC = (${term(c2,p2)}) cm. Raskite x reikšmę.`,
+        ans: x, pre:'x =', ansText:`${nf(x)}`,
+        steps:[
+          `Taškas O dalija įstrižainę AC pusiau, todėl AO = OC`,
+          `${term(c1,p1)} = ${term(c2,p2)}`,
+          `x = ${nf(x)}`
+        ]
+      };
+  }},
+  { label:"Pusiaukampinė dalija kraštinę", gen(){
+      const AB = randint(5,22);
+      const BC = AB + randint(4,26);
+      const MC = BC - AB;
+      return {
+        q:`Lygiagretainio ABCD kraštinė AB = ${nf(AB)} cm, kraštinė BC = ${nf(BC)} cm. Pusiaukampinė iš viršūnės A kerta kraštinę BC taške M. Raskite atkarpos MC ilgį.`,
+        ans: MC, pre:'MC =', ansText:`${nf(MC)} cm`,
+        steps:[
+          `Kadangi AD ∥ BC, kampai ∠DAM ir ∠AMB — kaitos kampai (lygūs); kadangi AM pusiaukampinė, ∠DAM=∠BAM`,
+          `Todėl ∠BAM=∠AMB, o trikampis ABM lygiašonis: BM = AB = ${nf(AB)} cm`,
+          `MC = BC − BM = ${nf(BC)} − ${nf(AB)} = ${nf(MC)} cm`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.5 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.6 Stačiakampis ====================
+(function(){
+// 7 kl. 7.6 „Stačiakampis" — kontrolinio treniruoklio generatoriai.
+// Pagalbininkai (randint, choice, nz, nf, pm) apibrėžti šablone, čia nenaudojami iš naujo.
+//
+// Teorija: stačiakampis = lygiagretainis, kurio visi kampai statūs (90°).
+// P = 2·(a+b). Įstrižainės lygios ir dalijasi pusiau: AO=OC=BO=OD.
+// Trikampiai prie taško O lygiašoniai: ∠OAD=∠ODA=(180°−∠AOD):2, gretimas ∠AOB=180°−∠AOD.
+// Kraštinės ir įstrižainė sudaro stačiąjį trikampį: d = √(a²+b²).
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius konstruoja uždavinį taip, kad
+// atsakymas visada būtų tikslus (nesikartojantis floating-point triukšmas).
+
+// ---------- SVG: stačiakampis su įstrižainėmis (bendras braižymo pagrindas) ----------
+// A viršuje kairėje, B viršuje dešinėje, C apačioje dešinėje, D apačioje kairėje.
+function rectSvg(opts){
+  opts = opts || {};
+  const W=220, H=170, pad=32;
+  const x1=pad, y1=28, x2=W-pad, y2=H-38;
+  const cx=(x1+x2)/2, cy=(y1+y2)/2;
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<polygon points="${x1},${y1} ${x2},${y1} ${x2},${y2} ${x1},${y2}" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  if(opts.diagonals){
+    svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#0a7d52" stroke-width="1.6" stroke-dasharray="4,3"/>`;
+    svg += `<line x1="${x2}" y1="${y1}" x2="${x1}" y2="${y2}" stroke="#0a7d52" stroke-width="1.6" stroke-dasharray="4,3"/>`;
+  }
+  // statmens žymės (kvadratėliai) prie visų 4 kampų
+  const t=9;
+  svg += `<path d="M ${x1} ${y1+t} L ${x1+t} ${y1+t} L ${x1+t} ${y1}" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  svg += `<path d="M ${x2-t} ${y1} L ${x2-t} ${y1+t} L ${x2} ${y1+t}" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  svg += `<path d="M ${x2} ${y2-t} L ${x2-t} ${y2-t} L ${x2-t} ${y2}" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  svg += `<path d="M ${x1+t} ${y2} L ${x1+t} ${y2-t} L ${x1} ${y2-t}" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  svg += `<text x="${x1-12}" y="${y1-6}" font-size="14" font-style="italic" fill="#2c2620">A</text>`;
+  svg += `<text x="${x2+4}" y="${y1-6}" font-size="14" font-style="italic" fill="#2c2620">B</text>`;
+  svg += `<text x="${x2+4}" y="${y2+16}" font-size="14" font-style="italic" fill="#2c2620">C</text>`;
+  svg += `<text x="${x1-12}" y="${y2+16}" font-size="14" font-style="italic" fill="#2c2620">D</text>`;
+  if(opts.diagonals){
+    svg += `<text x="${cx+5}" y="${cy-6}" font-size="12" font-style="italic" fill="#2c2620">O</text>`;
+  }
+  if(opts.aLabel){ svg += `<text x="${(x1+x2)/2-8}" y="${y1-11}" font-size="13" font-weight="700" fill="#b25c00">${opts.aLabel}</text>`; }
+  if(opts.bLabel){ svg += `<text x="${x2+8}" y="${(y1+y2)/2+4}" font-size="13" font-weight="700" fill="#b25c00">${opts.bLabel}</text>`; }
+  if(opts.angLabel){ svg += `<text x="${cx+14}" y="${cy-16}" font-size="12" font-weight="700" fill="#b25c00">${opts.angLabel}</text>`; }
+  svg += `</svg>`;
+  return svg;
+}
+
+const GENERATORIAI = [
+  { label:"Kraštinės iš perimetro ir santykio", gen(){
+      const parts = [[1,2],[1,3],[2,3],[3,4],[2,5],[3,5],[4,5],[5,8],[3,7],[2,7]];
+      const [p,q] = choice(parts);
+      const k = randint(2,6);
+      const a = p*k, b = q*k;
+      const P = 2*(a+b);
+      const svg = rectSvg({aLabel:`${p}k`, bLabel:`${q}k`});
+      const askShort = choice([true,false]);
+      const ans = askShort ? Math.min(a,b) : Math.max(a,b);
+      return {
+        q:`Stačiakampio kraštinių santykis a : b = ${p} : ${q}, perimetras P = ${P} cm. Apskaičiuok ${askShort?'trumpesnę':'ilgesnę'} kraštinę (cm).${svg}`,
+        ans: ans,
+        steps:[
+          `Kraštinės: a = ${p}k, b = ${q}k`,
+          `P = 2·(${p}k + ${q}k) = ${2*(p+q)}k = ${P}  ⇒  k = ${k}`,
+          `a = ${p}·${k} = ${a} cm, b = ${q}·${k} = ${b} cm`,
+          `${askShort?'trumpesnė':'ilgesnė'} kraštinė = ${ans} cm`
+        ]
+      };
+  }},
+  { label:"Kraštinės iš perimetro ir skirtumo", gen(){
+      const half = 2*randint(5,20); // lyginis (a+b), kad dalybos būtų sveikos
+      const d = 2*randint(1,Math.floor(half/2)-1); // lyginis skirtumas < half
+      const P = 2*half;
+      const a = (half+d)/2, b = (half-d)/2;
+      const svg = rectSvg({});
+      const askLong = choice([true,false]);
+      const ans = askLong ? a : b;
+      return {
+        q:`Stačiakampio perimetras P = ${P} cm, viena kraštinė ${d} cm ilgesnė už kitą. Apskaičiuok ${askLong?'ilgesnę':'trumpesnę'} kraštinę (cm).${svg}`,
+        ans: ans,
+        steps:[
+          `a + b = P : 2 = ${P} : 2 = ${half}`,
+          `Ilgesnė: a = (${half} + ${d}) : 2 = ${a} cm`,
+          `Trumpesnė: b = (${half} − ${d}) : 2 = ${b} cm`,
+          `${askLong?'ilgesnė':'trumpesnė'} kraštinė = ${ans} cm`
+        ]
+      };
+  }},
+  { label:"Įstrižainių trikampio kampai (∠OAD)", gen(){
+      const x = 2*randint(10,80); // lyginis, kad (180-x)/2 sveikas
+      const half = (180-x)/2;
+      const svg = rectSvg({diagonals:true, angLabel:`${x}°`});
+      return {
+        q:`Stačiakampio ABCD įstrižainės susikerta taške O (AO=OC=BO=OD). Kampas ∠AOD = ${x}°. Apskaičiuok kampą ∠OAD (laipsniais).${svg}`,
+        ans: half,
+        steps:[
+          `Trikampis AOD lygiašonis, nes OA = OD (abi — pusė įstrižainės)`,
+          `∠OAD = ∠ODA = (180° − ${x}°) : 2 = ${180-x}° : 2`,
+          `∠OAD = ${half}°`
+        ]
+      };
+  }},
+  { label:"Gretimas kampas prie taško O (∠AOB)", gen(){
+      const x = 2*randint(10,80);
+      const adj = 180-x;
+      const svg = rectSvg({diagonals:true, angLabel:`${x}°`});
+      return {
+        q:`Stačiakampio ABCD įstrižainės susikerta taške O. Kampas ∠AOD = ${x}°. Apskaičiuok gretimą kampą ∠AOB (laipsniais).${svg}`,
+        ans: adj,
+        steps:[
+          `∠AOD ir ∠AOB — gretimi (sudaro tiesę per įstrižainę BD)`,
+          `∠AOD + ∠AOB = 180°`,
+          `∠AOB = 180° − ${x}° = ${adj}°`
+        ]
+      };
+  }},
+  { label:"Įstrižainė iš kraštinių (Pitagoro teorema)", gen(){
+      const triples = [[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
+      const [a0,b0,c0] = choice(triples);
+      const k = randint(1,3);
+      const a=a0*k, b=b0*k, c=c0*k;
+      const svg = rectSvg({diagonals:true, aLabel:`${a}`, bLabel:`${b}`});
+      return {
+        q:`Stačiakampio kraštinės ${a} cm ir ${b} cm. Apskaičiuok įstrižainę (cm).${svg}`,
+        ans: c,
+        steps:[
+          `Kraštinės ir įstrižainė sudaro stačiąjį trikampį`,
+          `d = √(${a}² + ${b}²) = √(${a*a} + ${b*b}) = √${a*a+b*b}`,
+          `d = ${c} cm`
+        ]
+      };
+  }},
+  { label:"Kraštinė iš įstrižainės ir kitos kraštinės (Pitagoro teorema)", gen(){
+      const triples = [[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
+      const [a0,b0,c0] = choice(triples);
+      const k = randint(1,3);
+      const a=a0*k, b=b0*k, c=c0*k;
+      const giveA = choice([true,false]);
+      const known = giveA ? a : b;
+      const ans = giveA ? b : a;
+      const svg = rectSvg({diagonals:true, aLabel: giveA ? `${a}` : '?', bLabel: giveA ? '?' : `${b}`});
+      return {
+        q:`Stačiakampio įstrižainė ${c} cm, viena kraštinė ${known} cm. Apskaičiuok kitą kraštinę (cm).${svg}`,
+        ans: ans,
+        steps:[
+          `Kraštinės ir įstrižainė sudaro stačiąjį trikampį`,
+          `kita kraštinė = √(${c}² − ${known}²) = √(${c*c} − ${known*known}) = √${c*c-known*known}`,
+          `kita kraštinė = ${ans} cm`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.6 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.7 Rombas ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: Rombas (7 klasė).
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia apibrėžiami: SVG brėžinio pagalbininkas ir `const GENERATORIAI = [...]`.
+//
+// TEORIJA:
+// - Rombas — lygiagretainis, kurio visos keturios kraštinės lygios.
+// - Priešingi kampai lygūs, gretimų kampų suma lygi 180°.
+// - Įstrižainės dalija viena kitos kampus pusiau ir yra viena kitai statmenos.
+// - Įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau.
+// - Perimetras P = 4 · a.
+//
+// TAISYKLĖ: kiekvienas uždavinys generuojamas taip, kad atsakymas visada būtų
+// sveikasis skaičius. Įstrižainių (Pitagoro teoremos) uždaviniams naudojami
+// TIK trys patikrinti trejetai (kraštinė, pusė d1, pusė d2):
+//   a=10, h1=6,  h2=8  -> d1=12, d2=16
+//   a=13, h1=5,  h2=12 -> d1=10, d2=24
+//   a=15, h1=9,  h2=12 -> d1=18, d2=24
+
+// --- SVG brėžinio pagalbininkas (generinis rombas ABCD, A viršuje) ---
+function svgRombas(o){
+  o = o || {};
+  const sideLabel = o.sideLabel || '';
+  const d1Label = o.d1Label || '';
+  const d2Label = o.d2Label || '';
+  const angleLabel = o.angleLabel || '';
+  const diag = o.showDiag ? `<line x1="160" y1="20" x2="160" y2="200" stroke="#c9603f" stroke-width="1.6"/>
+    <line x1="40" y1="110" x2="280" y2="110" stroke="#c9603f" stroke-width="1.6"/>
+    <path d="M154,110 L154,104 L160,104" fill="none" stroke="#4a6d8c" stroke-width="1.4"/>` : '';
+  const arc = o.showAngle ? `<path d="M160,44 A62,62 0 0 1 208,78" fill="none" stroke="#4a6d8c" stroke-width="1.6"/>` : '';
+  return `<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="160,20 280,110 160,200 40,110" fill="none" stroke="#2c2620" stroke-width="2"/>
+    ${diag}
+    ${arc}
+    <text x="160" y="14" font-size="14" fill="#2c2620" text-anchor="middle">A</text>
+    <text x="292" y="114" font-size="14" fill="#2c2620" text-anchor="start">B</text>
+    <text x="160" y="216" font-size="14" fill="#2c2620" text-anchor="middle">C</text>
+    <text x="28" y="114" font-size="14" fill="#2c2620" text-anchor="end">D</text>
+    <text x="222" y="60" font-size="13" fill="#2c2620" text-anchor="middle">${sideLabel}</text>
+    <text x="172" y="55" font-size="12.5" fill="#c9603f" text-anchor="start">${d1Label}</text>
+    <text x="165" y="126" font-size="12.5" fill="#c9603f" text-anchor="start">${d2Label}</text>
+    <text x="205" y="50" font-size="12.5" fill="#4a6d8c" text-anchor="start">${angleLabel}</text>
+  </svg>`;
+}
+
+// Trys patikrinti Pitagoro trejetai (a, pusė d1, pusė d2, d1, d2).
+const ROMBO_TREJETAI = [
+  { a:10, h1:6, h2:8,  d1:12, d2:16 },
+  { a:13, h1:5, h2:12, d1:10, d2:24 },
+  { a:15, h1:9, h2:12, d1:18, d2:24 }
+];
+
+// Kampų santykiai a:b, kurių suma dalo 180 be liekanos (sveiki laipsniai).
+const ROMBO_SANTYKIAI = [[1,2],[2,3],[1,3],[1,4],[2,7],[1,5],[4,5],[5,7],[1,8],[7,8]];
+
+const GENERATORIAI = [
+
+  // 1) Kraštinė -> perimetras.
+  { label:"Perimetras", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const a = randint(3,30);
+      const P = 4*a;
+      const q = `Rombo kraštinė lygi a = ${nf(a)} ${vnt}. Apskaičiuok rombo perimetrą.`
+        + svgRombas({ sideLabel:`a = ${nf(a)}` });
+      return { q, ans:P, pre:'P =', ansText:`${nf(P)} ${vnt}`, steps:[
+        `Rombo visos keturios kraštinės lygios, todėl perimetras P = 4 · a.`,
+        `P = 4 · ${nf(a)} = ${nf(P)} ${vnt}`
+      ]};
+  }},
+
+  // 2) Perimetras -> kraštinė.
+  { label:"Kraštinė", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const a = randint(3,30);
+      const P = 4*a;
+      const q = `Rombo perimetras P = ${nf(P)} ${vnt}. Apskaičiuok rombo kraštinės ilgį.`
+        + svgRombas({ sideLabel:'a = ?' });
+      return { q, ans:a, pre:'a =', ansText:`${nf(a)} ${vnt}`, steps:[
+        `Rombo perimetras P = 4 · a, todėl a = P : 4.`,
+        `a = ${nf(P)} : 4 = ${nf(a)} ${vnt}`
+      ]};
+  }},
+
+  // 3) Vienas kampas -> gretimas kampas (suma 180°).
+  { label:"Gretimi kampai", gen(){
+      const angle = randint(10,170);
+      const other = 180-angle;
+      const q = `Rombo ABCD kampas prie viršūnės A lygus ${angle}°. Apskaičiuok gretimą kampą prie viršūnės B.`
+        + svgRombas({ showAngle:true, angleLabel:`${angle}°` });
+      return { q, ans:other, pre:'∠B =', ansText:`${other}°`, steps:[
+        `Rombas yra lygiagretainis, todėl gretimų kampų suma lygi 180°.`,
+        `∠B = 180° − ${angle}° = ${other}°`
+      ]};
+  }},
+
+  // 4) Kampų santykis -> abu kampai (klausiama didesniojo).
+  { label:"Kampų santykis", gen(){
+      const [p,q0] = choice(ROMBO_SANTYKIAI);
+      const k = 180/(p+q0);
+      const small = p*k, big = q0*k;
+      const q = `Rombo dviejų gretimų kampų santykis yra ${p} : ${q0}. Apskaičiuok didesnįjį iš šių kampų.`
+        + svgRombas({ showAngle:true, angleLabel:'?' });
+      return { q, ans:big, pre:'kampas =', ansText:`${big}°`, steps:[
+        `Gretimų kampų suma lygi 180°, todėl vieną kampų dalį sudaro 180° : (${p} + ${q0}) = 180° : ${p+q0} = ${k}°.`,
+        `Mažesnysis kampas = ${p} · ${k}° = ${small}°, didesnysis kampas = ${q0} · ${k}° = ${big}°.`
+      ]};
+  }},
+
+  // 5) Įstrižainė per Pitagoro teoremą (a, d1 -> d2; a, d2 -> d1; d1, d2 -> a).
+  { label:"Įstrižainė (Pitagoro teorema)", gen(){
+      const vnt = choice(['cm','dm','m']);
+      const T = choice(ROMBO_TREJETAI);
+      let d1=T.d1, d2=T.d2, h1=T.h1, h2=T.h2;
+      if(choice([true,false])){ const td=d1, th=h1; d1=d2; h1=h2; d2=td; h2=th; }
+      const a = T.a;
+      const mode = choice([0,1,2]);
+
+      if(mode===2){
+        const q = `Rombo įstrižainės lygios d₁ = ${nf(d1)} ${vnt} ir d₂ = ${nf(d2)} ${vnt}. Apskaičiuok rombo kraštinės ilgį.`
+          + svgRombas({ showDiag:true, d1Label:`d₁ = ${nf(d1)}`, d2Label:`d₂ = ${nf(d2)}` });
+        return { q, ans:a, pre:'a =', ansText:`${nf(a)} ${vnt}`, steps:[
+          `Rombo įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau ir yra su jomis statmenas.`,
+          `Pusės įstrižainių: d₁ : 2 = ${nf(d1)} : 2 = ${nf(h1)} ${vnt}, d₂ : 2 = ${nf(d2)} : 2 = ${nf(h2)} ${vnt}.`,
+          `Šios pusės ir kraštinė sudaro statųjį trikampį, todėl pagal Pitagoro teoremą: a² = (d₁:2)² + (d₂:2)² = ${nf(h1)}² + ${nf(h2)}² = ${h1*h1} + ${h2*h2} = ${h1*h1+h2*h2}.`,
+          `a = √${h1*h1+h2*h2} = ${nf(a)} ${vnt}`
+        ]};
+      }
+
+      const givenD = mode===0 ? d1 : d2, givenH = mode===0 ? h1 : h2;
+      const targetD = mode===0 ? d2 : d1, targetH = mode===0 ? h2 : h1;
+      const givenLbl = mode===0 ? 'd₁' : 'd₂', targetLbl = mode===0 ? 'd₂' : 'd₁';
+      const svgOpts = { showDiag:true };
+      svgOpts[mode===0?'d1Label':'d2Label'] = `${givenLbl} = ${nf(givenD)}`;
+      svgOpts[mode===0?'d2Label':'d1Label'] = `${targetLbl} = ?`;
+      const q = `Rombo kraštinė a = ${nf(a)} ${vnt}, viena įstrižainė ${givenLbl} = ${nf(givenD)} ${vnt}. Apskaičiuok kitą rombo įstrižainę ${targetLbl}.`
+        + svgRombas(svgOpts);
+      return { q, ans:targetD, pre:`${targetLbl} =`, ansText:`${nf(targetD)} ${vnt}`, steps:[
+        `Rombo įstrižainių susikirtimo taškas dalija abi įstrižaines pusiau ir yra su jomis statmenas.`,
+        `Žinomos įstrižainės pusė: ${givenLbl} : 2 = ${nf(givenD)} : 2 = ${nf(givenH)} ${vnt}.`,
+        `Pagal Pitagoro teoremą: a² = (${givenLbl}:2)² + (${targetLbl}:2)², todėl (${targetLbl}:2)² = a² − (${givenLbl}:2)² = ${a}² − ${givenH}² = ${a*a} − ${givenH*givenH} = ${a*a-givenH*givenH}.`,
+        `${targetLbl} : 2 = √${a*a-givenH*givenH} = ${nf(targetH)} ${vnt}, todėl ${targetLbl} = 2 · ${nf(targetH)} = ${nf(targetD)} ${vnt}`
+      ]};
+  }},
+
+  // 6) Pusiaukampinė: įstrižainė dalija viršūnės kampą pusiau.
+  { label:"Pusiaukampinė", gen(){
+      const half = randint(10,80);
+      const full = 2*half;
+      const mode = choice(['fullToHalf','halfToFull']);
+      if(mode==='fullToHalf'){
+        const q = `Rombo kampas prie viršūnės A lygus ${full}°. Šį kampą pusiau dalija rombo įstrižainė AC. Koks yra kampas tarp šios įstrižainės ir kraštinės AB?`
+          + svgRombas({ showDiag:true, showAngle:true, angleLabel:`${full}°` });
+        return { q, ans:half, pre:'kampas =', ansText:`${half}°`, steps:[
+          `Rombo įstrižainė dalija viršūnės kampą, iš kurio išeina, pusiau.`,
+          `Ieškomas kampas = ${full}° : 2 = ${half}°`
+        ]};
+      }
+      const q = `Rombo įstrižainė AC dalija kampą prie viršūnės A pusiau. Kampas tarp įstrižainės AC ir kraštinės AB lygus ${half}°. Koks yra visas rombo kampas prie viršūnės A?`
+        + svgRombas({ showDiag:true, showAngle:true, angleLabel:`${half}°` });
+      return { q, ans:full, pre:'∠A =', ansText:`${full}°`, steps:[
+        `Rombo įstrižainė dalija viršūnės kampą, iš kurio išeina, pusiau, todėl visas kampas yra dvigubai didesnis už pusę.`,
+        `∠A = 2 · ${half}° = ${full}°`
+      ]};
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.7 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.8 Kvadratas ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.8 Kvadratas.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// 8 uždavinių tipai:
+//   1. Kraštinė a -> perimetras P=4a
+//   2. Perimetras P -> kraštinė a=P:4
+//   3. Kraštinė a -> plotas S=a²
+//   4. Plotas S -> kraštinė a=√S (S visada tobulas kvadratas)
+//   5. Įstrižainė d -> plotas S=d²:2 (d parenkamas lyginis, kad S sveikas)
+//   6. Plotas S -> įstrižainė d=√(2S) (S=d²:2 su lyginiu d)
+//   7. Algebrinis: kvadrato įstrižainė dalija statų kampą pusiau (=45°),
+//      ∠DAC = a·x + b -> rasti x
+//   8. Koordinatės: kvadratas ašims lygiagrečiomis kraštinėmis -> kraštinė,
+//      perimetras arba plotas (atsitiktinai parenkamas vienas iš trijų)
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas uždavinys konstruojamas IŠ atsakymo, todėl
+// atsakymas visada teisingas ir švarus.
+//
+// ⚠ BRĖŽINYS: naudoja tą patį vektorinį angleArc() (cross-product sweep)
+// principą, kaip 7.4 Trikampio pusiaukampinės treniruoklyje ir
+// tools/breziniu_zymejimas.py::angle_arc — patikrintas, veikiantis metodas.
+
+// ---------- 2D vektorių pagalbininkai ----------
+function vsub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function vadd(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function vmul(a, s) { return [a[0] * s, a[1] * s]; }
+function vlen(a) { return Math.hypot(a[0], a[1]); }
+function vnorm(a) { const L = vlen(a); return [a[0] / L, a[1] / L]; }
+
+function angleArc(vertex, a, b, r) {
+  r = r || 15;
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  const cross = ua[0] * ub[1] - ua[1] * ub[0];
+  const sweep = cross < 0 ? 1 : 0;
+  const p1 = vadd(vertex, vmul(ua, r)), p2 = vadd(vertex, vmul(ub, r));
+  return 'M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) +
+    ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+}
+
+function angleLabelPos(vertex, a, b, r) {
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  let bis = vadd(ua, ub);
+  const L = vlen(bis);
+  bis = L > 1e-6 ? [bis[0] / L, bis[1] / L] : ua;
+  return vadd(vertex, vmul(bis, r));
+}
+
+const COL_SIDE = '#1e5fa8', COL_CEV = '#0a7d52', COL_PT = '#1c2430', COL_HI = '#c62828', COL_RIGHT = '#5b6472';
+
+function ptLbl(p, name, dx, dy, hi) {
+  const col = hi ? COL_HI : COL_PT;
+  return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" style="fill:' + col + '"/>' +
+    '<text x="' + (p[0] + dx).toFixed(1) + '" y="' + (p[1] + dy).toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">' + name + '</text>';
+}
+function numLbl(p, text, color) {
+  return '<text x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-weight:800;fill:' + (color || COL_HI) + ';font-family:Segoe UI,sans-serif">' + text + '</text>';
+}
+function lineSeg(p, q, color, w) {
+  return '<line x1="' + p[0].toFixed(1) + '" y1="' + p[1].toFixed(1) + '" x2="' + q[0].toFixed(1) + '" y2="' + q[1].toFixed(1) +
+    '" style="stroke:' + color + ';stroke-width:' + (w || 2.2) + '"/>';
+}
+function arcPath(d, color) {
+  return '<path d="' + d + '" style="fill:none;stroke-width:2;stroke:' + color + '"/>';
+}
+function rightMark(vertex, dirA, dirB, size) {
+  // small right-angle box at vertex, extending toward dirA and dirB (unit vectors)
+  size = size || 8;
+  const p1 = vadd(vertex, vmul(dirA, size));
+  const corner = vadd(p1, vmul(dirB, size));
+  const p2 = vadd(vertex, vmul(dirB, size));
+  return '<path d="M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' L ' + corner[0].toFixed(1) + ' ' + corner[1].toFixed(1) +
+    ' L ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1) + '" style="fill:none;stroke:' + COL_RIGHT + ';stroke-width:1.6"/>';
+}
+function tick(p, angleDeg, length) {
+  length = length || 7;
+  const a = (angleDeg + 90) * Math.PI / 180;
+  const dx = Math.cos(a) * length / 2, dy = Math.sin(a) * length / 2;
+  return '<line x1="' + (p[0] - dx).toFixed(1) + '" y1="' + (p[1] - dy).toFixed(1) + '" x2="' + (p[0] + dx).toFixed(1) + '" y2="' + (p[1] + dy).toFixed(1) + '" style="stroke:' + COL_CEV + ';stroke-width:2"/>';
+}
+
+// ---------- Kvadrato brėžiniai (fiksuoto dydžio, A viršuje kairėje, laikrodžio rodyklės kryptimi) ----------
+function squareCorners(s, x0, y0) {
+  return {
+    A: [x0, y0], B: [x0 + s, y0], C: [x0 + s, y0 + s], D: [x0, y0 + s]
+  };
+}
+
+// Tipas 1-4: paprastas kvadratas su lygių kraštinių brūkšneliais + statūs kampai; pažymėta kraštinė "a" arba be žymos
+function squareBasicSvg(sideLabel) {
+  const s = 100, x0 = 65, y0 = 22;
+  const c = squareCorners(s, x0, y0);
+  let svg = '<svg width="220" height="180" viewBox="0 0 220 180" style="display:block;margin:8px auto">';
+  svg += '<polygon points="' + c.A + ' ' + c.B + ' ' + c.C + ' ' + c.D + '" style="fill:none;stroke:' + COL_SIDE + ';stroke-width:2.2"/>';
+  svg += rightMark(c.A, [1, 0], [0, 1]);
+  svg += rightMark(c.B, [-1, 0], [0, 1]);
+  svg += rightMark(c.C, [-1, 0], [0, -1]);
+  svg += rightMark(c.D, [1, 0], [0, -1]);
+  svg += tick([(c.A[0] + c.B[0]) / 2, (c.A[1] + c.B[1]) / 2], 0);
+  svg += tick([(c.B[0] + c.C[0]) / 2, (c.B[1] + c.C[1]) / 2], 90);
+  svg += tick([(c.C[0] + c.D[0]) / 2, (c.C[1] + c.D[1]) / 2], 0);
+  svg += tick([(c.D[0] + c.A[0]) / 2, (c.D[1] + c.A[1]) / 2], 90);
+  svg += ptLbl(c.A, 'A', -8, -8) + ptLbl(c.B, 'B', 10, -8) + ptLbl(c.C, 'C', 10, 14) + ptLbl(c.D, 'D', -8, 14);
+  if (sideLabel) svg += numLbl([(c.A[0] + c.B[0]) / 2, c.A[1] - 10], sideLabel, COL_HI);
+  svg += '</svg>';
+  return svg;
+}
+
+// Tipas 5-6: kvadratas su viena įstrižaine AC, pažymėta "d"
+function squareOneDiagonalSvg(dLabel) {
+  const s = 100, x0 = 65, y0 = 22;
+  const c = squareCorners(s, x0, y0);
+  let svg = '<svg width="220" height="180" viewBox="0 0 220 180" style="display:block;margin:8px auto">';
+  svg += '<polygon points="' + c.A + ' ' + c.B + ' ' + c.C + ' ' + c.D + '" style="fill:none;stroke:' + COL_SIDE + ';stroke-width:2.2"/>';
+  svg += lineSeg(c.A, c.C, COL_CEV);
+  svg += rightMark(c.B, [-1, 0], [0, 1]);
+  svg += rightMark(c.D, [1, 0], [0, -1]);
+  svg += ptLbl(c.A, 'A', -8, -8) + ptLbl(c.B, 'B', 10, -8) + ptLbl(c.C, 'C', 10, 14) + ptLbl(c.D, 'D', -8, 14);
+  if (dLabel) {
+    const mid = [(c.A[0] + c.C[0]) / 2 - 14, (c.A[1] + c.C[1]) / 2 - 8];
+    svg += numLbl(mid, dLabel, COL_CEV);
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+// Tipas 7: kvadratas su diagonale AC ir algebrine etikete virš viršūnės A ("∠DAC = ax+b")
+function squareAngleAlgebraSvg(exprText) {
+  const s = 100, x0 = 65, y0 = 34;
+  const c = squareCorners(s, x0, y0);
+  let svg = '<svg width="220" height="190" viewBox="0 0 220 190" style="display:block;margin:8px auto">';
+  svg += '<polygon points="' + c.A + ' ' + c.B + ' ' + c.C + ' ' + c.D + '" style="fill:none;stroke:' + COL_SIDE + ';stroke-width:2.2"/>';
+  svg += lineSeg(c.A, c.C, COL_CEV);
+  svg += rightMark(c.B, [-1, 0], [0, 1]);
+  svg += rightMark(c.D, [1, 0], [0, -1]);
+  svg += arcPath(angleArc(c.A, c.D, c.C, 14), COL_CEV);
+  svg += ptLbl(c.A, 'A', -8, -8) + ptLbl(c.B, 'B', 10, -8) + ptLbl(c.C, 'C', 10, 14) + ptLbl(c.D, 'D', -8, 14);
+  svg += '<text x="' + c.A[0].toFixed(1) + '" y="' + (c.A[1] - 16).toFixed(1) +
+    '" text-anchor="middle" style="font-size:12.5px;font-weight:800;fill:' + COL_HI + ';font-family:Segoe UI,sans-serif">' + exprText + '</text>';
+  svg += '</svg>';
+  return svg;
+}
+
+// Tipas 8: koordinačių plokštuma su ašims lygiagrečiu kvadratu
+function coordSquareSvg(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy) {
+  const pts = [[Ax, Ay], [Bx, By], [Cx, Cy], [Dx, Dy]];
+  let xmin = Math.min(Ax, Bx, Cx, Dx) - 2, xmax = Math.max(Ax, Bx, Cx, Dx) + 2;
+  let ymin = Math.min(Ay, By, Cy, Dy) - 2, ymax = Math.max(Ay, By, Cy, Dy) + 2;
+  const w = 260, h = 240, pad = 34;
+  const plotw = w - 2 * pad, ploth = h - 2 * pad;
+  const sx = plotw / (xmax - xmin), sy = ploth / (ymax - ymin);
+  const X = x => pad + (x - xmin) * sx;
+  const Y = y => h - pad - (y - ymin) * sy;
+  let svg = '<svg width="230" height="212" viewBox="0 0 ' + w + ' ' + h + '" style="display:block;margin:8px auto">';
+  for (let gx = Math.ceil(xmin); gx <= Math.floor(xmax); gx++) {
+    svg += '<line x1="' + X(gx).toFixed(1) + '" y1="' + Y(ymin).toFixed(1) + '" x2="' + X(gx).toFixed(1) + '" y2="' + Y(ymax).toFixed(1) + '" style="stroke:#e3e7ee;stroke-width:1"/>';
+  }
+  for (let gy = Math.ceil(ymin); gy <= Math.floor(ymax); gy++) {
+    svg += '<line x1="' + X(xmin).toFixed(1) + '" y1="' + Y(gy).toFixed(1) + '" x2="' + X(xmax).toFixed(1) + '" y2="' + Y(gy).toFixed(1) + '" style="stroke:#e3e7ee;stroke-width:1"/>';
+  }
+  svg += '<line x1="' + X(xmin).toFixed(1) + '" y1="' + Y(0).toFixed(1) + '" x2="' + X(xmax).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '" style="stroke:#5b6472;stroke-width:1.6"/>';
+  svg += '<line x1="' + X(0).toFixed(1) + '" y1="' + Y(ymin).toFixed(1) + '" x2="' + X(0).toFixed(1) + '" y2="' + Y(ymax).toFixed(1) + '" style="stroke:#5b6472;stroke-width:1.6"/>';
+  svg += '<text x="' + (X(xmax) + 8).toFixed(1) + '" y="' + (Y(0) + 4).toFixed(1) + '" style="font-size:12px;fill:#5b6472;font-style:italic">x</text>';
+  svg += '<text x="' + (X(0) - 4).toFixed(1) + '" y="' + (Y(ymax) - 6).toFixed(1) + '" style="font-size:12px;fill:#5b6472;font-style:italic">y</text>';
+  const poly = pts.map(p => X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join(' ');
+  svg += '<polygon points="' + poly + '" style="fill:none;stroke:' + COL_SIDE + ';stroke-width:2.2"/>';
+  const cx = pts.reduce((s, p) => s + X(p[0]), 0) / 4, cy = pts.reduce((s, p) => s + Y(p[1]), 0) / 4;
+  const labels = ['A', 'B', 'C', 'D'];
+  pts.forEach((p, i) => {
+    const sxp = X(p[0]), syp = Y(p[1]);
+    const ox = sxp > cx ? 20 : -20, oy = syp < cy ? -10 : 17;
+    svg += '<circle cx="' + sxp.toFixed(1) + '" cy="' + syp.toFixed(1) + '" r="2.6" style="fill:' + COL_PT + '"/>';
+    svg += '<text x="' + (sxp + ox).toFixed(1) + '" y="' + (syp + oy).toFixed(1) + '" text-anchor="middle" style="font-size:11.5px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">' + labels[i] + '(' + p[0] + ';' + p[1] + ')</text>';
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+const GENERATORIAI = [
+  // 1: kraštinė a -> perimetras P=4a
+  { label: "1: kraštinė a → perimetras P", gen() {
+      const a = randint(6, 30);
+      const P = 4 * a;
+      const svg = squareBasicSvg('a = ' + a);
+      const q = `Kvadrato kraštinė a = ${a}. Rask perimetrą P.` + svg;
+      return {
+        q, ans: P, pre: 'P =',
+        steps: [
+          `P = 4 · a`,
+          `P = 4 · ${a} = ${nf(P)}`
+        ]
+      };
+  }},
+
+  // 2: perimetras P -> kraštinė a=P:4
+  { label: "2: perimetras P → kraštinė a", gen() {
+      const a0 = randint(6, 30);
+      const P = 4 * a0;
+      const svg = squareBasicSvg(null);
+      const q = `Kvadrato perimetras P = ${P}. Rask kraštinę a.` + svg;
+      return {
+        q, ans: a0, pre: 'a =',
+        steps: [
+          `a = P : 4`,
+          `a = ${P} : 4 = ${nf(a0)}`
+        ]
+      };
+  }},
+
+  // 3: kraštinė a -> plotas S=a²
+  { label: "3: kraštinė a → plotas S", gen() {
+      const a = randint(5, 22);
+      const S = a * a;
+      const svg = squareBasicSvg('a = ' + a);
+      const q = `Kvadrato kraštinė a = ${a}. Rask plotą S.` + svg;
+      return {
+        q, ans: S, pre: 'S =',
+        steps: [
+          `S = a²`,
+          `S = ${a}² = ${nf(S)}`
+        ]
+      };
+  }},
+
+  // 4: plotas S -> kraštinė a=√S (S visada tobulas kvadratas)
+  { label: "4: plotas S → kraštinė a", gen() {
+      const a0 = randint(5, 22);
+      const S = a0 * a0;
+      const svg = squareBasicSvg(null);
+      const q = `Kvadrato plotas S = ${S}. Rask kraštinę a.` + svg;
+      return {
+        q, ans: a0, pre: 'a =',
+        steps: [
+          `a = √S`,
+          `a = √${S} = ${nf(a0)}`
+        ]
+      };
+  }},
+
+  // 5: įstrižainė d -> plotas S=d²:2 (d lyginis)
+  { label: "5: įstrižainė d → plotas S", gen() {
+      const k = randint(3, 15);
+      const d = 2 * k; // lyginis, kad S sveikas
+      const S = d * d / 2;
+      const svg = squareOneDiagonalSvg('d = ' + d);
+      const q = `Kvadrato įstrižainė d = ${d}. Rask plotą S.` + svg;
+      return {
+        q, ans: S, pre: 'S =',
+        steps: [
+          `S = d² : 2`,
+          `S = ${d}² : 2 = ${nf(d*d)} : 2 = ${nf(S)}`
+        ]
+      };
+  }},
+
+  // 6: plotas S -> įstrižainė d=√(2S) (S=d²:2, d lyginis)
+  { label: "6: plotas S → įstrižainė d", gen() {
+      const k = randint(3, 15);
+      const d0 = 2 * k;
+      const S = d0 * d0 / 2;
+      const svg = squareOneDiagonalSvg(null);
+      const q = `Kvadrato plotas S = ${nf(S)}. Rask įstrižainę d.` + svg;
+      return {
+        q, ans: d0, pre: 'd =',
+        steps: [
+          `d² = 2 · S`,
+          `d² = 2 · ${nf(S)} = ${nf(2*S)}`,
+          `d = √${nf(2*S)} = ${nf(d0)}`
+        ]
+      };
+  }},
+
+  // 7: algebrinis: ∠DAC = a·x + b = 45° -> rasti x
+  { label: "7: ∠DAC = ax+b → x (įstrižainė = 45°)", gen() {
+      let a, b, x0, val;
+      do {
+        a = randint(2, 6);
+        x0 = randint(2, 15);
+        val = a * x0;
+        b = 45 - val;
+      } while (Math.abs(b) > 40 || b === 0);
+      const term = `${a}x ${pm(b)}`;
+      const svg = squareAngleAlgebraSvg('∠DAC = (' + term + ')°');
+      const q = `AC — kvadrato ABCD įstrižainė. ∠DAC = (${term})°. Rask x.` + svg;
+      return {
+        q, ans: x0, pre: 'x =',
+        steps: [
+          `Įstrižainė dalija statų kampą pusiau, todėl ∠DAC = 45°`,
+          `${term} = 45`,
+          `${a}x = 45 ${pm(-b)} = ${nf(45 - b)}`,
+          `x = ${nf(45 - b)} : ${a} = ${nf(x0)}`
+        ]
+      };
+  }},
+
+  // 8: koordinatės -> kraštinė / perimetras / plotas (atsitiktinai)
+  { label: "8: koordinatės → kraštinė/perimetras/plotas", gen() {
+      const x0 = nz(-6, 4), y0 = nz(-6, 4);
+      const s = randint(3, 9);
+      const A = [x0, y0], B = [x0, y0 + s], C = [x0 + s, y0 + s], D = [x0 + s, y0];
+      const svg = coordSquareSvg(A[0], A[1], B[0], B[1], C[0], C[1], D[0], D[1]);
+      const ask = choice(['side', 'perimeter', 'area']);
+      let ans, pre, target, steps;
+      if (ask === 'side') {
+        ans = s; pre = 'kraštinė ='; target = 'kraštinę';
+        steps = [
+          `A ir B turi tą pačią x koordinatę, tad kraštinė = y koordinačių skirtumas`,
+          `kraštinė = ${nf(y0+s)} − ${nf(y0)} = ${nf(s)}`
+        ];
+      } else if (ask === 'perimeter') {
+        ans = 4 * s; pre = 'P ='; target = 'perimetrą P';
+        steps = [
+          `kraštinė = ${nf(y0+s)} − ${nf(y0)} = ${nf(s)}`,
+          `P = 4 · ${nf(s)} = ${nf(4*s)}`
+        ];
+      } else {
+        ans = s * s; pre = 'S ='; target = 'plotą S';
+        steps = [
+          `kraštinė = ${nf(y0+s)} − ${nf(y0)} = ${nf(s)}`,
+          `S = ${nf(s)}² = ${nf(s*s)}`
+        ];
+      }
+      const q = `Kvadrato ABCD viršūnės: A(${nf(A[0])}; ${nf(A[1])}), B(${nf(B[0])}; ${nf(B[1])}), C(${nf(C[0])}; ${nf(C[1])}), D(${nf(D[0])}; ${nf(D[1])}). Rask ${target}.` + svg;
+      return { q, ans, pre, steps };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.8 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.9 Trapecija ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.9 "Trapecija".
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) ("+ 3" / "− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius kuria uždavinį IŠ atsakymo
+// (pasirenka tikslinę reikšmę arba konstruoja duomenis taip, kad rezultatas
+// visada būtų teigiamas sveikas skaičius ir geometriškai prasmingas).
+//
+// Temos turinys: trapecijos perimetras (pagrindų suma + šoninių suma),
+// kampai prie tos pačios šoninės kraštinės (suma 180°), keturkampio visų
+// kampų suma (360°) — ketvirtas kampas iš trijų žinomų.
+
+function genFourthAngle(){
+  for(let tries=0; tries<300; tries++){
+    const A = randint(30,150), B = randint(30,150), C = randint(30,150);
+    const D = 360 - (A+B+C);
+    if(D>=20 && D<=170) return {A,B,C,D};
+  }
+  return {A:80,B:95,C:100,D:85};
+}
+
+const GENERATORIAI = [
+  { label:"Perimetras iš pagrindų ir šoninių kraštinių", gen(){
+      const a = randint(8,40);
+      let b = randint(8,40);
+      while(b===a) b = randint(8,40);
+      const c = randint(5,35);
+      const d = randint(5,35);
+      const P = a+b+c+d;
+      return {
+        q:`Trapecijos ABCD pagrindai AB = ${nf(a)} cm ir CD = ${nf(b)} cm, šoninės kraštinės BC = ${nf(c)} cm ir AD = ${nf(d)} cm. Koks trapecijos perimetras?`,
+        ans: P, pre:'P =', ansText:`${nf(P)} cm`,
+        steps:[
+          `Pagrindų suma: AB + CD = ${nf(a)} + ${nf(b)} = ${nf(a+b)} cm`,
+          `Šoninių kraštinių suma: BC + AD = ${nf(c)} + ${nf(d)} = ${nf(c+d)} cm`,
+          `Perimetras P = (${nf(a+b)}) + (${nf(c+d)}) = ${nf(P)} cm`
+        ]
+      };
+  }},
+  { label:"Kampas prie šoninės kraštinės", gen(){
+      const B = randint(20,160);
+      const C = 180 - B;
+      const askC = choice([true,false]);
+      if(askC){
+        return {
+          q:`Trapecijoje ABCD šoninė kraštinė BC jungia abu pagrindus. Kampas ∠B = ${B}°. Kam lygus kampas ∠C?`,
+          ans: C, pre:'∠C =', ansText:`${nf(C)}°`,
+          steps:[
+            `∠B ir ∠C yra kampai prie tos pačios šoninės kraštinės BC`,
+            `Tokių kampų suma lygi 180°`,
+            `∠C = 180° − ${B}° = ${nf(C)}°`
+          ]
+        };
+      }
+      return {
+        q:`Trapecijoje ABCD šoninė kraštinė BC jungia abu pagrindus. Kampas ∠C = ${C}°. Kam lygus kampas ∠B?`,
+        ans: B, pre:'∠B =', ansText:`${nf(B)}°`,
+        steps:[
+          `∠B ir ∠C yra kampai prie tos pačios šoninės kraštinės BC`,
+          `Tokių kampų suma lygi 180°`,
+          `∠B = 180° − ${C}° = ${nf(B)}°`
+        ]
+      };
+  }},
+  { label:"Ketvirtas kampas iš trijų (kampų suma 360°)", gen(){
+      const vals = genFourthAngle();
+      const vertices = ['A','B','C','D'];
+      const missing = choice(vertices);
+      const known = vertices.filter(v=>v!==missing);
+      const sumKnown = known.reduce((s,v)=>s+vals[v],0);
+      const ansVal = 360 - sumKnown;
+      const listStr = known.map(v=>`∠${v} = ${nf(vals[v])}°`).join(', ');
+      return {
+        q:`Keturkampio (trapecijos) ABCD kampai: ${listStr}. Kam lygus kampas ∠${missing}?`,
+        ans: ansVal, pre:`∠${missing} =`, ansText:`${nf(ansVal)}°`,
+        steps:[
+          `Visų keturkampio kampų suma lygi 360°`,
+          `${known.map(v=>`∠${v}`).join(' + ')} = ${known.map(v=>nf(vals[v])+'°').join(' + ')} = ${nf(sumKnown)}°`,
+          `∠${missing} = 360° − ${nf(sumKnown)}° = ${nf(ansVal)}°`
+        ]
+      };
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.9 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.10 Lygiašonė ir stačioji trapecijos ====================
+(function(){
+// 7 kl. 7.10 „Lygiašonė ir stačioji trapecijos" — kontrolinio treniruoklio generatoriai.
+// Pagalbininkai (randint, choice, nz, nf, pm) apibrėžti šablone, čia nenaudojami iš naujo.
+//
+// Teorija:
+// LYGIAŠONĖ trapecija: šoninės kraštinės lygios. Kampai prie kiekvieno pagrindo lygūs
+// (∠A=∠B, ∠D=∠C). Kampai prie tos pačios šoninės papildo iki 180° (∠A+∠D=180°).
+// Perimetras P = a+b+2c (a,b — pagrindai, c — šoninė), t.y. c=(P−S):2, kur S=a+b.
+// STAČIOJI trapecija: viena šoninė statmena pagrindams (=aukštinė h). Prie jos —
+// du statūs kampai (90°). Prie įžambios šoninės kampai papildo iki 180°.
+// Plotas S = (a+b):2 · h.
+// AUKSINĖ TAISYKLĖ: kiekvienas generatorius konstruoja uždavinį taip, kad
+// atsakymas visada būtų tikslus (nesikartojantis floating-point triukšmas).
+
+// ---------- SVG: lygiašonė trapecija (fiksuota geometrija, patikrinta vizualiai) ----------
+function ltSvg(opts){
+  opts = opts || {};
+  let s = `<svg width="220" height="150" viewBox="0 0 240 170">`;
+  s += `<polygon points="40,130 200,130 160,40 80,40" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  s += `<line x1="56.35" y1="83.38" x2="63.65" y2="86.62" stroke="#2c2620" stroke-width="1.8"/>`;
+  s += `<line x1="176.35" y1="86.62" x2="183.65" y2="83.38" stroke="#2c2620" stroke-width="1.8"/>`;
+  s += `<text x="24" y="144" font-size="14" font-style="italic" fill="#2c2620">A</text>`;
+  s += `<text x="204" y="144" font-size="14" font-style="italic" fill="#2c2620">B</text>`;
+  s += `<text x="164" y="28" font-size="14" font-style="italic" fill="#2c2620">C</text>`;
+  s += `<text x="60" y="28" font-size="14" font-style="italic" fill="#2c2620">D</text>`;
+  if(opts.angLabel){ s += `<text x="75" y="120" font-size="12" font-weight="700" fill="#b25c00" text-anchor="middle">${opts.angLabel}</text>`; }
+  s += `</svg>`;
+  return s;
+}
+// ---------- SVG: stačioji trapecija (statmens žymės prie A ir D) ----------
+function stSvg(opts){
+  opts = opts || {};
+  let s = `<svg width="220" height="150" viewBox="0 0 240 170">`;
+  s += `<polygon points="40,130 200,130 150,40 40,40" fill="none" stroke="#4a6d8c" stroke-width="2"/>`;
+  s += `<path d="M 40 120 L 50 120 L 50 130" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  s += `<path d="M 40 50 L 50 50 L 50 40" fill="none" stroke="#2c2620" stroke-width="1.3"/>`;
+  s += `<text x="24" y="144" font-size="14" font-style="italic" fill="#2c2620">A</text>`;
+  s += `<text x="204" y="144" font-size="14" font-style="italic" fill="#2c2620">B</text>`;
+  s += `<text x="154" y="28" font-size="14" font-style="italic" fill="#2c2620">C</text>`;
+  s += `<text x="24" y="28" font-size="14" font-style="italic" fill="#2c2620">D</text>`;
+  if(opts.angLabel){ s += `<text x="168" y="118" font-size="12" font-weight="700" fill="#b25c00" text-anchor="middle">${opts.angLabel}</text>`; }
+  if(opts.aLabel){ s += `<text x="88" y="24" font-size="12" font-weight="700" fill="#b25c00" text-anchor="middle">${opts.aLabel}</text>`; }
+  if(opts.bLabel){ s += `<text x="120" y="148" font-size="12" font-weight="700" fill="#b25c00" text-anchor="middle">${opts.bLabel}</text>`; }
+  s += `</svg>`;
+  return s;
+}
+
+const GENERATORIAI = [
+  { label:"Lygiašonės trapecijos kampai", gen(){
+      const x = randint(30,85);
+      const askOther = choice([true,false]); // true: ∠B (=x); false: ∠D (=180-x)
+      const svg = ltSvg({angLabel:`${x}°`});
+      if(askOther){
+        return {
+          q:`Lygiašonės trapecijos kampas prie pagrindo ∠A = ${x}°. Apskaičiuok kampą ∠B (prie to paties pagrindo).${svg}`,
+          ans: x,
+          steps:[
+            `Lygiašonėje trapecijoje kampai prie kiekvieno pagrindo lygūs tarpusavyje`,
+            `∠B = ∠A = ${x}°`
+          ]
+        };
+      } else {
+        const ans = 180 - x;
+        return {
+          q:`Lygiašonės trapecijos kampas prie pagrindo ∠A = ${x}°. Apskaičiuok kampą ∠D (prie viršutinio pagrindo, ta pati šoninė AD).${svg}`,
+          ans: ans,
+          steps:[
+            `Kampai ∠A ir ∠D (prie tos pačios šoninės AD) yra vidaus vienašaliai, nes pagrindai lygiagretūs`,
+            `∠A + ∠D = 180°`,
+            `∠D = 180° − ${x}° = ${ans}°`
+          ]
+        };
+      }
+  }},
+  { label:"Lygiašonės trapecijos perimetras", gen(){
+      const c = randint(4,25);
+      const S = randint(10,70);
+      const P = S + 2*c;
+      const findC = choice([true,false]);
+      const svg = ltSvg({});
+      if(findC){
+        return {
+          q:`Lygiašonės trapecijos perimetras P = ${P} cm, pagrindų suma S = ${S} cm. Apskaičiuok vienos šoninės kraštinės ilgį (cm).${svg}`,
+          ans: c,
+          steps:[
+            `Abi šoninės kraštinės lygios, jų suma = P − S = ${P} − ${S} = ${P-S}`,
+            `Viena šoninė = ${P-S} : 2 = ${c}`
+          ]
+        };
+      } else {
+        return {
+          q:`Lygiašonės trapecijos šoninė kraštinė c = ${c} cm, pagrindų suma S = ${S} cm. Apskaičiuok trapecijos perimetrą (cm).${svg}`,
+          ans: P,
+          steps:[
+            `Perimetras P = S + 2c`,
+            `P = ${S} + 2 · ${c} = ${S} + ${2*c} = ${P}`
+          ]
+        };
+      }
+  }},
+  { label:"Stačiosios trapecijos kampai", gen(){
+      const x = randint(20,85);
+      const askC = choice([true,false,true]); // dažniau klausiame ∠C (turiningesnis atvejis)
+      const svg = stSvg({angLabel:`${x}°`});
+      if(askC){
+        const ans = 180 - x;
+        return {
+          q:`Stačiosios trapecijos kampas prie ilgesnio pagrindo ∠B = ${x}° (prie įžambios šoninės BC). Apskaičiuok kampą ∠C (ta pati šoninė).${svg}`,
+          ans: ans,
+          steps:[
+            `∠B ir ∠C (prie šoninės BC) — vidaus vienašaliai, nes pagrindai lygiagretūs`,
+            `∠B + ∠C = 180°`,
+            `∠C = 180° − ${x}° = ${ans}°`
+          ]
+        };
+      } else {
+        return {
+          q:`Stačiosios trapecijos šoninė AD statmena pagrindams. Kampas ∠B = ${x}°. Apskaičiuok kampą ∠A.${svg}`,
+          ans: 90,
+          steps:[
+            `Šoninė AD statmena abiem pagrindams (AB ir DC)`,
+            `∠A = 90°`
+          ]
+        };
+      }
+  }},
+  { label:"Stačiosios trapecijos plotas", gen(){
+      let a = randint(4,20), b = randint(a+2,a+18);
+      let h = randint(3,15);
+      if((a+b)*h % 2 !== 0) h += 1; // užtikrinam sveiką plotą
+      const S = (a+b)*h/2;
+      const findS = choice([true,false]);
+      if(findS){
+        const svg = stSvg({aLabel:`a=${a}`, bLabel:`b=${b}`});
+        return {
+          q:`Stačiosios trapecijos pagrindai a = ${a} cm ir b = ${b} cm, statmena šoninė (aukštinė) h = ${h} cm. Apskaičiuok trapecijos plotą (cm²).${svg}`,
+          ans: S,
+          steps:[
+            `S = (a + b) : 2 · h`,
+            `S = (${a} + ${b}) : 2 · ${h} = ${a+b} : 2 · ${h} = ${(a+b)/2} · ${h}`,
+            `S = ${S} cm²`
+          ]
+        };
+      } else {
+        const svg = stSvg({aLabel:`a=${a}`, bLabel:`b=${b}`});
+        return {
+          q:`Stačiosios trapecijos plotas S = ${S} cm², pagrindai a = ${a} cm ir b = ${b} cm. Apskaičiuok aukštinę (statmeną šoninę, cm).${svg}`,
+          ans: h,
+          steps:[
+            `h = 2 · S : (a + b)`,
+            `h = 2 · ${S} : (${a} + ${b}) = ${2*S} : ${a+b}`,
+            `h = ${h} cm`
+          ]
+        };
+      }
+  }}
+];
+  return GENERATORIAI.map(g => ({ label: "7.10 " + g.label, gen: g.gen }));
+})(),
+
+// ==================== 7.11 Daugiakampiai koordinačių plokštumoje ====================
+(function(){
+// Kontrolinio treniruoklio generatoriai: Daugiakampiai koordinaciu plokstumoje (7 kl.)
+// Sablonas jau apibrezia pagalbininkus: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n).
+// Cia tereikia apibrezti `const GENERATORIAI = [...]`.
+//
+// TAISYKLE: kiekvienas generatorius kuria uzdavini IS atsakymo (parenkamas taskas
+// ir postumis, tada apskaiciuojamas rezultatas), todel atsakymas visada teisingas.
+// Koordinaciu poru atsakymai grazinami kaip ansType:'text' (pvz. "(3;-2)").
+
+function fmtPt(x, y){
+  return '(' + nf(x) + ';' + nf(y) + ')';
+}
+function nzSmall(){
+  // nenulinis sveikasis skaicius intervale [-9,9], be 0
+  return nz(-9, 9);
+}
+
+const GENERATORIAI = [
+  { label:"Postūmis teigiama OY kryptimi", gen(){
+      const x=nzSmall(), y=nzSmall(), a=randint(2,12);
+      const y1=y+a;
+      return { q:`A(${nf(x)};${nf(y)}) pastumtas teigiama OY kryptimi ${a} vnt. Rask A₁.`,
+        ans: fmtPt(x,y1), ansType:'text', pre:'A₁ =',
+        steps:[
+          `x koordinatė nesikeičia: x₁ = ${nf(x)}`,
+          `y₁ = ${nf(y)} + ${a} = ${nf(y1)}`,
+          `A₁ = ${fmtPt(x,y1)}`
+        ]};
+  }},
+  { label:"Postūmis neigiama OY kryptimi", gen(){
+      const x=nzSmall(), y=nzSmall(), a=randint(2,12);
+      const y1=y-a;
+      return { q:`B(${nf(x)};${nf(y)}) pastumtas neigiama OY kryptimi ${a} vnt. Rask B₁.`,
+        ans: fmtPt(x,y1), ansType:'text', pre:'B₁ =',
+        steps:[
+          `x koordinatė nesikeičia: x₁ = ${nf(x)}`,
+          `y₁ = ${nf(y)} − ${a} = ${nf(y1)}`,
+          `B₁ = ${fmtPt(x,y1)}`
+        ]};
+  }},
+  { label:"Postūmis teigiama OX kryptimi", gen(){
+      const x=nzSmall(), y=nzSmall(), a=randint(2,12);
+      const x1=x+a;
+      return { q:`C(${nf(x)};${nf(y)}) pastumtas teigiama OX kryptimi ${a} vnt. Rask C₁.`,
+        ans: fmtPt(x1,y), ansType:'text', pre:'C₁ =',
+        steps:[
+          `y koordinatė nesikeičia: y₁ = ${nf(y)}`,
+          `x₁ = ${nf(x)} + ${a} = ${nf(x1)}`,
+          `C₁ = ${fmtPt(x1,y)}`
+        ]};
+  }},
+  { label:"Postūmis neigiama OX kryptimi", gen(){
+      const x=nzSmall(), y=nzSmall(), a=randint(2,12);
+      const x1=x-a;
+      return { q:`D(${nf(x)};${nf(y)}) pastumtas neigiama OX kryptimi ${a} vnt. Rask D₁.`,
+        ans: fmtPt(x1,y), ansType:'text', pre:'D₁ =',
+        steps:[
+          `y koordinatė nesikeičia: y₁ = ${nf(y)}`,
+          `x₁ = ${nf(x)} − ${a} = ${nf(x1)}`,
+          `D₁ = ${fmtPt(x1,y)}`
+        ]};
+  }},
+  { label:"Trikampio viršūnės postūmis", gen(){
+      const K=[nzSmall(),nzSmall()], L=[nzSmall(),nzSmall()], M=[nzSmall(),nzSmall()];
+      const dirs=['oy+','oy-','ox+','ox-'];
+      const d=choice(dirs), a=randint(2,10);
+      function shift(p){
+        if(d==='oy+') return [p[0], p[1]+a];
+        if(d==='oy-') return [p[0], p[1]-a];
+        if(d==='ox+') return [p[0]+a, p[1]];
+        return [p[0]-a, p[1]];
+      }
+      const L1 = shift(L);
+      const dirLabel = {'oy+':'teigiama OY kryptimi','oy-':'neigiama OY kryptimi','ox+':'teigiama OX kryptimi','ox-':'neigiama OX kryptimi'}[d];
+      return { q:`Trikampio KLM viršūnės: K${fmtPt(K[0],K[1])}, L${fmtPt(L[0],L[1])}, M${fmtPt(M[0],M[1])}. Trikampis pastumtas ${dirLabel} ${a} vnt. Rask L₁.`,
+        ans: fmtPt(L1[0],L1[1]), ansType:'text', pre:'L₁ =',
+        steps:[
+          `Skaičiuojame tik viršūnę L (kitos duotos tik figūrai apibūdinti).`,
+          d.startsWith('oy') ? `y₁ = ${nf(L[1])} ${d==='oy+'?'+':'−'} ${a} = ${nf(L1[1])}, x₁ = ${nf(L[0])}` : `x₁ = ${nf(L[0])} ${d==='ox+'?'+':'−'} ${a} = ${nf(L1[0])}, y₁ = ${nf(L[1])}`,
+          `L₁ = ${fmtPt(L1[0],L1[1])}`
+        ]};
+  }},
+  { label:"Keturkampio viršūnės postūmis", gen(){
+      const A=[nzSmall(),nzSmall()], B=[nzSmall(),nzSmall()], C=[nzSmall(),nzSmall()], D=[nzSmall(),nzSmall()];
+      const dirs=['oy+','oy-','ox+','ox-'];
+      const d=choice(dirs), a=randint(2,10);
+      function shift(p){
+        if(d==='oy+') return [p[0], p[1]+a];
+        if(d==='oy-') return [p[0], p[1]-a];
+        if(d==='ox+') return [p[0]+a, p[1]];
+        return [p[0]-a, p[1]];
+      }
+      const D1 = shift(D);
+      const dirLabel = {'oy+':'teigiama OY kryptimi','oy-':'neigiama OY kryptimi','ox+':'teigiama OX kryptimi','ox-':'neigiama OX kryptimi'}[d];
+      return { q:`Keturkampio ABCD viršūnės: A${fmtPt(A[0],A[1])}, B${fmtPt(B[0],B[1])}, C${fmtPt(C[0],C[1])}, D${fmtPt(D[0],D[1])}. Keturkampis pastumtas ${dirLabel} ${a} vnt. Rask D₁.`,
+        ans: fmtPt(D1[0],D1[1]), ansType:'text', pre:'D₁ =',
+        steps:[
+          `Skaičiuojame tik viršūnę D (kitos duotos tik figūrai apibūdinti).`,
+          d.startsWith('oy') ? `y₁ = ${nf(D[1])} ${d==='oy+'?'+':'−'} ${a} = ${nf(D1[1])}, x₁ = ${nf(D[0])}` : `x₁ = ${nf(D[0])} ${d==='ox+'?'+':'−'} ${a} = ${nf(D1[0])}, y₁ = ${nf(D[1])}`,
+          `D₁ = ${fmtPt(D1[0],D1[1])}`
+        ]};
+  }},
+  { label:"Postūmio dydžio nustatymas", gen(){
+      const x=nzSmall(), y=nzSmall(), a=randint(2,12);
+      const oy = choice([true,false]);
+      let x1=x, y1=y;
+      let axisTxt;
+      if(oy){ y1 = choice([y+a, y-a]); axisTxt='y'; } else { x1 = choice([x+a, x-a]); axisTxt='x'; }
+      return { q:`Taškas E${fmtPt(x,y)} pastumtas į tašką E₁${fmtPt(x1,y1)}. Koks postūmio dydis (vienetais)?`,
+        ans:a, pre:'dydis =',
+        steps:[
+          `Palyginame ${axisTxt} koordinates (kita koordinatė nesikeičia).`,
+          `Postūmio dydis = |skirtumas| = ${a}`
+        ]};
+  }},
+];
+  return GENERATORIAI.map(g => ({ label: "7.11 " + g.label, gen: g.gen }));
+})()
+
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Bendras kontrolinio treniruoklis: Trikampiai ir keturkampiai (7 klasė)", "subtitle": "7 skyrius Trikampiai ir keturkampiai, 7.1-7.11, visos potemes viename treniruoklyje", "lango": 10, "riba": 9, "ivestis_pre": "=", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

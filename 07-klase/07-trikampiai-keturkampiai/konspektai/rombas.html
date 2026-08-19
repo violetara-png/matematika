@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rombas — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+
+  /* --- brėžiniai (SVG) --- */
+  .brez-wrap{display:flex; justify-content:center; margin:10px 0 4px}
+  svg.brez{width:100%; max-width:340px; height:auto; background:#fbfcfe; border:1px solid var(--linija); border-radius:8px}
+  .ln{stroke:#1c2430; stroke-width:2; fill:none}
+  .ln-med{stroke:var(--tema); stroke-width:2.2; fill:none; stroke-dasharray:0}
+  .rt-mark{stroke:var(--taisykle); stroke-width:2; fill:none}
+  .arc{stroke:var(--pvz); stroke-width:1.8; fill:none}
+  .pt{fill:#1c2430}
+  .pt-g{fill:var(--pvz)}
+  .lbl-it{font-style:italic; font-family:"Cambria Math",Cambria,Georgia,serif; font-size:13px; fill:#1c2430}
+  .tick{stroke:var(--taisykle); stroke-width:2}
+
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Rombas</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai" · 7.7 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Rombas — apibrėžimas</a></li>
+      <li><a href="#t2">Kampų savybės</a></li>
+      <li><a href="#t3">Perimetras</a></li>
+      <li><a href="#t4">Įstrižainių savybės</a></li>
+      <li><a href="#t5">Įstrižainės ilgio skaičiavimas</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Rombas — apibrėžimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Rombas</span> — lygiagretainis, kurio <b>visos keturios kraštinės lygios</b>.</p>
+        <p>Kadangi rombas yra lygiagretainis, jam galioja visos lygiagretainio savybės: priešingos kraštinės lygiagrečios, priešingi kampai lygūs, gretimų kampų suma lygi <span class="math">180°</span>, o įstrižainės susikirtimo taškas dalija abi įstrižaines pusiau.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 260 180" class="brez">
+<line x1="40" y1="90" x2="130" y2="35" class="ln"/>
+<line x1="130" y1="35" x2="220" y2="90" class="ln"/>
+<line x1="220" y1="90" x2="130" y2="145" class="ln"/>
+<line x1="130" y1="145" x2="40" y2="90" class="ln"/>
+<line x1="72" y1="61" x2="76" y2="66" class="tick"/>
+<line x1="184" y1="61" x2="188" y2="66" class="tick"/>
+<line x1="184" y1="119" x2="188" y2="114" class="tick"/>
+<line x1="72" y1="119" x2="76" y2="114" class="tick"/>
+<circle cx="40" cy="90" r="3.2" class="pt"/>
+<circle cx="130" cy="35" r="3.2" class="pt"/>
+<circle cx="220" cy="90" r="3.2" class="pt"/>
+<circle cx="130" cy="145" r="3.2" class="pt"/>
+<text x="26" y="94" class="lbl-it" text-anchor="middle">A</text>
+<text x="130" y="24" class="lbl-it" text-anchor="middle">B</text>
+<text x="234" y="94" class="lbl-it" text-anchor="middle">C</text>
+<text x="130" y="163" class="lbl-it" text-anchor="middle">D</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Brėžinyje.</b> Rombo <span class="math">ABCD</span> kraštinės <span class="math">AB = BC = CD = DA</span> — visos pažymėtos vienodais brūkšneliais, nes yra lygios.</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Kampų savybės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Priešingi kampai lygūs:</span> <span class="math">∠A = ∠C</span> ir <span class="math">∠B = ∠D</span>.</p>
+        <p><span class="zenk">Gretimų kampų suma lygi 180°:</span> <span class="math">∠A + ∠B = 180°</span>, <span class="math">∠B + ∠C = 180°</span> ir t. t. — nes priešingos kraštinės lygiagrečios (vidaus vienašaliai kampai).</p>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Rombo kampas <span class="math">∠A = 72°</span>. Tada <span class="math">∠B = 180° − 72° = 108°</span>, <span class="math">∠C = ∠A = 72°</span>, <span class="math">∠D = ∠B = 108°</span>.</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Perimetras</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Formulė.</span> Kadangi visos keturios kraštinės lygios (žymime <span class="math">a</span>):</p>
+        <div class="formule"><span class="math">P = 4 · a</span></div>
+        <p>Žinodami perimetrą, kraštinę randame atvirkščiai: <span class="math">a = P : 4</span>.</p>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Rombo kraštinė <span class="math">a = 13</span> cm. Perimetras <span class="math">P = 4 · 13 = <b>52 cm</b></span>.</p>
+      <p class="pvz"><b>Atvirkščiai.</b> Rombo perimetras <span class="math">P = 60</span> cm. Kraštinė <span class="math">a = 60 : 4 = <b>15 cm</b></span>.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Įstrižainių savybės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Rombo įstrižainės:</p>
+        <p>1) yra viena kitai <b>statmenos</b> (susikerta stačiu kampu);</p>
+        <p>2) susikirtimo taškas dalija <b>abi įstrižaines pusiau</b> (kaip ir kiekviename lygiagretainyje);</p>
+        <p>3) dalija rombo kampus <b>pusiau</b> — kiekviena įstrižainė yra tų kampų <span class="term-a">pusiaukampinė</span>.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 260 180" class="brez">
+<line x1="40" y1="90" x2="130" y2="35" class="ln"/>
+<line x1="130" y1="35" x2="220" y2="90" class="ln"/>
+<line x1="220" y1="90" x2="130" y2="145" class="ln"/>
+<line x1="130" y1="145" x2="40" y2="90" class="ln"/>
+<line x1="40" y1="90" x2="220" y2="90" class="ln-med"/>
+<line x1="130" y1="35" x2="130" y2="145" class="ln-med"/>
+<path d="M 142 90 L 142 78 L 130 78" class="rt-mark"/>
+<path d="M 53.7 81.7 A 16 16 0 0 1 56.0 90.0" class="arc"/>
+<path d="M 64.0 90.0 A 24 24 0 0 1 60.5 102.5" class="arc"/>
+<path d="M 204.0 90.0 A 16 16 0 0 1 206.3 81.7" class="arc"/>
+<path d="M 199.5 102.5 A 24 24 0 0 1 196.0 90.0" class="arc"/>
+<circle cx="40" cy="90" r="3.2" class="pt"/>
+<circle cx="130" cy="35" r="3.2" class="pt"/>
+<circle cx="220" cy="90" r="3.2" class="pt"/>
+<circle cx="130" cy="145" r="3.2" class="pt"/>
+<circle cx="130" cy="90" r="3" class="pt-g"/>
+<text x="26" y="94" class="lbl-it" text-anchor="middle">A</text>
+<text x="130" y="24" class="lbl-it" text-anchor="middle">B</text>
+<text x="234" y="94" class="lbl-it" text-anchor="middle">C</text>
+<text x="130" y="163" class="lbl-it" text-anchor="middle">D</text>
+<text x="122" y="84" class="lbl-it" text-anchor="middle">O</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Brėžinyje.</b> Įstrižainės <span class="math">AC</span> ir <span class="math">BD</span> susikerta taške <span class="math">O</span> stačiu kampu (žalias kampo ženklas). Lankeliai prie <span class="math">A</span> ir <span class="math">C</span> rodo, kad įstrižainė <span class="math">AC</span> dalija kampus <span class="math">∠A</span> ir <span class="math">∠C</span> pusiau.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Įstrižainės ilgio skaičiavimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Idėja.</span> Kadangi įstrižainės statmenos ir dalija viena kitą pusiau, kiekvienas iš keturių trikampių, į kuriuos jos padalija rombą, yra <b>statusis</b>. Jo statiniai — įstrižainių pusės, įžambinė — rombo kraštinė. Todėl galima taikyti <span class="term-a">Pitagoro teoremą</span>.</p>
+        <div class="formule"><span class="math">a² = (d₁ : 2)² + (d₂ : 2)²</span></div>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 220 160" class="brez">
+<line x1="30" y1="130" x2="30" y2="30" class="ln-med"/>
+<line x1="30" y1="130" x2="170" y2="130" class="ln-med"/>
+<line x1="30" y1="30" x2="170" y2="130" class="ln"/>
+<path d="M 30 118 L 42 118 L 42 130" class="rt-mark"/>
+<circle cx="30" cy="130" r="3" class="pt"/>
+<circle cx="30" cy="30" r="3" class="pt"/>
+<circle cx="170" cy="130" r="3.2" class="pt-g"/>
+<text x="16" y="134" class="lbl-it" text-anchor="middle">O</text>
+<text x="18" y="26" class="lbl-it" text-anchor="middle">B</text>
+<text x="184" y="134" class="lbl-it" text-anchor="middle">C</text>
+<text x="14" y="82" class="lbl-it" text-anchor="middle">6</text>
+<text x="100" y="146" class="lbl-it" text-anchor="middle">8</text>
+<text x="115" y="76" class="lbl-it" text-anchor="middle">10</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Rombo kraštinė <span class="math">a = 10</span> cm, viena įstrižainė <span class="math">12</span> cm. Raskime kitą įstrižainę.</p>
+      <p class="pvz">Pusė žinomos įstrižainės: <span class="math">12 : 2 = 6</span> cm. Statusis trikampis su statiniu <span class="math">6</span> cm ir įžambine <span class="math">10</span> cm (rombo kraštine):</p>
+      <p class="pvz"><span class="math">kitas statinys = √(10² − 6²) = √(100 − 36) = √64 = 8</span> cm.<br>
+      Visa antra įstrižainė: <span class="math">2 · 8 = <b>16 cm</b></span>.</p>
+      <div class="demesio"><b>Dėmesio.</b> Pitagoro teoremoje į formulę įstatomos <b>pusės</b> įstrižainių, o ne visos įstrižainės — gautą rezultatą galiausiai reikia padauginti iš 2, kad gautume visą ieškomą įstrižainę.</div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">Rombo įstrižainės lygios (kaip stačiakampio)</span></td><td><span class="gerai">Rombo įstrižainės paprastai NELYGIOS</span> — lygios tik tada, kai rombas yra kvadratas</td></tr>
+          <tr><td><span class="klaida">Į Pitagoro formulę įstatoma visa įstrižainė</span></td><td><span class="gerai">Įstatoma PUSĖ įstrižainės</span> (d : 2), nes statųjį trikampį sudaro įstrižainių pusės</td></tr>
+          <tr><td><span class="klaida">Visi rombo kampai lygūs</span></td><td><span class="gerai">Lygūs tik PRIEŠINGI kampai</span> (∠A=∠C, ∠B=∠D), gretimi papildo iki 180°</td></tr>
+          <tr><td><span class="klaida">Perimetras P = a + a (dvi kraštinės)</span></td><td><span class="gerai">P = 4 · a</span> — rombas turi KETURIAS lygias kraštines</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Rombas" (7.7)
+  </footer>
+
+</div>
+</body>
+</html>

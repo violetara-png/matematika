@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daugiakampiai koordinačių plokštumoje — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .diag{text-align:center; margin:12px 0}
+  .diag figcaption{font-size:12.5px; color:var(--pilka); margin-top:4px}
+
+  .kv-svg{display:block;margin:10px auto}
+  .kv-svg .s-side{stroke:#1e5fa8;stroke-width:2.4;fill:none}
+  .kv-svg .s-cev{stroke:#b25c00;stroke-width:2.2;fill:none}
+  .kv-svg .postumis{stroke:#b25c00;stroke-width:2.4}
+  .kv-svg .pt{fill:#1c2430}
+  .kv-svg .pt-hi{fill:#c62828}
+  .kv-svg .ln-lbl{font-size:13px;font-style:italic;fill:#1c2430;font-weight:700}
+  .kv-coord .grid{stroke:#e3e7ee;stroke-width:1}
+  .kv-coord .axis{stroke:#5b6472;stroke-width:1.6}
+  .kv-coord .ax-lbl{font-size:12px;fill:#5b6472;font-style:italic}
+  .kv-coord .tick-lbl{font-size:10.5px;fill:#8a93a6}
+
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Daugiakampiai koordinačių plokštumoje</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai" · 7.11 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Taškas ir daugiakampis koordinačių plokštumoje</a></li>
+      <li><a href="#t2">Postūmis teigiama OY kryptimi (aukštyn)</a></li>
+      <li><a href="#t3">Postūmis neigiama OY kryptimi (žemyn)</a></li>
+      <li><a href="#t4">Postūmis teigiama OX kryptimi (dešinėn)</a></li>
+      <li><a href="#t5">Postūmis neigiama OX kryptimi (kairėn)</a></li>
+      <li><a href="#t6">Daugiakampio postūmis</a></li>
+      <li><a href="#t7">Krypties ir dydžio atpažinimas</a></li>
+      <li><a href="#t8">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Taškas ir daugiakampis koordinačių plokštumoje</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Priminimas.</span> Kiekvienas taškas plokštumoje žymimas pora skaičių <span class="math">(x; y)</span> — pirmasis skaičius rodo padėtį pagal ašį <span class="math">OX</span> (į dešinę arba kairę nuo pradžios taško), antrasis — pagal ašį <span class="math">OY</span> (aukštyn arba žemyn).</p>
+        <p><span class="zenk">Daugiakampis</span> koordinačių plokštumoje užrašomas per savo <b>viršūnių koordinates</b>: sujungę taškus iš eilės atkarpomis, gauname figūrą (trikampį, keturkampį ir t. t.).</p>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="70.0" y1="246.0" x2="70.0" y2="34.0"/>
+<line class="grid" x1="106.0" y1="246.0" x2="106.0" y2="34.0"/>
+<line class="grid" x1="142.0" y1="246.0" x2="142.0" y2="34.0"/>
+<line class="grid" x1="178.0" y1="246.0" x2="178.0" y2="34.0"/>
+<line class="grid" x1="214.0" y1="246.0" x2="214.0" y2="34.0"/>
+<line class="grid" x1="250.0" y1="246.0" x2="250.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="215.7" x2="286.0" y2="215.7"/>
+<line class="grid" x1="34.0" y1="185.4" x2="286.0" y2="185.4"/>
+<line class="grid" x1="34.0" y1="155.1" x2="286.0" y2="155.1"/>
+<line class="grid" x1="34.0" y1="124.9" x2="286.0" y2="124.9"/>
+<line class="grid" x1="34.0" y1="94.6" x2="286.0" y2="94.6"/>
+<line class="grid" x1="34.0" y1="64.3" x2="286.0" y2="64.3"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="215.7" x2="286.0" y2="215.7"/>
+<line class="axis" x1="70.0" y1="246.0" x2="70.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="219.7">x</text>
+<text class="ax-lbl" x="66.0" y="28.0">y</text>
+<text class="ax-lbl" x="60.0" y="225.7">0</text>
+<text class="tick-lbl" x="34.0" y="228.7" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="106.0" y="228.7" text-anchor="middle">1</text>
+<text class="tick-lbl" x="142.0" y="228.7" text-anchor="middle">2</text>
+<text class="tick-lbl" x="178.0" y="228.7" text-anchor="middle">3</text>
+<text class="tick-lbl" x="214.0" y="228.7" text-anchor="middle">4</text>
+<text class="tick-lbl" x="250.0" y="228.7" text-anchor="middle">5</text>
+<text class="tick-lbl" x="286.0" y="228.7" text-anchor="middle">6</text>
+<text class="tick-lbl" x="64.0" y="249.0" text-anchor="end">-1</text>
+<text class="tick-lbl" x="64.0" y="188.4" text-anchor="end">1</text>
+<text class="tick-lbl" x="64.0" y="158.1" text-anchor="end">2</text>
+<text class="tick-lbl" x="64.0" y="127.9" text-anchor="end">3</text>
+<text class="tick-lbl" x="64.0" y="97.6" text-anchor="end">4</text>
+<text class="tick-lbl" x="64.0" y="67.3" text-anchor="end">5</text>
+<text class="tick-lbl" x="64.0" y="37.0" text-anchor="end">6</text>
+<polygon class="s-side" points="106.0,185.4 214.0,185.4 142.0,94.6"/>
+<circle class="pt" cx="106.0" cy="185.4" r="3"/>
+<text class="ln-lbl" x="106.0" y="199.4" text-anchor="middle">A(1;1)</text>
+<circle class="pt" cx="214.0" cy="185.4" r="3"/>
+<text class="ln-lbl" x="214.0" y="199.4" text-anchor="middle">B(4;1)</text>
+<circle class="pt" cx="142.0" cy="94.6" r="3"/>
+<text class="ln-lbl" x="142.0" y="86.6" text-anchor="middle">C(2;4)</text>
+</svg><figcaption>Trikampis ABC: A(1;1), B(4;1), C(2;4)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio ABC viršūnės: <span class="math">A(1;1)</span>, <span class="math">B(4;1)</span>, <span class="math">C(2;4)</span>. Norėdami nubraižyti trikampį, kiekvieną tašką pažymime plokštumoje ir sujungiame juos atkarpomis ta pačia tvarka: <span class="math">A → B → C → A</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Postūmis teigiama OY kryptimi (aukštyn)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai taškas <span class="math">A(x; y)</span> stumiamas <b>teigiama OY kryptimi</b> (aukštyn) per <span class="math">a</span> vienetų, jo <span class="math">x</span> koordinatė <b>nesikeičia</b>, o prie <span class="math">y</span> koordinatės <b>pridedame</b> <span class="math">a</span>:</p>
+        <div class="formule math">A(x; y) → A₁(x; y + a)</div>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="76.0" y1="246.0" x2="76.0" y2="34.0"/>
+<line class="grid" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<line class="grid" x1="160.0" y1="246.0" x2="160.0" y2="34.0"/>
+<line class="grid" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<line class="grid" x1="244.0" y1="246.0" x2="244.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="219.5" x2="286.0" y2="219.5"/>
+<line class="grid" x1="34.0" y1="193.0" x2="286.0" y2="193.0"/>
+<line class="grid" x1="34.0" y1="166.5" x2="286.0" y2="166.5"/>
+<line class="grid" x1="34.0" y1="140.0" x2="286.0" y2="140.0"/>
+<line class="grid" x1="34.0" y1="113.5" x2="286.0" y2="113.5"/>
+<line class="grid" x1="34.0" y1="87.0" x2="286.0" y2="87.0"/>
+<line class="grid" x1="34.0" y1="60.5" x2="286.0" y2="60.5"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="166.5" x2="286.0" y2="166.5"/>
+<line class="axis" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="170.5">x</text>
+<text class="ax-lbl" x="114.0" y="28.0">y</text>
+<text class="ax-lbl" x="108.0" y="176.5">0</text>
+<text class="tick-lbl" x="34.0" y="179.5" text-anchor="middle">-2</text>
+<text class="tick-lbl" x="76.0" y="179.5" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="160.0" y="179.5" text-anchor="middle">1</text>
+<text class="tick-lbl" x="202.0" y="179.5" text-anchor="middle">2</text>
+<text class="tick-lbl" x="244.0" y="179.5" text-anchor="middle">3</text>
+<text class="tick-lbl" x="286.0" y="179.5" text-anchor="middle">4</text>
+<text class="tick-lbl" x="112.0" y="249.0" text-anchor="end">-3</text>
+<text class="tick-lbl" x="112.0" y="222.5" text-anchor="end">-2</text>
+<text class="tick-lbl" x="112.0" y="196.0" text-anchor="end">-1</text>
+<text class="tick-lbl" x="112.0" y="143.0" text-anchor="end">1</text>
+<text class="tick-lbl" x="112.0" y="116.5" text-anchor="end">2</text>
+<text class="tick-lbl" x="112.0" y="90.0" text-anchor="end">3</text>
+<text class="tick-lbl" x="112.0" y="63.5" text-anchor="end">4</text>
+<text class="tick-lbl" x="112.0" y="37.0" text-anchor="end">5</text>
+<line class="postumis" x1="160.0" y1="219.5" x2="160.0" y2="87.0" marker-end="url(#arrow)"/>
+<circle class="pt" cx="160.0" cy="219.5" r="3"/>
+<text class="ln-lbl" x="160.0" y="233.5" text-anchor="middle">A(1;-2)</text>
+<circle class="pt-hi" cx="160.0" cy="87.0" r="3"/>
+<text class="ln-lbl" x="160.0" y="79.0" text-anchor="middle">A₁(1;3)</text>
+</svg><figcaption>A(1;-2) pastumtas teigiama OY kryptimi 5 vnt. → A₁(1;3)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">A(1; -2)</span> pastumtas teigiama <span class="math">OY</span> kryptimi <span class="math">5</span> vnt. Rasti naujojo taško koordinates.<br>
+        <span class="math">x</span> koordinatė nesikeičia: <span class="math">x₁ = 1</span>.<br>
+        <span class="math">y₁ = -2 + 5 = <span class="gerai">3</span></span><br>
+        Atsakymas: <span class="math">A₁(1; <span class="gerai">3</span>)</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Postūmis neigiama OY kryptimi (žemyn)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai taškas <span class="math">A(x; y)</span> stumiamas <b>neigiama OY kryptimi</b> (žemyn) per <span class="math">a</span> vienetų, <span class="math">x</span> koordinatė nesikeičia, o iš <span class="math">y</span> koordinatės <b>atimame</b> <span class="math">a</span>:</p>
+        <div class="formule math">A(x; y) → A₂(x; y − a)</div>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="76.0" y1="246.0" x2="76.0" y2="34.0"/>
+<line class="grid" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<line class="grid" x1="160.0" y1="246.0" x2="160.0" y2="34.0"/>
+<line class="grid" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<line class="grid" x1="244.0" y1="246.0" x2="244.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="224.8" x2="286.0" y2="224.8"/>
+<line class="grid" x1="34.0" y1="203.6" x2="286.0" y2="203.6"/>
+<line class="grid" x1="34.0" y1="182.4" x2="286.0" y2="182.4"/>
+<line class="grid" x1="34.0" y1="161.2" x2="286.0" y2="161.2"/>
+<line class="grid" x1="34.0" y1="140.0" x2="286.0" y2="140.0"/>
+<line class="grid" x1="34.0" y1="118.8" x2="286.0" y2="118.8"/>
+<line class="grid" x1="34.0" y1="97.6" x2="286.0" y2="97.6"/>
+<line class="grid" x1="34.0" y1="76.4" x2="286.0" y2="76.4"/>
+<line class="grid" x1="34.0" y1="55.2" x2="286.0" y2="55.2"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="161.2" x2="286.0" y2="161.2"/>
+<line class="axis" x1="76.0" y1="246.0" x2="76.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="165.2">x</text>
+<text class="ax-lbl" x="72.0" y="28.0">y</text>
+<text class="ax-lbl" x="66.0" y="171.2">0</text>
+<text class="tick-lbl" x="34.0" y="174.2" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="118.0" y="174.2" text-anchor="middle">1</text>
+<text class="tick-lbl" x="160.0" y="174.2" text-anchor="middle">2</text>
+<text class="tick-lbl" x="202.0" y="174.2" text-anchor="middle">3</text>
+<text class="tick-lbl" x="244.0" y="174.2" text-anchor="middle">4</text>
+<text class="tick-lbl" x="286.0" y="174.2" text-anchor="middle">5</text>
+<text class="tick-lbl" x="70.0" y="249.0" text-anchor="end">-4</text>
+<text class="tick-lbl" x="70.0" y="227.8" text-anchor="end">-3</text>
+<text class="tick-lbl" x="70.0" y="206.6" text-anchor="end">-2</text>
+<text class="tick-lbl" x="70.0" y="185.4" text-anchor="end">-1</text>
+<text class="tick-lbl" x="70.0" y="143.0" text-anchor="end">1</text>
+<text class="tick-lbl" x="70.0" y="121.8" text-anchor="end">2</text>
+<text class="tick-lbl" x="70.0" y="100.6" text-anchor="end">3</text>
+<text class="tick-lbl" x="70.0" y="79.4" text-anchor="end">4</text>
+<text class="tick-lbl" x="70.0" y="58.2" text-anchor="end">5</text>
+<text class="tick-lbl" x="70.0" y="37.0" text-anchor="end">6</text>
+<line class="postumis" x1="160.0" y1="76.4" x2="160.0" y2="203.6" marker-end="url(#arrow)"/>
+<circle class="pt" cx="160.0" cy="76.4" r="3"/>
+<text class="ln-lbl" x="160.0" y="68.4" text-anchor="middle">A(2;4)</text>
+<circle class="pt-hi" cx="160.0" cy="203.6" r="3"/>
+<text class="ln-lbl" x="160.0" y="217.6" text-anchor="middle">A₁(2;-2)</text>
+</svg><figcaption>A(2;4) pastumtas neigiama OY kryptimi 6 vnt. → A₁(2;-2)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">A(2; 4)</span> pastumtas neigiama <span class="math">OY</span> kryptimi <span class="math">6</span> vnt. Rasti naujojo taško koordinates.<br>
+        <span class="math">x</span> koordinatė nesikeičia: <span class="math">x₁ = 2</span>.<br>
+        <span class="math">y₁ = 4 − 6 = <span class="gerai">-2</span></span><br>
+        Atsakymas: <span class="math">A₁(2; <span class="gerai">-2</span>)</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Kai atimamas skaičius yra didesnis už pradinę <span class="math">y</span> koordinatę, rezultatas tampa <b>neigiamas</b> — tai normalu, taškas tiesiog atsiduria po ašimi <span class="math">OX</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Postūmis teigiama OX kryptimi (dešinėn)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai taškas <span class="math">A(x; y)</span> stumiamas <b>teigiama OX kryptimi</b> (į dešinę) per <span class="math">a</span> vienetų, <span class="math">y</span> koordinatė nesikeičia, o prie <span class="math">x</span> koordinatės <b>pridedame</b> <span class="math">a</span>:</p>
+        <div class="formule math">A(x; y) → A₁(x + a; y)</div>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="62.0" y1="246.0" x2="62.0" y2="34.0"/>
+<line class="grid" x1="90.0" y1="246.0" x2="90.0" y2="34.0"/>
+<line class="grid" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<line class="grid" x1="146.0" y1="246.0" x2="146.0" y2="34.0"/>
+<line class="grid" x1="174.0" y1="246.0" x2="174.0" y2="34.0"/>
+<line class="grid" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<line class="grid" x1="230.0" y1="246.0" x2="230.0" y2="34.0"/>
+<line class="grid" x1="258.0" y1="246.0" x2="258.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="210.7" x2="286.0" y2="210.7"/>
+<line class="grid" x1="34.0" y1="175.3" x2="286.0" y2="175.3"/>
+<line class="grid" x1="34.0" y1="140.0" x2="286.0" y2="140.0"/>
+<line class="grid" x1="34.0" y1="104.7" x2="286.0" y2="104.7"/>
+<line class="grid" x1="34.0" y1="69.3" x2="286.0" y2="69.3"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="175.3" x2="286.0" y2="175.3"/>
+<line class="axis" x1="174.0" y1="246.0" x2="174.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="179.3">x</text>
+<text class="ax-lbl" x="170.0" y="28.0">y</text>
+<text class="ax-lbl" x="164.0" y="185.3">0</text>
+<text class="tick-lbl" x="34.0" y="188.3" text-anchor="middle">-5</text>
+<text class="tick-lbl" x="62.0" y="188.3" text-anchor="middle">-4</text>
+<text class="tick-lbl" x="90.0" y="188.3" text-anchor="middle">-3</text>
+<text class="tick-lbl" x="118.0" y="188.3" text-anchor="middle">-2</text>
+<text class="tick-lbl" x="146.0" y="188.3" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="202.0" y="188.3" text-anchor="middle">1</text>
+<text class="tick-lbl" x="230.0" y="188.3" text-anchor="middle">2</text>
+<text class="tick-lbl" x="258.0" y="188.3" text-anchor="middle">3</text>
+<text class="tick-lbl" x="286.0" y="188.3" text-anchor="middle">4</text>
+<text class="tick-lbl" x="168.0" y="249.0" text-anchor="end">-2</text>
+<text class="tick-lbl" x="168.0" y="213.7" text-anchor="end">-1</text>
+<text class="tick-lbl" x="168.0" y="143.0" text-anchor="end">1</text>
+<text class="tick-lbl" x="168.0" y="107.7" text-anchor="end">2</text>
+<text class="tick-lbl" x="168.0" y="72.3" text-anchor="end">3</text>
+<text class="tick-lbl" x="168.0" y="37.0" text-anchor="end">4</text>
+<line class="postumis" x1="90.0" y1="104.7" x2="230.0" y2="104.7" marker-end="url(#arrow)"/>
+<circle class="pt" cx="90.0" cy="104.7" r="3"/>
+<text class="ln-lbl" x="90.0" y="96.7" text-anchor="middle">A(-3;2)</text>
+<circle class="pt-hi" cx="230.0" cy="104.7" r="3"/>
+<text class="ln-lbl" x="230.0" y="96.7" text-anchor="middle">A₁(2;2)</text>
+</svg><figcaption>A(-3;2) pastumtas teigiama OX kryptimi 5 vnt. → A₁(2;2)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">A(-3; 2)</span> pastumtas teigiama <span class="math">OX</span> kryptimi <span class="math">5</span> vnt. Rasti naujojo taško koordinates.<br>
+        <span class="math">y</span> koordinatė nesikeičia: <span class="math">y₁ = 2</span>.<br>
+        <span class="math">x₁ = -3 + 5 = <span class="gerai">2</span></span><br>
+        Atsakymas: <span class="math">A₁(<span class="gerai">2</span>; 2)</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Postūmis neigiama OX kryptimi (kairėn)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai taškas <span class="math">A(x; y)</span> stumiamas <b>neigiama OX kryptimi</b> (į kairę) per <span class="math">a</span> vienetų, <span class="math">y</span> koordinatė nesikeičia, o iš <span class="math">x</span> koordinatės <b>atimame</b> <span class="math">a</span>:</p>
+        <div class="formule math">A(x; y) → A₂(x − a; y)</div>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="59.2" y1="246.0" x2="59.2" y2="34.0"/>
+<line class="grid" x1="84.4" y1="246.0" x2="84.4" y2="34.0"/>
+<line class="grid" x1="109.6" y1="246.0" x2="109.6" y2="34.0"/>
+<line class="grid" x1="134.8" y1="246.0" x2="134.8" y2="34.0"/>
+<line class="grid" x1="160.0" y1="246.0" x2="160.0" y2="34.0"/>
+<line class="grid" x1="185.2" y1="246.0" x2="185.2" y2="34.0"/>
+<line class="grid" x1="210.4" y1="246.0" x2="210.4" y2="34.0"/>
+<line class="grid" x1="235.6" y1="246.0" x2="235.6" y2="34.0"/>
+<line class="grid" x1="260.8" y1="246.0" x2="260.8" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="203.6" x2="286.0" y2="203.6"/>
+<line class="grid" x1="34.0" y1="161.2" x2="286.0" y2="161.2"/>
+<line class="grid" x1="34.0" y1="118.8" x2="286.0" y2="118.8"/>
+<line class="grid" x1="34.0" y1="76.4" x2="286.0" y2="76.4"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="118.8" x2="286.0" y2="118.8"/>
+<line class="axis" x1="160.0" y1="246.0" x2="160.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="122.8">x</text>
+<text class="ax-lbl" x="156.0" y="28.0">y</text>
+<text class="ax-lbl" x="150.0" y="128.8">0</text>
+<text class="tick-lbl" x="34.0" y="131.8" text-anchor="middle">-5</text>
+<text class="tick-lbl" x="59.2" y="131.8" text-anchor="middle">-4</text>
+<text class="tick-lbl" x="84.4" y="131.8" text-anchor="middle">-3</text>
+<text class="tick-lbl" x="109.6" y="131.8" text-anchor="middle">-2</text>
+<text class="tick-lbl" x="134.8" y="131.8" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="185.2" y="131.8" text-anchor="middle">1</text>
+<text class="tick-lbl" x="210.4" y="131.8" text-anchor="middle">2</text>
+<text class="tick-lbl" x="235.6" y="131.8" text-anchor="middle">3</text>
+<text class="tick-lbl" x="260.8" y="131.8" text-anchor="middle">4</text>
+<text class="tick-lbl" x="286.0" y="131.8" text-anchor="middle">5</text>
+<text class="tick-lbl" x="154.0" y="249.0" text-anchor="end">-3</text>
+<text class="tick-lbl" x="154.0" y="206.6" text-anchor="end">-2</text>
+<text class="tick-lbl" x="154.0" y="164.2" text-anchor="end">-1</text>
+<text class="tick-lbl" x="154.0" y="79.4" text-anchor="end">1</text>
+<text class="tick-lbl" x="154.0" y="37.0" text-anchor="end">2</text>
+<line class="postumis" x1="260.8" y1="161.2" x2="84.4" y2="161.2" marker-end="url(#arrow)"/>
+<circle class="pt" cx="260.8" cy="161.2" r="3"/>
+<text class="ln-lbl" x="260.8" y="175.2" text-anchor="middle">A(4;-1)</text>
+<circle class="pt-hi" cx="84.4" cy="161.2" r="3"/>
+<text class="ln-lbl" x="84.4" y="175.2" text-anchor="middle">A₁(-3;-1)</text>
+</svg><figcaption>A(4;-1) pastumtas neigiama OX kryptimi 7 vnt. → A₁(-3;-1)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">A(4; -1)</span> pastumtas neigiama <span class="math">OX</span> kryptimi <span class="math">7</span> vnt. Rasti naujojo taško koordinates.<br>
+        <span class="math">y</span> koordinatė nesikeičia: <span class="math">y₁ = -1</span>.<br>
+        <span class="math">x₁ = 4 − 7 = <span class="gerai">-3</span></span><br>
+        Atsakymas: <span class="math">A₁(<span class="gerai">-3</span>; -1)</span></p>
+        <p class="demesio"><b>Dėmesio.</b> Visų keturių krypčių taisyklę lengva atsiminti: <b class="term-a">OY kryptis keičia tik y</b>, <b class="term-b">OX kryptis keičia tik x</b>; teigiama kryptis — <b>pridedam</b>, neigiama — <b>atimam</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Daugiakampio postūmis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Kai stumiamas visas daugiakampis, <b>ta pati postūmio taisyklė taikoma kiekvienai viršūnei atskirai</b>. Figūros forma ir dydis <b>nesikeičia</b> — gauname jai <b>kongruentų</b> (lygų) daugiakampį, tik kitoje plokštumos vietoje.</p>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="62.0" y1="246.0" x2="62.0" y2="34.0"/>
+<line class="grid" x1="90.0" y1="246.0" x2="90.0" y2="34.0"/>
+<line class="grid" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<line class="grid" x1="146.0" y1="246.0" x2="146.0" y2="34.0"/>
+<line class="grid" x1="174.0" y1="246.0" x2="174.0" y2="34.0"/>
+<line class="grid" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<line class="grid" x1="230.0" y1="246.0" x2="230.0" y2="34.0"/>
+<line class="grid" x1="258.0" y1="246.0" x2="258.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="210.7" x2="286.0" y2="210.7"/>
+<line class="grid" x1="34.0" y1="175.3" x2="286.0" y2="175.3"/>
+<line class="grid" x1="34.0" y1="140.0" x2="286.0" y2="140.0"/>
+<line class="grid" x1="34.0" y1="104.7" x2="286.0" y2="104.7"/>
+<line class="grid" x1="34.0" y1="69.3" x2="286.0" y2="69.3"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="210.7" x2="286.0" y2="210.7"/>
+<line class="axis" x1="62.0" y1="246.0" x2="62.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="214.7">x</text>
+<text class="ax-lbl" x="58.0" y="28.0">y</text>
+<text class="ax-lbl" x="52.0" y="220.7">0</text>
+<text class="tick-lbl" x="34.0" y="223.7" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="90.0" y="223.7" text-anchor="middle">1</text>
+<text class="tick-lbl" x="118.0" y="223.7" text-anchor="middle">2</text>
+<text class="tick-lbl" x="146.0" y="223.7" text-anchor="middle">3</text>
+<text class="tick-lbl" x="174.0" y="223.7" text-anchor="middle">4</text>
+<text class="tick-lbl" x="202.0" y="223.7" text-anchor="middle">5</text>
+<text class="tick-lbl" x="230.0" y="223.7" text-anchor="middle">6</text>
+<text class="tick-lbl" x="258.0" y="223.7" text-anchor="middle">7</text>
+<text class="tick-lbl" x="286.0" y="223.7" text-anchor="middle">8</text>
+<text class="tick-lbl" x="56.0" y="249.0" text-anchor="end">-1</text>
+<text class="tick-lbl" x="56.0" y="178.3" text-anchor="end">1</text>
+<text class="tick-lbl" x="56.0" y="143.0" text-anchor="end">2</text>
+<text class="tick-lbl" x="56.0" y="107.7" text-anchor="end">3</text>
+<text class="tick-lbl" x="56.0" y="72.3" text-anchor="end">4</text>
+<text class="tick-lbl" x="56.0" y="37.0" text-anchor="end">5</text>
+<polygon class="s-side" points="90.0,175.3 174.0,175.3 118.0,104.7"/>
+<polygon class="s-cev" points="174.0,175.3 258.0,175.3 202.0,104.7" stroke-dasharray="5,4"/>
+<line class="postumis" x1="90.0" y1="175.3" x2="174.0" y2="175.3" marker-end="url(#arrow)"/>
+<line class="postumis" x1="118.0" y1="104.7" x2="202.0" y2="104.7" marker-end="url(#arrow)"/>
+<circle class="pt" cx="90.0" cy="175.3" r="3"/>
+<text class="ln-lbl" x="90.0" y="189.3" text-anchor="middle">A(1;1)</text>
+<circle class="pt" cx="174.0" cy="175.3" r="3"/>
+<text class="ln-lbl" x="174.0" y="189.3" text-anchor="middle">B(4;1)</text>
+<circle class="pt" cx="118.0" cy="104.7" r="3"/>
+<text class="ln-lbl" x="118.0" y="96.7" text-anchor="middle">C(2;3)</text>
+<circle class="pt-hi" cx="174.0" cy="175.3" r="3"/>
+<text class="ln-lbl" x="174.0" y="189.3" text-anchor="middle">A₁(4;1)</text>
+<circle class="pt-hi" cx="258.0" cy="175.3" r="3"/>
+<text class="ln-lbl" x="258.0" y="189.3" text-anchor="middle">B₁(7;1)</text>
+<circle class="pt-hi" cx="202.0" cy="104.7" r="3"/>
+<text class="ln-lbl" x="202.0" y="96.7" text-anchor="middle">C₁(5;3)</text>
+</svg><figcaption>Trikampis ABC pastumtas teigiama OX kryptimi 3 vnt. → A₁B₁C₁ (tos pačios formos ir dydžio)</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio ABC viršūnės: <span class="math">A(1;1)</span>, <span class="math">B(4;1)</span>, <span class="math">C(2;3)</span>. Trikampis pastumtas teigiama <span class="math">OX</span> kryptimi <span class="math">3</span> vnt. Rasti naujo trikampio A₁B₁C₁ viršūnes.<br>
+        Kiekvienai viršūnei pridedame <span class="math">3</span> prie <span class="math">x</span>, <span class="math">y</span> nekeičiame:<br>
+        <span class="math">A₁(1+3; 1) = <span class="gerai">A₁(4;1)</span></span><br>
+        <span class="math">B₁(4+3; 1) = <span class="gerai">B₁(7;1)</span></span><br>
+        <span class="math">C₁(2+3; 3) = <span class="gerai">C₁(5;3)</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Visos viršūnės stumiamos <b>ta pačia kryptimi ir tuo pačiu dydžiu</b> — kitaip figūra iškreiptų formą.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Krypties ir dydžio atpažinimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Atvirkštinis uždavinys.</span> Kai duotos <b>senos ir naujos</b> taško koordinatės, postūmio kryptį ir dydį randame taip:</p>
+        <ul>
+          <li>jei <span class="math">x</span> koordinatė <b>nepasikeitė</b>, o <span class="math">y</span> koordinatė pasikeitė — tai postūmis <b class="term-a">OY</b> kryptimi (aukštyn, jei <span class="math">y</span> padidėjo; žemyn, jei sumažėjo);</li>
+          <li>jei <span class="math">y</span> koordinatė <b>nepasikeitė</b>, o <span class="math">x</span> koordinatė pasikeitė — tai postūmis <b class="term-b">OX</b> kryptimi (dešinėn, jei <span class="math">x</span> padidėjo; kairėn, jei sumažėjo);</li>
+          <li>postūmio dydis — koordinačių <b>skirtumo modulis</b> (visada teigiamas skaičius).</li>
+        </ul>
+        <div class="diag"><figure><svg width="320" height="280" viewBox="0 0 320 280" class="kv-svg kv-coord">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 Z" fill="#b25c00"/></marker></defs>
+<line class="grid" x1="34.0" y1="246.0" x2="34.0" y2="34.0"/>
+<line class="grid" x1="76.0" y1="246.0" x2="76.0" y2="34.0"/>
+<line class="grid" x1="118.0" y1="246.0" x2="118.0" y2="34.0"/>
+<line class="grid" x1="160.0" y1="246.0" x2="160.0" y2="34.0"/>
+<line class="grid" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<line class="grid" x1="244.0" y1="246.0" x2="244.0" y2="34.0"/>
+<line class="grid" x1="286.0" y1="246.0" x2="286.0" y2="34.0"/>
+<line class="grid" x1="34.0" y1="246.0" x2="286.0" y2="246.0"/>
+<line class="grid" x1="34.0" y1="222.4" x2="286.0" y2="222.4"/>
+<line class="grid" x1="34.0" y1="198.9" x2="286.0" y2="198.9"/>
+<line class="grid" x1="34.0" y1="175.3" x2="286.0" y2="175.3"/>
+<line class="grid" x1="34.0" y1="151.8" x2="286.0" y2="151.8"/>
+<line class="grid" x1="34.0" y1="128.2" x2="286.0" y2="128.2"/>
+<line class="grid" x1="34.0" y1="104.7" x2="286.0" y2="104.7"/>
+<line class="grid" x1="34.0" y1="81.1" x2="286.0" y2="81.1"/>
+<line class="grid" x1="34.0" y1="57.6" x2="286.0" y2="57.6"/>
+<line class="grid" x1="34.0" y1="34.0" x2="286.0" y2="34.0"/>
+<line class="axis" x1="34.0" y1="128.2" x2="286.0" y2="128.2"/>
+<line class="axis" x1="202.0" y1="246.0" x2="202.0" y2="34.0"/>
+<text class="ax-lbl" x="294.0" y="132.2">x</text>
+<text class="ax-lbl" x="198.0" y="28.0">y</text>
+<text class="ax-lbl" x="192.0" y="138.2">0</text>
+<text class="tick-lbl" x="34.0" y="141.2" text-anchor="middle">-4</text>
+<text class="tick-lbl" x="76.0" y="141.2" text-anchor="middle">-3</text>
+<text class="tick-lbl" x="118.0" y="141.2" text-anchor="middle">-2</text>
+<text class="tick-lbl" x="160.0" y="141.2" text-anchor="middle">-1</text>
+<text class="tick-lbl" x="244.0" y="141.2" text-anchor="middle">1</text>
+<text class="tick-lbl" x="286.0" y="141.2" text-anchor="middle">2</text>
+<text class="tick-lbl" x="196.0" y="249.0" text-anchor="end">-5</text>
+<text class="tick-lbl" x="196.0" y="225.4" text-anchor="end">-4</text>
+<text class="tick-lbl" x="196.0" y="201.9" text-anchor="end">-3</text>
+<text class="tick-lbl" x="196.0" y="178.3" text-anchor="end">-2</text>
+<text class="tick-lbl" x="196.0" y="154.8" text-anchor="end">-1</text>
+<text class="tick-lbl" x="196.0" y="107.7" text-anchor="end">1</text>
+<text class="tick-lbl" x="196.0" y="84.1" text-anchor="end">2</text>
+<text class="tick-lbl" x="196.0" y="60.6" text-anchor="end">3</text>
+<text class="tick-lbl" x="196.0" y="37.0" text-anchor="end">4</text>
+<line class="postumis" x1="118.0" y1="57.6" x2="118.0" y2="222.4" marker-end="url(#arrow)"/>
+<circle class="pt" cx="118.0" cy="57.6" r="3"/>
+<text class="ln-lbl" x="118.0" y="49.6" text-anchor="middle">A(-2;3)</text>
+<circle class="pt-hi" cx="118.0" cy="222.4" r="3"/>
+<text class="ln-lbl" x="118.0" y="236.4" text-anchor="middle">A₁(-2;-4)</text>
+</svg><figcaption>A(-2;3) → A₁(-2;-4): x nesikeičia, y sumažėjo</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">A(-2; 3)</span> pastumtas į tašką <span class="math">A₁(-2; -4)</span>. Nustatyti postūmio kryptį ir dydį.<br>
+        <span class="math">x</span> koordinatė nepasikeitė (<span class="math">-2 = -2</span>) — postūmis <span class="math">OY</span> kryptimi.<br>
+        <span class="math">y</span> koordinatė sumažėjo: <span class="math">-4 − 3 = -7</span>, tai reiškia postūmį <b>žemyn</b>.<br>
+        Atsakymas: postūmis <span class="gerai">neigiama OY kryptimi per 7 vnt.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="potema" id="t8">
+    <h2><span class="nr">8</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">OX postūmis keičia y koordinatę</span></td><td class="math"><span class="gerai">OX postūmis keičia TIK x</span> koordinatę, y lieka tas pats</td></tr>
+          <tr><td class="math"><span class="klaida">OY postūmis keičia x koordinatę</span></td><td class="math"><span class="gerai">OY postūmis keičia TIK y</span> koordinatę, x lieka tas pats</td></tr>
+          <tr><td class="math"><span class="klaida">neigiama kryptimi PRIDEDAMA</span></td><td class="math"><span class="gerai">neigiama kryptimi ATIMAMA</span> — teigiama kryptimi pridedama</td></tr>
+          <tr><td class="math"><span class="klaida">daugiakampio viršūnės stumiamos skirtingai</span></td><td class="math"><span class="gerai">VISOS viršūnės</span> stumiamos ta pačia kryptimi ir dydžiu</td></tr>
+          <tr><td class="math"><span class="klaida">koordinatės sukeičiamos vietomis (y;x)</span></td><td class="math"><span class="gerai">visada rašoma (x;y)</span> — pirma x, tada y</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš spręsdamas pasižymėk: kuri ašis (<b>OX</b> ar <b>OY</b>) keičiasi ir kokia kryptis (<b>teigiama</b> = pridėti, <b>neigiama</b> = atimti). Postūmis nekeičia figūros formos ir dydžio — tik jos padėtį plokštumoje.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Daugiakampiai koordinačių plokštumoje" (7.11)
+  </footer>
+
+</div>
+</body>
+</html>

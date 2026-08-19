@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: Trikampio pusiaukampinės (7 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: Trikampio pusiaukampinės (7 klasė)</h1>
+    <p id="paantraste">Trikampio pusiaukampinės · 7 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai: 7 kl. 7.4 Trikampio pusiaukampinės.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
+// Čia tereikia apibrėžti `const GENERATORIAI = [...]`.
+//
+// 5 uždavinių tipai:
+//   1. AM pusiaukampinė, duotas ∠BAM arba ∠MAC → rasti ∠BAC (=2×duotasis)
+//   2. AM pusiaukampinė, duotas ∠BAC → rasti ∠BAM (=∠BAC/2)
+//   3. Trikampyje ABC duoti ∠B,∠C, AM pusiaukampinė iš A → rasti ∠AMB arba ∠AMC
+//   4. Pusiaukampinės iš B,C susikerta I, duotas ∠A → rasti ∠BIC
+//   5. Algebrinis: ∠BAM=a·x, ∠MAC=b·x+c (lygūs) → rasti x
+//
+// AUKSINĖ TAISYKLĖ: kiekvienas uždavinys konstruojamas IŠ atsakymo, todėl
+// atsakymas visada teisingas ir švarus.
+//
+// ⚠ BRĖŽINYS: kiekvienam uždaviniui pridedamas SVG trikampis su pusiaukampine
+// (arba su trimis pusiaukampinėmis, 4 tipui). Lankų algoritmas — angleArc() —
+// portuotas iš tools/breziniu_zymejimas.py::angle_arc (tas pats sweep pagal
+// cross-product principas, naudojamas kitur šiame projekte statiniams
+// brėžiniams). Trikampio geometrija konstruojama IŠ nurodytų kampų
+// (apexFromBaseAngles), kad brėžinys visada atitiktų rodomas reikšmes.
+
+// ---------- 2D vektorių pagalbininkai ----------
+function vsub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function vadd(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function vmul(a, s) { return [a[0] * s, a[1] * s]; }
+function vlen(a) { return Math.hypot(a[0], a[1]); }
+function vnorm(a) { const L = vlen(a); return [a[0] / L, a[1] / L]; }
+
+function angleArc(vertex, a, b, r) {
+  r = r || 15;
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  const cross = ua[0] * ub[1] - ua[1] * ub[0];
+  const sweep = cross < 0 ? 1 : 0;
+  const p1 = vadd(vertex, vmul(ua, r)), p2 = vadd(vertex, vmul(ub, r));
+  return 'M ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) +
+    ' A ' + r + ' ' + r + ' 0 0 ' + sweep + ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+}
+
+function angleLabelPos(vertex, a, b, r) {
+  const ua = vnorm(vsub(a, vertex)), ub = vnorm(vsub(b, vertex));
+  let bis = vadd(ua, ub);
+  const L = vlen(bis);
+  bis = L > 1e-6 ? [bis[0] / L, bis[1] / L] : ua;
+  return vadd(vertex, vmul(bis, r));
+}
+
+// Randa apex tašką A (SVG erdvė, y žemyn), kad kampai prie B,C atitiktų
+// nurodytas reikšmes; B ir C ant tos pačios horizontalios linijos.
+function apexFromBaseAngles(B, C, angBdeg, angCdeg) {
+  const aB = angBdeg * Math.PI / 180, aC = angCdeg * Math.PI / 180;
+  const dB = [Math.cos(aB), -Math.sin(aB)];
+  const dC = [-Math.cos(aC), -Math.sin(aC)];
+  const denom = dB[0] * dC[1] - dB[1] * dC[0];
+  const t = ((C[0] - B[0]) * dC[1] - (C[1] - B[1]) * dC[0]) / denom;
+  return [B[0] + t * dB[0], B[1] + t * dB[1]];
+}
+
+function bisectorFoot(A, B, C) {
+  const AB = vlen(vsub(B, A)), AC = vlen(vsub(C, A));
+  const t = AB / (AB + AC);
+  return [B[0] + t * (C[0] - B[0]), B[1] + t * (C[1] - B[1])];
+}
+
+function incenter(A, B, C) {
+  const a = vlen(vsub(B, C)), b = vlen(vsub(A, C)), c = vlen(vsub(A, B));
+  const s = a + b + c;
+  return [(a * A[0] + b * B[0] + c * C[0]) / s, (a * A[1] + b * B[1] + c * C[1]) / s];
+}
+
+const COL_SIDE = '#1e5fa8', COL_CEV = '#0a7d52', COL_PT = '#1c2430', COL_HI = '#c62828';
+
+function svgOpen(w, h) {
+  return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h +
+    '" style="display:block;margin:10px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">';
+}
+// Auto-derina viewBox pagal REALIĄ taškų (ir jų etikečių) apribojantį stačiakampį,
+// kad kraštutiniai kampai (labai plokšti / labai statūs trikampiai) niekada
+// neišlįstų už matomos srities — rodomas dydis (dispW x dispH) visada tas pats,
+// tik vidinė koordinačių sistema (viewBox) prisitaiko prie figūros.
+function fitSvgOpen(points, dispW, dispH, pad) {
+  pad = pad === undefined ? 42 : pad;
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  points.forEach(function (p) {
+    if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
+    if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
+  });
+  minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+  const w = maxX - minX, h = maxY - minY;
+  return '<svg width="' + dispW + '" height="' + dispH + '" viewBox="' +
+    minX.toFixed(1) + ' ' + minY.toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1) +
+    '" style="display:block;margin:10px auto;background:#fbfaf7;border:1px solid #e7ddcf;border-radius:8px">';
+}
+function ptLbl(p, name, dx, dy, hi) {
+  const col = hi ? COL_HI : COL_PT;
+  return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" style="fill:' + col + '"/>' +
+    '<text x="' + (p[0] + dx).toFixed(1) + '" y="' + (p[1] + dy).toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">' + name + '</text>';
+}
+function numLbl(p, text, color) {
+  return '<text x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) +
+    '" text-anchor="middle" style="font-size:13px;font-weight:800;fill:' + (color || COL_HI) + ';font-family:Segoe UI,sans-serif">' + text + '</text>';
+}
+function lineSeg(p, q, color, w) {
+  return '<line x1="' + p[0].toFixed(1) + '" y1="' + p[1].toFixed(1) + '" x2="' + q[0].toFixed(1) + '" y2="' + q[1].toFixed(1) +
+    '" style="stroke:' + color + ';stroke-width:' + (w || 2.2) + '"/>';
+}
+function arcPath(d, color) {
+  return '<path d="' + d + '" style="fill:none;stroke-width:2;stroke:' + color + '"/>';
+}
+
+// ---------- Tipas 1 ir 2 ir 5 diagrama: trikampis su viena pusiaukampine, apex=2g ----------
+// showTexts: trumpos etiketės ("58°","?") dedamos PRIE lankelių (tipas 1,2).
+// aboveLines: pilnos frazės ("∠BAM = 5x", "∠MAC = (2x + 18)°") dedamos DVIEM
+// eilutėm VIRŠ viršūnės A — naudojama, kai tekstas per ilgas tilpti prie
+// siauro lankelio (tipas 5, algebrinės išraiškos), kad etiketės nepersidengtų.
+function bisectorSvg(gDeg, showTexts, aboveLines) {
+  // gDeg — pusė kampo (∠BAM=∠MAC=gDeg), apex = 2*gDeg
+  const B = [22, 132], C = [178, 132];
+  const baseAng = 90 - gDeg; // apex_from_base_angles su lygiais kampais -> isoceles, M = vidurio taškas
+  const A = apexFromBaseAngles(B, C, baseAng, baseAng);
+  const M = bisectorFoot(A, B, C);
+  const extraPts = [];
+  let lp1 = null, lp2 = null;
+  if (showTexts) {
+    lp1 = angleLabelPos(A, B, M, 34); lp2 = angleLabelPos(A, M, C, 34);
+    extraPts.push(lp1, lp2);
+  }
+  if (aboveLines) {
+    extraPts.push([A[0] - 60, A[1] - 34], [A[0] + 60, A[1] - 34], [A[0], A[1] - 58]);
+  }
+  let s = fitSvgOpen([A, B, C, M].concat(extraPts), 230, 190, 24);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(A, M, COL_CEV);
+  s += arcPath(angleArc(A, B, M, 15), COL_CEV);
+  s += arcPath(angleArc(A, M, C, 15), COL_CEV);
+  if (showTexts) {
+    s += numLbl(lp1, showTexts[0], COL_HI) + numLbl(lp2, showTexts[1], COL_HI);
+  }
+  if (aboveLines) {
+    s += '<text x="' + A[0].toFixed(1) + '" y="' + (A[1] - 34).toFixed(1) +
+      '" text-anchor="middle" style="font-size:12.5px;font-weight:800;fill:' + COL_HI + ';font-family:Segoe UI,sans-serif">' + aboveLines[0] + '</text>';
+    s += '<text x="' + A[0].toFixed(1) + '" y="' + (A[1] - 18).toFixed(1) +
+      '" text-anchor="middle" style="font-size:12.5px;font-weight:800;fill:' + COL_HI + ';font-family:Segoe UI,sans-serif">' + aboveLines[1] + '</text>';
+  }
+  s += ptLbl(A, 'A', 0, aboveLines ? -52 : -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6) + ptLbl(M, 'M', 0, 18);
+  s += '</svg>';
+  return s;
+}
+
+// ---------- Tipas 3 diagrama: trikampis su B,C kampais + pusiaukampine iš A ----------
+function bisectorBCSvg(angB, angC) {
+  const B = [22, 132], C = [178, 132];
+  const A = apexFromBaseAngles(B, C, angB, angC);
+  const M = bisectorFoot(A, B, C);
+  const lpB = angleLabelPos(B, A, M, 28), lpC = angleLabelPos(C, A, M, 28);
+  let s = fitSvgOpen([A, B, C, M, lpB, lpC], 230, 185, 26);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(A, M, COL_CEV);
+  s += arcPath(angleArc(B, A, M, 15), COL_CEV);
+  s += arcPath(angleArc(C, A, M, 15), COL_CEV);
+  s += numLbl(lpB, angB + '°', COL_HI) + numLbl(lpC, angC + '°', COL_HI);
+  s += ptLbl(A, 'A', 0, -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6) + ptLbl(M, 'M', 0, 18);
+  s += '</svg>';
+  return s;
+}
+
+// ---------- Tipas 4 diagrama: incenter, duotas ∠A, ieškom ∠BIC ----------
+function incenterSvg(angA) {
+  const B = [18, 150], C = [182, 150];
+  const half = (180 - angA) / 2;
+  const A = apexFromBaseAngles(B, C, half, half);
+  const I = incenter(A, B, C);
+  const lpA = angleLabelPos(A, B, C, 26);
+  let s = fitSvgOpen([A, B, C, I, lpA], 230, 195, 26);
+  s += lineSeg(A, B, COL_SIDE) + lineSeg(A, C, COL_SIDE) + lineSeg(B, C, COL_SIDE);
+  s += lineSeg(B, I, COL_CEV) + lineSeg(C, I, COL_CEV);
+  s += '<line x1="' + A[0].toFixed(1) + '" y1="' + A[1].toFixed(1) + '" x2="' + I[0].toFixed(1) + '" y2="' + I[1].toFixed(1) + '" style="stroke:#9aa4b2;stroke-width:1.6;stroke-dasharray:3 3"/>';
+  s += arcPath(angleArc(A, B, C, 15), COL_CEV);
+  s += numLbl(lpA, angA + '°', COL_HI);
+  s += '<circle cx="' + I[0].toFixed(1) + '" cy="' + I[1].toFixed(1) + '" r="3" style="fill:' + COL_HI + '"/>';
+  s += '<text x="' + (I[0] + 8).toFixed(1) + '" y="' + (I[1] - 6).toFixed(1) + '" style="font-size:13px;font-style:italic;font-weight:700;fill:#1c2430;font-family:Segoe UI,sans-serif">I</text>';
+  s += ptLbl(A, 'A', 0, -10) + ptLbl(B, 'B', -10, 6) + ptLbl(C, 'C', 10, 6);
+  s += '</svg>';
+  return s;
+}
+
+const GENERATORIAI = [
+  // 1: AM pusiaukampinė, duotas ∠BAM arba ∠MAC -> rasti ∠BAC
+  { label: "1: ∠BAM/∠MAC duotas → ∠BAC", gen() {
+      const g = randint(28, 75);
+      const bac = 2 * g;
+      const givenIsBAM = choice([true, false]);
+      const svg = bisectorSvg(g, givenIsBAM ? [g + '°', '?'] : ['?', g + '°']);
+      const givenName = givenIsBAM ? '∠BAM' : '∠MAC';
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ${givenName} = ${g}°. Rask ∠BAC.` + svg;
+      return {
+        q, ans: bac, pre: '∠BAC =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC = ${g}°`,
+          `∠BAC = ∠BAM + ∠MAC = ${g}° + ${g}° = ${nf(bac)}`
+        ]
+      };
+  }},
+
+  // 2: AM pusiaukampinė, duotas ∠BAC -> rasti ∠BAM
+  { label: "2: ∠BAC duotas → ∠BAM", gen() {
+      const half = randint(28, 75);
+      const bac = 2 * half;
+      const svg = bisectorSvg(half, ['?', '?']);
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAC = ${bac}°. Rask ∠BAM.` + svg;
+      return {
+        q, ans: half, pre: '∠BAM =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC = ½·∠BAC`,
+          `∠BAM = ${bac}° : 2 = ${nf(half)}`
+        ]
+      };
+  }},
+
+  // 3: trikampyje duoti ∠B,∠C, AM pusiaukampinė iš A -> rasti ∠AMB arba ∠AMC
+  { label: "3: ∠B,∠C duoti → ∠AMB/∠AMC", gen() {
+      let B, C, A;
+      do {
+        B = randint(30, 80); C = randint(30, 80);
+        A = 180 - B - C;
+      } while (A < 20 || A > 120 || A % 2 !== 0);
+      const bam = A / 2;
+      const amb = 180 - B - bam;
+      const amc = 180 - amb;
+      const askAMB = choice([true, false]);
+      const target = askAMB ? amb : amc;
+      const targetName = askAMB ? '∠AMB' : '∠AMC';
+      const svg = bisectorBCSvg(B, C);
+      const q = `Trikampyje ABC: ∠B = ${B}°, ∠C = ${C}°, AM — pusiaukampinė iš viršūnės A. Rask ${targetName}.` + svg;
+      const steps = [
+        `∠A = 180° − ${B}° − ${C}° = ${nf(A)}`,
+        `∠BAM = ${A}° : 2 = ${nf(bam)}`
+      ];
+      if (askAMB) {
+        steps.push(`∠AMB = 180° − ${B}° − ${bam}° = ${nf(amb)}`);
+      } else {
+        steps.push(`∠AMB = 180° − ${B}° − ${bam}° = ${nf(amb)}`);
+        steps.push(`∠AMC = 180° − ${amb}° = ${nf(amc)}`);
+      }
+      return { q, ans: target, pre: targetName + ' =', steps };
+  }},
+
+  // 4: pusiaukampinės iš B,C susikerta I, duotas ∠A -> rasti ∠BIC
+  { label: "4: ∠A duotas → ∠BIC (susikirtimo taškas)", gen() {
+      const A = 2 * randint(15, 70); // lyginis, kad pusė sveika
+      const half = (180 - A) / 2;
+      const bic = 180 - half;
+      const svg = incenterSvg(A);
+      const q = `Trikampio ABC pusiaukampinės iš viršūnių B ir C susikerta taške I. ∠A = ${A}°. Rask ∠BIC.` + svg;
+      return {
+        q, ans: bic, pre: '∠BIC =',
+        steps: [
+          `∠B + ∠C = 180° − ${A}° = ${nf(180 - A)}`,
+          `∠IBC + ∠ICB = ${nf(180 - A)}° : 2 = ${nf(half)}`,
+          `∠BIC = 180° − ${half}° = ${nf(bic)}`
+        ]
+      };
+  }},
+
+  // 5: algebrinis, ∠BAM=a·x, ∠MAC=b·x+c (lygūs) -> rasti x
+  { label: "5: ∠BAM = ax, ∠MAC = bx+c → x", gen() {
+      let a, b, x0, c, val;
+      do {
+        a = randint(3, 6);
+        b = randint(2, a - 1); // a > b, kad c teigiamas
+        x0 = randint(3, 12);
+        c = (a - b) * x0; // a*x0 = b*x0 + c
+        val = a * x0;
+      } while (val < 28 || val > 75); // apex nei per status, nei per plokščias -> etiketės neperdengia
+      const term2 = b + 'x ' + pm(c);
+      const svg = bisectorSvg(val, null, ['∠BAM = ' + a + 'x', '∠MAC = (' + term2 + ')°']);
+      const q = `AM — trikampio ABC pusiaukampinė iš viršūnės A. ∠BAM = ${a}x, ∠MAC = (${term2})°. Rask x.` + svg;
+      return {
+        q, ans: x0, pre: 'x =',
+        steps: [
+          `AM pusiaukampinė, todėl ∠BAM = ∠MAC`,
+          `${a}x = ${term2}`,
+          `${nf(a - b)}x = ${nf(c)}`,
+          `x = ${nf(c)} : ${nf(a - b)} = ${nf(x0)}`
+        ]
+      };
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: Trikampio pusiaukampinės (7 klasė)", "subtitle": "Trikampio pusiaukampinės · 7 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "Atsakymas =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

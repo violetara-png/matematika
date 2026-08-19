@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lygiašonė ir stačioji trapecijos — mokymosi asistentas (7 klasė)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.5rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.3rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  .expr svg{display:block;max-width:100%;height:auto;margin:0 auto}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Lygiašonė ir stačioji trapecijos</h1>
+    <p>Matematika · 7 klasė · 7.10 tema · mokymosi asistentas</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">R<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Rita</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu išsiaiškinsime, kuo skiriasi <b>lygiašonė</b> ir <b>stačioji</b>
+        trapecijos, kokius kampus turi kiekviena iš jų, kaip skaičiuoti lygiašonės trapecijos perimetrą ir
+        stačiosios trapecijos plotą.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais
+        ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(String.fromCharCode(176))">°</button><button onclick="ins(',')">,</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">R<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Rita</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Kampą rašyk su „°" arba be jo — abu tinka.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".")
+    .replace(/°/g,"");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* Lygiašonės trapecijos SVG: fiksuota geometrinė forma (patikrinta), keičiasi tik kampo etiketė. */
+function ltFig(angText){
+  let s = `<svg width="220" height="150" viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<polygon points="40,130 200,130 160,40 80,40" fill="none" stroke="#1e5fa8" stroke-width="2.2"/>`;
+  s += `<line x1="56.35" y1="83.38" x2="63.65" y2="86.62" stroke="#2c2620" stroke-width="2.2"/>`;
+  s += `<line x1="176.35" y1="86.62" x2="183.65" y2="83.38" stroke="#2c2620" stroke-width="2.2"/>`;
+  s += `<polyline points="62,130 61.09,123.75 58.45,118.02 54.29,113.27 48.95,109.90" fill="none" stroke="#0a7d52" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += `<polyline points="178,130 178.91,123.75 181.55,118.02 185.71,113.27 191.05,109.90" fill="none" stroke="#0a7d52" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += `<text x="24" y="144" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">A</text>`;
+  s += `<text x="204" y="144" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">B</text>`;
+  s += `<text x="164" y="28" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">C</text>`;
+  s += `<text x="60" y="28" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">D</text>`;
+  if(angText) s += `<text x="75" y="120" font-size="13" font-weight="700" fill="#b25c00" text-anchor="middle">${angText}</text>`;
+  s += `</svg>`;
+  return s;
+}
+/* Stačiosios trapecijos SVG: statmens žymės prie A ir D, kampo etiketė prie B. */
+function stFig(angText){
+  let s = `<svg width="220" height="150" viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<polygon points="40,130 200,130 150,40 40,40" fill="none" stroke="#1e5fa8" stroke-width="2.2"/>`;
+  s += `<path d="M 40 120 L 50 120 L 50 130" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<path d="M 40 50 L 50 50 L 50 40" fill="none" stroke="#2c2620" stroke-width="1.6"/>`;
+  s += `<polyline points="176,130 176.84,123.69 179.30,117.82 183.24,112.83 188.34,109.02" fill="none" stroke="#0a7d52" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += `<text x="24" y="144" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">A</text>`;
+  s += `<text x="204" y="144" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">B</text>`;
+  s += `<text x="154" y="28" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">C</text>`;
+  s += `<text x="24" y="28" font-size="14" font-style="italic" fill="#1c2430" font-family="Cambria Math,Georgia,serif">D</text>`;
+  if(angText) s += `<text x="168" y="118" font-size="13" font-weight="700" fill="#b25c00" text-anchor="middle">${angText}</text>`;
+  s += `</svg>`;
+  return s;
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+{
+  intro: "Labas! Šiandien mokysimės apie <b>lygiašonę trapeciją</b>. Ji panaši į paprastą trapeciją, bet turi papildomą savybę.",
+  expr: ltFig(null),
+  q: "Lygiašonės trapecijos ABCD šoninės kraštinės AD ir BC pažymėtos VIENODAIS brūkšneliais brėžinyje. Ką tai reiškia — kokios tos dvi kraštinės viena kitos atžvilgiu?",
+  hints: [
+    "Vienoda žymė (brūkšnelis) ant dviejų kraštinių brėžinyje visada reiškia tą patį dalyką.",
+    "Pagalvok apie kraštinių ilgį — kokiu vienu žodžiu apibūdinamos dvi atkarpos, kurių ilgis sutampa?"
+  ],
+  accepted: ["lygios","lygus","jos lygios","ad=bc"]
+},
+{
+  intro: "Kadangi šoninės lygios, trapecija simetriška — todėl ir kampai prie pagrindo turi savybę.",
+  expr: ltFig("α"),
+  q: "Lygiašonės trapecijos kampas prie pagrindo ∠A = 68°. Kadangi trapecija simetriška, kampas prie TO PATIES pagrindo ∠B yra toks pat kaip ∠A. Kam lygus ∠B?",
+  hints: [
+    "Lygiašonėje trapecijoje kampai prie kiekvieno pagrindo lygūs tarpusavyje.",
+    "∠B = ∠A — jokių papildomų skaičiavimų nereikia, tik nuskaityti duotą kampą."
+  ],
+  accepted: ["68","68°"]
+},
+{
+  intro: "Dabar — kampas prie KITO (viršutinio) pagrindo, bet tos pačios šoninės AD.",
+  expr: ltFig("68°"),
+  q: "Kadangi pagrindai AB ir DC lygiagretūs, kampai ∠A ir ∠D (abu prie šoninės AD) yra vidaus vienašaliai — jų suma 180°. Jei ∠A = 68°, kam lygus ∠D?",
+  hints: [
+    "∠D = 180° − ∠A",
+    "Įstatyk skaičių: 180° − 68° — ir apskaičiuok pats."
+  ],
+  accepted: ["112","112°"]
+},
+{
+  intro: "Puikiai! Dabar pereiname prie perimetro skaičiavimo.",
+  expr: "P = a + b + 2c",
+  q: "Lygiašonės trapecijos perimetras P = 85 cm, pagrindų suma S = 57 cm (S = a + b). Kadangi abi šoninės kraštinės lygios (po c), jų BENDRA suma yra P − S. Kam lygi abiejų šoninių suma?",
+  hints: [
+    "Atimk pagrindų sumą iš viso perimetro: P − S.",
+    "Įstatyk skaičius: 85 − 57 — ir apskaičiuok."
+  ],
+  accepted: ["28","28cm","28 cm"]
+},
+{
+  intro: "Radome, kad abi šoninės kartu sudaro 28 cm. O jos juk lygios viena kitai!",
+  expr: "šoninių suma = 28 cm",
+  q: "Kadangi abi šoninės lygios ir jų suma 28 cm, kam lygi VIENA šoninė (c)?",
+  hints: [
+    "Padalink 28 iš 2.",
+    "28 : 2 — atlik dalybą ir gausi ieškomą šoninę."
+  ],
+  accepted: ["14","14cm","14 cm"]
+},
+{
+  intro: "Šaunu! Dabar pereikime prie kitos trapecijos rūšies — stačiosios.",
+  expr: stFig(null),
+  q: "Stačiosios trapecijos šoninė AD nubrėžta STATMENAI abiem pagrindams (AB ir DC) — brėžinyje matai du kvadratėlius. Kokie yra kampai ∠A ir ∠D (laipsniais)?",
+  hints: [
+    "Statmuo su tiese visada sudaro tą patį, gerai žinomą kampą.",
+    "Prisimink apibrėžimą: statusis kampas — koks jis? Tas pats skaičius galioja abiem kampams ∠A ir ∠D."
+  ],
+  accepted: ["90","90°"]
+},
+{
+  intro: "Puiku! Dabar — kampai prie ĮŽAMBIOS šoninės BC.",
+  expr: stFig("55°"),
+  q: "Stačiosios trapecijos kampas ∠B = 55° (prie ilgesnio pagrindo AB, prie įžambios šoninės BC). Kampai ∠B ir ∠C (abu prie šoninės BC) vidaus vienašaliai, jų suma 180° (nes AB ∥ DC). Kam lygus ∠C?",
+  hints: [
+    "∠C = 180° − ∠B",
+    "Įstatyk skaičių: 180° − 55° — ir apskaičiuok pats."
+  ],
+  accepted: ["125","125°"]
+},
+{
+  intro: "Paskutinė tema — stačiosios trapecijos plotas. Čia statmena šoninė JAU yra aukštinė, tad Pitagoro teoremos nereikia!",
+  expr: "a = 10 cm,  b = 16 cm,  h = 8 cm",
+  q: "Trapecijos plotas S = (a + b) : 2 · h. Pagrindai 10 cm ir 16 cm, aukštinė (statmena šoninė) 8 cm. Kam lygus plotas (cm²)?",
+  hints: [
+    "Pirmiausia sudėk abu pagrindus ir padalink iš 2 — tai jų vidurkis: (10+16):2.",
+    "Gautą vidurkį padauginki iš aukštinės h = 8 — tai ir bus plotas."
+  ],
+  accepted: ["104","104cm2","104 cm2","104cm²","104 cm²"]
+}
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [
+{ label:"variantas A", qs:[
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 74°. Kam lygus ∠B?", acc:["74","74°"], hint:"Kampai prie to paties pagrindo lygūs."},
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 74°. Kam lygus ∠D (ta pati šoninė)?", acc:["106","106°"], hint:"∠D=180−∠A."},
+  {t:"Lygiašonės trapecijos perimetras 92 cm, pagrindų suma 56 cm. Kam lygi viena šoninė (cm)?", acc:["18"], hint:"(92−56):2."},
+  {t:"Lygiašonės trapecijos šoninė 15 cm, pagrindų suma 50 cm. Koks perimetras (cm)?", acc:["80"], hint:"P=S+2c=50+2·15."},
+  {t:"Stačiosios trapecijos kampas prie ilgojo pagrindo ∠B = 62°. Kam lygus ∠C (ta pati įžambi šoninė)?", acc:["118","118°"], hint:"∠C=180−∠B."},
+  {t:"Stačiosios trapecijos ta pačia sąlyga (∠B=62°). Kam lygus ∠A (statmena šoninė)?", acc:["90","90°"], hint:"Prisimink apibrėžimą: koks kampas susidaro tarp statmens ir tiesės? Tai ir yra ∠A bei ∠D."},
+  {t:"Stačiosios trapecijos pagrindai 11 cm ir 19 cm, aukštinė 10 cm. Koks plotas (cm²)?", acc:["150"], hint:"S=(11+19):2·10."},
+  {t:"Stačiosios trapecijos plotas 126 cm², pagrindai 10 cm ir 18 cm. Kam lygi aukštinė (cm)?", acc:["9"], hint:"h=2·126:(10+18)."},
+  {t:"Lygiašonės trapecijos šoninė 16 cm, pagrindų suma 54 cm. Koks perimetras (cm)?", acc:["86"], hint:"P=54+2·16."},
+  {t:"Kiek pagrindų (lygiagrečių kraštinių) turi bet kuri trapecija?", acc:["2","du"], hint:"Trapecija turi lygiai vieną lygiagrečių kraštinių porą."}
+]},
+{ label:"variantas B", qs:[
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 59°. Kam lygus ∠B?", acc:["59","59°"], hint:"Kampai prie to paties pagrindo lygūs."},
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 59°. Kam lygus ∠D (ta pati šoninė)?", acc:["121","121°"], hint:"∠D=180−∠A."},
+  {t:"Lygiašonės trapecijos perimetras 70 cm, pagrindų suma 42 cm. Kam lygi viena šoninė (cm)?", acc:["14"], hint:"(70−42):2."},
+  {t:"Lygiašonės trapecijos šoninė 13 cm, pagrindų suma 46 cm. Koks perimetras (cm)?", acc:["72"], hint:"P=46+2·13."},
+  {t:"Stačiosios trapecijos kampas prie ilgojo pagrindo ∠B = 48°. Kam lygus ∠C?", acc:["132","132°"], hint:"∠C=180−∠B."},
+  {t:"Stačiosios trapecijos ta pačia sąlyga (∠B=48°). Kam lygus ∠A?", acc:["90","90°"], hint:"Prisimink apibrėžimą: koks kampas susidaro tarp statmens ir tiesės? Tai ir yra ∠A bei ∠D."},
+  {t:"Stačiosios trapecijos pagrindai 9 cm ir 17 cm, aukštinė 8 cm. Koks plotas (cm²)?", acc:["104"], hint:"S=(9+17):2·8."},
+  {t:"Stačiosios trapecijos plotas 108 cm², aukštinė 9 cm. Kam lygi pagrindų suma (cm)?", acc:["24"], hint:"a+b=2·108:9."},
+  {t:"Lygiašonės trapecijos šoninė 17 cm, pagrindų suma 52 cm. Koks perimetras (cm)?", acc:["86"], hint:"P=52+2·17."},
+  {t:"Kiek statžiųjų (90°) kampų turi stačioji trapecija?", acc:["2","du"], hint:"Tik prie statmenos šoninės — abu jos galai."}
+]},
+{ label:"variantas C", qs:[
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 83°. Kam lygus ∠B?", acc:["83","83°"], hint:"Kampai prie to paties pagrindo lygūs."},
+  {t:"Lygiašonės trapecijos kampas prie pagrindo ∠A = 83°. Kam lygus ∠D (ta pati šoninė)?", acc:["97","97°"], hint:"∠D=180−∠A."},
+  {t:"Lygiašonės trapecijos perimetras 110 cm, pagrindų suma 68 cm. Kam lygi viena šoninė (cm)?", acc:["21"], hint:"(110−68):2."},
+  {t:"Lygiašonės trapecijos šoninė 19 cm, pagrindų suma 60 cm. Koks perimetras (cm)?", acc:["98"], hint:"P=60+2·19."},
+  {t:"Stačiosios trapecijos kampas prie ilgojo pagrindo ∠B = 41°. Kam lygus ∠C?", acc:["139","139°"], hint:"∠C=180−∠B."},
+  {t:"Stačiosios trapecijos ta pačia sąlyga (∠B=41°). Kam lygus ∠A?", acc:["90","90°"], hint:"Prisimink apibrėžimą: koks kampas susidaro tarp statmens ir tiesės? Tai ir yra ∠A bei ∠D."},
+  {t:"Stačiosios trapecijos pagrindai 13 cm ir 21 cm, aukštinė 7 cm. Koks plotas (cm²)?", acc:["119"], hint:"S=(13+21):2·7."},
+  {t:"Stačiosios trapecijos plotas 150 cm², pagrindai 14 cm ir 16 cm. Kam lygi aukštinė (cm)?", acc:["10"], hint:"h=2·150:(14+16)."},
+  {t:"Lygiašonės trapecijos šoninė 14 cm, pagrindų suma 48 cm. Koks perimetras (cm)?", acc:["76"], hint:"P=48+2·14."},
+  {t:"Ar lygiašonės trapecijos įstrižainės lygios?", acc:["taip","taip lygios"], hint:"Tai viena iš dviejų pagrindinių lygiašonės trapecijos savybių."}
+]}
+];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

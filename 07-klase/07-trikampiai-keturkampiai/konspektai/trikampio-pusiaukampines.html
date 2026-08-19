@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trikampio pusiaukampinės — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .diag{text-align:center; margin:12px 0}
+  .diag figcaption{font-size:12.5px; color:var(--pilka); margin-top:4px}
+
+  .tri-svg{display:block;margin:10px auto}
+  .tri-svg .s-side{stroke:#1e5fa8;stroke-width:2.4;fill:none}
+  .tri-svg .s-cev{stroke:#0a7d52;stroke-width:2.2}
+  .tri-svg .s-cev-light{stroke:#9aa4b2;stroke-width:1.6;stroke-dasharray:3 3}
+  .tri-svg .s-mark{stroke:#c62828;stroke-width:2}
+  .tri-svg .s-arc{stroke:#0a7d52;stroke-width:2;fill:none}
+  .tri-svg .s-right{fill:none;stroke:#5b6472;stroke-width:1.6}
+  .tri-svg .pt{fill:#1c2430}
+  .tri-svg .pt-hi{fill:#c62828}
+  .tri-svg .ln-lbl{font-size:14px;font-style:italic;fill:#1c2430;font-weight:700}
+  .tri-svg .num-hi{font-size:14px;fill:#c62828;font-weight:800}
+
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Trikampio pusiaukampinės</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai" · 7.4 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra trikampio pusiaukampinė</a></li>
+      <li><a href="#t2">Pusiaukampinė dalija kampą pusiau</a></li>
+      <li><a href="#t3">Trijų pusiaukampinių susikirtimo taškas</a></li>
+      <li><a href="#t4">Lygiašonio trikampio pusiaukampinė</a></li>
+      <li><a href="#t5">Kampų skaičiavimas trikampiuose su pusiaukampinėmis</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra trikampio pusiaukampinė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Trikampio pusiaukampinė</span> — atkarpa, jungianti trikampio <b>viršūnę</b> su <b>priešingos kraštinės tašku</b> ir <b>dalijanti tos viršūnės kampą pusiau</b>.</p>
+        <div class="diag"><figure><svg width="250" height="200" viewBox="0 0 250 200" class="tri-svg">
+<polygon class="s-side" points="95,25 20,130 175,130"/>
+<line class="s-cev" x1="95" y1="25" x2="96.6" y2="130"/>
+<path class="s-arc" d="M 86.3 37.2 A 15 15 0 0 1 95.2 40"/>
+<path class="s-arc" d="M 95.2 40 A 15 15 0 0 1 104.1 36.9"/>
+<circle class="pt" cx="95" cy="25" r="2.2"/>
+<circle class="pt" cx="20" cy="130" r="2.2"/>
+<circle class="pt" cx="175" cy="130" r="2.2"/>
+<text class="ln-lbl" x="91" y="17" text-anchor="middle">A</text>
+<text class="ln-lbl" x="10" y="136" text-anchor="middle">B</text>
+<text class="ln-lbl" x="185" y="136" text-anchor="middle">C</text>
+<circle class="pt" cx="96.6" cy="130" r="2.2"/>
+<text class="ln-lbl" x="96.6" y="146" text-anchor="middle">M</text>
+</svg><figcaption>AM — trikampio ABC pusiaukampinė iš viršūnės A; ∠BAM = ∠MAC</figcaption></figure></div>
+        <p>Kiekvienas trikampis turi <b>tris pusiaukampines</b> — po vieną iš kiekvienos viršūnės (žymimos <span class="math">AM<sub>a</sub></span>, <span class="math">BM<sub>b</sub></span>, <span class="math">CM<sub>c</sub></span> arba tiesiog pagal galo tašką, pvz. <span class="math">AM</span>).</p>
+        <p class="pvz"><b>Svarbu.</b> Pusiaukampinė dalija <b>kampą</b> pusiau, o ne <b>kraštinę</b>. Priešingos kraštinės taškas <span class="math">M</span> paprastai <b>nėra</b> jos vidurio taškas (nebent trikampis lygiašonis — žr. 4 skyrelį).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Pusiaukampinė dalija kampą pusiau</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pagrindinė savybė.</span> Jei <span class="math">AM</span> — trikampio <span class="math">ABC</span> pusiaukampinė iš viršūnės <span class="math">A</span>, tai:</p>
+        <div class="formule math">∠BAM = ∠MAC = ½·∠BAC &nbsp;&nbsp;arba&nbsp;&nbsp; ∠BAC = 2·∠BAM</div>
+        <div class="diag"><figure><svg width="250" height="200" viewBox="0 0 250 200" class="tri-svg">
+<polygon class="s-side" points="95,25 20,130 175,130"/>
+<line class="s-cev" x1="95" y1="25" x2="96.6" y2="130"/>
+<path class="s-arc" d="M 86.3 37.2 A 15 15 0 0 1 95.2 40"/>
+<path class="s-arc" d="M 95.2 40 A 15 15 0 0 1 104.1 36.9"/>
+<text class="num-hi" x="81.3" y="68.9" text-anchor="middle">38°</text><text class="num-hi" x="110" y="68.5" text-anchor="middle">38°</text>
+<circle class="pt" cx="95" cy="25" r="2.2"/>
+<circle class="pt" cx="20" cy="130" r="2.2"/>
+<circle class="pt" cx="175" cy="130" r="2.2"/>
+<text class="ln-lbl" x="91" y="17" text-anchor="middle">A</text>
+<text class="ln-lbl" x="10" y="136" text-anchor="middle">B</text>
+<text class="ln-lbl" x="185" y="136" text-anchor="middle">C</text>
+<circle class="pt" cx="96.6" cy="130" r="2.2"/>
+<text class="ln-lbl" x="96.6" y="146" text-anchor="middle">M</text>
+</svg><figcaption>∠BAM = 38° ir ∠MAC = 38° — abu kampai lygūs, nes AM pusiaukampinė</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">M</span> yra ant kraštinės <span class="math">BC</span>, o <span class="math">AM</span> — trikampio <span class="math">ABC</span> pusiaukampinė. Žinoma, kad <span class="math">∠BAM = 38°</span>. Rasti <span class="math">∠BAC</span>.<br>
+        Kadangi <span class="math">AM</span> pusiaukampinė, <span class="math">∠MAC = ∠BAM = 38°</span>. Todėl:<br>
+        <span class="math">∠BAC = ∠BAM + ∠MAC = 38° + 38° = <span class="gerai">76°</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Jei žinomas <b>pilnas</b> kampas <span class="math">∠BAC</span>, kiekviena pusė gaunama <b>dalijant iš 2</b>, o ne atimant ar dauginant iš kito skaičiaus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Trijų pusiaukampinių susikirtimo taškas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Trikampio <b>trys pusiaukampinės</b> visada susikerta <b>viename taške</b>. Šis taškas yra trikampyje <b>įbrėžto apskritimo centras</b> — jis vienodai nutolęs nuo visų trijų kraštinių.</p>
+        <div class="diag"><figure><svg width="260" height="220" viewBox="0 0 260 220" class="tri-svg">
+<polygon class="s-side" points="95,20 20,150 185,150"/>
+<line class="s-cev" x1="95" y1="20" x2="98.5" y2="104.7"/>
+<line class="s-cev" x1="20" y1="150" x2="98.5" y2="104.7"/>
+<line class="s-cev" x1="185" y1="150" x2="98.5" y2="104.7"/>
+<circle class="pt-hi" cx="98.5" cy="104.7" r="3"/>
+<text class="ln-lbl" x="106.5" y="98.7">I</text>
+<circle class="pt" cx="95" cy="20" r="2.2"/>
+<text class="ln-lbl" x="91" y="12" text-anchor="middle">A</text>
+<circle class="pt" cx="20" cy="150" r="2.2"/>
+<text class="ln-lbl" x="10" y="156" text-anchor="middle">B</text>
+<circle class="pt" cx="185" cy="150" r="2.2"/>
+<text class="ln-lbl" x="195" y="156" text-anchor="middle">C</text>
+</svg><figcaption>Trys pusiaukampinės susikerta viename taške I — įbrėžto apskritimo centre</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampio <span class="math">ABC</span> pusiaukampinės iš viršūnių <span class="math">B</span> ir <span class="math">C</span> susikerta taške <span class="math">I</span>. Žinoma, kad <span class="math">∠A = 80°</span>. Rasti <span class="math">∠BIC</span>.<br>
+        Kampų <span class="math">B</span> ir <span class="math">C</span> suma: <span class="math">∠B + ∠C = 180° − 80° = 100°</span>.<br>
+        Kadangi <span class="math">I</span> — pusiaukampinių susikirtimo taškas, <span class="math">∠IBC = ½∠B</span> ir <span class="math">∠ICB = ½∠C</span>, todėl:<br>
+        <span class="math">∠IBC + ∠ICB = ½(∠B + ∠C) = ½·100° = 50°</span><br>
+        Trikampyje <span class="math">BIC</span> kampų suma lygi 180°, taigi:<br>
+        <span class="math">∠BIC = 180° − 50° = <span class="gerai">130°</span></span></p>
+        <p class="demesio"><b>Dėmesio.</b> Skaičiuok <b>žingsnis po žingsnio</b> per kampų sumas trikampiuose — atmintinai formulės <span class="math">∠BIC = 90° + ∠A/2</span> testuose ir kontroliniuose netaikome, ji čia parodyta tik kaip patikros rezultatas (<span class="math">90° + 40° = 130°</span> ✓).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Lygiašonio trikampio pusiaukampinė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Lygiašonio trikampio pusiaukampinė, nubrėžta iš <b>viršūninio kampo</b> (kampo tarp šoninių kraštinių), sutampa su <b>aukštine</b> ir <b>pusiaukraštine</b>, nubrėžtomis iš to paties taško.</p>
+        <div class="diag"><figure><svg width="250" height="200" viewBox="0 0 250 200" class="tri-svg">
+<polygon class="s-side" points="100,20 25,150 175,150"/>
+<line class="s-cev" x1="100" y1="20" x2="100" y2="150"/>
+<line class="s-mark" x1="58.2" y1="82.5" x2="66.8" y2="87.5"/>
+<line class="s-mark" x1="133.2" y1="87.5" x2="141.8" y2="82.5"/>
+<path class="s-arc" d="M 92.5 33 A 15 15 0 0 1 100 35"/>
+<path class="s-arc" d="M 100 35 A 15 15 0 0 1 107.5 33"/>
+<rect class="s-right" x="92" y="142" width="8" height="8"/>
+<circle class="pt" cx="100" cy="20" r="2.2"/>
+<text class="ln-lbl" x="96" y="12" text-anchor="middle">A</text>
+<circle class="pt" cx="25" cy="150" r="2.2"/>
+<text class="ln-lbl" x="15" y="156" text-anchor="middle">B</text>
+<circle class="pt" cx="175" cy="150" r="2.2"/>
+<text class="ln-lbl" x="185" y="156" text-anchor="middle">C</text>
+<circle class="pt" cx="100" cy="150" r="2.2"/>
+<text class="ln-lbl" x="100" y="166" text-anchor="middle">M</text>
+</svg><figcaption>AB = AC (lygiašonis) → AM tuo pačiu metu pusiaukampinė, aukštinė ir pusiaukraštinė</figcaption></figure></div>
+        <p class="pvz"><b>Ką tai reiškia praktiškai?</b> Jei žinai, kad trikampis lygiašonis ir <span class="math">AM</span> — jo pusiaukampinė iš viršūninio kampo, iškart gauni: <span class="math">BM = MC</span> (kaip pusiaukraštinė) ir <span class="math">AM ⊥ BC</span> (kaip aukštinė, <span class="math">∠AMB = ∠AMC = 90°</span>).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Kampų skaičiavimas trikampiuose su pusiaukampinėmis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai pusiaukampinė <span class="math">AM</span> padalija trikampį <span class="math">ABC</span> į du mažesnius trikampius (<span class="math">ABM</span> ir <span class="math">ACM</span>), kiekviename iš jų vėl galioja <b>kampų suma 180°</b>.</p>
+        <div class="diag"><figure><svg width="260" height="200" viewBox="0 0 260 200" class="tri-svg">
+<polygon class="s-side" points="72,23.4 20,130 175,130"/>
+<line class="s-cev" x1="72" y1="23.4" x2="88.9" y2="130"/>
+<path class="s-arc" d="M 26.6 116.5 A 15 15 0 0 0 35 130"/>
+<path class="s-arc" d="M 164.6 119.2 A 15 15 0 0 1 160 130"/>
+<text class="num-hi" x="42" y="116.2" text-anchor="middle">64°</text>
+<text class="num-hi" x="151.1" y="119.8" text-anchor="middle">46°</text>
+<circle class="pt" cx="72" cy="23.4" r="2.2"/>
+<text class="ln-lbl" x="68" y="15.4" text-anchor="middle">A</text>
+<circle class="pt" cx="20" cy="130" r="2.2"/>
+<text class="ln-lbl" x="10" y="136" text-anchor="middle">B</text>
+<circle class="pt" cx="175" cy="130" r="2.2"/>
+<text class="ln-lbl" x="185" y="136" text-anchor="middle">C</text>
+<circle class="pt" cx="88.9" cy="130" r="2.2"/>
+<text class="ln-lbl" x="88.9" y="146" text-anchor="middle">M</text>
+</svg><figcaption>∠B = 64°, ∠C = 46°, AM — pusiaukampinė iš A; ieškome ∠AMB</figcaption></figure></div>
+        <p class="pvz"><b>Pavyzdys.</b> Trikampyje <span class="math">ABC</span>: <span class="math">∠B = 64°</span>, <span class="math">∠C = 46°</span>, <span class="math">AM</span> — pusiaukampinė iš viršūnės <span class="math">A</span>. Rasti <span class="math">∠AMB</span> ir <span class="math">∠AMC</span>.<br>
+        Pirmiausia <span class="math">∠A = 180° − 64° − 46° = 70°</span>, todėl <span class="math">∠BAM = 70° : 2 = 35°</span>.<br>
+        Trikampyje <span class="math">ABM</span> kampų suma 180°:<br>
+        <span class="math">∠AMB = 180° − ∠B − ∠BAM = 180° − 64° − 35° = <span class="gerai">81°</span></span><br>
+        Kampai <span class="math">∠AMB</span> ir <span class="math">∠AMC</span> gretutiniai (taškai <span class="math">B, M, C</span> vienoje tiesėje), todėl:<br>
+        <span class="math">∠AMC = 180° − 81° = <span class="gerai">99°</span></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">pusiaukampinė dalija kraštinę pusiau</span></td><td class="math"><span class="gerai">dalija KAMPĄ pusiau</span> — kraštinė padalijama pusiau tik lygiašonio trikampio pusiaukampinės iš viršūninio kampo</td></tr>
+          <tr><td class="math"><span class="klaida">∠BAM = 38° ⇒ ∠BAC = 38° + 90°</span></td><td class="math"><span class="gerai">∠BAC = 38° + 38° = 76°</span> (abi pusės lygios)</td></tr>
+          <tr><td class="math"><span class="klaida">pusiaukampinė = pusiaukraštinė visada</span></td><td class="math"><span class="gerai">sutampa TIK</span> lygiašonio (ar lygiakraščio) trikampio pusiaukampinė iš viršūninio kampo</td></tr>
+          <tr><td class="math"><span class="klaida">∠BIC skaičiuojame iš karto pagal formulę</span></td><td class="math"><span class="gerai">skaičiuojame per kampų sumas</span> trikampiuose žingsnis po žingsnio</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Pamatęs pusiaukampinę uždavinyje, iškart pasižymėk: <b>abi pusės kampo lygios</b> — tai vienintelis faktas, kurį duoda pati pusiaukampinė. Visa kita (kraštinės, aukštinės) reikia įrodyti atskirai, jei trikampis nėra lygiašonis.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Trikampio pusiaukampinės" (7.4)
+  </footer>
+
+</div>
+</body>
+</html>

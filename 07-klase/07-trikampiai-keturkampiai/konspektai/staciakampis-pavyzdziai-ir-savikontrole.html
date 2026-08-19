@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Stačiakampis — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Stačiakampis — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai“ · 7.6 tema · perimetras, kraštinės, įstrižainės, kampai prie taško O</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── potemė 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Kraštinės iš perimetro ir santykio</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> P = 2·(a+b). Jei a : b = p : q, tai a = p·k, b = q·k, o perimetras 2·(p+q)·k.</div>
+    <div class="ex">
+      <div class="q">Stačiakampio kraštinių santykis a : b = 3 : 4, perimetras 56 cm.</div>
+      <div class="line">2·(3k + 4k) = 56 &nbsp;&rArr;&nbsp; 14k = 56 &nbsp;&rArr;&nbsp; k = 4</div>
+      <div class="line">a = 3 · 4 = <span class="res">12</span> cm, &nbsp; b = 4 · 4 = <span class="res">16</span> cm</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Kraštinės iš perimetro ir skirtumo</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> jei a − b = d, tai a + b = P : 2, o kraštinės — (suma+skirtumas):2 ir (suma−skirtumas):2.</div>
+    <div class="ex">
+      <div class="q">Stačiakampio perimetras 64 cm, viena kraštinė 6 cm ilgesnė už kitą.</div>
+      <div class="line">a + b = 64 : 2 = 32</div>
+      <div class="line">a = (32 + 6) : 2 = <span class="res">19</span> cm, &nbsp; b = (32 − 6) : 2 = <span class="res">13</span> cm</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Įstrižainių trikampio kampai (taškas O)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> AO=OC=BO=OD, todėl trikampiai prie O lygiašoniai. ∠OAD=∠ODA=(180°−∠AOD):2. Gretimas kampas ∠AOB=180°−∠AOD.</div>
+    <div class="ex">
+      <div class="q">Stačiakampio ABCD įstrižainės susikerta taške O. ∠AOD = 140°.</div>
+      <div class="line">Trikampis AOD lygiašonis (OA=OD): ∠OAD = ∠ODA = (180° − 140°) : 2 = <span class="res">20°</span></div>
+      <div class="line">Gretimas kampas: ∠AOB = 180° − 140° = <span class="res">40°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── potemė 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Kraštinės ir įstrižainė (Pitagoro teorema)</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> stačiakampio kraštinės ir įstrižainė sudaro stačiąjį trikampį (kraštinės — statiniai, įstrižainė — įžambinė): d = √(a² + b²).</div>
+    <div class="ex">
+      <div class="q">Stačiakampio kraštinės 9 cm ir 12 cm. Rask įstrižainę.</div>
+      <div class="line">d = √(9² + 12²) = √(81 + 144) = √225 = <span class="res">15</span> cm</div>
+    </div>
+    <div class="ex">
+      <div class="q">Stačiakampio įstrižainė 17 cm, viena kraštinė 8 cm.</div>
+      <div class="line">Kita kraštinė: √(17² − 8²) = √(289 − 64) = √225 = <span class="res">15</span> cm</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> naudok P = 2·(a+b), trikampių prie O lygiašoniškumą ir, kur reikia, Pitagoro teoremą. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Kraštinės iš perimetro ir santykio (rask abi kraštines)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>a : b = 1 : 2, P = 36 cm</li>
+        <li>a : b = 2 : 5, P = 42 cm</li>
+        <li>a : b = 4 : 5, P = 36 cm</li>
+        <li>a : b = 1 : 3, P = 40 cm</li>
+        <li>a : b = 3 : 7, P = 40 cm</li>
+        <li>a : b = 5 : 8, P = 52 cm</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Kraštinės iš perimetro ir skirtumo (rask abi kraštines)</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>P = 48 cm, d = 10 cm</li>
+        <li>P = 72 cm, d = 12 cm</li>
+        <li>P = 36 cm, d = 2 cm</li>
+        <li>P = 80 cm, d = 14 cm</li>
+        <li>P = 28 cm, d = 6 cm</li>
+        <li>P = 52 cm, d = 4 cm</li>
+      </ol>
+    </div>
+
+    <div class="grp">C. Kampai prie taško O</div>
+    <div class="two">
+      <ol class="tasks math" start="13">
+        <li>∠AOD = 50°. Rask ∠OAD.</li>
+        <li>∠AOD = 70°. Rask ∠ODA.</li>
+        <li>∠AOD = 110°. Rask gretimą ∠AOB.</li>
+        <li>∠AOD = 130°. Rask gretimą ∠AOB.</li>
+        <li>∠AOD = 150°. Rask ∠OAD.</li>
+        <li>∠AOD = 160°. Rask ∠ODA.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks math" start="19">
+      <li>Stačiakampio formos sklypo perimetras — 100 m, kraštinių santykis 2 : 3. Apskaičiuok abi kraštines ir sklypo plotą (S = a · b).</li>
+      <li>Stačiakampio kraštinės 9 cm ir 12 cm. Apskaičiuok įstrižainę ir atkarpą AO (AO — pusė įstrižainės, nes AO=OC=BO=OD).</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> a=6 cm, b=12 cm &nbsp;&nbsp; <b>2.</b> a=6 cm, b=15 cm &nbsp;&nbsp; <b>3.</b> a=8 cm, b=10 cm</div>
+    <div class="row math"><b>4.</b> a=5 cm, b=15 cm &nbsp;&nbsp; <b>5.</b> a=6 cm, b=14 cm &nbsp;&nbsp; <b>6.</b> a=10 cm, b=16 cm</div>
+    <div class="row math"><b>7.</b> a=17 cm, b=7 cm &nbsp;&nbsp; <b>8.</b> a=24 cm, b=12 cm &nbsp;&nbsp; <b>9.</b> a=10 cm, b=8 cm</div>
+    <div class="row math"><b>10.</b> a=27 cm, b=13 cm &nbsp;&nbsp; <b>11.</b> a=10 cm, b=4 cm &nbsp;&nbsp; <b>12.</b> a=15 cm, b=11 cm</div>
+    <div class="row math"><b>13.</b> ∠OAD = 65° &nbsp;&nbsp; <b>14.</b> ∠ODA = 55° &nbsp;&nbsp; <b>15.</b> ∠AOB = 70°</div>
+    <div class="row math"><b>16.</b> ∠AOB = 50° &nbsp;&nbsp; <b>17.</b> ∠OAD = 15° &nbsp;&nbsp; <b>18.</b> ∠ODA = 10°</div>
+    <div class="row math"><b>19.</b> 10k=100, k=10 &rArr; a=20 m, b=30 m; S=20·30=600 m²</div>
+    <div class="row math"><b>20.</b> d=√(9²+12²)=15 cm; AO = 15 : 2 = 7,5 cm</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Stačiakampis“ (7.6) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

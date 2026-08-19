@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Trikampio pusiaukraštinės (7 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📐 Mokymosi asistentas „Vytas“</h1>
+    <p>Tema: <b>Trikampio pusiaukraštinės</b> · 7 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">V<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Vytas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime <b>trikampio pusiaukraštines</b>: sužinosime, kas jos yra, mokėsime rasti kraštinės ilgį iš vidurio taško sąlygos, skaičiuosime perimetrą ir kampus, o pabaigoje net paliesime įrodymus.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">V<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Vytas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('°')">°</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">V<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Vytas</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Kampus rašyk be laipsnio ženklo, pvz. <b>90</b>, o lygumo požymį — skaičiumi (1, 2 arba 3).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pačios <b>sąvokos</b>. Pusiaukraštinė — atkarpa, jungianti trikampio viršūnę su priešingos kraštinės <b>vidurio</b> tašku.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='60,190 240,190 150,30' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='60' y1='190' x2='195' y2='110' stroke='#9fb6cf' stroke-width='1.5' stroke-dasharray='4,3'/><line x1='240' y1='190' x2='105' y2='110' stroke='#9fb6cf' stroke-width='1.5' stroke-dasharray='4,3'/><line x1='150' y1='30' x2='150' y2='190' stroke='#9fb6cf' stroke-width='1.5' stroke-dasharray='4,3'/><circle cx='150' cy='136.7' r='3.5' fill='#d9694f'/><text x='52' y='208' font-size='13' fill='#1f2a37'>A</text><text x='238' y='208' font-size='13' fill='#1f2a37'>B</text><text x='146' y='22' font-size='13' fill='#1f2a37'>C</text><text x='157' y='140' font-size='11' fill='#d9694f'>T</text></svg><div style='font-size:.82rem;font-weight:400;color:#5b6b7f;margin-top:4px'>Trys pusiaukraštinės ir jų susikirtimo taškas T (svorio centras).</div>", "q": "Kiek pusiaukraštinių turi kiekvienas trikampis?", "accepted": ["3"], "hints": ["Kiekviena pusiaukraštinė eina iš vienos viršūnės į priešingos kraštinės vidurio tašką. Trikampis turi tris viršūnes.", "Kiekvienai iš viršūnių A, B ir C galima nubrėžti po vieną pusiaukraštinę.", "Suskaičiuok, kiek viršūnių turi trikampis — tiek pat bus ir pusiaukraštinių."]}, {"intro": "Dabar — <b>pagrindinis įgūdis</b>. Jei D yra AB vidurio taškas, tai AD = DB. Šią sąlygą naudosime, kad iš pusės rastume visą kraštinę.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='60,190 240,190 150,30' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='150' y1='30' x2='150' y2='190' stroke='#f2a94b' stroke-width='2'/><circle cx='150' cy='190' r='3.5' fill='#d9694f'/><text x='52' y='208' font-size='13' fill='#1f2a37'>A</text><text x='238' y='208' font-size='13' fill='#1f2a37'>B</text><text x='146' y='22' font-size='13' fill='#1f2a37'>C</text><text x='153' y='206' font-size='12' fill='#d9694f'>D</text><text x='92' y='183' font-size='12' fill='#2b5583'>8 cm</text><line x1='95.8' y1='185.8' x2='104.2' y2='194.2' stroke='#2b5583' stroke-width='2'/></svg><div style='font-size:.82rem;font-weight:400;color:#5b6b7f;margin-top:4px'>CD — pusiaukraštinė, D — AB vidurio taškas.</div>", "q": "Trikampio ABC pusiaukraštinė CD nubrėžta į kraštinę AB (D — AB vidurio taškas). AD = 8 cm. Raskite AB.", "accepted": ["16"], "hints": ["Prisimink apibrėžimą: jei D yra AB vidurio taškas, tai jis dalija AB į dvi LYGIAS dalis.", "Vadinasi, DB taip pat lygus 8 cm, nes AD = DB.", "AB susideda iš dviejų atkarpų: AD ir DB. Sudėk jas: 8 + 8."]}, {"intro": "Sudėtingiau — <b>perimetro skaičiavimas</b>. Iš pusiaukraštinės atkarpos rask visą kraštinę, o tada sudėk visas tris trikampio kraštines.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='60,190 240,190 150,30' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='150' y1='30' x2='150' y2='190' stroke='#f2a94b' stroke-width='2' stroke-dasharray='5,4'/><circle cx='150' cy='190' r='3.5' fill='#d9694f'/><text x='52' y='208' font-size='13' fill='#1f2a37'>A</text><text x='238' y='208' font-size='13' fill='#1f2a37'>B</text><text x='146' y='22' font-size='13' fill='#1f2a37'>C</text><text x='153' y='206' font-size='12' fill='#d9694f'>D</text><text x='88' y='183' font-size='12' fill='#2b5583'>9 dm</text><text x='202' y='115' font-size='12' fill='#1f2a37'>17 dm</text><text x='78' y='115' font-size='12' fill='#1f2a37'>24 dm</text></svg><div style='font-size:.78rem;font-weight:400;color:#5b6b7f;margin-top:4px'>Brėžinys schematinis (ne pagal mastelį).</div>", "q": "Trikampyje ABC taškas D — kraštinės AB vidurio taškas. AD = 9 dm, BC = 17 dm, AC = 24 dm. Raskite trikampio ABC perimetrą (dm).", "accepted": ["59"], "hints": ["Pirmiausia rask visą kraštinę AB — prisimink, kad AD = DB, nes D yra vidurio taškas.", "AB = 2·AD = 2·9. O tada perimetras P = AB + BC + AC.", "AB = 18 dm. Sudėk: 18 + 17 + 24."]}, {"intro": "Nauja savybė: <b>lygiašonio trikampio</b> pusiaukraštinė, nubrėžta į pagrindą, sutampa su <b>aukštine</b> — ji statmena pagrindui.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='150,30 50,190 250,190' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='150' y1='30' x2='150' y2='190' stroke='#f2a94b' stroke-width='2'/><polyline points='140,190 140,180 150,180' fill='none' stroke='#d9694f' stroke-width='1.6'/><line x1='94.9' y1='106.8' x2='105.1' y2='113.2' stroke='#2b5583' stroke-width='2'/><line x1='194.9' y1='113.2' x2='205.1' y2='106.8' stroke='#2b5583' stroke-width='2'/><text x='140' y='24' font-size='13' fill='#1f2a37'>A</text><text x='34' y='206' font-size='13' fill='#1f2a37'>B</text><text x='252' y='206' font-size='13' fill='#1f2a37'>C</text><text x='153' y='206' font-size='12' fill='#d9694f'>M</text></svg><div style='font-size:.82rem;font-weight:400;color:#5b6b7f;margin-top:4px'>AB = AC (lygiašonis), M — BC vidurio taškas, AM — pusiaukraštinė į pagrindą.</div>", "q": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Koks yra kampas AMB?", "accepted": ["90"], "hints": ["Prisimink lygiašonio trikampio savybę: pusiaukraštinė, nubrėžta į PAGRINDĄ, sutampa su dar viena ypatinga atkarpa.", "Ta atkarpa — aukštinė, ji su pagrindu sudaro statų kampą.", "Jei AM yra ir aukštinė, tai ji statmena BC. Koks yra statmenų atkarpų sudaromas kampas?"]}, {"intro": "Ta pati savybė turi ir antrą dalį: pusiaukraštinė į pagrindą sutampa dar ir su <b>pusiaukampine</b> — ji padalija viršūnės kampą į dvi lygias dalis.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='150,30 50,190 250,190' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='150' y1='30' x2='150' y2='190' stroke='#f2a94b' stroke-width='2'/><path d='M 133,58 A 26,26 0 0 1 150,50' fill='none' stroke='#3b6ea5' stroke-width='1.6'/><path d='M 150,50 A 26,26 0 0 1 167,58' fill='none' stroke='#3b6ea5' stroke-width='1.6'/><line x1='94.9' y1='106.8' x2='105.1' y2='113.2' stroke='#2b5583' stroke-width='2'/><line x1='194.9' y1='113.2' x2='205.1' y2='106.8' stroke='#2b5583' stroke-width='2'/><text x='140' y='24' font-size='13' fill='#1f2a37'>A</text><text x='34' y='206' font-size='13' fill='#1f2a37'>B</text><text x='252' y='206' font-size='13' fill='#1f2a37'>C</text><text x='153' y='206' font-size='12' fill='#d9694f'>M</text></svg><div style='font-size:.82rem;font-weight:400;color:#5b6b7f;margin-top:4px'>AM padalija kampą BAC į dvi lygias dalis: BAM ir MAC.</div>", "q": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAC = 54°. Koks yra kampas BAM?", "accepted": ["27"], "hints": ["AM sutampa su pusiaukampine, kylančia iš viršūnės A.", "Pusiaukampinė padalija kampą, iš kurio ji išeina, į DVI LYGIAS dalis.", "Padalyk visą viršūnės kampą BAC = 54° iš 2."]}, {"intro": "Paskutinė, sunkiausia stotelė — <b>įrodymo</b> tipo užduotis. Panagrinėkime, kodėl AM padalija lygiašonį trikampį į du LYGIUS trikampius.", "expr": "<svg viewBox='0 0 300 220' width='260' height='190' style='display:block;margin:0 auto'><polygon points='150,30 50,190 250,190' fill='none' stroke='#2b5583' stroke-width='2'/><line x1='150' y1='30' x2='150' y2='190' stroke='#f2a94b' stroke-width='2'/><line x1='94.9' y1='106.8' x2='105.1' y2='113.2' stroke='#2b5583' stroke-width='2'/><line x1='194.9' y1='113.2' x2='205.1' y2='106.8' stroke='#2b5583' stroke-width='2'/><line x1='100' y1='185' x2='100' y2='195' stroke='#3b6ea5' stroke-width='2'/><line x1='200' y1='185' x2='200' y2='195' stroke='#3b6ea5' stroke-width='2'/><path d='M 68,178 A 22,22 0 0 1 72,190' fill='none' stroke='#d9694f' stroke-width='1.6'/><path d='M 228,190 A 22,22 0 0 1 232,178' fill='none' stroke='#d9694f' stroke-width='1.6'/><text x='140' y='24' font-size='13' fill='#1f2a37'>A</text><text x='34' y='206' font-size='13' fill='#1f2a37'>B</text><text x='252' y='206' font-size='13' fill='#1f2a37'>C</text><text x='153' y='206' font-size='12' fill='#d9694f'>M</text></svg><div style='font-size:.78rem;font-weight:400;color:#5b6b7f;margin-top:4px'>Vienas brūkšnelis: AB = AC ir BM = MC. Lankeliai: kampas ABM = kampas ACM.</div>", "q": "Lygiašoniame trikampyje ABC (AB = AC) taškas M — kraštinės BC vidurio taškas (AM — pusiaukraštinė). Žinoma: AB = AC, BM = MC, kampas ABM = kampas ACM. Pagal kurį trikampių lygumo požymį (parašyk skaičių 1, 2 ar 3) trikampiai ABM ir ACM yra lygūs?", "accepted": ["1", "I"], "hints": ["Palygink trikampius ABM ir ACM: kokios dvi kraštinės juose atitinkamai lygios? (žr. brėžinio žymes).", "AB = AC ir BM = MC. O tarp kurių dviejų kraštinių kiekviename trikampyje yra tas duotasis lygus kampas (ABM ir ACM)?", "Kampas ABM yra tarp kraštinių AB ir BM, o kampas ACM — tarp AC ir MC. Tai atitinka požymį: dvi kraštinės ir kampas TARP JŲ."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Trikampio ABC pusiaukraštinė CD nubrėžta į kraštinę AB (D — AB vidurio taškas). AD = 7 cm. Raskite AB.", "acc": ["14"], "hint": "D yra vidurio taškas, todėl DB = AD = 7 cm. Sudėk abi dalis."}, {"t": "Trikampio KLM pusiaukraštinė MN nubrėžta į kraštinę KL (N — KL vidurio taškas). NL = 11 cm. Raskite KL.", "acc": ["22"], "hint": "N yra vidurio taškas, todėl KN = NL = 11 cm. Sudėk abi dalis."}, {"t": "Trikampyje ABC taškas D — kraštinės AB vidurio taškas. AD = 9 dm, BC = 17 dm, AC = 24 dm. Raskite trikampio ABC perimetrą (dm).", "acc": ["59"], "hint": "Pirma rask AB = 2·AD, tada sudėk visas tris kraštines."}, {"t": "Trikampyje DEF taškas P — kraštinės DE vidurio taškas. DP = 13 cm, EF = 18 cm, DF = 21 cm. Raskite trikampio DEF perimetrą (cm).", "acc": ["65"], "hint": "Pirma rask DE = 2·DP, tada sudėk visas tris kraštines."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas ABC = 58°. Koks yra kampas ACB?", "acc": ["58"], "hint": "Lygiašonio trikampio kampai prie pagrindo (ABC ir ACB) visada lygūs."}, {"t": "Tame pačiame trikampyje ABC koks yra kampas AMB?", "acc": ["90"], "hint": "Pusiaukraštinė į pagrindą lygiašoniame trikampyje sutampa su aukštine — ji statmena pagrindui."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAC = 48°. Koks yra kampas BAM?", "acc": ["24"], "hint": "AM sutampa su pusiaukampine — ji padalija kampą BAC į dvi lygias dalis."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAM = 19°. Koks yra visas kampas BAC?", "acc": ["38"], "hint": "Kampas BAM yra pusė viso viršūnės kampo BAC."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) taškas M — kraštinės BC vidurio taškas. Žinoma: AB = AC, BM = MC, kampas ABM = kampas ACM. Pagal kurį lygumo požymį (parašyk skaičių 1, 2 ar 3) trikampiai ABM ir ACM yra lygūs?", "acc": ["1", "I"], "hint": "Kampas ABM yra tarp kraštinių AB ir BM (o ACM — tarp AC ir MC). Tai dvi kraštinės ir kampas TARP JŲ."}, {"t": "Kiek pusiaukraštinių turi kiekvienas trikampis?", "acc": ["3"], "hint": "Kiekvienai iš trijų viršūnių galima nubrėžti po vieną pusiaukraštinę."}]}, {"label": "variantas B", "qs": [{"t": "Trikampio ABC pusiaukraštinė CD nubrėžta į kraštinę AB (D — AB vidurio taškas). AD = 8 cm. Raskite AB.", "acc": ["16"], "hint": "D yra vidurio taškas, todėl DB = AD = 8 cm. Sudėk abi dalis."}, {"t": "Trikampio KLM pusiaukraštinė MN nubrėžta į kraštinę KL (N — KL vidurio taškas). NL = 13 cm. Raskite KL.", "acc": ["26"], "hint": "N yra vidurio taškas, todėl KN = NL = 13 cm. Sudėk abi dalis."}, {"t": "Trikampyje ABC taškas D — kraštinės AB vidurio taškas. AD = 11 dm, BC = 19 dm, AC = 26 dm. Raskite trikampio ABC perimetrą (dm).", "acc": ["67"], "hint": "Pirma rask AB = 2·AD, tada sudėk visas tris kraštines."}, {"t": "Trikampyje DEF taškas P — kraštinės DE vidurio taškas. DP = 10 cm, EF = 16 cm, DF = 19 cm. Raskite trikampio DEF perimetrą (cm).", "acc": ["55"], "hint": "Pirma rask DE = 2·DP, tada sudėk visas tris kraštines."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas ABC = 47°. Koks yra kampas ACB?", "acc": ["47"], "hint": "Lygiašonio trikampio kampai prie pagrindo (ABC ir ACB) visada lygūs."}, {"t": "Tame pačiame trikampyje ABC koks yra kampas AMB?", "acc": ["90"], "hint": "Pusiaukraštinė į pagrindą lygiašoniame trikampyje sutampa su aukštine — ji statmena pagrindui."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAC = 70°. Koks yra kampas BAM?", "acc": ["35"], "hint": "AM sutampa su pusiaukampine — ji padalija kampą BAC į dvi lygias dalis."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAM = 21°. Koks yra visas kampas BAC?", "acc": ["42"], "hint": "Kampas BAM yra pusė viso viršūnės kampo BAC."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) taškas M — kraštinės BC vidurio taškas. Žinoma: AB = AC, BM = MC, kampas ABM = kampas ACM. Pagal kurį lygumo požymį (parašyk skaičių 1, 2 ar 3) trikampiai ABM ir ACM yra lygūs?", "acc": ["1", "I"], "hint": "Kampas ABM yra tarp kraštinių AB ir BM (o ACM — tarp AC ir MC). Tai dvi kraštinės ir kampas TARP JŲ."}, {"t": "Kiek pusiaukraštinių turi kiekvienas trikampis?", "acc": ["3"], "hint": "Kiekvienai iš trijų viršūnių galima nubrėžti po vieną pusiaukraštinę."}]}, {"label": "variantas C", "qs": [{"t": "Trikampio ABC pusiaukraštinė CD nubrėžta į kraštinę AB (D — AB vidurio taškas). AD = 10 cm. Raskite AB.", "acc": ["20"], "hint": "D yra vidurio taškas, todėl DB = AD = 10 cm. Sudėk abi dalis."}, {"t": "Trikampio KLM pusiaukraštinė MN nubrėžta į kraštinę KL (N — KL vidurio taškas). NL = 9 cm. Raskite KL.", "acc": ["18"], "hint": "N yra vidurio taškas, todėl KN = NL = 9 cm. Sudėk abi dalis."}, {"t": "Trikampyje ABC taškas D — kraštinės AB vidurio taškas. AD = 13 dm, BC = 21 dm, AC = 15 dm. Raskite trikampio ABC perimetrą (dm).", "acc": ["62"], "hint": "Pirma rask AB = 2·AD, tada sudėk visas tris kraštines."}, {"t": "Trikampyje DEF taškas P — kraštinės DE vidurio taškas. DP = 14 cm, EF = 23 cm, DF = 17 cm. Raskite trikampio DEF perimetrą (cm).", "acc": ["68"], "hint": "Pirma rask DE = 2·DP, tada sudėk visas tris kraštines."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas ABC = 63°. Koks yra kampas ACB?", "acc": ["63"], "hint": "Lygiašonio trikampio kampai prie pagrindo (ABC ir ACB) visada lygūs."}, {"t": "Tame pačiame trikampyje ABC koks yra kampas AMB?", "acc": ["90"], "hint": "Pusiaukraštinė į pagrindą lygiašoniame trikampyje sutampa su aukštine — ji statmena pagrindui."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAC = 36°. Koks yra kampas BAM?", "acc": ["18"], "hint": "AM sutampa su pusiaukampine — ji padalija kampą BAC į dvi lygias dalis."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) pusiaukraštinė AM nubrėžta į pagrindą BC. Kampas BAM = 15°. Koks yra visas kampas BAC?", "acc": ["30"], "hint": "Kampas BAM yra pusė viso viršūnės kampo BAC."}, {"t": "Lygiašoniame trikampyje ABC (AB = AC) taškas M — kraštinės BC vidurio taškas. Žinoma: AB = AC, BM = MC, kampas ABM = kampas ACM. Pagal kurį lygumo požymį (parašyk skaičių 1, 2 ar 3) trikampiai ABM ir ACM yra lygūs?", "acc": ["1", "I"], "hint": "Kampas ABM yra tarp kraštinių AB ir BM (o ACM — tarp AC ir MC). Tai dvi kraštinės ir kampas TARP JŲ."}, {"t": "Kiek pusiaukraštinių turi kiekvienas trikampis?", "acc": ["3"], "hint": "Kiekvienai iš trijų viršūnių galima nubrėžti po vieną pusiaukraštinę."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

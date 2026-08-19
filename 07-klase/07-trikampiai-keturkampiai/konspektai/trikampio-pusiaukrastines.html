@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trikampio pusiaukraštinės — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+
+  /* --- brėžiniai (SVG) --- */
+  .brez-wrap{display:flex; justify-content:center; margin:10px 0 4px}
+  svg.brez{width:100%; max-width:340px; height:auto; background:#fbfcfe; border:1px solid var(--linija); border-radius:8px}
+  .ln{stroke:#1c2430; stroke-width:2; fill:none}
+  .ln-med{stroke:var(--tema); stroke-width:2.2; fill:none; stroke-dasharray:0}
+  .rt-mark{stroke:var(--taisykle); stroke-width:2; fill:none}
+  .pt{fill:#1c2430}
+  .pt-g{fill:var(--pvz)}
+  .lbl-it{font-style:italic; font-family:"Cambria Math",Cambria,Georgia,serif; font-size:13px; fill:#1c2430}
+  .tick{stroke:var(--taisykle); stroke-width:2}
+
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Trikampio pusiaukraštinės</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai" · 7.3 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Pusiaukraštinė — apibrėžimas</a></li>
+      <li><a href="#t2">Trys pusiaukraštinės ir svorio centras</a></li>
+      <li><a href="#t3">Vidurio taško savybė ir perimetras</a></li>
+      <li><a href="#t4">Lygiašonio trikampio pusiaukraštinė</a></li>
+      <li><a href="#t5">Pusiaukraštinė ir trikampių lygumas</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Pusiaukraštinė — apibrėžimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Trikampio pusiaukraštinė</span> — atkarpa, jungianti trikampio viršūnę su priešingos kraštinės <b>vidurio tašku</b>.</p>
+        <p>Brėžinyje <span class="math">D</span> yra kraštinės <span class="math">AB</span> vidurio taškas, todėl <span class="math">CD</span> yra trikampio <span class="math">ABC</span> pusiaukraštinė, o <span class="math">AD = DB</span>.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 260 180" class="brez">
+<line x1="30" y1="150" x2="230" y2="150" class="ln"/>
+<line x1="30" y1="150" x2="130" y2="20" class="ln"/>
+<line x1="230" y1="150" x2="130" y2="20" class="ln"/>
+<line x1="130" y1="20" x2="130" y2="150" class="ln-med"/>
+<line x1="70" y1="145" x2="70" y2="155" class="tick"/>
+<line x1="180" y1="145" x2="180" y2="155" class="tick"/>
+<circle cx="30" cy="150" r="3.2" class="pt"/>
+<circle cx="230" cy="150" r="3.2" class="pt"/>
+<circle cx="130" cy="20" r="3.2" class="pt"/>
+<circle cx="130" cy="150" r="3.2" class="pt-g"/>
+<text x="20" y="167" class="lbl-it" text-anchor="middle">A</text>
+<text x="240" y="167" class="lbl-it" text-anchor="middle">B</text>
+<text x="130" y="13" class="lbl-it" text-anchor="middle">C</text>
+<text x="130" y="172" class="lbl-it" text-anchor="middle">D</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Pastaba.</b> Pusiaukraštinę žymime pagal viršūnę, iš kurios ji išeina, ir kraštinės vidurio tašką, pvz. <span class="math">CD</span>. Vienodi brūkšneliai ant <span class="math">AD</span> ir <span class="math">DB</span> brėžinyje rodo, kad šios atkarpos <b>lygios</b>.</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Trys pusiaukraštinės ir svorio centras</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Kiekvienas trikampis turi <b>3 pusiaukraštines</b> — po vieną iš kiekvienos viršūnės. Visos trys pusiaukraštinės susikerta <b>viename taške</b>.</p>
+        <p>Šis susikirtimo taškas vadinamas trikampio <span class="term-a">svorio centru</span>.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 240 190" class="brez">
+<line x1="20" y1="170" x2="220" y2="170" class="ln"/>
+<line x1="20" y1="170" x2="120" y2="20" class="ln"/>
+<line x1="220" y1="170" x2="120" y2="20" class="ln"/>
+<line x1="120" y1="20" x2="120" y2="170" class="ln-med"/>
+<line x1="20" y1="170" x2="170" y2="95" class="ln-med"/>
+<line x1="220" y1="170" x2="70" y2="95" class="ln-med"/>
+<circle cx="20" cy="170" r="3" class="pt"/>
+<circle cx="220" cy="170" r="3" class="pt"/>
+<circle cx="120" cy="20" r="3" class="pt"/>
+<circle cx="120" cy="170" r="2.6" class="pt"/>
+<circle cx="170" cy="95" r="2.6" class="pt"/>
+<circle cx="70" cy="95" r="2.6" class="pt"/>
+<circle cx="120" cy="120" r="3.4" class="pt-g"/>
+<text x="10" y="186" class="lbl-it" text-anchor="middle">A</text>
+<text x="230" y="186" class="lbl-it" text-anchor="middle">B</text>
+<text x="120" y="13" class="lbl-it" text-anchor="middle">C</text>
+<text x="132" y="118" class="lbl-it" text-anchor="start">T</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Brėžinyje.</b> Taškas <span class="math">T</span> — svorio centras, kuriame susikerta pusiaukraštinės <span class="math">AA₁</span>, <span class="math">BB₁</span> ir <span class="math">CC₁</span> (viršūnių vidurio taškai <span class="math">A₁, B₁, C₁</span> pažymėti ant priešingų kraštinių).</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Vidurio taško savybė ir perimetras</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Formulė.</span> Jei <span class="math">D</span> yra kraštinės <span class="math">AB</span> vidurio taškas, tai:</p>
+        <div class="formule"><span class="math">AD = DB = AB : 2 &nbsp;&nbsp;⟺&nbsp;&nbsp; AB = 2 · AD</span></div>
+        <p>Žinodami vieną pusiaukraštinės sudarytą atkarpą (pvz. <span class="math">AD</span>), visada galime rasti visą kraštinę <span class="math">AB</span> — ir atvirkščiai.</p>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Trikampio <span class="math">ABC</span> pusiaukraštinė <span class="math">CD</span> kerta kraštinę <span class="math">AB</span> taške <span class="math">D</span>. Žinoma: <span class="math">AD = 9 dm</span>, <span class="math">BC = 17 dm</span>, <span class="math">AC = 24 dm</span>. Raskime trikampio <span class="math">ABC</span> perimetrą.</p>
+      <p class="pvz">Kadangi <span class="math">D</span> — <span class="math">AB</span> vidurio taškas: <span class="math">AB = 2 · AD = 2 · 9 = 18</span> dm.<br>
+      Perimetras: <span class="math">P = AB + BC + AC = 18 + 17 + 24 = <b>59 dm</b></span>.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Lygiašonio trikampio pusiaukraštinė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Savybė.</span> Lygiašonio trikampio pusiaukraštinė, nubrėžta į <b>pagrindą</b>, sutampa su ta pačia atkarpa, kuri yra ir <span class="term-a">aukštinė</span>, ir <span class="term-a">pusiaukampinė</span>.</p>
+        <p>Todėl ši pusiaukraštinė yra <b>statmena</b> pagrindui ir sudaro su juo <span class="math">90°</span> kampą.</p>
+      </div>
+      <div class="brez-wrap">
+        <svg viewBox="0 0 240 180" class="brez">
+<line x1="30" y1="160" x2="210" y2="160" class="ln"/>
+<line x1="30" y1="160" x2="120" y2="20" class="ln"/>
+<line x1="210" y1="160" x2="120" y2="20" class="ln"/>
+<line x1="120" y1="20" x2="120" y2="160" class="ln-med"/>
+<path d="M 120 149 L 131 149 L 131 160" class="rt-mark"/>
+<line x1="75" y1="155" x2="75" y2="165" class="tick"/>
+<line x1="165" y1="155" x2="165" y2="165" class="tick"/>
+<circle cx="30" cy="160" r="3.2" class="pt"/>
+<circle cx="210" cy="160" r="3.2" class="pt"/>
+<circle cx="120" cy="20" r="3.2" class="pt"/>
+<circle cx="120" cy="160" r="3.2" class="pt-g"/>
+<text x="20" y="176" class="lbl-it" text-anchor="middle">B</text>
+<text x="220" y="176" class="lbl-it" text-anchor="middle">C</text>
+<text x="120" y="13" class="lbl-it" text-anchor="middle">A</text>
+<text x="120" y="176" class="lbl-it" text-anchor="middle">M</text>
+</svg>
+      </div>
+      <p class="pvz"><b>Pavyzdys.</b> Lygiašonio trikampio <span class="math">ABC</span> (<span class="math">AB = AC</span>) pusiaukraštinė <span class="math">AM</span> nubrėžta į pagrindą <span class="math">BC</span>. Žinoma: <span class="math">BM = 5</span> cm, <span class="math">AM = 12</span> cm. Kadangi <span class="math">∠AMB = 90°</span>, statųjį trikampį <span class="math">ABM</span> spręskime Pitagoro teorema:</p>
+      <p class="pvz"><span class="math">AB² = BM² + AM² = 5² + 12² = 25 + 144 = 169 ⟹ AB = 13 cm</span>.<br>
+      Kadangi <span class="math">AB = AC = 13</span> cm ir <span class="math">BC = 2 · BM = 10</span> cm, perimetras <span class="math">P = 13 + 13 + 10 = <b>36 cm</b></span>.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Pusiaukraštinė ir trikampių lygumas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pritaikymas įrodymuose.</span> Jei <span class="math">M</span> — kraštinės <span class="math">BC</span> vidurio taškas ir <span class="math">AM</span> — pusiaukraštinė, tai trikampiai <span class="math">ABM</span> ir <span class="math">ACM</span> turi:</p>
+        <p>bendrą kraštinę <span class="math">AM</span>, lygias kraštines <span class="math">BM = CM</span> (nes <span class="math">M</span> — vidurio taškas).</p>
+        <p>Jei papildomai žinoma, kad <span class="math">AB = AC</span> (lygiašonis trikampis), trikampiai <span class="math">ABM</span> ir <span class="math">ACM</span> yra lygūs pagal <b>I lygumo požymį</b> (dvi kraštinės ir kampas tarp jų).</p>
+      </div>
+      <div class="demesio"><b>Dėmesio.</b> Vien tai, kad <span class="math">BM = CM</span>, dar NEĮRODO, kad trikampiai <span class="math">ABM</span> ir <span class="math">ACM</span> lygūs — reikia dar bent vienos lygios poros (kraštinės ar kampo), kad tiktų lygumo požymis.</div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td><span class="klaida">Pusiaukraštinė — tai statmuo iš viršūnės į kraštinę</span></td><td><span class="gerai">Tai apibrėžimas AUKŠTINĖS</span>, o pusiaukraštinė eina į kraštinės VIDURIO tašką (ne būtinai statmenai)</td></tr>
+          <tr><td><span class="klaida">Žinant AD, kraštinė AB = AD (pamirštama padauginti iš 2)</span></td><td><span class="gerai">AB = 2 · AD</span>, nes D yra vidurio taškas ir AD = DB</td></tr>
+          <tr><td><span class="klaida">Trikampis turi tik vieną pusiaukraštinę</span></td><td><span class="gerai">Trikampis turi TRIS pusiaukraštines</span> — po vieną iš kiekvienos viršūnės, jos susikerta viename taške</td></tr>
+          <tr><td><span class="klaida">Bet kurio trikampio pusiaukraštinė yra ir aukštinė</span></td><td><span class="gerai">Tai galioja TIK lygiašonio trikampio</span> pusiaukraštinei, nubrėžtai į pagrindą</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Trikampio pusiaukraštinės" (7.3)
+  </footer>
+
+</div>
+</body>
+</html>

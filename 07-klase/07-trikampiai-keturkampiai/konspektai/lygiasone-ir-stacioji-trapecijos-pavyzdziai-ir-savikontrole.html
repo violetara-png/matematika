@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Lygiašonė ir stačioji trapecijos — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Lygiašonė ir stačioji trapecijos — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai“ · 7.10 tema · lygiašonės trapecijos kampai ir perimetras, stačiosios trapecijos kampai ir plotas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- ── 1 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Lygiašonės trapecijos kampai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> kampai prie kiekvieno pagrindo lygūs; kampai prie tos pačios šoninės sudaro 180°.</div>
+    <div class="ex">
+      <div class="q">Lygiašonės trapecijos kampas prie pagrindo ∠A = 68°.</div>
+      <div class="line">∠B = ∠A = <span class="res">68°</span> (lygus, tas pats pagrindas)</div>
+      <div class="line">∠D = 180° − 68° = <span class="res">112°</span> (papildo iki 180° per šoninę AD), ∠C = <span class="res">112°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Lygiašonės trapecijos perimetras</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> P = a + b + 2c (a,b — pagrindai, c — šoninė). Jei S = a+b, tai c = (P−S):2.</div>
+    <div class="ex">
+      <div class="q">Lygiašonės trapecijos perimetras P = 85 cm, pagrindų suma S = 57 cm.</div>
+      <div class="line">Šoninių suma: 85 − 57 = 28 cm</div>
+      <div class="line">Viena šoninė: 28 : 2 = <span class="res">14</span> cm</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Stačiosios trapecijos kampai</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> prie statmenos šoninės — du kampai po 90°; prie įžambios šoninės — kampai sudaro 180°.</div>
+    <div class="ex">
+      <div class="q">Stačiosios trapecijos ABCD šoninė AD statmena pagrindams. ∠B = 55°.</div>
+      <div class="line">∠A = ∠D = <span class="res">90°</span> (statmena šoninė AD)</div>
+      <div class="line">∠C = 180° − 55° = <span class="res">125°</span> (vidaus vienašalis su ∠B)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4 ── -->
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Stačiosios trapecijos plotas</div>
+  <div class="body math">
+    <div class="green" style="font-family:'Segoe UI',sans-serif"><b class="kw">Taisyklė:</b> statmena šoninė = aukštinė h. S = (a+b):2 · h.</div>
+    <div class="ex">
+      <div class="q">Stačiosios trapecijos pagrindai 10 cm ir 16 cm, statmena šoninė (aukštinė) 8 cm.</div>
+      <div class="line">S = (10 + 16) : 2 · 8 = 13 · 8 = <span class="res">104</span> cm²</div>
+    </div>
+    <div class="ex">
+      <div class="q">Stačiosios trapecijos plotas 90 cm², pagrindai 8 cm ir 12 cm.</div>
+      <div class="line">Aukštinė: h = 2 · 90 : (8 + 12) = 180 : 20 = <span class="res">9</span> cm</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> lygiašonei trapecijai naudok lygius kampus prie pagrindo ir P=a+b+2c; stačiajai — du statžius kampus ir S=(a+b):2·h. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">A. Lygiašonės trapecijos kampai (rask ∠B ir ∠D, kai duotas ∠A)</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>∠A = 72°</li>
+        <li>∠A = 65°</li>
+        <li>∠A = 80°</li>
+        <li>∠A = 55°</li>
+        <li>∠A = 63°</li>
+        <li>∠A = 48°</li>
+      </ol>
+    </div>
+
+    <div class="grp">B. Lygiašonės trapecijos perimetras (rask šoninę c)</div>
+    <div class="two">
+      <ol class="tasks math" start="7">
+        <li>P = 80 cm, S = 48 cm</li>
+        <li>P = 64 cm, S = 36 cm</li>
+        <li>P = 90 cm, S = 54 cm</li>
+        <li>P = 76 cm, S = 44 cm</li>
+        <li>P = 100 cm, S = 60 cm</li>
+        <li>P = 68 cm, S = 38 cm</li>
+      </ol>
+    </div>
+
+    <div class="grp">C. Stačiosios trapecijos kampai (rask likusius tris kampus, kai duotas ∠B prie ilgojo pagrindo)</div>
+    <div class="two">
+      <ol class="tasks math" start="13">
+        <li>∠B = 50°</li>
+        <li>∠B = 65°</li>
+        <li>∠B = 58°</li>
+        <li>∠B = 47°</li>
+        <li>∠B = 72°</li>
+        <li>∠B = 39°</li>
+      </ol>
+    </div>
+
+    <div class="grp">D. Stačiosios trapecijos plotas</div>
+    <div class="two">
+      <ol class="tasks math" start="19">
+        <li>a = 12 cm, b = 20 cm, h = 9 cm. Rask plotą.</li>
+        <li>a = 14 cm, b = 22 cm, h = 6 cm. Rask plotą.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks math" start="21">
+      <li>Lygiašonės trapecijos formos sklypo perimetras — 96 m, pagrindų suma — 60 m. Apskaičiuok, koks ilgis tvoros, jungiančios abu šonus sklypo (t. y. abi šonines kraštines kartu).</li>
+      <li>Stačiosios trapecijos formos sklypo pagrindai 15 m ir 25 m, statmena kraštinė (aukštinė) 12 m. Apskaičiuok sklypo plotą kvadratiniais metrais.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> ∠B=72°, ∠D=∠C=108° &nbsp;&nbsp; <b>2.</b> ∠B=65°, ∠D=∠C=115°</div>
+    <div class="row math"><b>3.</b> ∠B=80°, ∠D=∠C=100° &nbsp;&nbsp; <b>4.</b> ∠B=55°, ∠D=∠C=125°</div>
+    <div class="row math"><b>5.</b> ∠B=63°, ∠D=∠C=117° &nbsp;&nbsp; <b>6.</b> ∠B=48°, ∠D=∠C=132°</div>
+    <div class="row math"><b>7.</b> c=16 cm &nbsp;&nbsp; <b>8.</b> c=14 cm &nbsp;&nbsp; <b>9.</b> c=18 cm</div>
+    <div class="row math"><b>10.</b> c=16 cm &nbsp;&nbsp; <b>11.</b> c=20 cm &nbsp;&nbsp; <b>12.</b> c=15 cm</div>
+    <div class="row math"><b>13.</b> ∠A=∠D=90°, ∠C=130° &nbsp;&nbsp; <b>14.</b> ∠A=∠D=90°, ∠C=115°</div>
+    <div class="row math"><b>15.</b> ∠A=∠D=90°, ∠C=122° &nbsp;&nbsp; <b>16.</b> ∠A=∠D=90°, ∠C=133°</div>
+    <div class="row math"><b>17.</b> ∠A=∠D=90°, ∠C=108° &nbsp;&nbsp; <b>18.</b> ∠A=∠D=90°, ∠C=141°</div>
+    <div class="row math"><b>19.</b> S=(12+20):2·9=144 cm² &nbsp;&nbsp; <b>20.</b> S=(14+22):2·6=108 cm²</div>
+    <div class="row math"><b>21.</b> šoninė=(96−60):2=18 m &rArr; abi šoninės kartu = 36 m</div>
+    <div class="row math"><b>22.</b> S=(15+25):2·12=20·12=240 m²</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 7 klasės matematikos kursas · „Lygiašonė ir stačioji trapecijos“ (7.10) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

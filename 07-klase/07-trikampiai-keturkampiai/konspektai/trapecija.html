@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trapecija — 7 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  .brez{text-align:center; margin:10px 0}
+  .brez svg{background:#fff}
+  .s-side{stroke:#1c2430; stroke-width:2.4; fill:none}
+  .s-mark{stroke:#c62828; stroke-width:2}
+  .s-arc{stroke:#0a7d52; stroke-width:2; fill:none}
+  .s-diag{stroke:#1e5fa8; stroke-width:1.6; stroke-dasharray:4 3; fill:none}
+  .s-arrow{stroke:#0a7d52; stroke-width:2.2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .brez text{font-size:14px; font-style:italic; fill:#1c2430}
+  .brez .lbl{font-size:12px; font-style:normal; fill:var(--demesio); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Trapecija</h1>
+  <p class="klase">Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai“ · 7.9 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Apibrėžimas. Pagrindai ir šoninės kraštinės</a></li>
+      <li><a href="#t2">Trapecija ir lygiagretainis. Kuo skiriasi</a></li>
+      <li><a href="#t3">Kampai prie šoninės kraštinės</a></li>
+      <li><a href="#t4">Visų keturkampio kampų suma</a></li>
+      <li><a href="#t5">Perimetras</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Apibrėžimas. Pagrindai ir šoninės kraštinės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b class="term-a">Trapecija</b> — keturkampis <span class="math">ABCD</span>, kurio <b>viena</b> priešingų kraštinių pora <b>lygiagreti</b>, o kita — <b>ne</b>:</p>
+        <div class="formule math">AB ∥ DC</div>
+        <p>Lygiagrečios kraštinės <span class="math">AB</span> ir <span class="math">DC</span> vadinamos <b class="term-a">pagrindais</b>. Kitos dvi kraštinės, <span class="math">AD</span> ir <span class="math">BC</span>, kurios <b>nelygiagrečios</b>, vadinamos <b class="term-b">šoninėmis kraštinėmis</b>.</p>
+        <div class="brez">
+          <svg width="300" height="170" viewBox="0 0 300 170">
+            <polygon points="50,130 230,130 180,60 100,60" class="s-side"/>
+            <polyline points="138,125 146,130 138,135" class="s-arrow"/>
+            <polyline points="138,55 146,60 138,65" class="s-arrow"/>
+            <text x="35" y="148">A</text><text x="234" y="148">B</text><text x="184" y="52">C</text><text x="82" y="52">D</text>
+          </svg>
+        </div>
+        <p class="pvz"><b>Kaip skaityti brėžinį.</b> Vienoda rodyklė (»&nbsp;viena eilutė) ant pagrindų <span class="math">AB</span> ir <span class="math">DC</span> reiškia, kad jie lygiagretūs tarpusavyje. Ant šoninių kraštinių <span class="math">AD</span> ir <span class="math">BC</span> rodyklių <b>nėra</b> — jos nelygiagrečios.</p>
+        <p class="demesio"><b>Dėmesio.</b> Apibrėžime svarbus žodis „tik“: trapecijoje lygiagreti <b>tik viena</b> kraštinių pora. Jei lygiagrečios būtų <b>abi</b> poros, keturkampis būtų ne trapecija, o lygiagretainis (kita tema).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Trapecija ir lygiagretainis. Kuo skiriasi</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Trapecija ir lygiagretainis abu yra keturkampiai su lygiagrečia kraštinių pora, bet jų savybės <b class="term-b">skiriasi</b>:</p>
+        <table class="kort">
+          <tr><th>Savybė</th><th>Lygiagretainis</th><th>Trapecija</th></tr>
+          <tr><td>Lygiagrečios kraštinių poros</td><td class="gerai">dvi (abi poros)</td><td class="gerai">viena (pagrindai)</td></tr>
+          <tr><td>Šoninės (nelygiagrečios) kraštinės</td><td>—</td><td>gali būti <b>skirtingo</b> ilgio</td></tr>
+          <tr><td>Priešingi kampai</td><td class="gerai">lygūs</td><td class="klaida">bendros taisyklės nėra</td></tr>
+          <tr><td>Gretimų kampų (prie tos pačios kraštinės) suma</td><td class="math">180°</td><td class="math">180° (tik prie šoninės)</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdys.</b> Jei keturkampio <span class="math">ABCD</span> kraštinė <span class="math">AB ∥ DC</span>, bet <span class="math">AD</span> ir <span class="math">BC</span> nelygiagrečios — tai <b>trapecija</b>, ne lygiagretainis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kampai prie šoninės kraštinės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kampai, esantys prie <b class="term-a">tos pačios šoninės kraštinės</b>, yra vidaus vienašaliai kampai prie lygiagrečių pagrindų <span class="math">AB</span> ir <span class="math">DC</span>. Jų suma visada lygi <span class="math">180°</span>:</p>
+        <div class="formule math">∠A + ∠D = 180°&nbsp;&nbsp;(šoninė AD)&nbsp;&nbsp;&nbsp;&nbsp;∠B + ∠C = 180°&nbsp;&nbsp;(šoninė BC)</div>
+        <div class="brez">
+          <svg width="300" height="170" viewBox="0 0 300 170">
+            <polygon points="50,130 230,130 180,60 100,60" class="s-side"/>
+            <path class="s-arc" d="M 68 130 A 18 18 0 0 0 60.5 115.4"/>
+            <path class="s-arc" d="M 89.5 74.6 A 18 18 0 0 0 118 60"/>
+            <text x="35" y="148">A</text><text x="234" y="148">B</text><text x="184" y="52">C</text><text x="82" y="52">D</text>
+            <text class="lbl" x="73" y="122">∠A</text>
+            <text class="lbl" x="86" y="90">∠D</text>
+          </svg>
+        </div>
+        <p class="pvz"><b>Pavyzdys.</b> Trapecijos <span class="math">ABCD</span> kampas <span class="math">∠A = 65°</span> (prie šoninės kraštinės <span class="math">AD</span>). Raskite kampą <span class="math">∠D</span>.</p>
+        <p class="pvz"><span class="math">∠D = 180° − ∠A = 180° − 65° = <b>115°</b></span> (kampai prie šoninės <span class="math">AD</span> papildo iki 180°).</p>
+        <p class="demesio"><b>Dėmesio.</b> Skirtingai nuo lygiagretainio, trapecijoje <b>nėra</b> taisyklės „priešingi kampai lygūs“. Kampas <span class="math">∠C</span> šiuo atveju <b>nežinomas</b> — jam rasti reikia atskiros informacijos (pvz. kampo prie šoninės <span class="math">BC</span>).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Visų keturkampio kampų suma</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Bet kurio keturkampio, taigi ir trapecijos, <b class="term-a">vidaus kampų suma</b> visada lygi <span class="math">360°</span>:</p>
+        <div class="formule math">∠A + ∠B + ∠C + ∠D = 360°</div>
+        <p>Todėl, jei žinomi <b>trys</b> trapecijos kampai, ketvirtąjį randame atimdami jų sumą iš <span class="math">360°</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Trapecijos <span class="math">ABCD</span> kampai <span class="math">∠A = 80°</span>, <span class="math">∠B = 95°</span>, <span class="math">∠C = 65°</span>. Raskite kampą <span class="math">∠D</span>.</p>
+        <p class="pvz"><span class="math">∠D = 360° − (∠A + ∠B + ∠C) = 360° − (80° + 95° + 65°) = 360° − 240° = <b>120°</b></span>.</p>
+        <p class="pvz">Patikra: <span class="math">80° + 95° + 65° + 120° = 360°</span> ✓.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Perimetras</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b class="term-b">Perimetrą</b> apskaičiuojame sudėję visų keturių kraštinių — dviejų pagrindų <span class="math">a</span>, <span class="math">b</span> ir dviejų šoninių kraštinių <span class="math">c</span>, <span class="math">d</span> — ilgius:</p>
+        <div class="formule math">P = (a + b) + (c + d)</div>
+        <div class="brez">
+          <svg width="300" height="170" viewBox="0 0 300 170">
+            <polygon points="50,130 230,130 180,60 100,60" class="s-side"/>
+            <polyline points="138,125 146,130 138,135" class="s-arrow"/>
+            <polyline points="138,55 146,60 138,65" class="s-arrow"/>
+            <text x="35" y="148">A</text><text x="234" y="148">B</text><text x="184" y="52">C</text><text x="82" y="52">D</text>
+            <text class="lbl" x="135" y="146">a</text>
+            <text class="lbl" x="132" y="46">b</text>
+            <text class="lbl" x="62" y="100">c</text>
+            <text class="lbl" x="205" y="100">d</text>
+          </svg>
+        </div>
+        <p class="pvz"><b>Pavyzdys.</b> Trapecijos pagrindų ilgių suma <span class="math">a + b = 80</span> cm, šoninių kraštinių ilgių suma <span class="math">c + d = 46</span> cm.</p>
+        <p class="pvz">Perimetras: <span class="math">P = (a+b) + (c+d) = 80 + 46 = <b>126</b></span> cm.</p>
+        <p class="pvz" style="margin-top:14px"><b>Pavyzdys (kraštinės atskirai).</b> Pagrindai <span class="math">34</span> cm ir <span class="math">21</span> cm, šoninės kraštinės <span class="math">18</span> cm ir <span class="math">15</span> cm.</p>
+        <p class="pvz">Perimetras: <span class="math">P = 34 + 21 + 18 + 15 = <b>88</b></span> cm.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">abi kraštinių poros lygiagrečios</span></td><td class="math"><span class="gerai">tik viena pora</span> (pagrindai) lygiagreti</td></tr>
+          <tr><td class="math"><span class="klaida">priešingi kampai lygūs (kaip lygiagretainyje)</span></td><td class="math"><span class="gerai">tokios taisyklės NĖRA</span>, tik ∠A+∠D=180° ir ∠B+∠C=180°</td></tr>
+          <tr><td class="math"><span class="klaida">šoninės kraštinės visada lygios</span></td><td class="math"><span class="gerai">paprastai NELYGIOS</span> (lygios tik lygiašonėje trapecijoje)</td></tr>
+          <tr><td class="math"><span class="klaida">kampų prie šoninės suma = 360°</span></td><td class="math"><span class="gerai">180°</span>, nes tai vidaus vienašaliai kampai prie pagrindų</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Trapecija apibrėžiama per <b>vienintelę</b> lygiagrečią kraštinių porą — pagrindus. Kampų taisyklė (180° prie šoninės) ir perimetro formulė — tai <b>išvados</b> iš šio apibrėžimo ir bendros keturkampio kampų sumos (360°), o ne atskiri, nesusiję faktai.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 7 klasės matematikos kursas · tema „Trapecija“ (7.9)
+  </footer>
+
+</div>
+</body>
+</html>
