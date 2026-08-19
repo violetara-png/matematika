@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · 1.2.2 Rašome natūraliuosius skaičius · 5 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:12.5px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:22px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.title{width:130px;font-weight:700;font-size:11.5px;color:var(--accent)}
+  td.eq{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#333}
+  td.sol{color:#333;font-family:'Segoe UI',sans-serif;font-size:11px}
+  td.x{width:36px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:11.5px} .variant{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>1.2.2 Rašome natūraliuosius skaičius</b> · 5 klasė · Raštininko dirbtuvė · 6 skrynelės · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 6 skaičių rašymo mįsles iš eilės (žodžiai → skaitmenys, žodžių skaičius užrašant,
+    santrumpos mln./tūkst., skyrių dešimtainė suma, milijardai, klasių šifras). Kiekvienos mįslės
+    atsakymas yra vienas dirbtuvės kodo skaitmuo (iš eilės nuo 1 iki 6 skrynelės). Surinkęs visą
+    kodą ir įvedęs jį į duris, mokinys „pabėga". Skirtingi variantai turi kitus skaičius ir kitą
+    kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 18 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvienos skrynelės.</li>
+      <li>Galima spręsti komandomis po 2 — vienas skaičiuoja, kitas tikrina.</li>
+      <li>Skrynelės 1–2 apie žodžių ir skaitmenų vertimą abiem kryptimis, 3 — apie santrumpas
+        (mln., tūkst.), 4 — apie skyrių (dešimtainę) sumą, 5–6 — sunkesnės, su milijardais ir
+        klasių šifru.</li>
+      <li>Priminkite: kiekvieną klasę (milijardų, milijonų, tūkstančių, vienetų) sudaro TRYS
+        skyriai (šimtų, dešimčių, vienetų); trūkstamus skyrius visada užpildome nuliais.</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+const VARIANTS = [
+ { code:"456453", rows:[
+   [1,"Pirmoji spyna: žodžiai virsta skaitmenimis","Skaičius žodžiais: „devyni milijonai keturi šimtai septyniasdešimt tūkstančių du\". Koks skaitmuo yra šio skaičiaus ŠIMTŲ TŪKSTANČIŲ skyriuje?","Žodžiai → 9 470 002 (9 mln. + 470 tūkst. + 2). Šimtų tūkstančių skyrius (antras skaitmuo) = 4.",4],
+   [2,"Antroji spyna: kiek žodžių prireiks","6 084 000 — užrašius žodžiais, iš kiek žodžių susidarys užrašymas?","6 084 000 = „šeši milijonai aštuoniasdešimt keturi tūkstančiai\" → šeši, milijonai, aštuoniasdešimt, keturi, tūkstančiai = 5 žodžiai.",5],
+   [3,"Trečioji spyna: santrumpų iššifravimas","5 mln. 60 tūkst. — užrašyk pilnai skaitmenimis. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","5 mln. 60 tūkst. = 5 000 000 + 60 000 = 5 060 000. Dešimčių tūkstančių skyrius = 6.",6],
+   [4,"Ketvirtoji spyna: skyrių sumos dėmenys","3 040 502 — užrašyk skyrių (dešimtainių dėmenų) suma. Iš kiek dėmenų ji susidarys?","3 040 502 = 3·1 000 000 + 4·10 000 + 5·100 + 2 → 4 nenuliniai dėmenys.",4],
+   [5,"Penktoji spyna: milijardų mįslė","Žodžiais: „keturi milijardai penki šimtai milijonų aštuoniolika tūkstančių\". Koks skaitmuo yra ŠIMTŲ MILIJONŲ skyriuje?","4 mlrd. + 500 mln. + 18 tūkst. = 4 500 018 000. Šimtų milijonų skyrius (antras skaitmuo) = 5.",5],
+   [6,"Šeštoji spyna: paskutinis šifras","Milijonų klasėje tik šimtų skyrius = 6 (kiti — 0), visa tūkstančių klasė = 3, vienetų klasėje tik vienetų skyrius = 9. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","Skaičius = 600 333 009. Tūkstančių klasė „333\" — dešimčių tūkstančių skyrius = 3.",3],
+ ]},
+ { code:"342325", rows:[
+   [1,"Pirmoji spyna: žodžiai virsta skaitmenimis","Skaičius žodžiais: „aštuoni milijonai trys šimtai penkiasdešimt tūkstančių keturiasdešimt vienas\". Koks skaitmuo yra šio skaičiaus ŠIMTŲ TŪKSTANČIŲ skyriuje?","Žodžiai → 8 350 041 (8 mln. + 350 tūkst. + 41). Šimtų tūkstančių skyrius = 3.",3],
+   [2,"Antroji spyna: kiek žodžių prireiks","5 090 000 — užrašius žodžiais, iš kiek žodžių susidarys užrašymas?","5 090 000 = „penki milijonai devyniasdešimt tūkstančių\" → penki, milijonai, devyniasdešimt, tūkstančių = 4 žodžiai.",4],
+   [3,"Trečioji spyna: santrumpų iššifravimas","3 mln. 420 tūkst. — užrašyk pilnai skaitmenimis. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","3 mln. 420 tūkst. = 3 000 000 + 420 000 = 3 420 000. Dešimčių tūkstančių skyrius = 2.",2],
+   [4,"Ketvirtoji spyna: skyrių sumos dėmenys","6 007 040 — užrašyk skyrių (dešimtainių dėmenų) suma. Iš kiek dėmenų ji susidarys?","6 007 040 = 6·1 000 000 + 7·1 000 + 4·10 → 3 nenuliniai dėmenys.",3],
+   [5,"Penktoji spyna: milijardų mįslė","Žodžiais: „septyni milijardai du šimtai milijonų šeši tūkstančiai\". Koks skaitmuo yra ŠIMTŲ MILIJONŲ skyriuje?","7 mlrd. + 200 mln. + 6 tūkst. = 7 200 006 000. Šimtų milijonų skyrius = 2.",2],
+   [6,"Šeštoji spyna: paskutinis šifras","Milijonų klasėje tik šimtų skyrius = 8 (kiti — 0), visa tūkstančių klasė = 5, vienetų klasėje tik vienetų skyrius = 1. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","Skaičius = 800 555 001. Tūkstančių klasė „555\" — dešimčių tūkstančių skyrius = 5.",5],
+ ]},
+ { code:"270597", rows:[
+   [1,"Pirmoji spyna: žodžiai virsta skaitmenimis","Skaičius žodžiais: „šeši milijonai du šimtai aštuoniasdešimt tūkstančių penkiolika\". Koks skaitmuo yra šio skaičiaus ŠIMTŲ TŪKSTANČIŲ skyriuje?","Žodžiai → 6 280 015 (6 mln. + 280 tūkst. + 15). Šimtų tūkstančių skyrius = 2.",2],
+   [2,"Antroji spyna: kiek žodžių prireiks","8 231 000 — užrašius žodžiais, iš kiek žodžių susidarys užrašymas?","8 231 000 = „aštuoni milijonai du šimtai trisdešimt vienas tūkstantis\" → aštuoni, milijonai, du, šimtai, trisdešimt, vienas, tūkstantis = 7 žodžiai.",7],
+   [3,"Trečioji spyna: santrumpų iššifravimas","9 mln. 705 tūkst. — užrašyk pilnai skaitmenimis. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","9 mln. 705 tūkst. = 9 000 000 + 705 000 = 9 705 000. Dešimčių tūkstančių skyrius = 0.",0],
+   [4,"Ketvirtoji spyna: skyrių sumos dėmenys","8 340 065 — užrašyk skyrių (dešimtainių dėmenų) suma. Iš kiek dėmenų ji susidarys?","8 340 065 = 8·1 000 000 + 3·100 000 + 4·10 000 + 6·10 + 5 → 5 nenuliniai dėmenys.",5],
+   [5,"Penktoji spyna: milijardų mįslė","Žodžiais: „trys milijardai devyni šimtai milijonų keturiasdešimt tūkstančių\". Koks skaitmuo yra ŠIMTŲ MILIJONŲ skyriuje?","3 mlrd. + 900 mln. + 40 tūkst. = 3 900 040 000. Šimtų milijonų skyrius = 9.",9],
+   [6,"Šeštoji spyna: paskutinis šifras","Milijonų klasėje tik šimtų skyrius = 2 (kiti — 0), visa tūkstančių klasė = 7, vienetų klasėje tik vienetų skyrius = 4. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","Skaičius = 200 777 004. Tūkstančių klasė „777\" — dešimčių tūkstančių skyrius = 7.",7],
+ ]},
+ { code:"163261", rows:[
+   [1,"Pirmoji spyna: žodžiai virsta skaitmenimis","Skaičius žodžiais: „septyni milijonai šimtas devyniasdešimt tūkstančių trisdešimt du\". Koks skaitmuo yra šio skaičiaus ŠIMTŲ TŪKSTANČIŲ skyriuje?","Žodžiai → 7 190 032 (7 mln. + 190 tūkst. + 32). Šimtų tūkstančių skyrius = 1.",1],
+   [2,"Antroji spyna: kiek žodžių prireiks","4 512 000 — užrašius žodžiais, iš kiek žodžių susidarys užrašymas?","4 512 000 = „keturi milijonai penki šimtai dvylika tūkstančių\" → keturi, milijonai, penki, šimtai, dvylika, tūkstančių = 6 žodžiai.",6],
+   [3,"Trečioji spyna: santrumpų iššifravimas","2 mln. 830 tūkst. — užrašyk pilnai skaitmenimis. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","2 mln. 830 tūkst. = 2 000 000 + 830 000 = 2 830 000. Dešimčių tūkstančių skyrius = 3.",3],
+   [4,"Ketvirtoji spyna: skyrių sumos dėmenys","5 020 000 — užrašyk skyrių (dešimtainių dėmenų) suma. Iš kiek dėmenų ji susidarys?","5 020 000 = 5·1 000 000 + 2·10 000 → 2 nenuliniai dėmenys.",2],
+   [5,"Penktoji spyna: milijardų mįslė","Žodžiais: „šeši milijardai šeši šimtai milijonų šimtas tūkstančių\". Koks skaitmuo yra ŠIMTŲ MILIJONŲ skyriuje?","6 mlrd. + 600 mln. + 100 tūkst. = 6 600 100 000. Šimtų milijonų skyrius = 6.",6],
+   [6,"Šeštoji spyna: paskutinis šifras","Milijonų klasėje tik šimtų skyrius = 9 (kiti — 0), visa tūkstančių klasė = 1, vienetų klasėje tik vienetų skyrius = 6. Koks skaitmuo yra DEŠIMČIŲ TŪKSTANČIŲ skyriuje?","Skaičius = 900 111 006. Tūkstančių klasė „111\" — dešimčių tūkstančių skyrius = 1.",1],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Stotelė</th><th>Uždavinys</th><th>Sprendimas</th><th>Ats.</th></tr>
+      ${v.rows.map(r=>`<tr>
+          <td class="n">${r[0]}</td>
+          <td class="title">${r[1]}</td>
+          <td class="eq">${r[2]}</td>
+          <td class="sol">${r[3]}</td>
+          <td class="x">${r[4]}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Dirbtuvės kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
