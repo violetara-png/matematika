@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Realiojo skaičiaus modulis — įsivertinimo testas</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --green:#0a7d52; --green-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --red:#c62828; --red-sv:#fdecec;
+    --ink:#1c2430; --grey:#5b6472; --line:#d8dee6;
+    --gold:#c9930a;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);line-height:1.5;margin:0;background:#f4f6f9}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .lapas{max-width:880px;margin:0 auto;padding:0 20px 60px}
+  header.top{background:var(--tema);color:#fff;padding:28px 20px 22px;margin-bottom:0}
+  header.top .inner{max-width:840px;margin:0 auto}
+  header.top h1{margin:0 0 6px;font-size:26px}
+  header.top p{margin:0;color:#cfe0f4;font-size:14px;font-weight:600}
+  .instr{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--grey)}
+  .instr b{color:var(--tema)}
+  .score-bar{position:sticky;top:0;z-index:20;background:#fff;border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 2px 10px rgba(20,40,90,.08);padding:12px 18px;margin:14px 0 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .score-bar .pts{font-size:20px;font-weight:800;color:var(--tema)}
+  .score-bar .sub{font-size:13px;color:var(--grey);font-weight:600}
+  .score-bar .bar{flex:1;min-width:140px;height:10px;background:var(--tema-sv);border-radius:6px;overflow:hidden}
+  .score-bar .bar>div{height:100%;background:var(--green);width:0%;transition:width .25s}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(20,40,90,.06)}
+  .card .banner{background:var(--tema);color:#fff;padding:9px 16px;font-weight:700;font-size:13.5px;display:flex;gap:10px;align-items:center}
+  .card .banner .badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;
+    background:rgba(255,255,255,.22);border-radius:6px;font-size:12px;font-weight:800;padding:0 5px}
+  .card .body{padding:14px 18px 16px}
+  .given{font-size:15.5px;margin:0 0 12px}
+  .fieldrow{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+  .fieldrow label{font-weight:700;color:var(--tema);min-width:70px}
+  .fieldrow input{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:15px;padding:7px 10px;
+    border:1.5px solid var(--line);border-radius:7px;width:220px;max-width:60vw}
+  .fieldrow input:focus{outline:none;border-color:var(--tema)}
+  .insb{border:1.5px solid var(--line);background:#fbfcfe;border-radius:7px;width:34px;height:34px;
+    font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;color:var(--tema);cursor:pointer}
+  .insb:hover{background:var(--tema-sv)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .opt{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:8px 12px;cursor:pointer;
+    font-size:14.5px;display:flex;gap:6px;align-items:center;user-select:none}
+  .opt .k{font-weight:800;color:var(--tema)}
+  .opt.sel{border-color:var(--tema);background:var(--tema-sv)}
+  .opt.locked{cursor:default}
+  .actions{margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  button.check{background:var(--tema);color:#fff;border:0;border-radius:8px;padding:8px 18px;font-size:14px;
+    font-weight:700;cursor:pointer}
+  button.check:hover{background:#174e8c}
+  button.check:disabled{background:#b7c4d8;cursor:default}
+  .fb{font-weight:700;font-size:14.5px;padding:8px 12px;border-radius:8px;display:none}
+  .fb.ok{display:block;background:var(--green-sv);color:var(--green)}
+  .fb.bad{display:block;background:var(--red-sv);color:var(--red)}
+  .fb .ans{font-weight:800}
+
+  .result{background:linear-gradient(135deg,var(--tema),#123f70);color:#fff;border-radius:14px;
+    padding:26px 26px 22px;margin:26px 0;text-align:center}
+  .result h2{margin:0 0 10px;font-size:19px;color:#cfe0f4;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+  .result .grade{font-size:64px;font-weight:900;color:#ffe08a;line-height:1}
+  .result .row{margin-top:10px;font-size:16px;color:#eaf1fb}
+  .result .comment{margin-top:12px;font-size:14.5px;color:#dbe7f7;font-style:italic}
+  .result .warn{margin-top:10px;font-size:13px;color:#ffd9a0}
+
+  footer{text-align:center;color:var(--grey);font-size:12px;margin-top:10px;padding-top:14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="inner">
+  <h1>Realiojo skaičiaus modulis — įsivertinimo testas</h1>
+  <p>Matematika · 11 klasė · A kursas · 1 skyrius „Skaičiai ir skaičiavimai I“ · 1.2 tema</p>
+</div></header>
+
+<div class="lapas">
+
+  <div class="instr">
+    <b>Kaip naudotis.</b> Spręsk pratimus bet kokia tvarka. Kiekvieną pratimą patikrink mygtuku „Tikrinti“ — iškart pamatysi, ar teisingai, ir teisingą atsakymą. Kiekvienas pratimas vertas 1 tašką (jei pratime kelios dalys — taškas skiriamas tik kai <b>visos</b> dalys teisingos). Rezultatas ir pažymys apačioje atsinaujina automatiškai. Niekur nesiunčiama — testas skirtas tik tavo pačio pasitikrinimui.
+  </div>
+
+  <div class="score-bar">
+    <div class="pts">🎯 <span id="scoreNow">0</span> / <span id="scoreMax">0</span> t.</div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="sub">Patikrinta: <span id="doneCount">0</span>/<span id="doneMax">0</span></div>
+  </div>
+
+  <div id="exercises"></div>
+
+  <div class="result" id="resultBox">
+    <h2>Bendras rezultatas</h2>
+    <div class="grade" id="gradeOut">—</div>
+    <div class="row"><span id="ptsOut">0 / 0</span> taškų &nbsp;·&nbsp; <span id="pctOut">0%</span></div>
+    <div class="comment" id="commentOut"></div>
+    <div class="warn" id="warnOut"></div>
+  </div>
+
+  <footer>Mokytoja Violeta · 11 klasės A kurso matematika · „Realiojo skaičiaus modulis“ · įsivertinimo testas</footer>
+</div>
+
+<script>
+const EXERCISES = [{"kicker": "√(a²) = |a|", "given": "Suprastink reiškinį: <span class=\"math\">√((16 − √13)²) − √((√13 − 3)²)</span>.", "type": "fields", "fields": [{"label": "=", "kind": "expr", "ans": "19-2√13"}]}, {"kicker": "Reiškinys su kintamuoju", "given": "Suprastink reiškinį <span class=\"math\">|12 − x| + |x − 18|</span>, kai <span class=\"math\">12 &lt; x &lt; 18</span>.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": 6}]}, {"kicker": "Kelių modulių reiškinys", "given": "Apskaičiuok: <span class=\"math\">|−5 − π| − |π + 5| + π − (−1/5)⁻¹</span>.", "type": "fields", "fields": [{"label": "=", "kind": "expr", "ans": "π+5"}]}, {"kicker": "Kurie teiginiai teisingi?", "given": "Pažymėk <b>visus</b> teisingus teiginius.", "type": "multi", "options": [{"k": "A", "t": "|−15| − (−15) = 0"}, {"k": "B", "t": "|2 − 15|² = (2 − 15)²"}, {"k": "C", "t": "|−15| − |15| = 0"}, {"k": "D", "t": "|2 − 15| − |15 − 2| = 0"}, {"k": "E", "t": "|2 − 15| + |15 − 2| = 0"}], "correct": ["B", "C", "D"]}, {"kicker": "√(a²) = |a|", "given": "Suprastink reiškinį: <span class=\"math\">√((√24 − 10)²) − √((2 − √24)²)</span>.", "type": "fields", "fields": [{"label": "=", "kind": "expr", "ans": "12-4√6"}]}, {"kicker": "Reiškinys su kintamuoju", "given": "Suprastink reiškinį <span class=\"math\">|x − 6| − |20 − x|</span>, kai <span class=\"math\">x &lt; 6</span>.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": -14}]}, {"kicker": "Modulis su iracionaliaisiais", "given": "Apskaičiuokite reiškinio <span class=\"math\">|√2 − 3| − |√2 − 2| + 1</span> reikšmę.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": 2}]}, {"kicker": "√(a²) = |a|", "given": "Apskaičiuokite reiškinio <span class=\"math\">2 − √((2 − √5)²) + √((√5 − 2)²)</span> reikšmę.", "type": "mc", "options": [{"k": "A", "t": "2"}, {"k": "B", "t": "2√5 − 2"}, {"k": "C", "t": "4"}, {"k": "D", "t": "2√5 − 2"}], "correct": "A"}, {"kicker": "√(a²) ir ∛(a³)", "given": "Apskaičiuokite reiškinio <span class=\"math\">√((2√5 − 5)²) + ∛((2√5 − 5)³)</span> reikšmę.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": 0}]}, {"kicker": "Reiškinys su dviem kintamaisiais", "given": "Suprastinkite reiškinį <span class=\"math\">2|x − y| − 3|y − x|</span>, kai <span class=\"math\">x &gt; y</span>.", "type": "mc", "options": [{"k": "A", "t": "x − y"}, {"k": "B", "t": "−x"}, {"k": "C", "t": "y − x"}, {"k": "D", "t": "−y"}], "correct": "C"}, {"kicker": "Trupmena su moduliu", "given": "Suprastinkite reiškinį <span class=\"math\">(1 − |x − 1|) / (2 − |2 − x|)</span>, kai <span class=\"math\">x &lt; 0</span>.", "type": "mc", "options": [{"k": "A", "t": "−1"}, {"k": "B", "t": "1"}, {"k": "C", "t": "1/2"}, {"k": "D", "t": "2"}], "correct": "B"}, {"kicker": "Koeficientų radimas", "given": "Žemiau pateiktame reiškinyje nustatykite koeficientų a ir b reikšmes: <span class=\"math\">200|π − 4| − 100|π − 3| = a + b·π</span>. Nurodykite a+b reikšmę.", "type": "fields", "fields": [{"label": "a+b =", "kind": "number", "ans": 800}]}, {"kicker": "Trupmena su moduliu", "given": "Suprastinkite reiškinį <span class=\"math\">(5 − 5|x + 4|) / (2|x − 4| − 18)</span>, kai <span class=\"math\">x &lt; −5</span>.", "type": "mc", "options": [{"k": "A", "t": "−1,5"}, {"k": "B", "t": "−2,5"}, {"k": "C", "t": "−3,5"}, {"k": "D", "t": "−4,5"}], "correct": "B"}, {"kicker": "Lyginė ir nelyginė šaknis", "given": "Suprastinkite reiškinį <span class=\"math\">⁶√((x − 7)⁶) + ⁵√((x − 7)⁵)</span>, kai <span class=\"math\">x &lt; 7</span>.", "type": "mc", "options": [{"k": "A", "t": "2x + 14"}, {"k": "B", "t": "14"}, {"k": "C", "t": "−2x"}, {"k": "D", "t": "0"}], "correct": "D"}, {"kicker": "Šaknis ir modulis kartu", "given": "Suprastinkite reiškinį <span class=\"math\">√(x² + 7x²/9) − |x|/3</span>, kai <span class=\"math\">x &lt; 0</span>.", "type": "mc", "options": [{"k": "A", "t": "−x"}, {"k": "B", "t": "x"}, {"k": "C", "t": "−2x"}, {"k": "D", "t": "2x"}], "correct": "A"}, {"kicker": "√(a²) = |a|", "given": "Apskaičiuokite reiškinio <span class=\"math\">√((2 − 2√2)²) − √((√2 − 2)²) − √18</span> reikšmę.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": -4}]}, {"kicker": "Pilnas kvadratas po šaknimi", "given": "Suprastinkite reiškinį <span class=\"math\">√(x² − 6x + 9) − √((x + 4)² − 16x)</span>, kai <span class=\"math\">x &lt; 3</span>.", "type": "mc", "options": [{"k": "A", "t": "2x − 7"}, {"k": "B", "t": "−7"}, {"k": "C", "t": "−2x + 7"}, {"k": "D", "t": "−1"}], "correct": "D"}, {"kicker": "Pilnas kvadratas po šaknimi", "given": "Suprastink reiškinį <span class=\"math\">a + √(1 − 4a + 4a²)</span>, kai <span class=\"math\">a &gt; 1/2</span>.", "type": "fields", "fields": [{"label": "=", "kind": "expr", "ans": "3a-1", "testPoints": [{"a": 1}, {"a": 2}, {"a": 5}]}]}, {"kicker": "√(a²) = |a|", "given": "Apskaičiuok: <span class=\"math\">√((5 − √29)²) + √((√29 − 6)²)</span>.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": 1}]}, {"kicker": "Įdėtosios šaknys", "given": "Suprastink reiškinį: <span class=\"math\">√(4 − 2√3) − √(7 − 4√3)</span>.", "type": "fields", "fields": [{"label": "=", "kind": "expr", "ans": "2√3-3"}]}, {"kicker": "Šaknis ir 4-ojo laipsnio šaknis", "given": "Apskaičiuok: <span class=\"math\">√((√3 − 2)²) + ⁴√9</span>.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": 2}]}, {"kicker": "Modulis ir dalyba", "given": "Apskaičiuok reiškinio <span class=\"math\">√((x − 1)²) / (x − 1)</span> reikšmę, kai <span class=\"math\">x ∈ (−∞; 1)</span>.", "type": "fields", "fields": [{"label": "=", "kind": "number", "ans": -1}]}];
+const GRADE_SCALE = [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]];
+const COMMENTS = [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti su kontrolinio treniruokliu."]];
+
+const state = EXERCISES.map(()=>({checked:false, correct:false}));
+
+function normNum(s){
+  s = String(s).trim().replace(/−/g,'-');
+  if(s==='') return null;
+  const n = parseInt(s,10);
+  return isNaN(n) ? null : n;
+}
+function normSet(s){
+  s = String(s).replace(/−/g,'-').replace(/[{}]/g,'').trim();
+  if(s==='') return null;
+  const parts = s.split(/[;,]/).map(x=>x.trim()).filter(x=>x!=='');
+  const nums = parts.map(x=>parseInt(x,10));
+  if(nums.some(isNaN)) return null;
+  return nums.slice().sort((a,b)=>a-b);
+}
+function arrEq(a,b){
+  if(!a || !b || a.length!==b.length) return false;
+  return a.every((v,i)=>v===b[i]);
+}
+function normInterval(s){
+  s = String(s).replace(/−/g,'-').replace(/\s+/g,'').replace(/∞/g,'inf');
+  if(s.length<3) return null;
+  const open = s[0], close = s[s.length-1];
+  if(!'[('.includes(open) || !'])'.includes(close)) return null;
+  const inner = s.slice(1,-1);
+  const parts = inner.split(/[;,]/);
+  if(parts.length!==2) return null;
+  const a = parts[0], b = parts[1];
+  if(a==='' || b==='') return null;
+  return open+a+';'+b+close;
+}
+
+// --- 'expr' kind: algebrinės išraiškos tikrinamos SKAIČIUOJANT (ne teksto atitikimu),
+// kad "19-2√13" ir "-2√13+19" būtų priimami kaip lygiaverčiai.
+function exprTokenize(s){
+  s = String(s).trim();
+  const toks = []; let i = 0;
+  while(i < s.length){
+    const c = s[i];
+    if(/\s/.test(c)){ i++; continue; }
+    if(c === '√'){ toks.push({t:'SQRT'}); i++; continue; }
+    if(c === 'π'){ toks.push({t:'PI'}); i++; continue; }
+    if(/[0-9.,]/.test(c)){
+      let j = i; while(j < s.length && /[0-9.,]/.test(s[j])) j++;
+      const numStr = s.slice(i,j).replace(',', '.');
+      toks.push({t:'NUM', v: parseFloat(numStr)});
+      i = j; continue;
+    }
+    if(/[a-zA-Z]/.test(c)){
+      if(s.slice(i,i+4).toLowerCase() === 'sqrt'){ toks.push({t:'SQRT'}); i += 4; continue; }
+      if(s.slice(i,i+2).toLowerCase() === 'pi'){ toks.push({t:'PI'}); i += 2; continue; }
+      toks.push({t:'VAR', v:c.toLowerCase()}); i++; continue;
+    }
+    if(c === '(' ){ toks.push({t:'LP'}); i++; continue; }
+    if(c === ')'){ toks.push({t:'RP'}); i++; continue; }
+    if(c === '+'){ toks.push({t:'PLUS'}); i++; continue; }
+    if(c === '-' || c === '−'){ toks.push({t:'MINUS'}); i++; continue; }
+    if(c === '*' || c === '·' || c === '×'){ toks.push({t:'STAR'}); i++; continue; }
+    if(c === '/' || c === ':'){ toks.push({t:'SLASH'}); i++; continue; }
+    if(c === '^'){ toks.push({t:'CARET'}); i++; continue; }
+    throw new Error('bad char ' + c);
+  }
+  toks.push({t:'END'});
+  return toks;
+}
+function exprParse(toks){
+  let pos = 0;
+  const peek = () => toks[pos];
+  const nxt = () => toks[pos++];
+  const canStartFactor = t => ['NUM','VAR','PI','LP','SQRT'].includes(t.t);
+  function pExpr(){
+    let node = pTerm();
+    while(peek().t === 'PLUS' || peek().t === 'MINUS'){
+      const op = nxt().t; node = {op: op==='PLUS'?'+':'-', l:node, r:pTerm()};
+    }
+    return node;
+  }
+  function pTerm(){
+    let node = pUnary();
+    while(true){
+      if(peek().t === 'STAR' || peek().t === 'SLASH'){
+        const op = nxt().t; node = {op: op==='STAR'?'*':'/', l:node, r:pUnary()};
+      } else if(canStartFactor(peek())){
+        node = {op:'*', l:node, r:pUnary()};
+      } else break;
+    }
+    return node;
+  }
+  function pUnary(){
+    if(peek().t === 'MINUS'){ nxt(); return {op:'neg', l:pUnary()}; }
+    if(peek().t === 'PLUS'){ nxt(); return pUnary(); }
+    return pPower();
+  }
+  function pPower(){
+    let node = pAtom();
+    if(peek().t === 'CARET'){ nxt(); node = {op:'^', l:node, r:pUnary()}; }
+    return node;
+  }
+  function pAtom(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'PI'){ nxt(); return {op:'num', v:Math.PI}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    if(tok.t === 'SQRT'){
+      nxt();
+      if(peek().t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return {op:'sqrt', l:e}; }
+      return {op:'sqrt', l:pSqrtArg()};
+    }
+    throw new Error('unexpected ' + tok.t);
+  }
+  function pSqrtArg(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    throw new Error('bad sqrt arg');
+  }
+  const node = pExpr();
+  if(peek().t !== 'END') throw new Error('trailing');
+  return node;
+}
+function exprEval(node, env){
+  switch(node.op){
+    case 'num': return node.v;
+    case 'var': if(!(node.v in env)) throw new Error('unknown var ' + node.v); return env[node.v];
+    case '+': return exprEval(node.l,env) + exprEval(node.r,env);
+    case '-': return exprEval(node.l,env) - exprEval(node.r,env);
+    case '*': return exprEval(node.l,env) * exprEval(node.r,env);
+    case '/': return exprEval(node.l,env) / exprEval(node.r,env);
+    case '^': return Math.pow(exprEval(node.l,env), exprEval(node.r,env));
+    case 'neg': return -exprEval(node.l,env);
+    case 'sqrt': return Math.sqrt(exprEval(node.l,env));
+  }
+  throw new Error('bad node');
+}
+function evalExprStr(s, env){
+  return exprEval(exprParse(exprTokenize(s)), env || {});
+}
+function exprEquiv(ansStr, userStr, testPoints){
+  const pts = (testPoints && testPoints.length) ? testPoints : [{}];
+  try{
+    return pts.every(env => {
+      const a = evalExprStr(ansStr, env);
+      const b = evalExprStr(userStr, env);
+      return isFinite(a) && isFinite(b) && Math.abs(a-b) < 1e-6 * Math.max(1, Math.abs(a));
+    });
+  } catch(e){ return false; }
+}
+
+function checkExercise(i){
+  const ex = EXERCISES[i];
+  const root = document.getElementById('ex'+i);
+  let ok = true;
+
+  if(ex.type==='fields'){
+    ex.fields.forEach((f,fi)=>{
+      const inp = document.getElementById('ex'+i+'_f'+fi);
+      const raw = inp.value;
+      let good = false;
+      if(f.kind==='number'){ good = normNum(raw)===f.ans; }
+      else if(f.kind==='set'){ good = arrEq(normSet(raw), f.ans); }
+      else if(f.kind==='interval'){ good = normInterval(raw)===f.ans; }
+      else if(f.kind==='expr'){ good = raw.trim()!=='' && exprEquiv(f.ans, raw, f.testPoints); }
+      inp.style.borderColor = good ? 'var(--green)' : 'var(--red)';
+      inp.disabled = true;
+      if(!good) ok = false;
+    });
+  } else if(ex.type==='mc'){
+    const sel = root.querySelector('.opt.sel');
+    const chosen = sel ? sel.dataset.k : null;
+    ok = chosen === ex.correct;
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      if(o.dataset.k===ex.correct) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(o===sel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  } else if(ex.type==='multi'){
+    const chosen = Array.from(root.querySelectorAll('.opt.sel')).map(o=>o.dataset.k).sort();
+    const correct = ex.correct.slice().sort();
+    ok = arrEq(chosen, correct);
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      const isCorrect = ex.correct.includes(o.dataset.k);
+      const wasSel = o.classList.contains('sel');
+      if(isCorrect) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(wasSel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  }
+
+  state[i].checked = true;
+  state[i].correct = ok;
+
+  const fb = document.getElementById('ex'+i+'_fb');
+  fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+  fb.innerHTML = ok ? '✓ Teisingai!' : ('✗ Neteisingai. Teisingas atsakymas: <span class="ans math">' + answerText(ex) + '</span>');
+  document.getElementById('ex'+i+'_btn').disabled = true;
+
+  updateScore();
+}
+
+function answerText(ex){
+  if(ex.type==='fields'){
+    return ex.fields.map(f=>{
+      if(f.kind==='number') return f.ans;
+      if(f.kind==='set') return '{'+f.ans.join('; ')+'}';
+      if(f.kind==='expr') return f.ans;
+      return f.ans.replace(';','; ');
+    }).join(' &nbsp;·&nbsp; ');
+  }
+  if(ex.type==='mc'){
+    const o = ex.options.find(o=>o.k===ex.correct);
+    return ex.correct + '. ' + o.t;
+  }
+  if(ex.type==='multi'){
+    return ex.correct.join(', ');
+  }
+  return '';
+}
+
+function insertAtCursor(inputId, ch){
+  const inp = document.getElementById(inputId);
+  if(!inp || inp.disabled) return;
+  const start = inp.selectionStart ?? inp.value.length;
+  const end = inp.selectionEnd ?? inp.value.length;
+  inp.value = inp.value.slice(0,start) + ch + inp.value.slice(end);
+  inp.focus();
+  inp.setSelectionRange(start+ch.length, start+ch.length);
+}
+
+function toggleOpt(exIdx, k, multi){
+  const ex = EXERCISES[exIdx];
+  if(state[exIdx].checked) return;
+  const root = document.getElementById('ex'+exIdx);
+  if(multi){
+    const el = root.querySelector('.opt[data-k="'+k+'"]');
+    el.classList.toggle('sel');
+  } else {
+    root.querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel', o.dataset.k===k));
+  }
+}
+
+function updateScore(){
+  const checkedCount = state.filter(s=>s.checked).length;
+  const correctCount = state.filter(s=>s.correct).length;
+  document.getElementById('scoreNow').textContent = correctCount;
+  document.getElementById('doneCount').textContent = checkedCount;
+  document.getElementById('barFill').style.width = Math.round(correctCount/EXERCISES.length*100)+'%';
+
+  const pct = correctCount/EXERCISES.length*100;
+  let grade = GRADE_SCALE[GRADE_SCALE.length-1][1];
+  for(const [t,g] of GRADE_SCALE){ if(pct>=t){ grade=g; break; } }
+  let comment = COMMENTS[COMMENTS.length-1][1];
+  for(const [t,c] of COMMENTS){ if(pct>=t){ comment=c; break; } }
+
+  document.getElementById('gradeOut').textContent = grade;
+  document.getElementById('ptsOut').textContent = correctCount+' / '+EXERCISES.length;
+  document.getElementById('pctOut').textContent = Math.round(pct)+'%';
+  document.getElementById('commentOut').textContent = comment;
+  const warnEl = document.getElementById('warnOut');
+  if(checkedCount < EXERCISES.length){
+    warnEl.style.display='block';
+    warnEl.textContent = 'Patikrinai '+checkedCount+' iš '+EXERCISES.length+' pratimų — rezultatas kol kas negalutinis.';
+  } else {
+    warnEl.style.display='none';
+  }
+}
+
+function render(){
+  document.getElementById('scoreMax').textContent = EXERCISES.length;
+  document.getElementById('doneMax').textContent = EXERCISES.length;
+  const root = document.getElementById('exercises');
+  let html = '';
+  EXERCISES.forEach((ex,i)=>{
+    html += '<div class="card" id="ex'+i+'">';
+    html += '<div class="banner"><span class="badge">'+(i+1)+'</span> '+ex.kicker+'</div>';
+    html += '<div class="body">';
+    html += '<p class="given">'+ex.given+'</p>';
+
+    if(ex.type==='fields'){
+      ex.fields.forEach((f,fi)=>{
+        const inpId = 'ex'+i+'_f'+fi;
+        let ph = 'skaičius';
+        if(f.kind==='set') ph = 'pvz. {2; 5; 8}';
+        else if(f.kind==='interval') ph = 'pvz. [-2;5)';
+        else if(f.kind==='expr') ph = 'pvz. 3a-1 arba 2√5-2';
+        html += '<div class="fieldrow"><label class="math">'+f.label+'</label>'+
+          '<input type="text" id="'+inpId+'" placeholder="'+ph+'">';
+        if(f.kind==='expr'){
+          html += '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'√\')">√</button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'π\')">π</button>';
+        }
+        html += '</div>';
+      });
+    } else if(ex.type==='mc' || ex.type==='multi'){
+      html += '<div class="opts">';
+      ex.options.forEach(o=>{
+        html += '<div class="opt" data-k="'+o.k+'" onclick="toggleOpt('+i+',\''+o.k+'\','+(ex.type==='multi')+')">'+
+          '<span class="k">'+o.k+'</span><span class="math">'+o.t+'</span></div>';
+      });
+      html += '</div>';
+    }
+
+    html += '<div class="actions"><button class="check" id="ex'+i+'_btn" onclick="checkExercise('+i+')">Tikrinti</button>'+
+      '<div class="fb" id="ex'+i+'_fb"></div></div>';
+    html += '</div></div>';
+  });
+  root.innerHTML = html;
+}
+
+render();
+updateScore();
+</script>
+</body>
+</html>
