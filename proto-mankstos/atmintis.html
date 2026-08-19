@@ -97,9 +97,12 @@ for(let i=0;i<N;i++){
 }
 
 let audioCtx = null;
-function beep(i){
-  if(!soundOn) return;
+function unlockAudio(){
   if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+}
+function beep(i){
+  if(!soundOn || !audioCtx) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
   osc.type = 'sine';
@@ -113,6 +116,7 @@ function beep(i){
 function toggleSound(){
   soundOn = !soundOn;
   soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
 }
 
 function setMsg(text, cls){
@@ -154,6 +158,7 @@ function addToSequence(){
 }
 
 function startGame(){
+  unlockAudio();
   sequence = [];
   playerStep = 0;
   levelEl.textContent = '0';
