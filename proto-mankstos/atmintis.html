@@ -100,6 +100,11 @@ let audioCtx = null;
 function unlockAudio(){
   if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
 }
 function beep(i){
   if(!soundOn || !audioCtx) return;
@@ -107,10 +112,22 @@ function beep(i){
   const gain = audioCtx.createGain();
   osc.type = 'sine';
   osc.frequency.value = 220 + i * 45;
-  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.28, audioCtx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.start(); osc.stop(audioCtx.currentTime + 0.28);
+}
+function errorBeep(){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.4);
+  gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.45);
 }
 
 function toggleSound(){
@@ -188,6 +205,7 @@ async function handlePick(i){
     }
   }else{
     setTilesDisabled(true);
+    errorBeep();
     await flashTile(i, 'wrong', 500);
     setMsg('Nepavyko. Pasiektas lygis: ' + levelEl.textContent + '. Spausk „Iš naujo“.', 'bad');
     startBtn.textContent = '↻ Iš naujo';
