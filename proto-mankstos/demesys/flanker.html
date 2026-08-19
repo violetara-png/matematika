@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flanker testas · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:460px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+  .stats{display:flex; gap:10px; justify-content:center; margin:16px 0 10px; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:26px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:13px; color:var(--muted)}
+  .timerWrap{width:100%; max-width:340px; height:10px; background:#e2e8f0; border-radius:6px; overflow:hidden; margin-bottom:14px}
+  .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
+  .timerBar.hurry{background:var(--bad)}
+  .task{font-size:13px; color:var(--muted); font-weight:600; margin-bottom:10px; text-align:center}
+  .row{display:flex; gap:10px; justify-content:center; align-items:flex-end; margin-bottom:6px; flex-wrap:nowrap}
+  .arrow{font-size:clamp(30px,7vw,44px); font-weight:800; color:var(--ink); line-height:1}
+  .arrow.center{color:var(--accent2)}
+  .marker{display:flex; justify-content:center; margin-bottom:26px}
+  .marker span{font-size:16px; color:var(--accent2)}
+  .answers{display:flex; gap:14px; width:100%; max-width:340px; margin-bottom:20px}
+  .ans{flex:1; border-radius:14px; border:3px solid #d8dee6; cursor:pointer; padding:20px 0;
+    display:flex; align-items:center; justify-content:center; font-size:34px; font-weight:800; color:var(--ink);
+    background:var(--card); box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .1s, filter .15s, box-shadow .15s; user-select:none}
+  .ans:active{transform:scale(.94)}
+  .ans.correct{background:#dcfce7; border-color:var(--ok)}
+  .ans.wrong{background:#fee2e2; border-color:var(--bad)}
+  .ans.disabled{cursor:default}
+  .msg{min-height:28px; font-size:17px; font-weight:600; text-align:center; margin-bottom:6px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:10px}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px; font-size:14.5px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Dėmesys ir pastabumas</a>
+  <h1>➡️ Flanker testas</h1>
+  <p>Reaguok tik į VIDURINĖS rodyklės kryptį</p>
+</header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num" id="level">0</div><div class="lbl">Lygis</div></div>
+    <div class="stat"><div class="num" id="best">0</div><div class="lbl">Rekordas</div></div>
+  </div>
+  <div class="timerWrap"><div class="timerBar" id="timerBar"></div></div>
+  <div class="task">Kur rodo pažymėta VIDURINĖ rodyklė?</div>
+  <div class="row" id="row"></div>
+  <div class="marker"><span>▲</span></div>
+  <div class="msg info" id="msg">Paspausk „Pradėti“</div>
+  <div class="answers" id="answers">
+    <div class="ans" id="ansLeft">←</div>
+    <div class="ans" id="ansRight">→</div>
+  </div>
+  <div class="controls">
+    <button class="ctrl primary" id="startBtn" onclick="startGame()">▶ Pradėti</button>
+    <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
+  </div>
+  <div class="howto">
+    <b>Kaip žaisti:</b> eilėje rodyklių viena (pažymėta mėlynai, su ▲ apačioje) yra VIDURINĖ.
+    Kitos aplink ją gali rodyti į tą pačią arba priešingą pusę — jos trukdo, jų ignoruok.
+    Spausk ← arba →, atitinkantį TIK vidurinės rodyklės kryptį.
+  </div>
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+const rowEl = document.getElementById('row');
+const levelEl = document.getElementById('level');
+const bestEl = document.getElementById('best');
+const msgEl = document.getElementById('msg');
+const startBtn = document.getElementById('startBtn');
+const soundBtn = document.getElementById('soundBtn');
+const timerBar = document.getElementById('timerBar');
+const ansLeft = document.getElementById('ansLeft');
+const ansRight = document.getElementById('ansRight');
+
+let accepting = false;
+let soundOn = true;
+let level = 0;
+let best = parseInt(localStorage.getItem('flankerBest') || '0', 10);
+bestEl.textContent = best;
+let centerDir = null;
+let timeoutHandle = null;
+
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const buf = audioCtx.createBuffer(1, 1, 22050);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+  src.start(0);
+}
+function beep(freq){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.26, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.24);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.24);
+}
+function errorBeep(){
+  if(!soundOn || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.4);
+  gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + 0.45);
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Garsas';
+  if(soundOn) unlockAudio();
+}
+
+function setMsg(text, cls){
+  msgEl.textContent = text;
+  msgEl.className = 'msg ' + (cls || 'info');
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function startTimer(ms){
+  timerBar.classList.remove('hurry');
+  timerBar.style.transition = 'none';
+  timerBar.style.width = '100%';
+  void timerBar.offsetWidth;
+  timerBar.style.transition = 'width ' + ms + 'ms linear';
+  timerBar.style.width = '0%';
+  setTimeout(() => timerBar.classList.add('hurry'), ms * 0.6);
+  timeoutHandle = setTimeout(timeUp, ms);
+}
+
+function stopTimer(){
+  if(timeoutHandle){ clearTimeout(timeoutHandle); timeoutHandle = null; }
+  timerBar.style.transition = 'none';
+}
+
+async function startGame(){
+  unlockAudio();
+  level = 0;
+  levelEl.textContent = '0';
+  startBtn.textContent = '↻ Iš naujo';
+  await nextRound();
+}
+
+async function nextRound(){
+  accepting = false;
+  const count = level >= 6 ? 9 : (level >= 3 ? 7 : 5);
+  const centerIdx = Math.floor(count / 2);
+  const timeLimit = Math.max(1800, 4500 - level * 220);
+
+  centerDir = Math.random() < 0.5 ? 'left' : 'right';
+  const congruent = Math.random() < 0.5;
+  const flankerDir = congruent ? centerDir : (centerDir === 'left' ? 'right' : 'left');
+  const chars = {left: '←', right: '→'};
+
+  rowEl.innerHTML = '';
+  for(let i = 0; i < count; i++){
+    const el = document.createElement('div');
+    const isCenter = i === centerIdx;
+    el.className = 'arrow' + (isCenter ? ' center' : '');
+    el.textContent = chars[isCenter ? centerDir : flankerDir];
+    rowEl.appendChild(el);
+  }
+
+  setMsg('Kur rodo vidurinė rodyklė?', 'info');
+  ansLeft.classList.remove('correct', 'wrong', 'disabled');
+  ansRight.classList.remove('correct', 'wrong', 'disabled');
+  accepting = true;
+  startTimer(timeLimit);
+}
+
+function endRound(){
+  accepting = false;
+  stopTimer();
+  ansLeft.classList.add('disabled');
+  ansRight.classList.add('disabled');
+}
+
+function markCorrect(){
+  (centerDir === 'left' ? ansLeft : ansRight).classList.add('correct');
+}
+
+function timeUp(){
+  if(!accepting) return;
+  accepting = false;
+  errorBeep();
+  markCorrect();
+  endRound();
+  setMsg('Laikas baigėsi! Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+  startBtn.textContent = '↻ Iš naujo';
+}
+
+function handlePick(dir, el){
+  if(!accepting) return;
+  if(dir === centerDir){
+    endRound();
+    el.classList.add('correct');
+    beep(320 + level * 15);
+    level++;
+    levelEl.textContent = level;
+    if(level > best){
+      best = level;
+      bestEl.textContent = best;
+      localStorage.setItem('flankerBest', String(best));
+    }
+    setMsg('Puiku! Kitas raundas...', 'ok');
+    sleep(700).then(nextRound);
+  }else{
+    endRound();
+    el.classList.add('wrong');
+    errorBeep();
+    markCorrect();
+    setMsg('Ne ta kryptis. Pasiektas lygis: ' + level + '. Spausk „Iš naujo“.', 'bad');
+    startBtn.textContent = '↻ Iš naujo';
+  }
+}
+
+ansLeft.addEventListener('click', () => handlePick('left', ansLeft));
+ansRight.addEventListener('click', () => handlePick('right', ansRight));
+</script>
+</body>
+</html>
