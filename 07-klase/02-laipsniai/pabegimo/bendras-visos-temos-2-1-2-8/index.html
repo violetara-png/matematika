@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laipsniai (2.1–2.8, visos temos) · pabėgimo kambarys · 7 klasė</title>
+<style>
+  :root{
+    --bg:#0a0f1f; --bg2:#111a35; --panel:#141d3a; --panel2:#1b264a;
+    --ink:#eaf0ff; --muted:#93a1c9; --line:#2a375f;
+    --neon:#38e1ff; --neon2:#7c5cff; --good:#2fd47a; --bad:#ff5d73; --gold:#ffcf4d;
+    --shadow:0 12px 40px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:radial-gradient(1200px 700px at 15% -10%,#16224a 0,transparent 55%),
+               radial-gradient(1000px 700px at 110% 10%,#241a52 0,transparent 50%),
+               var(--bg);
+    color:var(--ink); min-height:100vh; line-height:1.5;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:18px 16px 60px}
+  .screen{display:none;animation:fade .4s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .badge{display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--neon);border:1px solid rgba(56,225,255,.4);border-radius:999px;padding:4px 12px;
+    background:rgba(56,225,255,.06)}
+  h1{font-size:1.9rem;line-height:1.15;margin:.5rem 0 .4rem}
+  h2{font-size:1.35rem;margin:.2rem 0}
+  .lead{color:var(--muted);font-size:1.02rem}
+
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid rgba(124,92,255,.25);
+    border-radius:18px;padding:22px;box-shadow:var(--shadow);margin-top:16px}
+  .card.glow{border-color:rgba(56,225,255,.45)}
+
+  label.fld{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 5px}
+  .btn{appearance:none;border:0;cursor:pointer;font-weight:700;font-size:1rem;
+    padding:13px 22px;border-radius:12px;color:#06122b;
+    background:linear-gradient(180deg,#5ff0ff,#38b6ff);box-shadow:0 8px 22px rgba(56,182,255,.35);
+    transition:transform .08s ease,filter .15s ease}
+  .btn:hover{filter:brightness(1.06)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+  .btn.gold{background:linear-gradient(180deg,#ffe08a,#ffbf3d);color:#3a2600}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  input[type=text]{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);
+    background:#0c1430;color:var(--ink);font-size:1.1rem;outline:none}
+  input[type=text]:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(56,225,255,.15)}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .spacer{flex:1}
+  .err{color:var(--bad);font-weight:600;min-height:1.3em;margin-top:8px}
+
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+  @media(max-width:560px){.levels{grid-template-columns:1fr}}
+  .lvl{border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;background:#0e1636;
+    transition:.14s;text-align:left}
+  .lvl:hover{border-color:var(--neon)}
+  .lvl.sel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,207,77,.35);background:#141c3f}
+  .lvl .n{font-weight:800;font-size:1.1rem}
+  .lvl .d{color:var(--muted);font-size:.85rem;margin-top:4px}
+  .lvl .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#22305c}
+  .lvl.l1 .dot{background:var(--good)} .lvl.l2 .dot{background:var(--gold)} .lvl.l3 .dot{background:var(--bad)}
+
+  .hud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .hud .who{font-size:.9rem;color:var(--muted)}
+  .hud .who b{color:var(--ink)}
+  .gems{display:flex;gap:8px}
+  .gem{width:24px;height:24px;border-radius:6px;transform:rotate(45deg);
+    border:2px solid rgba(255,255,255,.25);background:#22305c;box-shadow:inset 0 0 8px rgba(0,0,0,.4)}
+  .gem.on{background:linear-gradient(180deg,#8affef,#2fd4c8);border-color:#c9fff5;box-shadow:0 0 16px rgba(47,212,200,.7)}
+  .gem.g2.on{background:linear-gradient(180deg,#b7a6ff,#7c5cff);box-shadow:0 0 16px rgba(124,92,255,.7)}
+  .gem.g3.on{background:linear-gradient(180deg,#ffd98a,#ffbf3d);box-shadow:0 0 16px rgba(255,191,61,.7)}
+  .gem.g4.on{background:linear-gradient(180deg,#ff9ab0,#ff5d73);box-shadow:0 0 16px rgba(255,93,115,.7)}
+  .timer{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.95rem}
+  .timer b{color:var(--ink)}
+
+  .progress{height:9px;background:#0c1430;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin-top:10px}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--neon2));transition:width .4s ease}
+
+  .qmeta{color:var(--muted);font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
+  .expr{font-size:1.7rem;font-weight:700;margin:8px 0 4px;letter-spacing:.5px}
+  .expr .op{color:var(--neon)}
+
+  /* Graži trupmena (bendras projekto standartas, žr. references/matematikos-notacija/) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;color:inherit}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .hint{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(255,207,77,.08);
+    border:1px solid rgba(255,207,77,.35);color:#ffe6a6;font-size:.96rem;display:none}
+  .hint.show{display:block}
+  .feedback{margin-top:12px;font-weight:600;min-height:1.4em}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:520px){.opts{grid-template-columns:1fr}}
+  .opt{padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:#0e1636;
+    cursor:pointer;font-size:1.12rem;font-weight:600;text-align:left;transition:.12s;color:var(--ink)}
+  .opt:hover{border-color:var(--neon);background:#122048}
+  .opt.correct{border-color:var(--good);background:rgba(47,212,122,.16)}
+  .opt.wrong{border-color:var(--bad);background:rgba(255,93,115,.16)}
+  .opt .k{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;
+    border-radius:7px;background:#22305c;margin-right:10px;font-weight:800}
+
+  .codebox{display:flex;gap:10px;justify-content:center;margin:14px 0}
+  .codebox .d{width:52px;height:64px;border-radius:12px;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:var(--gold);
+    box-shadow:0 0 14px rgba(255,207,77,.4)}
+  .fragment{font-size:3rem;text-align:center}
+
+  .win{text-align:center}
+  .win .big{font-size:3rem;margin:.2rem 0}
+  .grade{font-size:1.1rem;color:var(--muted)}
+  .kpi{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+  .kpi .t{background:#0e1636;border:1px solid var(--line);border-radius:14px;padding:14px 18px;min-width:120px}
+  .kpi .t b{display:block;font-size:1.7rem;color:var(--neon)}
+  .kpi .t span{color:var(--muted);font-size:.85rem}
+  .sent{margin-top:6px;font-size:.92rem;min-height:1.2em}
+  .sent.ok{color:var(--good)} .sent.no{color:var(--gold)}
+  .small{color:var(--muted);font-size:.86rem}
+  .foot{margin-top:20px;text-align:center}
+  a.reset{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="exitBanner" style="display:none;position:sticky;top:0;z-index:50;background:rgba(255,93,115,.15);
+    border:1px solid var(--bad);color:#ffd7dc;border-radius:10px;padding:8px 14px;margin-bottom:10px;
+    font-size:.85rem;font-weight:600"></div>
+
+  <!-- ============ LOCK (nebūtina — pašalink šią sekciją, jei Violeta neprašė slaptažodžio) ============ -->
+  <section id="s-lock" class="screen active">
+    <span class="badge">Prieigos kontrolė</span>
+    <h1>Užrakinta zona</h1>
+    <p class="lead">Sistema apsaugota slaptažodžiu. Slaptažodį pasakys mokytoja Violeta.</p>
+    <div class="card glow">
+      <h2>Įvesk slaptažodį</h2>
+      <input id="lockInput" type="text" placeholder="Slaptažodis" autocomplete="off">
+      <div class="row" style="margin-top:14px">
+        <button class="btn" onclick="checkLock()">Atrakinti ▸</button>
+      </div>
+      <div class="err" id="lockErr"></div>
+    </div>
+  </section>
+
+  <!-- ============ START ============ -->
+  <section id="s-start" class="screen">
+    <span class="badge">Matematikos misija</span>
+    <h1>Laipsniai — visas skyrius (2.1–2.8)</h1>
+    <p class="lead" style="margin-top:-6px;font-weight:600">🕹 Pabėgimo kambarys</p>
+    <p class="lead">Dirbtinis intelektas užrakino jus skaitmeniniame pasaulyje. Kad grįžtumėte į realybę, įveikite keturias stoteles ir surinkite keturis Neoxis kristalus — kiekvienas atskleis vieną slaptojo kodo skaitmenį. Tema: visas 2 skyrius „Laipsniai“ nuo kvadrato/kubo iki standartinės skaičiaus išraiškos — pilnas skyriaus apibendrinimas.</p>
+
+    <div class="card glow">
+      <h2>Prisijunk prie sistemos</h2>
+      <label class="fld">Vardas ir pavardė *</label>
+      <input id="playerName" type="text" placeholder="pvz. Jonas Jonaitis" maxlength="40">
+      <label class="fld">Klasė</label>
+      <input id="playerClass" type="text" placeholder="pvz. 7b" maxlength="12">
+
+      <label class="fld">1. Pasirink sudėtingumą *</label>
+      <div class="levels" id="tierCards"></div>
+
+      <label class="fld" id="variantLabel" style="display:none">2. Pasirink variantą *</label>
+      <div class="levels" id="variantCards" style="display:none;grid-template-columns:repeat(4,1fr)"></div>
+
+      <div class="row" style="margin-top:18px">
+        <button class="btn" onclick="startGame()">PRADĖTI MISIJĄ ▸</button>
+      </div>
+      <div class="err" id="startErr"></div>
+      <p class="small" style="margin-top:8px">💡 Atsakymą įrašyk be tarpų. Trupmeną rašyk kaip 4/9, neigiamą skaičių su minusu -12 arba −12.</p>
+      <p class="small">🖥 Žaidimas atsidarys per visą ekraną ir seks, ar neišėjai iš lango — tai matys mokytoja rezultatuose.</p>
+    </div>
+  </section>
+
+  <!-- ============ INTRO STATION ============ -->
+  <section id="s-intro" class="screen">
+    <div class="hud" id="hud-intro"></div>
+    <div class="card glow">
+      <span class="badge" id="introBadge">Stotelė</span>
+      <h1 id="introTitle"></h1>
+      <p class="lead" id="introText"></p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="beginStation()" id="introBtn">Įeiti ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUESTION ============ -->
+  <section id="s-q" class="screen">
+    <div class="hud" id="hud-q"></div>
+    <div class="progress"><i id="progBar"></i></div>
+    <div class="card">
+      <div class="qmeta" id="qMeta"></div>
+      <div class="expr" id="qExpr"></div>
+      <div class="small" id="qPrompt">Suprastink / apskaičiuok:</div>
+
+      <div id="qOptions" class="opts" style="display:none"></div>
+
+      <div id="qInputWrap" style="display:none;margin-top:12px">
+        <input id="qInput" type="text" placeholder="Įrašyk atsakymą, pvz. 4/9 arba -12" autocomplete="off">
+        <div class="row" style="margin-top:12px">
+          <button class="btn" onclick="submitInput()">Tikrinti ▸</button>
+          <button class="btn ghost" onclick="showHint()">Užuomina 💡</button>
+        </div>
+      </div>
+
+      <div id="qMcActions" class="row" style="margin-top:12px;display:none">
+        <button class="btn ghost" onclick="showHint()">Užuomina 💡</button>
+      </div>
+
+      <div class="feedback" id="qFeedback"></div>
+      <div class="hint" id="qHint"></div>
+
+      <div class="row" id="qNextWrap" style="margin-top:14px;display:none">
+        <div class="spacer"></div>
+        <button class="btn gold" id="qNextBtn" onclick="nextQuestion()">Toliau ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GEM AWARD ============ -->
+  <section id="s-gem" class="screen">
+    <div class="hud" id="hud-gem"></div>
+    <div class="card glow" style="text-align:center">
+      <div class="fragment" id="gemFrag"></div>
+      <h1 id="gemTitle" style="margin-top:6px"></h1>
+      <p class="lead" id="gemText"></p>
+      <p class="small">Slaptojo kodo skaitmuo: <b id="gemDigit" style="color:var(--gold);font-size:1.3rem"></b></p>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <button class="btn" id="gemBtn" onclick="afterGem()">Toliau ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CODE ============ -->
+  <section id="s-code" class="screen">
+    <div class="hud" id="hud-code"></div>
+    <div class="card glow">
+      <span class="badge">Finalinė misija</span>
+      <h1>Įvesk valdymo kodą</h1>
+      <p class="lead">Surinkai visus keturis Neoxis kristalus! Kiekvienas atskleidė po vieną skaitmenį.
+        Įvesk kodą ir atrakink išėjimą į realybę.</p>
+      <div class="codebox" id="codeHint"></div>
+      <div class="row" style="justify-content:center">
+        <input id="codeInput" type="text" placeholder="••••" maxlength="4" inputmode="numeric"
+               style="max-width:180px;text-align:center;font-size:1.6rem;letter-spacing:.4em">
+      </div>
+      <div class="row" style="justify-content:center;margin-top:14px">
+        <button class="btn gold" onclick="submitCode()">ATRAKINTI ▸</button>
+      </div>
+      <div class="feedback" id="codeFeedback" style="text-align:center"></div>
+    </div>
+  </section>
+
+  <!-- ============ WIN ============ -->
+  <section id="s-win" class="screen">
+    <div class="card glow win">
+      <div class="big">🎉</div>
+      <h1>Pabėgai iš skaitmeninio pasaulio!</h1>
+      <p class="lead" id="winWho"></p>
+      <div class="kpi">
+        <div class="t"><b id="kScore">0</b><span>Teisingai iš 16</span></div>
+        <div class="t"><b id="kFirst">0</b><span>Iš pirmo karto</span></div>
+        <div class="t"><b id="kTime">0:00</b><span>Laikas</span></div>
+        <div class="t"><b id="kGrade">10</b><span>Įvertinimas</span></div>
+        <div class="t"><b id="kLeave">0</b><span>Išėjimai iš lango</span></div>
+      </div>
+      <p class="grade" id="winMsg"></p>
+      <div class="sent" id="sentStatus"></div>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <button class="btn ghost" onclick="downloadResult()">⬇ Atsisiųsti rezultatą (atsargai)</button>
+      </div>
+      <p style="margin-top:16px;color:#ffcf4d;font-weight:600;letter-spacing:.3px">✍️ Mokytoja Violeta</p>
+      <div class="foot">
+        <a href="#" class="reset" onclick="location.reload();return false;">↺ Žaisti iš naujo</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   NUSTATYMAS: Google Sheets rezultatų nuoroda
+   Naudojamas bendras „router" Apps Script web app'as (aptarnauja visus
+   Violetos testus/žaidimus) — kiekvienas įrankis tik nurodo SAVO SHEET_ID.
+   Žr. memory: testu-rezultatu-registras.
+============================================================ */
+const SHEET_ID = "1gxdYLjXOHJcwvMNi2AU9y8nCfJscub0MruMFNGoRSNM"; // 7kl · 02 Laipsniai · Pabėgimo kambarys BENDRAS (2.1–2.8, visos temos)
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+
+/* ============================================================
+   UŽDUOTYS: sudėtingumo lygiai × variantai × stotelės × klausimai.
+   Atsakymai paskaičiuoti ir patikrinti Python skriptu prieš embedinant.
+============================================================ */
+const LEVELS = {"lengvas": {"name": "Lengvas", "desc": "Visų 2.1–2.8 potemių pagrindinės savybės teigiamais sveikaisiais rodikliais: reikšmė, vienodi pagrindai/rodikliai, laipsnis laipsniu, nulinis ir paprastas neigiamas rodiklis, standartinė išraiška. 4 stotelės po 4.", "variants": {"v1": {"name": "Lengvas · 1 variantas", "digits": ["3", "7", "1", "9"], "stations": [[{"type": "mc", "expr": "2⁴", "ans": "16", "hint": "2⁴ – bazę 2 dauginam PAČIĄ IŠ SAVĘS 4 kartus (ne 2·4!).", "opts": ["16", "14", "8", "18"]}, {"type": "input", "expr": "3³", "ans": "27", "hint": "3³ – bazę 3 dauginam PAČIĄ IŠ SAVĘS 3 kartus (ne 3·3!)."}, {"type": "mc", "expr": "2³·2²", "ans": "2⁵", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (bazė nesikeičia).", "opts": ["2⁵", "2⁶", "2³", "4⁵"]}, {"type": "input", "expr": "a⁶:a³", "ans": "a³", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM (bazė nesikeičia)."}], [{"type": "mc", "expr": "2³·5³", "ans": "1000", "hint": "Vienodi rodikliai, skirtingi pagrindai: aⁿ·bⁿ=(a·b)ⁿ. Sudauginęs pagrindus 2·5 pakelk gautą skaičių 3-uoju laipsniu.", "opts": ["1000", "333", "343", "1003"]}, {"type": "input", "expr": "6²:2²", "ans": "9", "hint": "Vienodi rodikliai, dalyba: aⁿ:bⁿ=(a:b)ⁿ. Padalink pagrindus 6:2 ir pakelk 2-uoju laipsniu."}, {"type": "mc", "expr": "(a⁴)³", "ans": "a¹²", "hint": "Laipsnio laipsnis: rodiklius DAUGINAM tarpusavyje (ne sudedam).", "opts": ["a¹²", "a⁷", "a⁴", "2a¹²"]}, {"type": "mc", "expr": "(2a)³", "ans": "8a³", "hint": "(2a)ⁿ = 2ⁿ·aⁿ. Apskaičiuok 2³ pats, raidė lieka su tuo pačiu rodikliu.", "opts": ["8a³", "6a³", "2a³", "8a⁴"]}], [{"type": "mc", "expr": "2⁻³", "ans": "1/8", "hint": "a⁻ⁿ = 1/aⁿ. Apskaičiuok 2³ — tai bus vardiklis, skaitiklyje lieka 1.", "opts": ["1/8", "8", "−1/8", "1/6"]}, {"type": "input", "expr": "7⁰", "ans": "1", "hint": "Bet kokio (nelygaus 0) skaičiaus laipsnis su rodikliu 0 lygus 1."}, {"type": "mc", "expr": "2³:2⁵", "ans": "1/4", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM: 3−5=−2. Rezultato rodiklis neigiamas — pritaikyk a⁻ⁿ=1/aⁿ.", "opts": ["1/4", "4", "−1/4", "2⁻²"]}, {"type": "input", "expr": "2⁴·2⁻¹", "ans": "8", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (net jei vienas neigiamas): 4+(−1)=3."}], [{"type": "mc", "expr": "6300 = ? · 10ⁿ", "ans": "6,3·10³", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["6,3·10³", "6,3·10⁴", "6,3·10²", "63·10²"]}, {"type": "input", "expr": "4·10² = ?", "ans": "400", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}, {"type": "mc", "expr": "81000 = ? · 10ⁿ", "ans": "8,1·10⁴", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["8,1·10⁴", "8,1·10⁵", "8,1·10³", "81·10³"]}, {"type": "input", "expr": "2,5·10³ = ?", "ans": "2500", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v2": {"name": "Lengvas · 2 variantas", "digits": ["5", "2", "8", "4"], "stations": [[{"type": "mc", "expr": "2⁵", "ans": "32", "hint": "2⁵ – bazę 2 dauginam PAČIĄ IŠ SAVĘS 5 kartus (ne 2·5!).", "opts": ["32", "30", "10", "34"]}, {"type": "input", "expr": "4³", "ans": "64", "hint": "4³ – bazę 4 dauginam PAČIĄ IŠ SAVĘS 3 kartus (ne 4·3!)."}, {"type": "mc", "expr": "3³·3²", "ans": "3⁵", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (bazė nesikeičia).", "opts": ["3⁵", "3⁶", "3³", "6⁵"]}, {"type": "input", "expr": "x⁸:x⁵", "ans": "x³", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM (bazė nesikeičia)."}], [{"type": "mc", "expr": "2³·3³", "ans": "216", "hint": "Vienodi rodikliai, skirtingi pagrindai: aⁿ·bⁿ=(a·b)ⁿ. Sudauginęs pagrindus 2·3 pakelk gautą skaičių 3-uoju laipsniu.", "opts": ["216", "72", "125", "219"]}, {"type": "input", "expr": "8²:2²", "ans": "16", "hint": "Vienodi rodikliai, dalyba: aⁿ:bⁿ=(a:b)ⁿ. Padalink pagrindus 8:2 ir pakelk 2-uoju laipsniu."}, {"type": "mc", "expr": "(a²)⁵", "ans": "a¹⁰", "hint": "Laipsnio laipsnis: rodiklius DAUGINAM tarpusavyje (ne sudedam).", "opts": ["a¹⁰", "a⁷", "a²", "2a¹⁰"]}, {"type": "mc", "expr": "(3a)²", "ans": "9a²", "hint": "(3a)ⁿ = 3ⁿ·aⁿ. Apskaičiuok 3² pats, raidė lieka su tuo pačiu rodikliu.", "opts": ["9a²", "6a²", "3a²", "9a³"]}], [{"type": "mc", "expr": "5⁻²", "ans": "1/25", "hint": "a⁻ⁿ = 1/aⁿ. Apskaičiuok 5² — tai bus vardiklis, skaitiklyje lieka 1.", "opts": ["1/25", "25", "−1/25", "1/10"]}, {"type": "input", "expr": "12⁰", "ans": "1", "hint": "Bet kokio (nelygaus 0) skaičiaus laipsnis su rodikliu 0 lygus 1."}, {"type": "mc", "expr": "3²:3⁶", "ans": "1/81", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM: 2−6=−4. Rezultato rodiklis neigiamas — pritaikyk a⁻ⁿ=1/aⁿ.", "opts": ["1/81", "81", "−1/81", "3⁻⁴"]}, {"type": "input", "expr": "3⁵·3⁻²", "ans": "27", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (net jei vienas neigiamas): 5+(−2)=3."}], [{"type": "mc", "expr": "5200 = ? · 10ⁿ", "ans": "5,2·10³", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["5,2·10³", "5,2·10⁴", "5,2·10²", "52·10²"]}, {"type": "input", "expr": "6·10² = ?", "ans": "600", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}, {"type": "mc", "expr": "93000 = ? · 10ⁿ", "ans": "9,3·10⁴", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["9,3·10⁴", "9,3·10⁵", "9,3·10³", "93·10³"]}, {"type": "input", "expr": "1,4·10³ = ?", "ans": "1400", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v3": {"name": "Lengvas · 3 variantas", "digits": ["6", "1", "0", "7"], "stations": [[{"type": "mc", "expr": "3⁴", "ans": "81", "hint": "3⁴ – bazę 3 dauginam PAČIĄ IŠ SAVĘS 4 kartus (ne 3·4!).", "opts": ["81", "79", "12", "83"]}, {"type": "input", "expr": "3³", "ans": "27", "hint": "3³ – bazę 3 dauginam PAČIĄ IŠ SAVĘS 3 kartus (ne 3·3!)."}, {"type": "mc", "expr": "2⁴·2³", "ans": "2⁷", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (bazė nesikeičia).", "opts": ["2⁷", "2¹²", "2⁴", "4⁷"]}, {"type": "input", "expr": "y⁷:y⁴", "ans": "y³", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM (bazė nesikeičia)."}], [{"type": "mc", "expr": "2²·4²", "ans": "64", "hint": "Vienodi rodikliai, skirtingi pagrindai: aⁿ·bⁿ=(a·b)ⁿ. Sudauginęs pagrindus 2·4 pakelk gautą skaičių 2-uoju laipsniu.", "opts": ["64", "32", "36", "66"]}, {"type": "input", "expr": "9²:3²", "ans": "9", "hint": "Vienodi rodikliai, dalyba: aⁿ:bⁿ=(a:b)ⁿ. Padalink pagrindus 9:3 ir pakelk 2-uoju laipsniu."}, {"type": "mc", "expr": "(a³)³", "ans": "a⁹", "hint": "Laipsnio laipsnis: rodiklius DAUGINAM tarpusavyje (ne sudedam).", "opts": ["a⁹", "a⁶", "a³", "2a⁹"]}, {"type": "mc", "expr": "(2a)⁴", "ans": "16a⁴", "hint": "(2a)ⁿ = 2ⁿ·aⁿ. Apskaičiuok 2⁴ pats, raidė lieka su tuo pačiu rodikliu.", "opts": ["16a⁴", "8a⁴", "2a⁴", "16a⁵"]}], [{"type": "mc", "expr": "3⁻²", "ans": "1/9", "hint": "a⁻ⁿ = 1/aⁿ. Apskaičiuok 3² — tai bus vardiklis, skaitiklyje lieka 1.", "opts": ["1/9", "9", "−1/9", "1/6"]}, {"type": "input", "expr": "9⁰", "ans": "1", "hint": "Bet kokio (nelygaus 0) skaičiaus laipsnis su rodikliu 0 lygus 1."}, {"type": "mc", "expr": "2³:2⁶", "ans": "1/8", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM: 3−6=−3. Rezultato rodiklis neigiamas — pritaikyk a⁻ⁿ=1/aⁿ.", "opts": ["1/8", "8", "−1/8", "2⁻³"]}, {"type": "input", "expr": "2⁶·2⁻²", "ans": "16", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (net jei vienas neigiamas): 6+(−2)=4."}], [{"type": "mc", "expr": "7100 = ? · 10ⁿ", "ans": "7,1·10³", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["7,1·10³", "7,1·10⁴", "7,1·10²", "71·10²"]}, {"type": "input", "expr": "9·10² = ?", "ans": "900", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}, {"type": "mc", "expr": "64000 = ? · 10ⁿ", "ans": "6,4·10⁴", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["6,4·10⁴", "6,4·10⁵", "6,4·10³", "64·10³"]}, {"type": "input", "expr": "3,2·10³ = ?", "ans": "3200", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v4": {"name": "Lengvas · 4 variantas", "digits": ["9", "4", "2", "5"], "stations": [[{"type": "mc", "expr": "5³", "ans": "125", "hint": "5³ – bazę 5 dauginam PAČIĄ IŠ SAVĘS 3 kartus (ne 5·3!).", "opts": ["125", "123", "15", "127"]}, {"type": "input", "expr": "4³", "ans": "64", "hint": "4³ – bazę 4 dauginam PAČIĄ IŠ SAVĘS 3 kartus (ne 4·3!)."}, {"type": "mc", "expr": "3⁴·3²", "ans": "3⁶", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (bazė nesikeičia).", "opts": ["3⁶", "3⁸", "3⁴", "6⁶"]}, {"type": "input", "expr": "a⁹:a⁶", "ans": "a³", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM (bazė nesikeičia)."}], [{"type": "mc", "expr": "3³·2³", "ans": "216", "hint": "Vienodi rodikliai, skirtingi pagrindai: aⁿ·bⁿ=(a·b)ⁿ. Sudauginęs pagrindus 3·2 pakelk gautą skaičių 3-uoju laipsniu.", "opts": ["216", "72", "125", "219"]}, {"type": "input", "expr": "10²:5²", "ans": "4", "hint": "Vienodi rodikliai, dalyba: aⁿ:bⁿ=(a:b)ⁿ. Padalink pagrindus 10:5 ir pakelk 2-uoju laipsniu."}, {"type": "mc", "expr": "(a²)⁶", "ans": "a¹²", "hint": "Laipsnio laipsnis: rodiklius DAUGINAM tarpusavyje (ne sudedam).", "opts": ["a¹²", "a⁸", "a²", "2a¹²"]}, {"type": "mc", "expr": "(3a)³", "ans": "27a³", "hint": "(3a)ⁿ = 3ⁿ·aⁿ. Apskaičiuok 3³ pats, raidė lieka su tuo pačiu rodikliu.", "opts": ["27a³", "9a³", "3a³", "27a⁴"]}], [{"type": "mc", "expr": "2⁻⁴", "ans": "1/16", "hint": "a⁻ⁿ = 1/aⁿ. Apskaičiuok 2⁴ — tai bus vardiklis, skaitiklyje lieka 1.", "opts": ["1/16", "16", "−1/16", "1/8"]}, {"type": "input", "expr": "15⁰", "ans": "1", "hint": "Bet kokio (nelygaus 0) skaičiaus laipsnis su rodikliu 0 lygus 1."}, {"type": "mc", "expr": "5⁴:5⁷", "ans": "1/125", "hint": "Ta pati bazė, dalyba – rodiklius ATIMAM: 4−7=−3. Rezultato rodiklis neigiamas — pritaikyk a⁻ⁿ=1/aⁿ.", "opts": ["1/125", "125", "−1/125", "5⁻³"]}, {"type": "input", "expr": "5⁵·5⁻¹", "ans": "625", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM (net jei vienas neigiamas): 5+(−1)=4."}], [{"type": "mc", "expr": "8600 = ? · 10ⁿ", "ans": "8,6·10³", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["8,6·10³", "8,6·10⁴", "8,6·10²", "86·10²"]}, {"type": "input", "expr": "2·10² = ?", "ans": "200", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}, {"type": "mc", "expr": "45000 = ? · 10ⁿ", "ans": "4,5·10⁴", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei.", "opts": ["4,5·10⁴", "4,5·10⁵", "4,5·10³", "45·10³"]}, {"type": "input", "expr": "7,5·10³ = ?", "ans": "7500", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}}}, "vidutinis": {"name": "Vidutinis", "desc": "Neigiami pagrindai, trupmenos ir dešimtainiai skaičiai visose savybėse, savybių DERINIAI viename reiškinyje, standartinės išraiškos daugyba/dalyba. 4 stotelės po 4.", "variants": {"v1": {"name": "Vidutinis · 1 variantas", "digits": ["3", "7", "1", "9"], "stations": [[{"type": "input", "expr": "(−2)⁴", "ans": "16", "hint": "Neigiamos bazės LYGINIS rodiklis (4) – rezultatas TEIGIAMAS. Apskaičiuok 2⁴."}, {"type": "input", "expr": "(−3)³", "ans": "−27", "hint": "Neigiamos bazės NELYGINIS rodiklis (3) – rezultatas NEIGIAMAS. Apskaičiuok 3³."}, {"type": "input", "expr": "0,3²", "ans": "9/100", "hint": "Dauginamas dešimtainis skaičius pats iš savęs kaip sveikas skaičius, tada nustatyk kablelio vietą."}, {"type": "mc", "expr": "(−2)²·(−2)³", "ans": "−32", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM: 2+3=5. Tada pritaikyk neigiamo pagrindo ženklo taisyklę.", "opts": ["−32", "32", "64", "16"]}], [{"type": "input", "expr": "(−2)³·3³", "ans": "−216", "hint": "Vienodi rodikliai: (−a)ⁿ·bⁿ=(−a·b)ⁿ. Sudauginęs pagrindus su ženklu, pakelk 3-uoju laipsniu."}, {"type": "input", "expr": "(3/4)²", "ans": "9/16", "hint": "(a/b)ⁿ=aⁿ/bⁿ. Kelk laipsniu ir skaitiklį, ir vardiklį ATSKIRAI."}, {"type": "mc", "expr": "(2a²)³", "ans": "8a⁶", "hint": "(k·aᵖ)ⁿ = kⁿ·aᵖˣⁿ. Apskaičiuok 2³ pats, o rodiklį prie a dauginki: 2·3.", "opts": ["8a⁶", "8a⁴", "6a⁶", "8a⁷"]}, {"type": "input", "expr": "2³·3³:(6)²", "ans": "6", "hint": "Pirma sujunk pagal vienodų rodiklių savybę: aⁿ·bⁿ=(ab)ⁿ. Tada padalink tuo pačiu pagrindu (rodiklius ATIMK)."}], [{"type": "input", "expr": "(−2)⁻³", "ans": "−1/8", "hint": "(−a)⁻ⁿ = 1/(−a)ⁿ. Rodiklis 3 yra NELYGINIS — nuo to priklauso rezultato ženklas."}, {"type": "input", "expr": "2²·2⁻⁵", "ans": "1/8", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM. Jei rezultato rodiklis neigiamas, pritaikyk a⁻ⁿ=1/aⁿ ir apskaičiuok."}, {"type": "mc", "expr": "(2²)⁻³", "ans": "2⁻⁶", "hint": "(aᵐ)ⁿ = aᵐˣⁿ – rodiklius DAUGINAM su ženklais, net jei rodiklis neigiamas.", "opts": ["2⁻⁶", "2⁻⁵", "2⁶", "2¹"]}, {"type": "input", "expr": "2²·2⁻⁴:2¹", "ans": "1/8", "hint": "Ta pati bazė: daugybai rodiklius SUDEDAM, dalybai ATIMAM (su ženklais!). Sujunk visus tris žingsnius, tada apskaičiuok galutinį laipsnį."}], [{"type": "mc", "expr": "(2·10³)·(4·10²)", "ans": "8·10⁵", "hint": "Koeficientus dauginam tarpusavyje, rodiklius prie 10 SUDEDAM. Jei koeficientas ≥10, perkelk kablelį ir padidink rodiklį.", "opts": ["8·10⁵", "8·10⁶", "8·10⁴", "6·10⁵"]}, {"type": "mc", "expr": "(6·10⁵):(3·10²)", "ans": "2·10³", "hint": "Koeficientus daliname tarpusavyje, rodiklius prie 10 ATIMAM.", "opts": ["2·10³", "2·10⁴", "2·10²", "6·10³"]}, {"type": "input", "expr": "152000 = ? · 10ⁿ", "ans": "1,52·10⁵", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei."}, {"type": "input", "expr": "4,7·10⁵ = ?", "ans": "470000", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v2": {"name": "Vidutinis · 2 variantas", "digits": ["5", "2", "8", "4"], "stations": [[{"type": "input", "expr": "(−3)²", "ans": "9", "hint": "Neigiamos bazės LYGINIS rodiklis (2) – rezultatas TEIGIAMAS. Apskaičiuok 3²."}, {"type": "input", "expr": "(−2)⁵", "ans": "−32", "hint": "Neigiamos bazės NELYGINIS rodiklis (5) – rezultatas NEIGIAMAS. Apskaičiuok 2⁵."}, {"type": "input", "expr": "0,4²", "ans": "4/25", "hint": "Dauginamas dešimtainis skaičius pats iš savęs kaip sveikas skaičius, tada nustatyk kablelio vietą."}, {"type": "mc", "expr": "(−3)¹·(−3)²", "ans": "−27", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM: 1+2=3. Tada pritaikyk neigiamo pagrindo ženklo taisyklę.", "opts": ["−27", "27", "9", "81"]}], [{"type": "input", "expr": "(−2)³·4³", "ans": "−512", "hint": "Vienodi rodikliai: (−a)ⁿ·bⁿ=(−a·b)ⁿ. Sudauginęs pagrindus su ženklu, pakelk 3-uoju laipsniu."}, {"type": "input", "expr": "(2/5)²", "ans": "4/25", "hint": "(a/b)ⁿ=aⁿ/bⁿ. Kelk laipsniu ir skaitiklį, ir vardiklį ATSKIRAI."}, {"type": "mc", "expr": "(3a²)²", "ans": "9a⁴", "hint": "(k·aᵖ)ⁿ = kⁿ·aᵖˣⁿ. Apskaičiuok 3² pats, o rodiklį prie a dauginki: 2·2.", "opts": ["9a⁴", "9a³", "6a⁴", "9a⁵"]}, {"type": "input", "expr": "2³·4³:(8)²", "ans": "8", "hint": "Pirma sujunk pagal vienodų rodiklių savybę: aⁿ·bⁿ=(ab)ⁿ. Tada padalink tuo pačiu pagrindu (rodiklius ATIMK)."}], [{"type": "input", "expr": "(−3)⁻²", "ans": "1/9", "hint": "(−a)⁻ⁿ = 1/(−a)ⁿ. Rodiklis 2 yra LYGINIS — nuo to priklauso rezultato ženklas."}, {"type": "input", "expr": "3¹·3⁻³", "ans": "1/9", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM. Jei rezultato rodiklis neigiamas, pritaikyk a⁻ⁿ=1/aⁿ ir apskaičiuok."}, {"type": "mc", "expr": "(3³)⁻²", "ans": "3⁻⁶", "hint": "(aᵐ)ⁿ = aᵐˣⁿ – rodiklius DAUGINAM su ženklais, net jei rodiklis neigiamas.", "opts": ["3⁻⁶", "3⁻⁵", "3⁶", "3⁻¹"]}, {"type": "input", "expr": "3¹·3⁻³:3²", "ans": "1/81", "hint": "Ta pati bazė: daugybai rodiklius SUDEDAM, dalybai ATIMAM (su ženklais!). Sujunk visus tris žingsnius, tada apskaičiuok galutinį laipsnį."}], [{"type": "mc", "expr": "(3·10²)·(5·10³)", "ans": "1,5·10⁶", "hint": "Koeficientus dauginam tarpusavyje, rodiklius prie 10 SUDEDAM. Jei koeficientas ≥10, perkelk kablelį ir padidink rodiklį.", "opts": ["1,5·10⁶", "1,5·10⁷", "1,5·10⁵", "8·10⁵"]}, {"type": "mc", "expr": "(8·10⁶):(2·10³)", "ans": "4·10³", "hint": "Koeficientus daliname tarpusavyje, rodiklius prie 10 ATIMAM.", "opts": ["4·10³", "4·10⁴", "4·10²", "8·10³"]}, {"type": "input", "expr": "243000 = ? · 10ⁿ", "ans": "2,43·10⁵", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei."}, {"type": "input", "expr": "3,6·10⁵ = ?", "ans": "360000", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v3": {"name": "Vidutinis · 3 variantas", "digits": ["6", "1", "0", "7"], "stations": [[{"type": "input", "expr": "(−4)²", "ans": "16", "hint": "Neigiamos bazės LYGINIS rodiklis (2) – rezultatas TEIGIAMAS. Apskaičiuok 4²."}, {"type": "input", "expr": "(−2)³", "ans": "−8", "hint": "Neigiamos bazės NELYGINIS rodiklis (3) – rezultatas NEIGIAMAS. Apskaičiuok 2³."}, {"type": "input", "expr": "0,2²", "ans": "1/25", "hint": "Dauginamas dešimtainis skaičius pats iš savęs kaip sveikas skaičius, tada nustatyk kablelio vietą."}, {"type": "mc", "expr": "(−2)³·(−2)¹", "ans": "16", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM: 3+1=4. Tada pritaikyk neigiamo pagrindo ženklo taisyklę.", "opts": ["16", "−16", "−8", "−32"]}], [{"type": "input", "expr": "(−3)³·2³", "ans": "−216", "hint": "Vienodi rodikliai: (−a)ⁿ·bⁿ=(−a·b)ⁿ. Sudauginęs pagrindus su ženklu, pakelk 3-uoju laipsniu."}, {"type": "input", "expr": "(3/5)²", "ans": "9/25", "hint": "(a/b)ⁿ=aⁿ/bⁿ. Kelk laipsniu ir skaitiklį, ir vardiklį ATSKIRAI."}, {"type": "mc", "expr": "(2a²)⁴", "ans": "16a⁸", "hint": "(k·aᵖ)ⁿ = kⁿ·aᵖˣⁿ. Apskaičiuok 2⁴ pats, o rodiklį prie a dauginki: 2·4.", "opts": ["16a⁸", "16a⁵", "8a⁸", "16a⁹"]}, {"type": "input", "expr": "3³·2³:(6)²", "ans": "6", "hint": "Pirma sujunk pagal vienodų rodiklių savybę: aⁿ·bⁿ=(ab)ⁿ. Tada padalink tuo pačiu pagrindu (rodiklius ATIMK)."}], [{"type": "input", "expr": "(−2)⁻⁵", "ans": "−1/32", "hint": "(−a)⁻ⁿ = 1/(−a)ⁿ. Rodiklis 5 yra NELYGINIS — nuo to priklauso rezultato ženklas."}, {"type": "input", "expr": "5³·5⁻⁴", "ans": "1/5", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM. Jei rezultato rodiklis neigiamas, pritaikyk a⁻ⁿ=1/aⁿ ir apskaičiuok."}, {"type": "mc", "expr": "(2⁴)⁻²", "ans": "2⁻⁸", "hint": "(aᵐ)ⁿ = aᵐˣⁿ – rodiklius DAUGINAM su ženklais, net jei rodiklis neigiamas.", "opts": ["2⁻⁸", "2⁻⁶", "2⁸", "2⁻²"]}, {"type": "input", "expr": "2³·2⁻²:2⁻²", "ans": "8", "hint": "Ta pati bazė: daugybai rodiklius SUDEDAM, dalybai ATIMAM (su ženklais!). Sujunk visus tris žingsnius, tada apskaičiuok galutinį laipsnį."}], [{"type": "mc", "expr": "(2·10⁴)·(6·10²)", "ans": "1,2·10⁷", "hint": "Koeficientus dauginam tarpusavyje, rodiklius prie 10 SUDEDAM. Jei koeficientas ≥10, perkelk kablelį ir padidink rodiklį.", "opts": ["1,2·10⁷", "1,2·10⁸", "1,2·10⁶", "8·10⁶"]}, {"type": "mc", "expr": "(9·10⁵):(3·10²)", "ans": "3·10³", "hint": "Koeficientus daliname tarpusavyje, rodiklius prie 10 ATIMAM.", "opts": ["3·10³", "3·10⁴", "3·10²", "9·10³"]}, {"type": "input", "expr": "317000 = ? · 10ⁿ", "ans": "3,17·10⁵", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei."}, {"type": "input", "expr": "5,2·10⁵ = ?", "ans": "520000", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}, "v4": {"name": "Vidutinis · 4 variantas", "digits": ["9", "4", "2", "5"], "stations": [[{"type": "input", "expr": "(−2)⁶", "ans": "64", "hint": "Neigiamos bazės LYGINIS rodiklis (6) – rezultatas TEIGIAMAS. Apskaičiuok 2⁶."}, {"type": "input", "expr": "(−5)³", "ans": "−125", "hint": "Neigiamos bazės NELYGINIS rodiklis (3) – rezultatas NEIGIAMAS. Apskaičiuok 5³."}, {"type": "input", "expr": "0,5²", "ans": "1/4", "hint": "Dauginamas dešimtainis skaičius pats iš savęs kaip sveikas skaičius, tada nustatyk kablelio vietą."}, {"type": "mc", "expr": "(−2)⁴·(−2)¹", "ans": "−32", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM: 4+1=5. Tada pritaikyk neigiamo pagrindo ženklo taisyklę.", "opts": ["−32", "32", "16", "64"]}], [{"type": "input", "expr": "(−2)³·5³", "ans": "−1000", "hint": "Vienodi rodikliai: (−a)ⁿ·bⁿ=(−a·b)ⁿ. Sudauginęs pagrindus su ženklu, pakelk 3-uoju laipsniu."}, {"type": "input", "expr": "(4/5)²", "ans": "16/25", "hint": "(a/b)ⁿ=aⁿ/bⁿ. Kelk laipsniu ir skaitiklį, ir vardiklį ATSKIRAI."}, {"type": "mc", "expr": "(3a²)³", "ans": "27a⁶", "hint": "(k·aᵖ)ⁿ = kⁿ·aᵖˣⁿ. Apskaičiuok 3³ pats, o rodiklį prie a dauginki: 2·3.", "opts": ["27a⁶", "27a⁴", "9a⁶", "27a⁷"]}, {"type": "input", "expr": "2³·5³:(10)²", "ans": "10", "hint": "Pirma sujunk pagal vienodų rodiklių savybę: aⁿ·bⁿ=(ab)ⁿ. Tada padalink tuo pačiu pagrindu (rodiklius ATIMK)."}], [{"type": "input", "expr": "(−5)⁻²", "ans": "1/25", "hint": "(−a)⁻ⁿ = 1/(−a)ⁿ. Rodiklis 2 yra LYGINIS — nuo to priklauso rezultato ženklas."}, {"type": "input", "expr": "2²·2⁻³", "ans": "1/2", "hint": "Ta pati bazė, daugyba – rodiklius SUDEDAM. Jei rezultato rodiklis neigiamas, pritaikyk a⁻ⁿ=1/aⁿ ir apskaičiuok."}, {"type": "mc", "expr": "(5²)⁻³", "ans": "5⁻⁶", "hint": "(aᵐ)ⁿ = aᵐˣⁿ – rodiklius DAUGINAM su ženklais, net jei rodiklis neigiamas.", "opts": ["5⁻⁶", "5⁻⁵", "5⁶", "5¹"]}, {"type": "input", "expr": "5¹·5⁻²:5¹", "ans": "1/25", "hint": "Ta pati bazė: daugybai rodiklius SUDEDAM, dalybai ATIMAM (su ženklais!). Sujunk visus tris žingsnius, tada apskaičiuok galutinį laipsnį."}], [{"type": "mc", "expr": "(4·10³)·(2·10²)", "ans": "8·10⁵", "hint": "Koeficientus dauginam tarpusavyje, rodiklius prie 10 SUDEDAM. Jei koeficientas ≥10, perkelk kablelį ir padidink rodiklį.", "opts": ["8·10⁵", "8·10⁶", "8·10⁴", "6·10⁵"]}, {"type": "mc", "expr": "(6·10⁴):(4·10²)", "ans": "1,5·10²", "hint": "Koeficientus daliname tarpusavyje, rodiklius prie 10 ATIMAM.", "opts": ["1,5·10²", "1,5·10³", "1,5·10¹", "6·10²"]}, {"type": "input", "expr": "284000 = ? · 10ⁿ", "ans": "2,84·10⁵", "hint": "Kairėje palik VIENĄ skaitmenį (1–9) prieš kablelį, rodiklis n = kiek kartų kablelį stūmei."}, {"type": "input", "expr": "6,1·10⁵ = ?", "ans": "610000", "hint": "Kelk kablelį n vietų į DEŠINĘ (n = rodiklis prie 10)."}]]}}}, "sudetingas": {"name": "Sudėtingas", "desc": "Laipsnių reiškinių palyginimas (>,<,=) kiekvienoje stotelėje, ilgos grandinės su neigiamais rodikliais, labai maži/dideli skaičiai standartinėje išraiškoje. 4 stotelės po 4.", "variants": {"v1": {"name": "Sudėtingas · 1 variantas", "digits": ["3", "7", "1", "9"], "stations": [[{"type": "mc", "expr": "(2³)² □ 2⁵", "ans": ">", "hint": "Pertvarkyk kairę pusę pagal laipsnio laipsnio savybę (aᵐ)ⁿ=aᵐˣⁿ, tada palygink gautus rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(−2)³+4²", "ans": "8", "hint": "Apskaičiuok abu dėmenis ATSKIRAI (stebėk neigiamo pagrindo ženklą), tada sudėk."}, {"type": "input", "expr": "2³·2²−2⁴", "ans": "16", "hint": "Abu nariai turi tą pačią bazę – apskaičiuok kiekvieną pritaikęs daugybos savybę ATSKIRAI, tada atimk."}, {"type": "mc", "expr": "2⁵:2³+2", "ans": "6", "hint": "2⁵:2³=2². Apskaičiuok tą laipsnį, tada pridėk 2.", "opts": ["6", "8", "4", "10"]}], [{"type": "mc", "expr": "2³·3³ □ (6)⁴", "ans": "<", "hint": "Kairę pusę sutrauk pagal vienodų rodiklių savybę aⁿ·bⁿ=(ab)ⁿ, tada palygink abiejų pusių rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(2²)³:(2³)¹·2", "ans": "16", "hint": "Pertvarkyk kiekvieną narį pagal laipsnio laipsnio savybę, tada atlik dalybą ir daugybą TUO PAČIU pagrindu (rodiklius atimk/pridėk)."}, {"type": "input", "expr": "(−1/3)²·(−3)³", "ans": "−3", "hint": "Pastebėk: pirmasis daugiklis (−1/k)ⁿ ir antrasis (−k)ⁿ⁺¹ turi bendrą k laipsnį, kuris susiprastina. Lieka tik ženklas ir k."}, {"type": "mc", "expr": "(2³)²:2⁴", "ans": "4", "hint": "(2³)²=2⁶. 2⁶:2⁴=2². Paskutinį žingsnį apskaičiuok pats.", "opts": ["4", "8", "2", "64"]}], [{"type": "mc", "expr": "2⁻³ □ 2⁻⁵", "ans": ">", "hint": "Bazė > 1: DIDESNIS rodiklis reiškia DIDESNĘ reikšmę, net jei abu rodikliai neigiami.", "opts": [">", "<", "="]}, {"type": "input", "expr": "2³·2⁻²·2⁴:2⁻⁶", "ans": "2048", "hint": "Ta pati bazė visur: daugybai rodiklius SUDEDAM, dalybai ATIMAM. Sudėk/atimk visus rodiklius iš eilės, tada apskaičiuok galutinį laipsnį."}, {"type": "input", "expr": "(−2)⁻³·2²", "ans": "−1/2", "hint": "Apskaičiuok abu daugiklius ATSKIRAI (stebėk neigiamo pagrindo ir neigiamo rodiklio taisykles), tada padaugink."}, {"type": "mc", "expr": "2⁻²·2⁴·2¹", "ans": "8", "hint": "Ta pati bazė – visus tris rodiklius SUDEDAM: −2+(4)+1. Tada apskaičiuok galutinį laipsnį.", "opts": ["8", "1/4", "16", "−8"]}], [{"type": "mc", "expr": "0,00034 = ? · 10ⁿ", "ans": "3,4·10⁻⁴", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["3,4·10⁻⁴", "3,4·10⁻³", "3,4·10⁴", "3,4·10⁻⁵"]}, {"type": "mc", "expr": "0,0000056 = ? · 10ⁿ", "ans": "5,6·10⁻⁶", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["5,6·10⁻⁶", "5,6·10⁻⁵", "5,6·10⁶", "5,6·10⁻⁷"]}, {"type": "input", "expr": "(4·10⁻²)·(3·10⁵)", "ans": "1,2·10⁴", "hint": "Koeficientus dauginam, rodiklius prie 10 SUDEDAM (atsargiai su ženklais). Jei koeficientas ≥10, perkelk kablelį ir pakoreguok rodiklį."}, {"type": "mc", "expr": "(9·10⁴):(2·10³)", "ans": "4,5·10¹", "hint": "Koeficientus daliname, rodiklius prie 10 ATIMAM (atsargiai su ženklais).", "opts": ["4,5·10¹", "4,5·10²", "4,5·10⁰", "9·10¹"]}]]}, "v2": {"name": "Sudėtingas · 2 variantas", "digits": ["5", "2", "8", "4"], "stations": [[{"type": "mc", "expr": "(3²)³ □ 3⁵", "ans": ">", "hint": "Pertvarkyk kairę pusę pagal laipsnio laipsnio savybę (aᵐ)ⁿ=aᵐˣⁿ, tada palygink gautus rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(−3)³+3²", "ans": "−18", "hint": "Apskaičiuok abu dėmenis ATSKIRAI (stebėk neigiamo pagrindo ženklą), tada sudėk."}, {"type": "input", "expr": "3²·3²−3³", "ans": "54", "hint": "Abu nariai turi tą pačią bazę – apskaičiuok kiekvieną pritaikęs daugybos savybę ATSKIRAI, tada atimk."}, {"type": "mc", "expr": "2⁶:2⁴+2", "ans": "6", "hint": "2⁶:2⁴=2². Apskaičiuok tą laipsnį, tada pridėk 2.", "opts": ["6", "8", "4", "12"]}], [{"type": "mc", "expr": "2²·4² □ (8)²", "ans": "=", "hint": "Kairę pusę sutrauk pagal vienodų rodiklių savybę aⁿ·bⁿ=(ab)ⁿ, tada palygink abiejų pusių rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(3²)³:(3³)¹·3", "ans": "81", "hint": "Pertvarkyk kiekvieną narį pagal laipsnio laipsnio savybę, tada atlik dalybą ir daugybą TUO PAČIU pagrindu (rodiklius atimk/pridėk)."}, {"type": "input", "expr": "(−1/4)²·(−4)³", "ans": "−4", "hint": "Pastebėk: pirmasis daugiklis (−1/k)ⁿ ir antrasis (−k)ⁿ⁺¹ turi bendrą k laipsnį, kuris susiprastina. Lieka tik ženklas ir k."}, {"type": "mc", "expr": "(3²)²:3²", "ans": "9", "hint": "(3²)²=3⁴. 3⁴:3²=3². Paskutinį žingsnį apskaičiuok pats.", "opts": ["9", "27", "3", "81"]}], [{"type": "mc", "expr": "3¹ □ 3⁻⁴", "ans": ">", "hint": "Bazė > 1: DIDESNIS rodiklis reiškia DIDESNĘ reikšmę, net jei abu rodikliai neigiami.", "opts": [">", "<", "="]}, {"type": "input", "expr": "3²·3⁻³·3¹:3⁻²", "ans": "9", "hint": "Ta pati bazė visur: daugybai rodiklius SUDEDAM, dalybai ATIMAM. Sudėk/atimk visus rodiklius iš eilės, tada apskaičiuok galutinį laipsnį."}, {"type": "input", "expr": "(−3)⁻²·3³", "ans": "3", "hint": "Apskaičiuok abu daugiklius ATSKIRAI (stebėk neigiamo pagrindo ir neigiamo rodiklio taisykles), tada padaugink."}, {"type": "mc", "expr": "3⁻¹·3³·3²", "ans": "81", "hint": "Ta pati bazė – visus tris rodiklius SUDEDAM: −1+(3)+2. Tada apskaičiuok galutinį laipsnį.", "opts": ["81", "1/3", "27", "−81"]}], [{"type": "mc", "expr": "0,00081 = ? · 10ⁿ", "ans": "8,1·10⁻⁴", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["8,1·10⁻⁴", "8,1·10⁻³", "8,1·10⁴", "8,1·10⁻⁵"]}, {"type": "mc", "expr": "0,0000072 = ? · 10ⁿ", "ans": "7,2·10⁻⁶", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["7,2·10⁻⁶", "7,2·10⁻⁵", "7,2·10⁶", "7,2·10⁻⁷"]}, {"type": "input", "expr": "(6·10⁻³)·(2·10⁵)", "ans": "1,2·10³", "hint": "Koeficientus dauginam, rodiklius prie 10 SUDEDAM (atsargiai su ženklais). Jei koeficientas ≥10, perkelk kablelį ir pakoreguok rodiklį."}, {"type": "mc", "expr": "(8·10⁵):(4·10³)", "ans": "2·10²", "hint": "Koeficientus daliname, rodiklius prie 10 ATIMAM (atsargiai su ženklais).", "opts": ["2·10²", "2·10³", "2·10¹", "8·10²"]}]]}, "v3": {"name": "Sudėtingas · 3 variantas", "digits": ["6", "1", "0", "7"], "stations": [[{"type": "mc", "expr": "(2⁴)² □ 2⁹", "ans": "<", "hint": "Pertvarkyk kairę pusę pagal laipsnio laipsnio savybę (aᵐ)ⁿ=aᵐˣⁿ, tada palygink gautus rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(−2)⁵+2²", "ans": "−28", "hint": "Apskaičiuok abu dėmenis ATSKIRAI (stebėk neigiamo pagrindo ženklą), tada sudėk."}, {"type": "input", "expr": "2⁴·2²−2⁵", "ans": "32", "hint": "Abu nariai turi tą pačią bazę – apskaičiuok kiekvieną pritaikęs daugybos savybę ATSKIRAI, tada atimk."}, {"type": "mc", "expr": "3⁵:3³+3", "ans": "12", "hint": "3⁵:3³=3². Apskaičiuok tą laipsnį, tada pridėk 3.", "opts": ["12", "14", "10", "15"]}], [{"type": "mc", "expr": "2³·5³ □ (10)²", "ans": ">", "hint": "Kairę pusę sutrauk pagal vienodų rodiklių savybę aⁿ·bⁿ=(ab)ⁿ, tada palygink abiejų pusių rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(2²)³:(2³)¹·2", "ans": "16", "hint": "Pertvarkyk kiekvieną narį pagal laipsnio laipsnio savybę, tada atlik dalybą ir daugybą TUO PAČIU pagrindu (rodiklius atimk/pridėk)."}, {"type": "input", "expr": "(−1/2)³·(−2)⁴", "ans": "−2", "hint": "Pastebėk: pirmasis daugiklis (−1/k)ⁿ ir antrasis (−k)ⁿ⁺¹ turi bendrą k laipsnį, kuris susiprastina. Lieka tik ženklas ir k."}, {"type": "mc", "expr": "(2⁴)²:2⁵", "ans": "8", "hint": "(2⁴)²=2⁸. 2⁸:2⁵=2³. Paskutinį žingsnį apskaičiuok pats.", "opts": ["8", "16", "4", "256"]}], [{"type": "mc", "expr": "2⁻² □ 2⁻⁴", "ans": ">", "hint": "Bazė > 1: DIDESNIS rodiklis reiškia DIDESNĘ reikšmę, net jei abu rodikliai neigiami.", "opts": [">", "<", "="]}, {"type": "input", "expr": "2⁴·2⁻¹·2⁻³:2²", "ans": "1/4", "hint": "Ta pati bazė visur: daugybai rodiklius SUDEDAM, dalybai ATIMAM. Sudėk/atimk visus rodiklius iš eilės, tada apskaičiuok galutinį laipsnį."}, {"type": "input", "expr": "(−2)⁻⁴·2¹", "ans": "1/8", "hint": "Apskaičiuok abu daugiklius ATSKIRAI (stebėk neigiamo pagrindo ir neigiamo rodiklio taisykles), tada padaugink."}, {"type": "mc", "expr": "2³·2⁻³·2⁴", "ans": "16", "hint": "Ta pati bazė – visus tris rodiklius SUDEDAM: 3+(−3)+4. Tada apskaičiuok galutinį laipsnį.", "opts": ["16", "8", "1/8", "−16"]}], [{"type": "mc", "expr": "0,000045 = ? · 10ⁿ", "ans": "4,5·10⁻⁵", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["4,5·10⁻⁵", "4,5·10⁻⁴", "4,5·10⁵", "4,5·10⁻⁶"]}, {"type": "mc", "expr": "0,00000091 = ? · 10ⁿ", "ans": "9,1·10⁻⁷", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["9,1·10⁻⁷", "9,1·10⁻⁶", "9,1·10⁷", "9,1·10⁻⁸"]}, {"type": "input", "expr": "(3·10⁻²)·(5·10⁶)", "ans": "1,5·10⁵", "hint": "Koeficientus dauginam, rodiklius prie 10 SUDEDAM (atsargiai su ženklais). Jei koeficientas ≥10, perkelk kablelį ir pakoreguok rodiklį."}, {"type": "mc", "expr": "(6·10³):(3·10²)", "ans": "2·10¹", "hint": "Koeficientus daliname, rodiklius prie 10 ATIMAM (atsargiai su ženklais).", "opts": ["2·10¹", "2·10²", "2·10⁰", "6·10¹"]}]]}, "v4": {"name": "Sudėtingas · 4 variantas", "digits": ["9", "4", "2", "5"], "stations": [[{"type": "mc", "expr": "(5²)² □ 5³", "ans": ">", "hint": "Pertvarkyk kairę pusę pagal laipsnio laipsnio savybę (aᵐ)ⁿ=aᵐˣⁿ, tada palygink gautus rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(−3)⁴+5²", "ans": "106", "hint": "Apskaičiuok abu dėmenis ATSKIRAI (stebėk neigiamo pagrindo ženklą), tada sudėk."}, {"type": "input", "expr": "5²·5¹−5²", "ans": "100", "hint": "Abu nariai turi tą pačią bazę – apskaičiuok kiekvieną pritaikęs daugybos savybę ATSKIRAI, tada atimk."}, {"type": "mc", "expr": "2⁶:2²+2", "ans": "18", "hint": "2⁶:2²=2⁴. Apskaičiuok tą laipsnį, tada pridėk 2.", "opts": ["18", "20", "16", "12"]}], [{"type": "mc", "expr": "3²·2² □ (6)³", "ans": "<", "hint": "Kairę pusę sutrauk pagal vienodų rodiklių savybę aⁿ·bⁿ=(ab)ⁿ, tada palygink abiejų pusių rodiklius (bazė > 1).", "opts": [">", "<", "="]}, {"type": "input", "expr": "(3²)³:(3³)¹·3", "ans": "81", "hint": "Pertvarkyk kiekvieną narį pagal laipsnio laipsnio savybę, tada atlik dalybą ir daugybą TUO PAČIU pagrindu (rodiklius atimk/pridėk)."}, {"type": "input", "expr": "(−1/5)²·(−5)³", "ans": "−5", "hint": "Pastebėk: pirmasis daugiklis (−1/k)ⁿ ir antrasis (−k)ⁿ⁺¹ turi bendrą k laipsnį, kuris susiprastina. Lieka tik ženklas ir k."}, {"type": "mc", "expr": "(2³)³:2⁷", "ans": "4", "hint": "(2³)³=2⁹. 2⁹:2⁷=2². Paskutinį žingsnį apskaičiuok pats.", "opts": ["4", "8", "2", "512"]}], [{"type": "mc", "expr": "5⁻¹ □ 5⁻³", "ans": ">", "hint": "Bazė > 1: DIDESNIS rodiklis reiškia DIDESNĘ reikšmę, net jei abu rodikliai neigiami.", "opts": [">", "<", "="]}, {"type": "input", "expr": "5²·5⁻³·5¹:5⁻¹", "ans": "5", "hint": "Ta pati bazė visur: daugybai rodiklius SUDEDAM, dalybai ATIMAM. Sudėk/atimk visus rodiklius iš eilės, tada apskaičiuok galutinį laipsnį."}, {"type": "input", "expr": "(−5)⁻²·5²", "ans": "1", "hint": "Apskaičiuok abu daugiklius ATSKIRAI (stebėk neigiamo pagrindo ir neigiamo rodiklio taisykles), tada padaugink."}, {"type": "mc", "expr": "5⁻²·5²·5¹", "ans": "5", "hint": "Ta pati bazė – visus tris rodiklius SUDEDAM: −2+(2)+1. Tada apskaičiuok galutinį laipsnį.", "opts": ["5", "1/25", "25", "−5"]}], [{"type": "mc", "expr": "0,00027 = ? · 10ⁿ", "ans": "2,7·10⁻⁴", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["2,7·10⁻⁴", "2,7·10⁻³", "2,7·10⁴", "2,7·10⁻⁵"]}, {"type": "mc", "expr": "0,0000064 = ? · 10ⁿ", "ans": "6,4·10⁻⁶", "hint": "Palik VIENĄ skaitmenį (1–9) prieš kablelį. Jei skaičius mažesnis už 1, rodiklis prie 10 bus NEIGIAMAS.", "opts": ["6,4·10⁻⁶", "6,4·10⁻⁵", "6,4·10⁶", "6,4·10⁻⁷"]}, {"type": "input", "expr": "(5·10⁻³)·(4·10⁴)", "ans": "2·10²", "hint": "Koeficientus dauginam, rodiklius prie 10 SUDEDAM (atsargiai su ženklais). Jei koeficientas ≥10, perkelk kablelį ir pakoreguok rodiklį."}, {"type": "mc", "expr": "(9·10⁶):(3·10³)", "ans": "3·10³", "hint": "Koeficientus daliname, rodiklius prie 10 ATIMAM (atsargiai su ženklais).", "opts": ["3·10³", "3·10⁴", "3·10²", "9·10³"]}]]}}}};
+
+const STATION_META = {"lengvas": [{"title": "Laipsnio pagrindai", "badge": "1 misija · Laipsnio pagrindai", "gemEmoji": "🟢", "intro": "Pirmoji misija — laipsnio reikšmė ir vienodų pagrindų savybės (2.1–2.3). Keturi uždaviniai iki pirmojo Neoxis kristalo.", "gemText": "Žaliai spindintis kristalas tavo rankose! Atskleistas pirmasis kodo skaitmuo."}, {"title": "Vienodi rodikliai ir laipsnis laipsniu", "badge": "2 misija · Vienodi rodikliai ir laipsnis laipsniu", "gemEmoji": "🟣", "intro": "Antroji misija — vienodi rodikliai ir laipsnio laipsnis (2.4–2.5).", "gemText": "Violetinis kristalas suaktyvintas! Antrasis kodo skaitmuo atskleistas."}, {"title": "Neigiamas rodiklis ir jo savybės", "badge": "3 misija · Neigiamas rodiklis ir jo savybės", "gemEmoji": "🟡", "intro": "Trečioji misija — nulinis ir neigiamas rodiklis (2.6–2.7). Rodiklis gali būti 0 arba neigiamas — prisimink taisykles.", "gemText": "Auksinis kristalas žioruoja! Trečiasis kodo skaitmuo tavo."}, {"title": "Standartinė skaičiaus išraiška", "badge": "4 misija · Standartinė skaičiaus išraiška", "gemEmoji": "🔴", "intro": "Paskutinė misija — standartinė skaičiaus išraiška (2.8). Kelk arba nuleisk kablelį pagal rodiklį prie 10.", "gemText": "Paskutinis, raudonas kristalas suaktyvintas! Visi keturi Neoxis surinkti."}], "vidutinis": [{"title": "Laipsnio pagrindai", "badge": "1 misija · Laipsnio pagrindai", "gemEmoji": "🟢", "intro": "Pirmoji misija — laipsnio pagrindai su neigiamais skaičiais ir dešimtainiais (2.1–2.3).", "gemText": "Žaliai spindintis kristalas tavo rankose! Atskleistas pirmasis kodo skaitmuo."}, {"title": "Vienodi rodikliai ir laipsnis laipsniu", "badge": "2 misija · Vienodi rodikliai ir laipsnis laipsniu", "gemEmoji": "🟣", "intro": "Antroji misija — vienodi rodikliai ir laipsnis laipsniu su trupmenomis bei koeficientais (2.4–2.5).", "gemText": "Violetinis kristalas suaktyvintas! Antrasis kodo skaitmuo atskleistas."}, {"title": "Neigiamas rodiklis ir jo savybės", "badge": "3 misija · Neigiamas rodiklis ir jo savybės", "gemEmoji": "🟡", "intro": "Trečioji misija — neigiamas rodiklis su neigiamu pagrindu ir savybių deriniais (2.6–2.7).", "gemText": "Auksinis kristalas žioruoja! Trečiasis kodo skaitmuo tavo."}, {"title": "Standartinė skaičiaus išraiška", "badge": "4 misija · Standartinė skaičiaus išraiška", "gemEmoji": "🔴", "intro": "Paskutinė misija — standartinės išraiškos daugyba ir dalyba (2.8).", "gemText": "Paskutinis, raudonas kristalas suaktyvintas! Visi keturi Neoxis surinkti."}], "sudetingas": [{"title": "Laipsnio pagrindai", "badge": "1 misija · Laipsnio pagrindai", "gemEmoji": "🟢", "intro": "Pirmoji misija — palyginimai ir mišrūs reiškiniai apie laipsnio pagrindus (2.1–2.3).", "gemText": "Žaliai spindintis kristalas tavo rankose! Atskleistas pirmasis kodo skaitmuo."}, {"title": "Vienodi rodikliai ir laipsnis laipsniu", "badge": "2 misija · Vienodi rodikliai ir laipsnis laipsniu", "gemEmoji": "🟣", "intro": "Antroji misija — vienodų rodiklių ir laipsnio laipsnio ilgos grandinės (2.4–2.5).", "gemText": "Violetinis kristalas suaktyvintas! Antrasis kodo skaitmuo atskleistas."}, {"title": "Neigiamas rodiklis ir jo savybės", "badge": "3 misija · Neigiamas rodiklis ir jo savybės", "gemEmoji": "🟡", "intro": "Trečioji misija — neigiamo rodiklio ilgiausios grandinės ir palyginimai (2.6–2.7). Sunkiausia misija.", "gemText": "Auksinis kristalas žioruoja! Trečiasis kodo skaitmuo tavo."}, {"title": "Standartinė skaičiaus išraiška", "badge": "4 misija · Standartinė skaičiaus išraiška", "gemEmoji": "🔴", "intro": "Paskutinė misija — labai maži/dideli skaičiai standartinėje išraiškoje, veiksmai su neigiamu rodikliu prie 10 (2.8).", "gemText": "Paskutinis, raudonas kristalas suaktyvintas! Visi keturi Neoxis surinkti."}]};
+
+/* ============================================================ */
+let state = {
+  name:'', klase:'', tier:'', variant:'',
+  si:0, qi:0, gems:[false,false,false,false],
+  totalCorrect:0, firstTry:0, attemptsThisQ:0, solvedThisQ:false, wrongTotal:0,
+  startTime:0, elapsed:0, timerId:null, finalCode:'', grade:10
+};
+let CUR = null;      // dabartinio lygio+varianto duomenys
+let curOpts = [];    // sumaišyti dabartinio klausimo variantai
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime suskaičiuoti,
+   kiek kartų mokinys išėjo iš žaidimo lango (perjungė langą / atidarė
+   kitą programą) — tai matys mokytoja rezultatų lentelėje. */
+let leaveCount = 0, gameActive = false;
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function enableIntegrity(){
+  gameActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Delsa, kad viso ekrano įjungimo blur nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia.
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(gameActive && (document.hidden || !document.hasFocus())) onAway();
+  }, 1000);
+  // Išėjimas iš viso ekrano (Escape/F11) NEPAKEIČIA lango matomumo/fokuso (tab lieka
+  // aktyvus), tad blur/visibilitychange to nepagauna — sekam ATSKIRAI per fullscreenchange.
+  if(!window._fsListener){
+    window._fsListener = true;
+    document.addEventListener('fullscreenchange', function(){
+      if(gameActive && !document.fullscreenElement){ onAway(); onBack(); }
+    });
+  }
+}
+function onAway(){
+  if(!gameActive || away) return;
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš žaidimo lango (kartų: ${leaveCount}). Grįžk į žaidimą!`; }
+  refreshHud();
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;
+  return Math.round(ms/1000);
+}
+
+/* ---- atsakymų normalizavimas (eiliškumas/tarpai/ženklai) ----
+   Priima ir ">"/"<"/"=" (palyginimo užduotims), ne tik +/- prasidedančius. */
+function normalize(raw){
+  if(raw==null) return '';
+  let s = String(raw).toLowerCase();
+  s = s.replace(/\s+/g,'').replace(/,/g,'.').replace(/−/g,'-').replace(/·/g,'').replace(/\*/g,'');
+  if(s==='') return '';
+  if(s[0] !== '+' && s[0] !== '-' && s[0] !== '<' && s[0] !== '>' && s[0] !== '=') s = '+' + s;
+  let terms = s.match(/[+\-][^+\-]+/g) || [s];
+  terms = terms.map(t=>{
+    if(t[0] !== '+' && t[0] !== '-') return t;
+    let sign=t[0]; let body=t.slice(1); body=body.replace(/^1(?=[a-z])/,''); return sign+body;
+  });
+  terms.sort();
+  return terms.join('');
+}
+function answersMatch(u,c){ return normalize(u)===normalize(c); }
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+/* ---- navigacija ---- */
+function show(id){
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function hudHTML(){
+  const gemCls=['','g2','g3','g4'];
+  const gems=state.gems.map((on,i)=>`<span class="gem ${gemCls[i]} ${on?'on':''}"></span>`).join('');
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  const exitBadge = leaveCount>0 ? `<span class="timer" style="color:var(--bad)">⚠ <b>${leaveCount}</b></span>` : '';
+  return `<div class="who"><b>${escapeHtml(state.name)}</b> · ${escapeHtml(CUR?CUR.name:'')}</div>
+    <div class="spacer"></div><div class="gems">${gems}</div>
+    ${exitBadge}
+    <div class="timer">⏱ <b>${mm}:${ss}</b></div>`;
+}
+function refreshHud(){
+  ['hud-intro','hud-q','hud-gem','hud-code'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=hudHTML(); });
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* Graži trupmena: "2/9" (skaičius/skaičius) tekste -> laiptuota <span class="fr">.
+   Dalyba visada rašoma su ":", tad "/" reiškia TIK trupmeną (žr. matematikos-notacija/README.md). */
+function fmtMath(s){
+  return escapeHtml(s).replace(/(\d+)\/(\d+)/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+/* ---- Garso efektai (Web Audio API, be išorinių failų) ---- */
+let _actx = null;
+function _audioCtx(){
+  if(!_actx){
+    try{ _actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ _actx = null; }
+  }
+  if(_actx && _actx.state === 'suspended'){ _actx.resume().catch(()=>{}); }
+  return _actx;
+}
+function _tone(freq, start, dur, type, gain){
+  const ctx = _audioCtx(); if(!ctx) return;
+  const osc = ctx.createOscillator(), g = ctx.createGain();
+  osc.type = type || 'sine'; osc.frequency.value = freq;
+  const t0 = ctx.currentTime + start;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.linearRampToValueAtTime(gain||0.18, t0+0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  osc.connect(g); g.connect(ctx.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+function playWrongSound(){
+  _tone(220,0,.13,'square',.10); _tone(164,.11,.16,'square',.10);
+}
+function playGemSound(){
+  _tone(523.25,0,.11,'sine',.16); _tone(659.25,.09,.11,'sine',.16); _tone(783.99,.18,.24,'sine',.18);
+}
+function playWinSound(){
+  _tone(523.25,0,.11,'sine',.16); _tone(659.25,.11,.11,'sine',.16);
+  _tone(783.99,.22,.11,'sine',.16); _tone(1046.5,.33,.38,'sine',.2);
+}
+
+function startTimer(){
+  state.startTime=Date.now()-state.elapsed*1000;
+  if(state.timerId) clearInterval(state.timerId);
+  state.timerId=setInterval(()=>{ state.elapsed=Math.floor((Date.now()-state.startTime)/1000); refreshHud(); },1000);
+}
+
+/* ---- 1. sudėtingumo (tier) kortelės ---- */
+function renderTiers(){
+  const box=document.getElementById('tierCards');
+  const keys=Object.keys(LEVELS);
+  box.innerHTML=keys.map((k,i)=>{
+    const t=LEVELS[k];
+    return `<div class="lvl l${i+1}" data-tier="${k}" onclick="selectTier(this)">
+      <div class="n"><span class="dot"></span>${escapeHtml(t.name)}</div>
+      <div class="d">${escapeHtml(t.desc)}</div></div>`;
+  }).join('');
+}
+function selectTier(el){
+  document.querySelectorAll('#tierCards .lvl').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  state.tier = el.getAttribute('data-tier');
+  state.variant = '';
+  document.querySelectorAll('#variantCards .lvl').forEach(x=>x.classList.remove('sel'));
+  renderVariants();
+  document.getElementById('variantLabel').style.display='block';
+  document.getElementById('variantCards').style.display='grid';
+}
+
+/* ---- 2. varianto kortelės ---- */
+function renderVariants(){
+  const box=document.getElementById('variantCards');
+  const variants=LEVELS[state.tier].variants;
+  const keys=Object.keys(variants);
+  box.innerHTML=keys.map((k,i)=>{
+    return `<div class="lvl" data-variant="${k}" onclick="selectVariant(this)">
+      <div class="n"><span class="dot"></span>${i+1} variantas</div>
+      <div class="d">kiti skaičiai</div></div>`;
+  }).join('');
+}
+function selectVariant(el){
+  document.querySelectorAll('#variantCards .lvl').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  state.variant = el.getAttribute('data-variant');
+}
+
+/* ---- žaidimo eiga ---- */
+function startGame(){
+  const err=document.getElementById('startErr');
+  const n=document.getElementById('playerName').value.trim();
+  if(!n){ err.textContent='Įrašyk vardą ir pavardę.'; return; }
+  if(!state.tier){ err.textContent='Pasirink sudėtingumą (Lengvas / Vidutinis / Sudėtingas).'; return; }
+  if(!state.variant){ err.textContent='Pasirink variantą.'; return; }
+  err.textContent='';
+  state.name=n;
+  state.klase=document.getElementById('playerClass').value.trim();
+  CUR=LEVELS[state.tier].variants[state.variant];
+  state.finalCode=CUR.digits.join('');
+  state.si=0; state.qi=0;
+  startTimer();
+  enableIntegrity();
+  showIntro();
+}
+
+function showIntro(){
+  const m=STATION_META[state.tier][state.si];
+  document.getElementById('introBadge').textContent=m.badge;
+  document.getElementById('introTitle').textContent=m.title;
+  document.getElementById('introText').textContent=m.intro;
+  refreshHud(); show('s-intro');
+}
+function beginStation(){ state.qi=0; loadQuestion(); show('s-q'); }
+
+function loadQuestion(){
+  const m=STATION_META[state.tier][state.si];
+  const q=CUR.stations[state.si][state.qi];
+  state.attemptsThisQ=0; state.solvedThisQ=false;
+
+  refreshHud();
+  document.getElementById('qMeta').textContent=`${m.title} · Užduotis ${state.qi+1} iš ${CUR.stations[state.si].length}`;
+  document.getElementById('qExpr').innerHTML=fmtMath(q.expr);
+  let totalDone=0; for(let i=0;i<state.si;i++) totalDone+=CUR.stations[i].length; totalDone+=state.qi;
+  const TOTQ=CUR.stations.reduce((s,st)=>s+st.length,0);
+  document.getElementById('progBar').style.width=(totalDone/TOTQ*100)+'%';
+
+  const fb=document.getElementById('qFeedback'); fb.textContent=''; fb.className='feedback';
+  const hint=document.getElementById('qHint'); hint.innerHTML=fmtMath(q.hint||'Peržiūrėk užduotį atidžiai ir bandyk dar kartą.'); hint.classList.remove('show');
+  document.getElementById('qNextWrap').style.display='none';
+
+  const optsEl=document.getElementById('qOptions'), inputWrap=document.getElementById('qInputWrap'), mcActions=document.getElementById('qMcActions');
+  if(q.type==='mc'){
+    optsEl.style.display='grid'; inputWrap.style.display='none'; mcActions.style.display='flex';
+    curOpts=shuffle(q.opts);                 // <-- teisingas atsakymas atsitiktinėje vietoje
+    const L=['A','B','C','D','E','F'];
+    optsEl.innerHTML=curOpts.map((o,i)=>`<button class="opt" data-val="${escapeHtml(o)}" onclick="pickOption(this)"><span class="k">${L[i]}</span>${fmtMath(o)}</button>`).join('');
+  } else {
+    optsEl.style.display='none'; mcActions.style.display='none'; inputWrap.style.display='block';
+    const inp=document.getElementById('qInput'); inp.value=''; inp.disabled=false; inp.focus();
+    inp.onkeydown=(e)=>{ if(e.key==='Enter') submitInput(); };
+  }
+}
+
+function markCorrect(){
+  state.solvedThisQ=true; state.totalCorrect++;
+  if(state.attemptsThisQ===1) state.firstTry++;
+  const fb=document.getElementById('qFeedback');
+  fb.textContent = state.attemptsThisQ===1 ? '✔ Teisingai! Puiku.' : '✔ Teisingai! Pavyko.';
+  fb.className='feedback good';
+  document.getElementById('qNextWrap').style.display='flex';
+  document.getElementById('qNextBtn').focus();
+}
+function markWrong(){
+  state.wrongTotal++;
+  const fb=document.getElementById('qFeedback');
+  fb.textContent='✘ Dar ne. Pažiūrėk užuominą ir bandyk dar kartą.';
+  fb.className='feedback bad'; showHint();
+  playWrongSound();
+}
+function pickOption(btn){
+  if(state.solvedThisQ) return;
+  state.attemptsThisQ++;
+  const q=CUR.stations[state.si][state.qi];
+  if(answersMatch(btn.getAttribute('data-val'),q.ans)){
+    btn.classList.add('correct');
+    document.querySelectorAll('#qOptions .opt').forEach(b=>b.style.pointerEvents='none');
+    markCorrect();
+  } else { btn.classList.add('wrong'); btn.style.pointerEvents='none'; markWrong(); }
+}
+function submitInput(){
+  if(state.solvedThisQ) return;
+  const q=CUR.stations[state.si][state.qi];
+  const inp=document.getElementById('qInput'); const val=inp.value.trim();
+  if(val===''){ const fb=document.getElementById('qFeedback'); fb.textContent='Įrašyk atsakymą prieš tikrindamas.'; fb.className='feedback bad'; return; }
+  state.attemptsThisQ++;
+  if(answersMatch(val,q.ans)){ inp.disabled=true; markCorrect(); } else { markWrong(); }
+}
+function showHint(){ document.getElementById('qHint').classList.add('show'); }
+
+function nextQuestion(){
+  state.qi++;
+  if(state.qi<CUR.stations[state.si].length){ loadQuestion(); }
+  else { state.gems[state.si]=true; awardGem(); }
+}
+function awardGem(){
+  const m=STATION_META[state.tier][state.si];
+  refreshHud();
+  playGemSound();
+  document.getElementById('gemFrag').textContent=m.gemEmoji;
+  document.getElementById('gemTitle').textContent=`Neoxis kristalas ${state.si+1}/${state.gems.length} surinktas!`;
+  document.getElementById('gemText').textContent=m.gemText;
+  document.getElementById('gemDigit').textContent=CUR.digits[state.si];
+  document.getElementById('gemBtn').textContent=(state.si<state.gems.length-1)?'Į kitą stotelę ▸':'Į finalinę misiją ▸';
+  show('s-gem');
+}
+function afterGem(){ if(state.si<state.gems.length-1){ state.si++; showIntro(); } else { showCodeScreen(); } }
+
+function showCodeScreen(){
+  refreshHud();
+  document.getElementById('codeHint').innerHTML=CUR.digits.map(d=>`<div class="d">${d}</div>`).join('');
+  const inp=document.getElementById('codeInput'); inp.value='';
+  inp.onkeydown=(e)=>{ if(e.key==='Enter') submitCode(); };
+  show('s-code'); inp.focus();
+}
+function submitCode(){
+  const val=document.getElementById('codeInput').value.replace(/\s/g,'');
+  const fb=document.getElementById('codeFeedback');
+  if(val===state.finalCode){ fb.textContent='✔ Kodas teisingas! Sistema atrakinta...'; fb.className='feedback good'; setTimeout(winGame,700); }
+  else { fb.textContent='✘ Neteisingas kodas. Kristalų skaitmenys rodomi virš laukelio — įvesk juos iš eilės.'; fb.className='feedback bad'; }
+}
+
+function winGame(){
+  if(state.timerId) clearInterval(state.timerId);
+  gameActive = false;
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  const eb=document.getElementById('exitBanner'); if(eb) eb.style.display='none';
+  document.getElementById('winWho').textContent=`Puiku, ${state.name}! Variantas: ${CUR.name}. Tu suvaldei reiškinius ir grįžai į realybę.`;
+  const TOTG=CUR.stations.reduce((s,st)=>s+st.length,0);
+  document.getElementById('kScore').textContent=state.totalCorrect+'/'+TOTG;
+  document.getElementById('kFirst').textContent=state.firstTry;
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  document.getElementById('kTime').textContent=`${mm}:${ss}`;
+  state.grade=Math.max(4,10-state.wrongTotal);
+  document.getElementById('kGrade').textContent=state.grade;
+  const kLeave=document.getElementById('kLeave');
+  kLeave.textContent=leaveCount>0?leaveCount:'0';
+  kLeave.style.color=leaveCount>0?'var(--bad)':'var(--good)';
+  let msg;
+  if(state.firstTry>=Math.round(0.9*TOTG)) msg='Nuostabu! Reiškinius valdai kaip tikras ekspertas. 🏆';
+  else if(state.firstTry>=Math.round(0.7*TOTG)) msg='Labai gerai! Beveik viską išsprendei iš pirmo karto.';
+  else if(state.firstTry>=Math.round(0.45*TOTG)) msg='Gerai padirbėta! Dar šiek tiek praktikos ir bus puiku.';
+  else msg='Misija įveikta! Verta pakartoti temą dar kartą.';
+  document.getElementById('winMsg').textContent=msg;
+  show('s-win');
+  playWinSound();
+  sendToSheets();
+}
+
+/* ---- rezultatas ---- */
+function resultPayload(){
+  const mm=Math.floor(state.elapsed/60), ss=String(state.elapsed%60).padStart(2,'0');
+  const TOTG=CUR.stations.reduce((s,st)=>s+st.length,0);
+  const pct=TOTG?state.totalCorrect/TOTG:0;
+  const nameParts=state.name.trim().split(/\s+/);
+  const vardas=nameParts[0]||state.name, pavarde=nameParts.slice(1).join(' ');
+  return {
+    laikas:new Date().toISOString(),
+    vardas:vardas, pavarde:pavarde, klase:state.klase, variantas:CUR.name,
+    viso_taskai:state.totalCorrect, viso_max:TOTG, procentai:pct, pazymys:state.grade,
+    is_pirmo_karto:state.firstTry, trukme:`${mm}:${ss}`, trukmeS:state.elapsed,
+    isejo_is_lango: leaveCount>0 ? (leaveCount+' ('+fmtDur(awaySeconds())+')') : 0
+  };
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Siunčiama per paslėptą formą į paslėptą iframe (ne fetch) — tai patikimiausias
+   būdas pasiekti Apps Script „web app", nepriklauso nuo CORS. Naudoja bendrą
+   „router" (žr. SHEETS_URL) su konkrečios šio žaidimo lentelės SHEET_ID. */
+let _sheetTimer=null;
+function sendToSheets(){
+  const st=document.getElementById('sentStatus');
+  if(!(typeof SHEETS_URL==='string' && SHEETS_URL.indexOf('http')===0)){
+    st.className='sent no';
+    st.textContent='ℹ Rezultatas neišsiųstas: mokytoja dar nenustatė Google Sheets nuorodos. Gali atsisiųsti atsargai.';
+    return;
+  }
+  st.className='sent'; st.textContent='⏳ Siunčiama mokytojai...';
+
+  const old=document.getElementById('sheetFrame'); if(old) old.remove();
+  const ifr=document.createElement('iframe');
+  ifr.name='sheetFrame'; ifr.id='sheetFrame'; ifr.style.display='none';
+  document.body.appendChild(ifr);
+
+  let done=false;
+  function ok(){
+    if(done) return; done=true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer=null; }
+    st.className='sent ok'; st.textContent='✔ Rezultatas išsiųstas mokytojai.';
+  }
+
+  const form=document.createElement('form');
+  form.method='POST'; form.action=SHEETS_URL; form.target='sheetFrame'; form.style.display='none';
+  const inp=document.createElement('input');
+  inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify(resultPayload());
+  form.appendChild(inp);
+  const inpSid=document.createElement('input');
+  inpSid.type='hidden'; inpSid.name='sheet_id'; inpSid.value=SHEET_ID;
+  form.appendChild(inpSid);
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  setTimeout(function(){ ifr.onload=ok; }, 0);
+  _sheetTimer=setTimeout(function(){
+    if(done) return; done=true;
+    st.className='sent no';
+    st.textContent='⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą ir parodyk mokytojai.';
+  }, 15000);
+}
+function downloadResult(){
+  const p=resultPayload();
+  const csv='Data;Vardas;Pavardė;Klasė;Variantas;Taškai;Iš viso;Iš pirmo karto;Trukmė;Įvertinimas;Išėjo iš lango\n'+
+    [p.laikas,p.vardas,p.pavarde,p.klase,p.variantas,p.viso_taskai,p.viso_max,p.is_pirmo_karto,p.trukme,p.pazymys,p.isejo_is_lango].join(';')+'\n';
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`rezultatas_${(p.vardas||'mokinys').replace(/\s+/g,'_')}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---- slaptažodžio užraktas (pašalink, jei s-lock sekcija pašalinta iš HTML) ---- */
+const ROOM_PASSWORD = 'pabėgimas'; // pvz. 'pabėgimas'
+function checkLock(){
+  const val = document.getElementById('lockInput').value.trim().toLowerCase();
+  const err = document.getElementById('lockErr');
+  if(val === ROOM_PASSWORD.toLowerCase()){
+    err.textContent = '';
+    show('s-start');
+  } else {
+    err.textContent = 'Neteisingas slaptažodis. Paklausk mokytojos Violetos.';
+    playWrongSound();
+  }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  const li = document.getElementById('lockInput');
+  if(li) li.addEventListener('keydown', e => { if(e.key==='Enter') checkLock(); });
+});
+
+/* ---- paleidimas ---- */
+renderTiers();
+</script>
+</body>
+</html>
