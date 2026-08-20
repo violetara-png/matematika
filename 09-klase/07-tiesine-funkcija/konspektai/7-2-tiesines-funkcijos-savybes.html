@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiesinės funkcijos savybės — 9 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px;}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.2em;font-weight:400;line-height:1;transform:scaleY(1.3);transform-origin:center;display:inline-block;}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3;}
+  .sys .rows span{white-space:nowrap;}
+  sup, sub{line-height:0;}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .pvz p{margin:0 0 6px}
+  .pvz p:last-child{margin-bottom:0}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  ol.algoritmas{margin:8px 0 0; padding-left:22px}
+  ol.algoritmas li{margin:4px 0}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Tiesinės funkcijos savybės</h1>
+  <p class="klase">Matematika · 9 klasė · 7 skyrius „Tiesinė funkcija" · 7.2 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Apibrėžimo ir reikšmių sritis</a></li>
+      <li><a href="#t2">Funkcijos nulis ir susikirtimo su ašimis taškai</a></li>
+      <li><a href="#t3">Teigiamų ir neigiamų reikšmių intervalai</a></li>
+      <li><a href="#t4">Didėjimas, mažėjimas, didžiausia/mažiausia reikšmė</a></li>
+      <li><a href="#t5">Pilnas funkcijos tyrimas</a></li>
+      <li><a href="#t6">Dviejų tiesių susikirtimo taškas</a></li>
+      <li><a href="#t7">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Apibrėžimo ir reikšmių sritis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Apibrėžimo sritis</span> <span class="math">D(f)</span> — galimos argumento (<span class="math">x</span>) reikšmės. Kai nenurodyta kitaip, tiesinės funkcijos apibrėžimo sritį sudaro <b>visos</b> <span class="math">x</span> reikšmės, nes formulė <span class="math">kx + b</span> turi prasmę su bet kuriuo <span class="math">x</span>:</p>
+        <div class="formule math">D(f) = (−∞; +∞)</div>
+        <p><span class="zenk">Reikšmių sritis</span> <span class="math">E(f)</span> — įgyjamos funkcijos reikšmės (<span class="math">y</span>). Čia yra <b>vienas svarbus atvejis</b>:</p>
+        <table class="kort">
+          <tr><th>Funkcijos tipas</th><th>Reikšmių sritis E(f)</th></tr>
+          <tr><td class="math">k ≠ 0 (didėjančioji arba mažėjančioji)</td><td class="math">(−∞; +∞)</td></tr>
+          <tr><td class="math">k = 0 (pastovioji, f(x) = b)</td><td>tik vienas skaičius: <span class="math">{b}</span></td></tr>
+        </table>
+        <p class="demesio"><b>Dėmesio.</b> Pastovioji funkcija <span class="math">f(x) = b</span> visoms <span class="math">x</span> reikšmėms grąžina <b>tą patį</b> skaičių <span class="math">b</span> — todėl jos reikšmių sritis nėra visa skaičių tiesė, o tik vienas taškas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Funkcijos nulis ir susikirtimo su ašimis taškai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Funkcijos nulis</span> — argumento <span class="math">x</span> reikšmė, su kuria <span class="math">f(x) = 0</span>. Tai kartu yra taško, kuriame grafikas kerta <b>Ox</b> ašį, abscisė. Norint jį rasti, sprendžiame lygtį <span class="math">kx + b = 0</span>.</p>
+        <p>Norint rasti tašką, kuriame grafikas kerta <b>Oy</b> ašį, vietoj <span class="math">x</span> įrašome <span class="math">0</span> ir apskaičiuojame <span class="math">f(0)</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Apskaičiuokime taškų, kuriuose funkcijos <span class="math">h(x) = <span class="fr"><span>1</span><span>3</span></span>x − 2</span> grafikas kerta koordinačių ašis, koordinates.</p>
+        <div class="formule math">Ox ašis: <span class="fr"><span>1</span><span>3</span></span>x − 2 = 0 ⟹ x = 6</div>
+        <div class="formule math">Oy ašis: <span class="fr"><span>1</span><span>3</span></span> · 0 − 2 = −2</div>
+        <p><b>Atsakymas.</b> Grafikas kerta Ox ašį taške <span class="math">(6; 0)</span>, Oy ašį — taške <span class="math">(0; −2)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Teigiamų ir neigiamų reikšmių intervalai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Funkcijos reikšmės yra <span class="term-a">teigiamos</span> su tomis <span class="math">x</span> reikšmėmis, su kuriomis grafikas yra <b>virš</b> Ox ašies — tai nelygybės <span class="math">f(x) &gt; 0</span> sprendiniai. Analogiškai, reikšmės <span class="term-b">neigiamos</span>, kai grafikas <b>žemiau</b> Ox ašies — tai <span class="math">f(x) &lt; 0</span> sprendiniai.</p>
+        <p>Kadangi tiesinės funkcijos grafikas — tiesė, ji kerta Ox ašį <b>ne daugiau kaip viename</b> taške (funkcijos nulyje). Tas taškas padalija skaičių tiesę į dvi dalis — vienoje funkcija visada teigiama, kitoje visada neigiama. Kryptis priklauso nuo <span class="math">k</span> ženklo: jei <span class="math">k &gt; 0</span> (didėjančioji), funkcija teigiama <b>į dešinę</b> nuo nulio; jei <span class="math">k &lt; 0</span> (mažėjančioji) — <b>į kairę</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Nustatykime, kuriame intervale funkcija <span class="math">m(x) = 3x − 7</span> įgyja teigiamas, kuriame — neigiamas reikšmes.</p>
+        <div class="formule math">3x − 7 &gt; 0 ⟹ x &gt; 2<span class="fr"><span>1</span><span>3</span></span> ⟹ x ∈ (2<span class="fr"><span>1</span><span>3</span></span>; +∞)</div>
+        <div class="formule math">3x − 7 &lt; 0 ⟹ x &lt; 2<span class="fr"><span>1</span><span>3</span></span> ⟹ x ∈ (−∞; 2<span class="fr"><span>1</span><span>3</span></span>)</div>
+        <p><b>Atsakymas.</b> <span class="math">m(x) &gt; 0</span>, kai <span class="math">x ∈ (2<span class="fr"><span>1</span><span>3</span></span>; +∞)</span>; <span class="math">m(x) &lt; 0</span>, kai <span class="math">x ∈ (−∞; 2<span class="fr"><span>1</span><span>3</span></span>)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Didėjimas, mažėjimas, didžiausia/mažiausia reikšmė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jau žinome (7.1 tema): <span class="math">k &gt; 0</span> ⟹ funkcija <b>didėjančioji</b>; <span class="math">k &lt; 0</span> ⟹ <b>mažėjančioji</b>; <span class="math">k = 0</span> ⟹ <b>pastovioji</b>.</p>
+        <p><span class="zenk">Didžiausia ir mažiausia reikšmė.</span> Kadangi didėjančiosios ir mažėjančiosios tiesinės funkcijos grafikas tęsiasi be galo abiem kryptimis, tokia funkcija <b>neįgyja</b> nei didžiausios, nei mažiausios reikšmės. Vienintelė išimtis — <b>pastovioji</b> funkcija: jos reikšmė visada lygi <span class="math">b</span>, todėl <span class="math">b</span> kartu yra ir didžiausia, ir mažiausia funkcijos reikšmė.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Pilnas funkcijos tyrimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Ištirti funkciją</span> reiškia nustatyti visas šešias savybes iš eilės:</p>
+        <ol class="algoritmas">
+          <li>apibrėžimo sritį <span class="math">D(f)</span>;</li>
+          <li>reikšmių sritį <span class="math">E(f)</span>;</li>
+          <li>funkcijos nulį;</li>
+          <li>teigiamų ir neigiamų reikšmių intervalus;</li>
+          <li>ar funkcija didėjančioji, ar mažėjančioji;</li>
+          <li>didžiausią ir mažiausią reikšmę.</li>
+        </ol>
+        <p class="pvz"><b>Pavyzdys.</b> Ištirkime funkciją <span class="math">f(x) = 6 − 2x</span>.</p>
+        <p>1. <span class="math">D(f) = (−∞; +∞)</span>.<br>
+        2. <span class="math">E(f) = (−∞; +∞)</span> (nes <span class="math">k = −2 ≠ 0</span>).<br>
+        3. Funkcijos nulis: <span class="math">6 − 2x = 0 ⟹ x = 3</span>.<br>
+        4. <span class="math">f(x) &gt; 0</span>, kai <span class="math">x ∈ (−∞; 3)</span>; <span class="math">f(x) &lt; 0</span>, kai <span class="math">x ∈ (3; +∞)</span>.<br>
+        5. Funkcija <b>mažėjančioji</b> (<span class="math">k = −2 &lt; 0</span>).<br>
+        6. Didžiausios ir mažiausios reikšmės funkcija neįgyja.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dviejų tiesių susikirtimo taškas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Dviejų tiesinių funkcijų <span class="math">y = f(x)</span> ir <span class="math">y = g(x)</span> grafikų susikirtimo tašką randame, <b>sprendžiant lygčių sistemą</b>:</p>
+        <div class="formule math">
+          <span class="sys"><span class="br">{</span><span class="rows"><span>y = f(x),</span><span>y = g(x)</span></span></span>
+        </div>
+        <p class="pvz"><b>Pavyzdys.</b> Nustatykime tiesių <span class="math">y = 5x − 6</span> ir <span class="math">y = 2x + 3</span> susikirtimo taško koordinates.</p>
+        <div class="formule math">5x − 6 = 2x + 3 ⟹ 3x = 9 ⟹ x = 3</div>
+        <p>Įstatę <span class="math">x = 3</span> į bet kurią iš lygčių: <span class="math">y = 2 · 3 + 3 = 9</span>.</p>
+        <p><b>Atsakymas.</b> Susikirtimo taškas — <span class="math">(3; 9)</span>.</p>
+        <p class="demesio"><b>Atstumas iki ašies.</b> Taško atstumas iki Ox ašies lygus jo <span class="math">y</span> koordinatės moduliui, o atstumas iki Oy ašies — <span class="math">x</span> koordinatės moduliui. Taško <span class="math">(3; 9)</span> atstumas iki Ox ašies yra <span class="math">9</span>, o iki Oy ašies — <span class="math">3</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Visoms tiesinėms funkcijoms rašo <span class="math"><span class="klaida">E(f) = (−∞; +∞)</span></span></td><td>Pastoviajai funkcijai (<span class="math">k = 0</span>) — <span class="gerai">E(f) = {b}</span>, tik vienas skaičius</td></tr>
+          <tr><td>Sumaišo Ox ir Oy susikirtimo taškų radimo būdą</td><td>Ox: sprendžiame <span class="math">f(x) = 0</span> (randame x); Oy: skaičiuojame <span class="math">f(0)</span> (randame y)</td></tr>
+          <tr><td>Nurodo, kad funkcija turi didžiausią/mažiausią reikšmę, nors <span class="math">k ≠ 0</span></td><td>Tik <b>pastovioji</b> funkcija turi ir didžiausią, ir mažiausią reikšmę (abi lygios <span class="math">b</span>)</td></tr>
+          <tr><td>Sprendžiant <span class="math">f(x) &gt; 0</span>, pamiršta apsukti nelygybės ženklą, dalijant iš neigiamo <span class="math">k</span></td><td>Dalijant abi puses iš neigiamo skaičiaus, nelygybės ženklas <b>apsisuka</b></td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Funkcijos „nulis" (skaičius) ir susikirtimo su Ox ašimi „taškas" (koordinačių pora) yra ta pati radimo procedūra — tik nulis yra vien <span class="math">x</span> reikšmė, o taškas — pora <span class="math">(x; 0)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 9 klasės matematikos kursas · 7 skyrius „Tiesinė funkcija" · tema „Tiesinės funkcijos savybės“ (7.2)
+  </footer>
+
+</div>
+</body>
+</html>
