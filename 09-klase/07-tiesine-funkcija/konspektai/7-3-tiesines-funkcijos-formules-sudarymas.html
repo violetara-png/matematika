@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiesinės funkcijos formulės sudarymas — 9 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px;}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.2em;font-weight:400;line-height:1;transform:scaleY(1.3);transform-origin:center;display:inline-block;}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3;}
+  .sys .rows span{white-space:nowrap;}
+  sup, sub{line-height:0;}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .pvz p{margin:0 0 6px}
+  .pvz p:last-child{margin-bottom:0}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  ol.algoritmas{margin:8px 0 0; padding-left:22px}
+  ol.algoritmas li{margin:4px 0}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Tiesinės funkcijos formulės sudarymas</h1>
+  <p class="klase">Matematika · 9 klasė · 7 skyrius „Tiesinė funkcija" · 7.3 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Algoritmas: kaip sudaryti formulę</a></li>
+      <li><a href="#t2">Grafikas eina per koordinačių pradžią</a></li>
+      <li><a href="#t3">Du taškai, grafikas neina per pradžią</a></li>
+      <li><a href="#t4">Žinomas k ir vienas taškas</a></li>
+      <li><a href="#t5">Nulio taškas ir Oy ašies taškas</a></li>
+      <li><a href="#t6">Lygiagreti Ox ašiai</a></li>
+      <li><a href="#t7">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Algoritmas: kaip sudaryti formulę</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jau mokame, remdamiesi tiesinės funkcijos formule, nubraižyti jos grafiką. Šioje temoje mokomės <span class="zenk">atvirkščio veiksmo</span> — turėdami grafiką (ar informaciją apie tiesę), nustatyti jos formulę <span class="math">f(x) = kx</span> arba <span class="math">f(x) = kx + b</span>.</p>
+        <ol class="algoritmas">
+          <li>Parašome tiesinės funkcijos <b>bendrąją formulę</b>: <span class="math">f(x) = kx</span> (jei žinoma, kad grafikas eina per <span class="math">(0; 0)</span>) arba <span class="math">f(x) = kx + b</span> (jei nežinoma arba grafikas neina per pradžios tašką).</li>
+          <li>Randame <b>tašką (taškus)</b>, kurio (kurių) koordinatės aiškiai žinomos.</li>
+          <li>Įrašome tų taškų koordinates į bendrąją formulę ir <b>išsprendžiame gautą lygtį arba lygčių sistemą</b>.</li>
+          <li>Radę koeficientų <span class="math">k</span> ir <span class="math">b</span> reikšmes, užrašome tiesinės funkcijos formulę.</li>
+        </ol>
+        <p class="demesio"><b>Kiek sąlygų reikia?</b> Vienam nežinomajam (<span class="math">k</span>, kai <span class="math">b = 0</span> jau žinomas) pakanka <b>vieno</b> taško. Dviem nežinomiesiems (<span class="math">k</span> ir <span class="math">b</span>) reikia <b>dviejų</b> nepriklausomų sąlygų (dviejų taškų, arba taško ir krypties koeficiento, arba dviejų funkcijos reikšmių).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Grafikas eina per koordinačių pradžią</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei žinoma (arba matoma iš grafiko), kad tiesė eina per tašką <span class="math">(0; 0)</span>, funkcija yra pavidalo <span class="math">f(x) = kx</span> — lieka rasti tik <b>vieną</b> nežinomąjį <span class="math">k</span>.</p>
+        <p class="pvz"><b>1 pavyzdys.</b> Brėžinyje pavaizduota tiesė, einanti per pradžios tašką ir tašką <span class="math">A(−4; 2)</span>. Užrašykime šią funkciją formule.</p>
+        <p><b>Sprendimas.</b> Kadangi grafikas eina per <span class="math">(0; 0)</span>, rašome bendrąją formulę <span class="math">f(x) = kx</span>. Įrašome taško <span class="math">A(−4; 2)</span> koordinates ir išsprendžiame gautą lygtį:</p>
+        <div class="formule math">2 = k · (−4) &nbsp;⟹&nbsp; k = −<span class="fr"><span>1</span><span>2</span></span></div>
+        <p><b>Atsakymas.</b> <span class="math">f(x) = −<span class="fr"><span>1</span><span>2</span></span>x</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Du taškai, grafikas neina per pradžią</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei nežinoma, ar tiesė eina per koordinačių pradžią (arba aišku, kad neina), rašome bendrąją formulę <span class="math">f(x) = kx + b</span> ir turime rasti <b>du</b> nežinomuosius — <span class="math">k</span> ir <span class="math">b</span>. Tam reikia <b>dviejų</b> taškų.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Grafikui priklauso taškai <span class="math">A(0; 5)</span> ir <span class="math">B(4; 0)</span>. Užrašykime šią funkciją formule.</p>
+        <p><b>1 būdas.</b> Įrašome abiejų taškų koordinates į <span class="math">f(x) = kx + b</span> ir gauname lygčių sistemą:</p>
+        <div class="formule math">
+          <span class="sys"><span class="br">{</span><span class="rows"><span>5 = k · 0 + b,</span><span>0 = k · 4 + b</span></span></span>
+          &nbsp;⟹&nbsp;
+          <span class="sys"><span class="br">{</span><span class="rows"><span>b = 5,</span><span>k = −5/4</span></span></span>
+        </div>
+        <p><b>2 būdas (greitesnis).</b> Taškas <span class="math">A(0; 5)</span> yra <b>tiesės susikirtimo su Oy ašimi taškas</b>, todėl iš karto žinome <span class="math">b = 5</span>. Įrašę tašką <span class="math">B(4; 0)</span> į <span class="math">f(x) = kx + 5</span>, gauname <span class="math">0 = 4k + 5 ⟹ k = −1<span class="fr"><span>1</span><span>4</span></span></span>.</p>
+        <p><b>Atsakymas.</b> <span class="math">f(x) = −1<span class="fr"><span>1</span><span>4</span></span>x + 5</span>.</p>
+        <p class="pvz" style="margin-top:14px"><b>3 pavyzdys.</b> Tiesinės funkcijos grafikui priklauso taškai <span class="math">A(−2; 5)</span> ir <span class="math">B(3; −7)</span>. Nė vienas taškas nėra ant Oy ašies, todėl naudojame <b>tik</b> lygčių sistemos metodą.</p>
+        <div class="formule math">
+          <span class="sys"><span class="br">{</span><span class="rows"><span>5 = k · (−2) + b,</span><span>−7 = k · 3 + b</span></span></span>
+        </div>
+        <p>Iš pirmos lygties <span class="math">b = 5 + 2k</span>. Įrašę į antrąją: <span class="math">3k + (5 + 2k) = −7 ⟹ 5k = −12 ⟹ k = −2,4</span>, tada <span class="math">b = 5 + 2·(−2,4) = 0,2</span>.</p>
+        <p><b>Atsakymas.</b> <span class="math">f(x) = −2,4x + 0,2</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Žinomas k ir vienas taškas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei krypties koeficientas <span class="math">k</span> jau žinomas (pasakytas tiesiogiai arba matomas iš tiesės krypties), lieka rasti tik <span class="math">b</span> — pakanka <b>vieno</b> taško.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Tiesės krypties koeficientas lygus <span class="math"><span class="fr"><span>1</span><span>3</span></span></span>, o šiai tiesei priklauso taškas <span class="math">(6; −5)</span>. Parašykime tiesės lygtį.</p>
+        <p><b>Sprendimas.</b> Rašome <span class="math">f(x) = <span class="fr"><span>1</span><span>3</span></span>x + b</span> ir įrašome tašką: <span class="math">−5 = <span class="fr"><span>1</span><span>3</span></span> · 6 + b ⟹ −5 = 2 + b ⟹ b = −7</span>.</p>
+        <p><b>Atsakymas.</b> <span class="math">f(x) = <span class="fr"><span>1</span><span>3</span></span>x − 7</span>.</p>
+        <p class="demesio"><b>Ypatingas atvejis.</b> Jei kartu su <span class="math">k</span> žinomas ir tiesės susikirtimo su Oy ašimi taškas <span class="math">(0; b)</span>, koeficientas <span class="math">b</span> jau <b>tiesiogiai matomas</b> — papildomai skaičiuoti nereikia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Nulio taškas ir Oy ašies taškas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Funkcijos nulio taškas</span> — tai argumento <span class="math">x</span> reikšmė, su kuria <span class="math">f(x) = 0</span> (t. y. taškas, kuriame grafikas kerta Ox ašį). Nulio taškas ir Oy ašies susikirtimo taškas kartu duoda <b>du</b> taškus grafike, tad iš jų galima sudaryti formulę taip pat, kaip iš bet kurių dviejų taškų.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Taškas <span class="math">x = 5</span> yra funkcijos <span class="math">y = h(x)</span> nulio taškas, o šios funkcijos grafikas kerta Oy ašį taške <span class="math">(0; 3)</span>. Užrašykime šią funkciją formule.</p>
+        <p><b>Sprendimas.</b> Nulio taškas reiškia, kad <span class="math">h(5) = 0</span> — taigi grafikui priklauso taškas <span class="math">(5; 0)</span>. Oy ašies taškas duoda <span class="math">b = 3</span> iš karto. Įrašome <span class="math">(5; 0)</span> į <span class="math">h(x) = kx + 3</span>:</p>
+        <div class="formule math">0 = k · 5 + 3 &nbsp;⟹&nbsp; k = −<span class="fr"><span>3</span><span>5</span></span></div>
+        <p><b>Atsakymas.</b> <span class="math">h(x) = −<span class="fr"><span>3</span><span>5</span></span>x + 3</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Lygiagreti Ox ašiai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Tiesė, <b>lygiagreti Ox ašiai</b>, yra pastoviosios funkcijos grafikas — jos lygties bendroji forma <span class="math">y = a</span> (koeficientas <span class="math">k = 0</span>). Norint parašyti tokios tiesės lygtį, pakanka žinoti <b>vieno</b> jai priklausančio taško <span class="math">y</span> koordinatę — ji ir yra <span class="math">a</span>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Parašykime lygtį tiesės, kuri yra lygiagreti su Ox ašimi ir kuriai priklauso taškas <span class="math">(4; −0,8)</span>.</p>
+        <p><b>Sprendimas.</b> Kadangi tiesė lygiagreti Ox ašiai, jos lygtis — <span class="math">y = a</span>. Taško <span class="math">y</span> koordinatė lygi <span class="math">−0,8</span>, todėl <span class="math">a = −0,8</span>, nepaisant taško <span class="math">x</span> koordinatės.</p>
+        <p><b>Atsakymas.</b> <span class="math">y = −0,8</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td>Naudoja <span class="math">f(x) = kx</span>, kai grafikas <b>neina</b> per <span class="math">(0; 0)</span></td><td>Visada tikrina, ar tiesė eina per pradžios tašką, prieš pasirenkant formos formulę</td></tr>
+          <tr><td>Turint tik <b>vieną</b> tašką, bando rasti ir <span class="math">k</span>, ir <span class="math">b</span></td><td>Su vienu tašku <b>vienam</b> nežinomajam pakanka — reikia dar vienos sąlygos (antro taško, žinomo <span class="math">k</span> ar Oy taško)</td></tr>
+          <tr><td class="math"><span class="klaida">Sumaišo tašką (5; 0) su „b = 5"</span></td><td>Taškas <span class="math">(0; b)</span> duoda <span class="math">b</span> tiesiogiai — bet <span class="math">(5; 0)</span> yra <b>nulio taškas</b>, jį reikia <b>įstatyti</b> į formulę, o ne skaityti tiesiogiai</td></tr>
+          <tr><td>Sprendžiant sistemą, klaidingai perkelia narius per lygybės ženklą</td><td>Kiekvieną žingsnį tikrina įstatydamas gautas <span class="math">k</span>, <span class="math">b</span> reikšmes atgal į pradines lygtis</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Prieš spręsdami visada suskaičiuokite, kiek nežinomųjų (<span class="math">k</span>, <span class="math">b</span>) ir kiek nepriklausomų sąlygų (taškų, verčių) turite — jų skaičius turi <b>sutapti</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 9 klasės matematikos kursas · 7 skyrius „Tiesinė funkcija" · tema „Tiesinės funkcijos formulės sudarymas“ (7.3)
+  </footer>
+
+</div>
+</body>
+</html>
