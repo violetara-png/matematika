@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiesinė funkcija ir jos grafikas — 9 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  /* Bendra matematikos notacija (references/matematikos-notacija/notacija.css) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  sup, sub{line-height:0;}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .pvz p{margin:0 0 6px}
+  .pvz p:last-child{margin-bottom:0}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  svg.grafikas{display:block; margin:12px auto 0; max-width:100%; height:auto}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Tiesinė funkcija ir jos grafikas</h1>
+  <p class="klase">Matematika · 9 klasė · 7 skyrius „Tiesinė funkcija" · 7.1 tema</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Kas yra tiesinė funkcija</a></li>
+      <li><a href="#t2">Funkcija f(x) = kx (tiesioginio proporcingumo funkcija)</a></li>
+      <li><a href="#t3">Kaip koeficientas k veikia grafiką</a></li>
+      <li><a href="#t4">Funkcija f(x) = kx + b</a></li>
+      <li><a href="#t5">Ar taškas priklauso grafikui</a></li>
+      <li><a href="#t6">Funkcijos reikšmė ir argumento radimas</a></li>
+      <li><a href="#t7">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Kas yra tiesinė funkcija</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Sakykime, <span class="math">k</span> ir <span class="math">b</span> — realieji skaičiai. Taisyklė, kuri kiekvienam skaičiui <span class="math">x</span> priskiria vienintelį skaičių <span class="math">kx + b</span>, vadinama <span class="zenk">tiesine funkcija</span>. Ji užrašoma taip:</p>
+        <div class="formule math">f(x) = kx + b</div>
+        <p>Koeficientas <span class="term-a">k</span> vadinamas tiesės <b>krypties koeficientu</b>, koeficientas <span class="term-b">b</span> — <b>poslinkio koeficientu</b>.</p>
+        <p class="pvz"><b>Tiesinės funkcijos grafikas visada yra tiesė</b> — todėl, norint jį nubraižyti, <b>pakanka</b> žinoti du taškus (per du taškus galima nubrėžti tik vieną tiesę). Jei koeficientas <span class="math">k</span> trupmeninis, patogu rinktis tokias <span class="math">x</span> reikšmes, kad <span class="math">y</span> reikšmės būtų sveikieji skaičiai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Funkcija f(x) = kx (tiesioginio proporcingumo funkcija)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai funkcijos formulėje koeficientas <span class="math">b = 0</span>, funkcija užrašoma <span class="math">f(x) = kx</span>. Ji dar vadinama <span class="zenk">tiesioginio proporcingumo funkcija</span>.</p>
+        <p><b>Svarbiausia savybė:</b> tiesei <span class="math">y = kx</span> visada priklauso taškas <span class="math">(0; 0)</span> — grafikas eina per koordinačių pradžią.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Nubraižykime funkcijos <span class="math">f(x) = x</span> grafiką. Sudarome reikšmių lentelę:</p>
+        <table class="kort">
+          <tr><th>x</th><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+          <tr><th>f(x) = x</th><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+        </table>
+        <p style="margin-top:10px">Pažymime koordinačių plokštumoje taškus <span class="math">(x; f(x))</span> ir sujungiame — gauname tiesę, kuri yra I ir III ketvirčio pusiaukampinė. Argumento reikšmei <b>padidėjus vienetu</b>, funkcijos reikšmė taip pat <b>padidėja vienetu</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Kaip koeficientas k veikia grafiką</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Palyginkime kelias funkcijas <span class="math">f(x) = kx</span> su skirtingu <span class="math">k</span>. Argumento reikšmei padidėjus vienetu, funkcijos reikšmė pasikeičia lygiai <span class="math">k</span> vienetų:</p>
+        <ul>
+          <li>jei <span class="math">k &gt; 0</span> — funkcijos reikšmė <b>padidėja</b> <span class="math">k</span> vienetų → funkcija <span class="gerai">didėjančioji</span>;</li>
+          <li>jei <span class="math">k &lt; 0</span> — funkcijos reikšmė <b>sumažėja</b> <span class="math">|k|</span> vienetų → funkcija <span class="term-b">mažėjančioji</span>.</li>
+        </ul>
+        <p class="pvz"><b>1 pavyzdys.</b> Nubraižykime funkcijų <span class="math">f(x) = 3x</span> ir <span class="math">g(x) = −<span class="fr"><span>1</span><span>4</span></span>x</span> grafikus ir nustatykime, ar jos didėjančiosios, ar mažėjančiosios.</p>
+        <p><b>Sprendimas.</b></p>
+        <table class="kort">
+          <tr><th>x</th><td>0</td><td>1</td></tr>
+          <tr><th>f(x) = 3x</th><td>0</td><td>3</td></tr>
+        </table>
+        <table class="kort" style="margin-top:6px">
+          <tr><th>x</th><td>0</td><td>4</td></tr>
+          <tr><th>g(x) = −1/4 x</th><td>0</td><td>−1</td></tr>
+        </table>
+        <p style="margin-top:10px">Didėjant <span class="math">x</span> reikšmei, funkcijos <span class="math">f(x) = 3x</span> reikšmės didėja, o funkcijos <span class="math">g(x) = −1/4 x</span> reikšmės mažėja. Todėl <span class="math">f(x) = 3x</span> yra <span class="gerai">didėjančioji</span>, o <span class="math">g(x) = −1/4 x</span> — <span class="term-b">mažėjančioji</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Funkcija f(x) = kx + b</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Tiesinės funkcijos <span class="math">f(x) = kx + b</span> grafiko — tiesės — lygtis užrašoma taip: <span class="math">y = kx + b</span>. Ši tiesė <b>kerta Oy ašį taške</b> <span class="math">(0; b)</span>.</p>
+        <table class="kort">
+          <tr><th>Koeficiento k reikšmė</th><th>Funkcijos rūšis</th></tr>
+          <tr><td class="math">k &gt; 0</td><td class="gerai">didėjančioji</td></tr>
+          <tr><td class="math">k &lt; 0</td><td class="term-b">mažėjančioji</td></tr>
+          <tr><td class="math">k = 0</td><td><b>pastovioji</b> (funkcijos reikšmė visada lygi b)</td></tr>
+        </table>
+        <p class="demesio"><b>Dėmesio.</b> Kai <span class="math">k = 0</span>, funkcija turi pavidalą <span class="math">f(x) = b</span> — kiekvieną argumento reikšmę atitinka <b>ta pati</b> funkcijos reikšmė. Tokia funkcija nei didėja, nei mažėja — ji <b>pastovioji</b>, o jos grafikas yra Ox ašiai lygiagreti tiesė.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Nubraižykime funkcijų <span class="math">f(x) = 3</span> ir <span class="math">g(x) = −2</span> grafikus.</p>
+        <p><b>Sprendimas.</b> Kiekvieną <span class="math">x</span> reikšmę atitinka ta pati funkcijos reikšmė (3, atitinkamai −2), todėl grafikai — horizontalios tiesės. Abi funkcijos yra <b>pastoviosios</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Ar taškas priklauso grafikui</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taškas priklauso funkcijos grafikui</span>, jeigu, įrašę to taško koordinates į funkcijos formulę, gauname <b>teisingą skaitinę lygybę</b>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Nebraižydami funkcijos <span class="math">f(x) = −0,5x</span> grafiko, nustatykime, ar taškai <span class="math">A(12; −6)</span> ir <span class="math">B(6; −2)</span> jam priklauso.</p>
+        <p><b>Sprendimas.</b> Tikriname tašką <span class="math">A(12; −6)</span> — vietoj <span class="math">x</span> įrašome 12, vietoj <span class="math">f(x)</span> — skaičių −6:</p>
+        <div class="formule math">−6 = −0,5 · 12 &nbsp; ⟹ &nbsp; −6 = −6 <span class="gerai">(teisinga)</span></div>
+        <p>Taškas <span class="math">A</span> <b>priklauso</b> grafikui. Analogiškai tikriname <span class="math">B(6; −2)</span>:</p>
+        <div class="formule math">−2 = −0,5 · 6 &nbsp; ⟹ &nbsp; −2 = −3 <span class="klaida">(klaidinga)</span></div>
+        <p><b>Atsakymas.</b> Taškas <span class="math">A</span> priklauso funkcijos grafikui, o taškas <span class="math">B</span> jam <b>nepriklauso</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Funkcijos reikšmė ir argumento radimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Skaičiuojant funkcijos <b>reikšmę</b> <span class="math">f(a)</span>, vietoj <span class="math">x</span> į formulę įrašome skaičių <span class="math">a</span>. Ieškant <b>argumento</b>, kai žinoma funkcijos reikšmė, vietoj <span class="math">f(x)</span> įrašome žinomą skaičių ir sprendžiame gautą lygtį.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Nubraižykime funkcijos <span class="math">g(x) = 3x − 5</span> grafiką ir nustatykime, ar funkcija didėjančioji, ar mažėjančioji.</p>
+        <p><b>Sprendimas.</b> Kadangi grafikas — tiesė, pakanka dviejų taškų:</p>
+        <table class="kort">
+          <tr><th>x</th><td>0</td><td>1</td></tr>
+          <tr><th>g(x) = 3x − 5</th><td>−5</td><td>−2</td></tr>
+        </table>
+        <p style="margin-top:10px">Didesnę <span class="math">x</span> reikšmę atitinka didesnė <span class="math">y</span> reikšmė, todėl funkcija <span class="gerai">didėjančioji</span> (tai atitinka <span class="math">k = 3 &gt; 0</span>).</p>
+        <p class="pvz"><b>5 pavyzdys.</b> Duota tiesinė funkcija <span class="math">f(x) = 6 − <span class="fr"><span>1</span><span>3</span></span>x</span>.<br>
+        a) Apskaičiuokime <span class="math">f(−6)</span>.<br>
+        b) Nustatykime, su kuria <span class="math">x</span> reikšme <span class="math">f(x) = 1</span>.</p>
+        <p><b>Sprendimas.</b></p>
+        <div class="formule math">a) &nbsp; f(−6) = 6 − <span class="fr"><span>1</span><span>3</span></span>·(−6) = 6 + 2 = <span class="gerai">8</span></div>
+        <div class="formule math">b) &nbsp; 6 − <span class="fr"><span>1</span><span>3</span></span>x = 1 &nbsp;⟹&nbsp; −<span class="fr"><span>1</span><span>3</span></span>x = −5 &nbsp;⟹&nbsp; x = <span class="gerai">15</span></div>
+        <p><b>Atsakymas.</b> a) <span class="math">f(−6) = 8</span>; b) <span class="math">x = 15</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math">f(x) = 5 − 3x &nbsp;⟹&nbsp; <span class="klaida">k = 5, b = −3</span></td><td class="math"><span class="gerai">k = −3, b = 5</span> — koeficientas prie x visada k, net jei jis rašomas antras</td></tr>
+          <tr><td class="math"><span class="klaida">f(x) = 3/x + 4</span> — tiesinė</td><td>Netiesinė — <span class="math">x</span> yra <b>vardiklyje</b></td></tr>
+          <tr><td class="math"><span class="klaida">f(x) = 2x² + 3</span> — tiesinė</td><td>Netiesinė — yra <span class="math">x²</span></td></tr>
+          <tr><td class="math"><span class="klaida">k = 0</span> reiškia, kad funkcijos nėra</td><td>Tai <span class="gerai">pastovioji</span> funkcija <span class="math">f(x) = b</span>, ne klaida</td></tr>
+          <tr><td>Taško priklausymas grafikui tikrinamas „iš akies"</td><td>Visada <span class="gerai">įstatome koordinates</span> į formulę ir tikriname lygybę</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Funkcija <span class="math">f(x) = kx + b</span> yra tiesinė tik tada, kai <span class="math">x</span> pasirodo <b>tik pirmuoju laipsniu ir be trupmenos vardiklyje</b> — o kai kurios išraiškos (pvz. <span class="math">(4x + 8) : 2</span> ar <span class="math">x² − x(x − 2)</span>) reikia <b>pirma supaprastinti</b>, kad matytųsi tikroji <span class="math">k</span> ir <span class="math">b</span> reikšmė.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 9 klasės matematikos kursas · 7 skyrius „Tiesinė funkcija" · tema „Tiesinė funkcija ir jos grafikas“ (7.1)
+  </footer>
+
+</div>
+</body>
+</html>
