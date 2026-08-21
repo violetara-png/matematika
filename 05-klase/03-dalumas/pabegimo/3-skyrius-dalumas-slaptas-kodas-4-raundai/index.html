@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slaptas kodas · Dalumo požymiai · 5 klasė</title>
+<title>Slaptas kodas · Dalumas · 5 klasė</title>
 <style>
   :root{
     --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
@@ -24,9 +24,6 @@
   .hud{display:flex;gap:10px;align-items:center;justify-content:space-between;
     padding:10px 0 18px}
   .hud .brand{font-weight:800;color:var(--teal2);font-size:14px;letter-spacing:.5px}
-  .hud .refbtn{background:var(--panel);border:1px solid var(--line);color:var(--muted);
-    font-size:13px;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700}
-  .hud .refbtn:hover{color:var(--ink);border-color:var(--teal)}
   .hud .sazbadge{font-size:12.5px;font-weight:800;color:var(--bad);background:rgba(255,107,107,.12);
     border:1px solid var(--bad);border-radius:999px;padding:5px 12px;display:none}
   .hud .sazbadge.show{display:inline-block}
@@ -54,6 +51,11 @@
   .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
     padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.6;margin:0 auto 22px}
   .story b{color:var(--teal2)}
+
+  .roundlist{display:grid;gap:8px;margin:0 auto 22px;text-align:left}
+  .roundlist .r{background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;font-size:14.5px;color:var(--muted)}
+  .roundlist .r b{color:var(--ink)}
 
   .center{text-align:center}
   button{border:none;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:800;
@@ -87,6 +89,12 @@
     color:var(--teal2)}
   .symslot.filled{border-color:var(--ok);background:rgba(62,207,122,.14);animation:pop .3s ease}
   .symslot.empty{color:var(--line)}
+
+  .roundstrip{display:flex;gap:6px;justify-content:center;margin:0 0 18px}
+  .roundstrip .rdot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+    font-size:12px;font-weight:900;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--muted)}
+  .roundstrip .rdot.cur{border-color:var(--amber);color:var(--amber2)}
+  .roundstrip .rdot.done{border-color:var(--ok);background:rgba(62,207,122,.14);color:var(--ok)}
 
   table.deckey{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:17px}
   table.deckey th,table.deckey td{border:1px solid var(--line);padding:10px;text-align:center}
@@ -126,9 +134,9 @@
     <!-- COVER -->
     <section class="screen active" id="s-cover">
       <div class="center">
-        <div class="badge">Byla Nr. 5.3.1</div>
+        <div class="badge">Byla Nr. 5.3</div>
         <h1>Slaptas <span class="amber">kodas</span></h1>
-        <p class="sub">Ar sugebėsi iššifruoti dalumo požymių kodą?</p>
+        <p class="sub">4 raundai, 4 seifai — ar sugebėsi iššifruoti visą bylą apie dalumą?</p>
         <button class="primary" onclick="startGame()">Pradėti tyrimą →</button>
         <p class="integrity" style="margin-top:16px">🔒 Žaidimo metu stebima, ar neišeini iš lango (be rezultatų siuntimo).</p>
       </div>
@@ -141,28 +149,29 @@
         <h1>Byla laukia sprendimo</h1>
       </div>
       <div class="story">
-        Seife paslėptas svarbus pranešimas, užrakintas <b>5 skaitmenų kodu</b>.
-        Kiekviena teisingai atsakyta užduotis atskleis po vieną paslaptingą <b>simbolį</b>.
-        Surinkusi visus penkis, rasi iššifravimo raktelį, kuris simbolius pavers skaitmenimis —
-        ir atrakinsi seifą.
+        Šioje byloje <b>4 seifai</b>, kiekvienas užrakintas savo <b>5 skaitmenų kodu</b>.
+        Kiekviename raunde atsakinėsi į 5 užduotis, už kiekvieną teisingą — po simbolį.
+        Surinkusi visus penkis, iššifruosi raktelį ir atrakinsi to raundo seifą.
+      </div>
+      <div class="roundlist">
+        <div class="r"><b>I raundas</b> — Dalumo požymiai</div>
+        <div class="r"><b>II raundas</b> — Dalikliai</div>
+        <div class="r"><b>III raundas</b> — Kartotiniai</div>
+        <div class="r"><b>IV raundas</b> — DBD ir MBK</div>
       </div>
       <div class="center">
-        <button class="primary" onclick="goTo('q1')">Pradėti tirti →</button>
+        <button class="primary" onclick="beginRound(0)">Pradėti I raundą →</button>
       </div>
     </section>
 
-    <!-- QUESTIONS -->
-    <section class="screen" id="q1" data-q="0"></section>
-    <section class="screen" id="q2" data-q="1"></section>
-    <section class="screen" id="q3" data-q="2"></section>
-    <section class="screen" id="q4" data-q="3"></section>
-    <section class="screen" id="q5" data-q="4"></section>
+    <!-- QUESTION (dinaminis, pakartotinai naudojamas kiekvienam raundui/klausimui) -->
+    <section class="screen" id="s-question"></section>
 
-    <!-- DECODE -->
+    <!-- DECODE (dinaminis) -->
     <section class="screen" id="s-decode">
       <div class="center">
-        <div class="badge">Iššifravimo raktelis</div>
-        <h1>Iššifruok kodą</h1>
+        <div class="badge" id="decodeBadge">Iššifravimo raktelis</div>
+        <h1 id="decodeTitle">Iššifruok kodą</h1>
         <p class="sub">Kiekvienas simbolis reiškia vieną skaitmenį. Surask savo simbolius lentelėje.</p>
       </div>
       <div class="collected">
@@ -178,10 +187,10 @@
       </div>
     </section>
 
-    <!-- CODE ENTRY -->
+    <!-- CODE ENTRY (dinaminis) -->
     <section class="screen" id="s-code">
       <div class="center vault">
-        <div class="badge">Seifas</div>
+        <div class="badge" id="codeBadge">Seifas</div>
         <h1>Įvesk slaptą kodą</h1>
         <p class="sub">Surašyk 5 skaitmenis, kuriuos gavai iššifravęs simbolius.</p>
         <input type="text" class="code" id="codeInput" maxlength="5" inputmode="numeric" placeholder="?????">
@@ -190,14 +199,24 @@
       </div>
     </section>
 
-    <!-- CORRECT -->
+    <!-- ROUND COMPLETE (tarpinis ekranas tarp raundų) -->
+    <section class="screen" id="s-roundover">
+      <div class="result-icon">🗝️</div>
+      <h1 id="roundoverTitle">Seifas atsidarė!</h1>
+      <div class="msg" id="roundoverMsg"></div>
+      <div class="center btnrow">
+        <button class="primary" id="roundoverBtn" onclick="">Toliau →</button>
+      </div>
+    </section>
+
+    <!-- CORRECT (galutinis) -->
     <section class="screen" id="s-correct">
       <div class="result-icon">🎉</div>
       <h1>Byla išspręsta!</h1>
       <div class="msg">
-        Kodas teisingas, seifas atsidarė. Viduje — žinutė:<br><br>
-        <i>„Dalumo požymiai nemeluoja: paskutinis skaitmuo, skaitmenų suma, paskutiniai du —
-        kiekvienas skaičius turi savo paslaptį, kurią dabar moki atskleisti be dalybos."</i>
+        Visi keturi seifai atrakinti. Viduje — žinutė:<br><br>
+        <i>„Dalumo požymiai, dalikliai, kartotiniai, DBD ir MBK — visi jie apie tą patį:
+        kaip skaičiai dalijasi tarpusavyje be liekanos. Byla išspręsta be dalybos kampu."</i>
       </div>
       <p class="integrity" id="integritySummary"></p>
       <div class="center btnrow">
@@ -220,49 +239,75 @@
 </div>
 
 <script>
-// skaitmuo -> simbolis (bendras raktelis, rodomas s-decode ekrane)
+// skaitmuo -> simbolis (bendras raktelis visiems raundams)
 const DIGIT_SYMBOL = ['●','▲','■','★','◆','✚','✖','♥','♦','♣'];
-const SECRET_CODE = '20679'; // po vieną skaitmenį už kiekvieną klausimą (žr. QUESTIONS)
 
-const QUESTIONS = [
+const ROUNDS = [
   {
-    title: 'Dalumas iš 2',
-    text: 'Pirmasis skaičius yra LYGINIS (dalijasi iš 2). Kuris tai skaičius?',
-    opts: ['4 231', '5 678', '3 097'],
-    correct: 1, // 5678 baigiasi 8 — lyginis
-    digit: 2
+    title: 'Dalumo požymiai',
+    questions: [
+      { text: 'Pirmasis skaičius yra LYGINIS (dalijasi iš 2). Kuris tai skaičius?',
+        opts: ['4 231', '5 678', '3 097'], correct: 1, digit: 2 }, // 5678 baigiasi 8
+      { text: 'Antrasis skaičius dalijasi iš 5. Kuris tai skaičius?',
+        opts: ['2 340', '1 233', '4 782'], correct: 0, digit: 0 }, // 2340 baigiasi 0
+      { text: 'Trečiojo skaičiaus skaitmenų suma dalijasi iš 3. Kuris tai skaičius?',
+        opts: ['512', '714', '823'], correct: 1, digit: 6 }, // 7+1+4=12
+      { text: 'Ketvirtojo skaičiaus skaitmenų suma dalijasi iš 9. Kuris tai skaičius?',
+        opts: ['4 518', '3 216', '2 107'], correct: 0, digit: 7 }, // 4+5+1+8=18
+      { text: 'Penktojo skaičiaus paskutiniai du skaitmenys sudaro skaičių, kuris dalijasi iš 4. Kuris tai skaičius?',
+        opts: ['316', '318', '522'], correct: 0, digit: 9 } // "16" dalijasi iš 4
+    ]
   },
   {
-    title: 'Dalumas iš 5',
-    text: 'Antrasis skaičius dalijasi iš 5. Kuris tai skaičius?',
-    opts: ['2 340', '1 233', '4 782'],
-    correct: 0, // 2340 baigiasi 0
-    digit: 0
+    title: 'Dalikliai',
+    questions: [
+      { text: 'Kuris iš šių skaičių YRA skaičiaus 36 daliklis?',
+        opts: ['5', '9', '7'], correct: 1, digit: 4 }, // 36:9=4
+      { text: 'Kiek iš viso daliklių turi skaičius 20? (1, 2, 4, 5, 10, 20)',
+        opts: ['6', '4', '8'], correct: 0, digit: 1 },
+      { text: 'Koks DIDŽIAUSIAS skaičiaus 45 daliklis?',
+        opts: ['9', '45', '15'], correct: 1, digit: 8 }, // didžiausias daliklis = pats skaičius
+      { text: 'Kuris iš šių skaičių NĖRA skaičiaus 42 daliklis?',
+        opts: ['6', '8', '7'], correct: 1, digit: 3 }, // 42 dalikliai: 1,2,3,6,7,14,21,42
+      { text: '28 saldainius reikia išdalyti vaikams po lygiai, be liekanos. Kuriam vaikų skaičiui NEPAVYKS to padaryti?',
+        opts: ['4', '5', '7'], correct: 1, digit: 5 } // 28 dalikliai: 1,2,4,7,14,28
+    ]
   },
   {
-    title: 'Dalumas iš 3',
-    text: 'Trečiojo skaičiaus skaitmenų suma dalijasi iš 3. Kuris tai skaičius?',
-    opts: ['512', '714', '823'],
-    correct: 1, // 7+1+4=12, dalijasi iš 3
-    digit: 6
+    title: 'Kartotiniai',
+    questions: [
+      { text: 'Kuris iš šių skaičių YRA skaičiaus 7 kartotinis?',
+        opts: ['32', '35', '40'], correct: 1, digit: 7 }, // 7·5=35
+      { text: 'Koks MAŽIAUSIAS skaičiaus 12 kartotinis?',
+        opts: ['1', '12', '24'], correct: 1, digit: 0 },
+      { text: 'Kuris skaičius YRA ir skaičiaus 4, ir skaičiaus 6 bendras kartotinis?',
+        opts: ['10', '12', '16'], correct: 1, digit: 9 },
+      { text: 'Penktasis skaičiaus 9 kartotinis (9, 18, 27, 36, 45...) yra:',
+        opts: ['36', '45', '54'], correct: 1, digit: 2 },
+      { text: 'Kuris iš šių skaičių NĖRA skaičiaus 8 kartotinis?',
+        opts: ['24', '36', '40'], correct: 1, digit: 6 } // 36:8 nesidalija be liekanos
+    ]
   },
   {
-    title: 'Dalumas iš 9',
-    text: 'Ketvirtojo skaičiaus skaitmenų suma dalijasi iš 9. Kuris tai skaičius?',
-    opts: ['4 518', '3 216', '2 107'],
-    correct: 0, // 4+5+1+8=18, dalijasi iš 9
-    digit: 7
-  },
-  {
-    title: 'Dalumas iš 4',
-    text: 'Penktojo skaičiaus paskutiniai du skaitmenys sudaro skaičių, kuris dalijasi iš 4. Kuris tai skaičius?',
-    opts: ['316', '318', '522'],
-    correct: 0, // "16" dalijasi iš 4
-    digit: 9
+    title: 'DBD ir MBK',
+    questions: [
+      { text: 'Koks DBD(12, 18)?',
+        opts: ['3', '6', '9'], correct: 1, digit: 8 },
+      { text: 'Koks MBK(4, 6)?',
+        opts: ['10', '12', '24'], correct: 1, digit: 2 },
+      { text: 'Koks DBD(8, 15)? (šie skaičiai tarpusavyje pirminiai)',
+        opts: ['1', '2', '4'], correct: 0, digit: 5 },
+      { text: 'Koks MBK(9, 12)?',
+        opts: ['36', '48', '18'], correct: 0, digit: 0 },
+      { text: 'Į vienodas dėžutes reikia po lygiai sudėti 24 obuolius ir 36 kriaušes. Kiek DAUGIAUSIAI dėžučių galima paruošti?',
+        opts: ['6', '12', '18'], correct: 1, digit: 4 } // DBD(24,36)=12
+    ]
   }
 ];
 
-let collected = []; // simboliai, ta tvarka, kuria surinkti
+let curRound = 0;
+let curQ = 0;
+let collected = []; // simboliai, ta tvarka, kuria surinkti šiame raunde
 
 /* ---- Sąžiningumo stebėjimas (be rezultatų siuntimo) ----
    Skaičiuoja, kiek kartų ir kiek laiko mokinys buvo išėjęs iš žaidimo lango
@@ -338,61 +383,86 @@ function goTo(id){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function renderQuestion(idx){
-  const q = QUESTIONS[idx];
-  const el = document.getElementById('q' + (idx + 1));
-  el.innerHTML = `
-    <div class="qprog">Užduotis ${idx+1} / ${QUESTIONS.length} · ${q.title}</div>
-    <div class="symstrip" id="strip${idx}"></div>
-    <div class="qtext">${q.text}</div>
-    <div class="opts" id="opts${idx}">
-      ${q.opts.map((o,i) => `<div class="opt" data-i="${i}" onclick="answer(${idx}, ${i})">${o}</div>`).join('')}
-    </div>
-    <div class="fb" id="fb${idx}"></div>
-  `;
-  renderStrip('strip' + idx, idx);
+function roundCode(r){
+  return ROUNDS[r].questions.map(q => q.digit).join('');
 }
 
-function renderStrip(elId, upTo){
-  const strip = document.getElementById(elId);
+function beginRound(r){
+  curRound = r;
+  curQ = 0;
+  collected = [];
+  renderQuestion();
+  goTo('s-question');
+}
+
+function roundStripHTML(){
+  let html = '<div class="roundstrip">';
+  for(let i = 0; i < ROUNDS.length; i++){
+    let cls = 'rdot';
+    if(i < curRound) cls += ' done';
+    else if(i === curRound) cls += ' cur';
+    html += `<div class="${cls}">${i + 1}</div>`;
+  }
+  return html + '</div>';
+}
+
+function renderQuestion(){
+  const round = ROUNDS[curRound];
+  const q = round.questions[curQ];
+  const el = document.getElementById('s-question');
+  el.innerHTML = `
+    ${roundStripHTML()}
+    <div class="qprog">Raundas ${curRound + 1}/${ROUNDS.length} · ${round.title} · Užduotis ${curQ + 1}/${round.questions.length}</div>
+    <div class="symstrip" id="strip"></div>
+    <div class="qtext">${q.text}</div>
+    <div class="opts" id="opts">
+      ${q.opts.map((o,i) => `<div class="opt" data-i="${i}" onclick="answer(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="fb" id="fb"></div>
+  `;
+  renderStrip();
+}
+
+function renderStrip(){
+  const round = ROUNDS[curRound];
+  const strip = document.getElementById('strip');
   if(!strip) return;
   let html = '';
-  for(let i = 0; i < QUESTIONS.length; i++){
-    if(i < collected.length){
-      html += `<div class="symslot filled">${collected[i]}</div>`;
-    } else {
-      html += `<div class="symslot empty">?</div>`;
-    }
+  for(let i = 0; i < round.questions.length; i++){
+    if(i < collected.length) html += `<div class="symslot filled">${collected[i]}</div>`;
+    else html += `<div class="symslot empty">?</div>`;
   }
   strip.innerHTML = html;
 }
 
-function answer(idx, choice){
-  const q = QUESTIONS[idx];
-  const opts = document.querySelectorAll(`#opts${idx} .opt`);
-  const fb = document.getElementById('fb' + idx);
+function answer(choice){
+  const round = ROUNDS[curRound];
+  const q = round.questions[curQ];
+  const opts = document.querySelectorAll('#opts .opt');
+  const fb = document.getElementById('fb');
 
   if(choice === q.correct){
     opts.forEach(o => o.classList.add('disabled'));
     opts[choice].classList.add('correct');
     fb.textContent = '✓ Teisingai! Simbolis atskleistas.';
     fb.className = 'fb ok';
-    if(collected.length === idx){
-      collected.push(DIGIT_SYMBOL[q.digit]);
-    }
-    renderStrip('strip' + idx, idx);
+    if(collected.length === curQ) collected.push(DIGIT_SYMBOL[q.digit]);
+    renderStrip();
     setTimeout(() => {
-      if(idx + 1 < QUESTIONS.length){
-        renderQuestion(idx + 1);
-        goTo('q' + (idx + 2));
+      if(curQ + 1 < round.questions.length){
+        curQ++;
+        renderQuestion();
       } else {
-        goTo('s-decode');
+        document.getElementById('decodeBadge').textContent = `Raktelis · ${round.title}`;
+        document.getElementById('decodeTitle').textContent = `Iššifruok ${curRound + 1} seifo kodą`;
+        document.getElementById('codeBadge').textContent = `Seifas · ${round.title}`;
         document.getElementById('collectedSyms').textContent = collected.join('  ');
+        goTo('s-decode');
       }
     }, 900);
   } else {
     opts[choice].classList.add('wrong');
-    fb.textContent = '✗ Ne visai. Prisimink dalumo požymį ir bandyk kitą variantą.';
+    fb.textContent = '✗ Ne visai. Prisimink taisyklę ir bandyk kitą variantą.';
     fb.className = 'fb bad';
   }
 }
@@ -400,9 +470,22 @@ function answer(idx, choice){
 function checkCode(){
   const input = document.getElementById('codeInput');
   const val = input.value.trim();
-  if(val === SECRET_CODE){
-    finishIntegrity();
-    goTo('s-correct');
+  const round = ROUNDS[curRound];
+
+  if(val === roundCode(curRound)){
+    input.value = '';
+    document.getElementById('codeFb').textContent = '';
+    if(curRound + 1 < ROUNDS.length){
+      document.getElementById('roundoverTitle').textContent = `${curRound + 1} seifas atsidarė!`;
+      document.getElementById('roundoverMsg').textContent =
+        `Puiku! Baigei raundą „${round.title}“. Kitas raundas: „${ROUNDS[curRound + 1].title}“.`;
+      document.getElementById('roundoverBtn').textContent = `Pradėti ${curRound === 0 ? 'II' : curRound === 1 ? 'III' : 'IV'} raundą →`;
+      document.getElementById('roundoverBtn').onclick = () => { beginRound(curRound + 1); goTo('s-question'); };
+      goTo('s-roundover');
+    } else {
+      finishIntegrity();
+      goTo('s-correct');
+    }
   } else {
     input.value = '';
     goTo('s-error');
@@ -410,21 +493,18 @@ function checkCode(){
 }
 
 function restart(){
-  collected = [];
+  curRound = 0; curQ = 0; collected = [];
   document.getElementById('codeInput').value = '';
   document.getElementById('codeFb').textContent = '';
   gameActive = false; away = false; awayStart = 0; awayMs = 0; leaveCount = 0;
   refreshSazBadge();
   if(document.fullscreenElement){ try{ document.exitFullscreen(); }catch(e){} }
-  renderQuestion(0);
   goTo('s-cover');
 }
 
 document.getElementById('codeInput')?.addEventListener('keydown', e => {
   if(e.key === 'Enter') checkCode();
 });
-
-renderQuestion(0);
 </script>
 </body>
 </html>
