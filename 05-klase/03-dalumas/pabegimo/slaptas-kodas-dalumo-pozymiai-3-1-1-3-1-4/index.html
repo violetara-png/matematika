@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slaptas kodas · Dalumo požymiai · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:680px;margin:0 auto;padding:20px 18px 60px}
+  .math{font-family:'Cambria Math','Cambria',Georgia,serif}
+
+  .hud{display:flex;gap:10px;align-items:center;justify-content:space-between;
+    padding:10px 0 18px}
+  .hud .brand{font-weight:800;color:var(--teal2);font-size:14px;letter-spacing:.5px}
+  .hud .refbtn{background:var(--panel);border:1px solid var(--line);color:var(--muted);
+    font-size:13px;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700}
+  .hud .refbtn:hover{color:var(--ink);border-color:var(--teal)}
+  .hud .sazbadge{font-size:12.5px;font-weight:800;color:var(--bad);background:rgba(255,107,107,.12);
+    border:1px solid var(--bad);border-radius:999px;padding:5px 12px;display:none}
+  .hud .sazbadge.show{display:inline-block}
+
+  #exitBanner{display:none;position:sticky;top:0;z-index:80;background:rgba(255,107,107,.16);
+    border:1px solid var(--bad);color:#ffd7d7;font-weight:700;font-size:14px;text-align:center;
+    padding:10px 16px;border-radius:12px;max-width:644px;margin:12px auto 0}
+
+  .integrity{margin-top:14px;font-size:13.5px;color:var(--muted);text-align:center}
+  .integrity.ok{color:var(--ok)}
+  .integrity.bad{color:var(--bad)}
+
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow)}
+
+  .screen{display:none}
+  .screen.active{display:block;animation:pop .35s ease}
+  @keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  .badge{display:inline-block;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  h1{margin:6px 0 4px;font-size:clamp(24px,5vw,34px);line-height:1.15;text-align:center}
+  h1 .amber{color:var(--amber2)}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 20px;text-align:center}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.6;margin:0 auto 22px}
+  .story b{color:var(--teal2)}
+
+  .center{text-align:center}
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  button:disabled{opacity:.45;cursor:default}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover:not(:disabled){filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .qprog{color:var(--muted);font-size:13px;font-weight:700;text-align:center;margin-bottom:6px;
+    text-transform:uppercase;letter-spacing:1px}
+  .qtext{font-size:17px;line-height:1.55;margin:8px 0 18px;text-align:center}
+  .opts{display:grid;gap:10px;margin-bottom:6px}
+  .opt{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;font-size:17px;font-weight:700;text-align:center;cursor:pointer;
+    font-family:'Consolas','Courier New',monospace;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correct{background:rgba(62,207,122,.18);border-color:var(--ok);color:var(--ok)}
+  .opt.wrong{background:rgba(255,107,107,.18);border-color:var(--bad);color:var(--bad)}
+  .opt.disabled{pointer-events:none}
+  .fb{margin:12px 0 4px;font-weight:700;min-height:22px;font-size:15px;text-align:center}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+
+  .symstrip{display:flex;gap:8px;justify-content:center;margin:0 0 22px;flex-wrap:wrap}
+  .symslot{width:42px;height:42px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-size:22px;font-weight:900;
+    color:var(--teal2)}
+  .symslot.filled{border-color:var(--ok);background:rgba(62,207,122,.14);animation:pop .3s ease}
+  .symslot.empty{color:var(--line)}
+
+  table.deckey{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:17px}
+  table.deckey th,table.deckey td{border:1px solid var(--line);padding:10px;text-align:center}
+  table.deckey th{background:var(--bg2);color:var(--teal2);font-weight:800;font-size:13px;
+    text-transform:uppercase;letter-spacing:1px}
+  table.deckey td.sym{font-size:22px;font-weight:900;color:var(--amber2)}
+  .collected{background:rgba(0,0,0,.22);border-radius:12px;padding:14px 16px;margin:0 0 20px;
+    text-align:center}
+  .collected .lbl{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;
+    margin-bottom:8px}
+  .collected .syms{font-size:26px;letter-spacing:10px;color:var(--amber2);font-weight:900}
+
+  .vault{text-align:center}
+  input.code{width:min(320px,92%);padding:15px;font-size:24px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:6px 0 16px}
+  input.code:focus{outline:none;border-color:var(--amber)}
+
+  .result-icon{font-size:52px;text-align:center;margin-bottom:6px}
+  .msg{background:rgba(0,0,0,.22);border-left:3px solid var(--ok);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.6;margin:0 auto 22px}
+  .msg.err{border-left-color:var(--bad)}
+  .btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<div id="exitBanner"></div>
+<div class="wrap">
+
+  <div class="hud">
+    <div class="brand">🕵️ MATEMATIKOS DETEKTYVAS</div>
+    <span class="sazbadge" id="sazBadge"></span>
+  </div>
+
+  <div class="card">
+
+    <!-- COVER -->
+    <section class="screen active" id="s-cover">
+      <div class="center">
+        <div class="badge">Byla Nr. 5.3.1</div>
+        <h1>Slaptas <span class="amber">kodas</span></h1>
+        <p class="sub">Ar sugebėsi iššifruoti dalumo požymių kodą?</p>
+        <button class="primary" onclick="startGame()">Pradėti tyrimą →</button>
+        <p class="integrity" style="margin-top:16px">🔒 Žaidimo metu stebima, ar neišeini iš lango (be rezultatų siuntimo).</p>
+      </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="screen" id="s-intro">
+      <div class="center">
+        <div class="badge">Įvadas</div>
+        <h1>Byla laukia sprendimo</h1>
+      </div>
+      <div class="story">
+        Seife paslėptas svarbus pranešimas, užrakintas <b>5 skaitmenų kodu</b>.
+        Kiekviena teisingai atsakyta užduotis atskleis po vieną paslaptingą <b>simbolį</b>.
+        Surinkusi visus penkis, rasi iššifravimo raktelį, kuris simbolius pavers skaitmenimis —
+        ir atrakinsi seifą.
+      </div>
+      <div class="center">
+        <button class="primary" onclick="goTo('q1')">Pradėti tirti →</button>
+      </div>
+    </section>
+
+    <!-- QUESTIONS -->
+    <section class="screen" id="q1" data-q="0"></section>
+    <section class="screen" id="q2" data-q="1"></section>
+    <section class="screen" id="q3" data-q="2"></section>
+    <section class="screen" id="q4" data-q="3"></section>
+    <section class="screen" id="q5" data-q="4"></section>
+
+    <!-- DECODE -->
+    <section class="screen" id="s-decode">
+      <div class="center">
+        <div class="badge">Iššifravimo raktelis</div>
+        <h1>Iššifruok kodą</h1>
+        <p class="sub">Kiekvienas simbolis reiškia vieną skaitmenį. Surask savo simbolius lentelėje.</p>
+      </div>
+      <div class="collected">
+        <div class="lbl">Tavo surinkti simboliai (šia tvarka)</div>
+        <div class="syms" id="collectedSyms">— — — — —</div>
+      </div>
+      <table class="deckey">
+        <tr><th>Skaitmuo</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+        <tr><th>Simbolis</th><td class="sym">●</td><td class="sym">▲</td><td class="sym">■</td><td class="sym">★</td><td class="sym">◆</td><td class="sym">✚</td><td class="sym">✖</td><td class="sym">♥</td><td class="sym">♦</td><td class="sym">♣</td></tr>
+      </table>
+      <div class="center">
+        <button class="primary" onclick="goTo('s-code')">Įvesti kodą →</button>
+      </div>
+    </section>
+
+    <!-- CODE ENTRY -->
+    <section class="screen" id="s-code">
+      <div class="center vault">
+        <div class="badge">Seifas</div>
+        <h1>Įvesk slaptą kodą</h1>
+        <p class="sub">Surašyk 5 skaitmenis, kuriuos gavai iššifravęs simbolius.</p>
+        <input type="text" class="code" id="codeInput" maxlength="5" inputmode="numeric" placeholder="?????">
+        <div class="fb" id="codeFb"></div>
+        <button class="primary" onclick="checkCode()">Iššifruoti</button>
+      </div>
+    </section>
+
+    <!-- CORRECT -->
+    <section class="screen" id="s-correct">
+      <div class="result-icon">🎉</div>
+      <h1>Byla išspręsta!</h1>
+      <div class="msg">
+        Kodas teisingas, seifas atsidarė. Viduje — žinutė:<br><br>
+        <i>„Dalumo požymiai nemeluoja: paskutinis skaitmuo, skaitmenų suma, paskutiniai du —
+        kiekvienas skaičius turi savo paslaptį, kurią dabar moki atskleisti be dalybos."</i>
+      </div>
+      <p class="integrity" id="integritySummary"></p>
+      <div class="center btnrow">
+        <button class="primary" onclick="restart()">Žaisti iš naujo</button>
+      </div>
+    </section>
+
+    <!-- ERROR -->
+    <section class="screen" id="s-error">
+      <div class="result-icon">🔒</div>
+      <h1>Kodas neteisingas</h1>
+      <div class="msg err">Kažkas ne taip... Peržiūrėk surinktus simbolius ir raktelį dar kartą.</div>
+      <div class="center btnrow">
+        <button class="primary" onclick="goTo('s-decode')">Grįžti prie raktelio</button>
+        <button class="ghost" onclick="goTo('s-code')">Bandyti kodą dar kartą</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// skaitmuo -> simbolis (bendras raktelis, rodomas s-decode ekrane)
+const DIGIT_SYMBOL = ['●','▲','■','★','◆','✚','✖','♥','♦','♣'];
+const SECRET_CODE = '20679'; // po vieną skaitmenį už kiekvieną klausimą (žr. QUESTIONS)
+
+const QUESTIONS = [
+  {
+    title: 'Dalumas iš 2',
+    text: 'Pirmasis skaičius yra LYGINIS (dalijasi iš 2). Kuris tai skaičius?',
+    opts: ['4 231', '5 678', '3 097'],
+    correct: 1, // 5678 baigiasi 8 — lyginis
+    digit: 2
+  },
+  {
+    title: 'Dalumas iš 5',
+    text: 'Antrasis skaičius dalijasi iš 5. Kuris tai skaičius?',
+    opts: ['2 340', '1 233', '4 782'],
+    correct: 0, // 2340 baigiasi 0
+    digit: 0
+  },
+  {
+    title: 'Dalumas iš 3',
+    text: 'Trečiojo skaičiaus skaitmenų suma dalijasi iš 3. Kuris tai skaičius?',
+    opts: ['512', '714', '823'],
+    correct: 1, // 7+1+4=12, dalijasi iš 3
+    digit: 6
+  },
+  {
+    title: 'Dalumas iš 9',
+    text: 'Ketvirtojo skaičiaus skaitmenų suma dalijasi iš 9. Kuris tai skaičius?',
+    opts: ['4 518', '3 216', '2 107'],
+    correct: 0, // 4+5+1+8=18, dalijasi iš 9
+    digit: 7
+  },
+  {
+    title: 'Dalumas iš 4',
+    text: 'Penktojo skaičiaus paskutiniai du skaitmenys sudaro skaičių, kuris dalijasi iš 4. Kuris tai skaičius?',
+    opts: ['316', '318', '522'],
+    correct: 0, // "16" dalijasi iš 4
+    digit: 9
+  }
+];
+
+let collected = []; // simboliai, ta tvarka, kuria surinkti
+
+/* ---- Sąžiningumo stebėjimas (be rezultatų siuntimo) ----
+   Skaičiuoja, kiek kartų ir kiek laiko mokinys buvo išėjęs iš žaidimo lango
+   (kitas skirtukas, kita programa, išėjimas iš viso ekrano). Niekur nesiunčiama,
+   matoma tik pačiam mokiniui — banneris žaidimo metu ir suvestinė pabaigoje. */
+let gameActive = false, away = false, awayStart = 0, awayMs = 0, leaveCount = 0;
+
+function fmtDur(s){ const m = Math.floor(s / 60), r = s % 60; return m > 0 ? (m + ' min ' + r + ' s') : (r + ' s'); }
+
+function enableIntegrity(){
+  gameActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  setTimeout(() => {
+    window.addEventListener('blur', onAway);
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', () => { document.hidden ? onAway() : onBack(); });
+  }, 500);
+  if(!window._focusTimer) window._focusTimer = setInterval(() => {
+    if(gameActive && (document.hidden || !document.hasFocus())) onAway();
+  }, 1000);
+  if(!window._fsListener){
+    window._fsListener = true;
+    document.addEventListener('fullscreenchange', () => {
+      if(gameActive && !document.fullscreenElement){ onAway(); onBack(); }
+    });
+  }
+}
+function onAway(){
+  if(!gameActive || away) return;
+  away = true; leaveCount++; awayStart = Date.now();
+  const b = document.getElementById('exitBanner');
+  if(b){ b.style.display = 'block'; b.textContent = `⚠ Užfiksuotas išėjimas iš žaidimo lango (kartų: ${leaveCount}). Grįžk į žaidimą!`; }
+  refreshSazBadge();
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;
+  return Math.round(ms / 1000);
+}
+function refreshSazBadge(){
+  const el = document.getElementById('sazBadge');
+  if(!el) return;
+  if(leaveCount > 0){ el.textContent = `⚠ ${leaveCount}`; el.classList.add('show'); }
+  else { el.classList.remove('show'); }
+}
+function finishIntegrity(){
+  gameActive = false;
+  const b = document.getElementById('exitBanner');
+  if(b) b.style.display = 'none';
+  const s = document.getElementById('integritySummary');
+  if(s){
+    if(leaveCount > 0){
+      s.textContent = `🔎 Sąžiningumas: ${leaveCount} kart. išėjai iš žaidimo (iš viso ${fmtDur(awaySeconds())}).`;
+      s.className = 'integrity bad';
+    } else {
+      s.textContent = '🔎 Sąžiningumas: nė karto neišėjai iš žaidimo lango. Puiku!';
+      s.className = 'integrity ok';
+    }
+  }
+}
+function startGame(){
+  enableIntegrity();
+  goTo('s-intro');
+}
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderQuestion(idx){
+  const q = QUESTIONS[idx];
+  const el = document.getElementById('q' + (idx + 1));
+  el.innerHTML = `
+    <div class="qprog">Užduotis ${idx+1} / ${QUESTIONS.length} · ${q.title}</div>
+    <div class="symstrip" id="strip${idx}"></div>
+    <div class="qtext">${q.text}</div>
+    <div class="opts" id="opts${idx}">
+      ${q.opts.map((o,i) => `<div class="opt" data-i="${i}" onclick="answer(${idx}, ${i})">${o}</div>`).join('')}
+    </div>
+    <div class="fb" id="fb${idx}"></div>
+  `;
+  renderStrip('strip' + idx, idx);
+}
+
+function renderStrip(elId, upTo){
+  const strip = document.getElementById(elId);
+  if(!strip) return;
+  let html = '';
+  for(let i = 0; i < QUESTIONS.length; i++){
+    if(i < collected.length){
+      html += `<div class="symslot filled">${collected[i]}</div>`;
+    } else {
+      html += `<div class="symslot empty">?</div>`;
+    }
+  }
+  strip.innerHTML = html;
+}
+
+function answer(idx, choice){
+  const q = QUESTIONS[idx];
+  const opts = document.querySelectorAll(`#opts${idx} .opt`);
+  const fb = document.getElementById('fb' + idx);
+
+  if(choice === q.correct){
+    opts.forEach(o => o.classList.add('disabled'));
+    opts[choice].classList.add('correct');
+    fb.textContent = '✓ Teisingai! Simbolis atskleistas.';
+    fb.className = 'fb ok';
+    if(collected.length === idx){
+      collected.push(DIGIT_SYMBOL[q.digit]);
+    }
+    renderStrip('strip' + idx, idx);
+    setTimeout(() => {
+      if(idx + 1 < QUESTIONS.length){
+        renderQuestion(idx + 1);
+        goTo('q' + (idx + 2));
+      } else {
+        goTo('s-decode');
+        document.getElementById('collectedSyms').textContent = collected.join('  ');
+      }
+    }, 900);
+  } else {
+    opts[choice].classList.add('wrong');
+    fb.textContent = '✗ Ne visai. Prisimink dalumo požymį ir bandyk kitą variantą.';
+    fb.className = 'fb bad';
+  }
+}
+
+function checkCode(){
+  const input = document.getElementById('codeInput');
+  const val = input.value.trim();
+  if(val === SECRET_CODE){
+    finishIntegrity();
+    goTo('s-correct');
+  } else {
+    input.value = '';
+    goTo('s-error');
+  }
+}
+
+function restart(){
+  collected = [];
+  document.getElementById('codeInput').value = '';
+  document.getElementById('codeFb').textContent = '';
+  gameActive = false; away = false; awayStart = 0; awayMs = 0; leaveCount = 0;
+  refreshSazBadge();
+  if(document.fullscreenElement){ try{ document.exitFullscreen(); }catch(e){} }
+  renderQuestion(0);
+  goTo('s-cover');
+}
+
+document.getElementById('codeInput')?.addEventListener('keydown', e => {
+  if(e.key === 'Enter') checkCode();
+});
+
+renderQuestion(0);
+</script>
+</body>
+</html>
