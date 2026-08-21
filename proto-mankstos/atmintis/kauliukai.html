@@ -415,17 +415,23 @@ function randomEdgeSet(n, count){
 function edgeSetKey(edges){
   return edges.map(([a,b]) => edgeKey(a,b)).sort().join('|');
 }
-function makeDistractor(n, baseEdges, forbiddenKeys){
-  for(let attempt = 0; attempt < 60; attempt++){
+function makeDistractor(n, baseEdges, forbiddenKeys, changes){
+  changes = changes || 1;
+  for(let attempt = 0; attempt < 80; attempt++){
     const edges = baseEdges.map(e => e.slice());
-    const idx = Math.floor(Math.random() * edges.length);
-    const edge = edges[idx];
-    const endSel = Math.random() < 0.5 ? 0 : 1;
-    let newDot;
-    let tries = 0;
-    do { newDot = Math.floor(Math.random()*n); tries++; }
-    while((newDot === edge[0] || newDot === edge[1]) && tries < 30);
-    edges[idx] = endSel === 0 ? [newDot, edge[1]] : [edge[0], newDot];
+    const usedIdx = new Set();
+    for(let c = 0; c < changes; c++){
+      let idx, idxTries = 0;
+      do { idx = Math.floor(Math.random() * edges.length); idxTries++; }
+      while(usedIdx.has(idx) && idxTries < 10);
+      usedIdx.add(idx);
+      const edge = edges[idx];
+      const endSel = Math.random() < 0.5 ? 0 : 1;
+      let newDot, tries = 0;
+      do { newDot = Math.floor(Math.random()*n); tries++; }
+      while((newDot === edge[0] || newDot === edge[1]) && tries < 30);
+      edges[idx] = endSel === 0 ? [newDot, edge[1]] : [edge[0], newDot];
+    }
     const key = edgeSetKey(edges);
     if(!forbiddenKeys.has(key)){
       forbiddenKeys.add(key);
@@ -459,14 +465,12 @@ function graphSetupRound(){
 
   const forbidden = new Set([edgeSetKey(edges)]);
   const distractors = [];
-  for(let i = 0; i < 3; i++){
-    const d = makeDistractor(n, edges, forbidden);
+  const TARGET_DISTRACTORS = 7; // iš viso 8 variantai (1 teisingas + 7 panašūs)
+  let changeStrength = 1;
+  while(distractors.length < TARGET_DISTRACTORS && changeStrength <= n){
+    const d = makeDistractor(n, edges, forbidden, changeStrength);
     if(d) distractors.push(d);
-  }
-  while(distractors.length < 3){
-    // atsarginis variantas, jei generavimas nepavyko — dar vienas bandymas su nauju bazinių kraštinių rinkiniu
-    const extra = makeDistractor(n, edges, forbidden);
-    if(extra) distractors.push(extra); else break;
+    else changeStrength++; // paprastas variantų fondas išseko — keičiam daugiau kraštinių iš karto
   }
   const opts = [{edges: edges, correct: true}].concat(distractors.map(e => ({edges: e, correct: false})));
   for(let i = opts.length - 1; i > 0; i--){
