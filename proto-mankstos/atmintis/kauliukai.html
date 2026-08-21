@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kauliukai · Proto mankšta</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
+    --accent2:#2b6cb0; --ok:#15803d; --bad:#b91c1c; --muted:#6b7280;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:'Segoe UI',system-ui,Arial,sans-serif; background:var(--bg);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--accent); color:#fff; padding:16px 20px; text-align:center}
+  header h1{margin:0; font-size:clamp(18px,2.6vw,26px); font-weight:700}
+  header p{margin:4px 0 0; opacity:.85; font-size:14px}
+  .grizti{display:inline-block; margin:0 0 8px; color:#fff; opacity:.85; font-size:13px; text-decoration:none}
+  .grizti:hover{opacity:1; text-decoration:underline}
+  .wrap{width:100%; max-width:560px; padding:16px; flex:1; display:flex; flex-direction:column; align-items:center}
+
+  .screen{display:none; width:100%; flex-direction:column; align-items:center}
+  .screen.active{display:flex}
+
+  .modecard{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:18px 20px;
+    margin:10px 0; width:100%; max-width:420px; cursor:pointer; text-align:left; border:2px solid transparent}
+  .modecard:hover{border-color:var(--accent2)}
+  .modecard h3{margin:0 0 4px; color:var(--accent); font-size:17px}
+  .modecard p{margin:0; font-size:13.5px; color:var(--muted)}
+
+  .setrow{display:flex; gap:10px; align-items:center; justify-content:center; margin:10px 0 18px; flex-wrap:wrap}
+  .setrow label{font-size:14px; font-weight:600; color:var(--ink)}
+  .setrow select{padding:8px 12px; border-radius:10px; border:1px solid #c7d2e0; font-size:14px; font-family:inherit}
+
+  .stats{display:flex; gap:10px; justify-content:center; margin:14px 0; flex-wrap:wrap}
+  .stat{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px 18px; text-align:center; min-width:100px}
+  .stat .num{font-size:24px; font-weight:700; color:var(--accent2)}
+  .stat .lbl{font-size:12.5px; color:var(--muted)}
+
+  .msg{min-height:26px; font-size:16px; font-weight:600; text-align:center; margin:6px 0}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)} .msg.info{color:var(--muted)}
+
+  .timerbar{width:100%; max-width:340px; height:10px; background:#e2e8f1; border-radius:6px; overflow:hidden; margin:6px 0 14px}
+  .timerbar .fill{height:100%; background:var(--accent2); transition:width .1s linear}
+
+  .dicerow{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:10px 0 16px}
+  .diceslot{display:flex; flex-direction:column; align-items:center; gap:6px}
+  .diceslot .label{font-size:12px; color:var(--muted); font-weight:600}
+
+  .pipgrid{display:grid; grid-template-columns:repeat(3,34px); grid-template-rows:repeat(3,34px); gap:4px;
+    background:#eef2f7; padding:6px; border-radius:10px; border:2px solid #c7d2e0}
+  .pipgrid.correct{border-color:var(--ok)} .pipgrid.wrong{border-color:var(--bad)}
+  .pipcell{width:34px; height:34px; border-radius:50%; border:2px solid #c7d2e0; background:#fff; cursor:pointer; padding:0}
+  .pipcell.on{background:var(--accent); border-color:var(--accent)}
+  .pipcell:disabled{cursor:default}
+
+  .seqrow{display:flex; gap:8px; align-items:center; justify-content:center; margin:6px 0 14px; flex-wrap:wrap}
+  .seqrow input{padding:10px 12px; font-size:16px; border-radius:10px; border:1px solid #c7d2e0; width:180px;
+    text-align:center; font-family:'Consolas',monospace}
+
+  .graphgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:10px 0 16px; width:100%; max-width:400px}
+  .graphopt{background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:10px; cursor:pointer;
+    border:3px solid transparent; text-align:center}
+  .graphopt:hover{border-color:var(--accent2)}
+  .graphopt.correct{border-color:var(--ok)} .graphopt.wrong{border-color:var(--bad)}
+  .graphopt.disabled{cursor:default}
+
+  .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0}
+  button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 20px; border-radius:12px;
+    font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
+  button.ctrl:hover{background:#eef2f7}
+  button.ctrl:disabled{opacity:.45; cursor:default}
+  button.primary{background:var(--accent2); color:#fff}
+  .howto{background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:16px 20px; margin:6px 0 20px;
+    font-size:14px; color:var(--ink); max-width:420px}
+  .howto b{color:var(--accent)}
+  footer{color:var(--muted); font-size:13px; padding:14px; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <a class="grizti" href="./">← Atmintis</a>
+  <h1>🎲 Atminties žaidimas: Kauliukai</h1>
+  <p>Įsimink, atkurk, atpažink</p>
+</header>
+<div class="wrap">
+
+  <!-- REŽIMO PASIRINKIMAS -->
+  <section class="screen active" id="s-select">
+    <div class="modecard" onclick="openMode(1)">
+      <h3>🎲 I variantas — Kauliukai</h3>
+      <p>Parodomi 1–4 kauliukai. Po paslėpimo atkurk kiekvieno akutes spragtelėdama(s) tinklelį.</p>
+    </div>
+    <div class="modecard" onclick="openMode(2)">
+      <h3>🔢 II variantas — Kauliukai + seka</h3>
+      <p>Parodomi 2–4 kauliukai. Atkurk akutes IR užrašyk kauliukų seką ta pačia tvarka.</p>
+    </div>
+    <div class="modecard" onclick="openMode(3)">
+      <h3>🕸️ III variantas — Grafų atpažinimas</h3>
+      <p>Įsimink taškų raištą, tada iš keturių panašių atpažink lygiai tokį patį.</p>
+    </div>
+    <div class="setrow" id="setrow">
+      <label for="diceSet">Kauliukų rinkinys (I ir II variantui):</label>
+      <select id="diceSet">
+        <option value="6">6 akučių</option>
+        <option value="8">8 akučių</option>
+      </select>
+    </div>
+    <div class="howto">
+      <b>Kaip žaisti:</b> pasirink vieną iš trijų režimų. Kauliukų variantuose kauliukai parodomi
+      trumpam laikui, tada paslepiami — turi atkurti akutes tinklelyje. Grafų variante įsimink
+      taškų sujungimus ir atpažink identišką raištą tarp keturių panašių.
+    </div>
+  </section>
+
+  <!-- I / II VARIANTAS (bendra struktūra) -->
+  <section class="screen" id="s-dice">
+    <div class="stats">
+      <div class="stat"><div class="num" id="diceRound">1</div><div class="lbl">Raundas</div></div>
+      <div class="stat"><div class="num" id="diceScore">0</div><div class="lbl">Taškai</div></div>
+    </div>
+    <div class="msg info" id="diceMsg">Spausk „Rodyti“, kai būsi pasiruošęs(-usi)</div>
+    <div class="timerbar" id="diceTimerWrap" style="display:none"><div class="fill" id="diceTimerFill"></div></div>
+    <div class="dicerow" id="diceRow"></div>
+    <div class="seqrow" id="seqRow" style="display:none">
+      <label for="seqInput" style="font-size:13.5px;color:var(--muted)">Seka (pvz. 4-2-6):</label>
+      <input type="text" id="seqInput" placeholder="?-?-?">
+    </div>
+    <div class="controls">
+      <button class="ctrl primary" id="diceShowBtn" onclick="diceShow()">👁 Rodyti</button>
+      <button class="ctrl" id="diceCheckBtn" onclick="diceCheck()" style="display:none">✓ Tikrinti</button>
+      <button class="ctrl" id="diceNextBtn" onclick="diceNext()" style="display:none">Kitas raundas →</button>
+      <button class="ctrl" onclick="backToSelect()">← Režimai</button>
+    </div>
+  </section>
+
+  <!-- III VARIANTAS -->
+  <section class="screen" id="s-graph">
+    <div class="stats">
+      <div class="stat"><div class="num" id="graphRound">1</div><div class="lbl">Raundas</div></div>
+      <div class="stat"><div class="num" id="graphScore">0</div><div class="lbl">Taškai</div></div>
+    </div>
+    <div class="msg info" id="graphMsg">Spausk „Rodyti“, kai būsi pasiruošęs(-usi)</div>
+    <div class="timerbar" id="graphTimerWrap" style="display:none"><div class="fill" id="graphTimerFill"></div></div>
+    <div id="graphShowArea"></div>
+    <div class="graphgrid" id="graphOpts" style="display:none"></div>
+    <div class="controls">
+      <button class="ctrl primary" id="graphShowBtn" onclick="graphShow()">👁 Rodyti</button>
+      <button class="ctrl" id="graphNextBtn" onclick="graphNext()" style="display:none">Kitas raundas →</button>
+      <button class="ctrl" onclick="backToSelect()">← Režimai</button>
+    </div>
+  </section>
+
+  <!-- SUVESTINĖ -->
+  <section class="screen" id="s-summary">
+    <div class="modecard" style="cursor:default;text-align:center">
+      <h3 id="summaryTitle">🏆 Baigta!</h3>
+      <p id="summaryText"></p>
+    </div>
+    <div class="controls">
+      <button class="ctrl primary" onclick="replaySame()">↻ Žaisti dar kartą</button>
+      <button class="ctrl" onclick="backToSelect()">← Režimai</button>
+    </div>
+  </section>
+
+</div>
+<footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<script>
+/* ============ garsas (paprasti pyptelėjimai) ============ */
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+}
+function beep(freq, dur, type){
+  if(!audioCtx) return;
+  const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+  osc.type = type || 'sine'; osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + dur);
+}
+function okBeep(){ beep(660, 0.22, 'sine'); }
+function badBeep(){ beep(160, 0.35, 'square'); }
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+/* ============ ekranų valdymas ============ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function backToSelect(){ goTo('s-select'); }
+
+let lastMode = 1;
+function openMode(m){
+  unlockAudio();
+  lastMode = m;
+  if(m === 1) diceInit(false);
+  else if(m === 2) diceInit(true);
+  else graphInit();
+}
+function replaySame(){ openMode(lastMode); }
+
+/* ============ kauliukų akučių išdėstymas (3x3 tinklelis, indeksai 0-8) ============
+   0 1 2
+   3 4 5
+   6 7 8   */
+const DOT_PATTERNS = {
+  1: [4],
+  2: [0,8],
+  3: [0,4,8],
+  4: [0,2,6,8],
+  5: [0,2,4,6,8],
+  6: [0,2,3,5,6,8],
+  7: [0,2,3,4,5,6,8],
+  8: [0,1,2,3,5,6,7,8]
+};
+function pipXY(idx){ const col = idx % 3, row = Math.floor(idx / 3); return {x: 15 + col*15, y: 15 + row*15}; }
+function svgDieFace(value, sizePx){
+  const pts = DOT_PATTERNS[value] || [];
+  const dots = pts.map(i => { const {x,y} = pipXY(i); return `<circle cx="${x}" cy="${y}" r="6" fill="#1f2937"/>`; }).join('');
+  return `<svg width="${sizePx}" height="${sizePx}" viewBox="0 0 60 60"><rect x="2" y="2" width="56" height="56" rx="10" fill="#fff" stroke="#c7d2e0" stroke-width="2"/>${dots}</svg>`;
+}
+function svgDieBack(sizePx){
+  return `<svg width="${sizePx}" height="${sizePx}" viewBox="0 0 60 60"><rect x="2" y="2" width="56" height="56" rx="10" fill="#1f4e79"/><text x="30" y="38" font-size="26" text-anchor="middle" fill="#fff">?</text></svg>`;
+}
+function pipGridHTML(dieIdx){
+  let cells = '';
+  for(let i = 0; i < 9; i++){
+    cells += `<button type="button" class="pipcell" data-die="${dieIdx}" data-idx="${i}" onclick="togglePip(${dieIdx},${i})"></button>`;
+  }
+  return `<div class="pipgrid" id="pipgrid-${dieIdx}">${cells}</div>`;
+}
+
+/* ============ I / II variantas ============ */
+const DICE_TIMINGS_1 = [5,10,15,20];   // sek. pagal raundą (1..4 kauliukai)
+const DICE_TIMINGS_2 = [6,10,15];      // sek. pagal raundą (2..4 kauliukai, II variantas)
+let diceMode2 = false;
+let diceRound = 1;
+let diceMaxRound = 4;
+let diceScore = 0;
+let diceValues = [];
+let diceGuesses = [];   // Set per kauliuką
+let diceRevealed = false;
+let diceTimerId = null;
+
+function maxPip(){ return parseInt(document.getElementById('diceSet').value, 10); }
+
+function diceInit(mode2){
+  diceMode2 = mode2;
+  diceRound = 1;
+  diceMaxRound = mode2 ? 3 : 4; // II variantas: 3 raundai (2,3,4 kauliukai); I variantas: 4 raundai (1,2,3,4)
+  diceScore = 0;
+  document.getElementById('diceScore').textContent = '0';
+  goTo('s-dice');
+  diceSetupRound();
+}
+function diceCountForRound(r){
+  return diceMode2 ? (r + 1) : r; // II: raundas1->2 kauliukai; I: raundas1->1 kauliukas
+}
+function diceTimingForRound(r){
+  return diceMode2 ? DICE_TIMINGS_2[r-1] : DICE_TIMINGS_1[r-1];
+}
+function diceSetupRound(){
+  diceRevealed = false;
+  document.getElementById('diceRound').textContent = diceRound + ' / ' + diceMaxRound;
+  const n = diceCountForRound(diceRound);
+  const mp = maxPip();
+  diceValues = [];
+  for(let i = 0; i < n; i++) diceValues.push(1 + Math.floor(Math.random() * mp));
+  diceGuesses = diceValues.map(() => new Set());
+
+  const row = document.getElementById('diceRow');
+  row.innerHTML = diceValues.map((v,i) => `
+    <div class="diceslot">
+      <div class="label">Kauliukas ${i+1}</div>
+      <div id="dieface-${i}">${svgDieBack(64)}</div>
+    </div>`).join('');
+
+  document.getElementById('seqRow').style.display = 'none';
+  document.getElementById('seqInput').value = '';
+  document.getElementById('diceMsg').textContent = 'Spausk „Rodyti“ — kauliukai bus matomi ' + diceTimingForRound(diceRound) + ' s';
+  document.getElementById('diceMsg').className = 'msg info';
+  document.getElementById('diceTimerWrap').style.display = 'none';
+  document.getElementById('diceShowBtn').style.display = 'inline-block';
+  document.getElementById('diceShowBtn').disabled = false;
+  document.getElementById('diceCheckBtn').style.display = 'none';
+  document.getElementById('diceNextBtn').style.display = 'none';
+}
+async function diceShow(){
+  document.getElementById('diceShowBtn').disabled = true;
+  diceValues.forEach((v,i) => { document.getElementById('dieface-' + i).innerHTML = svgDieFace(v, 64); });
+  const total = diceTimingForRound(diceRound) * 1000;
+  const wrap = document.getElementById('diceTimerWrap');
+  const fill = document.getElementById('diceTimerFill');
+  wrap.style.display = 'block';
+  fill.style.width = '100%';
+  document.getElementById('diceMsg').textContent = 'Žiūrėk ir įsimink...';
+  const start = Date.now();
+  diceTimerId = setInterval(() => {
+    const left = Math.max(0, total - (Date.now() - start));
+    fill.style.width = (left / total * 100) + '%';
+    if(left <= 0) clearInterval(diceTimerId);
+  }, 50);
+  await sleep(total);
+  clearInterval(diceTimerId);
+  wrap.style.display = 'none';
+
+  diceValues.forEach((v,i) => { document.getElementById('dieface-' + i).innerHTML = svgDieBack(64); });
+  const row = document.getElementById('diceRow');
+  row.innerHTML = diceValues.map((v,i) => `
+    <div class="diceslot">
+      <div class="label">Kauliukas ${i+1}</div>
+      ${pipGridHTML(i)}
+    </div>`).join('');
+  document.getElementById('seqRow').style.display = diceMode2 ? 'flex' : 'none';
+  document.getElementById('diceMsg').textContent = 'Atkurk kiekvieno kauliuko akutes' + (diceMode2 ? ' ir įrašyk seką' : '');
+  diceRevealed = true;
+  document.getElementById('diceCheckBtn').style.display = 'inline-block';
+}
+function togglePip(dieIdx, cellIdx){
+  if(!diceRevealed) return;
+  const set = diceGuesses[dieIdx];
+  const btn = document.querySelector(`.pipcell[data-die="${dieIdx}"][data-idx="${cellIdx}"]`);
+  if(set.has(cellIdx)){ set.delete(cellIdx); btn.classList.remove('on'); }
+  else { set.add(cellIdx); btn.classList.add('on'); }
+}
+function setsEqual(a, b){
+  if(a.size !== b.size) return false;
+  for(const x of a) if(!b.has(x)) return false;
+  return true;
+}
+function diceCheck(){
+  document.querySelectorAll('.pipcell').forEach(b => b.disabled = true);
+  let roundCorrect = 0;
+  diceValues.forEach((v,i) => {
+    const correctSet = new Set(DOT_PATTERNS[v]);
+    const grid = document.getElementById('pipgrid-' + i);
+    if(setsEqual(diceGuesses[i], correctSet)){
+      grid.classList.add('correct');
+      roundCorrect++;
+    } else {
+      grid.classList.add('wrong');
+    }
+  });
+  let seqOk = null;
+  if(diceMode2){
+    const raw = document.getElementById('seqInput').value.trim();
+    const parts = raw.split(/[^0-9]+/).filter(Boolean).map(Number);
+    seqOk = parts.length === diceValues.length && parts.every((x,i) => x === diceValues[i]);
+    if(seqOk) roundCorrect++;
+  }
+  diceScore += roundCorrect;
+  document.getElementById('diceScore').textContent = diceScore;
+  if(roundCorrect === diceValues.length + (diceMode2 ? 1 : 0)){ okBeep(); }
+  else { badBeep(); }
+
+  let msg = 'Šiame raunde teisingai: ' + roundCorrect + ' / ' + (diceValues.length + (diceMode2?1:0));
+  if(diceMode2 && !seqOk) msg += '. Teisinga seka buvo: ' + diceValues.join('-');
+  document.getElementById('diceMsg').textContent = msg;
+  document.getElementById('diceMsg').className = roundCorrect === diceValues.length + (diceMode2?1:0) ? 'msg ok' : 'msg bad';
+
+  document.getElementById('diceCheckBtn').style.display = 'none';
+  if(diceRound < diceMaxRound){
+    document.getElementById('diceNextBtn').style.display = 'inline-block';
+  } else {
+    setTimeout(() => showSummary('dice'), 900);
+  }
+}
+function diceNext(){
+  diceRound++;
+  diceSetupRound();
+}
+
+/* ============ III variantas: grafų atpažinimas ============ */
+const GRAPH_MAX_ROUND = 6;
+let graphRound = 1;
+let graphScore = 0;
+let graphCurrent = null; // {dots, edges}
+let graphOptions = [];   // [{edges, correct}]
+let graphAnswered = false;
+
+function dotsForRound(r){ return r <= 3 ? 6 : 8; }
+function edgesForRound(r){ return r <= 3 ? 3 : 4; }
+function timeForRound(r){ return r <= 3 ? 5 : 7; }
+
+function makeDots(n){
+  // 2 stulpeliai, n/2 eilučių, fiksuotos koordinatės (viewBox 0 0 120 dinamiškas aukštis)
+  const rows = n / 2;
+  const dots = [];
+  for(let row = 0; row < rows; row++){
+    dots.push({x: 30, y: 25 + row*45});
+    dots.push({x: 90, y: 25 + row*45});
+  }
+  return dots;
+}
+function edgeKey(a,b){ return a < b ? a+'-'+b : b+'-'+a; }
+function randomEdgeSet(n, count){
+  const set = new Set();
+  let guard = 0;
+  while(set.size < count && guard < 500){
+    guard++;
+    const a = Math.floor(Math.random()*n);
+    let b = Math.floor(Math.random()*n);
+    if(a === b) continue;
+    const key = edgeKey(a,b);
+    if(set.has(key)) continue;
+    set.add(key);
+  }
+  return Array.from(set).map(k => k.split('-').map(Number));
+}
+function edgeSetKey(edges){
+  return edges.map(([a,b]) => edgeKey(a,b)).sort().join('|');
+}
+function makeDistractor(n, baseEdges, forbiddenKeys){
+  for(let attempt = 0; attempt < 60; attempt++){
+    const edges = baseEdges.map(e => e.slice());
+    const idx = Math.floor(Math.random() * edges.length);
+    const edge = edges[idx];
+    const endSel = Math.random() < 0.5 ? 0 : 1;
+    let newDot;
+    let tries = 0;
+    do { newDot = Math.floor(Math.random()*n); tries++; }
+    while((newDot === edge[0] || newDot === edge[1]) && tries < 30);
+    edges[idx] = endSel === 0 ? [newDot, edge[1]] : [edge[0], newDot];
+    const key = edgeSetKey(edges);
+    if(!forbiddenKeys.has(key)){
+      forbiddenKeys.add(key);
+      return edges;
+    }
+  }
+  return null;
+}
+function svgGraph(dots, edges, sizePx, highlightClass){
+  const rows = dots.length / 2;
+  const h = 25 + (rows-1)*45 + 25;
+  const lines = edges.map(([a,b]) => `<line x1="${dots[a].x}" y1="${dots[a].y}" x2="${dots[b].x}" y2="${dots[b].y}" stroke="#1f2937" stroke-width="2.5"/>`).join('');
+  const circles = dots.map(d => `<circle cx="${d.x}" cy="${d.y}" r="6" fill="#1f2937"/>`).join('');
+  return `<svg width="${sizePx}" height="${sizePx * h / 120}" viewBox="0 0 120 ${h}">${lines}${circles}</svg>`;
+}
+
+function graphInit(){
+  graphRound = 1;
+  graphScore = 0;
+  document.getElementById('graphScore').textContent = '0';
+  goTo('s-graph');
+  graphSetupRound();
+}
+function graphSetupRound(){
+  graphAnswered = false;
+  document.getElementById('graphRound').textContent = graphRound + ' / ' + GRAPH_MAX_ROUND;
+  const n = dotsForRound(graphRound);
+  const dots = makeDots(n);
+  const edges = randomEdgeSet(n, edgesForRound(graphRound));
+  graphCurrent = {dots, edges};
+
+  const forbidden = new Set([edgeSetKey(edges)]);
+  const distractors = [];
+  for(let i = 0; i < 3; i++){
+    const d = makeDistractor(n, edges, forbidden);
+    if(d) distractors.push(d);
+  }
+  while(distractors.length < 3){
+    // atsarginis variantas, jei generavimas nepavyko — dar vienas bandymas su nauju bazinių kraštinių rinkiniu
+    const extra = makeDistractor(n, edges, forbidden);
+    if(extra) distractors.push(extra); else break;
+  }
+  const opts = [{edges: edges, correct: true}].concat(distractors.map(e => ({edges: e, correct: false})));
+  for(let i = opts.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+  graphOptions = opts;
+
+  document.getElementById('graphShowArea').innerHTML = `<div style="text-align:center">${svgGraph(dots, [], 160)}</div>`;
+  document.getElementById('graphMsg').textContent = 'Spausk „Rodyti“ — raištas bus matomas ' + timeForRound(graphRound) + ' s';
+  document.getElementById('graphMsg').className = 'msg info';
+  document.getElementById('graphTimerWrap').style.display = 'none';
+  document.getElementById('graphOpts').style.display = 'none';
+  document.getElementById('graphShowBtn').style.display = 'inline-block';
+  document.getElementById('graphShowBtn').disabled = false;
+  document.getElementById('graphNextBtn').style.display = 'none';
+}
+async function graphShow(){
+  document.getElementById('graphShowBtn').disabled = true;
+  document.getElementById('graphShowArea').innerHTML = `<div style="text-align:center">${svgGraph(graphCurrent.dots, graphCurrent.edges, 160)}</div>`;
+  const total = timeForRound(graphRound) * 1000;
+  const wrap = document.getElementById('graphTimerWrap');
+  const fill = document.getElementById('graphTimerFill');
+  wrap.style.display = 'block';
+  fill.style.width = '100%';
+  document.getElementById('graphMsg').textContent = 'Žiūrėk ir įsimink...';
+  const start = Date.now();
+  const timerId = setInterval(() => {
+    const left = Math.max(0, total - (Date.now() - start));
+    fill.style.width = (left / total * 100) + '%';
+    if(left <= 0) clearInterval(timerId);
+  }, 50);
+  await sleep(total);
+  clearInterval(timerId);
+  wrap.style.display = 'none';
+
+  document.getElementById('graphShowArea').innerHTML = `<div style="text-align:center;color:var(--muted);font-size:40px">🕵️</div>`;
+  document.getElementById('graphMsg').textContent = 'Kuris iš šių yra lygiai toks pat?';
+  const optsEl = document.getElementById('graphOpts');
+  optsEl.innerHTML = graphOptions.map((o,i) => `
+    <div class="graphopt" id="graphopt-${i}" onclick="graphPick(${i})">
+      ${svgGraph(graphCurrent.dots, o.edges, 130)}
+    </div>`).join('');
+  optsEl.style.display = 'grid';
+}
+function graphPick(i){
+  if(graphAnswered) return;
+  graphAnswered = true;
+  document.querySelectorAll('.graphopt').forEach(el => el.classList.add('disabled'));
+  const chosen = graphOptions[i];
+  document.getElementById('graphopt-' + i).classList.add(chosen.correct ? 'correct' : 'wrong');
+  if(!chosen.correct){
+    const correctIdx = graphOptions.findIndex(o => o.correct);
+    document.getElementById('graphopt-' + correctIdx).classList.add('correct');
+    badBeep();
+    document.getElementById('graphMsg').textContent = 'Ne visai — teisingas variantas paryškintas žaliai.';
+    document.getElementById('graphMsg').className = 'msg bad';
+  } else {
+    graphScore++;
+    document.getElementById('graphScore').textContent = graphScore;
+    okBeep();
+    document.getElementById('graphMsg').textContent = '✓ Teisingai!';
+    document.getElementById('graphMsg').className = 'msg ok';
+  }
+  if(graphRound < GRAPH_MAX_ROUND){
+    document.getElementById('graphNextBtn').style.display = 'inline-block';
+  } else {
+    setTimeout(() => showSummary('graph'), 900);
+  }
+}
+function graphNext(){
+  graphRound++;
+  graphSetupRound();
+}
+
+/* ============ suvestinė ============ */
+function showSummary(which){
+  let title, text;
+  if(which === 'dice'){
+    const maxScore = diceMode2
+      ? (2+3+4) + 3
+      : (1+2+3+4);
+    title = diceMode2 ? '🏆 II variantas baigtas!' : '🏆 I variantas baigtas!';
+    text = 'Surinkai ' + diceScore + ' / ' + maxScore + ' taškų.';
+  } else {
+    title = '🏆 III variantas baigtas!';
+    text = 'Atpažinai teisingai ' + graphScore + ' / ' + GRAPH_MAX_ROUND + ' raundų.';
+  }
+  document.getElementById('summaryTitle').textContent = title;
+  document.getElementById('summaryText').textContent = text;
+  goTo('s-summary');
+}
+</script>
+</body>
+</html>
