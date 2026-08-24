@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.2.4 Didžiausiasis bendrasis daliklis — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  sup{font-size:.7em}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>3.2.4 Didžiausiasis bendrasis daliklis</h1>
+  <p class="klase">Matematika · 5 klasė · 3 skyrius „Dalumas“ · 3.2.4 tema</p>
+
+  <section class="potema" id="t324">
+    <h2><span class="nr">3.2.4</span> Didžiausiasis bendrasis daliklis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Bendrasis daliklis.</span> Natūralusis skaičius, iš kurio dalijasi <b>kiekvienas</b> duotasis skaičius, vadinamas tų skaičių <b>bendruoju dalikliu</b>. Pavyzdžiui, skaičius 3 yra ir 12, ir 18 bendrasis daliklis, nes abu jie dalijasi iš 3.</p>
+        <p><span class="zenk">Didžiausiasis bendrasis daliklis (DBD).</span> Didžiausias iš visų bendrųjų daliklių vadinamas <b>didžiausiuoju bendruoju dalikliu</b> ir žymimas <span class="math">DBD(a; b)</span>. Pavyzdžiui, skaičių 12 ir 18 bendrieji dalikliai yra 1, 2, 3, 6 — didžiausias iš jų yra 6, tad <span class="math">DBD(12; 18) = 6</span>.</p>
+        <p><span class="zenk">Kaip randame DBD.</span> Patogiausia rasti DBD taip:</p>
+        <p>1) abu (ar visus) skaičius <b>išskaidome pirminiais dauginamaisiais</b>;<br>
+        2) išrenkame dauginamuosius, kurie <b>kartojasi visuose</b> skaidiniuose (<b>bendrus</b>) — jei toks dauginamasis kartojasi skirtingą skaičių kartų, imame jį <b>mažesniu laipsniu</b>;<br>
+        3) tuos bendrus dauginamuosius <b>sudauginame</b> — gauname DBD.</p>
+        <table class="kort">
+          <tr><th></th><th>Skaidinys</th><th>Bendra dalis</th></tr>
+          <tr><td><b>12</b></td><td>2²·3</td><td rowspan="2" style="vertical-align:middle">2·3 = <b>6</b></td></tr>
+          <tr><td><b>18</b></td><td>2·3²</td></tr>
+        </table>
+        <div class="demesio"><b>Dėmesio.</b> Jei skaičiai <b>neturi bendrų pirminių dauginamųjų</b>, jų DBD lygus 1 (nes 1 dalija bet kurį skaičių). Tokie skaičiai vadinami <b>tarpusavyje pirminiais</b>. Pavyzdžiui, 9 ir 14 — tarpusavyje pirminiai, <span class="math">DBD(9; 14) = 1</span>, nors nei 9, nei 14 patys nėra pirminiai skaičiai.</p></div>
+        <p class="pvz"><b>1 pavyzdys.</b> DBD(12; 18). Skaidiniai: <span class="math">12 = 2²·3</span>, <span class="math">18 = 2·3²</span>. Bendri dauginamieji mažesniu laipsniu: <span class="math">2¹·3¹</span>. <span class="math">DBD(12; 18) = 2·3 = <b>6</b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> DBD(24; 60). Skaidiniai: <span class="math">24 = 2³·3</span>, <span class="math">60 = 2²·3·5</span>. Bendri dauginamieji: <span class="math">2², 3</span> (skaičius 5 nebendras — 24 jo neturi). <span class="math">DBD(24; 60) = 2²·3 = <b>12</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> DBD(42; 56). Skaidiniai: <span class="math">42 = 2·3·7</span>, <span class="math">56 = 2³·7</span>. Bendri dauginamieji: <span class="math">2, 7</span> (3 nebendras). <span class="math">DBD(42; 56) = 2·7 = <b>14</b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> DBD(16; 20). Skaidiniai: <span class="math">16 = 2⁴</span>, <span class="math">20 = 2²·5</span>. Bendras dauginamasis — tik 2, mažesniu laipsniu: <span class="math">2²</span>. <span class="math">DBD(16; 20) = <b>4</b></span>.</p>
+        <p class="pvz"><b>5 pavyzdys.</b> DBD(9; 14). Skaidiniai: <span class="math">9 = 3²</span>, <span class="math">14 = 2·7</span>. Bendrų pirminių dauginamųjų nėra, tad <span class="math">DBD(9; 14) = <b>1</b></span> — skaičiai 9 ir 14 tarpusavyje pirminiai.</p>
+        <p class="pvz"><b>6 pavyzdys.</b> Skaičiai jau išskaidyti: <span class="math">a = 2·3·3·5</span>, <span class="math">b = 3·3·5·7</span>. Bendri dauginamieji: <span class="math">3, 3, 5</span> (t. y. 3² ir 5). <span class="math">DBD(a; b) = 3·3·5 = <b>45</b></span>.</p>
+        <div class="demesio"><b>Dėmesio.</b> DBD galima rasti ir iš <b>trijų ir daugiau</b> skaičių — tuomet ieškome dauginamųjų, bendrų <b>visiems</b> skaičiams. Taip pat DBD(a; b) niekada nebūna <b>didesnis</b> už mažesnįjį iš skaičių a ir b.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Didžiausiasis bendrasis daliklis“ (3.2.4)
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · 3.3.1 Skaičiaus kartotiniai · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(15px,3.2vw,21px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:17px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:6px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:36px;height:48px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:22px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(400px,92%);padding:15px;font-size:22px;text-align:center;
+    letter-spacing:6px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">25:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Naktinis švyturys</span>
+    <h1>Kartotinių <span class="amber">švyturys</span></h1>
+    <div class="sub">Pabėgimo kambarys · 3.3.1 Skaičiaus kartotiniai · 5 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Tyrėjau,</span> atplaukei į apleistą švyturį pasižiūrėti, kaip veikia jo
+      senas signalų mechanizmas — bet durys už tavęs staiga užsitrenkė. Ant sienos šviečia prižiūrėtojo
+      užrašas:</p>
+      <p style="margin:12px 0 0"><i>„Švyturio šviesa signalizuoja kartotiniais — kas tam tikrą sekundžių
+      ar minučių skaičių. Tarp tavęs ir laisvės — dešimt angų mechanizme. Kiekviena atrakinama teisingai
+      apskaičiavus kartotinį ir atskleidžia po vieną švyturio ugnies kodo skaitmenį. Surink visus dešimt,
+      įvesk kodą ir įžiebk švyturį, kol audra dar neprasidėjo."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės — nuo paprasčiausio kartotinio skaičiavimo, per kartotinių
+      paiešką tarp ribų, iki gudriausios prižiūrėtojo mįslės pačioje pabaigoje. Laikas bėga.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 angų.</b> Atrakinamos iš eilės, sprendžiant kartotinių mįsles.</div>
+      <div class="rule"><b>🔢 Kiekviena anga</b> duoda po vieną švyturio ugnies kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 25 minutės.</b> Kuo greičiau, tuo aukštesnis tyrėjo rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą švyturio kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti tyrimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Švyturio durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 angos):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Įžiebti švyturį</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏃💨</div>
+    <h2>Pabėgai iš švyturio!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, švyturio šviesa vėl
+      sukasi virš bangų. Kartotiniai tau nebe paslaptis: žinai, kaip juos rasti, suskaičiuoti ir taikyti
+      žodiniuose uždaviniuose.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · 5 klasė · 3.3.1 Skaičiaus kartotiniai · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Kartotinius gauname dauginę skaičių iš eilės einančių natūraliųjų skaičių: a, 2a, 3a, ... Rask penktąjį (a·5) ir pažiūrėk į jo vienetų skaitmenį.",
+  "Jeigu duotasis skaičius yra kartotinis, jį galima užrašyti kaip a·k. Padalyk duotąjį skaičių iš a — dalmuo ir bus kelintasis kartotinis.",
+  "Padalyk antrąjį skaičių iš pirmojo ir patikrink, ar liekana lygi 0.",
+  "Rask pirmąjį kartotinį, kuris ≥ apatinės ribos, ir paskutinį, kuris ≤ viršutinės ribos, tada suskaičiuok juos.",
+  "Ieškok mažiausio trijų skaitmenų kartotinio: dauk skaičių iš 8, 9, 10... kol rezultatas taps triženklis, tada pažiūrėk į vienetų skaitmenį.",
+  "Ieškok didžiausio dviejų skaitmenų kartotinio: dauk skaičių iš 6, 7, 8... kol kitas rezultatas taptų triženklis, o paskutinis dar dviženklis, tada pažiūrėk į dešimčių skaitmenį.",
+  "Surašyk visus dviženklius (10–99) duotojo skaičiaus kartotinius ir suskaičiuok juos.",
+  "Padalyk minučių skaičių iš intervalo ir gauk, kelintas tai skambesys.",
+  "Prisimink: jeigu skaičius pats yra lyginis, visi jo kartotiniai (lyginis kartą bet koks) irgi lyginiai. Jeigu skaičius nelyginis, kai kurie jo kartotiniai (pvz. paties skaičiaus dvigubas) būna lyginiai, o kai kurie — ne.",
+  "Rask pirmąjį trijų skaitmenų kartotinį, tada pridėk dar du kartotinio žingsnius (2·a), kad gautum trečiąjį iš eilės trijų skaitmenų kartotinį — pažiūrėk į jo vienetų skaitmenį.",
+];
+
+/* ================= 4 VARIANTAI · 3.3.1 Skaičiaus kartotiniai ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 0308899912 --- */
+ [
+  { title:"Pirma anga: penktasis signalas", eq:"6 · 5", q:"Švyturys signalizuoja kas 6 sekundes. Koks yra PENKTOJO signalo momento (skaičiaus 6 penktojo kartotinio) VIENETŲ skaitmuo?", ans:0 },
+  { title:"Antra anga: kelintas signalas", eq:"21 : 7", q:"Švyturio signalai kartojasi kas 7 sekundes. Kelintas iš eilės signalas nuskambės 21-ąją sekundę?", ans:3 },
+  { title:"Trečia anga: ar sutaps?", eq:"96 : 9", q:"Ar 96-oji sekundė yra skaičiaus 9 kartotinis (t.y. ar tuo metu nuskambėtų signalas)? Rašyk 1, jei taip, arba 0, jei ne.", ans:0 },
+  { title:"Ketvirta anga: kiek signalų", eq:"[20; 50]", q:"Kiek skaičiaus 4 kartotinių (signalo momentų) yra tarp 20 ir 50 sekundžių (imtinai)?", ans:8 },
+  { title:"Penkta anga: naktinės pamainos pradžia", eq:"12 → 3 ženklai", q:"Koks MAŽIAUSIAS trijų skaitmenų skaičiaus 12 kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:8 },
+  { title:"Šešta anga: paskutinis dienos signalas", eq:"14 → 2 ženklai", q:"Koks DIDŽIAUSIAS dviejų skaitmenų skaičiaus 14 kartotinis? Įrašyk jo DEŠIMČIŲ skaitmenį.", ans:9 },
+  { title:"Septinta anga: dienos signalų sąrašas", eq:"11 → [10;99]", q:"Kiek iš viso yra dviejų skaitmenų skaičiaus 11 kartotinių?", ans:9 },
+  { title:"Aštunta anga: laivo varpas", eq:"45 : 5", q:"Laivo varpas skamba kas 5 minutes (pirmą kartą 5-ąją minutę). Kelintą kartą jis suskambės lygiai 45-ąją minutę?", ans:9 },
+  { title:"Devinta anga: prižiūrėtojo mįslė", eq:"8", q:"Prižiūrėtojas klausia: ar VISI skaičiaus 8 kartotiniai yra lyginiai skaičiai? Rašyk 1, jei taip, arba 0, jei ne.", ans:1 },
+  { title:"Dešimta anga: švyturio ugnies kodas", eq:"12 → 3-iasis trizenklis", q:"Koks skaičiaus 12 TREČIASIS iš eilės trijų skaitmenų kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:2 },
+ ],
+ /* --- VARIANTAS 2 · kodas 5218297900 --- */
+ [
+  { title:"Pirma anga: penktasis signalas", eq:"7 · 5", q:"Švyturys signalizuoja kas 7 sekundes. Koks yra PENKTOJO signalo momento (skaičiaus 7 penktojo kartotinio) VIENETŲ skaitmuo?", ans:5 },
+  { title:"Antra anga: kelintas signalas", eq:"16 : 8", q:"Švyturio signalai kartojasi kas 8 sekundes. Kelintas iš eilės signalas nuskambės 16-ąją sekundę?", ans:2 },
+  { title:"Trečia anga: ar sutaps?", eq:"108 : 12", q:"Ar 108-oji sekundė yra skaičiaus 12 kartotinis (t.y. ar tuo metu nuskambėtų signalas)? Rašyk 1, jei taip, arba 0, jei ne.", ans:1 },
+  { title:"Ketvirta anga: kiek signalų", eq:"[25; 60]", q:"Kiek skaičiaus 5 kartotinių (signalo momentų) yra tarp 25 ir 60 sekundžių (imtinai)?", ans:8 },
+  { title:"Penkta anga: naktinės pamainos pradžia", eq:"16 → 3 ženklai", q:"Koks MAŽIAUSIAS trijų skaitmenų skaičiaus 16 kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:2 },
+  { title:"Šešta anga: paskutinis dienos signalas", eq:"15 → 2 ženklai", q:"Koks DIDŽIAUSIAS dviejų skaitmenų skaičiaus 15 kartotinis? Įrašyk jo DEŠIMČIŲ skaitmenį.", ans:9 },
+  { title:"Septinta anga: dienos signalų sąrašas", eq:"13 → [10;99]", q:"Kiek iš viso yra dviejų skaitmenų skaičiaus 13 kartotinių?", ans:7 },
+  { title:"Aštunta anga: laivo varpas", eq:"54 : 6", q:"Laivo varpas skamba kas 6 minutes (pirmą kartą 6-ąją minutę). Kelintą kartą jis suskambės lygiai 54-ąją minutę?", ans:9 },
+  { title:"Devinta anga: prižiūrėtojo mįslė", eq:"9", q:"Prižiūrėtojas klausia: ar VISI skaičiaus 9 kartotiniai yra lyginiai skaičiai? Rašyk 1, jei taip, arba 0, jei ne.", ans:0 },
+  { title:"Dešimta anga: švyturio ugnies kodas", eq:"13 → 3-iasis trizenklis", q:"Koks skaičiaus 13 TREČIASIS iš eilės trijų skaitmenų kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:0 },
+ ],
+ /* --- VARIANTAS 3 · kodas 5919087904 --- */
+ [
+  { title:"Pirma anga: penktasis signalas", eq:"9 · 5", q:"Švyturys signalizuoja kas 9 sekundes. Koks yra PENKTOJO signalo momento (skaičiaus 9 penktojo kartotinio) VIENETŲ skaitmuo?", ans:5 },
+  { title:"Antra anga: kelintas signalas", eq:"54 : 6", q:"Švyturio signalai kartojasi kas 6 sekundes. Kelintas iš eilės signalas nuskambės 54-ąją sekundę?", ans:9 },
+  { title:"Trečia anga: ar sutaps?", eq:"126 : 14", q:"Ar 126-oji sekundė yra skaičiaus 14 kartotinis (t.y. ar tuo metu nuskambėtų signalas)? Rašyk 1, jei taip, arba 0, jei ne.", ans:1 },
+  { title:"Ketvirta anga: kiek signalų", eq:"[15; 40]", q:"Kiek skaičiaus 3 kartotinių (signalo momentų) yra tarp 15 ir 40 sekundžių (imtinai)?", ans:9 },
+  { title:"Penkta anga: naktinės pamainos pradžia", eq:"11 → 3 ženklai", q:"Koks MAŽIAUSIAS trijų skaitmenų skaičiaus 11 kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:0 },
+  { title:"Šešta anga: paskutinis dienos signalas", eq:"17 → 2 ženklai", q:"Koks DIDŽIAUSIAS dviejų skaitmenų skaičiaus 17 kartotinis? Įrašyk jo DEŠIMČIŲ skaitmenį.", ans:8 },
+  { title:"Septinta anga: dienos signalų sąrašas", eq:"14 → [10;99]", q:"Kiek iš viso yra dviejų skaitmenų skaičiaus 14 kartotinių?", ans:7 },
+  { title:"Aštunta anga: laivo varpas", eq:"63 : 7", q:"Laivo varpas skamba kas 7 minutes (pirmą kartą 7-ąją minutę). Kelintą kartą jis suskambės lygiai 63-ąją minutę?", ans:9 },
+  { title:"Devinta anga: prižiūrėtojo mįslė", eq:"7", q:"Prižiūrėtojas klausia: ar VISI skaičiaus 7 kartotiniai yra lyginiai skaičiai? Rašyk 1, jei taip, arba 0, jei ne.", ans:0 },
+  { title:"Dešimta anga: švyturio ugnies kodas", eq:"16 → 3-iasis trizenklis", q:"Koks skaičiaus 16 TREČIASIS iš eilės trijų skaitmenų kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:4 },
+ ],
+ /* --- VARIANTAS 4 · kodas 5817495910 --- */
+ [
+  { title:"Pirma anga: penktasis signalas", eq:"11 · 5", q:"Švyturys signalizuoja kas 11 sekundes. Koks yra PENKTOJO signalo momento (skaičiaus 11 penktojo kartotinio) VIENETŲ skaitmuo?", ans:5 },
+  { title:"Antra anga: kelintas signalas", eq:"72 : 9", q:"Švyturio signalai kartojasi kas 9 sekundes. Kelintas iš eilės signalas nuskambės 72-ąją sekundę?", ans:8 },
+  { title:"Trečia anga: ar sutaps?", eq:"144 : 16", q:"Ar 144-oji sekundė yra skaičiaus 16 kartotinis (t.y. ar tuo metu nuskambėtų signalas)? Rašyk 1, jei taip, arba 0, jei ne.", ans:1 },
+  { title:"Ketvirta anga: kiek signalų", eq:"[30; 70]", q:"Kiek skaičiaus 6 kartotinių (signalo momentų) yra tarp 30 ir 70 sekundžių (imtinai)?", ans:7 },
+  { title:"Penkta anga: naktinės pamainos pradžia", eq:"13 → 3 ženklai", q:"Koks MAŽIAUSIAS trijų skaitmenų skaičiaus 13 kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:4 },
+  { title:"Šešta anga: paskutinis dienos signalas", eq:"12 → 2 ženklai", q:"Koks DIDŽIAUSIAS dviejų skaitmenų skaičiaus 12 kartotinis? Įrašyk jo DEŠIMČIŲ skaitmenį.", ans:9 },
+  { title:"Septinta anga: dienos signalų sąrašas", eq:"17 → [10;99]", q:"Kiek iš viso yra dviejų skaitmenų skaičiaus 17 kartotinių?", ans:5 },
+  { title:"Aštunta anga: laivo varpas", eq:"72 : 8", q:"Laivo varpas skamba kas 8 minutes (pirmą kartą 8-ąją minutę). Kelintą kartą jis suskambės lygiai 72-ąją minutę?", ans:9 },
+  { title:"Devinta anga: prižiūrėtojo mįslė", eq:"6", q:"Prižiūrėtojas klausia: ar VISI skaičiaus 6 kartotiniai yra lyginiai skaičiai? Rašyk 1, jei taip, arba 0, jei ne.", ans:1 },
+  { title:"Dešimta anga: švyturio ugnies kodas", eq:"14 → 3-iasis trizenklis", q:"Koks skaičiaus 14 TREČIASIS iš eilės trijų skaitmenų kartotinis? Įrašyk jo VIENETŲ skaitmenį.", ans:0 },
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 25*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">Atsakymas =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šios angos skaitmuo švyturio kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Anga atsivėrė.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas atsakymas. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 angos.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 25*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis tyrėjas (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs tyrėjas";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors audra jau artėja. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

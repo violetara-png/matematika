@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: 3.3.2 Mažiausiasis bendrasis kartotinis (5 kl.)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: 3.3.2 Mažiausiasis bendrasis kartotinis (5 kl.)</h1>
+    <p id="paantraste">3.3.2 Mažiausiasis bendrasis kartotinis · 5 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai — 5 kl. 3.3.2 Mažiausiasis bendrasis kartotinis.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- Savi pagalbininkai ---
+function gcd2(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a; }
+function lcm2(a,b){ return Math.abs(a*b)/gcd2(a,b); }
+function factorize(n){
+  const f = {};
+  let x = n, p = 2;
+  while(p*p<=x){ while(x%p===0){ f[p]=(f[p]||0)+1; x/=p; } p++; }
+  if(x>1) f[x]=(f[x]||0)+1;
+  return f;
+}
+const SUP = {0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+function sup(n){ return String(n).split('').map(d=>SUP[d]).join(''); }
+function factStr(f){
+  return Object.keys(f).sort((a,b)=>a-b).map(p=>{
+    const e=f[p];
+    return e>1 ? (p+sup(e)) : (''+p);
+  }).join('·');
+}
+function factNum(f){ let v=1; for(const p in f) v*= Math.pow(Number(p), f[p]); return v; }
+function unionFactors(fa,fb){
+  const u={};
+  for(const p in fa) u[p]=fa[p];
+  for(const p in fb) u[p]=Math.max(u[p]||0, fb[p]);
+  return u;
+}
+// Sugeneruoja du skaičius su žinomu DBD = c (bazinis bendras daugiklis) ir
+// tarpusavyje pirminiais koeficientais p,q, kad MBK(a,b) = c*p*q tikrai teisingas.
+function pairWithLcm(minC,maxC){
+  let a,b,c,p,q;
+  do{
+    c = randint(minC,maxC);
+    p = choice([1,2,3,4,5,7]);
+    q = choice([1,2,3,4,5,7]);
+    while(gcd2(p,q)!==1) q = choice([1,2,3,4,5,7]);
+    a = c*p; b = c*q;
+  } while(a===b || a<4 || b<4 || a>60 || b>60);
+  return {a,b,c};
+}
+// Tas pats, bet vengia skaičių, kurie baigiasi „1" (išskyrus 11), kad prie jų einantis
+// daiktavardis visada liktų daugiskaitos kilmininke (pvz. „20 kartų", ne „21 karto").
+function pairWithLcmSafe(minC,maxC){
+  let r;
+  do{ r = pairWithLcm(minC,maxC); } while(r.a%10===1 || r.b%10===1);
+  return r;
+}
+
+const GENERATORIAI = [
+  { label:"MBK iš dviejų skaičių", gen(){
+      const {a,b} = pairWithLcm(2,10);
+      const m = lcm2(a,b);
+      const fa = factorize(a), fb = factorize(b), fu = unionFactors(fa,fb);
+      const mTxt = factStr(fu);
+      return { q:`Kam lygus MBK(${a}; ${b})?`, ans:m, ansText:String(m), steps:[
+        `Išskaidome abu skaičius pirminiais dauginamaisiais: ${a} = ${factStr(fa)}, ${b} = ${factStr(fb)}.`,
+        `Visi pirminiai dauginamieji (didžiausiu laipsniu): ${mTxt}.`,
+        `MBK(${a}; ${b}) = ${mTxt} = ${m}.`,
+        `Atsakymas: ${m}`
+      ]};
+  }},
+  { label:"MBK iš trijų skaičių", gen(){
+      const c = randint(1,6);
+      const ks = [1,2,3,5,7];
+      let p = choice(ks), q = choice(ks), r = choice(ks);
+      let tries=0;
+      while((p===q || q===r || p===r) && tries<20){ p=choice(ks); q=choice(ks); r=choice(ks); tries++; }
+      const a=c*p, b=c*q, cc=c*r;
+      const m1 = lcm2(a,b), m = lcm2(m1,cc);
+      return { q:`Kam lygus MBK(${a}; ${b}; ${cc})?`, ans:m, ansText:String(m), steps:[
+        `Pirmiausia randame MBK(${a}; ${b}) = ${m1}.`,
+        `Tada randame MBK(${m1}; ${cc}) = ${m}.`,
+        `MBK(${a}; ${b}; ${cc}) = ${m}.`,
+        `Atsakymas: ${m}`
+      ]};
+  }},
+  { label:"MBK iš duotų skaidinių", gen(){
+      const primes = [2,3,5,7];
+      const p1 = choice(primes);
+      let p2 = choice(primes); while(p2===p1) p2 = choice(primes);
+      const ea1=randint(1,3), ea2=randint(0,2), eb1=randint(1,3), eb2=randint(0,2);
+      const fa = {}; fa[p1]=ea1; if(ea2>0) fa[p2]=ea2;
+      const fb = {}; fb[p1]=eb1; if(eb2>0) fb[p2]=eb2;
+      const fu = unionFactors(fa,fb);
+      const m = factNum(fu);
+      const mTxt = factStr(fu);
+      return { q:`a = ${factStr(fa)}, b = ${factStr(fb)} — koks MBK(a; b)?`, ans:m, ansText:String(m), steps:[
+        `Visus pirminius dauginamuosius (ir bendrus, ir nebendrus) imame DIDŽIAUSIU laipsniu, kuriuo jie pasitaiko.`,
+        `Visi dauginamieji: ${mTxt}.`,
+        `MBK(a; b) = ${mTxt} = ${m}.`,
+        `Atsakymas: ${m}`
+      ]};
+  }},
+  { label:"Žodinis uždavinys (sutapimas laike)", gen(){
+      const {a,b} = pairWithLcmSafe(2,10);
+      const m = lcm2(a,b);
+      const ctxs = [
+        ["Iš tos pačios stotelės kas @a min išvažiuoja autobusas A, o kas @b min — autobusas B. Dabar jie išvažiavo kartu. Po kiek minučių jie vėl išvažiuos kartu?", "min"],
+        ["Šviesoforo A žibintas mirksi kas @a s, o šviesoforo B — kas @b s. Abu sumirksėjo kartu. Po kiek sekundžių jie vėl mirksės kartu?", "s"],
+        ["Dviratininkas ratą apvažiuoja per @a min, o bėgikas — per @b min. Abu startavo kartu. Po kiek minučių jie vėl susitiks starto taške?", "min"],
+      ];
+      const [tpl,vnt] = choice(ctxs);
+      const q = tpl.replace('@a',a).replace('@b',b);
+      return { q, ans:m, ansText:m+' '+vnt, steps:[
+        `Reikia rasti laiką, kuris dalijasi ir iš ${a}, ir iš ${b} — tai MBK uždavinys.`,
+        `${a} = ${factStr(factorize(a))}, ${b} = ${factStr(factorize(b))}.`,
+        `MBK(${a}; ${b}) = ${m}.`,
+        `Atsakymas: ${m} ${vnt}`
+      ]};
+  }},
+  { label:"Žodinis uždavinys (virvė/juosta)", gen(){
+      const {a,b} = pairWithLcm(3,9);
+      const m = lcm2(a,b);
+      return { q:`Virvę norima sukirpti į lygius gabalus be liekanos ir po ${a} dm, ir po ${b} dm ilgio. Koks mažiausias galimas virvės ilgis decimetrais?`,
+        ans:m, ansText:m+' dm', steps:[
+        `Virvės ilgis turi dalytis ir iš ${a}, ir iš ${b} — tad ieškome MBK(${a}; ${b}).`,
+        `${a} = ${factStr(factorize(a))}, ${b} = ${factStr(factorize(b))}.`,
+        `MBK(${a}; ${b}) = ${m}.`,
+        `Atsakymas: ${m} dm`
+      ]};
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: 3.3.2 Mažiausiasis bendrasis kartotinis (5 kl.)", "subtitle": "3.3.2 Mažiausiasis bendrasis kartotinis · 5 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "MBK =", "simboliai": ["−", ","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline. Kilpa iki
+  // nekintamo taško leidžia įdėtąsias šaknis (žymeklis šalia žymeklio).
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

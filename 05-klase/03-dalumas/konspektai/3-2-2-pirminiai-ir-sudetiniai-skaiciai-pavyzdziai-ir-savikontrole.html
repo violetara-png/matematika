@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>3.2.2 Pirminiai ir sudėtiniai skaičiai — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Pirminiai ir sudėtiniai skaičiai — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 3 skyrius „Dalumas“ · 3.2.2 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Ar skaičius pirminis?</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Pirminis skaičius turi <b>lygiai du</b> daliklius (1 ir save). Tikriname dalybą iš mažų pirminių skaičių (2, 3, 5, 7...) — jei nė vienas nedalija be liekanos, skaičius pirminis.</div>
+    <div class="ex">
+      <div class="q">Ar 23 pirminis skaičius?</div>
+      <div class="line">23 nesidalija iš 2, 3 (nė iš vieno mažesnio pirminio) &nbsp;&rArr;&nbsp; <span class="res">taip, pirminis</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 9 pirminis skaičius?</div>
+      <div class="line">9 = 3 · 3, dalikliai 1, 3, 9 (trys) &nbsp;&rArr;&nbsp; <span class="res">ne, sudėtinis</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 67 pirminis skaičius?</div>
+      <div class="line">67 nesidalija iš 2, 3, 5, 7 &nbsp;&rArr;&nbsp; <span class="res">taip, pirminis</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Pirminių skaičių paieška intervale ir sandaugos tipas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Ieškant pirminių skaičių intervale, lyginius (didesnius už 2) galima iš karto atmesti — jie visada sudėtiniai. Dviejų pirminių skaičių sandauga <b>visada</b> yra sudėtinis skaičius (turi bent keturis daliklius: 1, p, q, p·q).</div>
+    <div class="ex">
+      <div class="q">Kiek pirminių skaičių yra tarp 40 ir 50 (imtinai)?</div>
+      <div class="line">41, 43, 47 — visi kiti sudėtiniai &nbsp;&rArr;&nbsp; <span class="res">3</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">p = 5, q = 13 — abu pirminiai. Kokio tipo yra p · q = 65?</div>
+      <div class="line">Dalikliai 1, 5, 13, 65 (keturi) &nbsp;&rArr;&nbsp; <span class="res">sudėtinis</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> atsakyk į klausimus raštu, tada pasitikrink atsakymus lapo apačioje.</div>
+
+    <div class="grp">A grupė · Pirminis ar sudėtinis?</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Ar 15 pirminis, ar sudėtinis skaičius?</li>
+        <li>Ar 31 pirminis, ar sudėtinis skaičius?</li>
+        <li>Ar 44 pirminis, ar sudėtinis skaičius?</li>
+        <li>Ar 58 pirminis, ar sudėtinis skaičius?</li>
+        <li>Ar 1 pirminis, ar sudėtinis skaičius?</li>
+        <li>Ar 88 pirminis, ar sudėtinis skaičius?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Pirminių skaičių paieška ir teiginiai</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Kiek pirminių skaičių yra tarp 30 ir 40 (imtinai)?</li>
+        <li>Ar teisinga: kiekvienas nelyginis skaičius yra pirminis?</li>
+        <li>Kiek iš viso daliklių turi skaičius 36?</li>
+        <li>p = 3, q = 7 — abu pirminiai. Kokio tipo yra jų sandauga p · q?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Kuris iš skaičių 51, 59, 63, 81 yra pirminis?</li>
+      <li>Kokia yra visų pirminių skaičių, mažesnių už 15, suma?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> sudėtinis (15 = 3 · 5)</div>
+    <div class="row"><b>2.</b> pirminis</div>
+    <div class="row"><b>3.</b> sudėtinis (44 = 2² · 11)</div>
+    <div class="row"><b>4.</b> sudėtinis (58 = 2 · 29)</div>
+    <div class="row"><b>5.</b> nei pirminis, nei sudėtinis</div>
+    <div class="row"><b>6.</b> sudėtinis (88 = 2³ · 11)</div>
+    <div class="row"><b>7.</b> 2 (31, 37)</div>
+    <div class="row"><b>8.</b> ne (pvz. 9 = 3 · 3 nelyginis, bet sudėtinis)</div>
+    <div class="row"><b>9.</b> 9 (1, 2, 3, 4, 6, 9, 12, 18, 36)</div>
+    <div class="row"><b>10.</b> sudėtinis (3 · 7 = 21 = 1,3,7,21)</div>
+    <div class="row"><b>11.</b> 59 (51=3·17, 63=9·7, 81=3⁴)</div>
+    <div class="row"><b>12.</b> 17 (2+3+5+7 = 17)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Pirminiai ir sudėtiniai skaičiai“ (3.2.2) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

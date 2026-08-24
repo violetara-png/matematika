@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>3.2.1 Skaičiaus dalikliai — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Skaičiaus dalikliai — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 3 skyrius „Dalumas“ · 3.2.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Visų daliklių išrašymas (poromis)</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Dalikliai ieškomi <b>poromis</b>: jei <span class="math">b</span> dalija <span class="math">a</span>, tai ir <span class="math">a:b</span> irgi dalija <span class="math">a</span>. Tikriname skaičius iš eilės nuo 1, kol poros pradeda kartotis.</div>
+    <div class="ex">
+      <div class="q">Surašyk visus skaičiaus 30 daliklius.</div>
+      <div class="line">Poros: 1·30, 2·15, 3·10, 5·6 &nbsp;&rArr;&nbsp; <span class="res">1, 2, 3, 5, 6, 10, 15, 30</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Surašyk visus skaičiaus 36 daliklius.</div>
+      <div class="line">Poros: 1·36, 2·18, 3·12, 4·9, 6·6 &nbsp;&rArr;&nbsp; <span class="res">1, 2, 3, 4, 6, 9, 12, 18, 36</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek daliklių turi skaičius 24?</div>
+      <div class="line">1, 2, 3, 4, 6, 8, 12, 24 &nbsp;&rArr;&nbsp; <span class="res">8 dalikliai</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Ar A yra B daliklis? Bendri dalikliai</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Skaičius <span class="math">a</span> yra skaičiaus <span class="math">b</span> daliklis, jeigu <span class="math">b:a</span> dalybos liekana lygi 0. Kelių skaičių <b>bendras daliklis</b> — skaičius, iš kurio dalijasi jie visi.</div>
+    <div class="ex">
+      <div class="q">Ar 9 yra skaičiaus 54 daliklis?</div>
+      <div class="line">54:9=6, liekanos nėra &nbsp;&rArr;&nbsp; <span class="res">taip</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar 8 yra skaičiaus 54 daliklis?</div>
+      <div class="line">54:8=6 (liek. 6), liekana ≠ 0 &nbsp;&rArr;&nbsp; <span class="res">ne</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kiek bendrų daliklių turi skaičiai 16 ir 56?</div>
+      <div class="line">16 dalikliai: 1,2,4,8,16. 56 dalikliai: 1,2,4,7,8,14,28,56. Bendri: 1,2,4,8 &nbsp;&rArr;&nbsp; <span class="res">4 bendri dalikliai</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> atsakyk į klausimus raštu, tada pasitikrink atsakymus lapo apačioje.</div>
+
+    <div class="grp">A grupė · Visų daliklių išrašymas</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Surašyk visus skaičiaus 15 daliklius.</li>
+        <li>Surašyk visus skaičiaus 16 daliklius.</li>
+        <li>Surašyk visus skaičiaus 21 daliklius.</li>
+        <li>Surašyk visus skaičiaus 28 daliklius.</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Ar A yra B daliklis?</div>
+    <div class="two">
+      <ol class="tasks" start="5">
+        <li>Ar 6 yra skaičiaus 72 daliklis?</li>
+        <li>Ar 11 yra skaičiaus 72 daliklis?</li>
+        <li>Ar 12 yra skaičiaus 132 daliklis?</li>
+        <li>Ar 13 yra skaičiaus 132 daliklis?</li>
+      </ol>
+    </div>
+
+    <div class="grp">C grupė · Kiek daliklių turi skaičius?</div>
+    <div class="two">
+      <ol class="tasks" start="9">
+        <li>Kiek daliklių turi skaičius 40?</li>
+        <li>Kiek daliklių turi skaičius 45?</li>
+        <li>Kiek daliklių turi skaičius 50?</li>
+        <li>Kiek daliklių turi skaičius 64?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir bendri dalikliai</div>
+    <ol class="tasks" start="13">
+      <li>Kiek bendrų daliklių turi skaičiai 24 ir 40?</li>
+      <li>Kiek bendrų daliklių turi skaičiai 18 ir 42?</li>
+      <li>Mokytoja turi 20 sąsiuvinių ir nori juos padalyti mokiniams po lygiai, be liekanos. Kiek mokinių gali gauti sąsiuvinius (surašyk visus galimus mokinių skaičius, didesnius už 1)?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 1, 3, 5, 15</div>
+    <div class="row"><b>2.</b> 1, 2, 4, 8, 16</div>
+    <div class="row"><b>3.</b> 1, 3, 7, 21</div>
+    <div class="row"><b>4.</b> 1, 2, 4, 7, 14, 28</div>
+    <div class="row"><b>5.</b> taip (72:6=12)</div>
+    <div class="row"><b>6.</b> ne (72:11=6, liek. 6)</div>
+    <div class="row"><b>7.</b> taip (132:12=11)</div>
+    <div class="row"><b>8.</b> ne (132:13=10, liek. 2)</div>
+    <div class="row"><b>9.</b> 8 dalikliai</div>
+    <div class="row"><b>10.</b> 6 dalikliai</div>
+    <div class="row"><b>11.</b> 6 dalikliai</div>
+    <div class="row"><b>12.</b> 7 dalikliai</div>
+    <div class="row"><b>13.</b> 4 (bendri: 1,2,4,8)</div>
+    <div class="row"><b>14.</b> 4 (bendri: 1,2,3,6)</div>
+    <div class="row"><b>15.</b> 2, 4, 5, 10, 20 (skaičiaus 20 dalikliai, didesni už 1)</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaičiaus dalikliai“ (3.2.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>
