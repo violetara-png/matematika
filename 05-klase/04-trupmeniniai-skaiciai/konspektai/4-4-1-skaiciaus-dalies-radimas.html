@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.4.1 Skaičiaus dalies radimas — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>4.4.1 Skaičiaus dalies radimas</h1>
+  <p class="klase">Matematika · 5 klasė · 4 skyrius „Trupmeniniai skaičiai" · 4.4.1 tema</p>
+
+  <section class="potema" id="t441">
+    <h2><span class="nr">4.4.1</span> Skaičiaus dalies radimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Skaičiaus dalies radimas</span> — tai uždavinys, kai žinomas visas skaičius <span class="math">N</span> ir reikia rasti, kiek sudaro jo <span class="math"><span class="fr"><span>m</span><span>n</span></span></span> dalis. Taisyklė: skaičių <span class="math">N</span> padaliname iš vardiklio <span class="math">n</span> (sužinome, kiek sudaro <b>viena</b> dalis), o gautą rezultatą padauginame iš skaitiklio <span class="math">m</span> (sužinome, kiek sudaro <b>m</b> tokių dalių).</p>
+        <p style="text-align:center; font-size:17px; margin:10px 0"><span class="math"><span class="fr"><span>m</span><span>n</span></span> skaičiaus N = N : n · m</span></p>
+        <p><span class="zenk">Kai dalis nurodyta dešimtainiu skaičiumi arba procentu</span> — pirmiausia paverčiame ją paprastąja trupmena (jei reikia, suprastiname), o tada taikome tą pačią taisyklę: <span class="math">N : n · m</span>.</p>
+        <div class="demesio"><b>Dėmesio.</b> Veiksmų tvarka svarbi tik dėl patogumo — pirmiausia <b>dalyti</b>, o tik po to <b>dauginti</b>, kad skaičiai skaičiavimo metu liktų kuo mažesni. Sukeitus veiksmus vietomis (pirmiausia dauginti, po to dalyti) rezultatas išliktų toks pat, bet tarpiniai skaičiai dažnai būna nepatogesni skaičiuoti mintinai.</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Rask <span class="math"><span class="fr"><span>2</span><span>5</span></span></span> skaičiaus <span class="math">85</span>. Skaičių 85 padaliname iš vardiklio 5, o rezultatą padauginame iš skaitiklio 2: <span class="math">85 : 5 · 2 = 17 · 2 = <b>34</b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Rask <span class="math">0,75</span> skaičiaus <span class="math">96</span>. Dešimtainį skaičių pirmiausia paverčiame trupmena ir suprastiname: <span class="math">0,75 = <span class="fr"><span>75</span><span>100</span></span> = <span class="fr"><span>3</span><span>4</span></span></span>. Toliau — kaip su paprastąja trupmena: <span class="math">96 : 4 · 3 = 24 · 3 = <b>72</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Rask <span class="math">35 %</span> skaičiaus <span class="math">180</span>. Procentą paverčiame trupmena ir suprastiname: <span class="math">35 % = <span class="fr"><span>35</span><span>100</span></span> = <span class="fr"><span>7</span><span>20</span></span></span>. Toliau: <span class="math">180 : 20 · 7 = 9 · 7 = <b>63</b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys (žodinis).</b> Kelionė iki stovyklos yra <span class="math">250</span> km. Turistai jau nuvažiavo <span class="math"><span class="fr"><span>3</span><span>10</span></span></span> viso kelio. Kiek kilometrų jie nuvažiavo? Skaičiuojame <span class="math"><span class="fr"><span>3</span><span>10</span></span></span> skaičiaus 250: <span class="math">250 : 10 · 3 = 25 · 3 = <b>75</b></span> km.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Skaičiaus dalies radimas" (4.4.1)
+  </footer>
+
+</div>
+</body>
+</html>

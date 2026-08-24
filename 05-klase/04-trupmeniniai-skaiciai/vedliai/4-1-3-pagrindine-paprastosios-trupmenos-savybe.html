@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Pagrindinė paprastosios trupmenos savybė (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>4.1.3 Pagrindinė paprastosios trupmenos savybė</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Šiandien mokysimės <b>pagrindinės paprastosios trupmenos savybės</b>: kaip trupmeną praplėsti, kaip suprastinti ir kaip rasti nežinomą trupmenos dalį iš lygybės.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('/')">/</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Trupmenas rašyk su brūkšneliu (pvz. <b>3/4</b>), o žodinius atsakymus — mažosiomis raidėmis (pvz. <b>taip</b> arba <b>ne</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pagrindinės savybės: kai trupmenos skaitiklį ir vardiklį padauginame iš to paties skaičiaus, gauname jai <b>lygią</b> trupmeną — tai vadinama <b>plėtimu</b>.", "expr": "<span class=\"fr\"><span>3</span><span>5</span></span> praplečiama iš 4", "q": "Koks bus naujos trupmenos skaitiklis ir vardiklis? Įrašyk atsakymą kaip trupmeną, pvz. 6/10.", "accepted": ["12/20"], "hints": ["Prisimink taisyklę: abi trupmenos dalis dauginame IŠ TO PATIES skaičiaus — čia iš 4.", "Padaugink skaitiklį 3 iš 4 — tai bus naujas skaitiklis.", "Dabar padaugink vardiklį 5 iš 4 — tai bus naujas vardiklis. Surašyk abu skaičius kaip trupmeną (skaitiklis/vardiklis)."]}, {"intro": "Dabar priešinga kryptis — <b>prastinimas</b>. Kai abi trupmenos dalis daliname iš to paties skaičiaus, trupmena taip pat lieka jai lygi.", "expr": "<span class=\"fr\"><span>18</span><span>24</span></span> prastinama, dalinant iš 6", "q": "Koks bus naujos trupmenos skaitiklis ir vardiklis? Įrašyk kaip trupmeną, pvz. 2/3.", "accepted": ["3/4"], "hints": ["Abi trupmenos dalis daliname IŠ TO PATIES skaičiaus — čia iš 6.", "Padalink skaitiklį 18 iš 6.", "Padalink vardiklį 24 iš 6. Surašyk abu skaičius kaip trupmeną."]}, {"intro": "Kad trupmeną suprastintum <b>iki galo</b> (kad ji taptų nesuprastinama), reikia rasti skaitiklio ir vardiklio <b>didžiausią bendrą daliklį (DBD)</b> ir dalinti iš jo.", "expr": "<span class=\"fr\"><span>36</span><span>48</span></span> — suprastink iki galo", "q": "Kokia yra suprastinta iki galo trupmena? Įrašyk kaip trupmeną.", "accepted": ["3/4"], "hints": ["Pirmiausia surask skaičių 36 ir 48 didžiausią bendrą daliklį (DBD).", "Išbandyk didesnius bendrus daliklius, pvz. 4, 6, 12 — koks didžiausias tinka abiem skaičiams?", "Radęs DBD, padalink IR skaitiklį, IR vardiklį iš jo. Surašyk rezultatą kaip trupmeną."]}, {"intro": "Pagrindinę savybę galima naudoti ir atvirkščiai — rasti nežinomą trupmenos dalį, kai žinome, kad dvi trupmenos lygios.", "expr": "<span class=\"fr\"><span>5</span><span>6</span></span> = <span class=\"fr\"><span>x</span><span>24</span></span>", "q": "Kam lygus x?", "accepted": ["20"], "hints": ["Palygink abu vardiklius: 6 ir 24. Kiek kartų 6 padidėjo, kad taptų 24?", "Padalink 24 iš 6 — tai parodys, kiek kartų padidėjo vardiklis.", "Skaitiklį 5 padidink lygiai tiek pat kartų, kiek padidėjo vardiklis."]}, {"intro": "Trupmena vadinama <b>nesuprastinama</b>, jeigu jos skaitiklis ir vardiklis neturi bendrų daliklių, išskyrus 1.", "expr": "<span class=\"fr\"><span>14</span><span>35</span></span>", "q": "Ar ši trupmena yra nesuprastinama? Atsakyk „taip“ arba „ne“.", "accepted": ["ne"], "hints": ["Patikrink, ar 14 ir 35 dalijasi iš to paties skaičiaus, didesnio už 1.", "Abu skaičiai — 14 ir 35 — dalijasi iš 7. Patikrink: 14 : 7 ir 35 : 7.", "Jei radai bendrą daliklį, didesnį už 1, trupmena YRA suprastinama — tai reiškia, kad ji NĖRA nesuprastinama."]}, {"intro": "Paskutinė, sunkiausia užduotis — sujunkime viską: DBD radimą ir daliklių skaičiavimą.", "expr": "<span class=\"fr\"><span>60</span><span>84</span></span>", "q": "Kiek natūraliųjų skaičių, didesnių už 1, tinka šios trupmenos skaitikliui ir vardikliui abiem padalyti?", "accepted": ["5"], "hints": ["Pirmiausia rask skaičių 60 ir 84 didžiausią bendrą daliklį (DBD).", "Tada surašyk VISUS to DBD skaičiaus daliklius (nuo 1 iki jo paties).", "Suskaičiuok, kiek iš tų daliklių yra DIDESNI už 1 — tai ir bus atsakymas."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Praplėsk trupmeną <span class=\"fr\"><span>2</span><span>7</span></span> iš 5. Koks bus naujas skaitiklis?", "acc": ["10"], "hint": "Padaugink skaitiklį 2 iš 5."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>2</span><span>7</span></span>, praplėstoje iš 5, koks bus naujas vardiklis?", "acc": ["35"], "hint": "Padaugink vardiklį 7 iš 5."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>30</span><span>42</span></span>, dalindamas iš 6. Koks bus naujas skaitiklis?", "acc": ["5"], "hint": "Padalink skaitiklį 30 iš 6."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>30</span><span>42</span></span>, dalinant iš 6, koks bus naujas vardiklis?", "acc": ["7"], "hint": "Padalink vardiklį 42 iš 6."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>28</span><span>70</span></span> iki galo (DBD). Koks bus skaitiklis?", "acc": ["2"], "hint": "Rask skaičių 28 ir 70 didžiausią bendrą daliklį (DBD = 14), tada padalink skaitiklį iš jo."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>28</span><span>70</span></span>, suprastintoje iki galo, koks bus vardiklis?", "acc": ["5"], "hint": "Padalink vardiklį 70 iš DBD (14)."}, {"t": "Rask x, kad <span class=\"fr\"><span>4</span><span>7</span></span> = <span class=\"fr\"><span>x</span><span>35</span></span>.", "acc": ["20"], "hint": "Palygink vardiklius: 35 : 7 = 5. Skaitiklį 4 padidink tiek pat kartų."}, {"t": "Ar trupmena <span class=\"fr\"><span>21</span><span>22</span></span> yra nesuprastinama? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Patikrink, ar 21 ir 22 turi bendrą daliklį, didesnį už 1."}, {"t": "Kiek natūraliųjų skaičių, didesnių už 1, tinka trupmenos <span class=\"fr\"><span>45</span><span>60</span></span> skaitikliui ir vardikliui abiem padalyti?", "acc": ["3"], "hint": "Rask DBD(45, 60), tada suskaičiuok, kiek jo daliklių yra didesni už 1."}, {"t": "Ar trupmenos <span class=\"fr\"><span>10</span><span>15</span></span> ir <span class=\"fr\"><span>2</span><span>3</span></span> yra lygios? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Suprastink 10/15 iki galo ir palygink su 2/3."}]}, {"label": "variantas B", "qs": [{"t": "Praplėsk trupmeną <span class=\"fr\"><span>3</span><span>8</span></span> iš 4. Koks bus naujas skaitiklis?", "acc": ["12"], "hint": "Padaugink skaitiklį 3 iš 4."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>3</span><span>8</span></span>, praplėstoje iš 4, koks bus naujas vardiklis?", "acc": ["32"], "hint": "Padaugink vardiklį 8 iš 4."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>24</span><span>32</span></span>, dalindamas iš 8. Koks bus naujas skaitiklis?", "acc": ["3"], "hint": "Padalink skaitiklį 24 iš 8."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>24</span><span>32</span></span>, dalinant iš 8, koks bus naujas vardiklis?", "acc": ["4"], "hint": "Padalink vardiklį 32 iš 8."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>45</span><span>60</span></span> iki galo (DBD). Koks bus skaitiklis?", "acc": ["3"], "hint": "Rask skaičių 45 ir 60 didžiausią bendrą daliklį (DBD = 15), tada padalink skaitiklį iš jo."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>45</span><span>60</span></span>, suprastintoje iki galo, koks bus vardiklis?", "acc": ["4"], "hint": "Padalink vardiklį 60 iš DBD (15)."}, {"t": "Rask x, kad <span class=\"fr\"><span>5</span><span>9</span></span> = <span class=\"fr\"><span>x</span><span>45</span></span>.", "acc": ["25"], "hint": "Palygink vardiklius: 45 : 9 = 5. Skaitiklį 5 padidink tiek pat kartų."}, {"t": "Ar trupmena <span class=\"fr\"><span>16</span><span>24</span></span> yra nesuprastinama? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Patikrink, ar 16 ir 24 turi bendrą daliklį, didesnį už 1."}, {"t": "Kiek natūraliųjų skaičių, didesnių už 1, tinka trupmenos <span class=\"fr\"><span>36</span><span>54</span></span> skaitikliui ir vardikliui abiem padalyti?", "acc": ["5"], "hint": "Rask DBD(36, 54), tada suskaičiuok, kiek jo daliklių yra didesni už 1."}, {"t": "Ar trupmenos <span class=\"fr\"><span>9</span><span>12</span></span> ir <span class=\"fr\"><span>3</span><span>4</span></span> yra lygios? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Suprastink 9/12 iki galo ir palygink su 3/4."}]}, {"label": "variantas C", "qs": [{"t": "Praplėsk trupmeną <span class=\"fr\"><span>4</span><span>9</span></span> iš 3. Koks bus naujas skaitiklis?", "acc": ["12"], "hint": "Padaugink skaitiklį 4 iš 3."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>4</span><span>9</span></span>, praplėstoje iš 3, koks bus naujas vardiklis?", "acc": ["27"], "hint": "Padaugink vardiklį 9 iš 3."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>20</span><span>28</span></span>, dalindamas iš 4. Koks bus naujas skaitiklis?", "acc": ["5"], "hint": "Padalink skaitiklį 20 iš 4."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>20</span><span>28</span></span>, dalinant iš 4, koks bus naujas vardiklis?", "acc": ["7"], "hint": "Padalink vardiklį 28 iš 4."}, {"t": "Suprastink trupmeną <span class=\"fr\"><span>54</span><span>72</span></span> iki galo (DBD). Koks bus skaitiklis?", "acc": ["3"], "hint": "Rask skaičių 54 ir 72 didžiausią bendrą daliklį (DBD = 18), tada padalink skaitiklį iš jo."}, {"t": "Toje pačioje trupmenoje <span class=\"fr\"><span>54</span><span>72</span></span>, suprastintoje iki galo, koks bus vardiklis?", "acc": ["4"], "hint": "Padalink vardiklį 72 iš DBD (18)."}, {"t": "Rask x, kad <span class=\"fr\"><span>3</span><span>8</span></span> = <span class=\"fr\"><span>x</span><span>40</span></span>.", "acc": ["15"], "hint": "Palygink vardiklius: 40 : 8 = 5. Skaitiklį 3 padidink tiek pat kartų."}, {"t": "Ar trupmena <span class=\"fr\"><span>17</span><span>51</span></span> yra nesuprastinama? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Patikrink, ar 17 ir 51 turi bendrą daliklį, didesnį už 1 (17 · 3 = 51)."}, {"t": "Kiek natūraliųjų skaičių, didesnių už 1, tinka trupmenos <span class=\"fr\"><span>48</span><span>72</span></span> skaitikliui ir vardikliui abiem padalyti?", "acc": ["7"], "hint": "Rask DBD(48, 72), tada suskaičiuok, kiek jo daliklių yra didesni už 1."}, {"t": "Ar trupmenos <span class=\"fr\"><span>14</span><span>21</span></span> ir <span class=\"fr\"><span>2</span><span>3</span></span> yra lygios? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Suprastink 14/21 iki galo ir palygink su 2/3."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

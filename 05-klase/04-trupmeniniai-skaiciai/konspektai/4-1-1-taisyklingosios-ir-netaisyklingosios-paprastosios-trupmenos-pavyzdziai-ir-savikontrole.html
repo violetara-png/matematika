@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Taisyklingosios ir netaisyklingosios trupmenos — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Taisyklingosios ir netaisyklingosios trupmenos — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 4 skyrius „Trupmeniniai skaičiai" · 4.1.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Skaitiklis ir vardiklis su vienetu</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Trupmenoje <span class="math"><span class="fr"><span>a</span><span>b</span></span></span> vardiklis <b>b</b> rodo, į kiek lygių dalių padalytas vienetas, o skaitiklis <b>a</b> — kiek tų dalių paimta. Jei <b>a &lt; b</b>, trupmena <span class="term">taisyklingoji</span> (mažesnė už 1). Jei <b>a &ge; b</b>, trupmena <span class="term">netaisyklingoji</span> (ne mažesnė už 1).</div>
+    <div class="ex">
+      <div class="q">Ar trupmena <span class="math"><span class="fr"><span>3</span><span>7</span></span></span> taisyklingoji, ar netaisyklingoji?</div>
+      <div class="line">Skaitiklis 3, vardiklis 7, 3 &lt; 7 &nbsp;&rArr;&nbsp; <span class="res">taisyklingoji</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar trupmena <span class="math"><span class="fr"><span>9</span><span>5</span></span></span> taisyklingoji, ar netaisyklingoji?</div>
+      <div class="line">Skaitiklis 9, vardiklis 5, 9 &gt; 5 &nbsp;&rArr;&nbsp; <span class="res">netaisyklingoji</span> (didesnė už 1)</div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar trupmena <span class="math"><span class="fr"><span>6</span><span>6</span></span></span> taisyklingoji, ar netaisyklingoji?</div>
+      <div class="line">Skaitiklis lygus vardikliui, 6 = 6 &nbsp;&rArr;&nbsp; <span class="res">netaisyklingoji, lygi 1</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Rūšiuojame trupmenų sąrašą</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Norint atskirti taisyklingąsias trupmenas nuo netaisyklingųjų, kiekvienoje trupmenoje lyginame skaitiklį su vardikliu.</div>
+    <div class="ex">
+      <div class="q">Iš trupmenų <span class="math"><span class="fr"><span>2</span><span>9</span></span></span>, <span class="math"><span class="fr"><span>11</span><span>9</span></span></span>, <span class="math"><span class="fr"><span>9</span><span>9</span></span></span>, <span class="math"><span class="fr"><span>5</span><span>9</span></span></span>, <span class="math"><span class="fr"><span>15</span><span>9</span></span></span> išrink taisyklingąsias.</div>
+      <div class="line">Lyginame kiekvienos skaitiklį su vardikliu 9: 2&lt;9, 5&lt;9 taisyklingosios; 11&gt;9, 9=9, 15&gt;9 netaisyklingosios &nbsp;&rArr;&nbsp; <span class="res">taisyklingosios: <span class="fr"><span>2</span><span>9</span></span> ir <span class="fr"><span>5</span><span>9</span></span></span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Kaip užrašoma trupmena „devynios devintosios“ ir kokia ji: taisyklingoji ar netaisyklingoji?</div>
+      <div class="line">„Devynios devintosios“ = <span class="math"><span class="fr"><span>9</span><span>9</span></span></span>, skaitiklis lygus vardikliui &nbsp;&rArr;&nbsp; <span class="res">netaisyklingoji, lygi 1</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Mažiausia / didžiausia skaitiklio reikšmė</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> Kai reikia rasti mažiausią (ar didžiausią) skaitiklio <b>a</b> reikšmę su keliomis sąlygomis vienu metu, tikriname, koks yra griežčiausias (didžiausią vardiklį turintis) reikalavimas.</div>
+    <div class="ex">
+      <div class="q">Kokia mažiausia natūralioji <span class="math">a</span> reikšmė, su kuria trupmenos <span class="math"><span class="fr"><span>a</span><span>4</span></span></span>, <span class="math"><span class="fr"><span>a</span><span>6</span></span></span> ir <span class="math"><span class="fr"><span>a</span><span>7</span></span></span> visos yra netaisyklingosios?</div>
+      <div class="line">Reikia <span class="math">a &ge; 4</span> IR <span class="math">a &ge; 6</span> IR <span class="math">a &ge; 7</span> vienu metu &nbsp;&rArr;&nbsp; mažiausia bendra reikšmė lygi didžiausiam iš trijų vardiklių &nbsp;&rArr;&nbsp; <span class="res">a = 7</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> atsakyk į klausimus raštu, tada pasitikrink atsakymus lapo apačioje.</div>
+
+    <div class="grp">A grupė · Taisyklingoji ar netaisyklingoji?</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>Ar trupmena <span class="math"><span class="fr"><span>4</span><span>9</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+        <li>Ar trupmena <span class="math"><span class="fr"><span>13</span><span>6</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+        <li>Ar trupmena <span class="math"><span class="fr"><span>8</span><span>8</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+        <li>Ar trupmena <span class="math"><span class="fr"><span>1</span><span>10</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+        <li>Ar trupmena <span class="math"><span class="fr"><span>25</span><span>8</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+        <li>Ar trupmena <span class="math"><span class="fr"><span>7</span><span>12</span></span></span> taisyklingoji, ar netaisyklingoji?</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Palyginimas su 1</div>
+    <div class="two">
+      <ol class="tasks" start="7">
+        <li>Palygink trupmeną <span class="math"><span class="fr"><span>5</span><span>11</span></span></span> su vienetu (&lt;, &gt; ar =).</li>
+        <li>Palygink trupmeną <span class="math"><span class="fr"><span>14</span><span>9</span></span></span> su vienetu.</li>
+        <li>Palygink trupmeną <span class="math"><span class="fr"><span>10</span><span>10</span></span></span> su vienetu.</li>
+        <li>Palygink trupmeną <span class="math"><span class="fr"><span>3</span><span>3</span></span></span> su vienetu.</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai ir taikymas</div>
+    <ol class="tasks" start="11">
+      <li>Kokia mažiausia natūralioji <span class="math">a</span> reikšmė, su kuria trupmena <span class="math"><span class="fr"><span>a</span><span>6</span></span></span> yra netaisyklingoji?</li>
+      <li>Kokia didžiausia natūralioji <span class="math">a</span> reikšmė, su kuria trupmena <span class="math"><span class="fr"><span>a</span><span>9</span></span></span> yra taisyklingoji?</li>
+      <li>Kokia mažiausia natūralioji <span class="math">a</span> reikšmė, su kuria trupmenos <span class="math"><span class="fr"><span>a</span><span>2</span></span></span>, <span class="math"><span class="fr"><span>a</span><span>5</span></span></span> ir <span class="math"><span class="fr"><span>a</span><span>6</span></span></span> visos yra netaisyklingosios?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> taisyklingoji</div>
+    <div class="row"><b>2.</b> netaisyklingoji</div>
+    <div class="row"><b>3.</b> netaisyklingoji (lygi 1)</div>
+    <div class="row"><b>4.</b> taisyklingoji</div>
+    <div class="row"><b>5.</b> netaisyklingoji</div>
+    <div class="row"><b>6.</b> taisyklingoji</div>
+    <div class="row"><b>7.</b> &lt; 1</div>
+    <div class="row"><b>8.</b> &gt; 1</div>
+    <div class="row"><b>9.</b> = 1</div>
+    <div class="row"><b>10.</b> = 1</div>
+    <div class="row"><b>11.</b> a = 6</div>
+    <div class="row"><b>12.</b> a = 8</div>
+    <div class="row"><b>13.</b> a = 6</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Taisyklingosios ir netaisyklingosios paprastosios trupmenos" (4.1.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

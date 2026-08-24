@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Lygūs dešimtainiai skaičiai (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>4.2.2 Lygūs dešimtainiai skaičiai</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime temą <b>„Lygūs dešimtainiai skaičiai“</b>: išmoksime, kada nulio pridėjimas ar nubraukimas dešimtainio skaičiaus gale nekeičia jo reikšmės, o kada — keičia.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins(',')">,</button><button onclick="ins('0')">0</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Dešimtainius skaičius rašyk su kableliu (pvz. <b>6,7</b>), o žodinius atsakymus, mažosiomis raidėmis (pvz. <b>taip</b> arba <b>ne</b>).<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pagrindo. Jei dešimtainio skaičiaus trupmeninės dalies GALE pridėsime nulį, ką tai reiškia skaičiaus reikšmei?", "expr": "0,6 ir 0,60", "q": "Ar teisinga lygybė 0,6 = 0,60? Atsakyk „taip“ arba „ne“.", "accepted": ["taip"], "hints": ["Nulis skaičiuje 0,60 stovi pačiame skaičiaus gale, po paskutinio reikšminio skaitmens (6).", "Nuliai, pridėti prie trupmeninės dalies GALO, skaičiaus reikšmės nekeičia.", "Prisimink taisyklę: 0,5 = 0,50 = 0,500. Ar 0,6 su 0,60 yra panašus atvejis?"]}, {"intro": "Dabar pats parašyk lygų skaičių, pridėdamas nulį gale.", "expr": "Duota: 3,4", "q": "Parašyk skaičių 3,4 lygiu būdu, prie trupmeninės dalies gale pridėjęs VIENĄ nulį.", "accepted": ["3,40"], "hints": ["Skaičius 3,4 turi vieną skaitmenį po kablelio — 4.", "Prirašyk nulį iš karto po šio skaitmens, dešinėje pusėje.", "Rezultatas turi turėti du skaitmenis po kablelio: 3,4_ — koks skaitmuo eina vietoj brūkšnelio?"]}, {"intro": "Dabar priešingas veiksmas — trumpinimas (nereikalingų nulių nubraukimas).", "expr": "9,80", "q": "Nubrauk skaičiuje 9,80 nereikalingą nulį ir parašyk trumpiausią lygią formą.", "accepted": ["9,8"], "hints": ["Skaičiaus 9,80 paskutinis skaitmuo po kablelio yra 0.", "Kadangi šis nulis stovi pačiame gale, jį galima nubraukti, reikšmė nesikeis.", "Nubraukęs paskutinį nulį, lieka: 9,8."]}, {"intro": "Svarbiausia klaida, kurios reikia vengti — nulis VIDURYJE, o ne gale.", "expr": "5,08 ir 5,8", "q": "Ar teisinga lygybė 5,08 = 5,8? Atsakyk „taip“ arba „ne“.", "accepted": ["ne"], "hints": ["Skaičiuje 5,08 nulis stovi ne gale, o tarp kablelio ir skaitmens 8.", "Šis nulis yra dešimtųjų vietoje — jis rodo, kad dešimtųjų skaitmuo yra 0, o ne kad jį galima tiesiog nubraukti.", "5,08 reiškia „5 ir 8 šimtosios“, o 5,8 reiškia „5 ir 8 dešimtosios“ — tai skirtingi skaičiai."]}, {"intro": "Dabar sudėtingesnė užduotis — reikia palyginti kelis skaičius iš karto.", "expr": "6,3;  6,30;  6,03;  6,300", "q": "Iš skaičių 6,3, 6,30, 6,03 ir 6,300 nurodyk, kuris NĖRA lygus kitiems trims.", "accepted": ["6,03"], "hints": ["Patikrink kiekvieną skaičių — kur stovi nuliai: gale ar viduryje?", "6,3, 6,30 ir 6,300 skiriasi tik nuliais GALE, tad jie tarpusavyje lygūs.", "Vienas skaičius turi nulį VIDURYJE (tarp kablelio ir 3) — būtent jis skiriasi nuo kitų."]}, {"intro": "Paskutinė ir sunkiausia iš eilinių užduočių — reikia suskaičiuoti, kiek skaičių sąraše yra lygūs duotam.", "expr": "4,50;  4,500;  4,05;  4,5000", "q": "Kiek iš šių keturių skaičių yra lygūs 4,5?", "accepted": ["3"], "hints": ["Patikrink kiekvieną skaičių atskirai, palygindamas su 4,5.", "4,50, 4,500 ir 4,5000 skiriasi nuo 4,5 tik nuliais gale — jie visi lygūs 4,5.", "4,05 turi nulį viduryje (dešimtųjų vietoje), tad jis 4,5 NĖRA lygus. Kiek tada lieka lygių?"]}, {"intro": "Iššūkis gale — pasirodo, kad ir sveikasis skaičius gali būti parašytas dešimtainiu pavidalu.", "expr": "7", "q": "Parašyk sveikąjį skaičių 7 dešimtainiu pavidalu su DVIEM skaitmenimis po kablelio.", "accepted": ["7,00"], "hints": ["Sveikasis skaičius 7 yra lygus 7,0 — pridėjus kablelį ir vieną nulį, reikšmė nesikeičia.", "Nuo 7,0 pridėk dar vieną nulį gale, kad po kablelio liktų du skaitmenys.", "Rezultatas: 7,00 — tas pats skaičius, tik parašytas su dviem skaitmenimis po kablelio."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Ar teisinga lygybė 0,6 = 0,60? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Nulis stovi skaičiaus gale — toks nulis reikšmės nekeičia."}, {"t": "Ar teisinga lygybė 4,05 = 4,5? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 4,05 nulis stovi viduryje (dešimtųjų vietoje), tai kitas skaičius nei 4,5."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 6,700 ir parašyk trumpiausią lygią formą.", "acc": ["6,7"], "hint": "Gale esantys nuliai reikšmės nekeičia — juos galima nubraukti."}, {"t": "Parašyk skaičių 9,2 lygiu būdu, prie trupmeninės dalies gale pridėjęs VIENĄ nulį.", "acc": ["9,20"], "hint": "Prirašyk nulį iš karto po skaitmens 2, dešinėje pusėje."}, {"t": "Iš skaičių 3,8; 3,80; 3,08; 3,800 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["3,08"], "hint": "Vienas iš skaičių turi nulį VIDURYJE (tarp kablelio ir 8), ne gale."}, {"t": "Kiek iš šių skaičių yra lygūs 7,1: 7,10; 7,100; 7,01; 7,1000?", "acc": ["3"], "hint": "Patikrink kiekvieną skaičių — kuris turi nulį viduryje, o ne gale?"}, {"t": "Ar teisinga lygybė 2,4000 = 2,400? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Abu skaičiai skiriasi tik nuliais gale."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 11,650 ir parašyk trumpiausią lygią formą.", "acc": ["11,65"], "hint": "Paskutinis skaitmuo po kablelio yra 0 ir stovi gale — jį galima nubraukti."}, {"t": "Ar teisinga lygybė 5,30 = 5,03? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 5,03 nulis stovi viduryje (dešimtųjų vietoje) — tai kitas skaičius."}, {"t": "Iš skaičių 6,20; 6,2; 6,200; 6,02 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["6,02"], "hint": "Vienas iš skaičių turi nulį viduryje, ne gale."}]}, {"label": "variantas B", "qs": [{"t": "Ar teisinga lygybė 0,9 = 0,90? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Nulis stovi skaičiaus gale — toks nulis reikšmės nekeičia."}, {"t": "Ar teisinga lygybė 3,07 = 3,7? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 3,07 nulis stovi viduryje (dešimtųjų vietoje), tai kitas skaičius nei 3,7."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 8,400 ir parašyk trumpiausią lygią formą.", "acc": ["8,4"], "hint": "Gale esantys nuliai reikšmės nekeičia — juos galima nubraukti."}, {"t": "Parašyk skaičių 6,5 lygiu būdu, prie trupmeninės dalies gale pridėjęs VIENĄ nulį.", "acc": ["6,50"], "hint": "Prirašyk nulį iš karto po skaitmens 5, dešinėje pusėje."}, {"t": "Iš skaičių 2,6; 2,60; 2,06; 2,600 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["2,06"], "hint": "Vienas iš skaičių turi nulį VIDURYJE (tarp kablelio ir 6), ne gale."}, {"t": "Kiek iš šių skaičių yra lygūs 5,3: 5,30; 5,300; 5,03; 5,3000?", "acc": ["3"], "hint": "Patikrink kiekvieną skaičių — kuris turi nulį viduryje, o ne gale?"}, {"t": "Ar teisinga lygybė 9,1000 = 9,100? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Abu skaičiai skiriasi tik nuliais gale."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 14,720 ir parašyk trumpiausią lygią formą.", "acc": ["14,72"], "hint": "Paskutinis skaitmuo po kablelio yra 0 ir stovi gale — jį galima nubraukti."}, {"t": "Ar teisinga lygybė 4,60 = 4,06? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 4,06 nulis stovi viduryje (dešimtųjų vietoje) — tai kitas skaičius."}, {"t": "Iš skaičių 8,30; 8,3; 8,300; 8,03 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["8,03"], "hint": "Vienas iš skaičių turi nulį viduryje, ne gale."}]}, {"label": "variantas C", "qs": [{"t": "Ar teisinga lygybė 0,4 = 0,40? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Nulis stovi skaičiaus gale — toks nulis reikšmės nekeičia."}, {"t": "Ar teisinga lygybė 7,08 = 7,8? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 7,08 nulis stovi viduryje (dešimtųjų vietoje), tai kitas skaičius nei 7,8."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 5,900 ir parašyk trumpiausią lygią formą.", "acc": ["5,9"], "hint": "Gale esantys nuliai reikšmės nekeičia — juos galima nubraukti."}, {"t": "Parašyk skaičių 8,3 lygiu būdu, prie trupmeninės dalies gale pridėjęs VIENĄ nulį.", "acc": ["8,30"], "hint": "Prirašyk nulį iš karto po skaitmens 3, dešinėje pusėje."}, {"t": "Iš skaičių 9,4; 9,40; 9,04; 9,400 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["9,04"], "hint": "Vienas iš skaičių turi nulį VIDURYJE (tarp kablelio ir 4), ne gale."}, {"t": "Kiek iš šių skaičių yra lygūs 6,2: 6,20; 6,200; 6,02; 6,2000?", "acc": ["3"], "hint": "Patikrink kiekvieną skaičių — kuris turi nulį viduryje, o ne gale?"}, {"t": "Ar teisinga lygybė 3,7000 = 3,700? Atsakyk „taip“ arba „ne“.", "acc": ["taip"], "hint": "Abu skaičiai skiriasi tik nuliais gale."}, {"t": "Nubrauk nereikalingus nulius skaičiuje 17,340 ir parašyk trumpiausią lygią formą.", "acc": ["17,34"], "hint": "Paskutinis skaitmuo po kablelio yra 0 ir stovi gale — jį galima nubraukti."}, {"t": "Ar teisinga lygybė 2,50 = 2,05? Atsakyk „taip“ arba „ne“.", "acc": ["ne"], "hint": "Skaičiuje 2,05 nulis stovi viduryje (dešimtųjų vietoje) — tai kitas skaičius."}, {"t": "Iš skaičių 4,60; 4,6; 4,600; 4,06 nurodyk, kuris NĖRA lygus kitiems trims.", "acc": ["4,06"], "hint": "Vienas iš skaičių turi nulį viduryje, ne gale."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

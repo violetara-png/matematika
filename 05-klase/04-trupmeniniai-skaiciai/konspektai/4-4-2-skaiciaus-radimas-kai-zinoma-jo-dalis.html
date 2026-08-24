@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.4.2 Skaičiaus radimas, kai žinoma jo dalis — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>4.4.2 Skaičiaus radimas, kai žinoma jo dalis</h1>
+  <p class="klase">Matematika · 5 klasė · 4 skyrius „Trupmeniniai skaičiai" · 4.4.2 tema</p>
+
+  <section class="potema" id="t442">
+    <h2><span class="nr">4.4.2</span> Skaičiaus radimas, kai žinoma jo dalis</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Atvirkštinis uždavinys.</span> Ankstesnėje temoje (4.4.1) mes iš viso skaičiaus radome jo dalį. Dabar spręsime <b>atvirkščiai</b>: žinome tik <b>dalį</b> skaičiaus (kiek ji lygi) ir žinome, <b>kokią dalį</b> viso skaičiaus ji sudaro (trupmeną, dešimtainį skaičių ar procentą), o <b>ieškome viso skaičiaus</b>.</p>
+        <p><span class="zenk">Taisyklė.</span> Jeigu žinoma, kad dalis <span class="math">P</span> atitinka <span class="fr"><span>m</span><span>n</span></span> viso skaičiaus dalį (arba <span class="math">a %</span>), tai visą skaičių <span class="math">X</span> randame taip: <b>dalį P padaliname iš skaitiklio m ir padauginame iš vardiklio n</b>:</p>
+        <p style="text-align:center; font-size:17px"><span class="math"><b>X = P : m · n</b></span></p>
+        <div class="demesio"><b>Dėmesio.</b> Jeigu dalis nurodyta <span class="term-b">dešimtainiu skaičiumi</span> ar <span class="term-b">procentu</span>, pirmiausia ją <b>paverčiame paprastąja (geriausia — suprastinta) trupmena</b>, o tada taikome tą pačią formulę. Pavyzdžiui, <span class="math">0,6 = 3/5</span>, o <span class="math">30 % = 30/100 = 3/10</span>.</p>
+        <p class="pvz"><b>1 pavyzdys.</b> Skaičius <span class="math">24</span> yra <span class="fr"><span>3</span><span>8</span></span> kito skaičiaus dalis. Rask tą skaičių. Sprendimas: <span class="math">24 : 3 · 8 = 8 · 8 = <b>64</b></span>. <i>Patikrinimas:</i> <span class="fr"><span>3</span><span>8</span></span> skaičiaus 64 yra <span class="math">64 : 8 · 3 = 24</span> ✓.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Skaičius <span class="math">45</span> yra <span class="math">0,6</span> kito skaičiaus dalis. Rask tą skaičių. Sprendimas: <span class="math">0,6 = 3/5</span>, tad <span class="math">45 : 3 · 5 = 15 · 5 = <b>75</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Skaičius <span class="math">18</span> yra <span class="math">30 %</span> kito skaičiaus. Rask tą skaičių. Sprendimas: <span class="math">30 % = 30/100 = 3/10</span>, tad <span class="math">18 : 3 · 10 = 6 · 10 = <b>60</b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Skaičius <span class="math">56</span> sudaro <span class="fr"><span>7</span><span>9</span></span> kito skaičiaus. Rask tą skaičių. Sprendimas: <span class="math">56 : 7 · 9 = 8 · 9 = <b>72</b></span>.</p>
+        <p class="pvz"><b>5 pavyzdys (žodinis uždavinys).</b> Prekė atpigo <span class="math">9</span> Eur — tai sudaro <span class="math">12 %</span> pradinės kainos. Kokia buvo pradinė kaina? Sprendimas: <span class="math">12 % = 12/100 = 3/25</span>, tad <span class="math">9 : 3 · 25 = 3 · 25 = <b>75</b></span> Eur.</p>
+        <div class="demesio"><b>Nepainiok su 4.4.1 tema.</b> „Rask <span class="fr"><span>3</span><span>8</span></span> skaičiaus 64" (4.4.1) reiškia <span class="math">64 : 8 · 3 = 24</span> — ieškome <b>dalies</b>. „24 yra <span class="fr"><span>3</span><span>8</span></span> skaičiaus" (4.4.2, ši tema) reiškia <span class="math">24 : 3 · 8 = 64</span> — ieškome <b>viso skaičiaus</b>. Formulėse skaitiklis ir vardiklis sukeičiasi vietomis.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Skaičiaus radimas, kai žinoma jo dalis" (4.4.2)
+  </footer>
+
+</div>
+</body>
+</html>
