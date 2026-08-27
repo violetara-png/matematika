@@ -138,6 +138,21 @@
   .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
   .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
   @media(max-width:560px){.rules{grid-template-columns:1fr}}
+
+  /* ===== Bendra matematikos notacija (references/matematikos-notacija/notacija.css) ===== */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em;}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em);}
+  .sqrt.cbrt::before{content:"∛";}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px;}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em);}
+  sup, sub{line-height:0;}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px;}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.6em;font-weight:400;line-height:1;transform:scaleY(1.35);transform-origin:center;display:inline-block;}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3;}
+  .sys .rows span{white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -156,21 +171,24 @@
 
     <div class="story">
       <p><span class="drop">Tyrėjau,</span> tave užrakino profesoriaus Procento laboratorijoje, kur
-      viskas nuolat auga arba nyksta procentais: bakterijos dvigubėja, kainos krinta, medžiagos suyra.
-      Ant durų dešimt sandarių indų, kiekvienas su savo eksperimentu.</p>
+      viskas nuolat auga arba nyksta procentais: bandiniai sunkėja, tirpalai garuoja, medžiagos suyra.
+      Kai kur pokyčiai vyksta iš eilės keli, ir ne visada tuo pačiu procentu. Ant durų dešimt sandarių
+      indų, kiekvienas su savo eksperimentu.</p>
       <p style="margin:12px 0 0"><i>„Kiekvienas indas atrakinamas apskaičiavus, koks dydis liks po
-      pakartotinio procentinio pokyčio. Teisingas rezultatas duoda po vieną seifo kodo skaitmenį.
-      Surink visą dešimtženklį kodą, atrakink seifą ir ištrūk, kol niekas nepastebėjo."</i></p>
+      vieno ar kelių procentinių pokyčių iš eilės. Kai kurie indai duos tau GALUTINĮ rezultatą, o
+      teks surasti PRADINĮ dydį, tai veiksmas atgal. Teisingas rezultatas duoda po vieną seifo kodo
+      skaitmenį. Surink visą dešimtženklį kodą, atrakink seifą ir ištrūk, kol niekas nepastebėjo."</i></p>
       <p style="margin:12px 0 0">Skaičiuok iš eilės. Tvarkingai. Laikas bėga.</p>
     </div>
 
     <div class="formulabox">
       <span class="math">Aₙ = A · (1 ± p/100)ⁿ</span>
       <div class="cap">A — pradinis dydis · p — procentai · n — kartų (+ jei auga, − jei nyksta)</div>
+      <div class="cap" style="margin-top:6px">Keli SKIRTINGI pokyčiai iš eilės: kiekvienam savas daugiklis, dauginami paeiliui. Kai duotas GALUTINIS dydis: dalinama, o ne dauginama.</div>
     </div>
 
     <div class="rules">
-      <div class="rule"><b>🔒 10 indų.</b> Atrakinami iš eilės, taikant sudėtinių procentų formulę.</div>
+      <div class="rule"><b>🔒 10 indų.</b> Kai kurie duoda galutinį dydį, reikia rasti pradinį (dalyba, ne daugyba).</div>
       <div class="rule"><b>🔢 Kiekvienas indas</b> duoda po vieną seifo kodo skaitmenį (0–9).</div>
       <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
       <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis tyrėjo rangas.</div>
@@ -221,73 +239,86 @@
 </div>
 
 <script>
-/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+/* Bendra matematikos notacija (references/matematikos-notacija/fmt-math.js) */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+/* Patarimai TIK nukreipia (metodas), atsakymo NEATSKLEIDŽIA. */
 const HINTS = [
-  "Padidėjimą procentais paversk daugikliu: (1 + p/100). Kiek gaunasi, kai p = 100? Padaugink pradinį dydį iš to daugiklio.",
-  "Sumažėjimas reiškia daugiklį (1 − p/100). Apskaičiuok šitą daugiklį ir padaugink iš pradinio dydžio.",
-  "„Du kartus“ reiškia laipsnį n = 2: daugiklį pakelk kvadratu, tada padaugink iš pradinio dydžio.",
-  "Rask daugiklį (1 − p/100). Nesuklysk verčiant procentus į dešimtainę dalį.",
-  "Atidžiai: kiek kartų vyksta pokytis? Jei n = 0, dydis dar nepasikeitė — daugiklis pakeltas nuliniu laipsniu.",
-  "„Puse daugiau“ ar „+50 %“ duoda daugiklį 1,5. Padaugink pradinį dydį iš jo.",
-  "Pokytis kartojasi du kartus: tą patį daugiklį pritaikyk dukart (arba pakelk kvadratu).",
-  "Didelis procentas: (1 + 200/100) duoda visą sveiką daugiklį. Koks jis?",
-  "Kartojasi kelis kartus — pakelk daugiklį atitinkamu laipsniu ir tik tada padaugink iš pradinio dydžio.",
-  "Užuomina, ne atsakymas: užrašyk pradinį dydį ir daugiklį (1 ± p/100), pritaikyk tiek kartų, kiek pasakyta, ir suskaičiuok pats.",
+  "Padidėjimą procentais paversk daugikliu (1 + p/100): apskaičiuok tikslią dešimtainę jo reikšmę, tada padaugink iš pradinio dydžio.",
+  "Sumažėjimą paversk daugikliu (1 − p/100). Procentas čia nėra apvalus, skaičiuok tiksliai, iki šimtųjų dalių.",
+  "Du skirtingi pokyčiai iš eilės: du skirtingi daugikliai. Pritaikyk pirmąjį daugiklį pradiniam dydžiui, o gautą rezultatą padaugink iš antrojo daugiklio.",
+  "Tas pats principas kaip ankstesniame inde: skaičiuok žingsnis po žingsnio, kiekvienam pokyčiui savas daugiklis (1 ± p/100).",
+  "Čia duotas GALUTINIS dydis, klausiama apie PRADINĮ. Veiksmas priešingas: galutinį dydį PADALYK iš daugiklio (1 ± p/100), o ne padaugink.",
+  "Vėl du daugikliai iš eilės, taikomi tokia tvarka, kokia dydis iš tikrųjų keitėsi.",
+  "Vėl atbulinis veiksmas: rask daugiklį (1 ± p/100), tada galutinį dydį PADALYK iš jo, kad grįžtum prie pradinio dydžio.",
+  "Kelis skirtingus pokyčius taikyk vieną po kito, savo daugikliu kiekvienam. Skaičiuok atidžiai, procentai čia „nepatogūs“.",
+  "Trys skirtingi pokyčiai iš eilės: rask visus tris daugiklius (1 ± p/100) ir taikyk juos vieną po kito, tarpinius rezultatus užsirašydamas.",
+  "Bosso užduotis: du pokyčiai iš eilės, o duotas tik GALUTINIS rezultatas. Atstatyk atgal priešinga tvarka: pirmiausia padalyk iš PASKUTINIO pokyčio daugiklio, tada iš PIRMOJO.",
 ];
 
-/* ================= 4 VARIANTAI · sudėtiniai procentai Aₙ = A·(1±p/100)ⁿ ================= */
+/* ================= 4 VARIANTAI · sudėtiniai procentai (keli skirtingi pokyčiai + atbulinės stotelės) =================
+   Kiekvienas atsakymas patikrintas programiškai (Python Fraction, tiksliai, be apvalinimo) —
+   žr. scratchpad build.py. Kodai: V1 7766655736 · V2 5577776767 · V3 8676867794 · V4 9699948738 */
 const VARIANTS = [
- /* --- VARIANTAS 1 · kodas 4387562942 --- */
+ /* --- VARIANTAS 1 · kodas 7766655736 --- */
  [
-  { title:"Bakterijų indas", eq:"A₁ = 2 · (1 + 100/100)", q:"Inde 2 bakterijos, jų padaugėja 100 % vieną kartą. Kiek bakterijų liks?", ans:4 },
-  { title:"Nykstanti tirpalo dozė", eq:"A₁ = 6 · (1 − 50/100)", q:"Tirpalo yra 6 mg, jo sumažėja 50 % vieną kartą. Kiek mg liks?", ans:3 },
-  { title:"Dvigubas dauginimasis", eq:"A₂ = 2 · (1 + 100/100)²", q:"2 bakterijos padaugėja 100 % du kartus iš eilės. Kiek jų liks?", ans:8 },
-  { title:"Nukainota medžiaga", eq:"A₁ = 10 · (1 − 30/100)", q:"Reagento kaina 10 Eur, ji nukrinta 30 % vieną kartą. Kokia kaina liks?", ans:7 },
-  { title:"Užšaldytas mėginys", eq:"A₀ = 5 · (1 + 100/100)⁰", q:"Mėginyje 5 vienetai. Pokytis dar neįvyko (0 kartų). Kiek vienetų yra dabar?", ans:5 },
-  { title:"Auganti kultūra", eq:"A₁ = 4 · (1 + 50/100)", q:"Kultūroje 4 vienetai, jų padaugėja 50 % vieną kartą. Kiek liks?", ans:6 },
-  { title:"Dukart perpus", eq:"A₂ = 8 · (1 − 50/100)²", q:"Medžiagos 8 g, jos sumažėja 50 % du kartus iš eilės. Kiek g liks?", ans:2 },
-  { title:"Sprogus dauginimasis", eq:"A₁ = 3 · (1 + 200/100)", q:"Inde 3 vienetai, jų padaugėja 200 % vieną kartą. Kiek liks?", ans:9 },
-  { title:"Dviguba pusė", eq:"A₂ = 16 · (1 − 50/100)²", q:"Medžiagos 16 g, jos sumažėja 50 % du kartus. Kiek g liks?", ans:4 },
-  { title:"Paskutinis indas", eq:"", q:"Paskutinis indas! Bakterijų buvo 8, jų kas valandą sumažėja perpus (−50 %). Kiek bakterijų liks po 2 valandų?", ans:2 },
+  { title:"Auganti kultūra", eq:"A₁ = 5 · (1 + 40/100)", q:"Bandinio masė 5 g. Per parą jis sugeria drėgmę ir sunkėja 40 %. Kiek gramų sveria bandinys dabar?", ans:7 },
+  { title:"Garuojantis tirpalas", eq:"A₁ = 10 · (1 − 30/100)", q:"Tirpalo 10 ml. Per naktį jo išgaruoja 30 %. Kiek mililitrų tirpalo liko ryte?", ans:7 },
+  { title:"Grandininė reakcija", eq:"A₂ = 4 · (1 + 20/100) · (1 + 25/100)", q:"Bandinio masė 4 g. Pirma ji padidėja 20 % (sugeria drėgmę), po to dar padidėja 25 % (prisijungia priedas). Kiek gramų sveria bandinys po abiejų pokyčių?", ans:6 },
+  { title:"Nestabilus junginys", eq:"A₂ = 8 · (1 + 25/100) · (1 − 40/100)", q:"Junginio 8 g. Pirma jo masė padidėja 25 % (sugeria vandenį), po to sumažėja 40 % (dalis suyra). Kiek gramų junginio liko?", ans:6 },
+  { title:"Užrašas ant butelio", eq:"A · (1 + 8/100) = 6,48", lead:"A =", q:"Ant seno butelio etiketės parašyta, kad po pabrangimo reagentas dabar kainuoja 6,48 €, o kaina išaugo 8 %. Kokia buvo pradinė kaina?", ans:6 },
+  { title:"Praskiestas mišinys", eq:"A₂ = 16 · (1 + 25/100) · (1 − 75/100)", q:"Mišinio 16 ml. Pirma jo tūris padidėja 25 % (įpilama vandens), po to sumažėja 75 % (didžioji dalis nugarinama). Kiek mililitrų mišinio liko?", ans:5 },
+  { title:"Sena etiketė", eq:"A · (1 + 24/100) = 6,2", lead:"A =", q:"Ant senos etiketės nurodyta, kad po pabrangimo medžiaga kainuoja 6,2 €, o kaina išaugo 24 %. Kokia buvo pradinė kaina?", ans:5 },
+  { title:"Asistento užrašai", eq:"A₂ = 5 · (1 + 12/100) · (1 + 25/100)", q:"Asistento užrašuose: reagento buvo 5 mg, jo kiekis padidėjo 12 % (viena reakcija), tada dar padidėjo 25 % (antra reakcija). Kiek miligramų reagento yra dabar?", ans:7 },
+  { title:"Triguba transformacija", eq:"A₃ = 6 · (1 + 25/100) · (1 + 60/100) · (1 − 75/100)", q:"Bandinio masė 6 g. Trys pokyčiai iš eilės: pirma padidėja 25 %, po to padidėja 60 %, galiausiai sumažėja 75 %. Kiek gramų bandinys sveria po visų trijų pokyčių?", ans:3 },
+  { title:"Paskutinis indas", eq:"A · (1 + 8/100) · (1 + 15/100) = 7,452", lead:"A =", q:"Paskutinis indas! Profesoriaus elektroninės svarstyklės po dviejų procentinių pokyčių iš eilės rodo 7,452 g. Pirmas pokytis buvo +8 %, antras +15 % (tokia tvarka). Kiek gramų bandinys svėrė PRIEŠ abu pokyčius?", ans:6 },
  ],
- /* --- VARIANTAS 2 · kodas 6485938610 --- */
+ /* --- VARIANTAS 2 · kodas 5577776767 --- */
  [
-  { title:"Bakterijų indas", eq:"A₁ = 3 · (1 + 100/100)", q:"Inde 3 bakterijos, jų padaugėja 100 % vieną kartą. Kiek bakterijų liks?", ans:6 },
-  { title:"Nykstanti tirpalo dozė", eq:"A₁ = 8 · (1 − 50/100)", q:"Tirpalo yra 8 mg, jo sumažėja 50 % vieną kartą. Kiek mg liks?", ans:4 },
-  { title:"Trigubas dauginimasis", eq:"A₃ = 1 · (1 + 100/100)³", q:"1 bakterija padaugėja 100 % tris kartus iš eilės. Kiek jų liks?", ans:8 },
-  { title:"Nukainota medžiaga", eq:"A₁ = 10 · (1 − 50/100)", q:"Reagento kaina 10 Eur, ji nukrinta 50 % vieną kartą. Kokia kaina liks?", ans:5 },
-  { title:"Užšaldytas mėginys", eq:"A₀ = 9 · (1 + 100/100)⁰", q:"Mėginyje 9 vienetai. Pokytis dar neįvyko (0 kartų). Kiek vienetų yra dabar?", ans:9 },
-  { title:"Auganti kultūra", eq:"A₁ = 2 · (1 + 50/100)", q:"Kultūroje 2 vienetai, jų padaugėja 50 % vieną kartą. Kiek liks?", ans:3 },
-  { title:"Dvigubas dauginimasis", eq:"A₁ = 4 · (1 + 100/100)", q:"Inde 4 vienetai, jų padaugėja 100 % vieną kartą. Kiek liks?", ans:8 },
-  { title:"Sprogus dauginimasis", eq:"A₁ = 2 · (1 + 200/100)", q:"Inde 2 vienetai, jų padaugėja 200 % vieną kartą. Kiek liks?", ans:6 },
-  { title:"Triguba pusė", eq:"A₃ = 8 · (1 − 50/100)³", q:"Medžiagos 8 g, jos sumažėja 50 % tris kartus. Kiek g liks?", ans:1 },
-  { title:"Paskutinis indas", eq:"", q:"Paskutinis indas! Vaisto buvo 5 mg, per parą jis suyra visas (−100 %). Kiek mg liks po 1 paros?", ans:0 },
+  { title:"Auganti kultūra", eq:"A₁ = 4 · (1 + 25/100)", q:"Mėginio masė 4 g. Jis pabrinksta, jo masė padidėja 25 %. Kiek gramų mėginys sveria dabar?", ans:5 },
+  { title:"Garuojantis tirpalas", eq:"A₁ = 20 · (1 − 75/100)", q:"Skysčio 20 ml. Jis greitai garuoja, jo sumažėja 75 %. Kiek mililitrų liko?", ans:5 },
+  { title:"Grandininė reakcija", eq:"A₂ = 5 · (1 − 20/100) · (1 + 75/100)", q:"Tirpalo 5 ml. Pirma jo sumažėja 20 % (išgaruoja dalis), po to tūris padidėja 75 % (įpilama daugiau skysčio). Kiek mililitrų tirpalo yra dabar?", ans:7 },
+  { title:"Nestabilus junginys", eq:"A₂ = 4 · (1 + 25/100) · (1 + 40/100)", q:"Bandinio 4 g. Pirma jis padidėja 25 %, po to dar padidėja 40 %. Kiek gramų bandinys sveria po abiejų pokyčių?", ans:7 },
+  { title:"Užrašas ant butelio", eq:"A · (1 − 8/100) = 6,44", lead:"A =", q:"Prekės kaina po nuolaidos yra 6,44 €. Nuolaida sudarė 8 %. Kokia buvo kaina prieš nuolaidą?", ans:7 },
+  { title:"Praskiestas mišinys", eq:"A₂ = 16 · (1 + 25/100) · (1 − 65/100)", q:"Mišinio 16 ml. Pirma jo tūris padidėja 25 %, po to sumažėja 65 % (nugarinama). Kiek mililitrų mišinio liko?", ans:7 },
+  { title:"Sena etiketė", eq:"A · (1 − 24/100) = 4,56", lead:"A =", q:"Medžiagos kaina po nuolaidos yra 4,56 €. Nuolaida sudarė 24 %. Kokia buvo kaina prieš nuolaidą?", ans:6 },
+  { title:"Asistento užrašai", eq:"A₂ = 25 · (1 + 12/100) · (1 − 75/100)", q:"Asistento užrašuose: medžiagos buvo 25 mg, jos kiekis padidėjo 12 %, o po to sumažėjo 75 % (didžioji dalis sunaudota reakcijoje). Kiek miligramų medžiagos liko?", ans:7 },
+  { title:"Triguba transformacija", eq:"A₃ = 12 · (1 + 25/100) · (1 + 60/100) · (1 − 75/100)", q:"Bandinio masė 12 g. Tie patys trys pokyčiai iš eilės: padidėja 25 %, padidėja 60 %, sumažėja 75 %. Kiek gramų bandinys sveria po visų trijų pokyčių?", ans:6 },
+  { title:"Paskutinis indas", eq:"A · (1 + 12/100) · (1 − 15/100) = 6,664", lead:"A =", q:"Paskutinis indas! Svarstyklės po dviejų pokyčių iš eilės rodo 6,664 g. Pirmas pokytis buvo +12 %, antras −15 % (tokia tvarka). Kiek gramų bandinys svėrė PRIEŠ abu pokyčius?", ans:7 },
  ],
- /* --- VARIANTAS 3 · kodas 8428696427 --- */
+ /* --- VARIANTAS 3 · kodas 8676867794 --- */
  [
-  { title:"Bakterijų indas", eq:"A₁ = 4 · (1 + 100/100)", q:"Inde 4 bakterijos, jų padaugėja 100 % vieną kartą. Kiek bakterijų liks?", ans:8 },
-  { title:"Nykstanti tirpalo dozė", eq:"A₁ = 8 · (1 − 50/100)", q:"Tirpalo yra 8 mg, jo sumažėja 50 % vieną kartą. Kiek mg liks?", ans:4 },
-  { title:"Vienas padvigubėjimas", eq:"A₁ = 1 · (1 + 100/100)", q:"1 bakterija padaugėja 100 % vieną kartą. Kiek jų liks?", ans:2 },
-  { title:"Švelniai nukainota", eq:"A₁ = 10 · (1 − 20/100)", q:"Reagento kaina 10 Eur, ji nukrinta 20 % vieną kartą. Kokia kaina liks?", ans:8 },
-  { title:"Užšaldytas mėginys", eq:"A₀ = 6 · (1 + 100/100)⁰", q:"Mėginyje 6 vienetai. Pokytis dar neįvyko (0 kartų). Kiek vienetų yra dabar?", ans:6 },
-  { title:"Auganti kultūra", eq:"A₁ = 6 · (1 + 50/100)", q:"Kultūroje 6 vienetai, jų padaugėja 50 % vieną kartą. Kiek liks?", ans:9 },
-  { title:"Nykstanti masė", eq:"A₁ = 12 · (1 − 50/100)", q:"Medžiagos 12 g, jos sumažėja 50 % vieną kartą. Kiek g liks?", ans:6 },
-  { title:"Dvigubas dauginimasis", eq:"A₂ = 1 · (1 + 100/100)²", q:"1 bakterija padaugėja 100 % du kartus iš eilės. Kiek jų liks?", ans:4 },
-  { title:"Dukart perpus", eq:"A₂ = 8 · (1 − 50/100)²", q:"Medžiagos 8 g, jos sumažėja 50 % du kartus. Kiek g liks?", ans:2 },
-  { title:"Paskutinis indas", eq:"", q:"Paskutinis indas! Prekės kaina buvo 10 Eur, ji nukainota 30 % (−30 %). Kokia nauja kaina?", ans:7 },
+  { title:"Auganti kultūra", eq:"A₁ = 5 · (1 + 60/100)", q:"Kultūroje 5 g biomasės. Per parą jos padaugėja 60 %. Kiek gramų biomasės yra dabar?", ans:8 },
+  { title:"Garuojantis tirpalas", eq:"A₁ = 15 · (1 − 60/100)", q:"Mėginio 15 ml. Per parą jo sumažėja 60 %. Kiek mililitrų liko?", ans:6 },
+  { title:"Grandininė reakcija", eq:"A₂ = 8 · (1 + 25/100) · (1 − 30/100)", q:"Reagento 8 g. Pirma jo masė padidėja 25 % (sugeria drėgmę), po to sumažėja 30 % (dalis sunaudojama reakcijoje). Kiek gramų reagento liko?", ans:7 },
+  { title:"Nestabilus junginys", eq:"A₂ = 5 · (1 − 25/100) · (1 + 60/100)", q:"Tirpalo 5 ml. Pirma jo sumažėja 25 % (išgaruoja), po to padidėja 60 % (įpilama daugiau). Kiek mililitrų tirpalo yra dabar?", ans:6 },
+  { title:"Užrašas ant butelio", eq:"A · (1 + 8/100) = 8,64", lead:"A =", q:"Po pabrangimo reagento kaina yra 8,64 €, o kaina padidėjo 8 %. Kokia buvo pradinė kaina?", ans:8 },
+  { title:"Praskiestas mišinys", eq:"A₂ = 16 · (1 + 25/100) · (1 − 70/100)", q:"Mišinio 16 ml. Pirma jo tūris padidėja 25 %, po to sumažėja 70 % (nugarinama). Kiek mililitrų mišinio liko?", ans:6 },
+  { title:"Sena etiketė", eq:"A · (1 + 24/100) = 8,68", lead:"A =", q:"Po pabrangimo medžiaga kainuoja 8,68 €, o kaina padidėjo 24 %. Kokia buvo pradinė kaina?", ans:7 },
+  { title:"Asistento užrašai", eq:"A₂ = 125 · (1 + 12/100) · (1 − 95/100)", q:"Asistento užrašuose: reagento buvo 125 mg, jo kiekis padidėjo 12 %, o po to sumažėjo 95 % (beveik visas sunaudotas eksperimente). Kiek miligramų reagento liko?", ans:7 },
+  { title:"Triguba transformacija", eq:"A₃ = 18 · (1 + 25/100) · (1 + 60/100) · (1 − 75/100)", q:"Bandinio masė 18 g. Tie patys trys pokyčiai iš eilės: padidėja 25 %, padidėja 60 %, sumažėja 75 %. Kiek gramų bandinys sveria po visų trijų pokyčių?", ans:9 },
+  { title:"Paskutinis indas", eq:"A · (1 + 15/100) · (1 + 24/100) = 5,704", lead:"A =", q:"Paskutinis indas! Svarstyklės po dviejų pokyčių iš eilės rodo 5,704 g. Pirmas pokytis buvo +15 %, antras +24 % (tokia tvarka). Kiek gramų bandinys svėrė PRIEŠ abu pokyčius?", ans:4 },
  ],
- /* --- VARIANTAS 4 · kodas 4586792326 --- */
+ /* --- VARIANTAS 4 · kodas 9699948738 --- */
  [
-  { title:"Bakterijų indas", eq:"A₁ = 2 · (1 + 100/100)", q:"Inde 2 bakterijos, jų padaugėja 100 % vieną kartą. Kiek bakterijų liks?", ans:4 },
-  { title:"Nykstanti tirpalo dozė", eq:"A₁ = 10 · (1 − 50/100)", q:"Tirpalo yra 10 mg, jo sumažėja 50 % vieną kartą. Kiek mg liks?", ans:5 },
-  { title:"Trigubas dauginimasis", eq:"A₃ = 1 · (1 + 100/100)³", q:"1 bakterija padaugėja 100 % tris kartus iš eilės. Kiek jų liks?", ans:8 },
-  { title:"Nukainota medžiaga", eq:"A₁ = 10 · (1 − 40/100)", q:"Reagento kaina 10 Eur, ji nukrinta 40 % vieną kartą. Kokia kaina liks?", ans:6 },
-  { title:"Užšaldytas mėginys", eq:"A₀ = 7 · (1 + 100/100)⁰", q:"Mėginyje 7 vienetai. Pokytis dar neįvyko (0 kartų). Kiek vienetų yra dabar?", ans:7 },
-  { title:"Auganti kultūra", eq:"A₁ = 6 · (1 + 50/100)", q:"Kultūroje 6 vienetai, jų padaugėja 50 % vieną kartą. Kiek liks?", ans:9 },
-  { title:"Dukart perpus", eq:"A₂ = 8 · (1 − 50/100)²", q:"Medžiagos 8 g, jos sumažėja 50 % du kartus. Kiek g liks?", ans:2 },
-  { title:"Sprogus dauginimasis", eq:"A₁ = 1 · (1 + 200/100)", q:"Inde 1 vienetas, jo padaugėja 200 % vieną kartą. Kiek liks?", ans:3 },
-  { title:"Triguba pusė", eq:"A₃ = 16 · (1 − 50/100)³", q:"Medžiagos 16 g, jos sumažėja 50 % tris kartus. Kiek g liks?", ans:2 },
-  { title:"Paskutinis indas", eq:"", q:"Paskutinis indas! Investicija buvo 3 Eur, per metus ji padvigubėja (+100 %). Kiek Eur bus po 1 metų?", ans:6 },
+  { title:"Auganti kultūra", eq:"A₁ = 5 · (1 + 80/100)", q:"Reagento 5 g. Reakcijos metu jo masė išauga 80 % (prisijungia papildoma medžiaga). Kiek gramų reagento yra dabar?", ans:9 },
+  { title:"Garuojantis tirpalas", eq:"A₁ = 10 · (1 − 40/100)", q:"Tirpalo 10 ml. Per bandymą jo sumažėja 40 %. Kiek mililitrų tirpalo liko?", ans:6 },
+  { title:"Grandininė reakcija", eq:"A₂ = 6 · (1 + 20/100) · (1 + 25/100)", q:"Kultūroje 6 g biomasės. Pirma ji padidėja 20 %, po to dar padidėja 25 %. Kiek gramų biomasės yra po abiejų pokyčių?", ans:9 },
+  { title:"Nestabilus junginys", eq:"A₂ = 10 · (1 + 20/100) · (1 − 25/100)", q:"Mėginio 10 g. Pirma jo masė padidėja 20 % (sudrėksta), po to sumažėja 25 % (išdžiūsta dalis). Kiek gramų mėginio liko?", ans:9 },
+  { title:"Užrašas ant butelio", eq:"A · (1 − 8/100) = 8,28", lead:"A =", q:"Prekės kaina po nuolaidos yra 8,28 €. Nuolaida buvo 8 %. Kokia buvo pradinė kaina?", ans:9 },
+  { title:"Praskiestas mišinys", eq:"A₂ = 16 · (1 + 25/100) · (1 − 80/100)", q:"Mišinio 16 ml. Pirma jo tūris padidėja 25 %, po to sumažėja 80 % (nugarinama). Kiek mililitrų mišinio liko?", ans:4 },
+  { title:"Sena etiketė", eq:"A · (1 − 24/100) = 6,08", lead:"A =", q:"Medžiagos kaina po nuolaidos yra 6,08 €. Nuolaida buvo 24 %. Kokia buvo pradinė kaina?", ans:8 },
+  { title:"Asistento užrašai", eq:"A₃ = 20 · (1 + 25/100) · (1 − 75/100) · (1 + 12/100)", q:"Asistento užrašuose trys žingsniai: medžiagos buvo 20 mg, pirma padidėjo 25 %, po to sumažėjo 75 %, o galiausiai dar padidėjo 12 %. Kiek miligramų medžiagos liko po visų trijų žingsnių?", ans:7 },
+  { title:"Triguba transformacija", eq:"A₃ = 24 · (1 + 25/100) · (1 − 60/100) · (1 − 75/100)", q:"Bandinio masė 24 g. Trys pokyčiai iš eilės: padidėja 25 %, sumažėja 60 %, sumažėja 75 %. Kiek gramų bandinys sveria po visų trijų pokyčių?", ans:3 },
+  { title:"Paskutinis indas", eq:"A · (1 − 8/100) · (1 − 24/100) = 5,5936", lead:"A =", q:"Paskutinis indas! Svarstyklės po dviejų pokyčių iš eilės rodo 5,5936 g. Pirmas pokytis buvo −8 %, antras −24 % (tokia tvarka). Kiek gramų bandinys svėrė PRIEŠ abu pokyčius?", ans:8 },
  ],
 ];
 
@@ -329,10 +360,10 @@ function buildStations(){
         <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
       </div>
       <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
-        <p class="qtext">${st.q}</p>
-        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <p class="qtext">${fmtMath(st.q)}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${fmtMath(st.eq)}</span></div>`:''}
         <div class="answer-row">
-          <span class="lead">Aₙ =</span>
+          <span class="lead">${st.lead||'Aₙ ='}</span>
           <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
             placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
           <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
