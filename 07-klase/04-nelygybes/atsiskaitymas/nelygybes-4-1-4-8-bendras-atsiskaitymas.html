@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: Nelygybės (4.1-4.8 atsiskaitymas)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="7-04-nelygybes-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 4. Nelygybės";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>Nelygybės (4.1-4.8 atsiskaitymas)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "Nelygybės (4.1-4.8 atsiskaitymas)", "dalykas": "Matematika", "sheet_id": "1vQSlfnF6NsXs-Rxhm1rpo71SBZUKL1sUDHOCK4Hdkcg", "trukme_min": 0, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Skaičių palyginimą, intervalus, nelygybių savybes ir jų sprendimą (iki sudėtingesnių) valdai labai gerai."], [65, "Gerai. Dar peržiūrėk ženklo keitimą dalijant/dauginant iš neigiamo skaičiaus ir sudėtingesnių nelygybių sprendimą."], [45, "Patenkinamai — pakartok nelygybių savybes ir sprendimo žingsnius nuo intervalų iki sudėtingesnių nelygybių."], [0, "Reikia pakartoti temą: skaičių palyginimas, intervalai, nelygybių savybės ir sprendimas (4.1-4.8)."]]}, "variants": [{"id": 1, "mc": [{"q": "[4.1] Kuris teiginys teisingas?", "options": ["−2 > −7", "−2 < −7", "0 > 1", "−3 = −4"], "correct": 0}, {"q": "[4.2] Kurį intervalą atitinka nelygybė x ≤ −3?", "options": ["(−∞;−3)", "(−∞;−3]", "[−3;+∞)", "(−3;+∞)"], "correct": 1}, {"q": "[4.3] Prie abiejų nelygybės pusių pridėjus tą patį skaičių, nelygybės ženklas…", "options": ["tampa lygybe (=)", "keičiasi priešingu", "nesikeičia", "priklauso nuo skaičiaus"], "correct": 2}, {"q": "[4.4] Nelygybę −15 > −20 padaliname iš −5. Gauname:", "options": ["3 > 4", "−3 < −4", "3 = 4", "3 < 4"], "correct": 3}, {"q": "[4.5] Ar skaičius 5 yra nelygybės x ≤ −2 sprendinys?", "options": ["Ne, nes 5 ≤ −2 yra klaidinga.", "Taip, nes 5 didesnis už −2.", "Taip, nes 5 yra teigiamas.", "Taip, bet kuris skaičius tinka."], "correct": 0}, {"q": "[4.5] Kuris skaičius yra nelygybės x > 6 sprendinys?", "options": ["6", "8", "−2", "4"], "correct": 1}, {"q": "[4.6] Kada nelygybės ženklas keičiamas priešingu?", "options": ["Kai narį perkeliame į kitą pusę", "Visada", "Kai dalijame ar dauginame iš neigiamo skaičiaus", "Kai narys teigiamas"], "correct": 2}, {"q": "[4.6] Išspręsk nelygybę 9 + x ≤ −2.", "options": ["x ≤ 11", "x ≤ 7", "x ≥ −11", "x ≤ −11"], "correct": 3}, {"q": "[4.7] Išspręsk nelygybę: −8 ≤ 11x + 14", "options": ["x ≤ −2", "x ≥ −2", "x ≥ 2", "x ≥ −22"], "correct": 1}, {"q": "[4.8] Išspręsk nelygybę: (2x + 1)/3 ≥ −3 − x", "options": ["x ≤ −2", "x ≥ 2", "x ≥ −2", "x ≤ 2"], "correct": 2}], "open": [{"q": "[4.1] Apskaičiuok skirtumą a − b, kai a = 8, b = 3.", "a": "NQ=="}, {"q": "[4.2] Koks mažiausias sveikasis skaičius yra intervale [−2;5)? (įrašyk skaičių)", "a": "4oiSMg=="}, {"q": "[4.3] Išspręsk nelygybę x − 7 < −10. Užrašyk didžiausią sveikąjį sprendinį.", "a": "4oiSNA=="}, {"q": "[4.4] Išspręsk nelygybę 7x ≤ −42 ir nurodyk didžiausią sveikąjį sprendinį.", "a": "4oiSNg=="}, {"q": "[4.5] Rask didžiausią sveikąjį nelygybės x < 3 sprendinį. (tik skaičių)", "a": "Mg=="}, {"q": "[4.5] Rask mažiausią sveikąjį nelygybės x > 5 sprendinį. (tik skaičių)", "a": "Ng=="}, {"q": "[4.6] Išspręsk −4 + y < −1 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "Mg=="}, {"q": "[4.6] Išspręsk −x ≥ 0 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "MA=="}, {"q": "[4.7] Nelygybė 5x − 2 ≥ 13. Koks mažiausias sveikasis jos sprendinys? (įrašyk skaičių)", "a": "Mw=="}, {"q": "[4.8] Didžiausias sveikasis nelygybės −3x + 2 > −x + 8 sprendinys?", "a": "4oiSNA=="}]}, {"id": 2, "mc": [{"q": "[4.1] Kuris skaičius mažesnis: −0,05 ar −0,5?", "options": ["−0,5", "−0,05", "abu lygūs", "negalima palyginti"], "correct": 0}, {"q": "[4.2] Kurį intervalą atitinka nelygybė −3 < x ≤ 3?", "options": ["[−3;3)", "(−3;3]", "(−3;3)", "[−3;3]"], "correct": 1}, {"q": "[4.3] Jei x − 10 > y − 10, tai…", "options": ["x < y", "x = y", "x > y", "negalima nustatyti"], "correct": 2}, {"q": "[4.4] Dalijant abi nelygybės puses iš neigiamo skaičiaus, nelygybės ženklas:", "options": ["nesikeičia", "tampa lygybe", "išnyksta", "keičiamas priešingu"], "correct": 3}, {"q": "[4.5] Nelygybės x ≤ −2 sprendinių aibė, užrašyta intervalu, yra…", "options": ["(−∞; −2]", "(−2; +∞)", "(−∞; −2)", "[−2; +∞)"], "correct": 0}, {"q": "[4.5] Didžiausias sveikasis nelygybės x < 8 sprendinys yra…", "options": ["8", "7", "6", "9"], "correct": 1}, {"q": "[4.6] Išspręsk nelygybę y : 7 ≤ −2.", "options": ["y ≤ 5", "y ≤ −2", "y ≤ −14", "y ≥ −14"], "correct": 2}, {"q": "[4.6] Išspręsk nelygybę 2x < 12.", "options": ["x < 10", "x > 6", "x < 24", "x < 6"], "correct": 3}, {"q": "[4.7] Išspręsk nelygybę: −4x + 2 > −3", "options": ["x < −5/4", "x < 5/4", "x > −5/4", "x > 5/4"], "correct": 1}, {"q": "[4.8] Išspręsk nelygybę: x − 2(1 − x)/3 < 1", "options": ["x > 1", "x < −1", "x < 1", "x > −1"], "correct": 2}], "open": [{"q": "[4.1] Apskaičiuok skirtumą a − b, kai a = −2, b = −6.", "a": "NA=="}, {"q": "[4.2] Koks didžiausias sveikasis skaičius yra intervale [−5;3)? (įrašyk skaičių)", "a": "Mg=="}, {"q": "[4.3] Prie nelygybės −6 < 7 abiejų pusių pridėk 4. Užrašyk gautą kairę pusę (skaičių).", "a": "4oiSMg=="}, {"q": "[4.4] Išspręsk nelygybę 2x < 10 ir nurodyk didžiausią sveikąjį sprendinį.", "a": "NA=="}, {"q": "[4.5] Rask mažiausią sveikąjį nelygybės x ≥ 8 sprendinį. (tik skaičių)", "a": "OA=="}, {"q": "[4.5] Rask mažiausią sveikąjį nelygybės x > −3,5 sprendinį. (tik skaičių)", "a": "4oiSMw=="}, {"q": "[4.6] Išspręsk −x ≥ 0 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "MA=="}, {"q": "[4.6] Išspręsk −3x ≤ −27 ir užrašyk mažiausią sveikąjį sprendinį.", "a": "OQ=="}, {"q": "[4.7] Nelygybė 4x + 3 ≥ 11. Koks mažiausias sveikasis jos sprendinys? (įrašyk skaičių)", "a": "Mg=="}, {"q": "[4.8] Mažiausias sveikasis nelygybės 6x − 5 ≥ 4x + 3 sprendinys?", "a": "NA=="}]}, {"id": 3, "mc": [{"q": "[4.1] Kuris teiginys teisingas?", "options": ["−1,8 = −1,80", "−1,8 > −1,80", "−1,8 < −1,80", "−1,8 > 0"], "correct": 0}, {"q": "[4.2] Ką reiškia laužtinis skliaustas [ prie intervalo galo?", "options": ["galas neįeina į intervalą", "galas įeina į intervalą", "galas visada neigiamas", "intervalas yra begalinis"], "correct": 1}, {"q": "[4.3] Išsprendus nelygybę x − 3 > 2, gauname…", "options": ["x < 5", "x > 1", "x > 5", "x > −1"], "correct": 2}, {"q": "[4.4] Dauginant nelygybę iš (−1), jos ženklas:", "options": ["nesikeičia", "išnyksta", "tampa lygybe", "keičiamas priešingu"], "correct": 3}, {"q": "[4.5] Mažiausias sveikasis nelygybės x > 5 sprendinys yra…", "options": ["6", "4", "7", "5"], "correct": 0}, {"q": "[4.5] Kuris skaičius NĖRA nelygybės x ≥ −1/3 sprendinys?", "options": ["3", "−3", "1", "2"], "correct": 1}, {"q": "[4.6] Išspręsk nelygybę 2x < 12.", "options": ["x < 10", "x > 6", "x < 6", "x < 24"], "correct": 2}, {"q": "[4.6] Išspręsk nelygybę x + 3 < 7.", "options": ["x < 3", "x > 4", "x < 10", "x < 4"], "correct": 3}, {"q": "[4.7] Kokį veiksmą atliekame pirmiausia, spręsdami nelygybę ax + b > c?", "options": ["Padauginame abi puses iš b.", "Perkeliame laisvą narį b į kitą pusę.", "Iškart dalijame abi puses iš a.", "Sukeičiame nelygybės ženklą priešingu."], "correct": 1}, {"q": "[4.8] Išspręsk nelygybę: 5 − 4x > −7 + 2x", "options": ["x > 2", "x < −2", "x < 2", "x > −2"], "correct": 2}], "open": [{"q": "[4.1] Apskaičiuok skirtumą a − b, kai a = −6, b = 3.", "a": "4oiSOQ=="}, {"q": "[4.2] Kiek sveikųjų skaičių yra intervale [0;4]? (įrašyk skaičių)", "a": "NQ=="}, {"q": "[4.3] Išspręsk nelygybę x − 5 ≥ 2. Užrašyk mažiausią sveikąjį sprendinį.", "a": "Nw=="}, {"q": "[4.4] Išspręsk nelygybę 8x ≥ −24 ir nurodyk mažiausią sveikąjį sprendinį.", "a": "4oiSMw=="}, {"q": "[4.5] Rask mažiausią sveikąjį nelygybės x ≥ −2,8 sprendinį. (tik skaičių)", "a": "4oiSMg=="}, {"q": "[4.5] Rask mažiausią sveikąjį nelygybės x > 3,9 sprendinį. (tik skaičių)", "a": "NA=="}, {"q": "[4.6] Išspręsk y : 7 ≤ −2 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "4oiSMTQ="}, {"q": "[4.6] Išspręsk 2x < 12 ir užrašyk didžiausią sveikąjį sprendinį.", "a": "NQ=="}, {"q": "[4.7] Nelygybė 2x − 1 ≥ 11. Koks mažiausias sveikasis jos sprendinys? (įrašyk skaičių)", "a": "Ng=="}, {"q": "[4.8] Didžiausias sveikasis nelygybės 5 − 4x > −7 + 2x sprendinys?", "a": "MQ=="}]}, {"id": 4, "mc": [{"q": "[4.1] Kuri skaičių eilė surašyta MAŽĖJIMO tvarka?", "options": ["3; 1; 0; −2", "−2; 0; 1; 3", "0; 3; 1; −2", "3; 0; −2; 1"], "correct": 0}, {"q": "[4.2] Kurią nelygybę atitinka intervalas [−5;−1]?", "options": ["−5 < x < −1", "−5 ≤ x ≤ −1", "−5 ≤ x < −1", "−5 < x ≤ −1"], "correct": 1}, {"q": "[4.3] Išsprendus nelygybę x − 7 < −10, gauname…", "options": ["x < 3", "x < −17", "x < −3", "x > −3"], "correct": 2}, {"q": "[4.4] Kada nelygybės ženklą būtina keisti priešingu?", "options": ["pridedant skaičių", "atimant skaičių", "dauginant/dalijant iš teigiamo", "dauginant/dalijant iš neigiamo"], "correct": 3}, {"q": "[4.5] Kas yra nelygybės sprendinys?", "options": ["Nežinomojo reikšmė, su kuria nelygybė virsta teisinga skaitine nelygybe.", "Nežinomojo reikšmė, su kuria nelygybė virsta klaidinga.", "Bet koks skaičius, esantis nelygybėje.", "Skaičius nelygybės dešinėje pusėje."], "correct": 0}, {"q": "[4.5] Visi nelygybės sprendiniai kartu sudaro…", "options": ["vieną skaičių", "sprendinių aibę", "lygties šaknį", "nelygybės ženklą"], "correct": 1}, {"q": "[4.6] Išspręsk nelygybę y − 1 ≥ 3.", "options": ["y ≥ 2", "y ≤ 4", "y ≥ 4", "y ≥ −4"], "correct": 2}, {"q": "[4.6] Išspręsk nelygybę y : (−5) ≤ 0.", "options": ["y ≥ 5", "y ≤ 0", "y ≤ −5", "y ≥ 0"], "correct": 3}, {"q": "[4.7] Išspręsk nelygybę: 4x + 12 > 16", "options": ["x < 1", "x > 1", "x ≥ 1", "x > 7"], "correct": 1}, {"q": "[4.8] Išspręsk nelygybę: 6x + 14 > 5x", "options": ["x < −14", "x > 14", "x > −14", "x < 14"], "correct": 2}], "open": [{"q": "[4.1] Apskaičiuok skirtumą a − b, kai a = 0, b = −7.", "a": "Nw=="}, {"q": "[4.2] Koks mažiausias sveikasis skaičius yra intervale [−1;5]? (įrašyk skaičių)", "a": "4oiSMQ=="}, {"q": "[4.3] Jei a + 7 > b + 7, kuris skaičius didesnis — a ar b? (parašyk raidę)", "a": "YQ=="}, {"q": "[4.4] Išspręsk nelygybę 2x ≤ 6 ir nurodyk didžiausią sveikąjį sprendinį.", "a": "Mw=="}, {"q": "[4.5] Rask didžiausią sveikąjį nelygybės x < 8 sprendinį. (tik skaičių)", "a": "Nw=="}, {"q": "[4.5] Rask didžiausią sveikąjį nelygybės x ≤ −2,7 sprendinį. (tik skaičių)", "a": "4oiSMw=="}, {"q": "[4.6] Išspręsk −11 + y > −11 ir užrašyk mažiausią sveikąjį sprendinį.", "a": "MQ=="}, {"q": "[4.6] Išspręsk −3x ≤ −27 ir užrašyk mažiausią sveikąjį sprendinį.", "a": "OQ=="}, {"q": "[4.7] Nelygybė 2x + 3 ≥ 9. Koks mažiausias sveikasis jos sprendinys? (įrašyk skaičių)", "a": "Mw=="}, {"q": "[4.8] Didžiausias sveikasis nelygybės (13 + 2x)/3 ≥ 4 + x sprendinys?", "a": "MQ=="}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['α','β','γ','δ','a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+// Saugūs inline žymėjimo tagai (paryškinimui klausimo tekste) — atstatomi po esc() iš fiksuoto
+// sąrašo (be atributų, be dinaminio turinio), tad negalima jais įpinti savavališko HTML.
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
+  // {fr:SKAITIKLIS|VARDIKLIS} -> aiškus laiptuotos trupmenos žymeklis. Naudok šitą, kai
+  // skaitiklis/vardiklis NĖRA grynas skaitmuo (pvz. "1/cos²α", "sin2α/sinα",
+  // "(tanA+tanB)/(1−tanA·tanB)", "√2/2") — patikimiau nei spėlioti iš skliaustų/skaitmenų
+  // (žr. online-test-graikiskos-raides-ir-sqrt-trupmena.md apie ankstesnį spėjimo bug'ą).
+  out = out.replace(/\{fr:([^|{}]*)\|([^|{}]*)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // Skaitmuo/skaitmuo ARBA (N)π/skaitmuo (pvz. "3/4", "π/2", "3π/2") -> laiptuota trupmena.
+  out = out.replace(/(\d*π|\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline (žr.
+  // matematikos-notacija/notacija.css .sqrt). Šaknys NĖRA auto-aptinkamos regex'u (per daug
+  // variantų, ką reiškia "turinys po šaknimi") — generatoriuje rašyk šiuos žymeklius tiesiogiai
+  // vietoj plokščio "√(...)" teksto.
+  // Kilpa iki nekintamo taško — įdėtosios šaknys (žymeklis šalia žymeklio, pvz. {sqrt:(16 − {sqrt:13})²})
+  // reikalauja kelių praėjimų: [^{}]* negali "peršokti" vidinio žymeklio riestinio skliausto per
+  // vieną .replace() kvietimą, tad be kilpos vidinė šaknis konvertuojama, o išorinė lieka neišspręsta.
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,''); // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-zα-ω])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-zα-ω]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>
