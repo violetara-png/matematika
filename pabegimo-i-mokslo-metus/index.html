@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimo kambarys į mokslo metus</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:680px;margin:0 auto;padding:20px 18px 60px}
+
+  .hud{display:flex;gap:10px;align-items:center;justify-content:space-between;
+    padding:10px 0 18px}
+  .hud .brand{font-weight:800;color:var(--teal2);font-size:14px;letter-spacing:.5px}
+  .hud .sazbadge{font-size:12.5px;font-weight:800;color:var(--bad);background:rgba(255,107,107,.12);
+    border:1px solid var(--bad);border-radius:999px;padding:5px 12px;display:none}
+  .hud .sazbadge.show{display:inline-block}
+
+  #exitBanner{display:none;position:sticky;top:0;z-index:80;background:rgba(255,107,107,.16);
+    border:1px solid var(--bad);color:#ffd7d7;font-weight:700;font-size:14px;text-align:center;
+    padding:10px 16px;border-radius:12px;max-width:644px;margin:12px auto 0}
+
+  .integrity{margin-top:14px;font-size:13.5px;color:var(--muted);text-align:center}
+  .integrity.ok{color:var(--ok)}
+  .integrity.bad{color:var(--bad)}
+
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow)}
+
+  .screen{display:none}
+  .screen.active{display:block;animation:pop .35s ease}
+  @keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  .badge{display:inline-block;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  h1{margin:6px 0 4px;font-size:clamp(24px,5vw,34px);line-height:1.15;text-align:center}
+  h1 .amber{color:var(--amber2)}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 20px;text-align:center}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.6;margin:0 auto 22px}
+  .story b{color:var(--teal2)}
+
+  .roundlist{display:grid;gap:8px;margin:0 auto 22px;text-align:left}
+  .roundlist .r{background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;font-size:14.5px;color:var(--muted)}
+  .roundlist .r b{color:var(--ink)}
+
+  .center{text-align:center}
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  button:disabled{opacity:.45;cursor:default}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover:not(:disabled){filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .qprog{color:var(--muted);font-size:13px;font-weight:700;text-align:center;margin-bottom:6px;
+    text-transform:uppercase;letter-spacing:1px}
+  .qtext{font-size:17px;line-height:1.55;margin:8px 0 18px;text-align:center}
+  .opts{display:grid;gap:10px;margin-bottom:6px}
+  .opt{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;font-size:17px;font-weight:700;text-align:center;cursor:pointer;
+    font-family:'Consolas','Courier New',monospace;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correct{background:rgba(62,207,122,.18);border-color:var(--ok);color:var(--ok)}
+  .opt.wrong{background:rgba(255,107,107,.18);border-color:var(--bad);color:var(--bad)}
+  .opt.disabled{pointer-events:none}
+  .fb{margin:12px 0 4px;font-weight:700;min-height:22px;font-size:15px;text-align:center}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+
+  .symstrip{display:flex;gap:8px;justify-content:center;margin:0 0 22px;flex-wrap:wrap}
+  .symslot{width:42px;height:42px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-size:22px;font-weight:900;
+    color:var(--teal2)}
+  .symslot.filled{border-color:var(--ok);background:rgba(62,207,122,.14);animation:pop .3s ease}
+  .symslot.empty{color:var(--line)}
+
+  .roundstrip{display:flex;gap:6px;justify-content:center;margin:0 0 18px}
+  .roundstrip .rdot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+    font-size:12px;font-weight:900;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--muted)}
+  .roundstrip .rdot.cur{border-color:var(--amber);color:var(--amber2)}
+  .roundstrip .rdot.done{border-color:var(--ok);background:rgba(62,207,122,.14);color:var(--ok)}
+
+  table.deckey{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:17px}
+  table.deckey th,table.deckey td{border:1px solid var(--line);padding:10px;text-align:center}
+  table.deckey th{background:var(--bg2);color:var(--teal2);font-weight:800;font-size:13px;
+    text-transform:uppercase;letter-spacing:1px}
+  table.deckey td.sym{font-size:22px;font-weight:900;color:var(--amber2)}
+  .collected{background:rgba(0,0,0,.22);border-radius:12px;padding:14px 16px;margin:0 0 20px;
+    text-align:center}
+  .collected .lbl{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px;
+    margin-bottom:8px}
+  .collected .syms{font-size:26px;letter-spacing:10px;color:var(--amber2);font-weight:900}
+
+  .vault{text-align:center}
+  input.code{width:min(320px,92%);padding:15px;font-size:24px;text-align:center;
+    letter-spacing:8px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:6px 0 16px}
+  input.code:focus{outline:none;border-color:var(--amber)}
+
+  .result-icon{font-size:52px;text-align:center;margin-bottom:6px}
+  .msg{background:rgba(0,0,0,.22);border-left:3px solid var(--ok);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.6;margin:0 auto 22px}
+  .msg.err{border-left-color:var(--bad)}
+  .btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<div id="exitBanner"></div>
+<div class="wrap">
+
+  <div class="hud">
+    <div class="brand">🎒 KELIONĖ Į MOKSLO METUS</div>
+    <span class="sazbadge" id="sazBadge"></span>
+  </div>
+
+  <div class="card">
+
+    <!-- COVER -->
+    <section class="screen active" id="s-cover">
+      <div class="center">
+        <div class="badge">Vasaros pabaiga</div>
+        <h1>Pabėgimo kambarys: <span class="amber">į mokslo metus</span></h1>
+        <p class="sub">4 raundai, 4 vartai. Ar atrakinsi kelią į naujus mokslo metus?</p>
+        <button class="primary" onclick="startGame()">Pradėti kelionę →</button>
+        <p class="integrity" style="margin-top:16px">🔒 Žaidimo metu stebima, ar neišeini iš lango (be rezultatų siuntimo).</p>
+      </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="screen" id="s-intro">
+      <div class="center">
+        <div class="badge">Kelionės pradžia</div>
+        <h1>Vartai laukia atrakinimo</h1>
+      </div>
+      <div class="story">
+        Vasara baigėsi, prasideda nauji mokslo metai! Bet mokyklos vartai užrakinti
+        keturiomis spynomis. Šioje kelionėje <b>4 vartai</b>, kiekvieni užrakinti savo
+        <b>5 skaitmenų kodu</b>. Kiekviename raunde atsakinėsi į 5 klausimus, už kiekvieną
+        teisingą, po simbolį. Surinkusi visus penkis, iššifruosi raktą ir atrakinsi to
+        raundo vartus.
+      </div>
+      <div class="roundlist">
+        <div class="r"><b>I raundas</b>, Matematika</div>
+        <div class="r"><b>II raundas</b>, Gamta</div>
+        <div class="r"><b>III raundas</b>, Pasaulio pažinimas</div>
+        <div class="r"><b>IV raundas</b>, Lietuvių kalba</div>
+      </div>
+      <div class="center">
+        <button class="primary" onclick="beginRound(0)">Pradėti I raundą →</button>
+      </div>
+    </section>
+
+    <!-- QUESTION (dinaminis, pakartotinai naudojamas kiekvienam raundui/klausimui) -->
+    <section class="screen" id="s-question"></section>
+
+    <!-- DECODE (dinaminis) -->
+    <section class="screen" id="s-decode">
+      <div class="center">
+        <div class="badge" id="decodeBadge">Iššifravimo raktas</div>
+        <h1 id="decodeTitle">Iššifruok kodą</h1>
+        <p class="sub">Kiekvienas simbolis reiškia vieną skaitmenį. Surask savo simbolius lentelėje.</p>
+      </div>
+      <div class="collected">
+        <div class="lbl">Tavo surinkti simboliai (šia tvarka)</div>
+        <div class="syms" id="collectedSyms">— — — — —</div>
+      </div>
+      <table class="deckey">
+        <tr><th>Skaitmuo</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+        <tr><th>Simbolis</th><td class="sym">●</td><td class="sym">▲</td><td class="sym">■</td><td class="sym">★</td><td class="sym">☀</td><td class="sym">✚</td><td class="sym">✖</td><td class="sym">♥</td><td class="sym">♦</td><td class="sym">♣</td></tr>
+      </table>
+      <div class="center">
+        <button class="primary" onclick="goTo('s-code')">Įvesti kodą →</button>
+      </div>
+    </section>
+
+    <!-- CODE ENTRY (dinaminis) -->
+    <section class="screen" id="s-code">
+      <div class="center vault">
+        <div class="badge" id="codeBadge">Vartai</div>
+        <h1>Įvesk vartų kodą</h1>
+        <p class="sub">Surašyk 5 skaitmenis, kuriuos gavai iššifravusi simbolius.</p>
+        <input type="text" class="code" id="codeInput" maxlength="5" inputmode="numeric" placeholder="?????">
+        <div class="fb" id="codeFb"></div>
+        <button class="primary" onclick="checkCode()">Atrakinti</button>
+      </div>
+    </section>
+
+    <!-- ROUND COMPLETE (tarpinis ekranas tarp raundų) -->
+    <section class="screen" id="s-roundover">
+      <div class="result-icon">🔑</div>
+      <h1 id="roundoverTitle">Vartai atsidarė!</h1>
+      <div class="msg" id="roundoverMsg"></div>
+      <div class="center btnrow">
+        <button class="primary" id="roundoverBtn" onclick="">Toliau →</button>
+      </div>
+    </section>
+
+    <!-- CORRECT (galutinis) -->
+    <section class="screen" id="s-correct">
+      <div class="result-icon">🎒🍂</div>
+      <h1>Kelionė baigta!</h1>
+      <div class="msg">
+        Visi keturi vartai atverti. Priešaky laukia nauji, šaunūs mokslo metai, pilni
+        atradimų matematikoje, gamtoje, pasaulio pažinime ir kalboje!
+      </div>
+      <p class="integrity" id="integritySummary"></p>
+      <div class="center btnrow">
+        <button class="primary" onclick="restart()">Žaisti iš naujo</button>
+      </div>
+    </section>
+
+    <!-- ERROR -->
+    <section class="screen" id="s-error">
+      <div class="result-icon">🔒</div>
+      <h1>Kodas neteisingas</h1>
+      <div class="msg err">Kažkas ne taip. Peržiūrėk surinktus simbolius ir raktą dar kartą.</div>
+      <div class="center btnrow">
+        <button class="primary" onclick="goTo('s-decode')">Grįžti prie rakto</button>
+        <button class="ghost" onclick="goTo('s-code')">Bandyti kodą dar kartą</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// skaitmuo -> simbolis (bendras raktas visiems raundams)
+const DIGIT_SYMBOL = ['●','▲','■','★','☀','✚','✖','♥','♦','♣'];
+
+const ROUNDS = [
+  {
+    title: 'Matematika',
+    questions: [
+      { text: 'Kiek yra 6 × 7?',
+        opts: ['42', '36', '48'], correct: 0, digit: 3 },
+      { text: 'Kiek yra 63 : 9?',
+        opts: ['6', '7', '8'], correct: 1, digit: 8 },
+      { text: 'Kiek yra 2 456 + 1 378?',
+        opts: ['3 734', '3 824', '3 834'], correct: 2, digit: 1 },
+      { text: 'Pamoka prasideda 8.45 val. ir trunka 45 minutes. Kada ji baigsis?',
+        opts: ['9.20 val.', '9.30 val.', '9.15 val.'], correct: 1, digit: 5 },
+      { text: 'Stačiakampio kraštinės yra 6 cm ir 4 cm. Koks jo perimetras?',
+        opts: ['20 cm', '24 cm', '10 cm'], correct: 0, digit: 9 }
+    ]
+  },
+  {
+    title: 'Gamta',
+    questions: [
+      { text: 'Kuris gyvūnas yra žinduolis?',
+        opts: ['Šamas', 'Šikšnosparnis', 'Varlė'], correct: 1, digit: 4 },
+      { text: 'Kuriuo metų laiku medžiai numeta lapus?',
+        opts: ['Pavasarį', 'Rudenį', 'Vasarą'], correct: 1, digit: 0 },
+      { text: 'Kas vyksta augalo lapuose šviesoje ir padeda augalui gaminti maistą?',
+        opts: ['Fotosintezė', 'Kvėpavimas', 'Garavimas'], correct: 0, digit: 6 },
+      { text: 'Kiek kojų turi vabzdys?',
+        opts: ['6', '8', '4'], correct: 0, digit: 2 },
+      { text: 'Kuris iš šių medžių yra spygliuotis?',
+        opts: ['Ąžuolas', 'Pušis', 'Klevas'], correct: 1, digit: 7 }
+    ]
+  },
+  {
+    title: 'Pasaulio pažinimas',
+    questions: [
+      { text: 'Kokia yra Lietuvos sostinė?',
+        opts: ['Kaunas', 'Vilnius', 'Klaipėda'], correct: 1, digit: 9 },
+      { text: 'Kuri valstybė ribojasi su Lietuva?',
+        opts: ['Baltarusija', 'Vokietija', 'Prancūzija'], correct: 0, digit: 3 },
+      { text: 'Kuri jūra plauna Lietuvos pakrantę?',
+        opts: ['Juodoji jūra', 'Baltijos jūra', 'Šiaurės jūra'], correct: 1, digit: 8 },
+      { text: 'Kada švenčiama Lietuvos valstybės atkūrimo diena?',
+        opts: ['Vasario 16 d.', 'Kovo 11 d.', 'Liepos 6 d.'], correct: 0, digit: 1 },
+      { text: 'Kas pavaizduota Lietuvos herbe?',
+        opts: ['Raitelis (Vytis)', 'Erelis', 'Liūtas'], correct: 0, digit: 5 }
+    ]
+  },
+  {
+    title: 'Lietuvių kalba',
+    questions: [
+      { text: 'Kuris žodis yra daiktavardis?',
+        opts: ['Gražus', 'Bėga', 'Saulė'], correct: 2, digit: 0 },
+      { text: 'Kiek raidžių turi lietuvių kalbos abėcėlė?',
+        opts: ['32', '30', '26'], correct: 0, digit: 6 },
+      { text: 'Kuris sakinys parašytas taisyklingai?',
+        opts: ['ryte pradėjome pamoką.', 'Ryte pradėjome pamoką.', 'Ryte Pradėjome pamoką.'], correct: 1, digit: 4 },
+      { text: 'Kiek skiemenų turi žodis „knyga“?',
+        opts: ['1', '2', '3'], correct: 1, digit: 7 },
+      { text: 'Kuris žodis reiškia tą patį, ką „linksmas“?',
+        opts: ['Liūdnas', 'Smagus', 'Pavargęs'], correct: 1, digit: 2 }
+    ]
+  }
+];
+
+let curRound = 0;
+let curQ = 0;
+let collected = []; // simboliai, ta tvarka, kuria surinkti šiame raunde
+
+/* ---- Sąžiningumo stebėjimas (be rezultatų siuntimo) ----
+   Skaičiuoja, kiek kartų ir kiek laiko mokinys buvo išėjęs iš žaidimo lango
+   (kitas skirtukas, kita programa, išėjimas iš viso ekrano). Niekur nesiunčiama,
+   matoma tik pačiam mokiniui, banneris žaidimo metu ir suvestinė pabaigoje. */
+let gameActive = false, away = false, awayStart = 0, awayMs = 0, leaveCount = 0;
+
+function fmtDur(s){ const m = Math.floor(s / 60), r = s % 60; return m > 0 ? (m + ' min ' + r + ' s') : (r + ' s'); }
+
+function enableIntegrity(){
+  gameActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  setTimeout(() => {
+    window.addEventListener('blur', onAway);
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', () => { document.hidden ? onAway() : onBack(); });
+  }, 500);
+  if(!window._focusTimer) window._focusTimer = setInterval(() => {
+    if(gameActive && (document.hidden || !document.hasFocus())) onAway();
+  }, 1000);
+  if(!window._fsListener){
+    window._fsListener = true;
+    document.addEventListener('fullscreenchange', () => {
+      if(gameActive && !document.fullscreenElement){ onAway(); onBack(); }
+    });
+  }
+}
+function onAway(){
+  if(!gameActive || away) return;
+  away = true; leaveCount++; awayStart = Date.now();
+  const b = document.getElementById('exitBanner');
+  if(b){ b.style.display = 'block'; b.textContent = `⚠ Užfiksuotas išėjimas iš žaidimo lango (kartų: ${leaveCount}). Grįžk į žaidimą!`; }
+  refreshSazBadge();
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;
+  return Math.round(ms / 1000);
+}
+function refreshSazBadge(){
+  const el = document.getElementById('sazBadge');
+  if(!el) return;
+  if(leaveCount > 0){ el.textContent = `⚠ ${leaveCount}`; el.classList.add('show'); }
+  else { el.classList.remove('show'); }
+}
+function finishIntegrity(){
+  gameActive = false;
+  const b = document.getElementById('exitBanner');
+  if(b) b.style.display = 'none';
+  const s = document.getElementById('integritySummary');
+  if(s){
+    if(leaveCount > 0){
+      s.textContent = `🔎 Sąžiningumas: ${leaveCount} kart. išėjai iš žaidimo (iš viso ${fmtDur(awaySeconds())}).`;
+      s.className = 'integrity bad';
+    } else {
+      s.textContent = '🔎 Sąžiningumas: nė karto neišėjai iš žaidimo lango. Puiku!';
+      s.className = 'integrity ok';
+    }
+  }
+}
+function startGame(){
+  enableIntegrity();
+  goTo('s-intro');
+}
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function roundCode(r){
+  return ROUNDS[r].questions.map(q => q.digit).join('');
+}
+
+function beginRound(r){
+  curRound = r;
+  curQ = 0;
+  collected = [];
+  renderQuestion();
+  goTo('s-question');
+}
+
+function roundStripHTML(){
+  let html = '<div class="roundstrip">';
+  for(let i = 0; i < ROUNDS.length; i++){
+    let cls = 'rdot';
+    if(i < curRound) cls += ' done';
+    else if(i === curRound) cls += ' cur';
+    html += `<div class="${cls}">${i + 1}</div>`;
+  }
+  return html + '</div>';
+}
+
+function renderQuestion(){
+  const round = ROUNDS[curRound];
+  const q = round.questions[curQ];
+  const el = document.getElementById('s-question');
+  el.innerHTML = `
+    ${roundStripHTML()}
+    <div class="qprog">Raundas ${curRound + 1}/${ROUNDS.length} · ${round.title} · Klausimas ${curQ + 1}/${round.questions.length}</div>
+    <div class="symstrip" id="strip"></div>
+    <div class="qtext">${q.text}</div>
+    <div class="opts" id="opts">
+      ${q.opts.map((o,i) => `<div class="opt" data-i="${i}" onclick="answer(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="fb" id="fb"></div>
+  `;
+  renderStrip();
+}
+
+function renderStrip(){
+  const round = ROUNDS[curRound];
+  const strip = document.getElementById('strip');
+  if(!strip) return;
+  let html = '';
+  for(let i = 0; i < round.questions.length; i++){
+    if(i < collected.length) html += `<div class="symslot filled">${collected[i]}</div>`;
+    else html += `<div class="symslot empty">?</div>`;
+  }
+  strip.innerHTML = html;
+}
+
+function answer(choice){
+  const round = ROUNDS[curRound];
+  const q = round.questions[curQ];
+  const opts = document.querySelectorAll('#opts .opt');
+  const fb = document.getElementById('fb');
+
+  if(choice === q.correct){
+    opts.forEach(o => o.classList.add('disabled'));
+    opts[choice].classList.add('correct');
+    fb.textContent = '✓ Teisingai! Simbolis atskleistas.';
+    fb.className = 'fb ok';
+    if(collected.length === curQ) collected.push(DIGIT_SYMBOL[q.digit]);
+    renderStrip();
+    setTimeout(() => {
+      if(curQ + 1 < round.questions.length){
+        curQ++;
+        renderQuestion();
+      } else {
+        document.getElementById('decodeBadge').textContent = `Raktas · ${round.title}`;
+        document.getElementById('decodeTitle').textContent = `Iššifruok ${curRound + 1} vartų kodą`;
+        document.getElementById('codeBadge').textContent = `Vartai · ${round.title}`;
+        document.getElementById('collectedSyms').textContent = collected.join('  ');
+        goTo('s-decode');
+      }
+    }, 900);
+  } else {
+    opts[choice].classList.add('wrong');
+    fb.textContent = '✗ Ne visai. Pagalvok dar kartą ir bandyk kitą variantą.';
+    fb.className = 'fb bad';
+  }
+}
+
+function checkCode(){
+  const input = document.getElementById('codeInput');
+  const val = input.value.trim();
+  const round = ROUNDS[curRound];
+
+  if(val === roundCode(curRound)){
+    input.value = '';
+    document.getElementById('codeFb').textContent = '';
+    if(curRound + 1 < ROUNDS.length){
+      document.getElementById('roundoverTitle').textContent = `${curRound + 1} vartai atsidarė!`;
+      document.getElementById('roundoverMsg').textContent =
+        `Puiku! Baigei raundą „${round.title}“. Kitas raundas: „${ROUNDS[curRound + 1].title}“.`;
+      document.getElementById('roundoverBtn').textContent = `Pradėti ${curRound === 0 ? 'II' : curRound === 1 ? 'III' : 'IV'} raundą →`;
+      document.getElementById('roundoverBtn').onclick = () => { beginRound(curRound + 1); goTo('s-question'); };
+      goTo('s-roundover');
+    } else {
+      finishIntegrity();
+      goTo('s-correct');
+    }
+  } else {
+    input.value = '';
+    goTo('s-error');
+  }
+}
+
+function restart(){
+  curRound = 0; curQ = 0; collected = [];
+  document.getElementById('codeInput').value = '';
+  document.getElementById('codeFb').textContent = '';
+  gameActive = false; away = false; awayStart = 0; awayMs = 0; leaveCount = 0;
+  refreshSazBadge();
+  if(document.fullscreenElement){ try{ document.exitFullscreen(); }catch(e){} }
+  goTo('s-cover');
+}
+
+document.getElementById('codeInput')?.addEventListener('keydown', e => {
+  if(e.key === 'Enter') checkCode();
+});
+</script>
+</body>
+</html>
