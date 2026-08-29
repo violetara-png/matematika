@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · 5.1.3 Sudedame mišriuosius skaičius · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 3px;font-family:var(--math)}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(26px,5vw,40px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(17px,3.4vw,24px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:17px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:6px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:36px;height:48px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:22px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(400px,92%);padding:15px;font-size:22px;text-align:center;
+    letter-spacing:6px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">25:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Kalnų trobelės žurnalas</span>
+    <h1>Mišriųjų skaičių <span class="amber">ekspedicija</span></h1>
+    <div class="sub">Pabėgimo kambarys · 5.1.3 Sudedame mišriuosius skaičius · 5 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Žygeivi,</span> per audrą pasislėpei senoje kalnų trobelėje — durys užsitrenkė
+      ir užsirakino. Ant stalo guli senas žygio žurnalas su nubaigtais atstumų, svorio ir laiko įrašais, o
+      prie durų kabo lentelė:</p>
+      <p style="margin:12px 0 0"><i>„Tarp tavęs ir laisvės — dešimt neužbaigtų žurnalo įrašų. Kiekviename
+      reikia sudėti du (o kartais ir tris) mišriuosius skaičius su vienodais vardikliais. Kiekvienas teisingai
+      užbaigtas įrašas atskleidžia po vieną durų kodo skaitmenį."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės — nuo paprasčiausios sudėties, per papildomo vieneto
+      išskyrimą, iki žygio uždavinių ir gudrių paskutinių mįslių. Audra artėja, laikas bėga.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 įrašų.</b> Atrakinami iš eilės, sudedant mišriuosius skaičius.</div>
+      <div class="rule"><b>🔢 Kiekvienas įrašas</b> duoda po vieną durų kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 25 minutės.</b> Kuo greičiau, tuo aukštesnis žygeivio rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą durų kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti žygį</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Trobelės durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 įrašo):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏔️💨</div>
+    <h2>Ištrūkai iš trobelės!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, audra aprimo. Mišriųjų
+      skaičių sudėtis tau nebe paslaptis: žinai, kaip sudėti sveikąsias ir trupmenines dalis bei kada
+      išskirti papildomą vienetą.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · 5 klasė · 5.1.3 Sudedame mišriuosius skaičius · atidaryk naršyklėje</div>
+</div>
+
+<script>
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Sudėk sveikąsias dalis atskirai ir trupmenines dalis atskirai (vardiklis nesikeičia).",
+  "Sudėjus trupmenines dalis gavai netaisyklingąją trupmeną — išskirk iš jos papildomą vienetą ir pridėk prie sveikųjų dalių sumos.",
+  "Natūralųjį skaičių pridedi prie sveikosios dalies — trupmeninė dalis nesikeičia.",
+  "Sudėk trupmenines dalis, iš netaisyklingosios trupmenos išskirk vienetą — liekana bus naujas skaitiklis.",
+  "Sudėk tris kartus tą pačią trupmeninę dalį, tada iš gautos sumos išskirk tiek papildomų vienetų, kiek jų telpa.",
+  "Atlik sudėtį pats iš naujo ir palygink savo rezultatą su lygybės dešine puse.",
+  "Sudėk abu atstumus kaip mišriuosius skaičius: sveikąsias dalis atskirai, trupmenines — atskirai.",
+  "Sudėk abu kiekius kaip mišriuosius skaičius, prireikus išskirk papildomą vienetą.",
+  "Trupmena be sveikosios dalies pridedama tik prie trupmeninės mišriojo skaičiaus dalies.",
+  "Sudėk mišriuosius skaičius, išskirk papildomą vienetą, jei reikia, ir atsakyk tuo, ko klausiama.",
+];
+
+/* ================= 4 VARIANTAI · 5.1.3 Sudedame mišriuosius skaičius ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 3782116455 --- */
+ [
+  { title:"Pirma spyna: sudėtis be papildomo vieneto", eq:"2 1/5 + 1 2/5", q:"Sudėk mišriuosius skaičius (žr. viršuje): atskirai sudėk sveikąsias dalis, atskirai — trupmenines. Koks yra gautos sumos SVEIKOSIOS DALIES skaitmuo?", ans:3 },
+  { title:"Antra spyna: papildomo vieneto išskyrimas", eq:"4 5/7 + 2 4/7", q:"Sudėk mišriuosius skaičius. Sudėjus trupmenines dalis gausi netaisyklingąją trupmeną — iš jos išskirk papildomą vienetą ir pridėk jį prie sveikųjų dalių sumos. Koks yra GALUTINĖS sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:7 },
+  { title:"Trečia spyna: natūralusis skaičius ir mišrusis", eq:"5 + 3 2/5", q:"Prie mišriojo skaičiaus pridėk natūralųjį skaičių (trupmeninė dalis nesikeičia, keičiasi tik sveikoji). Koks yra sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:8 },
+  { title:"Ketvirta spyna: trupmeninės dalies skaitiklis", eq:"3 6/9 + 2 5/9", q:"Sudėk mišriuosius skaičius ir iš netaisyklingosios trupmeninės dalies išskirk papildomą vienetą. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:2 },
+  { title:"Penkta spyna: trys vienodi dėmenys", eq:"3 3/4 + 3 3/4 + 3 3/4", q:"Sudėk tris vienodus mišriuosius skaičius (kaip pakartotą sudėtį). Koks yra galutinės sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:1 },
+  { title:"Šešta spyna: teisinga ar klaidinga", eq:"2 3/8 + 1 2/8 = 3 5/8", q:"Patikrink šią lygybę (žr. viršuje), pats atlikdamas sudėtį. Ar ji TEISINGA? Jei taip — įrašyk 1, jei klaidinga — įrašyk 0.", ans:1 },
+  { title:"Septinta spyna: kelionės mįslė", eq:"3 4/5 km + 2 3/5 km", q:"Pirmą dieną turistas nuėjo 3 4/5 km, antrą dieną — 2 3/5 km. Kiek iš viso kilometrų jis nuėjo per abi dienas? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Aštunta spyna: ąsočių mįslė", eq:"1 5/8 l + 2 7/8 l", q:"Viename ąsotyje buvo 1 5/8 litro sulčių, kitame — 2 7/8 litro. Kiek iš viso litrų sulčių abiejuose ąsočiuose? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:4 },
+  { title:"Devinta spyna: seifo inžinieriaus mįslė", eq:"4 5/6 + 4/6", q:"Slaptas skaičius — mišrusis skaičius 4 5/6. Prie jo pridedama dar 4/6 (trupmena be sveikosios dalies). Koks yra gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:5 },
+  { title:"Dešimta spyna: banko sargo mįslė", eq:"6 7/10 + 3 8/10", q:"Paskutinė mįslė: sudėk mišriuosius skaičius 6 7/10 ir 3 8/10, išskirk papildomą vienetą, jei reikia. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:5 },
+ ],
+ /* --- VARIANTAS 2 · kodas 4763306444 --- */
+ [
+  { title:"Pirma spyna: sudėtis be papildomo vieneto", eq:"3 2/8 + 1 4/8", q:"Sudėk mišriuosius skaičius (žr. viršuje): atskirai sudėk sveikąsias dalis, atskirai — trupmenines. Koks yra gautos sumos SVEIKOSIOS DALIES skaitmuo?", ans:4 },
+  { title:"Antra spyna: papildomo vieneto išskyrimas", eq:"5 7/9 + 1 5/9", q:"Sudėk mišriuosius skaičius. Sudėjus trupmenines dalis gausi netaisyklingąją trupmeną — iš jos išskirk papildomą vienetą ir pridėk jį prie sveikųjų dalių sumos. Koks yra GALUTINĖS sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:7 },
+  { title:"Trečia spyna: natūralusis skaičius ir mišrusis", eq:"4 + 2 4/7", q:"Prie mišriojo skaičiaus pridėk natūralųjį skaičių (trupmeninė dalis nesikeičia, keičiasi tik sveikoji). Koks yra sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Ketvirta spyna: trupmeninės dalies skaitiklis", eq:"2 8/11 + 1 6/11", q:"Sudėk mišriuosius skaičius ir iš netaisyklingosios trupmeninės dalies išskirk papildomą vienetą. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:3 },
+  { title:"Penkta spyna: trys vienodi dėmenys", eq:"4 2/5 + 4 2/5 + 4 2/5", q:"Sudėk tris vienodus mišriuosius skaičius (kaip pakartotą sudėtį). Koks yra galutinės sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:3 },
+  { title:"Šešta spyna: teisinga ar klaidinga", eq:"3 2/9 + 1 4/9 = 3 5/9", q:"Patikrink šią lygybę (žr. viršuje), pats atlikdamas sudėtį. Ar ji TEISINGA? Jei taip — įrašyk 1, jei klaidinga — įrašyk 0.", ans:0 },
+  { title:"Septinta spyna: kelionės mįslė", eq:"4 5/7 km + 1 4/7 km", q:"Pirmą dieną turistas nuėjo 4 5/7 km, antrą dieną — 1 4/7 km. Kiek iš viso kilometrų jis nuėjo per abi dienas? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Aštunta spyna: ąsočių mįslė", eq:"2 6/9 l + 1 8/9 l", q:"Viename ąsotyje buvo 2 6/9 litro sulčių, kitame — 1 8/9 litro. Kiek iš viso litrų sulčių abiejuose ąsočiuose? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:4 },
+  { title:"Devinta spyna: seifo inžinieriaus mįslė", eq:"3 3/5 + 3/5", q:"Slaptas skaičius — mišrusis skaičius 3 3/5. Prie jo pridedama dar 3/5 (trupmena be sveikosios dalies). Koks yra gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:4 },
+  { title:"Dešimta spyna: banko sargo mįslė", eq:"5 9/12 + 2 7/12", q:"Paskutinė mįslė: sudėk mišriuosius skaičius 5 9/12 ir 2 7/12, išskirk papildomą vienetą, jei reikia. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:4 },
+ ],
+ /* --- VARIANTAS 3 · kodas 3872816534 --- */
+ [
+  { title:"Pirma spyna: sudėtis be papildomo vieneto", eq:"1 3/7 + 2 2/7", q:"Sudėk mišriuosius skaičius (žr. viršuje): atskirai sudėk sveikąsias dalis, atskirai — trupmenines. Koks yra gautos sumos SVEIKOSIOS DALIES skaitmuo?", ans:3 },
+  { title:"Antra spyna: papildomo vieneto išskyrimas", eq:"3 6/8 + 4 5/8", q:"Sudėk mišriuosius skaičius. Sudėjus trupmenines dalis gausi netaisyklingąją trupmeną — iš jos išskirk papildomą vienetą ir pridėk jį prie sveikųjų dalių sumos. Koks yra GALUTINĖS sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:8 },
+  { title:"Trečia spyna: natūralusis skaičius ir mišrusis", eq:"6 + 1 7/9", q:"Prie mišriojo skaičiaus pridėk natūralųjį skaičių (trupmeninė dalis nesikeičia, keičiasi tik sveikoji). Koks yra sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:7 },
+  { title:"Ketvirta spyna: trupmeninės dalies skaitiklis", eq:"4 5/7 + 1 4/7", q:"Sudėk mišriuosius skaičius ir iš netaisyklingosios trupmeninės dalies išskirk papildomą vienetą. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:2 },
+  { title:"Penkta spyna: trys vienodi dėmenys", eq:"2 7/8 + 2 7/8 + 2 7/8", q:"Sudėk tris vienodus mišriuosius skaičius (kaip pakartotą sudėtį). Koks yra galutinės sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:8 },
+  { title:"Šešta spyna: teisinga ar klaidinga", eq:"4 5/6 + 1 4/6 = 6 3/6", q:"Patikrink šią lygybę (žr. viršuje), pats atlikdamas sudėtį. Ar ji TEISINGA? Jei taip — įrašyk 1, jei klaidinga — įrašyk 0.", ans:1 },
+  { title:"Septinta spyna: kelionės mįslė", eq:"2 6/9 km + 3 5/9 km", q:"Pirmą dieną turistas nuėjo 2 6/9 km, antrą dieną — 3 5/9 km. Kiek iš viso kilometrų jis nuėjo per abi dienas? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Aštunta spyna: ąsočių mįslė", eq:"3 4/7 l + 1 5/7 l", q:"Viename ąsotyje buvo 3 4/7 litro sulčių, kitame — 1 5/7 litro. Kiek iš viso litrų sulčių abiejuose ąsočiuose? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:5 },
+  { title:"Devinta spyna: seifo inžinieriaus mįslė", eq:"2 6/9 + 5/9", q:"Slaptas skaičius — mišrusis skaičius 2 6/9. Prie jo pridedama dar 5/9 (trupmena be sveikosios dalies). Koks yra gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:3 },
+  { title:"Dešimta spyna: banko sargo mįslė", eq:"4 6/11 + 1 9/11", q:"Paskutinė mįslė: sudėk mišriuosius skaičius 4 6/11 ir 1 9/11, išskirk papildomą vienetą, jei reikia. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:4 },
+ ],
+ /* --- VARIANTAS 4 · kodas 6683507633 --- */
+ [
+  { title:"Pirma spyna: sudėtis be papildomo vieneto", eq:"4 3/9 + 2 4/9", q:"Sudėk mišriuosius skaičius (žr. viršuje): atskirai sudėk sveikąsias dalis, atskirai — trupmenines. Koks yra gautos sumos SVEIKOSIOS DALIES skaitmuo?", ans:6 },
+  { title:"Antra spyna: papildomo vieneto išskyrimas", eq:"2 3/5 + 3 4/5", q:"Sudėk mišriuosius skaičius. Sudėjus trupmenines dalis gausi netaisyklingąją trupmeną — iš jos išskirk papildomą vienetą ir pridėk jį prie sveikųjų dalių sumos. Koks yra GALUTINĖS sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Trečia spyna: natūralusis skaičius ir mišrusis", eq:"7 + 1 5/8", q:"Prie mišriojo skaičiaus pridėk natūralųjį skaičių (trupmeninė dalis nesikeičia, keičiasi tik sveikoji). Koks yra sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:8 },
+  { title:"Ketvirta spyna: trupmeninės dalies skaitiklis", eq:"3 6/8 + 2 5/8", q:"Sudėk mišriuosius skaičius ir iš netaisyklingosios trupmeninės dalies išskirk papildomą vienetą. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:3 },
+  { title:"Penkta spyna: trys vienodi dėmenys", eq:"1 5/7 + 1 5/7 + 1 5/7", q:"Sudėk tris vienodus mišriuosius skaičius (kaip pakartotą sudėtį). Koks yra galutinės sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:5 },
+  { title:"Šešta spyna: teisinga ar klaidinga", eq:"6 2/7 + 1 3/7 = 6 4/7", q:"Patikrink šią lygybę (žr. viršuje), pats atlikdamas sudėtį. Ar ji TEISINGA? Jei taip — įrašyk 1, jei klaidinga — įrašyk 0.", ans:0 },
+  { title:"Septinta spyna: kelionės mįslė", eq:"5 3/8 km + 1 6/8 km", q:"Pirmą dieną turistas nuėjo 5 3/8 km, antrą dieną — 1 6/8 km. Kiek iš viso kilometrų jis nuėjo per abi dienas? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:7 },
+  { title:"Aštunta spyna: ąsočių mįslė", eq:"4 2/6 l + 1 5/6 l", q:"Viename ąsotyje buvo 4 2/6 litro sulčių, kitame — 1 5/6 litro. Kiek iš viso litrų sulčių abiejuose ąsočiuose? Koks gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:6 },
+  { title:"Devinta spyna: seifo inžinieriaus mįslė", eq:"3 4/7 + 2/7", q:"Slaptas skaičius — mišrusis skaičius 3 4/7. Prie jo pridedama dar 2/7 (trupmena be sveikosios dalies). Koks yra gautos sumos SVEIKOSIOS DALIES paskutinis skaitmuo?", ans:3 },
+  { title:"Dešimta spyna: banko sargo mįslė", eq:"3 7/9 + 2 5/9", q:"Paskutinė mįslė: sudėk mišriuosius skaičius 3 7/9 ir 2 5/9, išskirk papildomą vienetą, jei reikia. Koks yra GALUTINĖS sumos trupmeninės dalies SKAITIKLIS?", ans:3 },
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 25*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${st.q}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${st.eq}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">Atsakymas =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šio įrašo skaitmuo durų kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Įrašas užbaigtas.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas atsakymas. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 įrašo.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 25*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis žygeivis (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs žygeivis";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet ištrūkai!";
+  else rank="🔦 Ištrūkai, nors audra dar siautėja. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

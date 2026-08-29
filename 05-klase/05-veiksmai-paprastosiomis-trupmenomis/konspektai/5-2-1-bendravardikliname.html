@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.2.1 Bendravardikliname — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  ol.zingsniai{margin:8px 0 0; padding-left:22px}
+  ol.zingsniai li{margin:4px 0}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>5.2.1 Bendravardikliname</h1>
+  <p class="klase">Matematika · 5 klasė · 5 skyrius „Veiksmai su paprastosiomis trupmenomis ir mišriaisiais skaičiais" · 5.2.1 tema</p>
+
+  <section class="potema" id="t521">
+    <h2><span class="nr">5.2.1</span> Bendravardikliname trupmenas su skirtingais vardikliais</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kodėl reikia bendravardiklinti.</span> Iki šiol sudėjome, atėmėme ir lyginome tik
+        trupmenas su <b>vienodais vardikliais</b>. Norint sudėti, atimti ar palyginti trupmenas su
+        <b>skirtingais vardikliais</b>, jas pirma reikia <b>subendravardiklinti</b>, t. y. pakeisti taip, kad abi
+        turėtų <b>tą patį (bendrą) vardiklį</b>, bet reikštų tą patį dydį.</p>
+        <p><span class="zenk">Trys žingsniai.</span></p>
+        <ol class="zingsniai">
+          <li>Randame trupmenų vardiklių <b>mažiausiąjį bendrąjį kartotinį (MBK)</b> — jis taps <b>bendru vardikliu</b>.</li>
+          <li>Kiekvienai trupmenai randame <b>papildomą daugiklį</b>: <span class="math">bendras vardiklis&nbsp;:&nbsp;trupmenos vardiklis</span>.</li>
+          <li>Trupmenos <b>skaitiklį ir vardiklį</b> dauginame iš jos papildomo daugiklio.</li>
+        </ol>
+        <div class="demesio"><b>Dėmesio.</b> Dauginant skaitiklį ir vardiklį iš to paties skaičiaus, trupmenos
+        <b>reikšmė nesikeičia</b> (tai pagrindinė trupmenos savybė) — pasikeičia tik jos <b>užrašymas</b>. Todėl
+        <span class="math"><span class="fr"><span>a</span><span>b</span></span></span> visada lygi
+        <span class="math"><span class="fr"><span>a·k</span><span>b·k</span></span></span>, kai <span class="math">k ≠ 0</span>.</div>
+        <table class="kort">
+          <tr><th>Trupmena</th><th>Papildomas daugiklis</th><th>Po subendravardiklinimo</th></tr>
+          <tr>
+            <td><span class="math"><span class="fr"><span>a</span><span>b</span></span></span></td>
+            <td><span class="math">MBK&nbsp;:&nbsp;b</span></td>
+            <td><span class="math"><span class="fr"><span>a·k₁</span><span>MBK</span></span></span></td>
+          </tr>
+          <tr>
+            <td><span class="math"><span class="fr"><span>c</span><span>d</span></span></span></td>
+            <td><span class="math">MBK&nbsp;:&nbsp;d</span></td>
+            <td><span class="math"><span class="fr"><span>c·k₂</span><span>MBK</span></span></span></td>
+          </tr>
+        </table>
+        <p class="pvz"><b>1 pavyzdys.</b> Subendravardiklinkime trupmenas
+        <span class="math"><span class="fr"><span>5</span><span>12</span></span></span> ir
+        <span class="math"><span class="fr"><span>3</span><span>8</span></span></span>.
+        MBK(12; 8) = 24. Papildomi daugikliai: <span class="math">24 : 12 = 2</span> ir
+        <span class="math">24 : 8 = 3</span>. Tad
+        <span class="math"><span class="fr"><span>5</span><span>12</span></span> = <span class="fr"><span>5·2</span><span>12·2</span></span> = <span class="fr"><span>10</span><span>24</span></span></span> ir
+        <span class="math"><span class="fr"><span>3</span><span>8</span></span> = <span class="fr"><span>3·3</span><span>8·3</span></span> = <span class="fr"><span>9</span><span>24</span></span></span>.
+        Gavome: <span class="math"><b><span class="fr"><span>10</span><span>24</span></span> ir <span class="fr"><span>9</span><span>24</span></span></b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Subendravardiklinkime
+        <span class="math"><span class="fr"><span>3</span><span>4</span></span></span> ir
+        <span class="math"><span class="fr"><span>2</span><span>5</span></span></span>. Vardikliai 4 ir 5 tarpusavyje pirminiai
+        (bendrų daliklių, išskyrus 1, neturi), tad MBK(4; 5) = <span class="math">4·5 = 20</span>. Papildomi daugikliai:
+        <span class="math">20 : 4 = 5</span> ir <span class="math">20 : 5 = 4</span>. Gauname:
+        <span class="math"><span class="fr"><span>3</span><span>4</span></span> = <span class="fr"><span>15</span><span>20</span></span></span> ir
+        <span class="math"><span class="fr"><span>2</span><span>5</span></span> = <span class="fr"><span>8</span><span>20</span></span></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Subendravardiklinkime
+        <span class="math"><span class="fr"><span>1</span><span>6</span></span></span> ir
+        <span class="math"><span class="fr"><span>1</span><span>9</span></span></span>. MBK(6; 9) = 18. Papildomi daugikliai:
+        <span class="math">18 : 6 = 3</span> ir <span class="math">18 : 9 = 2</span>. Gauname:
+        <span class="math"><span class="fr"><span>1</span><span>6</span></span> = <span class="fr"><span>3</span><span>18</span></span></span> ir
+        <span class="math"><span class="fr"><span>1</span><span>9</span></span> = <span class="fr"><span>2</span><span>18</span></span></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Subendravardiklinkime
+        <span class="math"><span class="fr"><span>5</span><span>12</span></span></span> ir
+        <span class="math"><span class="fr"><span>4</span><span>15</span></span></span>. MBK(12; 15) = 60. Papildomi daugikliai:
+        <span class="math">60 : 12 = 5</span> ir <span class="math">60 : 15 = 4</span>. Gauname:
+        <span class="math"><span class="fr"><span>5</span><span>12</span></span> = <span class="fr"><span>25</span><span>60</span></span></span> ir
+        <span class="math"><span class="fr"><span>4</span><span>15</span></span> = <span class="fr"><span>16</span><span>60</span></span></span>.</p>
+        <p class="pvz"><b>5 pavyzdys.</b> Subendravardiklinkime
+        <span class="math"><span class="fr"><span>7</span><span>10</span></span></span> ir
+        <span class="math"><span class="fr"><span>3</span><span>25</span></span></span>. MBK(10; 25) = 50. Papildomi daugikliai:
+        <span class="math">50 : 10 = 5</span> ir <span class="math">50 : 25 = 2</span>. Gauname:
+        <span class="math"><span class="fr"><span>7</span><span>10</span></span> = <span class="fr"><span>35</span><span>50</span></span></span> ir
+        <span class="math"><span class="fr"><span>3</span><span>25</span></span> = <span class="fr"><span>6</span><span>50</span></span></span>.</p>
+        <div class="demesio"><b>Dėmesio.</b> Kai vienas vardiklis dalija kitą be liekanos (pvz. vardikliai 6 ir 18),
+        bendras vardiklis yra tiesiog <b>didesnysis</b> iš jų — mažesniojo vardiklio trupmenai reikia rasti
+        papildomą daugiklį, o didesniojo vardiklio trupmena <b>nesikeičia</b> (jos papildomas daugiklis lygus 1).
+        Bendrą vardiklį galima rasti ir surašant kartotinius iš eilės, kol randame bendrą — tai tas pats MBK, kurį
+        mokėmės rasti 3 skyriuje „Dalumas“.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Bendravardikliname" (5.2.1)
+  </footer>
+
+</div>
+</body>
+</html>

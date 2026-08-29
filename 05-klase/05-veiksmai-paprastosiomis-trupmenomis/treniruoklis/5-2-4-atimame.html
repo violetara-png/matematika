@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: 5.2.4 Atimame (5 kl.)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:20px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:19px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.45;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .format-note{text-align:center; color:var(--pilka); font-size:13px; margin:-10px 0 12px;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:190px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:16px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: 5.2.4 Atimame (5 kl.)</h1>
+    <p id="paantraste">5.2.4 Atimame · 5 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="format-note" id="formatNote"></div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.<br>
+    <b>Mišrųjį skaičių</b> rašyk formatu: sveikoji dalis, TARPAS, skaitiklis/vardiklis (pvz. <b>3 3/4</b>). Jei atsakymas sveikasis skaičius, rašyk vien skaičių. ⚠ Dažnai reikės PASISKOLINTI VIENETĄ (po bendravardiklinimo).
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Kontrolinio treniruoklio generatoriai — 5 kl. 5.2.4 Atimame (paprastosios trupmenos ir mišrieji
+// skaičiai su SKIRTINGAIS vardikliais — reikia bendravardiklinti; ⚠ BŪTINI skolinimosi atvejai
+// mišriesiems, kai po bendravardiklinimo minuendo trupmeninės dalies neužtenka).
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+// Sablonas apibrezia ansType:'mixed' (ziurek tikrinti()/parseMixed() sablone) — atsakymas mišriuoju
+// skaičiumi formatu "D N/M" (sveikoji dalis TARPAS skaitiklis/vardiklis). Naudotas TIKRINTAS
+// mechanizmas iš 513-sudedame-misriuosius-skaicius / 516-misriuju-skaiciu-atimtis (NE 514, kuriame
+// šablone šio mechanizmo trūksta).
+
+// --- Savi pagalbininkai ---
+function gcd2(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+function lcm2(a,b){ return a*b/gcd2(a,b); }
+function simplifyFrac(n,d){ const g=gcd2(n,d); return {n:n/g, d:d/g}; }
+
+const DPOOL = [[4,6],[4,3],[6,9],[8,12],[6,8],[9,12],[8,10],[4,10],[6,10],[5,6],[3,4],[9,15],[10,15],[5,8],[5,7],[3,5],[4,5],[6,4]];
+
+function pickDenomPair(){
+  let [d1,d2] = choice(DPOOL);
+  if(Math.random()<0.5){ const t=d1; d1=d2; d2=t; }
+  return [d1,d2];
+}
+
+const GENERATORIAI = [
+  // 1) Paprastosios trupmenos, skirtingi vardikliai (bendravardiklinam, tada atimam)
+  { label:"Paprastosios trupmenos, skirtingi vardikliai", gen(){
+      const [pd1,pd2] = pickDenomPair();
+      const m = lcm2(pd1,pd2);
+      let a = randint(1,pd1-1), b = randint(1,pd2-1);
+      let na = a*(m/pd1), nb = b*(m/pd2);
+      let tries=0;
+      while(na===nb && tries<30){ a = randint(1,pd1-1); b = randint(1,pd2-1); na=a*(m/pd1); nb=b*(m/pd2); tries++; }
+      // Galutiniai (minuendas visada didesnis) — jei na<nb, tiesiog sukeičiam VAIDMENIS
+      // (naujus kintamuosius, ne const d1/d2), kad minuendas liktų didesnis.
+      let d1,d2;
+      if(na>=nb){ d1=pd1; d2=pd2; } else { d1=pd2; d2=pd1; const ta=a; a=b; b=ta; const tn=na; na=nb; nb=tn; }
+      const rawN = na-nb;
+      const { n, d: dd } = simplifyFrac(rawN, m);
+      const ansText = `${n}/${dd}`;
+      return { q:`Apskaičiuok: ${a}/${d1} − ${b}/${d2} (subendravardiklink, tada atimk; jei galima, suprastink)`,
+        ans:n/dd, ansText, pre:"atsakymas =", steps:[
+        `MBK(${d1},${d2}) = ${m}. Papildomi daugikliai: ${m/d1} ir ${m/d2}.`,
+        `${a}/${d1} = ${na}/${m},   ${b}/${d2} = ${nb}/${m}.`,
+        `Atimame: ${na}/${m} − ${nb}/${m} = ${rawN}/${m}.` + (dd!==m ? ` Suprastinę (÷${gcd2(rawN,m)}) gauname ${n}/${dd}.` : ``),
+        `Atsakymas: ${ansText}`
+      ]};
+  }},
+
+  // 2) Mišrieji, skirtingi vardikliai — BE skolinimosi (po bendravardiklinimo pakanka)
+  { label:"Mišrieji, skirtingi vardikliai (be skolinimosi)", gen(){
+      const [d1,d2] = pickDenomPair();
+      const m = lcm2(d1,d2);
+      const w2 = randint(1,6);
+      const w1 = randint(w2+1, w2+8);
+      let a1 = randint(1,d1-1), a2 = randint(1,d2-1);
+      let na1 = a1*(m/d1), na2 = a2*(m/d2);
+      let tries=0;
+      while(na1<na2 && tries<30){ a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2); tries++; }
+      if(na1<na2){ // apsauga: didžiausias įmanomas skaitiklis a1, mažiausias a2 (visada na1>=na2)
+        a1 = d1-1; a2 = 1; na1 = a1*(m/d1); na2 = a2*(m/d2);
+      }
+      const whole = w1-w2;
+      const rawN = na1-na2;
+      if(rawN===0){
+        return { q:`Apskaičiuok: ${w1} ${a1}/${d1} − ${w2} ${a2}/${d2}`,
+          ans:whole, ansText:String(whole), pre:"atsakymas =", steps:[
+          `MBK(${d1},${d2})=${m}. ${a1}/${d1}=${na1}/${m}, ${a2}/${d2}=${na2}/${m} — lygios, tad trupmeninė dalis 0.`,
+          `Sveikąsias dalis atimk atskirai: ${w1} − ${w2} = ${whole}.`,
+          `Atsakymas: ${whole} (sveikasis skaičius)`
+        ]};
+      }
+      const { n, d: dd } = simplifyFrac(rawN, m);
+      const ansText = `${whole} ${n}/${dd}`;
+      return { q:`Apskaičiuok: ${w1} ${a1}/${d1} − ${w2} ${a2}/${d2} (skirtingi vardikliai; skolintis nereikės)`,
+        ansType:'mixed', ansD:whole, ansN:n, ansM:dd, ansText, pre:"atsakymas =", steps:[
+        `MBK(${d1},${d2}) = ${m}. ${a1}/${d1} = ${na1}/${m},   ${a2}/${d2} = ${na2}/${m}.`,
+        `Trupmeninė dalis pakankama (${na1}/${m} ≥ ${na2}/${m}) — skolintis nereikia.`,
+        `Sveikąsias dalis atimk atskirai: ${w1} − ${w2} = ${whole}. Trupmenines dalis atskirai: ${na1}/${m} − ${na2}/${m} = ${rawN}/${m}.` + (dd!==m ? ` Suprastinę (÷${gcd2(rawN,m)}) gauname ${n}/${dd}.` : ``),
+        `Atsakymas: ${ansText}`
+      ]};
+  }},
+
+  // 3) ⚠ Mišrieji, skirtingi vardikliai — SU skolinimusi (SVARBIAUSIAS atvejis)
+  { label:"⚠ Mišrieji, skirtingi vardikliai (su skolinimusi)", gen(){
+      const [d1,d2] = pickDenomPair();
+      const m = lcm2(d1,d2);
+      const w2 = randint(1,6);
+      const w1 = randint(w2+1, w2+8);
+      let a1 = randint(1,d1-1), a2 = randint(1,d2-1);
+      let na1 = a1*(m/d1), na2 = a2*(m/d2);
+      let tries=0;
+      while(na1>=na2 && tries<30){ a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2); tries++; }
+      if(na1>=na2){ // apsauga (jei nepavyko rasti per 30 bandymu) - bandom is naujo
+          return GENERATORIAI[2].gen();
+      }
+      const wholeResult = w1-1-w2;
+      const rawRem = m+na1-na2;
+      const { n, d: dd } = simplifyFrac(rawRem, m);
+      const ansText = n===0 ? String(wholeResult+1) : `${wholeResult} ${n}/${dd}`;
+      return { q:`Apskaičiuok: ${w1} ${a1}/${d1} − ${w2} ${a2}/${d2} (⚠ skirtingi vardikliai; pasiskolink vienetą)`,
+        ansType:'mixed', ansD:wholeResult, ansN:n, ansM:dd, ansText, pre:"atsakymas =", steps:[
+        `MBK(${d1},${d2}) = ${m}. ${a1}/${d1} = ${na1}/${m},   ${a2}/${d2} = ${na2}/${m}.`,
+        `Trupmeninė dalis NEPAKANKA (${na1}/${m} < ${na2}/${m}) — pasiskolink vienetą iš sveikosios dalies (${w1}).`,
+        `${w1} ${na1}/${m} = ${w1-1} + ${m+na1}/${m} (nes ${m}/${m} + ${na1}/${m} = ${m+na1}/${m}).`,
+        `Atimk: sveikosios ${w1-1} − ${w2} = ${wholeResult}. Trupmeninės ${m+na1}/${m} − ${na2}/${m} = ${rawRem}/${m}.` + (dd!==m ? ` Suprastinę (÷${gcd2(rawRem,m)}) gauname ${n}/${dd}.` : ``),
+        `Atsakymas: ${ansText}`
+      ]};
+  }},
+
+  // 4) ⚠ Mišrusis minus trupmena, skirtingi vardikliai, su skolinimusi
+  { label:"⚠ Mišrusis minus trupmena (skirtingi vardikliai, su skolinimusi)", gen(){
+      const [d1,d2] = pickDenomPair();
+      const m = lcm2(d1,d2);
+      const w1 = randint(3,12);
+      let a1 = randint(1,d1-1), b2 = randint(1,d2-1);
+      let na1 = a1*(m/d1), nb2 = b2*(m/d2);
+      let tries=0;
+      while(na1>=nb2 && tries<30){ a1=randint(1,d1-1); b2=randint(1,d2-1); na1=a1*(m/d1); nb2=b2*(m/d2); tries++; }
+      if(na1>=nb2){ return GENERATORIAI[3].gen(); }
+      const wholeResult = w1-1;
+      const rawRem = m+na1-nb2;
+      const { n, d: dd } = simplifyFrac(rawRem, m);
+      const ansText = `${wholeResult} ${n}/${dd}`;
+      return { q:`Apskaičiuok: ${w1} ${a1}/${d1} − ${b2}/${d2} (⚠ skirtingi vardikliai; pasiskolink vienetą)`,
+        ansType:'mixed', ansD:wholeResult, ansN:n, ansM:dd, ansText, pre:"atsakymas =", steps:[
+        `MBK(${d1},${d2}) = ${m}. ${a1}/${d1} = ${na1}/${m},   ${b2}/${d2} = ${nb2}/${m}.`,
+        `Trupmeninė dalis NEPAKANKA (${na1}/${m} < ${nb2}/${m}) — pasiskolink vienetą iš ${w1}.`,
+        `${w1} ${na1}/${m} = ${wholeResult} + ${m+na1}/${m} (nes ${m}/${m} + ${na1}/${m} = ${m+na1}/${m}).`,
+        `Atimk: ${m+na1}/${m} − ${nb2}/${m} = ${rawRem}/${m}.` + (dd!==m ? ` Suprastinę (÷${gcd2(rawRem,m)}) gauname ${n}/${dd}.` : ``),
+        `Atsakymas: ${ansText}`
+      ]};
+  }},
+
+  // 5) ⚠ Žodinis uždavinys su skolinimusi (skirtingi vardikliai)
+  { label:"Žodinis uždavinys (skirtingi vardikliai, su skolinimusi)", gen(){
+      const [d1,d2] = pickDenomPair();
+      const m = lcm2(d1,d2);
+      const w2 = randint(1,6);
+      const w1 = randint(w2+1, w2+8);
+      let a1 = randint(1,d1-1), a2 = randint(1,d2-1);
+      let na1 = a1*(m/d1), na2 = a2*(m/d2);
+      let tries=0;
+      while(na1>=na2 && tries<30){ a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2); tries++; }
+      if(na1>=na2){ return GENERATORIAI[4].gen(); }
+      const wholeResult = w1-1-w2;
+      const rawRem = m+na1-na2;
+      const { n, d: dd } = simplifyFrac(rawRem, m);
+      const ansText = `${wholeResult} ${n}/${dd}`;
+      const contexts = [
+        {tmpl:(w1,a1,d1,w2,a2,d2)=>`Vieno maišo masė ${w1} ${a1}/${d1} kg, kito — ${w2} ${a2}/${d2} kg. Kiek kilogramų vienas maišas sunkesnis už kitą?`, unit:"kg"},
+        {tmpl:(w1,a1,d1,w2,a2,d2)=>`Vienos lentos ilgis ${w1} ${a1}/${d1} m, kitos — ${w2} ${a2}/${d2} m. Kiek metrų viena lenta ilgesnė už kitą?`, unit:"m"},
+        {tmpl:(w1,a1,d1,w2,a2,d2)=>`Vienoje statinėje ${w1} ${a1}/${d1} l vandens, kitoje — ${w2} ${a2}/${d2} l. Kiek litrų vienoje daugiau?`, unit:"l"},
+      ];
+      const ctx = choice(contexts);
+      return { q: ctx.tmpl(w1,a1,d1,w2,a2,d2) + ` (⚠ skirtingi vardikliai, prireiks pasiskolinti vienetą; atsakymą rašyk formatu: sveikoji dalis TARPAS skaitiklis/vardiklis)`,
+        ansType:'mixed', ansD:wholeResult, ansN:n, ansM:dd, ansText, pre:"atsakymas =", steps:[
+        `Skirtumas = ${w1} ${a1}/${d1} − ${w2} ${a2}/${d2}. MBK(${d1},${d2})=${m}. ${a1}/${d1}=${na1}/${m}, ${a2}/${d2}=${na2}/${m}.`,
+        `Trupmeninė dalis NEPAKANKA (${na1}/${m} < ${na2}/${m}) — pasiskolink vienetą.`,
+        `${w1} ${na1}/${m} = ${w1-1} + ${m+na1}/${m}. Atimk: sveikosios ${w1-1} − ${w2} = ${wholeResult}, trupmeninės ${m+na1}/${m} − ${na2}/${m} = ${rawRem}/${m}.` + (dd!==m ? ` Suprastinę gauname ${n}/${dd}.` : ``),
+        `Atsakymas: ${ansText} ${ctx.unit}`
+      ]};
+  }},
+
+  // 6) Lygybės teisingumas (taip/ne) — maišo skolinimosi IR be skolinimosi atvejus, skirtingi vardikliai
+  { label:"Lygybės teisingumas (skirtingi vardikliai)", gen(){
+      const [d1,d2] = pickDenomPair();
+      const m = lcm2(d1,d2);
+      const w2 = randint(1,6);
+      const w1 = randint(w2+1, w2+7);
+      const withBorrow = choice([true,false]);
+      let a1, a2, na1, na2, tries=0;
+      if(withBorrow){
+        a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2);
+        while(na1>=na2 && tries<30){ a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2); tries++; }
+      } else {
+        a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2);
+        while(na1<na2 && tries<30){ a1=randint(1,d1-1); a2=randint(1,d2-1); na1=a1*(m/d1); na2=a2*(m/d2); tries++; }
+      }
+      let trueWhole, trueN, trueD;
+      if(na1<na2){
+        trueWhole = w1-1-w2;
+        const rem = m+na1-na2;
+        const s = simplifyFrac(rem,m);
+        trueN = s.n; trueD = s.d;
+      } else {
+        trueWhole = w1-w2;
+        const rawN = na1-na2;
+        const s = simplifyFrac(rawN,m);
+        trueN = s.n; trueD = s.d;
+      }
+      const isTrue = choice([true,false]);
+      let claimW = trueWhole, claimN = trueN, claimD = trueD;
+      if(!isTrue){
+        if(claimD===1 || choice([true,false])){
+          claimW = trueWhole + choice([-1,1]);
+          if(claimW < 0) claimW = trueWhole+1;
+        } else {
+          let nn;
+          do{ nn = randint(0,claimD-1); } while(nn===trueN);
+          claimN = nn;
+        }
+      }
+      const eqText = claimN===0 ? `${w1} ${a1}/${d1} − ${w2} ${a2}/${d2} = ${claimW}` : `${w1} ${a1}/${d1} − ${w2} ${a2}/${d2} = ${claimW} ${claimN}/${claimD}`;
+      const ans = isTrue ? 'taip' : 'ne';
+      return { q:`Ar teisinga lygybė (skirtingi vardikliai): ${eqText}? (Atsakyk „taip" arba „ne".)`,
+        ans, ansType:'text', pre:"atsakymas =", steps:[
+        `MBK(${d1},${d2})=${m}. ${a1}/${d1}=${na1}/${m}, ${a2}/${d2}=${na2}/${m}.`,
+        na1<na2
+          ? `${na1}/${m} < ${na2}/${m} — reikia skolintis. ${w1} ${na1}/${m} = ${w1-1} + ${m+na1}/${m}, tada ${m+na1}/${m} − ${na2}/${m} = ${m+na1-na2}/${m}.`
+          : `${na1}/${m} ≥ ${na2}/${m} — skolintis nereikia, atimame tiesiogiai.`,
+        `Tikroji suma: sveikosios ${trueWhole}, trupmeninė dalis ${trueN===0?'0 (sveikasis skaičius)':trueN+'/'+trueD}.`,
+        isTrue ? `Lygybės dešinė pusė sutampa su tikruoju atsakymu.` : `Lygybės dešinė pusė NESUTAMPA su tikruoju atsakymu.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: 5.2.4 Atimame (5 kl.)", "subtitle": "5.2.4 Atimame · 5 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["/", "−"]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('formatNote').textContent = S.dabartinis.ansType==='mixed' ? 'Pvz.: 3 3/4 (sveikoji dalis, tarpas, skaitiklis/vardiklis)' : '';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+// Mišriojo skaičiaus atsakymas: "D N/M" arba "D,N/M" (D ir trupmena atskirti tarpu ar kableliu).
+function parseMixed(s){
+  s = (s||'').trim();
+  const m = s.match(/^(\d+)[\s,]+(\d+)\s*\/\s*(\d+)$/);
+  if(!m) return null;
+  return { d:parseInt(m[1],10), n:parseInt(m[2],10), m:parseInt(m[3],10) };
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai, taip/ne) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'mixed'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const parsed = parseMixed(raw);
+    ok = !!parsed && parsed.d===p.ansD && parsed.n===p.ansN && parsed.m===p.ansM;
+  } else if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const spBtn=document.createElement('button'); spBtn.textContent='␣ tarpas';
+  spBtn.addEventListener('click',()=>{ $('atsakymas').value+=' '; $('atsakymas').focus(); }); cont.appendChild(spBtn);
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

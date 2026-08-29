@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>5.3.2 Mišriojo ir natūraliojo skaičių daugyba — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Mišriojo ir natūraliojo skaičių daugyba — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 5 skyrius „Veiksmai su paprastosiomis trupmenomis ir mišriaisiais skaičiais“ · 5.3.2 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Mišrusis kartų natūralusis</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> mišrųjį skaičių pirmiausia paverčiame netaisyklingąja trupmena, tada dauginame skaitiklį iš natūraliojo skaičiaus (vardiklis nesikeičia).</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 1 2/5 · 3</div>
+      <div class="line">1 2/5 = 7/5. 7/5 · 3 = 21/5. Trupmena netaisyklinga, tad išskiriame sveikąją dalį: <span class="res">21/5 = 4 1/5</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 2 1/3 · 2</div>
+      <div class="line">2 1/3 = 7/3. 7/3 · 2 = 14/3 = <span class="res">4 2/3</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Natūralusis kartų mišrusis (perstatomumas) ir sveikas rezultatas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> dauginimo tvarka nesvarbi — sandauga ta pati, ar mišrusis rašomas pirmas, ar natūralusis. Kartais rezultatas išeina sveikasis skaičius.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 3 · 2 1/6</div>
+      <div class="line">2 1/6 = 13/6. 3 · 13/6 = 39/6. Suprastinę iš 3: <span class="res">39/6 = 6 1/2</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 8 · 2 3/4</div>
+      <div class="line">2 3/4 = 11/4. 8 · 11/4 = 88/4 = <span class="res">22</span> (sveikasis skaičius — trupmena visiškai susiprastina)</div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> visose užduotyse mišrųjį skaičių pirmiausia paversk netaisyklingąja trupmena, tada dauginki iš natūraliojo skaičiaus. Rašyk atsakymą kaip mišrųjį skaičių (arba sveikąjį, jei jis toks išeina). Atsakymus pasitikrink lapo apačioje.</div>
+
+    <div class="grp">A grupė · Mišrusis kartų natūralusis</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>1 2/3 · 4</li>
+        <li>1 3/5 · 2</li>
+        <li>1 1/6 · 4</li>
+        <li>1 4/5 · 3</li>
+        <li>1 5/6 · 2</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Natūralusis kartų mišrusis (perstatomumas)</div>
+    <div class="two">
+      <ol class="tasks" start="6">
+        <li>3 · 2 1/4</li>
+        <li>4 · 2 1/5</li>
+        <li>2 · 4 1/3</li>
+        <li>4 · 2 3/5</li>
+      </ol>
+    </div>
+
+    <div class="grp">C grupė · Rezultatas — sveikasis skaičius</div>
+    <div class="two">
+      <ol class="tasks" start="10">
+        <li>2 2/3 · 3</li>
+        <li>3 1/2 · 6</li>
+        <li>5 1/2 · 4</li>
+      </ol>
+    </div>
+
+    <div class="grp">Žodiniai uždaviniai</div>
+    <ol class="tasks" start="13">
+      <li>Dviratininkas važiavo 2 1/2 km/val greičiu 5 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?</li>
+      <li>Vienas kilogramas obuolių kainuoja 2 3/4 Eur. Kiek reikės mokėti už 4 kg?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 1 2/3 · 4 = 5/3 · 4 = 20/3 = 6 2/3</div>
+    <div class="row"><b>2.</b> 1 3/5 · 2 = 8/5 · 2 = 16/5 = 3 1/5</div>
+    <div class="row"><b>3.</b> 1 1/6 · 4 = 7/6 · 4 = 28/6 = 4 2/3</div>
+    <div class="row"><b>4.</b> 1 4/5 · 3 = 9/5 · 3 = 27/5 = 5 2/5</div>
+    <div class="row"><b>5.</b> 1 5/6 · 2 = 11/6 · 2 = 22/6 = 3 2/3</div>
+    <div class="row"><b>6.</b> 3 · 2 1/4 = 3 · 9/4 = 27/4 = 6 3/4</div>
+    <div class="row"><b>7.</b> 4 · 2 1/5 = 4 · 11/5 = 44/5 = 8 4/5</div>
+    <div class="row"><b>8.</b> 2 · 4 1/3 = 2 · 13/3 = 26/3 = 8 2/3</div>
+    <div class="row"><b>9.</b> 4 · 2 3/5 = 4 · 13/5 = 52/5 = 10 2/5</div>
+    <div class="row"><b>10.</b> 2 2/3 · 3 = 8/3 · 3 = 24/3 = 8</div>
+    <div class="row"><b>11.</b> 3 1/2 · 6 = 7/2 · 6 = 42/2 = 21</div>
+    <div class="row"><b>12.</b> 5 1/2 · 4 = 11/2 · 4 = 44/2 = 22</div>
+    <div class="row"><b>13.</b> Kelias = 2 1/2 · 5 = 5/2 · 5 = 25/2 = 12 1/2 km</div>
+    <div class="row"><b>14.</b> Kaina = 2 3/4 · 4 = 11/4 · 4 = 44/4 = 11 Eur</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Mišriojo ir natūraliojo skaičių daugyba“ (5.3.2) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

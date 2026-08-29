@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.1.5 Natūraliųjų ir mišriųjų skaičių atimtis — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  /* laiptuota trupmena (references/matematikos-notacija/notacija.css) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .misr{display:inline-flex;align-items:center;gap:2px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>5.1.5 Natūraliųjų ir mišriųjų skaičių atimtis</h1>
+  <p class="klase">Matematika · 5 klasė · 5 skyrius „Veiksmai su paprastosiomis trupmenomis" · 5.1.5 tema</p>
+
+  <section class="potema" id="t515a">
+    <h2><span class="nr">A</span> Mišrusis skaičius minus natūralusis skaičius</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai iš <span class="term-a">mišriojo skaičiaus</span> atimame <span class="term-a">natūralųjį skaičių</span>, atimame
+        tik iš <b>sveikosios dalies</b>, o <span class="zenk">trupmeninė dalis lieka tokia pati</span> — jos visai
+        neliečiame.</p>
+        <div class="demesio"><b>Formulė.</b> <span class="math">D <span class="fr"><span>a</span><span>c</span></span> − n = (D − n) <span class="fr"><span>a</span><span>c</span></span></span> (kai <span class="math">n ≤ D</span>)</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Apskaičiuokime <span class="math">8<span class="fr"><span>4</span><span>5</span></span> − 2</span>. Atimame tik iš sveikosios dalies: <span class="math">8 − 2 = 6</span>. Trupmeninė dalis <span class="math"><span class="fr"><span>4</span><span>5</span></span></span> nesikeičia. Gauname <span class="math"><b><span class="misr">6<span class="fr"><span>4</span><span>5</span></span></span></b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Apskaičiuokime <span class="math">7<span class="fr"><span>4</span><span>5</span></span> − 3</span>. Sveikoji dalis: <span class="math">7 − 3 = 4</span>, trupmeninė dalis nesikeičia. Gauname <span class="math"><b><span class="misr">4<span class="fr"><span>4</span><span>5</span></span></span></b></span>.</p>
+        <div class="demesio"><b>Nepainiok.</b> Trupmeninę dalį atimant <span class="term-b">NELIEČIAME</span> — ji keičiasi tik tada, kai atimame trupmeną ar kitą mišrųjį skaičių (žr. kitas 5.1 poskyrio temas).</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="potema" id="t515b" style="margin-top:18px">
+    <h2><span class="nr">B</span> Natūralusis skaičius minus mišrusis skaičius (skolinamės vienetą)</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai iš <span class="term-a">natūraliojo skaičiaus</span> atimame <span class="term-a">mišrųjį skaičių</span>, veiksmą
+        atliekame <b>dviem žingsniais</b>:</p>
+        <p>1) <span class="zenk">iš natūraliojo skaičiaus atimame mišriojo skaičiaus sveikąją dalį</span>;<br>
+        2) iš gauto skirtumo <span class="zenk">dar atimame trupmeninę dalį</span> — o kadangi iš natūraliojo skaičiaus
+        trupmenos tiesiogiai atimti negalime, <b>pasiskoliname vienetą</b> (kaip 5.1.4 temoje).</p>
+        <div class="demesio"><b>Formulė.</b> <span class="math">n − D <span class="fr"><span>a</span><span>c</span></span> = (n − D) − <span class="fr"><span>a</span><span>c</span></span></span>, o toliau <span class="math">(n−D) − <span class="fr"><span>a</span><span>c</span></span> = (n−D−1) + <span class="fr"><span>c−a</span><span>c</span></span></span> (kai <span class="math">D &lt; n</span>)</div>
+        <p class="pvz"><b>3 pavyzdys.</b> Apskaičiuokime <span class="math">8 − 2<span class="fr"><span>3</span><span>5</span></span></span>. Pirmiausia atimame sveikąsias dalis: <span class="math">8 − 2 = 6</span>. Liko atimti trupmeninę dalį: <span class="math">6 − <span class="fr"><span>3</span><span>5</span></span></span>. Pasiskoliname vienetą iš 6: <span class="math">6 = 5 + <span class="fr"><span>5</span><span>5</span></span></span>, tada <span class="math"><span class="fr"><span>5</span><span>5</span></span> − <span class="fr"><span>3</span><span>5</span></span> = <span class="fr"><span>2</span><span>5</span></span></span>. Gauname <span class="math"><b><span class="misr">5<span class="fr"><span>2</span><span>5</span></span></span></b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Apskaičiuokime <span class="math">6 − 4<span class="fr"><span>3</span><span>4</span></span></span>. Sveikosios dalys: <span class="math">6 − 4 = 2</span>. Liko atimti <span class="math"><span class="fr"><span>3</span><span>4</span></span></span>: pasiskoliname vienetą, <span class="math">2 = 1 + <span class="fr"><span>4</span><span>4</span></span></span>, tada <span class="math"><span class="fr"><span>4</span><span>4</span></span> − <span class="fr"><span>3</span><span>4</span></span> = <span class="fr"><span>1</span><span>4</span></span></span>. Gauname <span class="math"><b><span class="misr">1<span class="fr"><span>1</span><span>4</span></span></span></b></span>.</p>
+        <p class="pvz"><b>5 pavyzdys.</b> Apskaičiuokime <span class="math">10 − 7<span class="fr"><span>4</span><span>5</span></span></span>. Sveikosios dalys: <span class="math">10 − 7 = 3</span>. Liko atimti <span class="math"><span class="fr"><span>4</span><span>5</span></span></span>: <span class="math">3 = 2 + <span class="fr"><span>5</span><span>5</span></span></span>, tada <span class="math"><span class="fr"><span>5</span><span>5</span></span> − <span class="fr"><span>4</span><span>5</span></span> = <span class="fr"><span>1</span><span>5</span></span></span>. Gauname <span class="math"><b><span class="misr">2<span class="fr"><span>1</span><span>5</span></span></span></b></span>.</p>
+        <table class="kort">
+          <tr><th>Uždavinys</th><th>1) Sveikosios dalys</th><th>2) Skolinamės ir atimame</th><th>Rezultatas</th></tr>
+          <tr><td class="math">8 − 2<span class="fr"><span>3</span><span>5</span></span></td><td class="math">8 − 2 = 6</td><td class="math">6 = 5+<span class="fr"><span>5</span><span>5</span></span>; <span class="fr"><span>5</span><span>5</span></span>−<span class="fr"><span>3</span><span>5</span></span>=<span class="fr"><span>2</span><span>5</span></span></td><td class="math"><span class="misr">5<span class="fr"><span>2</span><span>5</span></span></span></td></tr>
+          <tr><td class="math">6 − 4<span class="fr"><span>3</span><span>4</span></span></td><td class="math">6 − 4 = 2</td><td class="math">2 = 1+<span class="fr"><span>4</span><span>4</span></span>; <span class="fr"><span>4</span><span>4</span></span>−<span class="fr"><span>3</span><span>4</span></span>=<span class="fr"><span>1</span><span>4</span></span></td><td class="math"><span class="misr">1<span class="fr"><span>1</span><span>4</span></span></span></td></tr>
+          <tr><td class="math">10 − 7<span class="fr"><span>4</span><span>5</span></span></td><td class="math">10 − 7 = 3</td><td class="math">3 = 2+<span class="fr"><span>5</span><span>5</span></span>; <span class="fr"><span>5</span><span>5</span></span>−<span class="fr"><span>4</span><span>5</span></span>=<span class="fr"><span>1</span><span>5</span></span></td><td class="math"><span class="misr">2<span class="fr"><span>1</span><span>5</span></span></span></td></tr>
+        </table>
+        <div class="demesio"><b>Nepainiok.</b> Po pirmo žingsnio (sveikųjų dalių atimties) gautas skaičius <span class="term-b">DAR NĖRA atsakymas</span> — jis tik tarpinis rezultatas. Visada patikrink, ar dar liko atimti trupmeninę dalį.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="potema" id="t515c" style="margin-top:18px">
+    <h2><span class="nr">C</span> Lygtys ir žodiniai uždaviniai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Šią atimtį taikome ir lygtims, kuriose nežinomasis yra <span class="term-a">sudėties dėmuo</span>, ir žodiniams
+        uždaviniams apie tai, kas <b>liko</b>.</p>
+        <p class="pvz"><b>Pavyzdys (lygtis).</b> Išspręskime <span class="math">x + 3 = 8<span class="fr"><span>2</span><span>5</span></span></span>. Kadangi <span class="math">x = 8<span class="fr"><span>2</span><span>5</span></span> − 3</span> (mišrusis minus natūralusis), atimame tik sveikąsias dalis: <span class="math">8 − 3 = 5</span>. Atsakymas: <span class="math"><b>x = <span class="misr">5<span class="fr"><span>2</span><span>5</span></span></span></b></span>.</p>
+        <p class="pvz"><b>Pavyzdys (žodinis).</b> Kepėja turėjo <span class="math">12</span> kg miltų. Vienam receptui ji sunaudojo <span class="math">4<span class="fr"><span>3</span><span>5</span></span></span> kg. Kiek kilogramų miltų liko? Tai — natūralusis minus mišrusis: <span class="math">12 − 4 = 8</span>, o tada <span class="math">8 − <span class="fr"><span>3</span><span>5</span></span> = 7 + <span class="fr"><span>2</span><span>5</span></span></span>. Atsakymas: <span class="math"><b><span class="misr">7<span class="fr"><span>2</span><span>5</span></span></span></b></span> kg.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Natūraliųjų ir mišriųjų skaičių atimtis" (5.1.5)
+  </footer>
+
+</div>
+</body>
+</html>

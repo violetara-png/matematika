@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Sudedame mišriuosius skaičius (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px}
+  /* laiptuota trupmena: <span class="fr"><span>skaitiklis</span><span>vardiklis</span></span> */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+    line-height:1.05;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif;letter-spacing:0}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>5.1.3 Sudedame mišriuosius skaičius</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime temą <b>„Sudedame mišriuosius skaičius“</b> (vienodi vardikliai): sudėsime sveikąsias dalis atskirai, trupmenines — atskirai, o kai trupmeninių dalių suma bus netaisyklingoji trupmena, mokysimės išskirti papildomą vienetą.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Atsakymą rašyk formatu „sveikoji dalis TARPAS skaitiklis/vardiklis“ (pvz. <b>3 4/7</b>), o jei atsakymas sveikasis skaičius — vien skaičių (pvz. <b>5</b>). Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('/')">/</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          Šaunuolis! Dabar — <b>6 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį ir parašysiu komentarą. Atsakymą rašyk formatu „sveikoji dalis skaitiklis/vardiklis“ (pvz. <b>4 2/5</b>) arba, jei sveikasis skaičius — vien skaičių.<br><span class="note">Išlaikai — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
+    .replace(/·/g,"")
+    .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo paprasčiausio atvejo — sudėtis, kai trupmeninių dalių suma dar taisyklingoji (papildomo vieneto išskirti nereikia).", "expr": "2<span class=\"fr\"><span>3</span><span>7</span></span> + 1<span class=\"fr\"><span>3</span><span>7</span></span>", "q": "Sudėk šiuos du mišriuosius skaičius. Atskirai sudėk sveikąsias dalis, atskirai — trupmenines.", "accepted": ["3 6/7"], "hints": ["Sudėk atskirai sveikąsias dalis: 2+1 = ?", "Sudėk atskirai trupmenines dalis (vardiklis nesikeičia): 3/7+3/7 = ?", "Ar trupmeninė dalis, kurią gavai (6/7), taisyklingoji? Jei taip, tiesiog sujunk sveikąją dalį su ja."]}, {"intro": "Šįkart trupmeninės dalies suma bus suprastinama.", "expr": "1<span class=\"fr\"><span>3</span><span>8</span></span> + 2<span class=\"fr\"><span>3</span><span>8</span></span>", "q": "Sudėk šiuos du mišriuosius skaičius ir, jei galima, suprastink trupmeninę dalį.", "accepted": ["3 3/4", "3 6/8"], "hints": ["Sveikosios dalys: 1+2 = ?", "Trupmeninės dalys: 3/8+3/8 = 6/8. Ar 6/8 galima suprastinti (koks bendras daliklis skaitikliui ir vardikliui)?", "6/8 dalindamas iš 2 gauni kokią trupmeną? Sujunk ją su sveikąja dalimi."]}, {"intro": "Dabar sudėsime natūralųjį skaičių su mišriuoju.", "expr": "5 + 1<span class=\"fr\"><span>4</span><span>9</span></span>", "q": "Sudėk natūralųjį skaičių su mišriuoju skaičiumi.", "accepted": ["6 4/9"], "hints": ["Kai prie mišriojo skaičiaus pridedi natūralųjį skaičių, kas keičiasi — sveikoji ar trupmeninė dalis?", "Trupmeninė dalis (4/9) lieka tokia pati. Sudėk tik sveikąsias dalis: 5+1 = ?", "Sujunk gautą sveikąją dalį su nepakitusia trupmenine dalimi 4/9."]}, {"intro": "Dabar sunkesnis atvejis — trupmeninių dalių suma bus netaisyklingoji, reikės išskirti papildomą vienetą.", "expr": "3<span class=\"fr\"><span>5</span><span>6</span></span> + 2<span class=\"fr\"><span>4</span><span>6</span></span>", "q": "Sudėk mišriuosius skaičius. Trupmeninių dalių suma bus netaisyklingoji — nepamiršk išskirti papildomą vienetą.", "accepted": ["6 1/2", "6 3/6"], "hints": ["Sveikosios dalys: 3+2 = 5. Trupmeninės dalys: 5/6+4/6 = ?", "9/6 yra netaisyklingoji trupmena. Kiek pilnų vienetų joje telpa (9:6), ir kiek lieka?", "Papildomą vienetą pridėk prie sveikosios dalies 5. Likusią trupmeninę dalį, jei galima, suprastink."]}, {"intro": "Dar vienas atvejis su papildomu vienetu, kitu vardikliu.", "expr": "5<span class=\"fr\"><span>7</span><span>10</span></span> + 3<span class=\"fr\"><span>8</span><span>10</span></span>", "q": "Sudėk mišriuosius skaičius ir, jei reikia, išskirk papildomą vienetą bei suprastink.", "accepted": ["9 1/2", "9 5/10"], "hints": ["Sveikosios dalys: 5+3 = 8. Trupmeninės dalys: 7/10+8/10 = ?", "15/10 — kiek pilnų vienetų ir kokia liekana? (15:10)", "Papildomą vienetą pridėk prie 8. Liekaną 5/10, jei galima, suprastink."]}, {"intro": "Paskutinė, sunkiausia užduotis — žodinis uždavinys su papildomo vieneto išskyrimu.", "expr": "3<span class=\"fr\"><span>5</span><span>8</span></span> km + 2<span class=\"fr\"><span>7</span><span>8</span></span> km", "q": "Pirmą dieną turistas nuėjo 3 5/8 km, antrą dieną — 2 7/8 km. Kiek iš viso kilometrų jis nuėjo per abi dienas?", "accepted": ["6 1/2", "6 4/8"], "hints": ["Šis uždavinys sprendžiamas sudedant abu atstumus kaip mišriuosius skaičius. Sveikosios dalys: 3+2 = 5.", "Trupmeninės dalys: 5/8+7/8 = 12/8. Kiek pilnų vienetų ir kokia liekana?", "Papildomą vienetą pridėk prie 5. Liekaną 4/8, jei galima, suprastink — tai bus atsakymas kilometrais."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 10
+const testVariants = [{"label": "variantas A", "qs": [{"t": "1<span class=\"fr\"><span>2</span><span>7</span></span> + 3<span class=\"fr\"><span>3</span><span>7</span></span> = ?", "acc": ["4 5/7"], "hint": "Sveikosios dalys: 1+3. Trupmeninės: 2/7+3/7 (taisyklingoji, papildomo vieneto nereikia)."}, {"t": "2<span class=\"fr\"><span>5</span><span>6</span></span> + 3<span class=\"fr\"><span>4</span><span>6</span></span> = ?", "acc": ["6 1/2", "6 3/6"], "hint": "Sveikosios: 2+3. Trupmeninės: 5/6+4/6=9/6 — išskirk papildomą vienetą ir suprastink liekaną."}, {"t": "5 + 1<span class=\"fr\"><span>4</span><span>9</span></span> = ?", "acc": ["6 4/9"], "hint": "Trupmeninė dalis nesikeičia — sudėk tik sveikąsias dalis 5+1."}, {"t": "4<span class=\"fr\"><span>6</span><span>8</span></span> + 2<span class=\"fr\"><span>5</span><span>8</span></span> = ?", "acc": ["7 3/8"], "hint": "Sveikosios: 4+2. Trupmeninės: 6/8+5/8=11/8 — išskirk papildomą vienetą."}, {"t": "Pirmą dieną turistas nuvažiavo 2<span class=\"fr\"><span>3</span><span>5</span></span> km, antrą dieną — 3<span class=\"fr\"><span>4</span><span>5</span></span> km. Kiek iš viso km jis nuvažiavo?", "acc": ["6 2/5"], "hint": "Sudėk atstumus kaip mišriuosius skaičius: sveikosios 2+3, trupmeninės 3/5+4/5=7/5 — išskirk papildomą vienetą."}, {"t": "1<span class=\"fr\"><span>4</span><span>6</span></span> + 1<span class=\"fr\"><span>4</span><span>6</span></span> + 1<span class=\"fr\"><span>4</span><span>6</span></span> = ?", "acc": ["5"], "hint": "Sudėk tris vienodus mišriuosius skaičius: sveikosios 1+1+1=3, trupmeninės 4/6+4/6+4/6=12/6 — kiek tai pilnų vienetų?"}]}, {"label": "variantas B", "qs": [{"t": "2<span class=\"fr\"><span>1</span><span>9</span></span> + 4<span class=\"fr\"><span>2</span><span>9</span></span> = ?", "acc": ["6 1/3", "6 3/9"], "hint": "Sveikosios: 2+4. Trupmeninės: 1/9+2/9=3/9 — suprastink (dalyk iš 3)."}, {"t": "3<span class=\"fr\"><span>4</span><span>5</span></span> + 2<span class=\"fr\"><span>3</span><span>5</span></span> = ?", "acc": ["6 2/5"], "hint": "Sveikosios: 3+2. Trupmeninės: 4/5+3/5=7/5 — išskirk papildomą vienetą."}, {"t": "6 + 2<span class=\"fr\"><span>3</span><span>7</span></span> = ?", "acc": ["8 3/7"], "hint": "Trupmeninė dalis nesikeičia — sudėk tik sveikąsias dalis 6+2."}, {"t": "5<span class=\"fr\"><span>5</span><span>7</span></span> + 3<span class=\"fr\"><span>4</span><span>7</span></span> = ?", "acc": ["9 2/7"], "hint": "Sveikosios: 5+3. Trupmeninės: 5/7+4/7=9/7 — išskirk papildomą vienetą."}, {"t": "Pirmame krepšyje 3<span class=\"fr\"><span>2</span><span>6</span></span> kg obuolių, antrame — 1<span class=\"fr\"><span>4</span><span>6</span></span> kg. Kiek iš viso kilogramų obuolių?", "acc": ["5"], "hint": "Sudėk kaip mišriuosius skaičius: sveikosios 3+1, trupmeninės 2/6+4/6=6/6 — kiek tai pilnų vienetų?"}, {"t": "2<span class=\"fr\"><span>3</span><span>7</span></span> + 2<span class=\"fr\"><span>3</span><span>7</span></span> + 2<span class=\"fr\"><span>3</span><span>7</span></span> = ?", "acc": ["7 2/7"], "hint": "Sveikosios: 2+2+2=6. Trupmeninės: 3/7+3/7+3/7=9/7 — išskirk papildomą vienetą."}]}, {"label": "variantas C", "qs": [{"t": "3<span class=\"fr\"><span>2</span><span>8</span></span> + 2<span class=\"fr\"><span>4</span><span>8</span></span> = ?", "acc": ["5 3/4", "5 6/8"], "hint": "Sveikosios: 3+2. Trupmeninės: 2/8+4/8=6/8 — suprastink (dalyk iš 2)."}, {"t": "4<span class=\"fr\"><span>3</span><span>4</span></span> + 3<span class=\"fr\"><span>2</span><span>4</span></span> = ?", "acc": ["8 1/4"], "hint": "Sveikosios: 4+3. Trupmeninės: 3/4+2/4=5/4 — išskirk papildomą vienetą."}, {"t": "3 + 4<span class=\"fr\"><span>6</span><span>11</span></span> = ?", "acc": ["7 6/11"], "hint": "Trupmeninė dalis nesikeičia — sudėk tik sveikąsias dalis 3+4."}, {"t": "6<span class=\"fr\"><span>4</span><span>9</span></span> + 1<span class=\"fr\"><span>5</span><span>9</span></span> = ?", "acc": ["8"], "hint": "Sveikosios: 6+1. Trupmeninės: 4/9+5/9=9/9 — kiek tai pilnų vienetų?"}, {"t": "Viename inde 4<span class=\"fr\"><span>1</span><span>5</span></span> litro vandens, kitame — 2<span class=\"fr\"><span>3</span><span>5</span></span> litro. Kiek iš viso litrų vandens?", "acc": ["6 4/5"], "hint": "Sudėk kaip mišriuosius skaičius: sveikosios 4+2, trupmeninės 1/5+3/5=4/5 (taisyklingoji, papildomo vieneto nereikia)."}, {"t": "1<span class=\"fr\"><span>2</span><span>5</span></span> + 1<span class=\"fr\"><span>2</span><span>5</span></span> + 1<span class=\"fr\"><span>2</span><span>5</span></span> = ?", "acc": ["4 1/5"], "hint": "Sveikosios: 1+1+1=3. Trupmeninės: 2/5+2/5+2/5=6/5 — išskirk papildomą vienetą."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    // pašalinam seną ženkliuką
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===10) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===9)  return {g:9,  c:"Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą."};
+  if(score===8)  return {g:8,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===7)  return {g:7,  c:"Neblogai. Pasikartok sunkesnę dalį ir bandyk dar."};
+  if(score===6)  return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===5)  return {g:5,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  if(score>=3)   return {g:score, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+  return {g:Math.max(score,1), c:"Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 10. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 10</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  // pereinam prie kito varianto ratu (A→B→C→A ...)
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

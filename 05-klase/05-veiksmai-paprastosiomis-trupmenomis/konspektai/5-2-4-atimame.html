@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.2.4 Atimame — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  /* laiptuota trupmena (references/matematikos-notacija/notacija.css) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .misr{display:inline-flex;align-items:center;gap:2px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>5.2.4 Atimame</h1>
+  <p class="klase">Matematika · 5 klasė · 5 skyrius „Veiksmai su paprastosiomis trupmenomis ir mišriaisiais skaičiais" · 5.2.4 tema (skirtingi vardikliai)</p>
+
+  <section class="potema" id="t524a">
+    <h2><span class="nr">A</span> Paprastųjų trupmenų atimtis, skirtingi vardikliai</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Kai atimame dvi paprastąsias trupmenas su <span class="term-a">skirtingais vardikliais</span>,
+        jų iš karto atimti negalima — reikia <b>subendravardiklinti</b> (žr. 5.2.1 temą): rasti vardiklių
+        mažiausiąjį bendrąjį kartotinį (MBK), kiekvienai trupmenai rasti papildomą daugiklį ir tik tada
+        atimti — <span class="zenk">kaip trupmenas su vienodais vardikliais.</span></p>
+        <div class="demesio"><b>Formulė.</b> <span class="math"><span class="fr"><span>a</span><span>c</span></span> − <span class="fr"><span>b</span><span>d</span></span> = <span class="fr"><span>a·k₁</span><span>m</span></span> − <span class="fr"><span>b·k₂</span><span>m</span></span> = <span class="fr"><span>a·k₁ − b·k₂</span><span>m</span></span></span>, kur <span class="math">m</span> — MBK(<span class="math">c;d</span>), o <span class="math">k₁ = m:c</span>, <span class="math">k₂ = m:d</span> — papildomi daugikliai.</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Apskaičiuokime <span class="math"><span class="fr"><span>3</span><span>10</span></span> − <span class="fr"><span>1</span><span>6</span></span></span>. MBK(10, 6) = 30, papildomi daugikliai 3 ir 5: <span class="math"><span class="fr"><span>3</span><span>10</span></span> = <span class="fr"><span>9</span><span>30</span></span></span>, <span class="math"><span class="fr"><span>1</span><span>6</span></span> = <span class="fr"><span>5</span><span>30</span></span></span>. Atimame: <span class="math"><span class="fr"><span>9</span><span>30</span></span> − <span class="fr"><span>5</span><span>30</span></span> = <span class="fr"><span>4</span><span>30</span></span></span>, suprastinę (÷2) gauname <span class="math"><b><span class="fr"><span>2</span><span>15</span></span></b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Apskaičiuokime <span class="math"><span class="fr"><span>7</span><span>15</span></span> − <span class="fr"><span>5</span><span>12</span></span></span>. MBK(15, 12) = 60, papildomi daugikliai 4 ir 5: <span class="math"><span class="fr"><span>7</span><span>15</span></span> = <span class="fr"><span>28</span><span>60</span></span></span>, <span class="math"><span class="fr"><span>5</span><span>12</span></span> = <span class="fr"><span>25</span><span>60</span></span></span>. Atimame: <span class="math"><span class="fr"><span>28</span><span>60</span></span> − <span class="fr"><span>25</span><span>60</span></span> = <span class="fr"><span>3</span><span>60</span></span></span>, suprastinę (÷3) gauname <span class="math"><b><span class="fr"><span>1</span><span>20</span></span></b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Apskaičiuokime <span class="math"><span class="fr"><span>5</span><span>6</span></span> − <span class="fr"><span>3</span><span>4</span></span></span>. MBK(6, 4) = 12, papildomi daugikliai 2 ir 3: <span class="math"><span class="fr"><span>5</span><span>6</span></span> = <span class="fr"><span>10</span><span>12</span></span></span>, <span class="math"><span class="fr"><span>3</span><span>4</span></span> = <span class="fr"><span>9</span><span>12</span></span></span>. Atimame: <span class="math"><span class="fr"><span>10</span><span>12</span></span> − <span class="fr"><span>9</span><span>12</span></span> = <b><span class="fr"><span>1</span><span>12</span></span></b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="potema" id="t524b" style="margin-top:18px">
+    <h2><span class="nr">B</span> Mišrieji skaičiai, skirtingi vardikliai — kai trupmeninės dalies PAKANKA</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Atimant mišriuosius skaičius su skirtingais vardikliais, <span class="zenk">pirmiausia
+        subendravardikliname trupmenines dalis</span>, o tik tada atimame — sveikąsias dalis atskirai,
+        trupmenines dalis atskirai (kaip 5.1.6 temoje, tik prieš tai reikia bendravardiklinimo žingsnio).
+        Jei po bendravardiklinimo minuendo trupmeninės dalies naujasis skaitiklis <span class="term-a">nemažesnis</span>
+        už subtrahendo — skolintis nereikia.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Apskaičiuokime <span class="math"><span class="misr">7<span class="fr"><span>5</span><span>6</span></span></span> − <span class="misr">2<span class="fr"><span>1</span><span>4</span></span></span></span>. MBK(6, 4) = 12: <span class="math"><span class="fr"><span>5</span><span>6</span></span> = <span class="fr"><span>10</span><span>12</span></span></span>, <span class="math"><span class="fr"><span>1</span><span>4</span></span> = <span class="fr"><span>3</span><span>12</span></span></span>. Kadangi <span class="math">10/12 ≥ 3/12</span>, skolintis nereikia. Sveikąsias dalis atimame atskirai: <span class="math">7 − 2 = 5</span>. Trupmenines dalis atskirai: <span class="math"><span class="fr"><span>10</span><span>12</span></span> − <span class="fr"><span>3</span><span>12</span></span> = <span class="fr"><span>7</span><span>12</span></span></span>. Atsakymas: <span class="math"><b><span class="misr">5<span class="fr"><span>7</span><span>12</span></span></span></b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="potema" id="t524c" style="margin-top:18px">
+    <h2><span class="nr">C</span> ⚠ Mišrieji skaičiai, skirtingi vardikliai — kai reikia SKOLINTIS</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Jei po bendravardiklinimo minuendo trupmeninės dalies naujasis skaitiklis
+        <span class="term-b">mažesnis</span> už subtrahendo naująjį skaitiklį, tiesiogiai atimti
+        negalime — kaip 5.1.6 temoje, <span class="zenk">pasiskoliname vieną vienetą iš minuendo
+        sveikosios dalies</span>, jį užrašome trupmena su bendru vardikliu ir pridedame prie minuendo
+        (jau subendravardiklintos) trupmeninės dalies. Tik po to atimame.</p>
+        <div class="demesio"><b>Žingsniai.</b> 1) Subendravardiklink abi trupmenines dalis (MBK, papildomi daugikliai). 2) Palygink naujuosius skaitiklius. 3) Jei minuendo mažesnis — pasiskolink vienetą: <span class="math">A <span class="fr"><span>a</span><span>m</span></span> = (A − 1) + <span class="fr"><span>m + a</span><span>m</span></span></span>. 4) Atimk sveikąsias ir trupmenines dalis atskirai. 5) Suprastink, jei galima.</div>
+        <p class="pvz"><b>5 pavyzdys (⚠ skolinamės).</b> Apskaičiuokime <span class="math"><span class="misr">24<span class="fr"><span>7</span><span>10</span></span></span> − <span class="misr">18<span class="fr"><span>3</span><span>4</span></span></span></span>. MBK(10, 4) = 20: <span class="math"><span class="fr"><span>7</span><span>10</span></span> = <span class="fr"><span>14</span><span>20</span></span></span>, <span class="math"><span class="fr"><span>3</span><span>4</span></span> = <span class="fr"><span>15</span><span>20</span></span></span>. Kadangi <span class="math">14/20 &lt; 15/20</span>, pasiskoliname vienetą iš 24: <span class="math"><span class="misr">24<span class="fr"><span>14</span><span>20</span></span></span> = 23 + <span class="fr"><span>34</span><span>20</span></span></span>. Atimame: sveikosios <span class="math">23 − 18 = 5</span>, trupmeninės <span class="math"><span class="fr"><span>34</span><span>20</span></span> − <span class="fr"><span>15</span><span>20</span></span> = <span class="fr"><span>19</span><span>20</span></span></span>. Atsakymas: <span class="math"><b><span class="misr">5<span class="fr"><span>19</span><span>20</span></span></span></b></span>.</p>
+        <p class="pvz"><b>6 pavyzdys (⚠ skolinamės).</b> Apskaičiuokime <span class="math"><span class="misr">8<span class="fr"><span>3</span><span>8</span></span></span> − <span class="misr">2<span class="fr"><span>5</span><span>6</span></span></span></span>. MBK(8, 6) = 24: <span class="math"><span class="fr"><span>3</span><span>8</span></span> = <span class="fr"><span>9</span><span>24</span></span></span>, <span class="math"><span class="fr"><span>5</span><span>6</span></span> = <span class="fr"><span>20</span><span>24</span></span></span>. Kadangi <span class="math">9/24 &lt; 20/24</span>, pasiskoliname vienetą iš 8: <span class="math"><span class="misr">8<span class="fr"><span>9</span><span>24</span></span></span> = 7 + <span class="fr"><span>33</span><span>24</span></span></span>. Atimame: sveikosios <span class="math">7 − 2 = 5</span>, trupmeninės <span class="math"><span class="fr"><span>33</span><span>24</span></span> − <span class="fr"><span>20</span><span>24</span></span> = <span class="fr"><span>13</span><span>24</span></span></span>. Atsakymas: <span class="math"><b><span class="misr">5<span class="fr"><span>13</span><span>24</span></span></span></b></span>.</p>
+        <table class="kort">
+          <tr><th>Uždavinys</th><th>Po bendravardiklinimo</th><th>Skolinamės</th><th>Rezultatas</th></tr>
+          <tr><td class="math"><span class="misr">24<span class="fr"><span>7</span><span>10</span></span></span> − <span class="misr">18<span class="fr"><span>3</span><span>4</span></span></span></td><td class="math">14/20 &lt; 15/20</td><td class="math"><span class="misr">24<span class="fr"><span>14</span><span>20</span></span></span> = 23 + <span class="fr"><span>34</span><span>20</span></span></td><td class="math"><span class="misr">5<span class="fr"><span>19</span><span>20</span></span></span></td></tr>
+          <tr><td class="math"><span class="misr">8<span class="fr"><span>3</span><span>8</span></span></span> − <span class="misr">2<span class="fr"><span>5</span><span>6</span></span></span></td><td class="math">9/24 &lt; 20/24</td><td class="math"><span class="misr">8<span class="fr"><span>9</span><span>24</span></span></span> = 7 + <span class="fr"><span>33</span><span>24</span></span></td><td class="math"><span class="misr">5<span class="fr"><span>13</span><span>24</span></span></span></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="potema" id="t524d" style="margin-top:18px">
+    <h2><span class="nr">D</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <div class="demesio"><b>1 klaida.</b> Skirtingų vardiklių trupmenos atimamos „iš karto" (skaitikliai iš skaitiklių, vardikliai iš vardiklių) — be bendravardiklinimo. Taip NIEKADA nedaroma: pirmiausia PRIVALU subendravardiklinti.</div>
+        <div class="demesio"><b>2 klaida.</b> Sprendžiant, ar reikia skolintis, lyginami SENIEJI (pradiniai) skaitikliai vietoj NAUJŲJŲ — po bendravardiklinimo. Palyginti reikia tik po to, kai abi trupmenos jau turi bendrą vardiklį.</div>
+        <div class="demesio"><b>3 klaida.</b> Pasiskolinus vienetą, pamirštama sumažinti minuendo sveikąją dalį per 1 — tada atsakymo sveikoji dalis būna per didelė vienetu.</div>
+        <div class="demesio"><b>4 klaida.</b> Pasiskolintas vienetas užrašomas su senuoju (dar nesubendravardiklintu) vardikliu, o ne su bendru (MBK) vardikliu.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Atimame" (5.2.4)
+  </footer>
+
+</div>
+</body>
+</html>
