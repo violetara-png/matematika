@@ -169,6 +169,37 @@ function randomNumber(digitCount){
   return digits;
 }
 
+// Distraktoriai keičia tik VIENĄ (aukštesniuose lygiuose — kartais du) matomą
+// skaitmenį, aukštesniuose lygiuose į GRETIMĄ skaičių (±1) — kad atsakymai
+// atrodytų panašūs ir tektų lyginti kiekvieną poziciją, o ne tik bendrą vaizdą.
+function makeDistractor(digits, positions, digitCount, level){
+  const revealed = [];
+  for(let i = 0; i < digitCount; i++){
+    if(!positions.includes(i)) revealed.push(i);
+  }
+  const cand = digits.slice();
+  const useAdjacent = level >= 4;
+  const changeTwo = level >= 8 && revealed.length >= 2 && Math.random() < 0.5;
+  const shuffled = revealed.slice();
+  for(let i = shuffled.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const changeCount = changeTwo ? 2 : 1;
+  shuffled.slice(0, changeCount).forEach(pos => {
+    let newDigit;
+    let guard = 0;
+    do{
+      newDigit = useAdjacent
+        ? (digits[pos] + (Math.random() < 0.5 ? 9 : 1)) % 10
+        : Math.floor(Math.random() * 10);
+      guard++;
+    }while((newDigit === digits[pos] || (pos === 0 && newDigit === 0)) && guard < 30);
+    cand[pos] = newDigit;
+  });
+  return cand.join('');
+}
+
 async function nextRound(){
   accepting = false;
   const digitCount = Math.min(3 + Math.floor(level / 3), 5);
@@ -191,11 +222,8 @@ async function nextRound(){
   let guardCount = 0;
   while(options.size < numOptions && guardCount < 500){
     guardCount++;
-    const cand = randomNumber(digitCount);
-    const candNum = cand.join('');
+    const candNum = makeDistractor(digits, positions, digitCount, level);
     if(candNum === correctNum) continue;
-    const matchesPattern = digits.every((d, i) => positions.includes(i) || cand[i] === d);
-    if(matchesPattern) continue;
     options.add(candNum);
   }
   const optList = [...options];
