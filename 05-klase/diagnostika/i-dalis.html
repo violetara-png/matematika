@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testas: 5 klasės I dalies žinių diagnostinis testas (skyriai 1–6)</title>
+<style>
+  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
+    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
+  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
+  header p{margin:4px 0 0;opacity:.85;font-size:14px}
+  .wrap{max-width:760px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
+  label{display:block;font-weight:600;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-child{border-top:none}
+  .qnum{font-weight:700;color:var(--accent)}
+  .qtext{font-size:18px;margin:4px 0 10px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:10px;margin:7px 0;cursor:pointer}
+  .opt:hover{background:#f3f6fa}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent2);color:#fff}
+  .primary:hover{background:#245a94}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
+  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
+  .notice-integrity b{color:#b45309}
+  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:30px;font-weight:800}
+  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
+  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
+    font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
+    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="5-diagnostika-i-dalis",WANT="19pqerj",LABEL="Diagnostinis testas · I dalis · skyriai 1–6";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<header><h1>5 klasės I dalies žinių diagnostinis testas (skyriai 1–6)</h1><p id="subj"></p></header>
+<div class="wrap">
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Mokinio registracija</h2>
+    <div class="notice-integrity">
+      <b>⚠ Sąžiningumo taisyklės</b><br>
+      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
+      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
+      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
+    </div>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 7a">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <label>Testo variantas</label>
+    <select id="variantas"></select>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="card">
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div id="mcBlock"></div>
+    </div>
+    <div class="card">
+      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
+      <div id="openBlock"></div>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note" id="dlNote"></div>
+  </section>
+
+</div>
+
+<script>
+const CFG = {"title": "5 klasės I dalies žinių diagnostinis testas (skyriai 1–6)", "dalykas": "Matematika", "trukme_min": 45, "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "levels": [{"id": "lengvas", "label": "Lengvas lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Skaičiuje 4235 pažymėtas skaitmuo 2, kuris stovi šimtų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["200", "2", "2000", "20"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["4151", "4128", "4081", "4196"], "correct": 3}, {"q": "Apvalinkite skaičių 3456 iki dešimčių.", "options": ["3450", "3470", "3460", "3440"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius XIV?", "options": ["15", "13", "16", "14"], "correct": 3}, {"q": "Apskaičiuok reiškinio 6 · (4 + 3) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["42", "27", "18", "72"], "correct": 0}, {"q": "Dalijant 23 iš 5, kokia liekana gaunama?", "options": ["2", "3", "4", "5"], "correct": 1}, {"q": "Automobilis važiavo 2 valandas pastoviu 30 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["32 km", "28 km", "60 km", "120 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["36 dalijasi iš 3", "36 dalijasi iš 5", "36 dalijasi iš 9", "36 nesidalija iš 10"], "correct": 1}, {"q": "Kiek iš viso daliklių turi skaičius 12?", "options": ["6", "5", "7", "8"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["4 ir 6", "9 ir 12", "8 ir 20", "18 ir 30"], "correct": 3}, {"q": "Trupmeną 7/2 užrašius mišriuoju skaičiumi gaunama:", "options": ["4 1/2", "2 1/2", "3 1/2", "5 1/2"], "correct": 2}, {"q": "Trupmena 6/8, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["6/4", "3/8", "4/4", "3/4"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["1/2 = 0,5", "1/2 = 0,05", "1/2 = 50 %", "0,5 = 50 %"], "correct": 1}, {"q": "Apskaičiuokite: 1/4 + 3/8 =", "options": ["1/3", "5/8", "-1/8", "1"], "correct": 1}, {"q": "Apskaičiuokite: 5 2/7 − 2 5/7 =", "options": ["3 3/7", "1 4/7", "2 4/7", "8"], "correct": 2}, {"q": "Apskaičiuokite: 3/5 · 4 =", "options": ["4 3/5", "3/5", "3/20", "2 2/5"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["2,4", "3,1", "2,8", "1,9"], "correct": 1}, {"q": "Apvalink skaičių 12,47 iki dešimtųjų.", "options": ["12,47", "12,5", "12,4", "12"], "correct": 1}, {"q": "Ona turėjo 10 Eur. Parduotuvėje ji nupirko prekių už 3,5 Eur ir 2,4 Eur. Kiek eurų jai liko?", "options": ["6,5 Eur", "15,9 Eur", "4,1 Eur", "5,9 Eur"], "correct": 2}, {"q": "Kam lygu 3,24 · 10?", "options": ["3,24", "324", "0,324", "32,4"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 5273 skaitmenų sumą.", "a": "MTc="}, {"q": "Skaičių 3467 apvalinkite iki dešimčių ir iki šimtų. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MzA="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 2340, o taškas B — ties skaičiumi 5185. Koks atstumas tarp taškų A ir B?", "a": "Mjg0NQ=="}, {"q": "Apskaičiuok reiškinio 15 + 4 · 6 reikšmę.", "a": "Mzk="}, {"q": "Sandėlyje buvo 120 maišų miltų. Per dieną atvežė dar 45 maišus, o 60 maišų išvežė. Kiek maišų miltų liko sandėlyje vakare?", "a": "MTA1"}, {"q": "Kelias tarp miestelio A ir miestelio B yra 60 km. Dviratininkas juda pastoviu 15 km/val. greičiu. Per kiek laiko jis nuvažiuos šitą kelią?", "a": "NCB2YWwu"}, {"q": "Turime 53 saldainius. Juos dedame į dėžutes po 6 saldainius kiekvienoje. Kiek pilnų dėžučių gausime ir kiek saldainių liks?", "a": "OCBkxJfFvnV0xJdzLCBsaWtzIDUgc2FsZGFpbmlhaQ=="}, {"q": "Raskite DBD(24; 32).", "a": "OA=="}, {"q": "Raskite MBK(8; 20).", "a": "NDA="}, {"q": "Iš tos pačios stotelės kas 9 min išvyksta autobusas A, o kas 15 min — autobusas B. Dabar 8:00 jie išvyko kartu. Po kiek minučių jie vėl išvyks kartu?", "a": "NDU="}, {"q": "Suprastink (sutrumpink) trupmeną 4/6 iki paprasčiausios formos.", "a": "Mi8z"}, {"q": "Mišrųjį skaičių 2 1/3 užrašyk netaisyklingąja trupmena.", "a": "Ny8z"}, {"q": "Kelionės ilgis yra 60 km. Nuvažiuota 1/3 viso kelio. Kiek kilometrų nuvažiuota?", "a": "MjAga20="}, {"q": "Jonas išleido 20 % turėtų pinigų. Kiek pinigų turėjo Jonas, jei jam liko 80 Eur?", "a": "MTAwIEV1cg=="}, {"q": "Palyginkite trupmenas 3/8 ir 1/2 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "MS8y"}, {"q": "Kepėja per dieną iškepė 5 3/4 kg duonos. Iki pietų ji pardavė 2 1/2 kg duonos. Kiek kilogramų duonos jai liko?", "a": "MyAxLzQga2c="}, {"q": "Dviratininkas važiavo 2 1/2 km/val greičiu 4 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MTAga20="}, {"q": "1 kg obuolių kainuoja 2,4 Eur. Kiek eurų reikės sumokėti už 3 kg obuolių?", "a": "NywyIEV1cg=="}, {"q": "Sandėlyje buvo 45,6 kg bulvių. Per savaitę į sandėlį atvežė dar 12,3 kg bulvių, o 28,4 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MjksNSBrZw=="}, {"q": "Atstumas tarp dviejų miestų yra 143,68 km. Apvalink šį atstumą iki dešimtųjų (taip atstumai dažnai nurodomi kelio ženkluose).", "a": "MTQzLDcga20="}]}, {"id": 2, "mc": [{"q": "Skaičiuje 68517 pažymėtas skaitmuo 8, kuris stovi tūkstančių skyriuje. Kokia šio skaitmens reikšmė?", "options": ["8000", "8", "80000", "800"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["68345", "68389", "68287", "68376"], "correct": 1}, {"q": "Apvalinkite skaičių 68526 iki dešimčių.", "options": ["68520", "68540", "68530", "68510"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius XLIX?", "options": ["50", "48", "71", "49"], "correct": 3}, {"q": "Apskaičiuok reiškinio 7 · (5 + 2) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["49", "37", "17", "70"], "correct": 0}, {"q": "Dalijant 29 iš 6, kokia liekana gaunama?", "options": ["1", "5", "4", "6"], "correct": 1}, {"q": "Automobilis važiavo 2 valandas pastoviu 40 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["42 km", "38 km", "80 km", "160 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["54 dalijasi iš 2", "54 nesidalija iš 5", "54 dalijasi iš 9", "54 dalijasi iš 10"], "correct": 3}, {"q": "Kiek iš viso daliklių turi skaičius 16?", "options": ["5", "4", "6", "7"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["6 ir 8", "6 ir 15", "12 ir 20", "24 ir 30"], "correct": 3}, {"q": "Trupmeną 11/3 užrašius mišriuoju skaičiumi gaunama:", "options": ["4 2/3", "2 2/3", "3 2/3", "3 1/3"], "correct": 2}, {"q": "Trupmena 4/10, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["4/5", "2/10", "3/5", "2/5"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["1/4 = 0,25", "1/4 = 25 %", "1/4 = 2,5 %", "0,25 = 25 %"], "correct": 2}, {"q": "Apskaičiuokite: 2/3 + 1/6 =", "options": ["1/3", "5/6", "1/2", "1"], "correct": 1}, {"q": "Apskaičiuokite: 6 2/9 − 2 7/9 =", "options": ["4 5/9", "2 4/9", "3 4/9", "9"], "correct": 2}, {"q": "Apskaičiuokite: 2/7 · 3 =", "options": ["3 2/7", "2/7", "2/21", "6/7"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["3,8", "4,2", "4,5", "3,6"], "correct": 2}, {"q": "Apvalink skaičių 8,63 iki dešimtųjų.", "options": ["8,63", "8,6", "8,7", "9"], "correct": 1}, {"q": "Ona turėjo 15 Eur. Parduotuvėje ji nupirko prekių už 6,2 Eur ir 3,5 Eur. Kiek eurų jai liko?", "options": ["8,8 Eur", "24,7 Eur", "5,3 Eur", "9,7 Eur"], "correct": 2}, {"q": "Kam lygu 45,6 : 10?", "options": ["45,6", "0,456", "456", "4,56"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 68914 skaitmenų sumą.", "a": "Mjg="}, {"q": "Skaičių 68538 apvalinkite iki dešimčių ir iki šimtų. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NDA="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 45820, o taškas B — ties skaičiumi 61307. Koks atstumas tarp taškų A ir B?", "a": "MTU0ODc="}, {"q": "Apskaičiuok reiškinio 12 + 5 · 7 reikšmę.", "a": "NDc="}, {"q": "Sandėlyje buvo 150 maišų miltų. Per dieną atvežė dar 30 maišų, o 50 maišų išvežė. Kiek maišų miltų liko sandėlyje vakare?", "a": "MTMw"}, {"q": "Kelias tarp miestelio A ir miestelio B yra 54 km. Dviratininkas juda pastoviu 18 km/val. greičiu. Per kiek laiko jis nuvažiuos šitą kelią?", "a": "MyB2YWwu"}, {"q": "Turime 47 saldainius. Juos dedame į dėžutes po 5 saldainius kiekvienoje. Kiek pilnų dėžučių gausime ir kiek saldainių liks?", "a": "OSBkxJfFvnV0xJdzLCBsaWtzIDIgc2FsZGFpbmlhaQ=="}, {"q": "Raskite DBD(24; 60).", "a": "MTI="}, {"q": "Raskite MBK(18; 30).", "a": "OTA="}, {"q": "Mokytoja turi 18 saldainių ir 63 sausainių. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje saldainių ir sausainių būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "OQ=="}, {"q": "Suprastink (sutrumpink) trupmeną 9/12 iki paprasčiausios formos.", "a": "My80"}, {"q": "Mišrųjį skaičių 3 1/2 užrašyk netaisyklingąja trupmena.", "a": "Ny8y"}, {"q": "Kelionės ilgis yra 84 km. Nuvažiuota 3/4 viso kelio. Kiek kilometrų nuvažiuota?", "a": "NjMga20="}, {"q": "Jonas išleido 25 % turėtų pinigų. Kiek pinigų turėjo Jonas, jei jam liko 90 Eur?", "a": "MTIwIEV1cg=="}, {"q": "Palyginkite trupmenas 2/5 ir 3/10 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "Mi81"}, {"q": "Kepėja per dieną iškepė 6 5/6 kg duonos. Iki pietų ji pardavė 3 1/3 kg duonos. Kiek kilogramų duonos jai liko?", "a": "MyAxLzIga2c="}, {"q": "Dviratininkas važiavo 1 3/4 km/val greičiu 6 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MTAgMS8yIGtt"}, {"q": "1 kg obuolių kainuoja 1,8 Eur. Kiek eurų reikės sumokėti už 5 kg obuolių?", "a": "OSBFdXI="}, {"q": "Sandėlyje buvo 38,5 kg bulvių. Per savaitę į sandėlį atvežė dar 15,2 kg bulvių, o 21,6 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MzIsMSBrZw=="}, {"q": "Atstumas tarp dviejų miestų yra 27,34 km. Apvalink šį atstumą iki dešimtųjų (taip atstumai dažnai nurodomi kelio ženkluose).", "a": "MjcsMyBrbQ=="}]}, {"id": 3, "mc": [{"q": "Skaičiuje 3906 pažymėtas skaitmuo 9, kuris stovi šimtų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["900", "9", "9000", "90"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["3925", "3870", "3958", "3906"], "correct": 2}, {"q": "Apvalinkite skaičių 4186 iki dešimčių.", "options": ["4180", "4200", "4190", "4170"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius XCIV?", "options": ["95", "93", "116", "94"], "correct": 3}, {"q": "Apskaičiuok reiškinio 8 · (3 + 4) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["56", "28", "20", "96"], "correct": 0}, {"q": "Dalijant 34 iš 7, kokia liekana gaunama?", "options": ["1", "6", "4", "5"], "correct": 1}, {"q": "Automobilis važiavo 3 valandas pastoviu 25 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["28 km", "22 km", "75 km", "150 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["75 nesidalija iš 2", "75 nesidalija iš 3", "75 nesidalija iš 9", "75 nesidalija iš 10"], "correct": 1}, {"q": "Kiek iš viso daliklių turi skaičius 24?", "options": ["8", "7", "9", "10"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["4 ir 10", "9 ir 15", "16 ir 20", "12 ir 42"], "correct": 3}, {"q": "Trupmeną 9/4 užrašius mišriuoju skaičiumi gaunama:", "options": ["3 1/4", "1 1/4", "2 1/4", "2 3/4"], "correct": 2}, {"q": "Trupmena 9/15, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["9/5", "3/15", "4/5", "3/5"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["3/4 = 0,75", "3/4 = 75 %", "0,75 = 75 %", "0,75 = 0,75 %"], "correct": 3}, {"q": "Apskaičiuokite: 1/2 + 3/10 =", "options": ["1/3", "4/5", "1/5", "2"], "correct": 1}, {"q": "Apskaičiuokite: 7 3/8 − 4 5/8 =", "options": ["3 1/4", "1 3/4", "2 3/4", "12"], "correct": 2}, {"q": "Apskaičiuokite: 5/6 · 2 =", "options": ["2 5/6", "5/6", "5/12", "1 2/3"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["2,3", "1,7", "1,9", "2,1"], "correct": 0}, {"q": "Apvalink skaičių 5,28 iki dešimtųjų.", "options": ["5,28", "5,3", "5,2", "5"], "correct": 1}, {"q": "Ona turėjo 8 Eur. Parduotuvėje ji nupirko prekių už 2,6 Eur ir 1,9 Eur. Kiek eurų jai liko?", "options": ["5,4 Eur", "12,5 Eur", "3,5 Eur", "4,5 Eur"], "correct": 2}, {"q": "Kam lygu 1,08 · 10?", "options": ["1,08", "108", "0,108", "10,8"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 3057 skaitmenų sumą.", "a": "MTU="}, {"q": "Skaičių 4186 apvalinkite iki dešimčių ir iki šimtų. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MTA="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 1560, o taškas B — ties skaičiumi 8940. Koks atstumas tarp taškų A ir B?", "a": "NzM4MA=="}, {"q": "Apskaičiuok reiškinio 20 + 3 · 8 reikšmę.", "a": "NDQ="}, {"q": "Sandėlyje buvo 200 maišų miltų. Per dieną atvežė dar 60 maišų, o 80 maišų išvežė. Kiek maišų miltų liko sandėlyje vakare?", "a": "MTgw"}, {"q": "Kelias tarp miestelio A ir miestelio B yra 80 km. Dviratininkas juda pastoviu 20 km/val. greičiu. Per kiek laiko jis nuvažiuos šitą kelią?", "a": "NCB2YWwu"}, {"q": "Turime 61 saldainį. Juos dedame į dėžutes po 7 saldainius kiekvienoje. Kiek pilnų dėžučių gausime ir kiek saldainių liks?", "a": "OCBkxJfFvnV0xJdzLCBsaWtzIDUgc2FsZGFpbmlhaQ=="}, {"q": "Raskite DBD(27; 45).", "a": "OQ=="}, {"q": "Raskite MBK(20; 25).", "a": "MTAw"}, {"q": "Iš tos pačios stotelės kas 10 min išvyksta autobusas A, o kas 35 min — autobusas B. Dabar 8:00 jie išvyko kartu. Po kiek minučių jie vėl išvyks kartu?", "a": "NzA="}, {"q": "Suprastink (sutrumpink) trupmeną 8/10 iki paprasčiausios formos.", "a": "NC81"}, {"q": "Mišrųjį skaičių 1 3/4 užrašyk netaisyklingąja trupmena.", "a": "Ny80"}, {"q": "Kelionės ilgis yra 45 km. Nuvažiuota 2/9 viso kelio. Kiek kilometrų nuvažiuota?", "a": "MTAga20="}, {"q": "Jonas išleido 50 % turėtų pinigų. Kiek pinigų turėjo Jonas, jei jam liko 60 Eur?", "a": "MTIwIEV1cg=="}, {"q": "Palyginkite trupmenas 5/6 ir 3/4 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "NS82"}, {"q": "Kepėja per dieną iškepė 7 7/8 kg duonos. Iki pietų ji pardavė 4 3/4 kg duonos. Kiek kilogramų duonos jai liko?", "a": "MyAxLzgga2c="}, {"q": "Dviratininkas važiavo 3 1/5 km/val greičiu 5 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MTYga20="}, {"q": "1 kg obuolių kainuoja 3,5 Eur. Kiek eurų reikės sumokėti už 4 kg obuolių?", "a": "MTQgRXVy"}, {"q": "Sandėlyje buvo 52,4 kg bulvių. Per savaitę į sandėlį atvežė dar 9,6 kg bulvių, o 34,8 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MjcsMiBrZw=="}, {"q": "Atstumas tarp dviejų miestų yra 95,87 km. Apvalink šį atstumą iki dešimtųjų (taip atstumai dažnai nurodomi kelio ženkluose).", "a": "OTUsOSBrbQ=="}]}, {"id": 4, "mc": [{"q": "Skaičiuje 27481 pažymėtas skaitmuo 2, kuris stovi dešimčių tūkstančių skyriuje. Kokia šio skaitmens reikšmė?", "options": ["20000", "2", "200000", "2000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["27440", "27544", "27481", "27508"], "correct": 1}, {"q": "Apvalinkite skaičių 27646 iki dešimčių.", "options": ["27640", "27660", "27650", "27630"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius XXIV?", "options": ["25", "23", "26", "24"], "correct": 3}, {"q": "Apskaičiuok reiškinio 9 · (2 + 5) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["63", "23", "19", "90"], "correct": 0}, {"q": "Dalijant 19 iš 4, kokia liekana gaunama?", "options": ["1", "3", "2", "4"], "correct": 1}, {"q": "Automobilis važiavo 2 valandas pastoviu 35 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["37 km", "33 km", "70 km", "140 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["48 dalijasi iš 2", "48 dalijasi iš 3", "48 nesidalija iš 5", "48 dalijasi iš 10"], "correct": 3}, {"q": "Kiek iš viso daliklių turi skaičius 20?", "options": ["6", "5", "7", "8"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["6 ir 10", "12 ir 15", "8 ir 28", "30 ir 36"], "correct": 3}, {"q": "Trupmeną 13/5 užrašius mišriuoju skaičiumi gaunama:", "options": ["3 3/5", "1 3/5", "2 3/5", "2 2/5"], "correct": 2}, {"q": "Trupmena 8/18, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["8/9", "4/18", "5/9", "4/9"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["1/5 = 0,02", "1/5 = 0,2", "1/5 = 20 %", "0,2 = 20 %"], "correct": 0}, {"q": "Apskaičiuokite: 3/5 + 1/10 =", "options": ["4/15", "7/10", "1/2", "4/5"], "correct": 1}, {"q": "Apskaičiuokite: 8 1/10 − 3 7/10 =", "options": ["5 3/5", "3 2/5", "4 2/5", "11 4/5"], "correct": 2}, {"q": "Apskaičiuokite: 1/4 · 5 =", "options": ["5 1/4", "1/4", "1/20", "1 1/4"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["4,9", "4,8", "5,2", "5,6"], "correct": 3}, {"q": "Apvalink skaičių 24,83 iki dešimtųjų.", "options": ["24,83", "24,8", "24,9", "25"], "correct": 1}, {"q": "Ona turėjo 20 Eur. Parduotuvėje ji nupirko prekių už 8,7 Eur ir 5,6 Eur. Kiek eurų jai liko?", "options": ["11,3 Eur", "34,3 Eur", "5,7 Eur", "14,3 Eur"], "correct": 2}, {"q": "Kam lygu 97,5 : 10?", "options": ["97,5", "0,975", "975", "9,75"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 42689 skaitmenų sumą.", "a": "Mjk="}, {"q": "Skaičių 27649 apvalinkite iki dešimčių ir iki šimtų. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NTA="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 63970, o taškas B — ties skaičiumi 79615. Koks atstumas tarp taškų A ir B?", "a": "MTU2NDU="}, {"q": "Apskaičiuok reiškinio 18 + 6 · 4 reikšmę.", "a": "NDI="}, {"q": "Sandėlyje buvo 180 maišų miltų. Per dieną atvežė dar 50 maišų, o 70 maišų išvežė. Kiek maišų miltų liko sandėlyje vakare?", "a": "MTYw"}, {"q": "Kelias tarp miestelio A ir miestelio B yra 84 km. Dviratininkas juda pastoviu 14 km/val. greičiu. Per kiek laiko jis nuvažiuos šitą kelią?", "a": "NiB2YWwu"}, {"q": "Turime 39 saldainius. Juos dedame į dėžutes po 4 saldainius kiekvienoje. Kiek pilnų dėžučių gausime ir kiek saldainių liks?", "a": "OSBkxJfFvnV0xJdzLCBsaWtzIDMgc2FsZGFpbmlhaQ=="}, {"q": "Raskite DBD(60; 75).", "a": "MTU="}, {"q": "Raskite MBK(6; 21).", "a": "NDI="}, {"q": "Mokytoja turi 36 saldainių ir 84 sausainių. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje saldainių ir sausainių būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "MTI="}, {"q": "Suprastink (sutrumpink) trupmeną 6/10 iki paprasčiausios formos.", "a": "My81"}, {"q": "Mišrųjį skaičių 2 2/5 užrašyk netaisyklingąja trupmena.", "a": "MTIvNQ=="}, {"q": "Kelionės ilgis yra 96 km. Nuvažiuota 5/8 viso kelio. Kiek kilometrų nuvažiuota?", "a": "NjAga20="}, {"q": "Jonas išleido 40 % turėtų pinigų. Kiek pinigų turėjo Jonas, jei jam liko 90 Eur?", "a": "MTUwIEV1cg=="}, {"q": "Palyginkite trupmenas 1/3 ir 2/9 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "MS8z"}, {"q": "Kepėja per dieną iškepė 8 5/6 kg duonos. Iki pietų ji pardavė 5 2/3 kg duonos. Kiek kilogramų duonos jai liko?", "a": "MyAxLzYga2c="}, {"q": "Dviratininkas važiavo 2 2/3 km/val greičiu 3 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "OCBrbQ=="}, {"q": "1 kg obuolių kainuoja 2,6 Eur. Kiek eurų reikės sumokėti už 6 kg obuolių?", "a": "MTUsNiBFdXI="}, {"q": "Sandėlyje buvo 60,3 kg bulvių. Per savaitę į sandėlį atvežė dar 18,7 kg bulvių, o 45,5 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MzMsNSBrZw=="}, {"q": "Atstumas tarp dviejų miestų yra 61,52 km. Apvalink šį atstumą iki dešimtųjų (taip atstumai dažnai nurodomi kelio ženkluose).", "a": "NjEsNSBrbQ=="}]}]}, {"id": "vidutinis", "label": "Vidutinis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[90, 10], [80, 9], [70, 8], [60, 7], [50, 6], [40, 5], [30, 4], [20, 3], [10, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Skaičiuje 542916 pažymėtas skaitmuo 4, kuris stovi dešimčių tūkstančių skyriuje. Kokia šio skaitmens reikšmė?", "options": ["40000", "4", "400000", "4000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["543256", "542916", "542336", "543131"], "correct": 0}, {"q": "Apvalinkite skaičių 542360 iki šimtų.", "options": ["542300", "542500", "542400", "542200"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius CCXCIV?", "options": ["295", "293", "316", "294"], "correct": 3}, {"q": "Apskaičiuok reiškinio 25 · (10 + 2) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["300", "252", "45", "500"], "correct": 0}, {"q": "Dalijant 157 iš 12, kokia liekana gaunama?", "options": ["0", "1", "2", "3"], "correct": 1}, {"q": "Automobilis važiavo 3 valandas pastoviu 54 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["57 km", "51 km", "162 km", "324 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["423 nesidalija iš 2", "423 nesidalija iš 5", "423 nesidalija iš 9", "423 nesidalija iš 10"], "correct": 2}, {"q": "Kiek iš viso daliklių turi skaičius 36?", "options": ["9", "8", "10", "11"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["18 ir 24", "16 ir 40", "27 ir 45", "48 ir 60"], "correct": 3}, {"q": "Trupmeną 17/6 užrašius mišriuoju skaičiumi gaunama:", "options": ["3 5/6", "1 5/6", "2 5/6", "2 1/6"], "correct": 2}, {"q": "Trupmena 12/18, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["12/3", "2/18", "3/3", "2/3"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["3/20 = 0,15", "3/20 = 15 %", "3/20 = 1,5 %", "0,15 = 15 %"], "correct": 2}, {"q": "Apskaičiuokite: 1/6 + 3/8 =", "options": ["2/7", "13/24", "-5/24", "2/3"], "correct": 1}, {"q": "Apskaičiuokite: 9 3/11 − 4 8/11 =", "options": ["5 5/11", "3 6/11", "4 6/11", "14"], "correct": 2}, {"q": "Apskaičiuokite: 1 2/5 · 3 =", "options": ["4 2/5", "1 2/5", "7/15", "4 1/5"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["6,75", "6,72", "6,68", "6,7"], "correct": 0}, {"q": "Apvalink skaičių 6,485 iki šimtųjų.", "options": ["6,485", "6,49", "6,48", "6,5"], "correct": 1}, {"q": "Ona turėjo 25 Eur. Parduotuvėje ji nupirko prekių už 8,45 Eur ir 6,78 Eur. Kiek eurų jai liko?", "options": ["16,55 Eur", "40,23 Eur", "9,77 Eur", "15,23 Eur"], "correct": 2}, {"q": "Kam lygu 2,345 · 100?", "options": ["23,45", "2345", "0,02345", "234,5"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 734589 skaitmenų sumą.", "a": "MzY="}, {"q": "Skaičių 542368 apvalinkite iki šimtų ir iki tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NDAw"}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 125400, o taškas B — ties skaičiumi 478900. Koks atstumas tarp taškų A ir B?", "a": "MzUzNTAw"}, {"q": "Apskaičiuok reiškinio (8 + 4) · 5 - 12 reikšmę.", "a": "NDg="}, {"q": "Parduotuvėje buvo 340 obuolių dėžių. Ryte atvežė dar 120 dėžių, po pietų dar 80 dėžių, o per dieną parduota 210 dėžių. Kiek dėžių obuolių liko parduotuvėje vakare?", "a": "MzMw"}, {"q": "Iš tos pačios vietos tuo pačiu metu priešingomis kryptimis pajudėjo dviratininkas 15 km/val. greičiu ir pėsčiasis 5 km/val. greičiu. Koks atstumas bus tarp jų po 2 valandų?", "a": "NDAga20="}, {"q": "Knygyne yra 185 sąsiuviniai. Juos sudeda į pakuotes po 12 sąsiuvinių. Kiek pilnų pakuočių gaus ir kiek sąsiuvinių liks?", "a": "MTUgcGFrdW/EjWnFsywgbGlrcyA1IHPEhXNpdXZpbmlhaQ=="}, {"q": "Raskite DBD(54; 72).", "a": "MTg="}, {"q": "Raskite MBK(18; 30).", "a": "OTA="}, {"q": "Iš tos pačios stotelės kas 28 min išvyksta autobusas A, o kas 35 min — autobusas B. Dabar 8:00 jie išvyko kartu. Po kiek minučių jie vėl išvyks kartu?", "a": "MTQw"}, {"q": "Suprastink (sutrumpink) trupmeną 12/16 iki paprasčiausios formos.", "a": "My80"}, {"q": "Mišrųjį skaičių 4 2/3 užrašyk netaisyklingąja trupmena.", "a": "MTQvMw=="}, {"q": "Prekės kaina yra 150 Eur. Per išpardavimą kaina sumažinta 12 %. Kiek eurų kaina sumažėjo?", "a": "MTggRXVy"}, {"q": "Rūta išleido 12 % turėtų pinigų batams. Kiek pinigų turėjo Rūta, jei jai liko 176 Eur?", "a": "MjAwIEV1cg=="}, {"q": "Palyginkite trupmenas 5/6 ir 7/9 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "NS82"}, {"q": "Kepėja per dieną iškepė 9 7/8 kg duonos. Iki pietų ji pardavė 4 2/3 kg duonos. Kiek kilogramų duonos jai liko?", "a": "NSA1LzI0IGtn"}, {"q": "Dviratininkas važiavo 4 3/8 km/val greičiu 6 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MjYgMS80IGtt"}, {"q": "Vienas sąsiuvinis kainuoja 3,45 Eur. Kiek eurų reikės sumokėti už 6 sąsiuvinius?", "a": "MjAsNyBFdXI="}, {"q": "Sandėlyje buvo 124,35 kg bulvių. Per savaitę į sandėlį atvežė dar 48,6 kg bulvių, o 87,75 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "ODUsMiBrZw=="}, {"q": "Prekės kaina internetinėje parduotuvėje apskaičiuota 14,563 Eur. Apvalink kainą iki šimtųjų (centų tikslumu).", "a": "MTQsNTYgRXVy"}]}, {"id": 2, "mc": [{"q": "Skaičiuje 3208574 pažymėtas skaitmuo 2, kuris stovi šimtų tūkstančių skyriuje. Kokia šio skaitmens reikšmė?", "options": ["200000", "2", "2000000", "20000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["3208574", "3208749", "3208164", "3208864"], "correct": 3}, {"q": "Apvalinkite skaičių 3208600 iki tūkstančių.", "options": ["3208000", "3210000", "3209000", "3207000"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius DCCXLIX?", "options": ["750", "748", "771", "749"], "correct": 3}, {"q": "Apskaičiuok reiškinio 15 · (20 + 4) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["360", "304", "95", "1200"], "correct": 0}, {"q": "Dalijant 203 iš 15, kokia liekana gaunama?", "options": ["9", "8", "10", "13"], "correct": 1}, {"q": "Automobilis važiavo 4 valandas pastoviu 48 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["52 km", "44 km", "192 km", "384 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["540 nesidalija iš 2", "540 dalijasi iš 3", "540 dalijasi iš 9", "540 dalijasi iš 10"], "correct": 0}, {"q": "Kiek iš viso daliklių turi skaičius 48?", "options": ["10", "9", "11", "12"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["12 ir 30", "24 ir 40", "36 ir 45", "24 ir 84"], "correct": 3}, {"q": "Trupmeną 23/7 užrašius mišriuoju skaičiumi gaunama:", "options": ["4 2/7", "2 2/7", "3 2/7", "3 5/7"], "correct": 2}, {"q": "Trupmena 15/25, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["15/5", "3/25", "4/5", "3/5"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["7/20 = 0,35", "7/20 = 35 %", "0,35 = 35 %", "0,35 = 0,35 %"], "correct": 3}, {"q": "Apskaičiuokite: 5/9 + 7/12 =", "options": ["4/7", "1 5/36", "-1/36", "1 1/3"], "correct": 1}, {"q": "Apskaičiuokite: 10 5/12 − 6 7/12 =", "options": ["4 1/6", "2 5/6", "3 5/6", "17"], "correct": 2}, {"q": "Apskaičiuokite: 2 1/3 · 4 =", "options": ["6 1/3", "2 1/3", "7/12", "9 1/3"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["8,45", "8,4", "8,39", "8,41"], "correct": 0}, {"q": "Apvalink skaičių 14,372 iki šimtųjų.", "options": ["14,372", "14,37", "14,38", "14,4"], "correct": 1}, {"q": "Ona turėjo 30 Eur. Parduotuvėje ji nupirko prekių už 12,35 Eur ir 9,64 Eur. Kiek eurų jai liko?", "options": ["17,65 Eur", "51,99 Eur", "8,01 Eur", "21,99 Eur"], "correct": 2}, {"q": "Kam lygu 356,2 : 100?", "options": ["35,62", "0,3562", "35620", "3,562"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 2846913 skaitmenų sumą.", "a": "MzM="}, {"q": "Skaičių 3208546 apvalinkite iki šimtų ir iki tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NTAw"}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 583200, o taškas B — ties skaičiumi 916500. Koks atstumas tarp taškų A ir B?", "a": "MzMzMzAw"}, {"q": "Apskaičiuok reiškinio (6 + 9) · 4 - 15 reikšmę.", "a": "NDU="}, {"q": "Parduotuvėje buvo 280 obuolių dėžių. Ryte atvežė dar 150 dėžių, po pietų dar 90 dėžių, o per dieną parduota 260 dėžių. Kiek dėžių obuolių liko parduotuvėje vakare?", "a": "MjYw"}, {"q": "Iš tos pačios vietos tuo pačiu metu priešingomis kryptimis pajudėjo dviratininkas 18 km/val. greičiu ir pėsčiasis 7 km/val. greičiu. Koks atstumas bus tarp jų po 3 valandų?", "a": "NzUga20="}, {"q": "Knygyne yra 203 sąsiuviniai. Juos sudeda į pakuotes po 15 sąsiuvinių. Kiek pilnų pakuočių gaus ir kiek sąsiuvinių liks?", "a": "MTMgcGFrdW/EjWnFsywgbGlrcyA4IHPEhXNpdXZpbmlhaQ=="}, {"q": "Raskite DBD(48; 120).", "a": "MjQ="}, {"q": "Raskite MBK(32; 40).", "a": "MTYw"}, {"q": "Mokytoja turi 90 saldainių ir 108 sausainių. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje saldainių ir sausainių būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "MTg="}, {"q": "Suprastink (sutrumpink) trupmeną 14/21 iki paprasčiausios formos.", "a": "Mi8z"}, {"q": "Mišrųjį skaičių 3 3/5 užrašyk netaisyklingąja trupmena.", "a": "MTgvNQ=="}, {"q": "Prekės kaina yra 200 Eur. Per išpardavimą kaina sumažinta 15 %. Kiek eurų kaina sumažėjo?", "a": "MzAgRXVy"}, {"q": "Rūta išleido 15 % turėtų pinigų batams. Kiek pinigų turėjo Rūta, jei jai liko 153 Eur?", "a": "MTgwIEV1cg=="}, {"q": "Palyginkite trupmenas 7/12 ir 5/8 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "NS84"}, {"q": "Kepėja per dieną iškepė 10 5/6 kg duonos. Iki pietų ji pardavė 6 3/4 kg duonos. Kiek kilogramų duonos jai liko?", "a": "NCAxLzEyIGtn"}, {"q": "Dviratininkas važiavo 3 5/6 km/val greičiu 7 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MjYgNS82IGtt"}, {"q": "Vienas sąsiuvinis kainuoja 2,75 Eur. Kiek eurų reikės sumokėti už 8 sąsiuvinius?", "a": "MjIgRXVy"}, {"q": "Sandėlyje buvo 96,8 kg bulvių. Per savaitę į sandėlį atvežė dar 34,25 kg bulvių, o 58,4 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "NzIsNjUga2c="}, {"q": "Prekės kaina internetinėje parduotuvėje apskaičiuota 8,678 Eur. Apvalink kainą iki šimtųjų (centų tikslumu).", "a": "OCw2OCBFdXI="}]}, {"id": 3, "mc": [{"q": "Skaičiuje 615083 pažymėtas skaitmuo 5, kuris stovi tūkstančių skyriuje. Kokia šio skaitmens reikšmė?", "options": ["5000", "5", "50000", "500"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["615443", "614563", "615083", "615323"], "correct": 0}, {"q": "Apvalinkite skaičių 615060 iki šimtų.", "options": ["615000", "615200", "615100", "614900"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius CMXCII?", "options": ["993", "991", "1212", "992"], "correct": 3}, {"q": "Apskaičiuok reiškinio 12 · (30 + 5) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["420", "365", "162", "1800"], "correct": 0}, {"q": "Dalijant 176 iš 13, kokia liekana gaunama?", "options": ["8", "7", "9", "13"], "correct": 1}, {"q": "Automobilis važiavo 3 valandas pastoviu 65 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["68 km", "62 km", "195 km", "390 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["675 nesidalija iš 2", "675 dalijasi iš 3", "675 nesidalija iš 5", "675 nesidalija iš 10"], "correct": 2}, {"q": "Kiek iš viso daliklių turi skaičius 60?", "options": ["12", "11", "13", "14"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["18 ir 30", "32 ir 40", "18 ir 63", "60 ir 72"], "correct": 3}, {"q": "Trupmeną 29/8 užrašius mišriuoju skaičiumi gaunama:", "options": ["4 5/8", "2 5/8", "3 5/8", "3 3/8"], "correct": 2}, {"q": "Trupmena 14/35, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["14/5", "2/35", "3/5", "2/5"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["9/25 = 0,036", "9/25 = 0,36", "9/25 = 36 %", "0,36 = 36 %"], "correct": 0}, {"q": "Apskaičiuokite: 3/4 + 2/5 =", "options": ["5/9", "1 3/20", "7/20", "1 1/4"], "correct": 1}, {"q": "Apskaičiuokite: 12 2/9 − 5 7/9 =", "options": ["7 5/9", "5 4/9", "6 4/9", "18"], "correct": 2}, {"q": "Apskaičiuokite: 1 3/4 · 5 =", "options": ["6 3/4", "1 3/4", "7/20", "8 3/4"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["3,26", "3,6", "3,29", "3,58"], "correct": 1}, {"q": "Apvalink skaičių 9,238 iki šimtųjų.", "options": ["9,238", "9,24", "9,23", "9,2"], "correct": 1}, {"q": "Ona turėjo 18,5 Eur. Parduotuvėje ji nupirko prekių už 6,25 Eur ir 4,85 Eur. Kiek eurų jai liko?", "options": ["12,25 Eur", "29,6 Eur", "7,4 Eur", "11,1 Eur"], "correct": 2}, {"q": "Kam lygu 0,68 · 100?", "options": ["6,8", "680", "0,0068", "68"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 519274 skaitmenų sumą.", "a": "Mjg="}, {"q": "Skaičių 615083 apvalinkite iki šimtų ir iki tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MTAw"}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 214700, o taškas B — ties skaičiumi 653200. Koks atstumas tarp taškų A ir B?", "a": "NDM4NTAw"}, {"q": "Apskaičiuok reiškinio (10 + 5) · 6 - 18 reikšmę.", "a": "NzI="}, {"q": "Parduotuvėje buvo 410 obuolių dėžių. Ryte atvežė dar 95 dėžes, po pietų dar 105 dėžes, o per dieną parduota 300 dėžių. Kiek dėžių obuolių liko parduotuvėje vakare?", "a": "MzEw"}, {"q": "Iš tos pačios vietos tuo pačiu metu priešingomis kryptimis pajudėjo dviratininkas 20 km/val. greičiu ir pėsčiasis 10 km/val. greičiu. Koks atstumas bus tarp jų po 2 valandų?", "a": "NjAga20="}, {"q": "Knygyne yra 157 sąsiuviniai. Juos sudeda į pakuotes po 11 sąsiuvinių. Kiek pilnų pakuočių gaus ir kiek sąsiuvinių liks?", "a": "MTQgcGFrdW/EjWnFsywgbGlrcyAzIHPEhXNpdXZpbmlhaQ=="}, {"q": "Raskite DBD(63; 105).", "a": "MjE="}, {"q": "Raskite MBK(14; 49).", "a": "OTg="}, {"q": "Iš tos pačios stotelės kas 40 min išvyksta autobusas A, o kas 48 min — autobusas B. Dabar 8:00 jie išvyko kartu. Po kiek minučių jie vėl išvyks kartu?", "a": "MjQw"}, {"q": "Suprastink (sutrumpink) trupmeną 15/25 iki paprasčiausios formos.", "a": "My81"}, {"q": "Mišrųjį skaičių 5 1/4 užrašyk netaisyklingąja trupmena.", "a": "MjEvNA=="}, {"q": "Prekės kaina yra 180 Eur. Per išpardavimą kaina sumažinta 35 %. Kiek eurų kaina sumažėjo?", "a": "NjMgRXVy"}, {"q": "Rūta išleido 35 % turėtų pinigų batams. Kiek pinigų turėjo Rūta, jei jai liko 104 Eur?", "a": "MTYwIEV1cg=="}, {"q": "Palyginkite trupmenas 4/9 ir 5/12 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "NC85"}, {"q": "Kepėja per dieną iškepė 11 4/9 kg duonos. Iki pietų ji pardavė 5 5/6 kg duonos. Kiek kilogramų duonos jai liko?", "a": "NSAxMS8xOCBrZw=="}, {"q": "Dviratininkas važiavo 5 2/9 km/val greičiu 6 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MzEgMS8zIGtt"}, {"q": "Vienas sąsiuvinis kainuoja 4,35 Eur. Kiek eurų reikės sumokėti už 7 sąsiuvinius?", "a": "MzAsNDUgRXVy"}, {"q": "Sandėlyje buvo 150,6 kg bulvių. Per savaitę į sandėlį atvežė dar 27,45 kg bulvių, o 98,3 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "NzksNzUga2c="}, {"q": "Prekės kaina internetinėje parduotuvėje apskaičiuota 23,485 Eur. Apvalink kainą iki šimtųjų (centų tikslumu).", "a": "MjMsNDkgRXVy"}]}, {"id": 4, "mc": [{"q": "Skaičiuje 7349216 pažymėtas skaitmuo 7, kuris stovi milijonų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["7000000", "7", "70000000", "700000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["7348746", "7349411", "7349526", "7349216"], "correct": 2}, {"q": "Apvalinkite skaičių 7349600 iki tūkstančių.", "options": ["7349000", "7351000", "7350000", "7348000"], "correct": 2}, {"q": "Kokį skaičių žymi romėniškasis skaičius CDXCIX?", "options": ["500", "498", "721", "499"], "correct": 3}, {"q": "Apskaičiuok reiškinio 18 · (10 + 3) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["234", "183", "48", "540"], "correct": 0}, {"q": "Dalijant 245 iš 18, kokia liekana gaunama?", "options": ["10", "11", "12", "13"], "correct": 1}, {"q": "Automobilis važiavo 2 valandas pastoviu 72 km/val. greičiu. Kokį kelią jis nuvažiavo?", "options": ["74 km", "70 km", "144 km", "288 km"], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["315 dalijasi iš 2", "315 dalijasi iš 3", "315 dalijasi iš 5", "315 dalijasi iš 9"], "correct": 0}, {"q": "Kiek iš viso daliklių turi skaičius 72?", "options": ["12", "11", "13", "14"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["24 ir 30", "16 ir 56", "45 ir 54", "36 ir 84"], "correct": 3}, {"q": "Trupmeną 31/9 užrašius mišriuoju skaičiumi gaunama:", "options": ["4 4/9", "2 4/9", "3 4/9", "3 5/9"], "correct": 2}, {"q": "Trupmena 16/24, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["16/3", "2/24", "3/3", "2/3"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["4/25 = 0,16", "4/25 = 1,6 %", "4/25 = 16 %", "0,16 = 16 %"], "correct": 1}, {"q": "Apskaičiuokite: 5/6 + 3/8 =", "options": ["4/7", "1 5/24", "11/24", "1 1/3"], "correct": 1}, {"q": "Apskaičiuokite: 13 4/11 − 7 9/11 =", "options": ["6 5/11", "4 6/11", "5 6/11", "21 2/11"], "correct": 2}, {"q": "Apskaičiuokite: 2 2/5 · 3 =", "options": ["5 2/5", "2 2/5", "4/5", "7 1/5"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["9,15", "9,08", "9,2", "9,19"], "correct": 2}, {"q": "Apvalink skaičių 21,653 iki šimtųjų.", "options": ["21,653", "21,65", "21,66", "21,7"], "correct": 1}, {"q": "Ona turėjo 40 Eur. Parduotuvėje ji nupirko prekių už 15,6 Eur ir 13,75 Eur. Kiek eurų jai liko?", "options": ["24,4 Eur", "69,35 Eur", "10,65 Eur", "29,35 Eur"], "correct": 2}, {"q": "Kam lygu 725,4 : 100?", "options": ["72,54", "0,7254", "72540", "7,254"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 6058371 skaitmenų sumą.", "a": "MzA="}, {"q": "Skaičių 7349258 apvalinkite iki šimtų ir iki tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MzAw"}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 892600, o taškas B — ties skaičiumi 1247300. Koks atstumas tarp taškų A ir B?", "a": "MzU0NzAw"}, {"q": "Apskaičiuok reiškinio (7 + 8) · 5 - 20 reikšmę.", "a": "NTU="}, {"q": "Parduotuvėje buvo 365 obuolių dėžės. Ryte atvežė dar 135 dėžes, po pietų dar 115 dėžių, o per dieną parduota 280 dėžių. Kiek dėžių obuolių liko parduotuvėje vakare?", "a": "MzM1"}, {"q": "Iš tos pačios vietos tuo pačiu metu priešingomis kryptimis pajudėjo dviratininkas 17 km/val. greičiu ir pėsčiasis 8 km/val. greičiu. Koks atstumas bus tarp jų po 4 valandų?", "a": "MTAwIGtt"}, {"q": "Knygyne yra 246 sąsiuviniai. Juos sudeda į pakuotes po 17 sąsiuvinių. Kiek pilnų pakuočių gaus ir kiek sąsiuvinių liks?", "a": "MTQgcGFrdW/EjWnFsywgbGlrcyA4IHPEhXNpdXZpbmlhaQ=="}, {"q": "Raskite DBD(108; 135).", "a": "Mjc="}, {"q": "Raskite MBK(45; 54).", "a": "Mjcw"}, {"q": "Mokytoja turi 96 saldainių ir 168 sausainių. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje saldainių ir sausainių būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "MjQ="}, {"q": "Suprastink (sutrumpink) trupmeną 16/20 iki paprasčiausios formos.", "a": "NC81"}, {"q": "Mišrųjį skaičių 2 5/6 užrašyk netaisyklingąja trupmena.", "a": "MTcvNg=="}, {"q": "Prekės kaina yra 250 Eur. Per išpardavimą kaina sumažinta 16 %. Kiek eurų kaina sumažėjo?", "a": "NDAgRXVy"}, {"q": "Rūta išleido 16 % turėtų pinigų batams. Kiek pinigų turėjo Rūta, jei jai liko 210 Eur?", "a": "MjUwIEV1cg=="}, {"q": "Palyginkite trupmenas 7/10 ir 5/8 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "Ny8xMA=="}, {"q": "Kepėja per dieną iškepė 12 4/5 kg duonos. Iki pietų ji pardavė 7 5/6 kg duonos. Kiek kilogramų duonos jai liko?", "a": "NCAyOS8zMCBrZw=="}, {"q": "Dviratininkas važiavo 4 5/12 km/val greičiu 8 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "MzUgMS8zIGtt"}, {"q": "Vienas sąsiuvinis kainuoja 1,65 Eur. Kiek eurų reikės sumokėti už 9 sąsiuvinius?", "a": "MTQsODUgRXVy"}, {"q": "Sandėlyje buvo 88,25 kg bulvių. Per savaitę į sandėlį atvežė dar 42,9 kg bulvių, o 63,75 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "NjcsNCBrZw=="}, {"q": "Prekės kaina internetinėje parduotuvėje apskaičiuota 6,234 Eur. Apvalink kainą iki šimtųjų (centų tikslumu).", "a": "NiwyMyBFdXI="}]}]}, {"id": "aukstesnysis", "label": "Aukštesnysis lygis", "grading": {"mc_points": 1, "open_points": 2, "scale": [[92, 10], [82, 9], [72, 8], [62, 7], [52, 6], [42, 5], [32, 4], [22, 3], [12, 2], [0, 1]], "comments": [[85, "Puikiai! Pagrindus valdai labai gerai."], [65, "Gerai padirbėta."], [45, "Patenkinamai — dar pasitreniruok."], [0, "Verta pakartoti skyrius 1–6."]]}, "variants": [{"id": 1, "mc": [{"q": "Skaičiuje 24736508 pažymėtas skaitmuo 4, kuris stovi milijonų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["4000000", "4", "40000000", "400000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["24740708", "24729708", "24736508", "24739658"], "correct": 0}, {"q": "Apvalinkite skaičių 24736000 iki dešimčių tūkstančių.", "options": ["24730000", "24750000", "24740000", "24720000"], "correct": 2}, {"q": "Kaip skaičius 1994 užrašomas romėniškais skaitmenimis?", "options": ["MCMXCIII", "MCMXCV", "MMIV", "MCMXCIV"], "correct": 3}, {"q": "Apskaičiuok reiškinio 35 · (12 + 8) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["700", "428", "131", "3360"], "correct": 0}, {"q": "Dalijant 1247 iš 23, kokia liekana gaunama?", "options": ["4", "5", "6", "7"], "correct": 1}, {"q": "Autobusas nuvažiavo 270 km per 6 valandas, važiuodamas pastoviu greičiu. Kokiu greičiu jis važiavo?", "options": ["276 km/val.", "264 km/val.", "45 km/val.", "1620 km/val."], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["4185 nesidalija iš 2", "4185 dalijasi iš 3", "4185 dalijasi iš 9", "4185 dalijasi iš 10"], "correct": 3}, {"q": "Kiek iš viso daliklių turi skaičius 96?", "options": ["12", "11", "13", "14"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["24 ir 60", "45 ir 75", "72 ir 90", "48 ir 168"], "correct": 3}, {"q": "Trupmeną 47/11 užrašius mišriuoju skaičiumi gaunama:", "options": ["5 3/11", "3 3/11", "4 3/11", "4 8/11"], "correct": 2}, {"q": "Trupmena 36/84, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["36/7", "3/84", "4/7", "3/7"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["7/8 = 0,875", "7/8 = 87,5 %", "0,875 = 87,5 %", "0,875 = 0,875 %"], "correct": 3}, {"q": "Apskaičiuokite: 7/12 + 5/18 =", "options": ["2/5", "31/36", "11/36", "1"], "correct": 1}, {"q": "Apskaičiuokite: 15 3/13 − 8 10/13 =", "options": ["7 7/13", "5 6/13", "6 6/13", "24"], "correct": 2}, {"q": "Apskaičiuokite: 3 5/8 · 4 =", "options": ["7 5/8", "3 5/8", "29/32", "14 1/2"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["12,345", "12,35", "12,298", "12,351"], "correct": 3}, {"q": "Apvalink skaičių 128,4562 iki tūkstantųjų.", "options": ["128,4562", "128,456", "128,457", "128,46"], "correct": 1}, {"q": "Ona turėjo 120 Eur. Parduotuvėje ji nupirko prekių už 45,65 Eur ir 32,8 Eur. Kiek eurų jai liko?", "options": ["74,35 Eur", "198,45 Eur", "41,55 Eur", "78,45 Eur"], "correct": 2}, {"q": "Kam lygu 4,2673 · 1000?", "options": ["426,73", "42673", "0,0042673", "4267,3"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 47293856 skaitmenų sumą.", "a": "NDQ="}, {"q": "Skaičių 24736508 apvalinkite iki tūkstančių ir iki dešimčių tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MzAwMA=="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 12456800, o taškas B — ties skaičiumi 45890700. Koks atstumas tarp taškų A ir B?", "a": "MzM0MzM5MDA="}, {"q": "Apskaičiuok reiškinio 12 · 5 + 8 · 6 - 15 reikšmę.", "a": "OTM="}, {"q": "Sandėlyje buvo 45 dėžės, kiekvienoje po 24 prekes. Atvežė dar 15 tokio paties dydžio dėžių, o vėliau iš sandėlio išvežė 180 pavienių prekių. Kiek prekių iš viso liko sandėlyje?", "a": "MTI2MA=="}, {"q": "Iš dviejų miestų, esančių 270 km atstumu, tuo pačiu metu vienas priešais kitą išvažiuoja du automobiliai. Vieno greitis 50 km/val., o kito 40 km/val. Po kiek valandų automobiliai susitiks?", "a": "MyB2YWwu"}, {"q": "Sandėlyje yra 1247 knygos. Jas pakuoja į dėžes po 34 knygas kiekvienoje. Supakavus visas pilnas dėžes, kiek knygų liks papildomoje, nepilnoje dėžėje, ir kiek pilnų dėžių bus supakuota?", "a": "MzYgZMSXxb7El3MsIGxpa3MgMjMga255Z29z"}, {"q": "Raskite DBD(72; 96; 120).", "a": "MjQ="}, {"q": "Raskite MBK(16; 24; 56).", "a": "MzM2"}, {"q": "Iš tos pačios stotelės kas 18 min išvyksta autobusas A, kas 63 min — autobusas B, o kas 63 min — autobusas C. Dabar 8:00 visi trys išvyko kartu. Po kiek minučių jie visi trys vėl išvyks kartu?", "a": "MTI2"}, {"q": "Suprastink (sutrumpink) trupmeną 36/60 iki paprasčiausios formos.", "a": "My81"}, {"q": "Mišrųjį skaičių 6 3/7 užrašyk netaisyklingąja trupmena.", "a": "NDUvNw=="}, {"q": "Sandėlyje buvo 240 kg bulvių. Per savaitę parduota 3/8 viso kiekio, o iš likusio kiekio dar 20 % supuvo ir buvo išmesta. Kiek kilogramų bulvių liko tinkamų parduoti?", "a": "MTIwIGtn"}, {"q": "Marius turėjo tam tikrą pinigų sumą. Pirmiausia jis išleido 1/3 visų pinigų knygoms, o iš likusios sumos dar 20 % žaislams. Po abiejų pirkinių jam liko 160 Eur. Kiek pinigų Marius turėjo iš pradžių?", "a": "MzAwIEV1cg=="}, {"q": "Palyginkite trupmenas 11/15 ir 13/18 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "MTEvMTU="}, {"q": "Kepėja per dieną iškepė 15 5/12 kg duonos. Iki pietų ji pardavė 8 7/9 kg duonos. Kiek kilogramų duonos jai liko?", "a": "NiAyMy8zNiBrZw=="}, {"q": "Dviratininkas važiavo 6 7/10 km/val greičiu 9 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "NjAgMy8xMCBrbQ=="}, {"q": "1 kg obuolių kainuoja 6,85 Eur. Kiek eurų reikės sumokėti už 14 kg obuolių?", "a": "OTUsOSBFdXI="}, {"q": "Sandėlyje buvo 245,75 kg bulvių. Per savaitę į sandėlį atvežė dar 86,4 kg bulvių, o 178,65 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MTUzLDUga2c="}, {"q": "Laboratorijoje pasvertos medžiagos masė yra 128,4567 g. Apvalink šią masę iki tūkstantųjų.", "a": "MTI4LDQ1NyBn"}]}, {"id": 2, "mc": [{"q": "Skaičiuje 356902417 pažymėtas skaitmuo 5, kuris stovi dešimčių milijonų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["50000000", "5", "500000000", "5000000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["356902417", "356905217", "356897217", "356906317"], "correct": 3}, {"q": "Apvalinkite skaičių 356960000 iki šimtų tūkstančių.", "options": ["356900000", "357100000", "357000000", "356800000"], "correct": 2}, {"q": "Kaip skaičius 2848 užrašomas romėniškais skaitmenimis?", "options": ["MMDCCCXLVII", "MMDCCCXLIX", "MMDCCCLVIII", "MMDCCCXLVIII"], "correct": 3}, {"q": "Apskaičiuok reiškinio 45 · (15 + 6) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["945", "681", "135", "4050"], "correct": 0}, {"q": "Dalijant 1583 iš 27, kokia liekana gaunama?", "options": ["10", "17", "16", "18"], "correct": 1}, {"q": "Autobusas nuvažiavo 310 km per 5 valandas, važiuodamas pastoviu greičiu. Kokiu greičiu jis važiavo?", "options": ["315 km/val.", "305 km/val.", "62 km/val.", "1550 km/val."], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["5346 dalijasi iš 2", "5346 nesidalija iš 3", "5346 nesidalija iš 5", "5346 nesidalija iš 10"], "correct": 1}, {"q": "Kiek iš viso daliklių turi skaičius 120?", "options": ["16", "15", "17", "18"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["36 ir 60", "60 ir 75", "36 ir 126", "120 ir 144"], "correct": 3}, {"q": "Trupmeną 53/12 užrašius mišriuoju skaičiumi gaunama:", "options": ["5 5/12", "3 5/12", "4 5/12", "4 7/12"], "correct": 2}, {"q": "Trupmena 54/90, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["54/5", "3/90", "4/5", "3/5"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["3/8 = 0,0375", "3/8 = 0,375", "3/8 = 37,5 %", "0,375 = 37,5 %"], "correct": 0}, {"q": "Apskaičiuokite: 11/15 + 7/10 =", "options": ["18/25", "1 13/30", "1/30", "1 1/5"], "correct": 1}, {"q": "Apskaičiuokite: 18 5/14 − 9 11/14 =", "options": ["9 3/7", "7 4/7", "8 4/7", "28 1/7"], "correct": 2}, {"q": "Apskaičiuokite: 2 7/9 · 6 =", "options": ["8 7/9", "2 7/9", "25/54", "16 2/3"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["7,612", "7,608", "7,61", "7,599"], "correct": 0}, {"q": "Apvalink skaičių 47,3629 iki tūkstantųjų.", "options": ["47,3629", "47,363", "47,362", "47,36"], "correct": 1}, {"q": "Ona turėjo 85,5 Eur. Parduotuvėje ji nupirko prekių už 23,45 Eur ir 18,75 Eur. Kiek eurų jai liko?", "options": ["62,05 Eur", "127,7 Eur", "43,3 Eur", "42,2 Eur"], "correct": 2}, {"q": "Kam lygu 8562 : 1000?", "options": ["85,62", "0,8562", "8562000", "8,562"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 583746192 skaitmenų sumą.", "a": "NDU="}, {"q": "Skaičių 356902417 apvalinkite iki tūkstančių ir iki dešimčių tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "MjAwMA=="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 58732400, o taškas B — ties skaičiumi 91560800. Koks atstumas tarp taškų A ir B?", "a": "MzI4Mjg0MDA="}, {"q": "Apskaičiuok reiškinio 15 · 4 + 9 · 7 - 20 reikšmę.", "a": "MTAz"}, {"q": "Sandėlyje buvo 38 dėžės, kiekvienoje po 18 prekių. Atvežė dar 22 tokio paties dydžio dėžes, o vėliau iš sandėlio išvežė 150 pavienių prekių. Kiek prekių iš viso liko sandėlyje?", "a": "OTMw"}, {"q": "Iš dviejų miestų, esančių 420 km atstumu, tuo pačiu metu vienas priešais kitą išvažiuoja du automobiliai. Vieno greitis 60 km/val., o kito 45 km/val. Po kiek valandų automobiliai susitiks?", "a": "NCB2YWwu"}, {"q": "Sandėlyje yra 1495 knygos. Jas pakuoja į dėžes po 28 knygas kiekvienoje. Supakavus visas pilnas dėžes, kiek knygų liks papildomoje, nepilnoje dėžėje, ir kiek pilnų dėžių bus supakuota?", "a": "NTMgZMSXxb7El3MsIGxpa3MgMTEga255Z8Wz"}, {"q": "Raskite DBD(60; 150; 210).", "a": "MzA="}, {"q": "Raskite MBK(40; 50; 70).", "a": "MTQwMA=="}, {"q": "Mokytoja turi 108 saldainių, 252 sausainių ir 252 riešutų. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje visko būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "MzY="}, {"q": "Suprastink (sutrumpink) trupmeną 45/72 iki paprasčiausios formos.", "a": "NS84"}, {"q": "Mišrųjį skaičių 5 4/9 užrašyk netaisyklingąja trupmena.", "a": "NDkvOQ=="}, {"q": "Sandėlyje buvo 300 kg bulvių. Per savaitę parduota 2/5 viso kiekio, o iš likusio kiekio dar 15 % supuvo ir buvo išmesta. Kiek kilogramų bulvių liko tinkamų parduoti?", "a": "MTUzIGtn"}, {"q": "Marius turėjo tam tikrą pinigų sumą. Pirmiausia jis išleido 1/4 visų pinigų knygoms, o iš likusios sumos dar 10 % žaislams. Po abiejų pirkinių jam liko 243 Eur. Kiek pinigų Marius turėjo iš pradžių?", "a": "MzYwIEV1cg=="}, {"q": "Palyginkite trupmenas 9/14 ir 11/21 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "OS8xNA=="}, {"q": "Kepėja per dieną iškepė 18 7/15 kg duonos. Iki pietų ji pardavė 9 11/12 kg duonos. Kiek kilogramų duonos jai liko?", "a": "OCAxMS8yMCBrZw=="}, {"q": "Dviratininkas važiavo 7 5/12 km/val greičiu 8 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "NTkgMS8zIGtt"}, {"q": "Automobiliukas per vieną sekundę nurieda 0,65 m. Kiek metrų jis nuris per 24 sekundžių?", "a": "MTUsNiBt"}, {"q": "Sandėlyje buvo 312,6 kg bulvių. Per savaitę į sandėlį atvežė dar 94,85 kg bulvių, o 206,35 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MjAxLDEga2c="}, {"q": "Laboratorijoje pasvertos medžiagos masė yra 356,2913 g. Apvalink šią masę iki tūkstantųjų.", "a": "MzU2LDI5MSBn"}]}, {"id": 3, "mc": [{"q": "Skaičiuje 81254936 pažymėtas skaitmuo 8, kuris stovi dešimčių milijonų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["80000000", "8", "800000000", "8000000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["81259536", "81254936", "81247636", "81258536"], "correct": 0}, {"q": "Apvalinkite skaičių 81256000 iki dešimčių tūkstančių.", "options": ["81250000", "81270000", "81260000", "81240000"], "correct": 2}, {"q": "Kaip skaičius 3499 užrašomas romėniškais skaitmenimis?", "options": ["MMMCDXCVIII", "MMMD", "MMMDIX", "MMMCDXCIX"], "correct": 3}, {"q": "Apskaičiuok reiškinio 28 · (20 + 9) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["812", "569", "208", "5040"], "correct": 0}, {"q": "Dalijant 2089 iš 34, kokia liekana gaunama?", "options": ["14", "15", "16", "17"], "correct": 1}, {"q": "Autobusas nuvažiavo 380 km per 4 valandas, važiuodamas pastoviu greičiu. Kokiu greičiu jis važiavo?", "options": ["384 km/val.", "376 km/val.", "95 km/val.", "1520 km/val."], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["7290 dalijasi iš 2", "7290 dalijasi iš 3", "7290 dalijasi iš 5", "7290 nesidalija iš 9"], "correct": 3}, {"q": "Kiek iš viso daliklių turi skaičius 144?", "options": ["15", "14", "16", "17"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["48 ir 60", "30 ir 105", "90 ir 108", "72 ir 168"], "correct": 3}, {"q": "Trupmeną 61/13 užrašius mišriuoju skaičiumi gaunama:", "options": ["5 9/13", "3 9/13", "4 9/13", "4 4/13"], "correct": 2}, {"q": "Trupmena 48/72, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["48/3", "2/72", "3/3", "2/3"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["11/40 = 0,275", "11/40 = 2,75 %", "11/40 = 27,5 %", "0,275 = 27,5 %"], "correct": 1}, {"q": "Apskaičiuokite: 9/14 + 5/21 =", "options": ["2/5", "37/42", "17/42", "1"], "correct": 1}, {"q": "Apskaičiuokite: 21 4/15 − 12 13/15 =", "options": ["9 3/5", "7 2/5", "8 2/5", "34 2/15"], "correct": 2}, {"q": "Apskaičiuokite: 4 3/10 · 5 =", "options": ["9 3/10", "4 3/10", "43/50", "21 1/2"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["15,074", "15,08", "15,069", "15,077"], "correct": 1}, {"q": "Apvalink skaičių 356,7845 iki tūkstantųjų.", "options": ["356,7845", "356,785", "356,784", "356,78"], "correct": 1}, {"q": "Ona turėjo 200 Eur. Parduotuvėje ji nupirko prekių už 78,35 Eur ir 64,9 Eur. Kiek eurų jai liko?", "options": ["121,65 Eur", "343,25 Eur", "56,75 Eur", "143,25 Eur"], "correct": 2}, {"q": "Kam lygu 3,1416 · 1000?", "options": ["314,16", "31416", "0,0031416", "3141,6"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 29384756 skaitmenų sumą.", "a": "NDQ="}, {"q": "Skaičių 81254936 apvalinkite iki tūkstančių ir iki dešimčių tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NTAwMA=="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 30219600, o taškas B — ties skaičiumi 67304100. Koks atstumas tarp taškų A ir B?", "a": "MzcwODQ1MDA="}, {"q": "Apskaičiuok reiškinio 18 · 3 + 11 · 5 - 25 reikšmę.", "a": "ODQ="}, {"q": "Sandėlyje buvo 52 dėžės, kiekvienoje po 15 prekių. Atvežė dar 28 tokio paties dydžio dėžes, o vėliau iš sandėlio išvežė 210 pavienių prekių. Kiek prekių iš viso liko sandėlyje?", "a": "OTkw"}, {"q": "Iš dviejų miestų, esančių 450 km atstumu, tuo pačiu metu vienas priešais kitą išvažiuoja du automobiliai. Vieno greitis 55 km/val., o kito 35 km/val. Po kiek valandų automobiliai susitiks?", "a": "NSB2YWwu"}, {"q": "Sandėlyje yra 1836 knygos. Jas pakuoja į dėžes po 41 knygą kiekvienoje. Supakavus visas pilnas dėžes, kiek knygų liks papildomoje, nepilnoje dėžėje, ir kiek pilnų dėžių bus supakuota?", "a": "NDQgZMSXxb7El3MsIGxpa3MgMzIga255Z29z"}, {"q": "Raskite DBD(108; 180; 252).", "a": "MzY="}, {"q": "Raskite MBK(24; 60; 108).", "a": "MTA4MA=="}, {"q": "Iš tos pačios stotelės kas 24 min išvyksta autobusas A, kas 56 min — autobusas B, o kas 56 min — autobusas C. Dabar 8:00 visi trys išvyko kartu. Po kiek minučių jie visi trys vėl išvyks kartu?", "a": "MTY4"}, {"q": "Suprastink (sutrumpink) trupmeną 44/66 iki paprasčiausios formos.", "a": "Mi8z"}, {"q": "Mišrųjį skaičių 7 2/5 užrašyk netaisyklingąja trupmena.", "a": "MzcvNQ=="}, {"q": "Sandėlyje buvo 360 kg bulvių. Per savaitę parduota 5/12 viso kiekio, o iš likusio kiekio dar 10 % supuvo ir buvo išmesta. Kiek kilogramų bulvių liko tinkamų parduoti?", "a": "MTg5IGtn"}, {"q": "Marius turėjo tam tikrą pinigų sumą. Pirmiausia jis išleido 2/7 visų pinigų knygoms, o iš likusios sumos dar 25 % žaislams. Po abiejų pirkinių jam liko 150 Eur. Kiek pinigų Marius turėjo iš pradžių?", "a": "MjgwIEV1cg=="}, {"q": "Palyginkite trupmenas 13/16 ir 11/12 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "MTEvMTI="}, {"q": "Kepėja per dieną iškepė 21 5/14 kg duonos. Iki pietų ji pardavė 12 8/21 kg duonos. Kiek kilogramų duonos jai liko?", "a": "OCA0MS80MiBrZw=="}, {"q": "Dviratininkas važiavo 8 3/14 km/val greičiu 7 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "NTcgMS8yIGtt"}, {"q": "1 kg obuolių kainuoja 12,75 Eur. Kiek eurų reikės sumokėti už 18 kg obuolių?", "a": "MjI5LDUgRXVy"}, {"q": "Sandėlyje buvo 178,45 kg bulvių. Per savaitę į sandėlį atvežė dar 125,6 kg bulvių, o 214,85 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "ODksMiBrZw=="}, {"q": "Laboratorijoje pasvertos medžiagos masė yra 47,6825 g. Apvalink šią masę iki tūkstantųjų.", "a": "NDcsNjgzIGc="}]}, {"id": 4, "mc": [{"q": "Skaičiuje 405736128 pažymėtas skaitmuo 4, kuris stovi šimtų milijonų skyriuje. Kokia šio skaitmens reikšmė?", "options": ["400000000", "4", "4000000000", "40000000"], "correct": 0}, {"q": "Kuris iš duotų skaičių yra didžiausias?", "options": ["405730028", "405739028", "405736128", "405739828"], "correct": 3}, {"q": "Apvalinkite skaičių 405760000 iki šimtų tūkstančių.", "options": ["405700000", "405900000", "405800000", "405600000"], "correct": 2}, {"q": "Kaip skaičius 2024 užrašomas romėniškais skaitmenimis?", "options": ["MMXXIII", "MMXXV", "MMXXXIV", "MMXXIV"], "correct": 3}, {"q": "Apskaičiuok reiškinio 54 · (13 + 7) reikšmę pritaikydamas daugybos skirstomąjį dėsnį.", "options": ["1080", "709", "145", "4914"], "correct": 0}, {"q": "Dalijant 1756 iš 29, kokia liekana gaunama?", "options": ["13", "16", "15", "17"], "correct": 1}, {"q": "Autobusas nuvažiavo 414 km per 6 valandas, važiuodamas pastoviu greičiu. Kokiu greičiu jis važiavo?", "options": ["420 km/val.", "408 km/val.", "69 km/val.", "2484 km/val."], "correct": 2}, {"q": "Trys iš šių keturių teiginių apie skaičiaus dalumą yra teisingi, o vienas — klaidingas. Kuris teiginys klaidingas?", "options": ["3672 dalijasi iš 3", "3672 dalijasi iš 5", "3672 dalijasi iš 9", "3672 nesidalija iš 10"], "correct": 1}, {"q": "Kiek iš viso daliklių turi skaičius 180?", "options": ["18", "17", "19", "20"], "correct": 0}, {"q": "Kurių dviejų skaičių didžiausiasis bendrasis daliklis (DBD) yra didžiausias?", "options": ["24 ir 84", "75 ir 90", "54 ir 126", "96 ir 168"], "correct": 3}, {"q": "Trupmeną 67/14 užrašius mišriuoju skaičiumi gaunama:", "options": ["5 11/14", "3 11/14", "4 11/14", "4 3/14"], "correct": 2}, {"q": "Trupmena 56/98, suprastinta iki paprasčiausios (nesuprastinamos) formos, yra:", "options": ["56/7", "4/98", "5/7", "4/7"], "correct": 3}, {"q": "Trys iš duotų lygybių yra teisingos, viena — klaidinga. Kuri lygybė klaidinga?", "options": ["9/40 = 0,225", "9/40 = 22,5 %", "0,225 = 0,225 %", "0,225 = 22,5 %"], "correct": 2}, {"q": "Apskaičiuokite: 13/18 + 7/24 =", "options": ["10/21", "1 1/72", "31/72", "1 1/9"], "correct": 1}, {"q": "Apskaičiuokite: 24 5/16 − 13 15/16 =", "options": ["11 5/8", "9 3/8", "10 3/8", "38 1/4"], "correct": 2}, {"q": "Apskaičiuokite: 3 4/7 · 6 =", "options": ["9 4/7", "3 4/7", "25/42", "21 3/7"], "correct": 3}, {"q": "Kuris iš pateiktų skaičių yra DIDŽIAUSIAS?", "options": ["22,396", "22,4", "22,385", "22,399"], "correct": 1}, {"q": "Apvalink skaičių 63,2914 iki tūkstantųjų.", "options": ["63,2914", "63,291", "63,292", "63,29"], "correct": 1}, {"q": "Ona turėjo 150,25 Eur. Parduotuvėje ji nupirko prekių už 56,8 Eur ir 42,35 Eur. Kiek eurų jai liko?", "options": ["93,45 Eur", "249,4 Eur", "51,1 Eur", "99,15 Eur"], "correct": 2}, {"q": "Kam lygu 47500 : 1000?", "options": ["475", "4,75", "47500000", "47,5"], "correct": 3}], "open": [{"q": "Raskite visų skaičiaus 704958261 skaitmenų sumą.", "a": "NDI="}, {"q": "Skaičių 405736128 apvalinkite iki tūkstančių ir iki dešimčių tūkstančių. Kam lygus gautų dviejų rezultatų skirtumas?", "a": "NDAwMA=="}, {"q": "Skaičių tiesėje taškas A pažymėtas ties skaičiumi 74581200, o taškas B — ties skaičiumi 108920500. Koks atstumas tarp taškų A ir B?", "a": "MzQzMzkzMDA="}, {"q": "Apskaičiuok reiškinio 20 · 4 + 13 · 6 - 30 reikšmę.", "a": "MTI4"}, {"q": "Sandėlyje buvo 64 dėžės, kiekvienoje po 20 prekių. Atvežė dar 16 tokio paties dydžio dėžių, o vėliau iš sandėlio išvežė 260 pavienių prekių. Kiek prekių iš viso liko sandėlyje?", "a": "MTM0MA=="}, {"q": "Iš dviejų miestų, esančių 480 km atstumu, tuo pačiu metu vienas priešais kitą išvažiuoja du automobiliai. Vieno greitis 48 km/val., o kito 32 km/val. Po kiek valandų automobiliai susitiks?", "a": "NiB2YWwu"}, {"q": "Sandėlyje yra 1672 knygos. Jas pakuoja į dėžes po 39 knygas kiekvienoje. Supakavus visas pilnas dėžes, kiek knygų liks papildomoje, nepilnoje dėžėje, ir kiek pilnų dėžių bus supakuota?", "a": "NDIgZMSXxb7El3MsIGxpa3MgMzQga255Z29z"}, {"q": "Raskite DBD(84; 126; 294).", "a": "NDI="}, {"q": "Raskite MBK(42; 56; 98).", "a": "MTE3Ng=="}, {"q": "Mokytoja turi 240 saldainių, 336 sausainių ir 432 riešutų. Ji nori sudėti juos į kuo daugiau vienodų dovanėlių maišelių taip, kad kiekviename maišelyje visko būtų vienodai ir nieko neliktų. Koks didžiausias galimas maišelių skaičius?", "a": "NDg="}, {"q": "Suprastink (sutrumpink) trupmeną 63/84 iki paprasčiausios formos.", "a": "My80"}, {"q": "Mišrųjį skaičių 4 7/8 užrašyk netaisyklingąja trupmena.", "a": "MzkvOA=="}, {"q": "Sandėlyje buvo 280 kg bulvių. Per savaitę parduota 3/7 viso kiekio, o iš likusio kiekio dar 25 % supuvo ir buvo išmesta. Kiek kilogramų bulvių liko tinkamų parduoti?", "a": "MTIwIGtn"}, {"q": "Marius turėjo tam tikrą pinigų sumą. Pirmiausia jis išleido 1/5 visų pinigų knygoms, o iš likusios sumos dar 15 % žaislams. Po abiejų pirkinių jam liko 306 Eur. Kiek pinigų Marius turėjo iš pradžių?", "a": "NDUwIEV1cg=="}, {"q": "Palyginkite trupmenas 17/24 ir 13/18 (bendravardiklinkite jas). Užrašykite didesniąją trupmeną.", "a": "MTMvMTg="}, {"q": "Kepėja per dieną iškepė 24 9/16 kg duonos. Iki pietų ji pardavė 13 5/12 kg duonos. Kiek kilogramų duonos jai liko?", "a": "MTEgNy80OCBrZw=="}, {"q": "Dviratininkas važiavo 9 11/15 km/val greičiu 6 valandas. Kelias = greitis × laikas. Kiek kilometrų jis nuvažiavo?", "a": "NTggMi81IGtt"}, {"q": "Automobiliukas per vieną sekundę nurieda 3,125 m. Kiek metrų jis nuris per 16 sekundžių?", "a": "NTAgbQ=="}, {"q": "Sandėlyje buvo 420,8 kg bulvių. Per savaitę į sandėlį atvežė dar 63,75 kg bulvių, o 287,95 kg buvo parduota. Kiek kilogramų bulvių liko sandėlyje?", "a": "MTk2LDYga2c="}, {"q": "Laboratorijoje pasvertos medžiagos masė yra 612,3746 g. Apvalink šią masę iki tūkstantųjų.", "a": "NjEyLDM3NSBn"}]}]}]};
+// Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
+// siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxb_tz0bFqc22bRKWmyQtUuKIRS1oVk1F66-xVBufcgU3MBYCbkIzU--x2LQsefdgw3/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+document.getElementById('subj').textContent =
+  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+const vsel = document.getElementById('variantas');
+const lsel = document.getElementById('lygis');
+let GRADING = CFG.grading;
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+function fillVariants(){
+  const vs = currentVariants();
+  vsel.innerHTML = '<option value="">— pasirink —</option>' +
+    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+}
+fillVariants();
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
+  let level=null;
+  if(HAS_LEVELS){
+    level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  renderTest();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  // Listeneriai su nedidele delsa, kad viso ekrano (fullscreen) įjungimo blur
+  // nebūtų palaikytas išėjimu.
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);   // TIESIOGIAI skaičiuojam — nepasikliaujam hasFocus()
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  // Atsarginis tikrinimas kas sekundę — pagauna atvejus, kai įvykiai nesuveikia
+  // (pvz. perjungus į kitą programą, jei blur nesuveikė).
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;            // vienas išėjimo epizodas = 1 kartas
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;   // jei vis dar ne teste
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function renderTest(){
+  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
+        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
+    </div>`).join('');
+  const KEYS = ['α','β','γ','δ','a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
+    <div class="q">
+      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
+      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
+      </div>
+    </div>`).join('');
+}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
+// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+// Saugūs inline žymėjimo tagai (paryškinimui klausimo tekste) — atstatomi po esc() iš fiksuoto
+// sąrašo (be atributų, be dinaminio turinio), tad negalima jais įpinti savavališko HTML.
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
+  // {fr:SKAITIKLIS|VARDIKLIS} -> aiškus laiptuotos trupmenos žymeklis. Naudok šitą, kai
+  // skaitiklis/vardiklis NĖRA grynas skaitmuo (pvz. "1/cos²α", "sin2α/sinα",
+  // "(tanA+tanB)/(1−tanA·tanB)", "√2/2") — patikimiau nei spėlioti iš skliaustų/skaitmenų
+  // (žr. online-test-graikiskos-raides-ir-sqrt-trupmena.md apie ankstesnį spėjimo bug'ą).
+  out = out.replace(/\{fr:([^|{}]*)\|([^|{}]*)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // Skaitmuo/skaitmuo ARBA (N)π/skaitmuo (pvz. "3/4", "π/2", "3π/2") -> laiptuota trupmena.
+  out = out.replace(/(\d*π|\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline (žr.
+  // matematikos-notacija/notacija.css .sqrt). Šaknys NĖRA auto-aptinkamos regex'u (per daug
+  // variantų, ką reiškia "turinys po šaknimi") — generatoriuje rašyk šiuos žymeklius tiesiogiai
+  // vietoj plokščio "√(...)" teksto.
+  // Kilpa iki nekintamo taško — įdėtosios šaknys (žymeklis šalia žymeklio, pvz. {sqrt:(16 − {sqrt:13})²})
+  // reikalauja kelių praėjimų: [^{}]* negali "peršokti" vidinio žymeklio riestinio skliausto per
+  // vieną .replace() kvietimą, tad be kilpos vidinė šaknis konvertuojama, o išorinė lieka neišspręsta.
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
+
+// Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+// Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+function normalize(s){
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,''); // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-zα-ω])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-zα-ω]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+// Simbolių redaktorius atviro atsakymo laukams
+function insOpen(i, ch){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+}
+function bkspOpen(i){
+  const el=document.getElementById('open'+i);
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+}
+
+function submitTest(){
+  // ar viskas atsakyta?
+  let unanswered=0;
+  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
+  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  // I dalis (A–D) — automatinis vertinimas
+  let correct=0; const mcAns=[];
+  variant.mc.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
+    if(a===q.correct) correct++;
+  });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
+  const openPts=[]; let openCorrect=0;
+  const openAns = variant.open.map((q,i)=>{
+    const val=document.getElementById('open'+i).value.trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+    return val;
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();   // automatinis siuntimas į Google Sheets (jei sukonfigūruota)
+}
+
+/* ---- Automatinis rezultatų siuntimas į Google Sheets ----
+   Rezultatas siunčiamas per PASLĖPTĄ FORMĄ į paslėptą iframe. Skirtingai nuo
+   fetch(), formos pateikimas (naršymas) NĖRA ribojamas CORS ir veikia net kai
+   testas atidarytas tiesiai iš failo (file://) — todėl tai patikimiausias būdas
+   siųsti į Apps Script „web app". Duomenys keliauja lauke „data" (Apps Script
+   skaito e.parameter.data). Atsakymo perskaityti negalime (kitas domenas), bet
+   iframe „load" įvykis patvirtina, kad užklausa nukeliavo. */
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  // Naujas paslėptas iframe kiekvienam siuntimui
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  // Bendram „router" web app'ui — į kurią lentelę rašyti (jei nurodyta config'e)
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  // „load" prikabinam kitame cikle, kad praleistume pradinį tuščią (about:blank) įkėlimą
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  // Jei per 15 s nė vienas „load" neįvyko — parodome atsarginį būdą
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  // scale: [[threshold%,grade],...] mažėjančia tvarka
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>
