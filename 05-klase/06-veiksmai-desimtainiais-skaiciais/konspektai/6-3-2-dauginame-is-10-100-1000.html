@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6.3.2 Dauginame iš 10, 100, 1000, ... — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>6.3.2 Dauginame iš 10, 100, 1000, ...</h1>
+  <p class="klase">Matematika · 5 klasė · 6 skyrius „Veiksmai su dešimtainiais skaičiais“ · 6.3.2 tema</p>
+
+  <section class="potema" id="t632">
+    <h2><span class="nr">6.3.2</span> Dešimtainio skaičiaus daugyba iš 10, 100, 1000, ...</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Norint dešimtainį skaičių padauginti iš 10 (100, 1000,
+        10 000, ...), <b>kablelis perkeliamas per tiek skaitmenų į dešinę, kiek nulių turi daugiklis</b>.
+        Jeigu skaitmenų po kableliu pritrūksta, trūkstamas vietas <b>papildome nuliais</b> dešinėje. Jeigu
+        po kablelio persikėlė visi skaitmenys, kablelio nebedėjome — gauname natūralųjį skaičių.</p>
+        <table class="kort">
+          <tr><th>Daugiklis</th><th>Kiek nulių turi</th><th>Per kiek skaitmenų perkeliame kablelį</th></tr>
+          <tr><td>10</td><td>1</td><td>1</td></tr>
+          <tr><td>100</td><td>2</td><td>2</td></tr>
+          <tr><td>1000</td><td>3</td><td>3</td></tr>
+          <tr><td>10 000</td><td>4</td><td>4</td></tr>
+        </table>
+        <div class="demesio"><b>Dėmesio.</b> Galioja <b>perstatomumo dėsnis</b> — nesvarbu, kuris
+        dauginamasis rašomas pirmas: <span class="math">2,19 · 10 = 10 · 2,19</span>. Jei po kablelio
+        skaitmenų yra <b>lygiai tiek, kiek reikia perkelti</b>, kablelis „dingsta“ ir gauname sveikąjį
+        (natūralųjį) skaičių, pvz. <span class="math">1,7 · 10 = 17</span>. Jei skaitmenų <b>trūksta</b>,
+        laisvas vietas dešinėje užpildome nuliais, pvz. <span class="math">6,703 · 10 000 = 67 030</span>
+        (kablelis turi persikelti per 4 vietas, o po kablelio buvo tik 3 skaitmenys — vienos vietos
+        trūko, tad pridėjome 1 nulį).</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Apskaičiuokime <span class="math">2,19 · 10</span>. Daugiklis
+        10 turi 1 nulį, tad kablelį perkeliame per 1 skaitmenį į dešinę: <span class="math"><b>2,19 · 10 = 21,9</b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Apskaičiuokime <span class="math">2,19 · 100</span>. Daugiklis
+        100 turi 2 nulius, kablelį perkeliame per 2 skaitmenis: po kablelio buvo lygiai 2 skaitmenys, tad
+        jie visi persikelia į sveikąją dalį ir kablelio nebelieka: <span class="math"><b>2,19 · 100 = 219</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Apskaičiuokime <span class="math">5,012 · 1000</span>. Daugiklis
+        1000 turi 3 nulius, kablelį perkeliame per 3 skaitmenis. Po kablelio buvo lygiai 3 skaitmenys (0,
+        1, 2), tad jie visi persikelia į sveikąją dalį: <span class="math"><b>5,012 · 1000 = 5012</b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Apskaičiuokime <span class="math">6,703 · 10 000</span>. Daugiklis
+        10 000 turi 4 nulius, kablelį reikia perkelti per 4 skaitmenis, o po kablelio yra tik 3 skaitmenys
+        (7, 0, 3). Vienos vietos trūksta, tad dešinėje papildome 1 nuliu: <span class="math"><b>6,703 · 10 000 = 67 030</b></span>.</p>
+        <p class="pvz"><b>5 pavyzdys.</b> Apskaičiuokime <span class="math">1,7 · 10</span>. Daugiklis 10
+        turi 1 nulį, o po kablelio yra tik 1 skaitmuo (7) — jis persikelia į sveikąją dalį, ir kablelio
+        visai nebelieka: <span class="math"><b>1,7 · 10 = 17</b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Dauginame iš 10, 100, 1000, ...“ (6.3.2)
+  </footer>
+
+</div>
+</body>
+</html>

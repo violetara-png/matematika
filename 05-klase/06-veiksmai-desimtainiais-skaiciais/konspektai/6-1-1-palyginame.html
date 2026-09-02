@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6.1.1 Palyginame — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .skyr{font-variant-numeric:tabular-nums}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>6.1.1 Palyginame</h1>
+  <p class="klase">Matematika · 5 klasė · 6 skyrius „Veiksmai su dešimtainiais skaičiais“ · 6.1.1 tema</p>
+
+  <section class="potema" id="t611">
+    <h2><span class="nr">6.1.1</span> Dešimtainių skaičių palyginimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">1 taisyklė. Skirtingos sveikosios dalys.</span> Iš dviejų dešimtainių skaičių
+        su <b>skirtinga sveikąja dalimi</b> didesnis tas, kurio <b>sveikoji dalis didesnė</b>. Dešimtainės
+        dalies lyginti nereikia. Pavyzdžiui, <span class="math">62,19 &lt; 69,89</span>, nes
+        <span class="math">62 &lt; 69</span>.</p>
+        <p><span class="zenk">2 taisyklė. Vienodos sveikosios dalys.</span> Jeigu sveikosios dalys
+        <b>lygios</b>, lyginame dešimtųjų skaitmenį; jeigu ir jis lygus — šimtųjų skaitmenį, ir taip toliau,
+        kol randame skyrių, kuriame skaitmenys skiriasi. Didesnis tas skaičius, kurio tame skyriuje
+        skaitmuo didesnis.</p>
+        <p><span class="zenk">Svarbu — skaitmenų po kablelio papildymas nuliu.</span> Jeigu vienas skaičius
+        turi mažiau skaitmenų po kablelio, jį papildome nuliais dešinėje, kad abiejų skaičių skyrių
+        skaičius sutaptų. Nuo to skaičiaus <b>reikšmė nesikeičia</b> (pvz. <span class="math">7,42 = 7,420</span>),
+        bet lyginti tampa patogiau — skyrius po skyriaus.</p>
+        <table class="kort">
+          <tr><th>Palyginimas</th><th>Taisyklė</th><th>Rezultatas</th></tr>
+          <tr>
+            <td class="skyr">62,19 ir 69,89</td>
+            <td>sveikosios dalys skirtingos (62 ir 69)</td>
+            <td class="skyr">62,19 &lt; 69,89</td>
+          </tr>
+          <tr>
+            <td class="skyr">69,89 ir 69,29</td>
+            <td>sveikosios lygios (69=69), lyginame dešimtųjų skaitmenį (8 ir 2)</td>
+            <td class="skyr">69,89 &gt; 69,29</td>
+          </tr>
+          <tr>
+            <td class="skyr">7,42 ir 7,421</td>
+            <td>7,42=7,420; skyrius po skyriaus: 4=4, 2=2, 0&lt;1</td>
+            <td class="skyr">7,42 &lt; 7,421</td>
+          </tr>
+        </table>
+        <div class="demesio"><b>Dėmesio.</b> Papildymas nuliu <b>NIEKADA nekeičia skaičiaus reikšmės</b> —
+        <span class="math">7,42</span> ir <span class="math">7,420</span> yra tas pats skaičius. Klaida, kurios
+        reikia vengti: negalima lyginti skaičių taip, lyg jie būtų natūralieji (t. y. manyti, kad
+        <span class="math">7,421 &lt; 7,42</span>, nes „421 turi daugiau skaitmenų"). Lyginame TIK atitinkamus
+        skyrius po kablelio, ne bendrą skaitmenų kiekį.</div>
+        <p class="pvz"><b>1 pavyzdys.</b> Palyginkime <span class="math">62,19</span> ir <span class="math">69,89</span>.
+        Sveikosios dalys — <span class="math">62</span> ir <span class="math">69</span>, jos skirtingos. Kadangi
+        <span class="math">62 &lt; 69</span>, tai <span class="math"><b>62,19 &lt; 69,89</b></span>.</p>
+        <p class="pvz"><b>2 pavyzdys.</b> Palyginkime <span class="math">69,89</span> ir <span class="math">69,29</span>.
+        Sveikosios dalys lygios (<span class="math">69 = 69</span>), tad lyginame dešimtųjų skaitmenį:
+        <span class="math">8</span> ir <span class="math">2</span>. Kadangi <span class="math">8 &gt; 2</span>, tai
+        <span class="math"><b>69,89 &gt; 69,29</b></span>.</p>
+        <p class="pvz"><b>3 pavyzdys.</b> Palyginkime <span class="math">7,42</span> ir <span class="math">7,421</span>.
+        Papildome trumpesnįjį skaičių nuliu: <span class="math">7,42 = 7,420</span>. Dabar abu turi tris skaitmenis
+        po kablelio — lyginame skyrius po skyriaus: dešimtųjų <span class="math">4 = 4</span>, šimtųjų
+        <span class="math">2 = 2</span>, tūkstantųjų <span class="math">0 &lt; 1</span>. Kadangi pirmasis
+        besiskiriantis skyrius (tūkstantųjų) rodo <span class="math">0 &lt; 1</span>, tai
+        <span class="math"><b>7,42 &lt; 7,421</b></span>.</p>
+        <p class="pvz"><b>4 pavyzdys.</b> Palyginkime <span class="math">84,6</span> ir <span class="math">84,58</span>.
+        Sveikosios dalys lygios (<span class="math">84 = 84</span>). Papildome: <span class="math">84,6 = 84,60</span>.
+        Lyginame dešimtųjų skaitmenį: <span class="math">6</span> ir <span class="math">5</span>. Kadangi jau šitame
+        skyriuje <span class="math">6 &gt; 5</span>, toliau (iki šimtųjų) eiti nereikia — tai
+        <span class="math"><b>84,6 &gt; 84,58</b></span>.</p>
+        <p class="pvz"><b>5 pavyzdys (rikiavimas).</b> Surašykime didėjimo tvarka skaičius
+        <span class="math">23,4</span>, <span class="math">23,45</span>, <span class="math">23,04</span>,
+        <span class="math">23,5</span>. Sveikoji dalis visų vienoda (<span class="math">23</span>). Papildę
+        nuliais gauname: <span class="math">23,40</span>, <span class="math">23,45</span>,
+        <span class="math">23,04</span>, <span class="math">23,50</span>. Lygindami dešimtųjų skaitmenį
+        (<span class="math">4, 4, 0, 5</span>) matome, kad mažiausias yra <span class="math">23,04</span>
+        (dešimtųjų skaitmuo <span class="math">0</span>); tarp likusių dviejų su dešimtųjų skaitmeniu
+        <span class="math">4</span> (t. y. <span class="math">23,40</span> ir <span class="math">23,45</span>)
+        lyginame šimtųjų skaitmenį (<span class="math">0 &lt; 5</span>). Gauname tvarką:
+        <span class="math"><b>23,04 &lt; 23,4 &lt; 23,45 &lt; 23,5</b></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Palyginame“ (6.1.1)
+  </footer>
+
+</div>
+</body>
+</html>

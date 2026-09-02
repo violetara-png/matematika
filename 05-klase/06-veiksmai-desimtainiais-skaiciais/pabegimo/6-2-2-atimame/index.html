@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · 6.2.2 Atimame dešimtainius skaičius · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(24px,5vw,38px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(17px,3.4vw,24px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:17px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:36px;height:48px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:20px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(400px,92%);padding:15px;font-size:22px;text-align:center;
+    letter-spacing:6px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Meteorologijos stoties naktis</span>
+    <h1>Dingusio <span class="amber">skirtumo</span> paslaptis</h1>
+    <div class="sub">Pabėgimo kambarys · 6.2.2 Atimame dešimtainius skaičius · 5 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Budėtojau,</span> naktinės pamainos metu likai užrakintas senoje meteorologijos
+      stotyje — visi matavimų žurnalai užrašyti dešimtainiais skaičiais, o ant durų kabo vyriausiojo
+      meteorologo raštelis:</p>
+      <p style="margin:12px 0 0"><i>„Tarp tavęs ir laisvės — dešimt užrakintų prietaisų skydelių. Kiekvienas
+      atrakinamas teisingai atėmus dešimtainius skaičius ir atskleidžia po vieną stoties durų kodo
+      skaitmenį. Kartais teks pasiskolinti iš gretimo skyriaus — kaip atimant natūraliuosius skaičius
+      stulpeliu."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės — nuo paprasčiausios atimties stulpeliu, per natūralųjį
+      skaičių minus dešimtainį, grandininę atimtį, lygtis, iki gudresnės sargo mįslės pačioje pabaigoje.
+      Laikas bėga.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 skydelių.</b> Atrakinami iš eilės, sprendžiant atimties mįsles.</div>
+      <div class="rule"><b>🔢 Kiekvienas skydelis</b> duoda po vieną durų kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas tik nukreipia, atsakymo neduoda, jį randi pats.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis budėtojo rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą durų kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti budėjimą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Stoties durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 skydelio):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏃💨</div>
+    <h2>Pabėgai iš stoties!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, budėjimas baigtas.
+      Dešimtainių skaičių atimtis tau nebe paslaptis — moki rašyti kablelį po kablelio, papildyti nuliais
+      ir, kai reikia, pasiskolinti iš gretimo skyriaus.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · 5 klasė · 6.2.2 Atimame dešimtainius skaičius · atidaryk naršyklėje</div>
+</div>
+
+<script>
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){ return esc(s); }
+
+/* Patarimai TIK nukreipia (metodas, pirmas žingsnis), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Kableliai vienas po kito — abu skaičiai turi vienodai skaitmenų po kablelio. Atimk kaip natūraliuosius ir imk atsakymo PASKUTINĮ skaitmenį.",
+  "Trumpesnįjį skaičių papildyk nuliais dešinėje, kad abu turėtų vienodai skaitmenų po kablelio, tada atimk kaip natūraliuosius.",
+  "Natūralųjį skaičių laikyk dešimtainiu su nuliais po kablelio (pvz. 76 = 76,00) ir atimk, prireikus pasiskolindamas iš gretimo skyriaus.",
+  "Atimk iš eilės, po vieną veiksmą: pirmiausia pirmus du skaičius, tada iš gauto rezultato atimk trečią.",
+  "Sugrupuok du paskutinius skaičius taip, kad jų suma taptų sveikasis skaičius (dešimtųjų skaitmenys duoda 10) — tada atimtis supaprastėja.",
+  "Skirtumas = brangesnė kaina minus pigesnė kaina. Papildyk trumpesnę kainą nuliu, jei reikia, ir atimk.",
+  "Liko važiuoti = visas kelio ilgis minus jau nuvažiuota atkarpa.",
+  "Temperatūros sumažėjimas = ryto temperatūra minus vakaro temperatūra.",
+  "Nežinomas atėminys arba mažinamasis: atėminį randi atimdamas skirtumą iš mažėjamojo; mažinamąjį — sudėdamas atėminį su skirtumu.",
+  "Apskaičiuok abu atimties veiksmus iš eilės ir paimk skaitmenį PO KABLELIO (dešimtųjų vietą), ne paskutinį sveikosios dalies skaitmenį.",
+];
+
+/* ================= 4 VARIANTAI · 6.2.2 Atimame dešimtainius skaičius ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 9860620690 --- */
+ [
+  {title:"Pirmas skydelis: stulpelis (vienodas ilgis)", eq:"53,42 − 6,63", q:"Apskaičiuok 53,42 − 6,63. Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Antras skydelis: skirtingas skaitmenų po kablelio skaičius", eq:"32,8 − 13,802", q:"Apskaičiuok 32,8 − 13,802. Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Trečias skydelis: natūralusis skaičius minus dešimtainis", eq:"76 − 65,34", q:"Apskaičiuok 76 − 65,34. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Ketvirtas skydelis: grandininė atimtis", eq:"51,2 − 19,5 − 27,7", q:"Apskaičiuok 51,2 − 19,5 − 27,7. Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Penktas skydelis: mintinai, patogus grupavimas", eq:"23,6 − 6,2 − 4,8", q:"Apskaičiuok patogiu būdu: 23,6 − 6,2 − 4,8. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Šeštas skydelis: kainų skirtumas", eq:"23,44 € − 15,02 €", q:"Knyga kainuoja 23,44 €, o sąsiuvinis — 15,02 €. Kiek eurų knyga brangesnė? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Septintas skydelis: atstumų skirtumas", eq:"40,20 km − 35,00 km", q:"Kelio ilgis 40,20 km. Nuvažiavus 35,00 km, kiek kilometrų liko važiuoti? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Aštuntas skydelis: temperatūros kritimas", eq:"14,8 °C − 8,2 °C", q:"Ryte buvo 14,8 °C, vakare — 8,2 °C. Kiek laipsnių temperatūra sumažėjo? Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Devintas skydelis: trūkstamas atėminys", eq:"11,25 − x = 6,56", q:"Raskite x: 11,25 − x = 6,56. Koks x PASKUTINIS skaitmuo?", ans:9},
+  {title:"Dešimtas skydelis: sargo mįslė", eq:"64,5 − 20,3 − 32,2 = D,d", q:"Apskaičiuok 64,5 − 20,3 − 32,2. Koks atsakymo DEŠIMTŲJŲ (po kablelio) skaitmuo?", ans:0},
+ ],
+ /* --- VARIANTAS 2 · kodas 6647634512 --- */
+ [
+  {title:"Pirmas skydelis: stulpelis (vienodas ilgis)", eq:"38,62 − 24,56", q:"Apskaičiuok 38,62 − 24,56. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Antras skydelis: skirtingas skaitmenų po kablelio skaičius", eq:"21,7 − 18,684", q:"Apskaičiuok 21,7 − 18,684. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Trečias skydelis: natūralusis skaičius minus dešimtainis", eq:"28 − 24,46", q:"Apskaičiuok 28 − 24,46. Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Ketvirtas skydelis: grandininė atimtis", eq:"55,7 − 6,5 − 31,5", q:"Apskaičiuok 55,7 − 6,5 − 31,5. Koks atsakymo PASKUTINIS skaitmuo?", ans:7},
+  {title:"Penktas skydelis: mintinai, patogus grupavimas", eq:"23,6 − 6,7 − 2,3", q:"Apskaičiuok patogiu būdu: 23,6 − 6,7 − 2,3. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Šeštas skydelis: kainų skirtumas", eq:"19,07 € − 4,74 €", q:"Knyga kainuoja 19,07 €, o sąsiuvinis — 4,74 €. Kiek eurų knyga brangesnė? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Septintas skydelis: atstumų skirtumas", eq:"20,04 km − 11,40 km", q:"Kelio ilgis 20,04 km. Nuvažiavus 11,40 km, kiek kilometrų liko važiuoti? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Aštuntas skydelis: temperatūros kritimas", eq:"24,2 °C − 22,7 °C", q:"Ryte buvo 24,2 °C, vakare — 22,7 °C. Kiek laipsnių temperatūra sumažėjo? Koks atsakymo PASKUTINIS skaitmuo?", ans:5},
+  {title:"Devintas skydelis: trūkstamas mažinamasis", eq:"x − 5,58 = 6,93", q:"Raskite x: x − 5,58 = 6,93. Koks x PASKUTINIS skaitmuo?", ans:1},
+  {title:"Dešimtas skydelis: sargo mįslė", eq:"84,8 − 8,2 − 13,4 = D,d", q:"Apskaičiuok 84,8 − 8,2 − 13,4. Koks atsakymo DEŠIMTŲJŲ (po kablelio) skaitmuo?", ans:2},
+ ],
+ /* --- VARIANTAS 3 · kodas 2614143726 --- */
+ [
+  {title:"Pirmas skydelis: stulpelis (vienodas ilgis)", eq:"71,36 − 51,44", q:"Apskaičiuok 71,36 − 51,44. Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Antras skydelis: skirtingas skaitmenų po kablelio skaičius", eq:"68,2 − 10,674", q:"Apskaičiuok 68,2 − 10,674. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Trečias skydelis: natūralusis skaičius minus dešimtainis", eq:"49 − 1,49", q:"Apskaičiuok 49 − 1,49. Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Ketvirtas skydelis: grandininė atimtis", eq:"64,3 − 10,2 − 11,7", q:"Apskaičiuok 64,3 − 10,2 − 11,7. Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Penktas skydelis: mintinai, patogus grupavimas", eq:"34,1 − 3,1 − 8,9", q:"Apskaičiuok patogiu būdu: 34,1 − 3,1 − 8,9. Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Šeštas skydelis: kainų skirtumas", eq:"25,63 € − 18,59 €", q:"Knyga kainuoja 25,63 €, o sąsiuvinis — 18,59 €. Kiek eurų knyga brangesnė? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Septintas skydelis: atstumų skirtumas", eq:"12,50 km − 11,47 km", q:"Kelio ilgis 12,50 km. Nuvažiavus 11,47 km, kiek kilometrų liko važiuoti? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Aštuntas skydelis: temperatūros kritimas", eq:"15,1 °C − 5,4 °C", q:"Ryte buvo 15,1 °C, vakare — 5,4 °C. Kiek laipsnių temperatūra sumažėjo? Koks atsakymo PASKUTINIS skaitmuo?", ans:7},
+  {title:"Devintas skydelis: trūkstamas atėminys", eq:"11,71 − x = 4,99", q:"Raskite x: 11,71 − x = 4,99. Koks x PASKUTINIS skaitmuo?", ans:2},
+  {title:"Dešimtas skydelis: sargo mįslė", eq:"51,2 − 6,5 − 1,1 = D,d", q:"Apskaičiuok 51,2 − 6,5 − 1,1. Koks atsakymo DEŠIMTŲJŲ (po kablelio) skaitmuo?", ans:6},
+ ],
+ /* --- VARIANTAS 4 · kodas 1596429501 --- */
+ [
+  {title:"Pirmas skydelis: stulpelis (vienodas ilgis)", eq:"81,38 − 50,67", q:"Apskaičiuok 81,38 − 50,67. Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Antras skydelis: skirtingas skaitmenų po kablelio skaičius", eq:"67,1 − 27,705", q:"Apskaičiuok 67,1 − 27,705. Koks atsakymo PASKUTINIS skaitmuo?", ans:5},
+  {title:"Trečias skydelis: natūralusis skaičius minus dešimtainis", eq:"38 − 9,71", q:"Apskaičiuok 38 − 9,71. Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Ketvirtas skydelis: grandininė atimtis", eq:"53,8 − 5,1 − 22,1", q:"Apskaičiuok 53,8 − 5,1 − 22,1. Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Penktas skydelis: mintinai, patogus grupavimas", eq:"32,4 − 3,9 − 5,1", q:"Apskaičiuok patogiu būdu: 32,4 − 3,9 − 5,1. Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Šeštas skydelis: kainų skirtumas", eq:"9,88 € − 8,36 €", q:"Knyga kainuoja 9,88 €, o sąsiuvinis — 8,36 €. Kiek eurų knyga brangesnė? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Septintas skydelis: atstumų skirtumas", eq:"38,24 km − 11,25 km", q:"Kelio ilgis 38,24 km. Nuvažiavus 11,25 km, kiek kilometrų liko važiuoti? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Aštuntas skydelis: temperatūros kritimas", eq:"13,9 °C − 3,4 °C", q:"Ryte buvo 13,9 °C, vakare — 3,4 °C. Kiek laipsnių temperatūra sumažėjo? Koks atsakymo PASKUTINIS skaitmuo?", ans:5},
+  {title:"Devintas skydelis: trūkstamas atėminys", eq:"8,98 − x = 4,18", q:"Raskite x: 8,98 − x = 4,18. Koks x PASKUTINIS skaitmuo?", ans:0},
+  {title:"Dešimtas skydelis: sargo mįslė", eq:"65,6 − 12,6 − 42,9 = D,d", q:"Apskaičiuok 65,6 − 12,6 − 42,9. Koks atsakymo DEŠIMTŲJŲ (po kablelio) skaitmuo?", ans:1},
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${fmtMath(st.q)}</p>
+        ${st.eq?`<div class="eqbox"><span class="math">${fmtMath(st.eq)}</span></div>`:''}
+        <div class="answer-row">
+          <span class="lead">Skaitmuo =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šio skydelio skaitmuo durų kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Skydelis atsivėrė.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas skaitmuo. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 skydelio.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis budėtojas (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs budėtojas";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors sargas jau bunda. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>
