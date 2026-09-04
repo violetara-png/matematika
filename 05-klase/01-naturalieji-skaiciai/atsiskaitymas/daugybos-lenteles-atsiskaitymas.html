@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daugybos lentelės (2–10) atsiskaitymas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito:wght@400;600;700&family=Caveat:wght@600&display=swap">
+
+<style>
+:root{
+  --paper:#fbfaf5;
+  --paper-2:#ffffff;
+  --grid:rgba(31,74,120,.11);
+  --grid-strong:rgba(31,74,120,.2);
+  --ink:#16324a;
+  --ink-2:#4c637a;
+  --ink-3:#8296aa;
+  --edge:rgba(22,50,74,.16);
+  --edge-soft:rgba(22,50,74,.09);
+  --margin-line:#e0655a;
+  --ok:#2f8f5b;
+  --ok-soft:rgba(47,143,91,.13);
+  --bad:#d24b3c;
+  --bad-soft:rgba(210,75,60,.13);
+  --shadow:0 1px 0 rgba(22,50,74,.05), 0 18px 40px -24px rgba(22,50,74,.45);
+  --accent:#c62828;
+  --step:28px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141e1c;
+    --paper-2:#1b2725;
+    --grid:rgba(214,240,232,.075);
+    --grid-strong:rgba(214,240,232,.14);
+    --ink:#eaf3ef;
+    --ink-2:#a9bdb6;
+    --ink-3:#7d918b;
+    --edge:rgba(214,240,232,.16);
+    --edge-soft:rgba(214,240,232,.08);
+    --margin-line:#c9705f;
+    --ok:#63c98c;
+    --ok-soft:rgba(99,201,140,.16);
+    --bad:#f0786a;
+    --bad-soft:rgba(240,120,106,.16);
+    --shadow:0 1px 0 rgba(0,0,0,.2), 0 22px 46px -26px rgba(0,0,0,.8);
+    --accent:#f0786a;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141e1c;
+  --paper-2:#1b2725;
+  --grid:rgba(214,240,232,.075);
+  --grid-strong:rgba(214,240,232,.14);
+  --ink:#eaf3ef;
+  --ink-2:#a9bdb6;
+  --ink-3:#7d918b;
+  --edge:rgba(214,240,232,.16);
+  --edge-soft:rgba(214,240,232,.08);
+  --margin-line:#c9705f;
+  --ok:#63c98c;
+  --ok-soft:rgba(99,201,140,.16);
+  --bad:#f0786a;
+  --bad-soft:rgba(240,120,106,.16);
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 22px 46px -26px rgba(0,0,0,.8);
+  --accent:#f0786a;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:var(--step) var(--step);
+  color:var(--ink);
+  font-family:"Nunito", ui-sans-serif, system-ui, sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent); outline-offset:3px; border-radius:6px}
+
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 64px}
+
+.sheet{
+  position:relative;
+  background:var(--paper-2);
+  border:1px solid var(--edge);
+  border-radius:4px;
+  box-shadow:var(--shadow);
+  padding:26px 24px 28px;
+}
+.sheet::before{
+  content:"";
+  position:absolute; inset:0 auto 0 46px; width:2px;
+  background:var(--margin-line); opacity:.5;
+}
+@media (max-width:620px){ .sheet::before{display:none} .sheet{padding:20px 16px 22px} }
+.sheet-inner{padding-left:34px}
+@media (max-width:620px){ .sheet-inner{padding-left:0} }
+
+.masthead{margin-bottom:22px}
+.eyebrow{
+  font-family:"Caveat", cursive; font-size:1.35rem; line-height:1;
+  color:var(--accent); margin:0 0 2px;
+}
+h1{
+  font-family:"Bricolage Grotesque", "Nunito", sans-serif;
+  font-weight:800; font-size:clamp(1.6rem,5.2vw,2.2rem); line-height:1.05;
+  letter-spacing:-.025em; margin:0; text-wrap:balance;
+}
+.lede{color:var(--ink-2);margin:9px 0 0;max-width:48ch;font-size:.98rem}
+
+.field{margin-top:24px}
+.field-label{
+  display:flex;align-items:baseline;gap:9px;margin-bottom:11px;
+  font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+}
+.field-num{
+  font-family:"Bricolage Grotesque",sans-serif;font-size:.95rem;font-weight:700;
+  letter-spacing:0;color:var(--accent);
+}
+
+.who{display:flex;flex-wrap:wrap;gap:10px}
+.txt{
+  flex:1 1 220px;min-width:0;background:transparent;color:var(--ink);
+  border:1.5px solid var(--edge);border-radius:3px;padding:11px 13px;
+  font-family:"Nunito",sans-serif;font-size:1rem;font-weight:600;
+  transition:border-color .15s;
+}
+.txt.short{flex:0 1 110px}
+.txt::placeholder{color:var(--ink-3);font-weight:400}
+.txt:focus{border-color:var(--accent)}
+
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{
+  border:1.5px solid var(--edge);background:transparent;border-radius:3px;
+  padding:9px 15px;cursor:pointer;font-weight:700;font-size:.92rem;
+  transition:border-color .15s, background .15s, color .15s;
+}
+.seg button:hover{border-color:var(--accent)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper-2)}
+
+.notice{
+  margin-top:24px;border:1.5px solid var(--bad);background:var(--bad-soft);color:var(--bad);
+  border-radius:4px;padding:12px 14px;font-size:.86rem;line-height:1.5;font-weight:600;
+}
+
+.go{
+  margin-top:26px;width:100%;border:none;border-radius:3px;cursor:pointer;
+  background:var(--accent);color:var(--paper-2);
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.15rem;
+  padding:16px;letter-spacing:.01em;
+  transition:filter .15s, transform .08s;
+}
+.go:hover:not(:disabled){filter:brightness(1.08)}
+.go:active:not(:disabled){transform:translateY(1px)}
+.go:disabled{background:var(--edge-soft);color:var(--ink-3);cursor:not-allowed}
+.hint{text-align:center;color:var(--ink-3);font-size:.85rem;margin:10px 0 0;min-height:1.2em}
+
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.meta{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.streak{font-family:"Caveat",cursive;font-size:1.3rem;color:var(--accent);line-height:1}
+.pips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px}
+.pip{height:6px;flex:1 1 8px;min-width:8px;border-radius:99px;background:var(--edge-soft)}
+.pip.on{background:var(--accent)}
+.pip.ok{background:var(--ok)}
+.pip.bad{background:var(--bad)}
+
+.clock{display:flex;align-items:center;gap:10px;margin:-10px 0 20px}
+.clock-track{flex:1;height:5px;border-radius:99px;background:var(--edge-soft);overflow:hidden}
+.clock-fill{height:100%;width:100%;background:var(--accent);transform-origin:left center}
+.clock.low .clock-fill{background:var(--bad)}
+.clock-n{
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:.95rem;
+  font-variant-numeric:tabular-nums;color:var(--ink-3);min-width:2.2em;text-align:right;
+}
+.clock.low .clock-n{color:var(--bad)}
+
+.sent{text-align:center;font-family:"Caveat",cursive;font-size:1.25rem;margin:22px 0 0;min-height:1.4em;color:var(--ink-3)}
+.sent.ok{color:var(--ok)}
+.sent.bad{color:var(--bad)}
+
+.problem{
+  text-align:center;padding:26px 8px 30px;
+  border-top:1px dashed var(--edge);border-bottom:1px dashed var(--edge);
+}
+.eq{
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(2.9rem,13vw,4.6rem);line-height:1;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.eq .x{color:var(--accent);padding:0 .12em}
+.eq .q{color:var(--ink-3)}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.choice{
+  border:1.5px solid var(--edge);background:transparent;border-radius:3px;
+  padding:18px 8px;cursor:pointer;
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.7rem;
+  font-variant-numeric:tabular-nums;
+  transition:border-color .15s, background .15s, transform .08s;
+}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice:active:not(:disabled){transform:scale(.98)}
+.choice.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.choice.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.choice:disabled{cursor:default}
+
+.typed{margin-top:22px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.answer-box{
+  width:170px;text-align:center;border:none;border-bottom:3px solid var(--accent);
+  background:transparent;color:var(--ink);
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2.4rem;
+  font-variant-numeric:tabular-nums;padding:4px 0 6px;
+}
+.answer-box:focus{outline:none}
+.answer-box.ok{border-color:var(--ok);color:var(--ok)}
+.answer-box.bad{border-color:var(--bad);color:var(--bad)}
+.pad{display:grid;grid-template-columns:repeat(3,64px);gap:8px}
+.pad button{
+  border:1.5px solid var(--edge);background:transparent;border-radius:3px;
+  padding:12px 0;cursor:pointer;font-weight:700;font-size:1.25rem;
+  font-variant-numeric:tabular-nums;transition:background .12s, transform .08s;
+}
+.pad button:hover{background:var(--edge-soft)}
+.pad button:active{transform:scale(.94)}
+.pad .span2{grid-column:span 2}
+.pad .wide{grid-column:span 3;background:var(--accent);border-color:var(--accent);color:var(--paper-2)}
+.pad .wide:hover{filter:brightness(1.08);background:var(--accent)}
+
+.verdict{
+  text-align:center;margin-top:18px;min-height:2.6em;
+  font-family:"Caveat",cursive;font-size:1.5rem;line-height:1.25;
+}
+.verdict.ok{color:var(--ok)}
+.verdict.bad{color:var(--bad)}
+.shake{animation:shake .34s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+  40%{transform:translateX(7px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(3px)}
+}
+.pop{animation:pop .32s}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.09)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){
+  .shake,.pop{animation:none}
+  *{transition-duration:.01ms !important}
+}
+
+.score-head{text-align:center;padding:6px 0 4px}
+.grade{
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(4rem,20vw,6.6rem);line-height:.9;color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+.grade-cap{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.remark{font-family:"Caveat",cursive;font-size:1.7rem;color:var(--ink-2);margin-top:8px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--edge);
+  border:1px solid var(--edge);margin-top:26px}
+.stat{background:var(--paper-2);padding:14px 10px;text-align:center}
+.stat-v{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.stat-k{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+
+.section-title{
+  margin:30px 0 12px;font-size:.72rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.review{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:7px}
+.rev{
+  border:1.5px solid var(--edge);border-left-width:4px;border-radius:3px;padding:8px 9px;
+  font-variant-numeric:tabular-nums;font-size:.9rem;
+}
+.rev.ok{border-left-color:var(--ok)}
+.rev.bad{border-left-color:var(--bad)}
+.rev-eq{font-weight:700}
+.rev-you{font-size:.78rem;color:var(--bad);margin-top:2px}
+.rev-you.fine{color:var(--ink-3)}
+
+.foot{text-align:center;color:var(--ink-3);font-size:.78rem;margin-top:20px}
+
+#exitBanner{
+  display:none;position:sticky;top:8px;z-index:50;
+  background:var(--bad-soft);border:1.5px solid var(--bad);color:var(--bad);
+  border-radius:4px;padding:9px 14px;margin:0 auto 12px;font-size:.85rem;font-weight:700;
+  max-width:720px;
+}
+.away-row{
+  text-align:center;font-size:.85rem;font-weight:700;color:var(--ink-3);margin-top:10px;
+}
+.away-row.warn{color:var(--bad)}
+
+canvas#burst{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="5-01-naturalieji-skaiciai-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 1. Natūralieji skaičiai";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slaptažodis";inp.value="";inp.focus();}});})();</script>
+
+<canvas id="burst" hidden></canvas>
+
+<div class="wrap">
+  <div id="exitBanner"></div>
+  <div class="sheet">
+    <div class="sheet-inner">
+
+      <!-- ============ SETUP / REGISTRACIJA ============ -->
+      <section id="setup">
+        <div class="masthead">
+          <p class="eyebrow">atsiskaitymas</p>
+          <h1>Daugybos lentelės (2–10) atsiskaitymas</h1>
+          <p class="lede">20 klausimų: 10 su atsakymų variantais ir 10 su įrašomu atsakymu. Kiekvienam klausimui — 5 sekundės.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span class="field-num">1</span> Kas laiko atsiskaitymą?</div>
+          <div class="who">
+            <input id="pupilName" class="txt" type="text" maxlength="40" autocomplete="off" placeholder="Vardas ir pavardė" aria-label="Vardas ir pavardė">
+            <input id="pupilClass" class="txt short" type="text" maxlength="10" autocomplete="off" placeholder="Klasė" aria-label="Klasė">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span class="field-num">2</span> Testo variantas</div>
+          <div class="seg" id="variant">
+            <button type="button" data-v="1" aria-pressed="true">1</button>
+            <button type="button" data-v="2" aria-pressed="false">2</button>
+            <button type="button" data-v="3" aria-pressed="false">3</button>
+            <button type="button" data-v="4" aria-pressed="false">4</button>
+          </div>
+        </div>
+
+        <p class="notice">⚠ Tai atsiskaitymo darbas: fiksuojami išėjimai iš šio lango, kiekvienam klausimui skiriama tik 5 sekundės, o rezultatas automatiškai keliauja mokytojai. Pradėk tik tada, kai esi pasiruošęs(-usi).</p>
+
+        <button class="go" id="start">Pradėti atsiskaitymą</button>
+        <p class="hint" id="hint">Įrašyk vardą ir pavardę bei klasę.</p>
+      </section>
+
+      <!-- ============ QUIZ ============ -->
+      <section id="quiz" hidden>
+        <div class="bar">
+          <span class="meta" id="progress">Klausimas 1 iš 20</span>
+          <span class="streak" id="streak"></span>
+        </div>
+        <div class="pips" id="pips"></div>
+
+        <div class="clock" id="clock">
+          <div class="clock-track"><div class="clock-fill" id="clockFill"></div></div>
+          <span class="clock-n" id="clockN">5</span>
+        </div>
+
+        <div class="problem">
+          <div class="eq" id="eq"></div>
+        </div>
+
+        <div class="choices" id="choices"></div>
+
+        <div class="typed" id="typed" hidden>
+          <input class="answer-box" id="answer" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="Tavo atsakymas">
+          <div class="pad" id="pad">
+            <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+            <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+            <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+            <button type="button" class="span2" data-k="0">0</button><button type="button" data-k="del" aria-label="Trinti">⌫</button>
+            <button type="button" class="wide" data-k="ok">Tikrinti</button>
+          </div>
+        </div>
+
+        <p class="verdict" id="verdict" aria-live="polite"></p>
+      </section>
+
+      <!-- ============ RESULTS ============ -->
+      <section id="done" hidden>
+        <div class="score-head">
+          <div class="grade-cap" id="who"></div>
+          <div class="grade-cap">Pažymys</div>
+          <div class="grade" id="grade">10</div>
+          <div class="remark" id="remark"></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="stat-v" id="sCorrect">0/0</div><div class="stat-k">Teisingai</div></div>
+          <div class="stat"><div class="stat-v" id="sPct">0%</div><div class="stat-k">Procentai</div></div>
+          <div class="stat"><div class="stat-v" id="sTime">0:00</div><div class="stat-k">Laikas</div></div>
+        </div>
+
+        <p class="away-row" id="awayRow" hidden></p>
+
+        <div class="section-title">Visi atsakymai</div>
+        <div class="review" id="review"></div>
+
+        <p class="sent" id="sent" aria-live="polite"></p>
+        <button type="button" class="go" id="saveTxt" hidden>Atsisiųsti rezultatą (atsargai)</button>
+      </section>
+
+    </div>
+  </div>
+  <p class="foot">Atsiskaitymo darbas · rezultatas keliauja mokytojai automatiškai.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwMKLPSpmwmWhRa2-fvQapzR9BsbzyXOrnDsWiYd5TuhF5b54DdbVGtKLMlBzA9POls/exec";
+  const SHEET_ID = "1S8O_TNa6-3ngmVjzt3B8HsBWHandh100XI24a6wab3E";
+  const TIME_LIMIT = 5;
+
+  const CFG = [{"id": 1, "qs": [{"a": 7, "b": 9, "mode": "choice"}, {"a": 3, "b": 1, "mode": "choice"}, {"a": 6, "b": 3, "mode": "choice"}, {"a": 2, "b": 2, "mode": "choice"}, {"a": 9, "b": 3, "mode": "choice"}, {"a": 8, "b": 7, "mode": "choice"}, {"a": 3, "b": 6, "mode": "choice"}, {"a": 4, "b": 7, "mode": "choice"}, {"a": 6, "b": 1, "mode": "choice"}, {"a": 5, "b": 3, "mode": "choice"}, {"a": 6, "b": 6, "mode": "type"}, {"a": 6, "b": 8, "mode": "type"}, {"a": 8, "b": 8, "mode": "type"}, {"a": 3, "b": 10, "mode": "type"}, {"a": 7, "b": 10, "mode": "type"}, {"a": 7, "b": 6, "mode": "type"}, {"a": 8, "b": 3, "mode": "type"}, {"a": 9, "b": 1, "mode": "type"}, {"a": 7, "b": 2, "mode": "type"}, {"a": 7, "b": 7, "mode": "type"}]}, {"id": 2, "qs": [{"a": 4, "b": 3, "mode": "choice"}, {"a": 4, "b": 5, "mode": "choice"}, {"a": 3, "b": 5, "mode": "choice"}, {"a": 9, "b": 5, "mode": "choice"}, {"a": 5, "b": 5, "mode": "choice"}, {"a": 6, "b": 10, "mode": "choice"}, {"a": 2, "b": 8, "mode": "choice"}, {"a": 2, "b": 3, "mode": "choice"}, {"a": 10, "b": 1, "mode": "choice"}, {"a": 5, "b": 7, "mode": "choice"}, {"a": 5, "b": 10, "mode": "type"}, {"a": 3, "b": 4, "mode": "type"}, {"a": 8, "b": 1, "mode": "type"}, {"a": 8, "b": 2, "mode": "type"}, {"a": 2, "b": 4, "mode": "type"}, {"a": 3, "b": 7, "mode": "type"}, {"a": 6, "b": 5, "mode": "type"}, {"a": 4, "b": 8, "mode": "type"}, {"a": 9, "b": 2, "mode": "type"}, {"a": 10, "b": 10, "mode": "type"}]}, {"id": 3, "qs": [{"a": 4, "b": 2, "mode": "choice"}, {"a": 9, "b": 4, "mode": "choice"}, {"a": 7, "b": 1, "mode": "choice"}, {"a": 2, "b": 6, "mode": "choice"}, {"a": 10, "b": 5, "mode": "choice"}, {"a": 4, "b": 9, "mode": "choice"}, {"a": 7, "b": 4, "mode": "choice"}, {"a": 9, "b": 10, "mode": "choice"}, {"a": 4, "b": 4, "mode": "choice"}, {"a": 6, "b": 9, "mode": "choice"}, {"a": 9, "b": 9, "mode": "type"}, {"a": 6, "b": 2, "mode": "type"}, {"a": 5, "b": 4, "mode": "type"}, {"a": 10, "b": 9, "mode": "type"}, {"a": 10, "b": 3, "mode": "type"}, {"a": 3, "b": 9, "mode": "type"}, {"a": 9, "b": 8, "mode": "type"}, {"a": 3, "b": 2, "mode": "type"}, {"a": 4, "b": 6, "mode": "type"}, {"a": 10, "b": 4, "mode": "type"}]}, {"id": 4, "qs": [{"a": 2, "b": 10, "mode": "choice"}, {"a": 6, "b": 4, "mode": "choice"}, {"a": 10, "b": 6, "mode": "choice"}, {"a": 9, "b": 6, "mode": "choice"}, {"a": 3, "b": 3, "mode": "choice"}, {"a": 5, "b": 6, "mode": "choice"}, {"a": 3, "b": 8, "mode": "choice"}, {"a": 5, "b": 8, "mode": "choice"}, {"a": 5, "b": 9, "mode": "choice"}, {"a": 5, "b": 1, "mode": "choice"}, {"a": 10, "b": 8, "mode": "type"}, {"a": 6, "b": 7, "mode": "type"}, {"a": 2, "b": 9, "mode": "type"}, {"a": 7, "b": 5, "mode": "type"}, {"a": 8, "b": 4, "mode": "type"}, {"a": 4, "b": 10, "mode": "type"}, {"a": 9, "b": 7, "mode": "type"}, {"a": 7, "b": 3, "mode": "type"}, {"a": 8, "b": 6, "mode": "type"}, {"a": 5, "b": 2, "mode": "type"}]}];
+
+  const $ = id => document.getElementById(id);
+  const isTouch = window.matchMedia("(hover: none)").matches;
+
+  const state = {
+    variant:1, name:"", klase:"",
+    qs:[], i:0, correct:0, streak:0, bestStreak:0, t0:0, locked:false,
+    timer:null, deadline:0
+  };
+
+  /* ---------- sazininingumo stebejimas ---------- */
+  let leaveCount = 0, quizActive = false;
+  let away = false, awayStart = 0, awayMs = 0;
+  function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+" min "+r+" s") : (r+" s"); }
+  function enableIntegrity(){
+    quizActive = true;
+    try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+    setTimeout(function(){
+      window.addEventListener("blur", onAway);
+      window.addEventListener("focus", onBack);
+      document.addEventListener("visibilitychange", function(){ document.hidden ? onAway() : onBack(); });
+    }, 500);
+    if(!window._focusTimer) window._focusTimer = setInterval(function(){
+      if(quizActive && (document.hidden || !document.hasFocus())) onAway();
+    }, 1000);
+    if(!window._fsListener){
+      window._fsListener = true;
+      document.addEventListener("fullscreenchange", function(){
+        if(quizActive && !document.fullscreenElement){ onAway(); onBack(); }
+      });
+    }
+  }
+  function disableIntegrity(){
+    quizActive = false;
+    try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+    const b = $("exitBanner"); if(b) b.style.display = "none";
+  }
+  function onAway(){
+    if(!quizActive || away) return;
+    away = true; leaveCount++; awayStart = Date.now();
+    const b = $("exitBanner");
+    if(b){ b.style.display = "block"; b.textContent = "⚠ Užfiksuotas išėjimas iš atsiskaitymo lango (kartų: " + leaveCount + "). Grįžk į testą!"; }
+  }
+  function onBack(){
+    if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+    away = false;
+  }
+  function awaySeconds(){
+    let ms = awayMs;
+    if(away && awayStart) ms += Date.now() - awayStart;
+    return Math.round(ms/1000);
+  }
+
+  /* ---------- registracija ---------- */
+  const nameEl = $("pupilName"), classEl = $("pupilClass");
+  function syncSetup(){
+    state.name = nameEl.value.trim();
+    state.klase = classEl.value.trim();
+    const needName = state.name.length < 2;
+    const needClass = state.klase.length < 1;
+    $("start").disabled = needName || needClass;
+    if(needName){ $("hint").textContent = "Įrašyk savo vardą ir pavardę."; }
+    else if(needClass){ $("hint").textContent = "Įrašyk savo klasę."; }
+    else { $("hint").textContent = "Viskas paruošta. Variantas: " + state.variant + "."; }
+  }
+  [nameEl, classEl].forEach(el=> el.addEventListener("input", syncSetup));
+  $("variant").addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    [...$("variant").children].forEach(x=>x.setAttribute("aria-pressed", x===b ? "true":"false"));
+    state.variant = +b.dataset.v;
+    syncSetup();
+  });
+  syncSetup();
+
+  /* ---------- klausimu ruosimas ---------- */
+  function shuffle(a){
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; }
+    return a;
+  }
+  function options(q){
+    const p = q.a*q.b;
+    const set = new Set([p]);
+    const cands = [
+      p + q.a, p - q.a, p + q.b, p - q.b,
+      p + 1, p - 1, p + 2*q.a, q.a + q.b, p + 10
+    ];
+    shuffle(cands);
+    for(const c of cands){ if(c > 0 && !set.has(c) && set.size < 4) set.add(c); }
+    let bump = 2;
+    while(set.size < 4){ if(!set.has(p + bump)) set.add(p + bump); bump++; }
+    return shuffle([...set]);
+  }
+  function buildQuestions(){
+    const variant = CFG.find(v=>v.id === state.variant);
+    return variant.qs.map(q=>({a:q.a, b:q.b, p:q.a*q.b, mode:q.mode, given:null, ok:null, opts:null}));
+  }
+
+  /* ---------- eiga ---------- */
+  function show(which){
+    ["setup","quiz","done"].forEach(s=> $(s).hidden = (s !== which));
+    window.scrollTo({top:0, behavior:"instant" in document.body.style ? "instant" : "auto"});
+  }
+
+  function startQuiz(){
+    state.qs = buildQuestions();
+    state.i = 0; state.correct = 0; state.streak = 0; state.bestStreak = 0;
+    state.t0 = Date.now(); state.locked = false;
+    leaveCount = 0; away = false; awayStart = 0; awayMs = 0;
+    buildPips();
+    show("quiz");
+    render();
+    enableIntegrity();
+  }
+
+  function buildPips(){
+    const el = $("pips"); el.innerHTML = "";
+    state.qs.forEach(()=>{ const d = document.createElement("span"); d.className = "pip"; el.appendChild(d); });
+  }
+
+  function stopClock(){
+    if(state.timer){ clearInterval(state.timer); state.timer = null; }
+  }
+  function startClock(){
+    stopClock();
+    const el = $("clock");
+    el.classList.remove("low");
+    state.deadline = Date.now() + TIME_LIMIT * 1000;
+    tick();
+    state.timer = setInterval(tick, 100);
+  }
+  function tick(){
+    const left = Math.max(0, state.deadline - Date.now());
+    const frac = left / (TIME_LIMIT * 1000);
+    $("clockFill").style.transform = "scaleX(" + frac + ")";
+    $("clockN").textContent = Math.ceil(left / 1000);
+    $("clock").classList.toggle("low", frac <= 0.4);
+    if(left <= 0){ stopClock(); timeUp(); }
+  }
+  function timeUp(){
+    if(state.locked) return;
+    answer(null, null, true);
+  }
+
+  function render(){
+    const q = state.qs[state.i];
+    state.locked = false;
+    $("progress").textContent = "Klausimas " + (state.i+1) + " iš " + state.qs.length;
+    $("streak").textContent = state.streak >= 3 ? ("🔥 " + state.streak + " iš eilės") : "";
+    [...$("pips").children].forEach((p,k)=>{ p.classList.toggle("on", k === state.i); });
+    $("eq").innerHTML = q.a + '<span class="x">×</span>' + q.b + '<span class="x"> = </span><span class="q">?</span>';
+    $("verdict").textContent = ""; $("verdict").className = "verdict";
+
+    const choicesEl = $("choices"), typedEl = $("typed");
+    if(q.mode === "choice"){
+      typedEl.hidden = true; choicesEl.hidden = false;
+      if(!q.opts) q.opts = options(q);
+      choicesEl.innerHTML = "";
+      q.opts.forEach(v=>{
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "choice"; b.textContent = v;
+        b.addEventListener("click", ()=> answer(v, b));
+        choicesEl.appendChild(b);
+      });
+    } else {
+      choicesEl.hidden = true; typedEl.hidden = false;
+      const box = $("answer");
+      box.value = ""; box.className = "answer-box"; box.disabled = false;
+      box.readOnly = isTouch;
+      if(!isTouch) box.focus({preventScroll:true});
+    }
+    startClock();
+  }
+
+  function answer(v, btn, timedOut){
+    if(state.locked) return;
+    state.locked = true;
+    stopClock();
+    const q = state.qs[state.i];
+    q.given = v; q.ok = (v === q.p); q.late = !!timedOut;
+    const pip = $("pips").children[state.i];
+    pip.classList.remove("on");
+    pip.classList.add(q.ok ? "ok" : "bad");
+
+    if(q.ok){
+      state.correct++; state.streak++;
+      state.bestStreak = Math.max(state.bestStreak, state.streak);
+      $("verdict").textContent = pickPraise();
+      $("verdict").className = "verdict ok";
+      if(btn){ btn.classList.add("ok","pop"); }
+      else { $("answer").classList.add("ok"); $("eq").classList.add("pop"); }
+    } else {
+      state.streak = 0;
+      $("verdict").innerHTML = (timedOut ? "Laikas baigėsi. " : "Ne visai. ") +
+        "Teisingai bus <strong>" + q.a + " × " + q.b + " = " + q.p + "</strong>";
+      $("verdict").className = "verdict bad";
+      if(q.mode === "choice"){
+        [...$("choices").children].forEach(b=>{ if(+b.textContent === q.p) b.classList.add("ok"); });
+        if(btn) btn.classList.add("bad","shake");
+      } else {
+        $("answer").classList.add("bad"); $("answer").classList.add("shake");
+      }
+    }
+
+    if(q.mode === "choice"){ [...$("choices").children].forEach(b=> b.disabled = true); }
+    else { $("answer").disabled = true; }
+
+    setTimeout(()=>{
+      $("eq").classList.remove("pop");
+      $("answer").classList.remove("shake");
+      state.i++;
+      if(state.i >= state.qs.length) finish(); else render();
+    }, q.ok ? 620 : 1500);
+  }
+
+  const PRAISE = ["Puiku!","Tiksliai!","Taip ir yra!","Šaunu!","Teisingai!","Bravo!"];
+  function pickPraise(){ return PRAISE[Math.floor(Math.random()*PRAISE.length)]; }
+
+  $("pad").addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b || state.locked) return;
+    const box = $("answer");
+    if(b.dataset.k === "ok"){ submitTyped(); }
+    else if(b.dataset.k === "del"){ box.value = box.value.slice(0,-1); }
+    else { if(box.value.length < 3) box.value += b.dataset.k; if(!isTouch) box.focus({preventScroll:true}); }
+  });
+  $("answer").addEventListener("keydown", e=>{
+    if(e.key === "Enter"){ e.preventDefault(); submitTyped(); }
+  });
+  $("answer").addEventListener("input", e=>{ e.target.value = e.target.value.replace(/\D/g,"").slice(0,3); });
+  function submitTyped(){
+    const box = $("answer");
+    if(state.locked || box.value === "") return;
+    answer(parseInt(box.value,10), null);
+  }
+
+  /* ---------- rezultatai ---------- */
+  function gradeOf(pct){
+    if(pct >= 95) return 10;
+    if(pct >= 85) return 9;
+    if(pct >= 75) return 8;
+    if(pct >= 65) return 7;
+    if(pct >= 55) return 6;
+    if(pct >= 45) return 5;
+    if(pct >= 35) return 4;
+    if(pct >= 25) return 3;
+    if(pct >= 15) return 2;
+    return 1;
+  }
+  function remarkOf(g){
+    if(g >= 10) return "Nepriekaištinga! Lentelę moki mintinai.";
+    if(g === 9) return "Labai gerai, beveik viskas tiksliai.";
+    if(g === 8) return "Gerai! Dar truputis ir bus be klaidų.";
+    if(g === 7) return "Neblogai. Pakartok tuos, kur suklydai.";
+    if(g === 6) return "Pagrindus moki, bet reikia treniruotis.";
+    if(g >= 4) return "Dar mokykis, pradėk nuo klaidų.";
+    return "Nenusimink, pradėkime nuo vienos lentelės.";
+  }
+
+  let _sheetTimer = null;
+  function sendToSheet(payload){
+    const el = $("sent");
+    el.textContent = "Siunčiama mokytojai…"; el.className = "sent";
+
+    const old = document.getElementById("sheetFrame");
+    if(old) old.remove();
+    const ifr = document.createElement("iframe");
+    ifr.name = "sheetFrame"; ifr.id = "sheetFrame"; ifr.style.display = "none";
+    document.body.appendChild(ifr);
+
+    let done = false;
+    function ok(){
+      if(done) return; done = true;
+      if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+      el.textContent = "Rezultatas išsiųstas mokytojai."; el.className = "sent ok";
+      $("saveTxt").hidden = true;
+    }
+
+    const form = document.createElement("form");
+    form.method = "POST"; form.action = SHEETS_URL; form.target = "sheetFrame";
+    form.style.display = "none";
+    const inp = document.createElement("input");
+    inp.type = "hidden"; inp.name = "data"; inp.value = JSON.stringify(payload);
+    form.appendChild(inp);
+    const inpSid = document.createElement("input");
+    inpSid.type = "hidden"; inpSid.name = "sheet_id"; inpSid.value = SHEET_ID;
+    form.appendChild(inpSid);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+
+    setTimeout(function(){ ifr.onload = ok; }, 0);
+    _sheetTimer = setTimeout(function(){
+      if(done) return; done = true;
+      el.textContent = "Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą ir atiduok mokytojai.";
+      el.className = "sent bad";
+      $("saveTxt").hidden = false;
+    }, 15000);
+  }
+
+  let lastResult = null;
+  $("saveTxt").addEventListener("click", ()=>{
+    const d = lastResult; if(!d) return;
+    const lines = [
+      "DAUGYBOS LENTELĖS (2–10) ATSISKAITYMAS",
+      "Data: " + d.Data,
+      "Vardas: " + d.Vardas,
+      "Klasė: " + d.Klasė,
+      "Variantas: " + d.Variantas,
+      "Teisingai: " + d.Teisingai,
+      "Procentai: " + d.Procentai,
+      "Pažymys: " + d.Pažymys,
+      "Laikas: " + d.Laikas,
+      "Klaidos: " + (d.Klaidos || "nėra"),
+      "Išėjo iš lango: " + (d["Išėjo iš lango"] || 0)
+    ].join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([lines], {type:"text/plain;charset=utf-8"}));
+    a.download = "atsiskaitymas-" + d.Vardas.replace(/\s+/g,"-") + ".txt";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  function finish(){
+    stopClock();
+    disableIntegrity();
+    const total = state.qs.length || 1;
+    const pct = Math.round(state.correct / total * 100);
+    const g = gradeOf(pct);
+    const secs = Math.round((Date.now() - state.t0) / 1000);
+
+    $("grade").textContent = g;
+    $("remark").textContent = remarkOf(g);
+    $("sCorrect").textContent = state.correct + "/" + state.qs.length;
+    $("sPct").textContent = pct + "%";
+    $("sTime").textContent = Math.floor(secs/60) + ":" + String(secs%60).padStart(2,"0");
+
+    const rev = $("review"); rev.innerHTML = "";
+    state.qs.forEach(q=>{
+      const d = document.createElement("div");
+      d.className = "rev " + (q.ok ? "ok" : "bad");
+      d.innerHTML = '<div class="rev-eq">' + q.a + " × " + q.b + " = " + q.p + '</div>' +
+        (q.ok ? '<div class="rev-you fine">teisingai</div>'
+              : '<div class="rev-you">' + (q.given === null ? "nespėjo" : "tavo: " + q.given) + '</div>');
+      rev.appendChild(d);
+    });
+
+    $("who").textContent = state.name + " · " + state.klase + " kl.";
+
+    const awayRow = $("awayRow");
+    if(leaveCount > 0){
+      awayRow.hidden = false; awayRow.className = "away-row warn";
+      awayRow.textContent = "⚠ Išėjo iš lango " + leaveCount + " kart(us) (" + fmtDur(awaySeconds()) + ")";
+    } else {
+      awayRow.hidden = true;
+    }
+
+    const wrong = state.qs.filter(q=>!q.ok);
+    const now = new Date();
+    lastResult = {
+      "Data": now.toLocaleDateString("lt-LT") + " " + now.toLocaleTimeString("lt-LT",{hour:"2-digit",minute:"2-digit"}),
+      "Vardas": state.name,
+      "Klasė": state.klase,
+      "Variantas": state.variant,
+      "Klausimai": state.qs.length,
+      "Teisingai": state.correct,
+      "Procentai": pct + "%",
+      "Pažymys": g,
+      "Laikas": Math.floor(secs/60) + ":" + String(secs%60).padStart(2,"0"),
+      "Klaidos": wrong.map(q=>q.a + "×" + q.b).join(", ") || "nėra",
+      "Išėjo iš lango": leaveCount > 0 ? (leaveCount + " (" + fmtDur(awaySeconds()) + ")") : 0
+    };
+    sendToSheet(lastResult);
+
+    show("done");
+    if(pct >= 90) burst();
+  }
+
+  $("start").addEventListener("click", ()=>{ startQuiz(); });
+
+  /* ---------- confetti ---------- */
+  function burst(){
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cv = $("burst"), ctx = cv.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.hidden = false;
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const cols = ["#e2543f","#ec8620","#c99400","#5f9c2a","#0f9184","#2c7ccb","#6c5bc4","#bc4394"];
+    const bits = [];
+    for(let i=0;i<110;i++){
+      bits.push({
+        x: innerWidth/2 + (Math.random()-.5)*160,
+        y: innerHeight*0.32,
+        vx: (Math.random()-.5)*7,
+        vy: -Math.random()*9 - 3,
+        s: 4 + Math.random()*6,
+        r: Math.random()*Math.PI,
+        vr: (Math.random()-.5)*.3,
+        c: cols[i % cols.length]
+      });
+    }
+    let frames = 0;
+    (function loop(){
+      frames++;
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      bits.forEach(b=>{
+        b.vy += .26; b.x += b.vx; b.y += b.vy; b.r += b.vr;
+        ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.r);
+        ctx.fillStyle = b.c; ctx.globalAlpha = Math.max(0, 1 - frames/130);
+        ctx.fillRect(-b.s/2,-b.s/2,b.s,b.s*.65); ctx.restore();
+      });
+      if(frames < 130) requestAnimationFrame(loop);
+      else { ctx.clearRect(0,0,innerWidth,innerHeight); cv.hidden = true; }
+    })();
+  }
+})();
+</script>
+</body>
+</html>
