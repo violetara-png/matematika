@@ -211,21 +211,21 @@ const GENERATORIAI = [
       ]};
   }},
 
-  // 8. Kėlimas kvadratu / kubu su ženklu, pvz. (−3)² = 9, (−2)³ = −8
-  { label:"Neigiamo skaičiaus laipsnis", gen(){
+  // 8. Neigiamo skaičiaus sandauga su savimi, pvz. (−3)·(−3), (−2)·(−2)·(−2)
+  { label:"Neigiamo skaičiaus sandauga", gen(){
       if(choice([2,3])===2){
         const a=randint(2,12), ans=a*a;
-        return { q:`(−${a})²`, ans, steps:[
-          `Lyginis laipsnis (²) → rezultatas teigiamas`,
-          `(−${a})² = (−${a}) · (−${a})`,
-          `= ${nf(ans)}`
+        return { q:`(−${a}) · (−${a})`, ans, steps:[
+          `Ženklai vienodi (− ir −) → sandauga teigiama`,
+          `${a} · ${a} = ${a*a}`,
+          `(−${a}) · (−${a}) = ${nf(ans)}`
         ]};
       } else {
         const a=randint(2,6), ans=-(a*a*a);
-        return { q:`(−${a})³`, ans, steps:[
-          `Nelyginis laipsnis (³) → rezultatas neigiamas`,
-          `(−${a})³ = (−${a}) · (−${a}) · (−${a})`,
-          `= ${nf(ans)}`
+        return { q:`(−${a}) · (−${a}) · (−${a})`, ans, steps:[
+          `Neigiamų daugiklių: 3 (nelyginis → sandauga neigiama)`,
+          `${a} · ${a} · ${a} = ${a*a*a}`,
+          `(−${a}) · (−${a}) · (−${a}) = ${nf(ans)}`
         ]};
       }
   }}

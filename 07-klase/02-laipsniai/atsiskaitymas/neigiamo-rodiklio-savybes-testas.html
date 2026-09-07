@@ -273,7 +273,7 @@ function renderTest(){
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 // Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
 // markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+|[a-zA-Z][²³¹⁰⁴-ⁿ]*)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
