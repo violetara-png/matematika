@@ -674,6 +674,18 @@ canvas#burst{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z
     const el = $("sent");
     el.textContent = "Siunčiama mokytojai…"; el.className = "sent";
 
+    // sendBeacon patikimai išsiunčia duomenis fone, net jei mokinys iškart
+    // uždaro langą pamatęs pažymį (dažniausia priežastis, kodėl rezultatai
+    // dingdavo — forma+iframe siuntimas nutrūkdavo nespėjęs nukeliauti).
+    try{
+      if(navigator.sendBeacon){
+        const params = new URLSearchParams();
+        params.append("data", JSON.stringify(payload));
+        params.append("sheet_id", SHEET_ID);
+        navigator.sendBeacon(SHEETS_URL, params);
+      }
+    }catch(e){}
+
     const old = document.getElementById("sheetFrame");
     if(old) old.remove();
     const ifr = document.createElement("iframe");
