@@ -646,6 +646,18 @@ function sendToSheets(){
   }
   st.className='sent'; st.textContent='⏳ Siunčiama mokytojai...';
 
+  // sendBeacon patikimai išsiunčia duomenis fone, net jei mokinys iškart
+  // uždaro langą pamatęs rezultatą (forma+iframe siuntimas apačioje gali
+  // nutrūkti nespėjęs nukeliauti — sendBeacon tai apeina).
+  try{
+    if(navigator.sendBeacon){
+      const params=new URLSearchParams();
+      params.append('data', JSON.stringify(resultPayload()));
+      params.append('sheet_id', SHEET_ID);
+      navigator.sendBeacon(SHEETS_URL, params);
+    }
+  }catch(e){}
+
   const old=document.getElementById('sheetFrame'); if(old) old.remove();
   const ifr=document.createElement('iframe');
   ifr.name='sheetFrame'; ifr.id='sheetFrame'; ifr.style.display='none';

@@ -458,6 +458,18 @@ function sendToSheets(){
   note.className = 'sheet-status sending';
   note.textContent = '⏳ Siunčiama mokytojai…';
 
+  // sendBeacon patikimai išsiunčia duomenis fone, net jei mokinys iškart
+  // uždaro langą pamatęs pažymį (forma+iframe siuntimas apačioje gali
+  // nutrūkti nespėjęs nukeliauti — sendBeacon tai apeina).
+  try{
+    if(navigator.sendBeacon){
+      const params = new URLSearchParams();
+      params.append('data', JSON.stringify(student.result));
+      if (CFG.sheet_id) params.append('sheet_id', CFG.sheet_id);
+      navigator.sendBeacon(SHEETS_URL, params);
+    }
+  }catch(e){}
+
   // Naujas paslėptas iframe kiekvienam siuntimui
   const old = document.getElementById('sheetFrame');
   if(old) old.remove();
