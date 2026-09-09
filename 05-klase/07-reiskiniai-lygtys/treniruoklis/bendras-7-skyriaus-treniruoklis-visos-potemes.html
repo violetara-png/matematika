@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: ★ Bendras 7 skyriaus „Reiškiniai. Lygtys“ (5 kl.)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:21px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:19px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.4; font-variant-numeric:tabular-nums;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px; flex-wrap:wrap;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
+    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+  .simboliai button:hover{background:var(--geltona);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:16px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: 7.1.1 Skaitinis reiškinys ir jo reikšmė (5 kl.)</h1>
+    <p id="paantraste">7.1.1 Skaitinis reiškinys ir jo reikšmė · 5 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// Bendras 5 kl. 7 skyriaus "Reiškiniai. Lygtys" treniruoklio generatorius —
+// sujungia visų 9 potemių (7.1.1-7.3.4) generatorius į vieną sąrašą.
+// Kiekviena potemė suvyniota į atskirą IIFE, nes potemės turi savo
+// nepriklausomus pagalbinius kintamuosius/funkcijas (gali sutapti vardai).
+
+const GENERATORIAI = [].concat(
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.1.1 Skaitinis reiškinys ir jo reikšmė.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- Savi pagalbininkai ---
+function fmtMoney(cents){
+  return String(parseFloat((cents/100).toFixed(2))).replace('.', ',');
+}
+const VARDAI = ["Ona","Ema","Gabija","Rita","Justė","Tomas","Lukas","Nojus","Aidas","Deividas"];
+// Linksniuotos formos (kad sakinys būtų gramatiškai teisingas): nom1/acc1/accpl1 — 1-as daiktas
+// (vardininkas / galininkas vns. „brangesnis už ..." / galininkas dgs. „nupirko ..."), nom2/accpl2 — 2-as daiktas.
+const DAIKTAI = [
+  { nom1:"sąsiuvinis", acc1:"sąsiuvinį",  accpl1:"sąsiuvinius", nom2:"rašiklis", accpl2:"rašiklius", gensg2:"rašiklio"   },
+  { nom1:"obuolys",    acc1:"obuolį",     accpl1:"obuolius",    nom2:"kriaušė",  accpl2:"kriaušes",  gensg2:"kriaušės"   },
+  { nom1:"batonas",    acc1:"batoną",     accpl1:"batonus",     nom2:"bandelė",  accpl2:"bandeles",  gensg2:"bandelės"   },
+  { nom1:"pieštukas",  acc1:"pieštuką",   accpl1:"pieštukus",   nom2:"trintukas",accpl2:"trintukus", gensg2:"trintuko"   },
+  { nom1:"jogurtas",   acc1:"jogurtą",    accpl1:"jogurtus",    nom2:"sūris",    accpl2:"sūrius",    gensg2:"sūrio"      },
+  { nom1:"knyga",      acc1:"knygą",      accpl1:"knygas",      nom2:"sąsiuvinis",accpl2:"sąsiuvinius",gensg2:"sąsiuvinio"}
+];
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+const GENERATORIAI = [
+  { label:"Reikšmė be skliaustų (daugyba ir sudėtis)", gen(){
+      const a = randint(5,60), b = randint(2,12), c = randint(2,12);
+      const ans = a + b*c;
+      return { q:`Apskaičiuok reiškinio reikšmę: ${a} + ${b} · ${c}`, ans:ans, steps:[
+        `Skliaustų nėra — pirmiausia atlik daugybą: ${b} · ${c} = ${b*c}.`,
+        `Prie ${a} pridėk gautą sandaugą: ${a} + ${b*c}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Reikšmė be skliaustų (atimtis ir dalyba)", gen(){
+      const c = randint(2,9), k = randint(2,9);
+      const b = c*k;
+      const a = randint(Math.max(b+5,20), b+70);
+      const ans = a - k;
+      return { q:`Apskaičiuok reiškinio reikšmę: ${a} − ${b} : ${c}`, ans:ans, steps:[
+        `Skliaustų nėra — pirmiausia atlik dalybą: ${b} : ${c} = ${k}.`,
+        `Iš ${a} atimk gautą dalmenį: ${a} − ${k}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Reikšmė be skliaustų (trys veiksmai)", gen(){
+      const b = randint(2,9), c = randint(2,9);
+      const e = randint(2,9), k = randint(2,9);
+      const d = e*k;
+      const a = randint(b*c+10, b*c+80);
+      const ans = a - b*c + k;
+      return { q:`Apskaičiuok reiškinio reikšmę: ${a} − ${b} · ${c} + ${d} : ${e}`, ans:ans, steps:[
+        `Skliaustų nėra — pirmiausia iš eilės atlik daugybą ir dalybą: ${b} · ${c} = ${b*c}; ${d} : ${e} = ${k}.`,
+        `Reiškinys tampa ${a} − ${b*c} + ${k}. Dabar sudėtis ir atimtis iš kairės į dešinę.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Reikšmė su skliaustais (daugyba ir dalyba)", gen(){
+      const b = randint(10,20), c = randint(2,9);
+      const a = randint(2,9), e = randint(2,9), k = randint(2,9);
+      const d = e*k;
+      const ans = a*(b-c) + k;
+      return { q:`Apskaičiuok reiškinio reikšmę: ${a} · (${b} − ${c}) + ${d} : ${e}`, ans:ans, steps:[
+        `Yra skliaustai — pirmiausia atlik veiksmą juose: ${b} − ${c} = ${b-c}.`,
+        `Dabar daugyba ir dalyba: ${a} · ${b-c} = ${a*(b-c)}; ${d} : ${e} = ${k}.`,
+        `Sudėk: ${a*(b-c)} + ${k} = ${ans}. Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Reikšmė su skliaustais (dalyba iš sumos)", gen(){
+      const b = randint(2,9), c = randint(2,9);
+      const suma = b + c;
+      const k = randint(2,9);
+      const a = suma*k;
+      const d = randint(2,25);
+      const ans = k + d;
+      return { q:`Apskaičiuok reiškinio reikšmę: ${a} : (${b} + ${c}) + ${d}`, ans:ans, steps:[
+        `Yra skliaustai — pirmiausia atlik veiksmą juose: ${b} + ${c} = ${suma}.`,
+        `Dabar dalyba: ${a} : ${suma} = ${k}.`,
+        `Sudėk: ${k} + ${d} = ${ans}. Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Ar tai skaitinis reiškinys?", gen(){
+      const a = randint(5,60), b = randint(2,20), c = randint(2,20), d = randint(2,20);
+      const valid = choice([true,false]);
+      let q, ans, why;
+      if(valid){
+        const variantas = choice([1,2,3]);
+        if(variantas===1){ q = `${a} + ${b} · ${c}`; why = "kiekvienas veiksmo ženklas turi po skaičių iš abiejų pusių"; }
+        else if(variantas===2){ q = `(${a} − ${b}) : ${c} + ${d}`; why = "skliaustuose pilnas veiksmas, visi ženklai teisingi"; }
+        else { q = `${a} · (${b} + ${c}) − ${d}`; why = "skliaustuose pilnas veiksmas, visi ženklai teisingi"; }
+        ans = "taip";
+      } else {
+        const variantas = choice([1,2,3]);
+        const zenklas = choice(['+','−','·']);
+        if(variantas===1){ q = `${a} : (${b} ${zenklas} ) − ${c}`; }
+        else if(variantas===2){ q = `(${a} ${zenklas} ) · ${b}`; }
+        else { q = `${a} − (${b} ${zenklas} ) : ${c}`; }
+        why = `skliaustuose po ženklo „${zenklas}“ nėra skaičiaus — užrašas neprasmingas`;
+        ans = "ne";
+      }
+      return { q:`Ar ${q} yra skaitinis reiškinys? (įrašyk taip arba ne)`, ans:ans, ansType:'text', pre:'atsakymas =', steps:[
+        `Patikrink kiekvieną veiksmo ženklą — ar iš abiejų pusių jo yra skaičius.`,
+        `Šiuo atveju ${why}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Reiškinio sudarymas (prekių kaina)", gen(){
+      const it = choice(DAIKTAI);
+      const basePr = randint(30,200); // centais
+      const dearer = choice([true,false]);
+      const diff = dearer ? randint(10,60) : randint(10, Math.max(15, Math.min(60, basePr-10)));
+      const price2 = dearer ? basePr+diff : basePr-diff;
+      const n1 = randint(2,6), n2 = randint(2,6);
+      const totalCents = basePr*n1 + price2*n2;
+      const rysys = dearer ? "brangesnis" : "pigesnis";
+      const ans = totalCents/100;
+      return { q:`${cap(it.nom1)} kainuoja ${fmtMoney(basePr)} Eur, o ${it.nom2} yra ${fmtMoney(diff)} Eur ${rysys} už ${it.acc1}. Pirkėjas nupirko ${n1} ${it.accpl1} ir ${n2} ${it.accpl2}. Kiek eurų iš viso sumokėjo?`,
+        ans:ans, pre:'suma (Eur) =', steps:[
+        `${cap(it.gensg2)} kaina: ${fmtMoney(basePr)} ${dearer?'+':'−'} ${fmtMoney(diff)} = ${fmtMoney(price2)} Eur.`,
+        `Pirmos prekės kaina: ${fmtMoney(basePr)} · ${n1} = ${fmtMoney(basePr*n1)} Eur. Antros prekės kaina: ${fmtMoney(price2)} · ${n2} = ${fmtMoney(price2*n2)} Eur.`,
+        `Sudėk: ${fmtMoney(basePr*n1)} + ${fmtMoney(price2*n2)} = ${fmtMoney(totalCents)} Eur. Atsakymas: ${fmtMoney(totalCents)} Eur.`
+      ]};
+  }},
+  { label:"Reiškinio sudarymas (kelias dviem etapais)", gen(){
+      const v1 = randint(20,80), t1 = randint(1,4);
+      const delta = randint(5,25);
+      const greiciau = choice([true,false]);
+      const v2 = greiciau ? v1+delta : Math.max(10, v1-delta);
+      const t2 = randint(1,4);
+      const ans = v1*t1 + v2*t2;
+      const vardas = choice(VARDAI);
+      const kryptis = greiciau ? "didesniu" : "mažesniu";
+      return { q:`${vardas} ${t1} val. važiavo pastoviu ${v1} km/h greičiu, o po to dar ${t2} val. važiavo ${delta} km/h ${kryptis} greičiu. Kiek kilometrų iš viso nuvažiavo ${vardas}?`,
+        ans:ans, pre:'kelias (km) =', steps:[
+        `1 etapo kelias: ${v1} · ${t1} = ${v1*t1} km.`,
+        `2 etapo greitis: ${v1} ${greiciau?'+':'−'} ${delta} = ${v2} km/h; 2 etapo kelias: ${v2} · ${t2} = ${v2*t2} km.`,
+        `Sudėk abu etapus: ${v1*t1} + ${v2*t2} = ${ans} km. Atsakymas: ${ans} km.`
+      ]};
+  }}
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.1.1 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.1.2 Raidinis reiškinys.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- Savi pagalbininkai ---
+const RAIDES = ["a","b","c","d","e","f","g"];
+function pickLetter(exclude){
+  let l;
+  do{ l = choice(RAIDES); } while(exclude && l===exclude);
+  return l;
+}
+function pickPair(){
+  const l1 = choice(RAIDES);
+  const l2 = pickLetter(l1);
+  return [l1,l2];
+}
+const VARDAI = ["Ona","Ema","Gabija","Rita","Justė","Miglė","Tomas","Lukas","Nojus","Aidas","Rytis","Kajus"];
+const PREKES1 = ["sąsiuvinis","bloknotas","pieštukas","ledinukas","trintukas"];
+
+const VALID_EXPR = [
+  "(a + 5) : 2", "3 · (b − 1)", "(x + y) : 4", "5 · c − 2", "(2 · a + 7)",
+  "(m + n) : 5", "4 · (x − 3)", "(p + 6) : 3"
+];
+const INVALID_EXPR = [
+  "15 (: − b( + 3/7", "7 (· + a( − 2", "9 )· c( : 4", "(: a + 4", "8 (: + d( − 5", "11 )+ e( : 3"
+];
+const ONE_VAR_EXPR = ["4b − 1", "3 · (x + 2)", "5y + 7", "(a + 9) : 3", "7 − 2c"];
+const TWO_VAR_EXPR = ["3x + 2y", "(a + b) · 4", "5m − 2n", "c + 3d − 1", "7p − q"];
+
+const GENERATORIAI = [
+  { label:"Vienas kintamasis (daugyba)", gen(){
+      const raide = choice(RAIDES);
+      const n = randint(2,9);
+      const prekė = choice(PREKES1);
+      const ans = `${n}${raide}`;
+      return { q:`Vienas ${prekė} kainuoja ${raide} eurų. Užrašyk raidiniu reiškiniu, kiek eurų kainuos ${n} tokios prekės.`,
+        ans:ans, ansType:"text", ansAlt:[`${raide}${n}`], pre:"raidinis reiškinys =", steps:[
+        `Kiekvienas ${prekė} kainuoja vienodai — po ${raide} eurų.`,
+        `${n} vienodų prekių kaina apskaičiuojama dauginant kainą iš kiekio: ${raide} · ${n}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Vienas kintamasis (atimtis)", gen(){
+      const raide = choice(RAIDES);
+      const p = randint(8,50);
+      const ans = `${p}-${raide}`;
+      return { q:`Prekė kainuoja ${p} eurų. Po nuolaidos ji atpigo ${raide} eurų. Užrašyk raidiniu reiškiniu, kiek kainuoja prekė dabar.`,
+        ans:ans, ansType:"text", pre:"raidinis reiškinys =", steps:[
+        `Prekė ATPIGO — iš pradinės kainos atimame nuolaidą.`,
+        `Pradinė kaina — ${p} eurų, nuolaida — ${raide} eurų.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Du kintamieji (sudėtis)", gen(){
+      const [l1,l2] = pickPair();
+      const n1 = randint(2,6), n2 = randint(2,6);
+      const ans = `${n1}${l1}+${n2}${l2}`;
+      return { q:`Pirma prekė kainuoja ${l1} eurų, o antra prekė — ${l2} eurų. Užrašyk raidiniu reiškiniu, kiek kainuos ${n1} vienetai pirmos prekės ir ${n2} vienetai antros prekės.`,
+        ans:ans, ansType:"text", ansAlt:[`${n2}${l2}+${n1}${l1}`], pre:"raidinis reiškinys =", steps:[
+        `Kiekvienos prekės kainą apskaičiuojame atskirai: ${n1} kartus ${l1}, ir ${n2} kartus ${l2}.`,
+        `Gautas sumas sudedame ženklu „+“.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Du kintamieji (atimtis, tvarka svarbi)", gen(){
+      const [l1,l2] = pickPair();
+      const a1 = choice(VARDAI);
+      let a2 = choice(VARDAI); while(a2===a1){ a2 = choice(VARDAI); }
+      const ans = `${l1}-${l2}`;
+      return { q:`${a1} turi ${l1} obuolių, o ${a2} turi ${l2} obuolių mažiau nei ${a1}. Užrašyk raidiniu reiškiniu, kiek obuolių turi ${a2}.`,
+        ans:ans, ansType:"text", pre:"raidinis reiškinys =", steps:[
+        `${a2} turi MAŽIAU nei ${a1} — iš ${a1} kiekio atimame skirtumą.`,
+        `${a1} turi ${l1}, o kiek mažiau turi ${a2} — ${l2}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Vienas kintamasis, du veiksmai", gen(){
+      const raide = choice(RAIDES);
+      const n = randint(2,5), m = randint(1,6);
+      const ans = `${n}${raide}+${m}`;
+      return { q:`Bilietas kainuoja ${raide} eurų. Nupirkus ${n} tokius bilietus, papildomai sumokėta ${m} eurai. Užrašyk raidiniu reiškiniu visą sumą.`,
+        ans:ans, ansType:"text", ansAlt:[`${m}+${n}${raide}`], pre:"raidinis reiškinys =", steps:[
+        `Pirma apskaičiuok, kiek kainuoja ${n} bilietai — tai daugyba: ${n}${raide}.`,
+        `Prie šios sumos pridedame papildomus ${m} eurus.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Du kintamieji, abu su daugyba", gen(){
+      const [l1,l2] = pickPair();
+      const n1 = randint(2,5), n2 = randint(2,6);
+      const ans = `${n1}${l1}+${n2}${l2}`;
+      return { q:`Suaugusiojo bilietas kainuoja ${l1} eurų, o vaiko — ${l2} eurų. Šeima pirko ${n1} suaugusiųjų ir ${n2} vaikų bilietus. Užrašyk raidiniu reiškiniu visą kainą.`,
+        ans:ans, ansType:"text", ansAlt:[`${n2}${l2}+${n1}${l1}`], pre:"raidinis reiškinys =", steps:[
+        `Kiekvieną kainą padauginame iš atitinkamo bilietų skaičiaus: ${n1}${l1} ir ${n2}${l2}.`,
+        `Gautas sumas sudedame ženklu „+“.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Kiek kintamųjų?", gen(){
+      const oneVar = Math.random() < 0.5;
+      const expr = oneVar ? choice(ONE_VAR_EXPR) : choice(TWO_VAR_EXPR);
+      const ans = oneVar ? 1 : 2;
+      return { q:`Raidinis reiškinys ${expr} turi kiek kintamųjų (skirtingų raidžių)? Įrašyk skaičių.`,
+        ans:ans, pre:"kintamųjų skaičius =", steps:[
+        `Kintamieji — tai raidės. Suskaičiuok, kiek SKIRTINGŲ raidžių pasirodo užraše.`,
+        `Užraše ${expr} skirtingų raidžių yra ${ans}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+  { label:"Ar tai raidinis reiškinys?", gen(){
+      const valid = Math.random() < 0.5;
+      const expr = valid ? choice(VALID_EXPR) : choice(INVALID_EXPR);
+      const ans = valid ? 1 : 0;
+      return { q:`Ar užrašas ${expr} yra raidinis reiškinys? Jei taip, įrašyk 1, jei ne — įrašyk 0.`,
+        ans:ans, pre:"atsakymas =", steps:[
+        `Patikrink, ar užrašas sudarytas iš skaičių, raidžių, veiksmų ženklų ir skliaustų taip, kad jį būtų įmanoma apskaičiuoti.`,
+        valid ? `Užrašas ${expr} prasmingas ir apskaičiuojamas — tai raidinis reiškinys.`
+              : `Užraše ${expr} veiksmų ženklai ir skliaustai išdėstyti netaisyklingai — tai NE raidinis reiškinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }}
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.1.2 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.1.3 Raidinio reiškinio reikšmės.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- Savi pagalbininkai ---
+
+// Dešimtainio skaičiaus formatavimas su kableliu, be bereikalingų nulių (4,50 -> 4,5; 14,00 -> 14).
+function fmtDec(n) {
+  n = Math.round(n * 100) / 100;
+  let s = n.toFixed(2);
+  s = s.replace(/0+$/, '').replace(/\.$/, '');
+  s = s.replace('.', ',');
+  return s;
+}
+
+// --- 1. Vienas kintamasis, be skliaustų: c·a + d / c·a − d / d − c·a ---
+function genLinear1() {
+  const c = randint(2, 9);
+  const a = randint(1, 12);
+  const form = choice(['add', 'subA', 'subB']);
+  let d, expr, ans, steps;
+  if (form === 'add') {
+    d = randint(1, 20);
+    expr = `${c}a + ${d}`;
+    ans = c * a + d;
+    steps = [
+      `Vietoj a rašome ${a}: ${c} · ${a} + ${d}`,
+      `${c} · ${a} = ${c * a}`,
+      `${c * a} + ${d} = ${ans}`
+    ];
+  } else if (form === 'subA') {
+    d = randint(1, Math.max(1, c * a));
+    expr = `${c}a − ${d}`;
+    ans = c * a - d;
+    steps = [
+      `Vietoj a rašome ${a}: ${c} · ${a} − ${d}`,
+      `${c} · ${a} = ${c * a}`,
+      `${c * a} − ${d} = ${ans}`
+    ];
+  } else {
+    d = c * a + randint(1, 15);
+    expr = `${d} − ${c}a`;
+    ans = d - c * a;
+    steps = [
+      `Vietoj a rašome ${a}: ${d} − ${c} · ${a}`,
+      `${c} · ${a} = ${c * a}`,
+      `${d} − ${c * a} = ${ans}`
+    ];
+  }
+  return {
+    q: `Apskaičiuok reiškinio ${expr} reikšmę, kai a = ${a}.`,
+    ans: ans,
+    ansText: String(ans),
+    steps: steps
+  };
+}
+
+// --- 2. Vienas kintamasis, skliaustuose: c·(a + d) / c·(a − d) ---
+function genParen1() {
+  const c = randint(2, 9);
+  const sign = choice(['add', 'sub']);
+  let a, d, inside, expr, ans;
+  if (sign === 'add') {
+    a = randint(1, 12);
+    d = randint(1, 10);
+    inside = a + d;
+    expr = `${c} · (a + ${d})`;
+  } else {
+    d = randint(1, 9);
+    a = d + randint(1, 12);
+    inside = a - d;
+    expr = `${c} · (a − ${d})`;
+  }
+  ans = c * inside;
+  return {
+    q: `Apskaičiuok reiškinio ${expr} reikšmę, kai a = ${a}.`,
+    ans: ans,
+    ansText: String(ans),
+    steps: [
+      `Vietoj a rašome ${a}: ${c} · (${a} ${sign === 'add' ? '+' : '−'} ${d})`,
+      `Skliaustuose: ${a} ${sign === 'add' ? '+' : '−'} ${d} = ${inside}`,
+      `${c} · ${inside} = ${ans}`
+    ]
+  };
+}
+
+// --- 3. Vienas kintamasis, dalyba: N : (a + d) / N : (a − d) ---
+function genDivision() {
+  const divisor = randint(2, 12);
+  const quotient = randint(2, 12);
+  const N = divisor * quotient;
+  const sign = choice(['add', 'sub']);
+  let a, d;
+  if (sign === 'add') {
+    d = randint(1, Math.max(1, divisor - 1));
+    a = divisor - d;
+    if (a < 1) { a = 1; d = divisor - 1; if (d < 1) d = 1; }
+  } else {
+    d = randint(1, 10);
+    a = divisor + d;
+  }
+  const expr = `${N} : (a ${sign === 'add' ? '+' : '−'} ${d})`;
+  return {
+    q: `Apskaičiuok reiškinio ${expr} reikšmę, kai a = ${a}.`,
+    ans: quotient,
+    ansText: String(quotient),
+    steps: [
+      `Vietoj a rašome ${a}: ${N} : (${a} ${sign === 'add' ? '+' : '−'} ${d})`,
+      `Skliaustuose: ${a} ${sign === 'add' ? '+' : '−'} ${d} = ${divisor}`,
+      `${N} : ${divisor} = ${quotient}`
+    ]
+  };
+}
+
+// --- 4. Du kintamieji: c1·x + c2·y / c1·x − c2·y ---
+function genTwoVar() {
+  const c1 = randint(2, 9), c2 = randint(2, 9);
+  const sign = choice(['add', 'sub']);
+  let x, y, tries = 0;
+  if (sign === 'sub') {
+    do { x = randint(2, 10); y = randint(1, 10); tries++; } while (c1 * x < c2 * y && tries < 40);
+    if (c1 * x < c2 * y) { x = 10; y = 1; } // saugiklis, jei nepasisekė per 40 bandymų
+  } else {
+    x = randint(1, 10); y = randint(1, 10);
+  }
+  const t1 = c1 * x, t2 = c2 * y;
+  const ans = sign === 'add' ? t1 + t2 : t1 - t2;
+  const expr = `${c1}x ${sign === 'add' ? '+' : '−'} ${c2}y`;
+  return {
+    q: `Apskaičiuok reiškinio ${expr} reikšmę, kai x = ${x}, o y = ${y}.`,
+    ans: ans,
+    ansText: String(ans),
+    steps: [
+      `Vietoj x rašome ${x}, o vietoj y rašome ${y}.`,
+      `${c1} · ${x} = ${t1}, o ${c2} · ${y} = ${t2}.`,
+      `${t1} ${sign === 'add' ? '+' : '−'} ${t2} = ${ans}`
+    ]
+  };
+}
+
+// --- 5. Dešimtainė reikšmė (kintamasis su vienu/dviem skaitmenimis po kablelio) ---
+function genDecimal() {
+  const wholePart = randint(1, 12);
+  const frac = choice([0.5, 0.25, 0.75]);
+  const a = wholePart + frac;
+  const form = choice(['addA', 'subA', 'subB', 'mul']);
+  let expr, ans, subStr;
+  if (form === 'addA') {
+    const d = randint(1, 15);
+    expr = `a + ${d}`;
+    ans = a + d;
+    subStr = `${fmtDec(a)} + ${d}`;
+  } else if (form === 'subA') {
+    const d = randint(1, Math.floor(a));
+    expr = `a − ${d}`;
+    ans = a - d;
+    subStr = `${fmtDec(a)} − ${d}`;
+  } else if (form === 'subB') {
+    const d = Math.ceil(a) + randint(1, 15);
+    expr = `${d} − a`;
+    ans = d - a;
+    subStr = `${d} − ${fmtDec(a)}`;
+  } else {
+    const c = randint(2, 4);
+    expr = `${c} · a`;
+    ans = c * a;
+    subStr = `${c} · ${fmtDec(a)}`;
+  }
+  return {
+    q: `Apskaičiuok reiškinio ${expr} reikšmę, kai a = ${fmtDec(a)}.`,
+    ans: ans,
+    ansText: fmtDec(ans),
+    steps: [
+      `Vietoj a rašome ${fmtDec(a)}: ${subStr}`,
+      `Apskaičiuojame: ${fmtDec(ans)}`
+    ]
+  };
+}
+
+const GENERATORIAI = [
+  { label: "Vienas kintamasis (be skliaustų)", gen(){ return genLinear1(); } },
+  { label: "Vienas kintamasis (skliaustuose)", gen(){ return genParen1(); } },
+  { label: "Vienas kintamasis (dalyba)", gen(){ return genDivision(); } },
+  { label: "Du kintamieji", gen(){ return genTwoVar(); } },
+  { label: "Dešimtainė reikšmė", gen(){ return genDecimal(); } },
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.1.3 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.2.1 Dauginame ir dalijame iš skaičiaus.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+// Visi atsakymai šioje temoje yra reiškinio KOEFICIENTAS — vienas sveikasis skaičius, tad
+// pakanka grąžinti { q, ans, ansText, pre, steps } (žr. šablono tikrinti() — tikrinama skaitine verte).
+
+const RAIDES = ['a','b','c','x','y','m','n'];
+const RAIDES2 = ['a','b','x','y'];
+
+const GENERATORIAI = [
+  // 1) Koeficiento radimas: tvarkos keitimas (du skaitiniai dauginamieji + viena raidė),
+  //    su nedideliu šansu paklausti apie pačią raidę (koeficientas 1).
+  { label:"Koeficiento radimas (dauginamųjų tvarkos keitimas)", gen(){
+      const v = choice(RAIDES);
+      if(Math.random() < 0.2){
+        const steps = [
+          `Reiškinys ${v} yra tas pats kas 1 · ${v} — skaitinis dauginamasis, kurio nematome, yra 1.`,
+          `Taigi reiškinio ${v} koeficientas yra 1 (ne 0!).`
+        ];
+        return { q:`Koks yra reiškinio ${v} koeficientas?`, ans:1, ansText:"1", pre:"koeficientas =", steps };
+      }
+      const n1 = randint(2,9), n2 = randint(2,12);
+      const koef = n1*n2;
+      const steps = [
+        `Sandaugoje dauginamuosius galima sukeisti vietomis: ${n1} · ${v} · ${n2} = ${n1} · ${n2} · ${v}.`,
+        `Apskaičiuojame skaitinių dauginamųjų sandaugą: ${n1} · ${n2} = ${koef}.`,
+        `Reiškinys sutrauktas iki ${koef}${v}, tad jo koeficientas yra ${koef}.`
+      ];
+      return { q:`Raskite reiškinio ${n1} · ${v} · ${n2} koeficientą.`, ans:koef, ansText:String(koef), pre:"koeficientas =", steps };
+  }},
+
+  // 2) Koeficiento radimas: dviejų raidžių sandauga (pvz. 4·a·8·b)
+  { label:"Koeficiento radimas (dviejų raidžių sandauga)", gen(){
+      const n1 = randint(2,9), n2 = randint(2,9);
+      let v1 = choice(RAIDES2), v2 = choice(RAIDES2);
+      while(v2===v1){ v2 = choice(RAIDES2); }
+      const koef = n1*n2;
+      const steps = [
+        `Sugrupuojame skaitinius dauginamuosius: ${n1} · ${v1} · ${n2} · ${v2} = ${n1} · ${n2} · ${v1} · ${v2}.`,
+        `Apskaičiuojame: ${n1} · ${n2} = ${koef}.`,
+        `Reiškinys sutrauktas iki ${koef}${v1}${v2}, tad jo koeficientas yra ${koef}.`
+      ];
+      return { q:`Raskite reiškinio ${n1} · ${v1} · ${n2} · ${v2} koeficientą.`, ans:koef, ansText:String(koef), pre:"koeficientas =", steps };
+  }},
+
+  // 3) Sandaugos daugyba iš skaičiaus — rasti naują koeficientą
+  { label:"Sandaugos daugyba iš skaičiaus", gen(){
+      const k = randint(2,9), n = randint(2,9);
+      const v = choice(RAIDES);
+      const ans = k*n;
+      const steps = [
+        `Sandaugą dauginant iš skaičiaus, dauginamas tik koeficientas: ${k}${v} · ${n} = (${k} · ${n})${v}.`,
+        `${k} · ${n} = ${ans}.`,
+        `Taigi ${k}${v} · ${n} = ${ans}${v}, koeficientas — ${ans}.`
+      ];
+      return { q:`Apskaičiuokite reiškinio ${k}${v} · ${n} reikšmę ir nurodykite koeficientą.`, ans, ansText:String(ans), pre:"koeficientas =", steps };
+  }},
+
+  // 4) Sandaugos dalyba iš skaičiaus — rasti naują koeficientą (visada dalijasi be liekanos)
+  { label:"Sandaugos dalyba iš skaičiaus", gen(){
+      const n = randint(2,9), resultCoef = randint(2,12);
+      const k = resultCoef*n;
+      const v = choice(RAIDES);
+      const steps = [
+        `Sandaugą dalijant iš skaičiaus, dalijamas tik koeficientas: ${k}${v} : ${n} = (${k} : ${n})${v}.`,
+        `${k} : ${n} = ${resultCoef}.`,
+        `Taigi ${k}${v} : ${n} = ${resultCoef}${v}, koeficientas — ${resultCoef}.`
+      ];
+      return { q:`Apskaičiuokite reiškinio ${k}${v} : ${n} reikšmę ir nurodykite koeficientą.`, ans:resultCoef, ansText:String(resultCoef), pre:"koeficientas =", steps };
+  }},
+
+  // 5) Trūkstamas skaitinis dauginamasis (vietoj kvadratėlio)
+  { label:"Trūkstamas dauginamasis", gen(){
+      const n2 = randint(2,9), missing = randint(2,9);
+      const target = n2*missing;
+      const v = choice(RAIDES);
+      const steps = [
+        `Reikia rasti tokį skaičių, kad padauginę iš ${n2} gautume ${target} (nes reiškinio koeficientas turi būti ${target}).`,
+        `${target} : ${n2} = ${missing}.`,
+        `Patikriname: ${missing} · ${n2} = ${target}. Taigi ieškomas skaičius — ${missing}.`
+      ];
+      return { q:`Vietoj kvadratėlio (☐) įrašykite tokį skaičių, kad lygybė būtų teisinga: ☐ · ${n2}${v} = ${target}${v}`, ans:missing, ansText:String(missing), pre:"☐ =", steps };
+  }},
+
+  // 6) Žodinis uždavinys (stačiakampio kraštinė)
+  { label:"Žodinis uždavinys (stačiakampis)", gen(){
+      const v = choice(RAIDES2);
+      const n = randint(2,6);
+      const didesnis = Math.random() < 0.5;
+      let ilgioKoef, plotisKoef;
+      if(didesnis){
+        // plotis n kartų didesnis už ilgį — daugyba
+        ilgioKoef = randint(2,9);
+        plotisKoef = ilgioKoef*n;
+        const steps = [
+          `Plotis ${n} kartus didesnis už ilgį, tad plotį randame dauginę ilgio išraišką iš ${n}: ${ilgioKoef}${v} · ${n}.`,
+          `${ilgioKoef} · ${n} = ${plotisKoef}.`,
+          `Taigi plotis lygus ${plotisKoef}${v}, jo koeficientas — ${plotisKoef}.`
+        ];
+        return { q:`Stačiakampio ilgis yra ${ilgioKoef}${v} cm, o plotis — ${n} kartus didesnis už ilgį. Koks yra pločio išraiškos koeficientas (cm)?`, ans:plotisKoef, ansText:String(plotisKoef), pre:"koeficientas =", steps };
+      } else {
+        // plotis n kartų mažesnis už ilgį — dalyba (ilgis dalijasi iš n be liekanos)
+        plotisKoef = randint(2,9);
+        ilgioKoef = plotisKoef*n;
+        const steps = [
+          `Plotis ${n} kartus mažesnis už ilgį, tad plotį randame dalydami ilgio išraišką iš ${n}: ${ilgioKoef}${v} : ${n}.`,
+          `${ilgioKoef} : ${n} = ${plotisKoef}.`,
+          `Taigi plotis lygus ${plotisKoef}${v}, jo koeficientas — ${plotisKoef}.`
+        ];
+        return { q:`Stačiakampio ilgis yra ${ilgioKoef}${v} cm, o plotis — ${n} kartus mažesnis už ilgį. Koks yra pločio išraiškos koeficientas (cm)?`, ans:plotisKoef, ansText:String(plotisKoef), pre:"koeficientas =", steps };
+      }
+  }}
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.2.1 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.2.2 Panašieji nariai, jų sutraukimas.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- Savi pagalbininkai ---
+const VARS = ['a', 'b', 'c', 'x', 'y', 'n', 'm'];
+function term(coef, v){
+  if(coef === 1) return v;
+  return coef + v;
+}
+
+const GENERATORIAI = [
+  // 1) Dviejų panašiųjų narių sutraukimas — suma
+  { label:"Panašiųjų narių sutraukimas (suma)", gen(){
+      const v = choice(VARS);
+      const c1 = randint(11,45), c2 = randint(11,45);
+      const sum = c1 + c2;
+      return { q:`Sutrauk panašiuosius narius: ${c1}${v} + ${c2}${v}`,
+        ansType:'text', ans:`${sum}${v}`, pre:"atsakymas =", steps:[
+        `Abu dėmenys turi tą pačią raidinę dalį (${v}) — tai panašieji nariai.`,
+        `Sudedame koeficientus: ${c1} + ${c2} = ${sum}.`,
+        `Raidinę dalį paliekame tą pačią: ${c1}${v} + ${c2}${v} = ${sum}${v}`
+      ]};
+  }},
+
+  // 2) Dviejų panašiųjų narių sutraukimas — skirtumas
+  { label:"Panašiųjų narių sutraukimas (skirtumas)", gen(){
+      const v = choice(VARS);
+      const c1 = randint(25,70);
+      const c2 = randint(6, c1-6);
+      const diff = c1 - c2;
+      return { q:`Sutrauk panašiuosius narius: ${c1}${v} − ${c2}${v}`,
+        ansType:'text', ans:`${diff}${v}`, pre:"atsakymas =", steps:[
+        `Abu dėmenys turi tą pačią raidinę dalį (${v}) — atimame koeficientus.`,
+        `${c1} − ${c2} = ${diff}.`,
+        `Raidinę dalį paliekame tą pačią: ${c1}${v} − ${c2}${v} = ${diff}${v}`
+      ]};
+  }},
+
+  // 3) Sutraukimas su laisvuoju nariu (konstanta prie panašiųjų narių nesijungia)
+  { label:"Sutraukimas su laisvuoju nariu", gen(){
+      const v = choice(VARS);
+      const c1 = randint(8,30);
+      const c2 = choice([1, randint(2,12)]);
+      const constVal = randint(2,15);
+      const sum = c1 + c2;
+      const c2term = term(c2,v);
+      const ansText = `${sum}${v}+${constVal}`;
+      return { q:`Sutrauk panašiuosius narius: ${c1}${v} + ${constVal} + ${c2term}`,
+        ansType:'text', ans:ansText, ansAlt:[`${constVal}+${sum}${v}`], pre:"atsakymas =", steps:[
+        `Kurie du nariai turi vienodą raidinę dalį (${v})? Skaičius ${constVal} (be raidės) prie jų nesijungia.`,
+        `Sudedame ${v} narių koeficientus: ${c1} + ${c2} = ${sum}.`,
+        `Laisvasis narys ${constVal} lieka atskirai: ${c1}${v} + ${constVal} + ${c2term} = ${ansText}`
+      ]};
+  }},
+
+  // 4) Skliaustų atskliautimas, kai prieš juos yra minusas, ir sutraukimas
+  { label:"Atskliautimas (minusas prieš skliaustus) ir sutraukimas", gen(){
+      const v = choice(VARS);
+      const c2 = choice([1, randint(2,10)]);
+      const c3 = randint(2,20);
+      const minSum = c2 + c3;
+      const c1 = randint(minSum+8, minSum+50);
+      const diff = c1 - c2 - c3;
+      const insideStr = term(c2,v) + " + " + term(c3,v);
+      return { q:`Atskliausk ir sutrauk: ${c1}${v} − (${insideStr})`,
+        ansType:'text', ans:`${diff}${v}`, pre:"atsakymas =", steps:[
+        `Prieš skliaustus yra minusas — atskliaudus kiekvieno skliaustuose esančio nario ženklą pakeičiame priešingu: ${c1}${v} − (${insideStr}) = ${c1}${v} − ${term(c2,v)} − ${term(c3,v)}.`,
+        `Sutraukiame koeficientus: ${c1} − ${c2} − ${c3} = ${diff}.`,
+        `Atsakymas: ${diff}${v}`
+      ]};
+  }},
+
+  // 5) Skliaustų atskliautimas (daugybos dėsnis)
+  { label:"Atskliautimas (daugybos dėsnis)", gen(){
+      const v = choice(VARS);
+      const k = randint(2,9);
+      const cv = randint(2,9);
+      const constVal = randint(2,15);
+      const sign = choice(['+','−']);
+      const a1 = k*cv, a2 = k*constVal;
+      const ansText = sign==='+' ? `${a1}${v}+${a2}` : `${a1}${v}−${a2}`;
+      return { q:`Atskliausk: ${k}·(${cv}${v} ${sign} ${constVal})`,
+        ansType:'text', ans:ansText, pre:"atsakymas =", steps:[
+        `Naudojame taisyklę a·(b${sign}c) = a·b ${sign} a·c.`,
+        `${k}·${cv}${v} = ${a1}${v}; ${k}·${constVal} = ${a2}.`,
+        `Taigi ${k}·(${cv}${v} ${sign} ${constVal}) = ${ansText}`
+      ]};
+  }}
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+
+  return GENERATORIAI.map(g => ({ label: "7.2.2 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.3.1 Skaitinių lygybių savybės.
+//
+// Šablonas jau apibrėžia pagalbininkus: randint(a,b), choice(arr), nz(a,b),
+// nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3"). Čia tereikia
+// apibrėžti `const GENERATORIAI = [...]`.
+//
+// Užduočių tipas: „koks skaičius turi būti vietoj ▢, kad lygybė būtų
+// teisinga" — tiesiogiai atkartoja vadovėlio pratimus (žinoma, kad a=b,
+// surask trūkstamą skaičių). Kiekvienas generatorius grąžina {q, ans, steps}.
+// Kintamųjų poros parenkamos atsitiktinai iš VARPAIRS, kad uždaviniai
+// nesikartotų vis su tomis pačiomis raidėmis.
+
+const VARPAIRS = [["a","b"],["m","n"],["x","y"],["p","q"],["c","d"]];
+
+// Vardų poros (vardininkas + kilmininkas) tranzityvumo žodiniams uždaviniams —
+// kilmininkas iš anksto paruoštas, kad nereikėtų automatiškai linksniuoti.
+const NAMES = [
+  ["Tomas","Tomo"], ["Ugnė","Ugnės"], ["Lukas","Luko"], ["Kotryna","Kotrynos"],
+  ["Dovydas","Dovydo"], ["Aistė","Aistės"], ["Mantas","Manto"], ["Gabija","Gabijos"],
+  ["Jonas","Jono"], ["Emilija","Emilijos"], ["Rokas","Roko"], ["Viltė","Viltės"]
+];
+function pick3Names(){
+  const pool = NAMES.slice();
+  const out = [];
+  for(let i=0;i<3;i++){
+    const idx = Math.floor(Math.random()*pool.length);
+    out.push(pool[idx]); pool.splice(idx,1);
+  }
+  return out;
+}
+const CONTEXTS = [
+  { nom:"ūgis", acc:"ūgį", unit:"cm", range:[125,178] },
+  { nom:"amžius", acc:"amžių", unit:"metų", range:[9,16] },
+  { nom:"svoris", acc:"svorį", unit:"kg", range:[28,62] }
+];
+
+const GENERATORIAI = [
+  // 1) Pridėjimas prie abiejų pusių
+  { label:"Pridėjimas prie abiejų pusių", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const K = randint(3,29);
+      const boxLeft = Math.random()<0.5;
+      const q = boxLeft
+        ? `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} + ▢ = ${v2} + ${K} ?`
+        : `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} + ${K} = ${v2} + ▢ ?`;
+      return { q, ans:K, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, abi lygybės pusės lygios tarpusavyje.`,
+        `Prie teisingos lygybės abiejų pusių pridėjus tą patį skaičių, gauname teisingą lygybę — tad prie abiejų pusių turi būti pridedamas tas pats skaičius.`,
+        `▢ = ${K}`
+      ]};
+  }},
+
+  // 2) Atėmimas iš abiejų pusių
+  { label:"Atėmimas iš abiejų pusių", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const K = randint(3,29);
+      const boxLeft = Math.random()<0.5;
+      const q = boxLeft
+        ? `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} − ▢ = ${v2} − ${K} ?`
+        : `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} − ${K} = ${v2} − ▢ ?`;
+      return { q, ans:K, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, abi lygybės pusės lygios tarpusavyje.`,
+        `Iš teisingos lygybės abiejų pusių atėmus tą patį skaičių, gauname teisingą lygybę — tad iš abiejų pusių turi būti atimamas tas pats skaičius.`,
+        `▢ = ${K}`
+      ]};
+  }},
+
+  // 3) Daugyba iš abiejų pusių
+  { label:"Daugyba iš abiejų pusių", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const K = randint(2,12);
+      const boxLeft = Math.random()<0.5;
+      const q = boxLeft
+        ? `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ▢ · ${v1} = ${K} · ${v2} ?`
+        : `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${K} · ${v1} = ▢ · ${v2} ?`;
+      return { q, ans:K, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, abi lygybės pusės lygios tarpusavyje.`,
+        `Teisingos lygybės abi puses padauginus iš to paties skaičiaus, gauname teisingą lygybę — tad abi puses reikia dauginti iš to paties skaičiaus.`,
+        `▢ = ${K}`
+      ]};
+  }},
+
+  // 4) Dalyba iš abiejų pusių (c ≠ 0)
+  { label:"Dalyba iš abiejų pusių", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const K = randint(2,12);
+      const boxLeft = Math.random()<0.5;
+      const q = boxLeft
+        ? `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} : ▢ = ${v2} : ${K} ?`
+        : `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} : ${K} = ${v2} : ▢ ?`;
+      return { q, ans:K, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, abi lygybės pusės lygios tarpusavyje.`,
+        `Teisingos lygybės abi puses padalijus iš to paties nelygaus nuliui skaičiaus, gauname teisingą lygybę — tad abi puses reikia dalyti iš to paties skaičiaus.`,
+        `▢ = ${K}`
+      ]};
+  }},
+
+  // 5) Su koeficientu abiejose pusėse (papildoma konstanta)
+  { label:"Su koeficientu (konstanta)", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const co = randint(2,9);
+      const K = randint(3,40);
+      const boxLeft = Math.random()<0.5;
+      const q = boxLeft
+        ? `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ▢ + ${co}${v1} = ${K} + ${co}${v2} ?`
+        : `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${co}${v1} + ${K} = ▢ + ${co}${v2} ?`;
+      return { q, ans:K, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, tai ir ${co}·${v1} = ${co}·${v2} (abi lygybės ${v1} = ${v2} puses padauginus iš ${co}).`,
+        `Belieka rasti, koks skaičius pridėtas prie vienos pusės, kad ji sutaptų su kita.`,
+        `▢ = ${K}`
+      ]};
+  }},
+
+  // 6) Su koeficientu prie langelio (reikia padalyti)
+  { label:"Koeficientas prie langelio", gen(){
+      const [v1,v2] = choice(VARPAIRS);
+      const co = randint(2,6);
+      const m = randint(2,9);
+      const K = co*m;
+      const q = `Žinoma, kad ${v1} = ${v2}. Koks skaičius turi būti vietoj ▢, kad lygybė būtų teisinga: ${v1} + ${co} · ▢ = ${v2} + ${K} ?`;
+      return { q, ans:m, pre:"▢ =", steps:[
+        `Kadangi ${v1} = ${v2}, abi pusės lygios, tad papildomos dalys (kairėje ${co} · ▢, dešinėje ${K}) taip pat turi būti lygios.`,
+        `${co} · ▢ = ${K}`,
+        `▢ = ${K} : ${co} = ${m}`
+      ]};
+  }},
+
+  // 7) Tranzityvumo žodinis uždavinys
+  { label:"Tranzityvumo žodinis uždavinys", gen(){
+      const [A,B,C] = pick3Names();
+      const ctx = choice(CONTEXTS);
+      const N = randint(ctx.range[0], ctx.range[1]);
+      const q = `${A[0]} ir ${B[0]} turi vienodą ${ctx.acc}. ${B[0]} ir ${C[0]} taip pat turi vienodą ${ctx.acc}. Koks yra ${A[1]} ${ctx.nom}, jei ${C[1]} ${ctx.nom} lygus ${N} ${ctx.unit}?`;
+      const ansText = `${N} ${ctx.unit}`;
+      return { q, ans:N, ansText, pre:"atsakymas =", steps:[
+        `Pažymėkime: ${A[0]} ${ctx.nom} = ${B[0]} ${ctx.nom} ir ${B[0]} ${ctx.nom} = ${C[0]} ${ctx.nom}.`,
+        `Pagal tranzityvumo savybę: jei du dydžiai lygūs trečiajam, jie lygūs ir tarpusavyje, tad ${A[0]} ${ctx.nom} = ${C[0]} ${ctx.nom}.`,
+        `${C[1]} ${ctx.nom} lygus ${N} ${ctx.unit}, tad ir ${A[1]} ${ctx.nom} lygus ${N} ${ctx.unit}.`,
+        `Atsakymas: ${ansText}`
+      ]};
+  }}
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.3.1 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.3.2 Lygtis ir jos sprendinys
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+// Sis sablonas naudoja numatytaji (skaitini) ansType daugumai uzdaviniu ir ansType:'text' taip/ne klausimams.
+// SVARBU: tema TIK tikrinimas/atpazinimas (ar skaicius yra lygties sprendinys), NE lygties sprendimas.
+
+// --- Savi pagalbininkai ---
+
+// Sugalvoja lygtį a·x+b=c su sveikuoju natūraliuoju x sprendiniu.
+function makeAxPlusB(){
+  const a = randint(2,9), b = randint(1,15), x = randint(2,15);
+  const c = a*x + b;
+  return { a, b, x, c,
+    lhsText: `${a}x + ${b}`,
+    lhs: (v)=> a*v + b };
+}
+function makeAxMinusB(){
+  const a = randint(2,9);
+  const x = randint(3,15);
+  const bMax = Math.min(15, a*x-1);
+  const b = randint(1, bMax);
+  const c = a*x - b;
+  return { a, b, x, c,
+    lhsText: `${a}x − ${b}`,
+    lhs: (v)=> a*v - b };
+}
+function makeXPlusA(){
+  const a = randint(2,20), x = randint(2,25);
+  const c = x + a;
+  return { a, x, c,
+    lhsText: `x + ${a}`,
+    lhs: (v)=> v + a };
+}
+function makeXMinusA(){
+  const a = randint(2,20);
+  const x = randint(a+2, a+25); // garantuoja x > a (be neigiamu skaiciu)
+  const c = x - a;
+  return { a, x, c,
+    lhsText: `x − ${a}`,
+    lhs: (v)=> v - a };
+}
+function makeAMinusX(){
+  const a = randint(20,50);
+  const x = randint(1, a-2);
+  const c = a - x;
+  return { a, x, c,
+    lhsText: `${a} − x`,
+    lhs: (v)=> a - v };
+}
+function makeXDivA(){
+  const a = randint(2,9), c = randint(2,12);
+  const x = a*c;
+  return { a, c, x,
+    lhsText: `x : ${a}`,
+    lhs: (v)=> v/a };
+}
+function makeAxEqC(){
+  const a = randint(2,9), x = randint(2,15);
+  const c = a*x;
+  return { a, x, c,
+    lhsText: `${a}x`,
+    lhs: (v)=> a*v };
+}
+
+// Kandidatas: arba tikrasis sprendinys, arba "beveik teisingas" (poslinkis nuo tikrojo).
+// minVal apsaugo, kad "klaidingas" kandidatas neduotu neigiamos kaires puses (5 kl. dar be neigiamu skaiciu).
+function pickCandidate(trueX, wantTrue, minVal){
+  if(wantTrue) return trueX;
+  if(minVal===undefined) minVal = 1;
+  const offsets = [1,-1,2,-2,3,-3];
+  let cand;
+  do {
+    cand = trueX + choice(offsets);
+  } while(cand < minVal);
+  return cand;
+}
+
+const GENERATORIAI = [
+  // 1) a·x+b=c — taip/ne patikrinimas
+  { label:"Patikrinimas (a·x+b=c)", gen(){
+      const eq = makeAxPlusB();
+      const wantTrue = choice([true,false]);
+      const cand = pickCandidate(eq.x, wantTrue);
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 2) x+a=c — taip/ne
+  { label:"Patikrinimas (x+a=c)", gen(){
+      const eq = makeXPlusA();
+      const wantTrue = choice([true,false]);
+      const cand = pickCandidate(eq.x, wantTrue);
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 3) x-a=c — taip/ne
+  { label:"Patikrinimas (x−a=c)", gen(){
+      const eq = makeXMinusA();
+      const wantTrue = choice([true,false]);
+      let cand = pickCandidate(eq.x, wantTrue, eq.a+1); // >a, kad kaire puse liktu natūralioji
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 4) a-x=c — taip/ne
+  { label:"Patikrinimas (a−x=c)", gen(){
+      const eq = makeAMinusX();
+      const wantTrue = choice([true,false]);
+      let cand = pickCandidate(eq.x, wantTrue);
+      if(cand >= eq.a) cand = Math.max(1, eq.a - 1); // isvenkime neigiamos kaires puses
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 5) x:a=c — taip/ne
+  { label:"Patikrinimas (x:a=c)", gen(){
+      const eq = makeXDivA();
+      const wantTrue = choice([true,false]);
+      let cand = wantTrue ? eq.x : eq.a * (eq.c + choice([1,-1,2]));
+      if(cand <= 0) cand = eq.x + eq.a;
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 6) a·x=c — taip/ne
+  { label:"Patikrinimas (a·x=c)", gen(){
+      const eq = makeAxEqC();
+      const wantTrue = choice([true,false]);
+      const cand = pickCandidate(eq.x, wantTrue);
+      const lhsVal = eq.lhs(cand);
+      const ok = (lhsVal === eq.c);
+      const ans = ok ? "taip" : "ne";
+      return { q:`Patikrink: ar skaičius x = ${cand} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${lhsVal}.`,
+        ok ? `Sutampa su ${eq.c}, taigi skaičius YRA sprendinys.` : `Nesutampa su ${eq.c}, taigi skaičius NĖRA sprendinys.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+
+  // 7) Kuris iš trijų skaičių yra sprendinys — skaitinis atsakymas
+  { label:"Kuris skaičius yra sprendinys", gen(){
+      const eq = makeAxPlusB();
+      const wrong1 = eq.x + choice([1,2,3]);
+      const wrong2 = eq.x - choice([1,2,3]);
+      let cands = [eq.x, wrong1, wrong2 > 0 ? wrong2 : eq.x + 4];
+      // sumaisom eiliskuma
+      for(let i=cands.length-1;i>0;i--){ const j=randint(0,i); [cands[i],cands[j]]=[cands[j],cands[i]]; }
+      const candsTxt = cands.join('; ');
+      return { q:`Kuris iš skaičių ${candsTxt} yra lygties ${eq.lhsText} = ${eq.c} sprendinys? Įrašyk tą skaičių.`,
+        ans: eq.x, ansText: String(eq.x), steps:[
+        `Patikrink kiekvieną skaičių paeiliui, įstatydamas jį vietoj x į ${eq.lhsText} = ${eq.c}.`,
+        `Tinka tik x = ${eq.x}: ${eq.lhsText} = ${eq.lhs(eq.x)} = ${eq.c}.`,
+        `Atsakymas: ${eq.x}`
+      ]};
+  }},
+
+  // 8) Apskaičiuok kairiąją pusę, kai x=K — skaitinis atsakymas (substitucijos igudis)
+  { label:"Kairiosios pusės reikšmė", gen(){
+      const eq = makeAxMinusB();
+      // kandidatas parenkamas taip, kad a·cand − b liktu teigiamas (natūralusis) skaičius
+      const minCand = Math.ceil((eq.b+1)/eq.a) + 1;
+      const cand = randint(minCand, minCand+12);
+      const lhsVal = eq.a*cand - eq.b;
+      return { q:`Apskaičiuok reiškinio ${eq.lhsText} reikšmę, kai x = ${cand}.`,
+        ans: lhsVal, ansText: String(lhsVal), steps:[
+        `Įstatome x = ${cand} į reiškinį ${eq.lhsText}.`,
+        `${eq.a} · ${cand} − ${eq.b} = ${eq.a*cand} − ${eq.b} = ${lhsVal}.`,
+        `Atsakymas: ${lhsVal}`
+      ]};
+  }},
+
+  // 9) Ar mokinys teisingai patikrino? — taip/ne
+  { label:"Ar mokinys teisus", gen(){
+      const eq = makeXPlusA();
+      const wantMokinysTrue = choice([true,false]);
+      const cand = pickCandidate(eq.x, choice([true,false]));
+      const actualOk = (eq.lhs(cand) === eq.c);
+      const mokinioTeiginys = wantMokinysTrue ? "YRA sprendinys" : "NĖRA sprendinys";
+      const mokinioClaim = wantMokinysTrue; // ar mokinys tvirtina "YRA"
+      const mokinysTeisus = (mokinioClaim === actualOk);
+      const ans = mokinysTeisus ? "taip" : "ne";
+      return { q:`Mokinys tikrino lygtį ${eq.lhsText} = ${eq.c} su x = ${cand} ir pasakė, kad skaičius ${mokinioTeiginys}. Ar mokinys teisus? (parašyk „taip“ arba „ne“)`,
+        ans, ansType:'text', steps:[
+        `Įstatę x = ${cand}: ${eq.lhsText} = ${eq.lhs(cand)}.`,
+        `Iš tikrųjų skaičius ${actualOk ? "YRA" : "NĖRA"} sprendinys, todėl mokinys ${mokinysTeisus ? "teisus" : "neteisus"}.`,
+        `Atsakymas: ${ans}`
+      ]};
+  }},
+];
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+
+  return GENERATORIAI.map(g => ({ label: "7.3.2 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.3.3 Lygties sprendimas.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+// Cia visi atsakymai yra PAPRASTI SKAICIAI (ansType numatytas — tikrinama skaitine verte, žr.
+// šablono tikrinti()), tad pakanka grąžinti { q, ans, ansText, pre, steps }.
+//
+// SVARBU: kiekvienam generatoriui x visada sukonstruojamas PIRMA (atsitiktinis sveikasis,
+// paprastai 1–20), o duotieji lygties skaičiai (a,b,c) apskaičiuojami IŠ x taip, kad
+// dalybos veiksmai sprendime visada dalintųsi be liekanos. Niekada neatvirkščiai.
+
+const FRAZES = [
+  "Išspręskite lygtį: ",
+  "Raskite lygties sprendinį: ",
+  "Raskite x reikšmę, su kuria lygybė būtų teisinga: "
+];
+
+const GENERATORIAI = [
+  // 1) ax + b = c  (pvz. 4x + 2 = 10)
+  { label:"ax + b = c", gen(){
+      const a = randint(2,9);
+      const x = randint(1,20);
+      const b = randint(1,20);
+      const c = a*x + b;
+      const ans = x, ansText = nf(ans);
+      const steps = [
+        `Iš abiejų lygybės pusių atimame ${b}: ${a}x + ${b} − ${b} = ${c} − ${b}, taigi ${a}x = ${c-b}.`,
+        `Abi lygybės puses padalijame iš ${a}: ${a}x : ${a} = ${c-b} : ${a}, taigi x = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}${a}x + ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }},
+
+  // 2) ax − b = c  (pvz. 5x − 7 = 18)
+  { label:"ax − b = c", gen(){
+      const a = randint(2,9);
+      const x = randint(1,20);
+      const bMax = Math.min(20, a*x-1); // garantuoja c = a*x-b >= 1
+      const b = randint(1, Math.max(1,bMax));
+      const c = a*x - b;
+      const ans = x, ansText = nf(ans);
+      const steps = [
+        `Iš abiejų lygybės pusių pridedame ${b}: ${a}x − ${b} + ${b} = ${c} + ${b}, taigi ${a}x = ${c+b}.`,
+        `Abi lygybės puses padalijame iš ${a}: ${a}x : ${a} = ${c+b} : ${a}, taigi x = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}${a}x − ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }},
+
+  // 3) x : a + b = c  (pvz. x : 3 + 2 = 4)
+  { label:"x : a + b = c", gen(){
+      const a = randint(2,12);
+      const q = randint(1,15); // q = x : a
+      const x = a*q;
+      const b = randint(1,20);
+      const c = q + b;
+      const ans = x, ansText = nf(ans);
+      const steps = [
+        `Iš abiejų lygybės pusių atimame ${b}: x : ${a} + ${b} − ${b} = ${c} − ${b}, taigi x : ${a} = ${q}.`,
+        `Abi lygybės puses padauginame iš ${a}: (x : ${a}) · ${a} = ${q} · ${a}, taigi x = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}x : ${a} + ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }},
+
+  // 4) (x + a) · b = c  (pvz. (x + 12) · 8 = 24 tipo)
+  { label:"(x + a) · b = c", gen(){
+      const a = randint(1,20);
+      const b = randint(2,9);
+      const x = randint(1,20);
+      const c = (x+a)*b;
+      const ans = x, ansText = nf(ans);
+      const suma = x+a;
+      const steps = [
+        `Abi lygybės puses padalijame iš ${b}: (x + ${a}) · ${b} : ${b} = ${c} : ${b}, taigi x + ${a} = ${suma}.`,
+        `Iš abiejų pusių atimame ${a}: x = ${suma} − ${a} = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}(x + ${a}) · ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }},
+
+  // 5) (x − a) : b = c  (pvz. (x − 7) : 2 = 11 tipo)
+  { label:"(x − a) : b = c", gen(){
+      const a = randint(1,20);
+      const b = randint(2,9);
+      const c = randint(1,15); // c = (x-a) : b
+      const x = a + c*b;
+      const ans = x, ansText = nf(ans);
+      const skirtumas = c*b;
+      const steps = [
+        `Abi lygybės puses padauginame iš ${b}: (x − ${a}) : ${b} · ${b} = ${c} · ${b}, taigi x − ${a} = ${skirtumas}.`,
+        `Iš abiejų pusių pridedame ${a}: x = ${skirtumas} + ${a} = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}(x − ${a}) : ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }},
+
+  // 6) x : a − b = c  (pvz. x : 12 − 6 = 13 tipo)
+  { label:"x : a − b = c", gen(){
+      const a = randint(2,12);
+      const q = randint(2,15); // q = x : a (bent 2, kad b galėtų būti mažesnis ir c>=1)
+      const x = a*q;
+      const b = randint(1,q-1);
+      const c = q - b;
+      const ans = x, ansText = nf(ans);
+      const steps = [
+        `Iš abiejų lygybės pusių pridedame ${b}: x : ${a} − ${b} + ${b} = ${c} + ${b}, taigi x : ${a} = ${q}.`,
+        `Abi lygybės puses padauginame iš ${a}: (x : ${a}) · ${a} = ${q} · ${a}, taigi x = ${ansText}.`
+      ];
+      return { q:`${choice(FRAZES)}x : ${a} − ${b} = ${c}`, ans, ansText, pre:"x =", steps };
+  }}
+];
+
+  return GENERATORIAI.map(g => ({ label: "7.3.3 " + g.label, gen: g.gen }));
+})(),
+(function(){
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- 1) SUMA IR SKIRTUMAS (bendri dydžiai: ilgis, kiekis, svoris — be kainos ir amžiaus) ---
+const CONTEXTS_SD = [
+  (x,d,s) => ({
+    q: `Dviejų virvių ilgis kartu yra ${s} cm. Viena virvė ${d} cm ilgesnė už kitą. Koks trumpesnės virvės ilgis (cm)?`,
+    xName: "trumpesnės virvės ilgis", oName: "ilgesnės virvės ilgis", unit: "cm"
+  }),
+  (x,d,s) => ({
+    q: `Dviejų klasių mokinių skaičius kartu yra ${s}. Vienoje klasėje ${d} mokiniais daugiau negu kitoje. Kiek mokinių yra mažesnėje klasėje?`,
+    xName: "mažesnės klasės mokinių skaičius", oName: "didesnės klasės mokinių skaičius", unit: ""
+  }),
+  (x,d,s) => ({
+    q: `Dviejų maišų su grūdais svoris kartu yra ${s} kg. Vienas maišas ${d} kg sunkesnis už kitą. Kiek kilogramų sveria lengvesnis maišas?`,
+    xName: "lengvesnio maišo svoris", oName: "sunkesnio maišo svoris", unit: "kg"
+  }),
+  (x,d,s) => ({
+    q: `Sodo medžių (obelų ir kriaušių) skaičius kartu yra ${s}. Obelų yra ${d} daugiau negu kriaušių. Kiek kriaušių auga sode?`,
+    xName: "kriaušių skaičius", oName: "obelų skaičius", unit: ""
+  }),
+];
+
+// --- 2) KARTOTINIS IR SUMA (bendri dydžiai: svoris, ilgis, tūris) ---
+const CONTEXTS_MS = [
+  (x,k,s) => ({
+    q: `Dvi dėžės sveria iš viso ${s} kg. Viena dėžė ${k} kartus sunkesnė už kitą. Kiek kilogramų sveria lengvesnė dėžė?`,
+    xName: "lengvesnės dėžės svoris", oName: "sunkesnės dėžės svoris", unit: "kg"
+  }),
+  (x,k,s) => ({
+    q: `Dviejų virvių ilgis kartu yra ${s} m. Viena virvė ${k} kartus ilgesnė už kitą. Koks trumpesnės virvės ilgis?`,
+    xName: "trumpesnės virvės ilgis", oName: "ilgesnės virvės ilgis", unit: "m"
+  }),
+  (x,k,s) => ({
+    q: `Dviejų statinių vandens kiekis (litrais) kartu yra ${s}. Vienoje statinėje ${k} kartus daugiau vandens negu kitoje. Kiek litrų vandens yra mažesnėje statinėje?`,
+    xName: "mažesnės statinės vandens kiekis", oName: "didesnės statinės vandens kiekis", unit: "l"
+  }),
+];
+
+// --- 3) AMŽIAI (suma+skirtumas arba kartotinis, keli asmenų poros pavadinimai) ---
+// amzius: "X ir Y" (giminininko linksniu, sakiniui "... amžius kartu yra..."); older/younger formos
+// kiekvienam linksniui atskirai, kad nereikėtų spėlioti galūnių.
+const AGE_PAIRS = [
+  { amzius:"Tėvo ir sūnaus", older_nom:"Tėvas", younger_acc:"sūnų",
+    older_dat:"tėvui", younger_dat:"sūnui", older_gen:"tėvo", younger_gen:"sūnaus", adj:"vyresnis" },
+  { amzius:"Mamos ir dukros", older_nom:"Mama", younger_acc:"dukrą",
+    older_dat:"mamai", younger_dat:"dukrai", older_gen:"mamos", younger_gen:"dukros", adj:"vyresnė" },
+  { amzius:"Sesers ir brolio", older_nom:"Brolis", younger_acc:"seserį",
+    older_dat:"broliui", younger_dat:"seseriai", older_gen:"brolio", younger_gen:"sesers", adj:"vyresnis" },
+];
+
+// --- 4) KAINA (suma+skirtumas arba kartotinis, keli prekių pavadinimai) ---
+// item1 visada sakinyje lyginamas kaip brangesnis; adj sutampa su item1 gimine.
+const PRICE_PAIRS = [
+  { item1_nom:"Knyga", item1_low:"knyga", item1_gen:"knygos", adj:"brangesnė",
+    item2_low:"žurnalas", item2_gen:"žurnalo", item2_acc:"žurnalą" },
+  { item1_nom:"Kuprinė", item1_low:"kuprinė", item1_gen:"kuprinės", adj:"brangesnė",
+    item2_low:"bateliai", item2_gen:"batelių", item2_acc:"batelius" },
+  { item1_nom:"Sąsiuvinis", item1_low:"sąsiuvinis", item1_gen:"sąsiuvinio", adj:"brangesnis",
+    item2_low:"pieštukas", item2_gen:"pieštuko", item2_acc:"pieštuką" },
+];
+
+const GENERATORIAI = [
+  // 1) Suma ir skirtumas
+  { label:"Suma ir skirtumas", gen(){
+      const x = randint(6, 40);
+      const d = randint(2, 30);
+      const s = 2*x + d;
+      const ctx = choice(CONTEXTS_SD)(x, d, s);
+      const askOther = choice([true,false]);
+      const ans = askOther ? (x+d) : x;
+      const askName = askOther ? ctx.oName : ctx.xName;
+      return { q: ctx.q,
+        ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+        `Pažymime raide x ${ctx.xName} (mažesnysis dydis). Tada ${ctx.oName} yra x + ${d}.`,
+        `Bendra suma yra ${s}, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+        `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+        `Taigi ${ctx.xName} = ${x}, o ${ctx.oName} = ${x} + ${d} = ${x+d}. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Klausiama apie ${toAcc(askName)}: ${ans}.`
+      ]};
+  }},
+
+  // 2) Kartotinis ir suma
+  { label:"Kartotinis ir suma", gen(){
+      const k = randint(2, 6);
+      const x = randint(4, Math.floor(90/(k+1)));
+      const s = x*(k+1);
+      const ctx = choice(CONTEXTS_MS)(x, k, s);
+      const askOther = choice([true,false]);
+      const ans = askOther ? (k*x) : x;
+      const askName = askOther ? ctx.oName : ctx.xName;
+      return { q: ctx.q,
+        ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+        `Pažymime raide x ${ctx.xName} (mažesnysis dydis). Tada ${ctx.oName} yra ${k}x (${k} kartus daugiau).`,
+        `Bendra suma yra ${s}, todėl lygtis: x + ${k}x = ${s}.`,
+        `Sutraukiame panašiuosius narius: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+        `Taigi ${ctx.xName} = ${x}, o ${ctx.oName} = ${k} · ${x} = ${k*x}. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Klausiama apie ${toAcc(askName)}: ${ans}.`
+      ]};
+  }},
+
+  // 3) Amžiai (suma+skirtumas arba kartotinis)
+  { label:"Amžiai", gen(){
+      const p = choice(AGE_PAIRS);
+      const mult = choice([true,false]);
+      const askOlder = choice([true,false]);
+      const askWho = askOlder ? p.older_dat : p.younger_dat;
+      if(mult){
+        const k = randint(2,5);
+        const x = randint(4, Math.floor(70/(k+1)));
+        const s = x*(k+1);
+        const ans = askOlder ? (k*x) : x;
+        return { q: `${p.amzius} amžius kartu yra ${s} metai. ${p.older_nom} ${k} kartus ${p.adj} už ${p.younger_acc}. Kiek metų yra ${askWho}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.younger_gen} amžių (jaunesniojo). ${cap(p.older_gen)} amžius yra ${k}x.`,
+          `Bendras amžius yra ${s} metai, todėl lygtis: x + ${k}x = ${s}.`,
+          `Sutraukiame: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+          `Taigi jaunesniajam yra ${x} metai, o ${p.older_gen} amžius — ${k*x} metai. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      } else {
+        const x = randint(4, 40);
+        const d = randint(2, 30);
+        const s = 2*x + d;
+        const ans = askOlder ? (x+d) : x;
+        return { q: `${p.amzius} amžius kartu yra ${s} metai. ${p.older_nom} ${d} metais ${p.adj} už ${p.younger_acc}. Kiek metų yra ${askWho}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.younger_gen} amžių (jaunesniojo). ${cap(p.older_gen)} amžius yra x + ${d}.`,
+          `Bendras amžius yra ${s} metai, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+          `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+          `Taigi jaunesniajam yra ${x} metai, o ${p.older_gen} amžius — ${x+d} metai. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      }
+  }},
+
+  // 4) Kaina (suma+skirtumas arba kartotinis) — item1 visada brangesnis, item2 visada pigesnis
+  { label:"Kaina", gen(){
+      const p = choice(PRICE_PAIRS);
+      const mult = choice([true,false]);
+      const askExpensive = choice([true,false]);
+      const askWhat = askExpensive ? p.item1_low : p.item2_low;
+      if(mult){
+        const k = randint(2,6);
+        const x = randint(3, Math.floor(90/(k+1)));
+        const s = x*(k+1);
+        const ans = askExpensive ? (k*x) : x;
+        return { q: `${p.item1_nom} ir ${p.item2_low} kartu kainuoja ${s} €. ${p.item1_nom} ${k} kartus ${p.adj} už ${p.item2_acc}. Kiek eurų kainuoja ${askWhat}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.item2_gen} kainą (pigesnės prekės). ${cap(p.item1_gen)} kaina yra ${k}x.`,
+          `Bendra kaina yra ${s} €, todėl lygtis: x + ${k}x = ${s}.`,
+          `Sutraukiame: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+          `Taigi ${p.item2_low} kainuoja ${x} €, o ${p.item1_low} kaina — ${k*x} €. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      } else {
+        const x = randint(3, 45);
+        const d = randint(2, 30);
+        const s = 2*x + d;
+        const ans = askExpensive ? (x+d) : x;
+        return { q: `${p.item1_nom} ir ${p.item2_low} kartu kainuoja ${s} €. ${p.item1_nom} ${d} € ${p.adj} už ${p.item2_acc}. Kiek eurų kainuoja ${askWhat}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.item2_gen} kainą (pigesnės prekės). ${cap(p.item1_gen)} kaina yra x + ${d}.`,
+          `Bendra kaina yra ${s} €, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+          `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+          `Taigi ${p.item2_low} kainuoja ${x} €, o ${p.item1_low} kaina — ${x+d} €. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      }
+  }},
+];
+
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+// Linksniuotė: „apie ką?" reikalauja galininko. Dydžių pavadinimai baigiasi „-ius" (skaičius -> skaičių)
+// arba „-is" (ilgis -> ilgį, svoris -> svorį, kiekis -> kiekį) — verčiam paskutinį žodį.
+function toAcc(phrase){
+  const parts = phrase.split(' ');
+  let last = parts[parts.length-1];
+  if(last.endsWith('ius')) last = last.slice(0,-3)+'ių';
+  else if(last.endsWith('is')) last = last.slice(0,-2)+'į';
+  parts[parts.length-1] = last;
+  return parts.join(' ');
+}
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  p.ansType = 'number';
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+
+  return GENERATORIAI.map(g => ({ label: "7.3.4 " + g.label, gen: g.gen }));
+})()
+);
+
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: ★ Bendras 7 skyriaus „Reiškiniai. Lygtys“ (5 kl.)", "subtitle": "Visos 9 potemės (7.1.1–7.3.4) · 5 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": [","]};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  return esc(s);
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (taip/ne ir pan.) normalizavimas: nesvarbu tarpai, didžiosios/mažosios raidės.
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+function initSimboliai(){
+  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : [','];
+  const cont = $('simboliai');
+  cont.innerHTML = '';
+  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
+    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
+  const c=document.createElement('button'); c.textContent='C';
+  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+initSimboliai();
+naujas();
+</script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Panašieji nariai, jų sutraukimas (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px;font-family:"Consolas","Courier New",monospace}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>7.2.2 Panašieji nariai, jų sutraukimas</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime temą <b>„Panašieji nariai, jų sutraukimas“</b>: mokysimės atpažinti narius su vienoda raidine dalimi, juos sutraukti (sudėti/atimti koeficientus) ir atskliausti skliaustus (a·(b+c)=a·b+a·c).<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia, pvz. 21a" onkeydown="if(event.key==='Enter')checkStation()">
+      <div class="kbd"><button onclick="ins('+')">+</button><button onclick="ins('−')">−</button><button onclick="ins('·')">·</button></div>
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="testIntroText"></div>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){ return esc(s); }
+// Reiškinio atsakymų palyginimas: tai NE grynas skaičius (pvz. "21a", "15x+4"), todėl
+// lyginame normalizuotą TEKSTĄ (tarpai nesvarbūs, "-" traktuojamas kaip "−", nesvarbu didžiosios/mažosios),
+// o keli priimtini užrašymo variantai (kitokia dėmenų tvarka) surašyti į accepted sąrašą.
+function normExpr(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−');
+}
+function isCorrect(input, accepted){
+  const v = normExpr(input);
+  if(!v) return false;
+  return accepted.some(a => normExpr(a) === v);
+}
+function ins(ch){
+  const el = document.getElementById('stationInput');
+  el.value += ch; el.focus();
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo paprasčiausio atvejo — du nariai su ta pačia raidine dalimi. Juos sutraukiame sudėdami koeficientus, o raidę palikdami tą pačią.", "expr": "13a + 8a", "q": "Sutrauk panašiuosius narius. Kam lygus reiškinys?", "accepted": ["21a"], "hints": ["Abu dėmenys turi tą pačią raidinę dalį (a) — tai panašieji nariai.", "Sudėk koeficientus: 13 + 8 = ?", "13 + 8 = 21. Raidinę dalį (a) paliekame tą pačią: 21a."]}, {"intro": "Dabar atimtis — panašiai, tik koeficientus atimame.", "expr": "35b − 12b", "q": "Sutrauk panašiuosius narius. Kam lygus reiškinys?", "accepted": ["23b"], "hints": ["Abu dėmenys turi tą pačią raidinę dalį (b) — atimk koeficientus.", "35 − 12 = ?", "35 − 12 = 23. Raidinę dalį (b) paliekame tą pačią: 23b."]}, {"intro": "Kai reiškinyje yra ir laisvasis narys (be raidės), jis prie panašiųjų narių neprisijungia — sutraukiame tik narius su vienoda raidine dalimi.", "expr": "9x + 4 + 6x", "q": "Sutrauk panašiuosius narius. Kam lygus reiškinys?", "accepted": ["15x+4", "4+15x"], "hints": ["Kurie du nariai turi vienodą raidinę dalį (x)? Skaičius 4 (be raidės) prie jų nesijungia.", "Sudėk x narių koeficientus: 9 + 6 = ?", "9 + 6 = 15. Laisvasis narys 4 lieka atskirai: 15x + 4."]}, {"intro": "Kai prieš skliaustus yra minusas, atskliaudus kiekvieno skliaustuose esančio nario ženklą reikia pakeisti priešingu.", "expr": "50y − (y + 14y)", "q": "Atskliausk ir sutrauk panašiuosius narius. Kam lygus reiškinys?", "accepted": ["35y"], "hints": ["Atskliausk: 50y − (y + 14y) = 50y − y − 14y (abu ženklai skliaustuose pasikeičia į priešingus).", "Kiek lieka y? 50 − 1 − 14 = ?", "50 − 1 − 14 = 35. Atsakymas: 35y."]}, {"intro": "Skliaustų atskliautimas su daugyba: kiekvieną skliaustuose esantį narį dauginame iš daugiklio, esančio už skliaustų.", "expr": "4 · (6c − 3)", "q": "Atskliausk reiškinį. Kam jis lygus?", "accepted": ["24c-12", "24c−12"], "hints": ["Naudok taisyklę a·(b−c) = a·b − a·c.", "4 · 6c = ?  ir  4 · 3 = ?", "4 · 6c = 24c; 4 · 3 = 12. Taigi 4·(6c − 3) = 24c − 12."]}, {"intro": "Pritaikykime sutraukimą žodiniam uždaviniui.", "expr": "n + 3n", "q": "Klasėje mokosi n mokinių, o gretimoje klasėje — 3 kartus daugiau. Sudaryk raidinį reiškinį, kiek mokinių abiejose klasėse iš viso, ir jį suprastink.", "accepted": ["4n"], "hints": ["Gretimoje klasėje mokinių yra 3 kartus daugiau — tai 3n. Iš viso: n + 3n.", "Prisimink, kad n = 1n. Kiek yra 1 + 3?", "1 + 3 = 4. Atsakymas: 4n."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = fmtMath(s.expr);
+  document.getElementById('stationQ').innerHTML = fmtMath(s.q);
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+fmtMath(s.hints[k])+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    document.getElementById('testIntroText').innerHTML = TEST_INTRO;
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 6
+const TEST_INTRO = "Šaunuolis! Dabar — <b>6 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Reiškinį rašyk be tarpų, pvz. <b>21a</b> arba <b>15x+4</b>.<br><span class=\"note\">Išlaikai (6 iš 6) — pasiūlysiu naują, panašaus sunkumo variantą.</span>";
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Sutrauk panašiuosius narius: 17a + 9a", "acc": ["26a"], "hint": "17 + 9 = 26, tad 26a."}, {"t": "Sutrauk panašiuosius narius: 42b − 19b", "acc": ["23b"], "hint": "42 − 19 = 23, tad 23b."}, {"t": "Sutrauk panašiuosius narius: 7x + 5 + 8x", "acc": ["15x+5", "5+15x"], "hint": "7 + 8 = 15; laisvasis narys 5 lieka atskirai: 15x+5."}, {"t": "Atskliausk ir sutrauk: 60y − (y + 22y)", "acc": ["37y"], "hint": "60 − 1 − 22 = 37, tad 37y."}, {"t": "Atskliausk: 5·(3c + 4)", "acc": ["15c+20"], "hint": "5·3c=15c; 5·4=20, tad 15c+20."}, {"t": "Sode auga p obelų, o kriaušių medžių — 2 kartus daugiau. Sudaryk ir suprastink raidinį reiškinį vaismedžių skaičiui.", "acc": ["3p"], "hint": "p + 2p = 3p (nes p=1p, 1+2=3)."}]}, {"label": "variantas B", "qs": [{"t": "Sutrauk panašiuosius narius: 24a + 18a", "acc": ["42a"], "hint": "24 + 18 = 42, tad 42a."}, {"t": "Sutrauk panašiuosius narius: 55b − 27b", "acc": ["28b"], "hint": "55 − 27 = 28, tad 28b."}, {"t": "Sutrauk panašiuosius narius: 11x + 6 + 9x", "acc": ["20x+6", "6+20x"], "hint": "11 + 9 = 20; laisvasis narys 6 lieka atskirai: 20x+6."}, {"t": "Atskliausk ir sutrauk: 70y − (y + 33y)", "acc": ["36y"], "hint": "70 − 1 − 33 = 36, tad 36y."}, {"t": "Atskliausk: 6·(4c + 5)", "acc": ["24c+30"], "hint": "6·4c=24c; 6·5=30, tad 24c+30."}, {"t": "Klasėje mokosi k mokinių, o gretimoje — 4 kartus daugiau. Sudaryk ir suprastink raidinį reiškinį mokinių skaičiui abiejose klasėse.", "acc": ["5k"], "hint": "k + 4k = 5k (nes k=1k, 1+4=5)."}]}, {"label": "variantas C", "qs": [{"t": "Sutrauk panašiuosius narius: 33a + 16a", "acc": ["49a"], "hint": "33 + 16 = 49, tad 49a."}, {"t": "Sutrauk panašiuosius narius: 48b − 29b", "acc": ["19b"], "hint": "48 − 29 = 19, tad 19b."}, {"t": "Sutrauk panašiuosius narius: 13x + 7 + 5x", "acc": ["18x+7", "7+18x"], "hint": "13 + 5 = 18; laisvasis narys 7 lieka atskirai: 18x+7."}, {"t": "Atskliausk ir sutrauk: 45y − (y + 18y)", "acc": ["26y"], "hint": "45 − 1 − 18 = 26, tad 26y."}, {"t": "Atskliausk: 3·(7c + 6)", "acc": ["21c+18"], "hint": "3·7c=21c; 3·6=18, tad 21c+18."}, {"t": "Sode auga p obelų, o slyvų medžių — 3 kartus daugiau. Sudaryk ir suprastink raidinį reiškinį vaismedžių skaičiui.", "acc": ["4p"], "hint": "p + 3p = 4p (nes p=1p, 1+3=4)."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+fmtMath(q.t)+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+fmtMath(q.hint)+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  const s10 = Math.round(score/6*10);
+  if(score===6) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===5) return {g:8,  c:"Labai gerai! Peržiūrėk vieną suklydimą."};
+  if(score===4) return {g:7,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===3) return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===2) return {g:4,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  return {g:Math.max(s10,1), c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 6. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 6</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

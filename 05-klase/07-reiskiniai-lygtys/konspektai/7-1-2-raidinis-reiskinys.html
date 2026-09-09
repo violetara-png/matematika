@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7.1.2 Raidinis reiškinys — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>7.1.2 Raidinis reiškinys</h1>
+  <p class="klase">Matematika · 5 klasė · 7 skyrius „Reiškiniai. Lygtys“ · 7.1.2 tema</p>
+
+  <section class="potema" id="t712">
+    <h2><span class="nr">7.1.2</span> Raidiniai reiškiniai ir kintamieji</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Pradžiai — pavyzdys.</span> Sąsiuvinis kainuoja <span class="math">1,20</span> Eur,
+        o pieštukas — pigesnis. Jei pieštukas pigesnis <span class="math">0,30</span> Eur, jis kainuoja
+        <span class="math">1,20 − 0,30</span> Eur; jei pigesnis <span class="math">0,50</span> Eur — jis kainuoja
+        <span class="math">1,20 − 0,50</span> Eur ir t. t.</p>
+        <p>Sakykime, kad pieštukas yra <span class="math term-a">a</span> Eur pigesnis už sąsiuvinį. Tuomet jis
+        kainuoja <span class="math">1,20 − a</span> Eur. Raide <span class="math term-a">a</span> pažymėtas dydis
+        gali įgyti įvairias reikšmes — nuo <span class="math">0,01</span> iki <span class="math">1,19</span> Eur.</p>
+        <p>Dydžiui, kuris gali įgyti įvairias reikšmes, žymėti dažniausiai vartojamos mažosios lotynų abėcėlės
+        raidės: <span class="math">a, b, c, x, y</span> ir kitos.</p>
+        <div class="demesio"><b>Dėmesio.</b> Jeigu Rūta nusipirko kelis tokius pieštukus, kaina priklauso ir nuo
+        pirkinio kiekio. Jei pirko <span class="math term-b">x</span> pieštukų, tai sumokėjo
+        <span class="math">(1,20 − a) · x</span> Eur. Raide <span class="math term-b">x</span> pažymėtas dydis gali
+        įgyti bet kurias natūraliąsias reikšmes. Pieštuko kainą ir Rūtos pirkinio kainą užrašėme
+        <b>raidiniais reiškiniais</b>: <span class="math">1,20 − a</span>; &nbsp; <span class="math">(1,20 − a) · x</span>.</p>
+      </div>
+
+      <div class="konsp">
+        <p><span class="zenk">Taisyklė.</span> Prasmingus užrašus, sudarytus iš skaičių, raidžių, kurios gali
+        įgyti tam tikras reikšmes, veiksmų ženklų ir skliaustų, vadiname <b>raidiniais reiškiniais</b>. Raidės,
+        esančios raidiniame reiškinyje, vadinamos <b>kintamaisiais</b>. Raidiniame reiškinyje skliaustų gali
+        ir nebūti.</p>
+        <p style="margin-top:10px">Jei raidiniame reiškinyje yra tik <b>viena raidė</b>, jis vadinamas
+        <b>raidiniu reiškiniu su vienu kintamuoju</b>; jei yra <b>dvi skirtingos raidės</b> — <b>raidiniu
+        reiškiniu su dviem kintamaisiais</b>; ir t. t.</p>
+        <table class="kort">
+          <tr><th>Raidinis reiškinys</th><th>Kintamieji</th><th>Kiek kintamųjų</th></tr>
+          <tr><td><span class="math">1,20 − a</span></td><td><span class="math term-a">a</span></td><td>1 (vienas kintamasis)</td></tr>
+          <tr><td><span class="math">3x + 2y</span></td><td><span class="math">x, y</span></td><td>2 (du kintamieji)</td></tr>
+        </table>
+        <div class="demesio"><b>Dėmesio.</b> Ne kiekvienas užrašas iš skaičių, raidžių, veiksmų ženklų ir
+        skliaustų yra raidinis reiškinys — jis turi būti <b>prasmingas</b>, t. y. jį turi būti įmanoma
+        apskaičiuoti, kai raidės reikšmė žinoma. Užrašas <span class="math">15 (: − b( + 3/7</span> raidiniu
+        reiškiniu <b>nėra</b> — skliaustai ir veiksmų ženklai išdėstyti netaisyklingai (po dvitaškiu iškart
+        einantis skliaustas, o ne skaičius ar reiškinys).</p>
+      </div>
+
+      <p class="pvz"><b>1 pavyzdys (vienas kintamasis).</b> Bloknotas kainuoja <span class="math">b</span> Eur.
+      Kiek kainuos <span class="math">5</span> tokie bloknotai? Kadangi visi bloknotai kainuoja vienodai, jų
+      kainą apskaičiuojame dauginimu: <span class="math"><b>5 · b</b></span> (arba trumpiau — <span class="math"><b>5b</b></span>).
+      Šis raidinis reiškinys turi <b>vieną kintamąjį</b> — <span class="math">b</span>.</p>
+
+      <p class="pvz"><b>2 pavyzdys (du kintamieji).</b> Sąsiuvinis kainuoja <span class="math">x</span> Eur, o
+      pieštukas — <span class="math">y</span> Eur. Kiek kainuos <span class="math">3</span> sąsiuviniai ir
+      <span class="math">2</span> pieštukai? Kiekvienos prekės kainą apskaičiuojame atskirai ir sudedame:
+      <span class="math"><b>3x + 2y</b></span>. Šis raidinis reiškinys turi <b>du kintamuosius</b> —
+      <span class="math">x</span> ir <span class="math">y</span>.</p>
+
+      <p class="pvz"><b>3 pavyzdys (tvarka svarbi atimtyje).</b> Prekė kainavo <span class="math">10</span> Eur.
+      Po nuolaidos ji atpigo <span class="math">a</span> Eur. Prekės kaina dabar — <span class="math"><b>10 − a</b></span>,
+      o ne <span class="math">a − 10</span>: iš pradinės kainos atimame nuolaidą, ne atvirkščiai.</p>
+
+      <p class="pvz"><b>4 pavyzdys (ar tai raidinis reiškinys?).</b> Užrašas <span class="math">(a + 5) : 2</span>
+      yra raidinis reiškinys su vienu kintamuoju <span class="math">a</span> — jį galima apskaičiuoti, kai
+      žinoma <span class="math">a</span> reikšmė. O užrašas <span class="math">7 (: + c( − 4</span> raidiniu
+      reiškiniu <b>nėra</b>, nes po veiksmo ženklo dvitaškiu iškart eina skliaustas, o ne skaičius — tokio
+      užrašo apskaičiuoti neįmanoma.</p>
+
+      <p class="pvz"><b>5 pavyzdys (žodinis uždavinys, skirtingi kintamieji).</b> Rytis turi <span class="math">m</span>
+      lipdukų, o Aidas turi <span class="math">n</span> lipdukų mažiau nei Rytis. Kiek lipdukų turi Aidas?
+      Kadangi Aidas turi mažiau, iš Ryčio lipdukų kiekio atimame skirtumą: <span class="math"><b>m − n</b></span>.
+      Vėl svarbi tvarka — rašome tą raidę, iš kurios atimame, pirmą.</p>
+
+      <p class="pvz"><b>6 pavyzdys (du veiksmai kartu).</b> Kelionės bilietas kainuoja <span class="math">k</span>
+      Eur. Šeima nupirko <span class="math">3</span> tokius bilietus ir dar sumokėjo <span class="math">2</span>
+      Eur registracijos mokestį. Visą sumą užrašome raidiniu reiškiniu <span class="math"><b>3k + 2</b></span>:
+      pirmiausia atliekame daugybą (bilietų kaina), tada sudedame papildomą mokestį.</p>
+
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Raidinis reiškinys“ (7.1.2)
+  </footer>
+
+</div>
+</body>
+</html>

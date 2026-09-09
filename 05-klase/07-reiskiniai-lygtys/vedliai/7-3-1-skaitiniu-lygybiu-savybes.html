@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Skaitinių lygybių savybės (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.35rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px;font-family:"Consolas","Courier New",monospace}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>7.3.1 Skaitinių lygybių savybės</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime temą <b>„Skaitinių lygybių savybės“</b>: simetriją (jei a = b, tai b = a), tranzityvumą (jei a = b ir b = c, tai a = c) ir tai, kaip abi teisingos lygybės puses galima pridėti, atimti, dauginti ar dalyti iš to paties skaičiaus.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia skaičių" onkeydown="if(event.key==='Enter')checkStation()">
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="testIntroText"></div>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){ return esc(s); }
+// Atsakymų palyginimas: normalizuotas tekstas (tarpai nesvarbūs, didžiosios/mažosios nesvarbu,
+// kelios priimtinos formos, pvz. "12" arba "12 metų", surašytos į accepted sąrašą).
+function normExpr(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−');
+}
+function isCorrect(input, accepted){
+  const v = normExpr(input);
+  if(!v) return false;
+  return accepted.some(a => normExpr(a) === v);
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {
+    intro: "Pradėkime nuo paprasčiausios savybės — simetrijos. Ji sako, kad teisingos lygybės puses galima sukeisti vietomis.",
+    expr: "23 = 18 + 5",
+    q: "Duota teisinga lygybė 23 = 18 + 5. Pagal simetrijos savybę, kam lygu 18 + 5?",
+    accepted: ["23"],
+    hints: [
+      "Simetrijos savybė: jei a = b, tai b = a — kairė ir dešinė lygybės pusės tiesiog sukeičiamos vietomis.",
+      "Duotoje lygybėje kairėje yra 23, dešinėje — 18 + 5.",
+      "Sukeitus puses vietomis, kairėje atsiranda 18 + 5, o dešinėje — tai, kas anksčiau buvo kairėje pusėje."
+    ]
+  },
+  {
+    intro: "Dabar tranzityvumo savybė: jei du dydžiai lygūs trečiajam, jie lygūs ir tarpusavyje.",
+    expr: "Ugnės ūgis = Tado ūgis;  Tado ūgis = 152 cm",
+    q: "Ugnės ūgis lygus Tado ūgiui, o Tado ūgis lygus 152 cm. Koks yra Ugnės ūgis (cm)?",
+    accepted: ["152", "152 cm"],
+    hints: [
+      "Tranzityvumo savybė: jei a = b ir b = c, tai a = c.",
+      "Čia a = Ugnės ūgis, b = Tado ūgis, c = 152 cm.",
+      "Kadangi Ugnės ūgis = Tado ūgis, o Tado ūgis = 152 cm, pritaikyk tranzityvumo savybę."
+    ]
+  },
+  {
+    intro: "Trečia savybė: prie teisingos lygybės abiejų pusių pridėjus tą patį skaičių, gauname teisingą lygybę.",
+    expr: "a = b   →   a + 6 = b + ▢",
+    q: "Žinoma, kad a = b. Koks skaičius turi būti vietoj ▢, kad lygybė a + 6 = b + ▢ būtų teisinga?",
+    accepted: ["6"],
+    hints: [
+      "Kadangi a = b, abi lygybės pusės lygios tarpusavyje.",
+      "Kad lygybė liktų teisinga, prie abiejų (lygių) pusių turi būti pridėtas tas pats skaičius.",
+      "Kairėje prie a pridėtas skaičius 6 — tą patį skaičių reikia pridėti ir prie b dešinėje."
+    ]
+  },
+  {
+    intro: "Ta pati mintis veikia ir atimant: iš abiejų teisingos lygybės pusių atėmus tą patį skaičių, lygybė lieka teisinga.",
+    expr: "x = y   →   x − 9 = y − ▢",
+    q: "Žinoma, kad x = y. Koks skaičius turi būti vietoj ▢, kad lygybė x − 9 = y − ▢ būtų teisinga?",
+    accepted: ["9"],
+    hints: [
+      "Kadangi x = y, abi lygybės pusės lygios.",
+      "Iš abiejų pusių turi būti atimtas tas pats skaičius.",
+      "Kairėje iš x atimtas skaičius 9 — tą patį skaičių reikia atimti ir iš y."
+    ]
+  },
+  {
+    intro: "Ketvirta savybė — daugyba ir dalyba. Abi teisingos lygybės puses padauginus (arba padalijus iš nelygaus nuliui skaičiaus) iš to paties skaičiaus, gauname teisingą lygybę.",
+    expr: "m = n   →   5m = ▢ · n",
+    q: "Žinoma, kad m = n. Koks skaičius turi būti vietoj ▢, kad lygybė 5m = ▢ · n būtų teisinga?",
+    accepted: ["5"],
+    hints: [
+      "Kadangi m = n, jas abi galima padauginti iš to paties skaičiaus ir lygybė liks teisinga.",
+      "Kairėje pusėje m padaugintas iš 5.",
+      "Tą patį skaičių (5) reikia panaudoti ir dešinėje pusėje kartu su n."
+    ]
+  },
+  {
+    intro: "Paskutinė, sunkiausia užduotis — pritaikykime savybes praktinei situacijai.",
+    expr: "4 sąsiuviniai = 1 segtuvas;  1 segtuvas = 8 Eur",
+    q: "4 sąsiuviniai kainuoja tiek pat, kiek 1 segtuvas. Segtuvas kainuoja 8 Eur. Kiek kainuoja 1 sąsiuvinis?",
+    accepted: ["2", "2 Eur"],
+    hints: [
+      "Jei 4 vienodi sąsiuviniai kartu kainuoja tiek, kiek 1 segtuvas, tai vieno sąsiuvinio kaina yra segtuvo kaina, padalyta iš 4 (lygybės abi puses dalijame iš to paties skaičiaus).",
+      "Segtuvo kaina yra 8 Eur.",
+      "Padalyk 8 iš 4 — kiek gauni?"
+    ]
+  }
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = fmtMath(s.expr);
+  document.getElementById('stationQ').innerHTML = fmtMath(s.q);
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+fmtMath(s.hints[k])+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    document.getElementById('testIntroText').innerHTML = TEST_INTRO;
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 6
+const TEST_INTRO = "Šaunuolis! Dabar — <b>6 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Atsakymą rašyk tik skaičiumi.<br><span class=\"note\">Išlaikai (6 iš 6) — pasiūlysiu naują, panašaus sunkumo variantą.</span>";
+const testVariants = [
+  { label: "variantas A", qs: [
+    { t: "Žinoma, kad a = b. Koks skaičius turi būti vietoj ▢, kad a + 15 = b + ▢ būtų teisinga?", acc: ["15"], hint: "Prie abiejų pusių pridedamas tas pats skaičius, tad ▢ = 15." },
+    { t: "Žinoma, kad p = q. Koks skaičius turi būti vietoj ▢, kad p − 11 = q − ▢ būtų teisinga?", acc: ["11"], hint: "Iš abiejų pusių atimamas tas pats skaičius, tad ▢ = 11." },
+    { t: "Žinoma, kad c = d. Koks skaičius turi būti vietoj ▢, kad 7c = ▢ · d būtų teisinga?", acc: ["7"], hint: "Abi puses dauginame iš to paties skaičiaus, tad ▢ = 7." },
+    { t: "Žinoma, kad x = y. Koks skaičius turi būti vietoj ▢, kad x : ▢ = y : 6 būtų teisinga?", acc: ["6"], hint: "Abi puses dalijame iš to paties skaičiaus, tad ▢ = 6." },
+    { t: "Dovilės amžius lygus Viltės amžiui, o Viltės amžius lygus 12 metų. Koks yra Dovilės amžius?", acc: ["12", "12 metų", "12 metai"], hint: "Pagal tranzityvumo savybę Dovilės amžius = Viltės amžius = 12 metų." },
+    { t: "3 obuoliai kainuoja tiek pat, kiek 1 kilogramas kriaušių. Kilogramas kriaušių kainuoja 9 Eur. Kiek kainuoja 1 obuolys?", acc: ["3", "3 Eur"], hint: "9 : 3 = 3, tad 1 obuolys kainuoja 3 Eur." }
+  ]},
+  { label: "variantas B", qs: [
+    { t: "Žinoma, kad a = b. Koks skaičius turi būti vietoj ▢, kad a + 22 = b + ▢ būtų teisinga?", acc: ["22"], hint: "Prie abiejų pusių pridedamas tas pats skaičius, tad ▢ = 22." },
+    { t: "Žinoma, kad m = n. Koks skaičius turi būti vietoj ▢, kad m − 14 = n − ▢ būtų teisinga?", acc: ["14"], hint: "Iš abiejų pusių atimamas tas pats skaičius, tad ▢ = 14." },
+    { t: "Žinoma, kad x = y. Koks skaičius turi būti vietoj ▢, kad 9x = ▢ · y būtų teisinga?", acc: ["9"], hint: "Abi puses dauginame iš to paties skaičiaus, tad ▢ = 9." },
+    { t: "Žinoma, kad p = q. Koks skaičius turi būti vietoj ▢, kad p : ▢ = q : 5 būtų teisinga?", acc: ["5"], hint: "Abi puses dalijame iš to paties skaičiaus, tad ▢ = 5." },
+    { t: "Karolio svoris lygus Mato svoriui, o Mato svoris lygus 45 kg. Koks yra Karolio svoris?", acc: ["45", "45 kg"], hint: "Pagal tranzityvumo savybę Karolio svoris = Mato svoris = 45 kg." },
+    { t: "5 sąsiuviniai kainuoja tiek pat, kiek 1 knyga. Knyga kainuoja 10 Eur. Kiek kainuoja 1 sąsiuvinis?", acc: ["2", "2 Eur"], hint: "10 : 5 = 2, tad 1 sąsiuvinis kainuoja 2 Eur." }
+  ]},
+  { label: "variantas C", qs: [
+    { t: "Žinoma, kad a = b. Koks skaičius turi būti vietoj ▢, kad a + 18 = b + ▢ būtų teisinga?", acc: ["18"], hint: "Prie abiejų pusių pridedamas tas pats skaičius, tad ▢ = 18." },
+    { t: "Žinoma, kad c = d. Koks skaičius turi būti vietoj ▢, kad c − 7 = d − ▢ būtų teisinga?", acc: ["7"], hint: "Iš abiejų pusių atimamas tas pats skaičius, tad ▢ = 7." },
+    { t: "Žinoma, kad m = n. Koks skaičius turi būti vietoj ▢, kad 6m = ▢ · n būtų teisinga?", acc: ["6"], hint: "Abi puses dauginame iš to paties skaičiaus, tad ▢ = 6." },
+    { t: "Žinoma, kad x = y. Koks skaičius turi būti vietoj ▢, kad x : ▢ = y : 9 būtų teisinga?", acc: ["9"], hint: "Abi puses dalijame iš to paties skaičiaus, tad ▢ = 9." },
+    { t: "Emilio ūgis lygus Jono ūgiui, o Jono ūgis lygus 140 cm. Koks yra Emilio ūgis?", acc: ["140", "140 cm"], hint: "Pagal tranzityvumo savybę Emilio ūgis = Jono ūgis = 140 cm." },
+    { t: "6 pieštukai kainuoja tiek pat, kiek 1 flomasteris. Flomasteris kainuoja 12 Eur. Kiek kainuoja 1 pieštukas?", acc: ["2", "2 Eur"], hint: "12 : 6 = 2, tad 1 pieštukas kainuoja 2 Eur." }
+  ]}
+];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+fmtMath(q.t)+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+fmtMath(q.hint)+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  const s10 = Math.round(score/6*10);
+  if(score===6) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===5) return {g:8,  c:"Labai gerai! Peržiūrėk vieną suklydimą."};
+  if(score===4) return {g:7,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===3) return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===2) return {g:4,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  return {g:Math.max(s10,1), c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 6. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 6</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

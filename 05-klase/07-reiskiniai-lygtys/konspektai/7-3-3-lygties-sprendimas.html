@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7.3.3 Lygties sprendimas — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .stulp{font-family:"Consolas","Courier New",monospace; white-space:pre; display:inline-block;
+    text-align:right; font-size:16px; line-height:1.5; background:#f7f9fc; border:1px solid var(--linija);
+    border-radius:6px; padding:8px 16px; margin:6px 0}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .apibr{
+    background:#fff9db; border-left:4px solid #d4b106;
+    border-radius:4px; padding:10px 16px; margin:0 0 14px; font-style:italic;
+  }
+  .apibr b{font-style:normal; color:#8a6d00}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .metodai{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 0}
+  .metodai .met{background:#eef4fb; border:1px solid var(--linija); border-radius:6px; padding:10px 14px}
+  .metodai .met h4{
+    margin:0 0 8px; color:var(--tema); font-size:13.5px; font-weight:700;
+    background:#d7e6f7; padding:4px 10px; border-radius:4px; display:inline-block;
+  }
+  .metodai .eil{font-family:"Consolas","Courier New",monospace; margin:4px 0; font-size:14.5px}
+  .metodai .txt{margin:4px 0; font-size:14px}
+  @media (max-width:640px){ .metodai{grid-template-columns:1fr} }
+  table.terminai{border-collapse:collapse; width:100%; margin:6px 0 0; font-size:14px}
+  table.terminai th, table.terminai td{border:1px solid var(--linija); padding:6px 10px; text-align:left}
+  table.terminai th{background:var(--tema-sv); color:var(--tema)}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>7.3.3 Lygties sprendimas</h1>
+  <p class="klase">Matematika · 5 klasė · 7 skyrius „Reiškiniai. Lygtys" · 7.3.3 tema</p>
+
+  <section class="potema" id="t733">
+    <h2><span class="nr">7.3.3</span> Kaip išsprendžiama lygtis</h2>
+    <div class="vidus">
+
+      <div class="apibr">
+        <b>Apibrėžimas.</b> Išspręsti lygtį — reiškia surasti jos sprendinius arba įsitikinti, kad lygtis sprendinių neturi.
+      </div>
+
+      <div class="konsp">
+        <p><span class="zenk">Sąvokos, kurių prireiks (I būdui).</span> Sudėtyje dėmuo + dėmuo = <b>suma</b>. Atimtyje turinys − atėminys = <b>skirtumas</b>. Daugyboje dauginamasis · dauginamasis = <b>sandauga</b>. Dalyboje dalinys : daliklis = <b>dalmuo</b>.</p>
+        <table class="terminai">
+          <tr><th>Veiksmas</th><th>Komponentai</th><th>Kaip rasti nežinomąjį</th></tr>
+          <tr><td>Sudėtis</td><td>dėmuo + dėmuo = suma</td><td>dėmuo = suma − kitas dėmuo</td></tr>
+          <tr><td>Atimtis</td><td>turinys − atėminys = skirtumas</td><td>turinys = skirtumas + atėminys;<br>atėminys = turinys − skirtumas</td></tr>
+          <tr><td>Daugyba</td><td>dauginamasis · dauginamasis = sandauga</td><td>dauginamasis = sandauga : kitas dauginamasis</td></tr>
+          <tr><td>Dalyba</td><td>dalinys : daliklis = dalmuo</td><td>dalinys = dalmuo · daliklis;<br>daliklis = dalinys : dalmuo</td></tr>
+        </table>
+      </div>
+
+      <div class="konsp">
+        <p><span class="zenk">Du lygties sprendimo būdai.</span></p>
+        <p><b>I būdas</b> — pagal veiksmų komponentų savybes (iš lentelės aukščiau randame, kuo lygus nežinomasis dėmuo, dauginamasis, turinys ar dalinys).</p>
+        <p><b>II būdas</b> — remiantis skaitinių lygybių savybėmis: iš abiejų lygybės pusių galima atimti, pridėti, dauginti arba dalyti iš to paties skaičiaus, ir lygybė lieka teisinga. Šiuo būdu nežinomąjį palaipsniui „atlaisviname" nuo aplink jį esančių skaičių.</p>
+      </div>
+
+      <p class="pvz"><b>1 pavyzdys</b> (sudėtis ir daugyba). Išspręskime lygtį <span class="math">5x + 3 = 18</span> abiem būdais.</p>
+      <div class="metodai">
+        <div class="met">
+          <h4>I būdas</h4>
+          <p class="txt">Dėmuo 5x lygus sumos 18 ir kito dėmens 3 skirtumui:</p>
+          <div class="eil">5x = 18 − 3,</div>
+          <div class="eil">5x = 15;</div>
+          <p class="txt">dauginamasis x lygus sandaugos 15 ir dauginamojo 5 dalmeniui:</p>
+          <div class="eil">x = 15 : 5,</div>
+          <div class="eil">x = 3.</div>
+        </div>
+        <div class="met">
+          <h4>II būdas</h4>
+          <p class="txt">Remdamiesi skaitinių lygybių savybėmis, iš abiejų lygybės <span class="math">5x + 3 = 18</span> pusių atimkime po 3:</p>
+          <div class="eil">5x + 3 − 3 = 18 − 3,</div>
+          <div class="eil">5x = 15;</div>
+          <p class="txt">abi lygybės 5x = 15 puses padalykime iš 5:</p>
+          <div class="eil">5x : 5 = 15 : 5,</div>
+          <div class="eil">x = 3.</div>
+        </div>
+      </div>
+      <p class="pvz" style="margin-top:10px">Taigi <b>x = 3</b>. Patikrinkime: kai x = 3, tai 5x + 3 = 5 · 3 + 3 = 15 + 3 = 18, 18 = 18 — lygybė teisinga.</p>
+
+      <p class="pvz" style="margin-top:16px"><b>2 pavyzdys</b> (dalyba ir atimtis). Išspręskime lygtį <span class="math">x : 4 − 2 = 7</span>.</p>
+      <div class="metodai">
+        <div class="met">
+          <h4>I būdas</h4>
+          <p class="txt">Turinys x : 4 lygus skirtumo 7 ir atėminio 2 sumai:</p>
+          <div class="eil">x : 4 = 7 + 2,</div>
+          <div class="eil">x : 4 = 9;</div>
+          <p class="txt">dalinys x lygus dalmens 9 ir daliklio 4 sandaugai:</p>
+          <div class="eil">x = 9 · 4,</div>
+          <div class="eil">x = 36.</div>
+        </div>
+        <div class="met">
+          <h4>II būdas</h4>
+          <p class="txt">Remdamiesi skaitinių lygybių savybėmis, prie abiejų lygybės <span class="math">x : 4 − 2 = 7</span> pusių pridėkime po 2:</p>
+          <div class="eil">x : 4 − 2 + 2 = 7 + 2,</div>
+          <div class="eil">x : 4 = 9;</div>
+          <p class="txt">abi lygybės x : 4 = 9 puses padauginkime iš 4:</p>
+          <div class="eil">x : 4 · 4 = 9 · 4,</div>
+          <div class="eil">x = 36.</div>
+        </div>
+      </div>
+      <p class="pvz" style="margin-top:10px">Taigi <b>x = 36</b>. Patikrinkime: kai x = 36, tai x : 4 − 2 = 36 : 4 − 2 = 9 − 2 = 7, 7 = 7 — lygybė teisinga.</p>
+
+      <div class="demesio"><b>Kuriuo būdu spręsti?</b> Abu būdus verta mokėti, bet praktikoje dažniausiai naudojamas <b>II būdas</b> (skaitinių lygybių savybėmis), nes jis universalesnis — juo galima spręsti ir sudėtingesnes, kelių veiksmų ar su skliaustais lygtis, nesigilinant kaskart, kuris komponentas yra nežinomas. I būdas naudingas, kai nori aiškiai įvardyti, kurio veiksmo komponentas ieškomas.</div>
+
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Lygties sprendimas" (7.3.3)
+  </footer>
+
+</div>
+</body>
+</html>

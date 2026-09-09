@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Skaitinis reiškinys ir jo reikšmė (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.5rem;font-weight:700;text-align:center;background:#eef3f9;
+    border-radius:12px;padding:16px;margin:12px 0;letter-spacing:.5px;font-variant-numeric:tabular-nums}
+  .q{font-weight:600;margin:6px 0}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .kbd{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .kbd button{padding:6px 10px;font-size:.95rem;background:#eef3f9;color:var(--brand-dark);border:1px solid var(--line)}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>7.1.1 Skaitinis reiškinys ir jo reikšmė</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu pasitreniruosime temą <b>„Skaitinis reiškinys ir jo reikšmė“</b>: mokysimės sudaryti reiškinius, atpažinti juos ir teisinga tvarka apskaičiuoti jų reikšmes.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          Šaunuolis! Dabar — <b>6 klausimų</b> testas. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą.<br><span class="note">Išlaikai (bent 4 iš 6 teisingai) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function normalize(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\s+/g,"")
+    .replace(/[·]/g,"")
+    .replace(/[–—−]/g,"-")
+    .replace(/,/g,".");
+}
+function isCorrect(input, accepted){
+  const n = normalize(input);
+  return accepted.some(a => normalize(a) === n);
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [
+  {
+    intro: "Pradėkime nuo paprasčiausio atvejo — reiškinio be skliaustų su dviem veiksmais.",
+    expr: "12 + 3 · 4",
+    q: "Apskaičiuok šio skaitinio reiškinio reikšmę.",
+    accepted: ["24"],
+    hints: [
+      "Ar reiškinyje yra skliaustų? Ne — tad pirmiausia atlik daugybą, o tik po to sudėtį.",
+      "Apskaičiuok 3 · 4.",
+      "Prie 12 pridėk apskaičiuotą sandaugą."
+    ]
+  },
+  {
+    intro: "Dabar — reiškinys su trimis veiksmais, vis dar be skliaustų.",
+    expr: "40 : 5 − 2 · 3",
+    q: "Apskaičiuok šio skaitinio reiškinio reikšmę.",
+    accepted: ["2"],
+    hints: [
+      "Skliaustų nėra — pirmiausia atlik dalybą ir daugybą (iš kairės į dešinę).",
+      "Apskaičiuok 40 : 5 ir 2 · 3 atskirai.",
+      "Iš pirmojo rezultato atimk antrąjį."
+    ]
+  },
+  {
+    intro: "O jeigu reiškinyje yra skliaustų?",
+    expr: "(18 − 6) : 4 + 5",
+    q: "Apskaičiuok šio skaitinio reiškinio reikšmę.",
+    accepted: ["8"],
+    hints: [
+      "Yra skliaustai — pagal taisyklę pirmiausia atlik veiksmą juose.",
+      "18 − 6 = ? Tada tą rezultatą padalyk iš 4.",
+      "Prie gauto dalmens pridėk 5."
+    ]
+  },
+  {
+    intro: "Dabar patikrinsime, ar mokame atpažinti skaitinį reiškinį.",
+    expr: "24 : (6 − ) + 3",
+    q: "Ar šis užrašas yra skaitinis reiškinys? Parašyk „taip“ arba „ne“.",
+    accepted: ["ne"],
+    hints: [
+      "Patikrink kiekvieną veiksmo ženklą — ar iš abiejų pusių jo yra skaičius?",
+      "Pažvelk į skliaustus: kas parašyta iš karto po ženklo „−“?",
+      "Jeigu po veiksmo ženklo skliaustuose nieko nėra, užrašas neprasmingas."
+    ]
+  },
+  {
+    intro: "Pritaikykime viską žodiniame uždavinyje — reikės patiems sudaryti reiškinį galvoje.",
+    expr: "Obuolys: 0,6 Eur      Kriaušė: 0,3 Eur brangesnė už obuolį",
+    q: "Pirkėjas nupirko 4 obuolius ir 2 kriaušes. Kiek eurų iš viso sumokėjo?",
+    accepted: ["4,2", "4.2"],
+    hints: [
+      "Pirmiausia apskaičiuok kriaušės kainą: 0,6 + 0,3.",
+      "Tada apskaičiuok obuolių kainą (0,6 · 4) ir kriaušių kainą (kriaušės kaina · 2) atskirai.",
+      "Sudėk abi sumas."
+    ]
+  },
+  {
+    intro: "Paskutinė mokymosi užduotis — kelio uždavinys su dviem etapais.",
+    expr: "1 etapas: 3 val. × 60 km/h      2 etapas: 2 val. × 80 km/h",
+    q: "Kiek kilometrų iš viso nuvažiavo automobilis?",
+    accepted: ["340"],
+    hints: [
+      "Apskaičiuok kiekvieno etapo kelią atskirai: greitis · laikas.",
+      "Pirmas etapas: 60 · 3. Antras etapas: 80 · 2.",
+      "Sudėk abu etapų kelius."
+    ]
+  }
+];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = s.expr;
+  document.getElementById('stationQ').textContent = s.q;
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnį po žingsnio, kaip parašyta viršuje. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+s.hints[k]+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const testVariants = [
+  { label: "variantas A", qs: [
+    { t: "18 + 4 · 5 — apskaičiuok reikšmę.", acc: ["38"], hint: "Skliaustų nėra — pirmiausia daugyba (4 · 5), tada sudėtis." },
+    { t: "50 : 5 − 3 · 2 — apskaičiuok reikšmę.", acc: ["4"], hint: "Pirmiausia dalyba ir daugyba: 50 : 5 ir 3 · 2, tada atimk." },
+    { t: "(20 − 8) : 3 + 6 — apskaičiuok reikšmę.", acc: ["10"], hint: "Pirmiausia skliaustuose: 20 − 8, tada dalyk iš 3 ir pridėk 6." },
+    { t: "Ar 15 : (4 − ) + 2 yra skaitinis reiškinys? (taip/ne)", acc: ["ne"], hint: "Patikrink, ar po ženklo „−“ skliaustuose yra skaičius." },
+    { t: "Automobilis 2 val. važiavo 70 km/h greičiu, po to 3 val. — 90 km/h greičiu. Kiek kilometrų iš viso nuvažiavo?", acc: ["410"], hint: "Apskaičiuok abu etapus atskirai (greitis · laikas), tada sudėk." },
+    { t: "Duona kainuoja 0,85 Eur, o batonas yra 0,25 Eur pigesnis. Nupirkus 3 duonas ir 2 batonus, kiek eurų sumokėta?", acc: ["3,75","3.75"], hint: "Pirmiausia rask batono kainą (0,85 − 0,25), tada abi sumas suskaičiuok atskirai." }
+  ]},
+  { label: "variantas B", qs: [
+    { t: "24 + 6 · 3 — apskaičiuok reikšmę.", acc: ["42"], hint: "Skliaustų nėra — pirmiausia daugyba (6 · 3), tada sudėtis." },
+    { t: "60 : 6 − 2 · 5 — apskaičiuok reikšmę.", acc: ["0"], hint: "Pirmiausia dalyba ir daugyba: 60 : 6 ir 2 · 5, tada atimk." },
+    { t: "(30 − 14) : 8 + 7 — apskaičiuok reikšmę.", acc: ["9"], hint: "Pirmiausia skliaustuose: 30 − 14, tada dalyk iš 8 ir pridėk 7." },
+    { t: "Ar 36 − (2,4 · 5) : 3 yra skaitinis reiškinys? (taip/ne)", acc: ["taip"], hint: "Patikrink, ar kiekvienas veiksmo ženklas turi po skaičių iš abiejų pusių." },
+    { t: "Dviratininkas 3 val. važiavo 55 km/h greičiu, po to 2 val. — 65 km/h greičiu. Kiek kilometrų iš viso nuvažiavo?", acc: ["295"], hint: "Apskaičiuok abu etapus atskirai (greitis · laikas), tada sudėk." },
+    { t: "Pienas kainuoja 1,2 Eur, o sūris yra 0,35 Eur brangesnis. Nupirkus 5 pienus ir 3 sūrius, kiek eurų sumokėta?", acc: ["8,55","8.55"], hint: "Pirmiausia rask sūrio kainą (1,2 + 0,35), tada abi sumas suskaičiuok atskirai." }
+  ]},
+  { label: "variantas C", qs: [
+    { t: "9 + 7 · 6 — apskaičiuok reikšmę.", acc: ["51"], hint: "Skliaustų nėra — pirmiausia daugyba (7 · 6), tada sudėtis." },
+    { t: "72 : 8 − 4 · 2 — apskaičiuok reikšmę.", acc: ["1"], hint: "Pirmiausia dalyba ir daugyba: 72 : 8 ir 4 · 2, tada atimk." },
+    { t: "(27 − 9) : 6 + 4 — apskaičiuok reikšmę.", acc: ["7"], hint: "Pirmiausia skliaustuose: 27 − 9, tada dalyk iš 6 ir pridėk 4." },
+    { t: "Ar (9 + ) · 3 − 1 yra skaitinis reiškinys? (taip/ne)", acc: ["ne"], hint: "Patikrink, ar po ženklo „+“ skliaustuose yra skaičius." },
+    { t: "Bėgikas 4 val. bėgo 40 km/h greičiu (dviračiu), po to 3 val. — 60 km/h greičiu. Kiek kilometrų iš viso nuvažiavo?", acc: ["340"], hint: "Apskaičiuok abu etapus atskirai (greitis · laikas), tada sudėk." },
+    { t: "Sultys kainuoja 2,1 Eur, o vanduo yra 0,9 Eur pigesnis. Nupirkus 2 sulčių ir 4 vandenis, kiek eurų sumokėta?", acc: ["9","9,0","9.0"], hint: "Pirmiausia rask vandens kainą (2,1 − 0,9), tada abi sumas suskaičiuok atskirai." }
+  ]}
+];
+
+const PASS_RATIO = 4/6; // reikia bent 4 iš 6 teisingai, kad testas laikomas išlaikytu
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+q.t+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+q.hint+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score, testQs.length);
+}
+function gradeComment(score, total){
+  const pct = score/total;
+  const grade = Math.max(1, Math.round(pct*10));
+  let c;
+  if(pct===1)       c = "Nuostabu! Temą moki puikiai. 🌟";
+  else if(pct>=5/6) c = "Labai gerai! Beveik tobula — peržiūrėk vieną suklydimą.";
+  else if(pct>=4/6) c = "Gerai. Pagrindus supranti, dar šiek tiek patobulink.";
+  else if(pct>=3/6) c = "Neblogai, bet verta pasikartoti sunkesnę dalį ir bandyti dar.";
+  else if(pct>=2/6) c = "Pusė ar mažiau teisingų — grįžk prie asistento užduočių ir pakartok.";
+  else              c = "Nenusimink! Grįžk į mokymosi dalį ir pereik užduotis iš naujo — pavyks.";
+  return {g:grade, c:c};
+}
+function showResult(score, total){
+  const {g,c} = gradeComment(score, total);
+  const passed = score/total >= PASS_RATIO;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent 4 iš 6. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / '+total+'</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

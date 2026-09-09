@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7.1.3 Raidinio reiškinio reikšmės — 5 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .potema{margin:0; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .konsp ol{margin:6px 0 0; padding-left:22px}
+  .konsp ol li{margin:4px 0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  u.mark{text-decoration:underline; text-decoration-color:var(--demesio); text-decoration-thickness:2.5px; text-underline-offset:2px; color:var(--demesio); font-weight:700}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  table.kort td.res{font-weight:700; color:var(--taisykle)}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>7.1.3 Raidinio reiškinio reikšmės</h1>
+  <p class="klase">Matematika · 5 klasė · 7 skyrius „Reiškiniai. Lygtys“ · 7.1.3 tema</p>
+
+  <section class="potema" id="t713">
+    <h2><span class="nr">7.1.3</span> Raidinio reiškinio reikšmės</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Priminimas.</span> Reiškinį, kuriame yra bent viena raidė (kintamasis),
+        vadiname <b>raidiniu reiškiniu</b>. Pavyzdžiui, <span class="math">3a + 5</span>,
+        <span class="math">12 : (4 − a)</span>, <span class="math">4x − 5y</span> — visi šie reiškiniai
+        yra raidiniai.</p>
+
+        <div class="demesio"><b>Pagrindinė taisyklė.</b> Raidinio reiškinio reikšmę gauname taip:</div>
+        <ol>
+          <li>Vietoj kiekvienos raidės (kintamojo) parašome jos <b>duotąją reikšmę</b>.</li>
+          <li>Gautame skaitiniame reiškinyje atliekame veiksmus, laikydamiesi <b>įprastos veiksmų
+          eiliškumo tvarkos</b>: pirmiausia skliaustuose, tada daugyba ir dalyba (iš kairės į dešinę),
+          paskui sudėtis ir atimtis (iš kairės į dešinę).</li>
+          <li>Gautas skaičius ir yra raidinio reiškinio reikšmė (kai kintamasis įgyja tą konkrečią
+          reikšmę).</li>
+        </ol>
+        <div class="demesio"><b>Svarbu.</b> Raidinio reiškinio reikšmė <b>priklauso</b> nuo to, kokią
+        reikšmę įgyja jame esantys kintamieji — pakeitus kintamojo reikšmę, pasikeičia ir viso reiškinio
+        reikšmė.</div>
+
+        <p class="pvz"><b>1 pavyzdys (vienas kintamasis).</b> Apskaičiuokime reiškinio
+        <span class="math">3a + 5</span> reikšmę, kai <span class="math">a = 4</span>.<br>
+        Vietoj <span class="math">a</span> rašome <span class="math">4</span>:<br>
+        <span class="math">3 · 4 + 5 = 12 + 5 = 17</span>.<br>
+        Taigi skaičius <b class="math">17</b> yra reiškinio <span class="math">3a + 5</span> reikšmė, kai
+        <span class="math">a = 4</span>.</p>
+
+        <p class="pvz"><b>2 pavyzdys (kelios to paties reiškinio reikšmės).</b> Apskaičiuokime reiškinio
+        <span class="math">12 : (4 − a)</span> reikšmę, kai <span class="math">a = 0; a = 1; a = 2;
+        a = 3</span>.</p>
+        <table class="kort">
+          <tr><th><span class="math">a</span> reikšmė</th><th>Įstatome ir skaičiuojame</th><th>Reiškinio reikšmė</th></tr>
+          <tr><td class="math">0</td><td class="math">12 : (4 − 0) = 12 : 4</td><td class="res math">3</td></tr>
+          <tr><td class="math">1</td><td class="math">12 : (4 − 1) = 12 : 3</td><td class="res math">4</td></tr>
+          <tr><td class="math">2</td><td class="math">12 : (4 − 2) = 12 : 2</td><td class="res math">6</td></tr>
+          <tr><td class="math">3</td><td class="math">12 : (4 − 3) = 12 : 1</td><td class="res math">12</td></tr>
+        </table>
+        <div class="demesio"><b>Pastaba.</b> Kiekvieną kartą skaičiuojame iš naujo nuo <b>to paties</b>
+        raidinio reiškinio — kuo didesnė <span class="math">a</span> reikšmė, tuo mažesnis skliaustelyje
+        gautas skaičius, taigi tuo didesnė viso reiškinio reikšmė.</div>
+
+        <p class="pvz"><b>3 pavyzdys (du kintamieji, dešimtainės reikšmės).</b> Puodelis kainuoja
+        <span class="math">8,6</span> Eur, o šaukštelis yra <span class="math">a</span> eurų pigesnis už
+        puodelį. Kiek eurų sumokėjo Jūratė, jei pirko <span class="math">x</span> šaukštelių, užrašome
+        raidiniu reiškiniu: <span class="math">(8,6 − a) · x</span> (eurų).<br>
+        Apskaičiuokime šio reiškinio reikšmę, kai <span class="math">a = 4,1</span>, o
+        <span class="math">x = 3</span>:<br>
+        <span class="math">(8,6 − 4,1) · 3 = 4,5 · 3 = 13,5</span> (Eur).<br>
+        Taigi skaičius <b class="math">13,5</b> yra reiškinio <span class="math">(8,6 − a) · x</span>
+        reikšmė, kai <span class="math">a = 4,1</span>, o <span class="math">x = 3</span>.</p>
+
+        <p class="pvz"><b>4 pavyzdys (du kintamieji, sveikieji skaičiai).</b> Apskaičiuokime reiškinio
+        <span class="math">4x − 5y</span> reikšmę, kai <span class="math">x = 3</span>, o
+        <span class="math">y = 2</span>.<br>
+        <span class="math">4 · 3 − 5 · 2 = 12 − 10 = 2</span>.</p>
+
+        <p class="pvz"><b>5 pavyzdys (trupmeninė reikšmė).</b> Apskaičiuokime reiškinio
+        <span class="math">25 + (x + 5) − (x − 5)</span> reikšmę, kai
+        <span class="math">x = 7<span class="fr"><span>2</span><span>3</span></span></span>.<br>
+        Įstatome <span class="math">x</span> reikšmę ir atliekame veiksmus skliaustuose, paskui sudėtį ir
+        atimtį iš kairės į dešinę:<br>
+        <span class="math">25 + (7<span class="fr"><span>2</span><span>3</span></span> + 5) −
+        (7<span class="fr"><span>2</span><span>3</span></span> − 5) = 25 + 12<span class="fr"><span>2</span><span>3</span></span> −
+        2<span class="fr"><span>2</span><span>3</span></span> = 35</span>.<br>
+        <span class="demesio" style="margin-top:8px"><b>Pastebėjimas.</b> Šio reiškinio reikšmė
+        <b>visada</b> lygi <span class="math">35</span>, kad ir kokią (leistiną) reikšmę įgytų
+        <span class="math">x</span> — nes <span class="math">(x+5) − (x−5) = 10</span> visada. Tai
+        parodo, kad kartais verta pirma <b>supaprastinti</b> reiškinį, o tik tada skaičiuoti.</span></p>
+
+        <p class="pvz"><b>6 pavyzdys (reikšmė duota tiesiogiai sumos pavidalu).</b> Apskaičiuokime
+        raidinio reiškinio <span class="math">32 − (a + b)</span> reikšmę, kai žinoma, kad
+        <span class="math">a + b = 12,4</span>.<br>
+        Reiškinyje <span class="math">a</span> ir <span class="math">b</span> visada sueina kartu (kaip
+        suma <span class="math">a + b</span>), todėl galime iš karto įstatyti visą sumą:<br>
+        <span class="math">32 − (a + b) = 32 − 12,4 = 19,6</span>.<br>
+        <b>Nebūtina</b> žinoti atskirai <span class="math">a</span> ir atskirai <span class="math">b</span>
+        reikšmių — pakanka žinoti jų sumą.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta Raugalienė · 5 klasės matematikos kursas · tema „Raidinio reiškinio reikšmės“ (7.1.3)
+  </footer>
+
+</div>
+</body>
+</html>

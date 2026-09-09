@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>7.1.1 Skaitinis reiškinys ir jo reikšmė — pavyzdžiai ir savikontrolė</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:5px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:2px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  em.v{font-style:italic;color:var(--blue);font-weight:700;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+</style>
+</head>
+<body>
+
+<h1>Skaitinis reiškinys ir jo reikšmė — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 5 klasė · 7 skyrius „Reiškiniai. Lygtys“ · 7.1.1 tema</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Reiškinio sudarymas iš teksto</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> žodinį veiksmą („brangesnis už", „pigesnis per", „nupirko kelis vienetus") užrašyk skaičiais ir veiksmų ženklais; tarpinį dydį (pvz. kito daikto kainą) įrašyk į skliaustus.</div>
+    <div class="ex">
+      <div class="q">Sąsiuvinis kainuoja 0,95 Eur, o rašiklis yra 0,4 Eur brangesnis. Emilija nupirko 6 sąsiuvinius ir 3 rašiklius. Sudaryk skaitinį reiškinį pirkinio kainai apskaičiuoti.</div>
+      <div class="line">Rašiklio kaina: 0,95 + 0,4. Pirkinio kaina: 0,95 · 6 + (0,95 + 0,4) · 3 &nbsp;&rArr;&nbsp; reikšmė: 5,7 + 1,35 · 3 = 5,7 + 4,05 = <span class="res">9,75 Eur</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Dviratininkas 2 val. važiavo 18 km/h greičiu, o po to 3 val. — 6 km/h didesniu greičiu. Sudaryk skaitinį reiškinį visam keliui apskaičiuoti.</div>
+      <div class="line">Reiškinys: 18 · 2 + (18 + 6) · 3 &nbsp;&rArr;&nbsp; 36 + 24 · 3 = 36 + 72 = <span class="res">108 km</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Ar tai skaitinis reiškinys?</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> užrašas iš skaičių, veiksmų ženklų ir skliaustų yra skaitinis reiškinys tik tada, kai yra <b>prasmingas</b> — kiekvienas veiksmo ženklas turi po skaičių iš abiejų pusių, o skliaustai neatidaromi tuščiomis.</div>
+    <div class="ex">
+      <div class="q">Ar <span class="math"><span class="fr"><span>3</span><span>5</span></span>·6 + 8,4</span> yra skaitinis reiškinys?</div>
+      <div class="line">Visi ženklai turi po skaičių iš abiejų pusių &nbsp;&rArr;&nbsp; <span class="res">TAIP</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar <span class="math">96 − (4,8 : 4) : 2</span> yra skaitinis reiškinys?</div>
+      <div class="line">Skliaustuose pilnas veiksmas, visi ženklai teisingi &nbsp;&rArr;&nbsp; <span class="res">TAIP</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Ar <span class="math">18 : (3 + ) − 6</span> yra skaitinis reiškinys?</div>
+      <div class="line">Skliaustuose po ženklo „+" nėra skaičiaus — užrašas neprasmingas &nbsp;&rArr;&nbsp; <span class="res">NE</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Veiksmų atlikimo tvarka BE skliaustų</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia iš eilės atlikame visas daugybas ir dalybas (iš kairės į dešinę), tada iš eilės — visas sudėtis ir atimtis.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 56 : 8 + 9 · 4</div>
+      <div class="line">56 : 8 = 7; 9 · 4 = 36; 7 + 36 = <span class="res">43</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 45 − 6 · 5 + 18 : 3</div>
+      <div class="line">6 · 5 = 30; 18 : 3 = 6; 45 − 30 + 6 = 15 + 6 = <span class="res">21</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="banner"><span class="badge">4</span> Veiksmų atlikimo tvarka SU skliaustais</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia atliekame veiksmus skliaustuose (juose — ta pati 1 taisyklė), tada tęsiame likusius veiksmus daugybos/dalybos, po to sudėties/atimties tvarka.</div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: 6 · (15 − 9) + 42 : 7</div>
+      <div class="line">15 − 9 = 6; 6 · 6 = 36; 42 : 7 = 6; 36 + 6 = <span class="res">42</span></div>
+    </div>
+    <div class="ex">
+      <div class="q">Apskaičiuok: (<span class="fr"><span>3</span><span>4</span></span> + 1,25) · 8</div>
+      <div class="line"><span class="fr"><span>3</span><span>4</span></span> = 0,75; 0,75 + 1,25 = 2; 2 · 8 = <span class="res">16</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> pirma nustatyk veiksmų atlikimo tvarką (skliaustai → daugyba/dalyba → sudėtis/atimtis), tada skaičiuok žingsnis po žingsnio. Atsakyk raštu, tada pasitikrink atsakymus lapo apačioje.</div>
+
+    <div class="grp">A grupė · Apskaičiuok reikšmę (be skliaustų)</div>
+    <div class="two">
+      <ol class="tasks">
+        <li>56 : 8 + 9 · 4</li>
+        <li>7 · 6 − 48 : 6</li>
+        <li>100 − 9 · 8 + 15</li>
+        <li>12,4 + 3 · 2,5</li>
+        <li>36 : 4 − 2,1</li>
+        <li>5 · 3,2 + 18 : 3</li>
+      </ol>
+    </div>
+
+    <div class="grp">B grupė · Apskaičiuok reikšmę (su skliaustais)</div>
+    <ol class="tasks" start="7">
+      <li>(23 − 8) · 3 + 7</li>
+      <li>90 : (6 + 9) + 14</li>
+      <li>(9,6 − 3,6) : 2 + 5</li>
+      <li>8 · (15 − 9) : 4</li>
+    </ol>
+
+    <div class="grp">C grupė · Sudaryk skaitinį reiškinį ir apskaičiuok jo reikšmę</div>
+    <ol class="tasks" start="11">
+      <li>Sąsiuvinis su spirale kainuoja 1,75 Eur, o paprastas sąsiuvinis yra 0,6 Eur pigesnis. Deividas nupirko 4 sąsiuvinius su spirale ir 5 paprastus sąsiuvinius. Kiek eurų kainavo visas pirkinys?</li>
+      <li>Bėgikas 40 minučių bėgo 10 km/h greičiu, o po to dar 20 minučių bėgo 2 km/h didesniu greičiu. (Naudok laiką valandomis: 40 min = <span class="fr"><span>2</span><span>3</span></span> val., 20 min = <span class="fr"><span>1</span><span>3</span></span> val.) Kiek kilometrų iš viso nubėgo bėgikas?</li>
+    </ol>
+
+    <div class="grp">D grupė · Ar tai skaitinis reiškinys? (parašyk TAIP arba NE ir paaiškink)</div>
+    <ol class="tasks" start="13">
+      <li><span class="math"><span class="fr"><span>4</span><span>9</span></span>·15 − 2,4</span></li>
+      <li><span class="math">56 : (7 − ) : 9</span></li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row"><b>1.</b> 56 : 8 + 9 · 4 = 7 + 36 = 43</div>
+    <div class="row"><b>2.</b> 7 · 6 − 48 : 6 = 42 − 8 = 34</div>
+    <div class="row"><b>3.</b> 100 − 9 · 8 + 15 = 100 − 72 + 15 = 43</div>
+    <div class="row"><b>4.</b> 12,4 + 3 · 2,5 = 12,4 + 7,5 = 19,9</div>
+    <div class="row"><b>5.</b> 36 : 4 − 2,1 = 9 − 2,1 = 6,9</div>
+    <div class="row"><b>6.</b> 5 · 3,2 + 18 : 3 = 16 + 6 = 22</div>
+    <div class="row"><b>7.</b> (23 − 8) · 3 + 7 = 15 · 3 + 7 = 45 + 7 = 52</div>
+    <div class="row"><b>8.</b> 90 : (6 + 9) + 14 = 90 : 15 + 14 = 6 + 14 = 20</div>
+    <div class="row"><b>9.</b> (9,6 − 3,6) : 2 + 5 = 6 : 2 + 5 = 3 + 5 = 8</div>
+    <div class="row"><b>10.</b> 8 · (15 − 9) : 4 = 8 · 6 : 4 = 48 : 4 = 12</div>
+    <div class="row"><b>11.</b> 1,75 · 4 + (1,75 − 0,6) · 5 = 7 + 1,15 · 5 = 7 + 5,75 = 12,75 Eur</div>
+    <div class="row"><b>12.</b> 10 · <span class="fr"><span>2</span><span>3</span></span> + 12 · <span class="fr"><span>1</span><span>3</span></span> = <span class="fr"><span>20</span><span>3</span></span> + 4 = 6<span class="fr"><span>2</span><span>3</span></span> + 4 = 10<span class="fr"><span>2</span><span>3</span></span> km</div>
+    <div class="row"><b>13.</b> TAIP — visi ženklai turi po skaičių iš abiejų pusių</div>
+    <div class="row"><b>14.</b> NE — skliaustuose po ženklo „−" nėra skaičiaus, užrašas neprasmingas</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 5 klasės matematikos kursas · „Skaitinis reiškinys ir jo reikšmė“ (7.1.1) · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

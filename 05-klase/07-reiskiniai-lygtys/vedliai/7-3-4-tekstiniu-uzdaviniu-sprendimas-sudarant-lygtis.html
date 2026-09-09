@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokymosi asistentas — Tekstinių uždavinių sprendimas sudarant lygtis (5 kl.)</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
+    --brand:#3b6ea5; --brand-dark:#2b5583; --accent:#f2a94b;
+    --ok:#2e9e6b; --ok-bg:#e6f6ee; --bad:#d9694f; --bad-bg:#fbebe6;
+    --hint-bg:#fff5e6; --hint-brd:#f2c98a; --line:#e3e9f0;
+    --shadow:0 6px 22px rgba(31,42,55,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;padding:0 16px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;padding:28px 0 8px}
+  header h1{margin:.2em 0;font-size:1.55rem}
+  header p{margin:0;color:var(--muted)}
+  .assistant{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin:16px 0}
+  .avatar{flex:0 0 46px;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+  .avatar small{font-size:.6rem}
+  .bubble{flex:1}
+  .bubble .name{font-weight:700;color:var(--brand-dark);font-size:.85rem;margin-bottom:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .progress{height:10px;background:#e6ecf3;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0;transition:width .4s}
+  .task-num{display:inline-block;background:var(--brand);color:#fff;border-radius:99px;
+    padding:2px 12px;font-size:.8rem;font-weight:700;margin-bottom:8px}
+  .expr{font-size:1.08rem;font-weight:600;text-align:left;background:#eef3f9;
+    border-radius:12px;padding:16px 18px;margin:12px 0;line-height:1.5}
+  .q{font-weight:700;margin:6px 0;color:var(--brand-dark)}
+  label.field{display:block;margin:14px 0 6px;font-weight:600;color:var(--muted);font-size:.9rem}
+  input[type=text]{width:100%;padding:12px 14px;font-size:1.1rem;border:2px solid var(--line);
+    border-radius:10px;outline:none;font-family:inherit}
+  input[type=text]:focus{border-color:var(--brand)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font-family:inherit;font-size:1rem;font-weight:600;border:none;border-radius:10px;
+    padding:12px 20px;cursor:pointer;transition:transform .05s, background .2s}
+  button:active{transform:translateY(1px)}
+  .btn{background:var(--brand);color:#fff}
+  .btn:hover{background:var(--brand-dark)}
+  .btn-ghost{background:#eef3f9;color:var(--brand-dark)}
+  .btn-ghost:hover{background:#e0e9f4}
+  .btn-accent{background:var(--accent);color:#3a2a10}
+  .hintbox{background:var(--hint-bg);border:1px solid var(--hint-brd);border-radius:12px;
+    padding:12px 16px;margin:12px 0;animation:fade .3s}
+  .hintbox b{color:#b9791f}
+  .feedback{border-radius:12px;padding:12px 16px;margin:12px 0;font-weight:600;animation:fade .3s}
+  .feedback.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #bde9d1}
+  .feedback.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cabd}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .hidden{display:none}
+  .center{text-align:center}
+  .test-q{border-bottom:1px solid var(--line);padding:16px 0}
+  .test-q:last-child{border-bottom:none}
+  .test-q .qh{font-weight:700;margin-bottom:6px}
+  .test-q .qh span{color:var(--brand-dark)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;margin-left:8px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .score-big{font-size:3rem;font-weight:800;color:var(--brand-dark);line-height:1}
+  .grade{font-size:1.4rem;font-weight:700;margin-top:6px}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🔢 Mokymosi asistentas „Aidas“</h1>
+    <p>Tema: <b>7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis</b> · 5 klasė</p>
+  </header>
+
+  <!-- ============ PRADŽIA ============ -->
+  <section id="intro" class="card center">
+    <div class="assistant" style="text-align:left">
+      <div class="avatar">A<small>i</small></div>
+      <div class="bubble">
+        <div class="name">Aidas</div>
+        Sveikas! Aš — tavo mokymosi asistentas. Kartu mokysimės spręsti tekstinius uždavinius sudarant lygtis: skaitysime sąlygą, nežinomą dydį žymėsime raide <b>x</b>, pagal sąlygą sudarysime lygtį, ją spręsime ir patikrinsime atsakymą.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus testas, kad pats pamatytum, ką jau moki.
+      </div>
+    </div>
+    <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
+  </section>
+
+  <!-- ============ MOKYMASIS ============ -->
+  <section id="learn" class="hidden">
+    <div class="progress"><i id="learnBar"></i></div>
+    <div class="card">
+      <span class="task-num" id="stationNum">1 užduotis</span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="stationIntro"></div>
+        </div>
+      </div>
+      <div class="expr" id="stationExpr"></div>
+      <div class="q" id="stationQ"></div>
+
+      <div id="hintArea"></div>
+
+      <label class="field">Tavo atsakymas:</label>
+      <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia skaičių..." onkeydown="if(event.key==='Enter')checkStation()">
+
+      <div id="stationFeedback"></div>
+
+      <div class="row">
+        <button class="btn-accent" onclick="showHint()">💡 Užuomina</button>
+        <button class="btn" onclick="checkStation()">Tikrinti</button>
+        <button class="btn-ghost hidden" id="nextBtn" onclick="nextStation()">Toliau →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTAS ============ -->
+  <section id="test" class="hidden">
+    <div class="card">
+      <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
+      <div class="assistant">
+        <div class="avatar">A<small>i</small></div>
+        <div class="bubble">
+          <div class="name">Aidas</div>
+          <div id="testIntroText"></div>
+        </div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="row">
+        <button class="btn" onclick="submitTest()">Baigti ir įsivertinti</button>
+      </div>
+    </div>
+    <div id="testResult"></div>
+  </section>
+
+  <footer>Sukurta mokymuisi · atsakymai tikrinami automatiškai naršyklėje</footer>
+</div>
+
+<script>
+/* ---------- Pagalbinės ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){ return esc(s); }
+// Skaitinis atsakymų palyginimas: leidžia kablelį arba tašką, apkarpo tarpus.
+function toNum(s){
+  s = (s||'').toString().trim().toLowerCase().replace(/\s+/g,'').replace(',', '.');
+  const v = parseFloat(s);
+  return v;
+}
+function isCorrect(input, accepted){
+  const v = toNum(input);
+  if(isNaN(v)) return false;
+  return accepted.some(a=>{ const av=toNum(a); return !isNaN(av) && Math.abs(av-v)<1e-9; });
+}
+
+/* ---------- MOKYMOSI UŽDUOTYS ---------- */
+const stations = [{"intro": "Pradėkime nuo pačio dažniausio atvejo — kai žinome dviejų dydžių sumą ir tai, kiek vienas dydis DIDESNIS už kitą.", "expr": "Klasėje yra 27 mokiniai — mergaitės ir berniukai. Mergaičių yra 5 daugiau negu berniukų.", "q": "Kiek berniukų mokosi klasėje?", "accepted": ["11"], "hints": ["Pažymėk raide x nežinomą dydį — berniukų skaičių. Kaip užrašysi mergaičių skaičių, jei jų yra 5 daugiau?", "Bendras mokinių skaičius yra 27. Sudėk berniukų (x) ir mergaičių (x + 5) skaičius į vieną lygtį — kam ji lygi?", "Sutrauk panašiuosius narius lygtyje (x + x = 2x), tada iš abiejų lygybės pusių atimk 5 ir gautą rezultatą padalyk iš 2."]}, {"intro": "Tas pats principas veikia ir su kainomis, ne tik su kiekiais.", "expr": "Knyga ir žurnalas kartu kainuoja 26 €. Knyga 8 € brangesnė už žurnalą.", "q": "Kiek eurų kainuoja žurnalas?", "accepted": ["9"], "hints": ["Pažymėk raide x žurnalo kainą. Kaip per x užrašysi knygos kainą, jei ji 8 € brangesnė?", "Bendra kaina yra 26 €. Kokia lygtis gaunasi sudėjus x ir (x + 8)?", "Sutrauk panašiuosius narius (2x + 8 = 26), tada iš abiejų pusių atimk 8 ir padalyk iš 2."]}, {"intro": "Dabar kitas atvejis — kai vienas dydis KELIS KARTUS didesnis už kitą (o ne tik daugiau per tam tikrą skaičių).", "expr": "Dviejų virvių ilgis kartu yra 48 m. Viena virvė 3 kartus ilgesnė už kitą.", "q": "Koks trumpesnės virvės ilgis (metrais)?", "accepted": ["12"], "hints": ["Pažymėk raide x trumpesnės virvės ilgį. Kaip per x užrašysi ilgesnės virvės ilgį, jei ji 3 kartus ilgesnė?", "Bendras ilgis yra 48 m. Kokia lygtis gaunasi sudėjus x ir 3x?", "Sutrauk panašiuosius narius (x + 3x = 4x), tada abi lygybės puses padalyk iš 4."]}, {"intro": "Pritaikykime tą patį metodą amžiaus uždaviniui.", "expr": "Mamos ir dukros amžius kartu yra 45 metai. Mama 25 metais vyresnė už dukrą.", "q": "Kiek metų yra dukrai?", "accepted": ["10"], "hints": ["Pažymėk raide x dukros amžių. Kaip per x užrašysi mamos amžių, jei ji 25 metais vyresnė?", "Bendras amžius yra 45 metai. Kokia lygtis gaunasi sudėjus x ir (x + 25)?", "Sutrauk panašiuosius narius, tada iš abiejų lygybės pusių atimk 25 ir padalyk iš 2."]}, {"intro": "Sujunkime amžių ir kartotinį dydį.", "expr": "Dvi dėžės sveria iš viso 60 kg. Viena dėžė 4 kartus sunkesnė už kitą.", "q": "Kiek kilogramų sveria lengvesnė dėžė?", "accepted": ["12"], "hints": ["Pažymėk raide x lengvesnės dėžės svorį. Kaip per x užrašysi sunkesnės dėžės svorį?", "Bendras svoris yra 60 kg. Kokia lygtis gaunasi sudėjus x ir 4x?", "Sutrauk panašiuosius narius (x + 4x = 5x), tada abi lygybės puses padalyk iš 5."]}, {"intro": "Paskutinė, sudėtingesnė užduotis — kai vienas dydis yra ir kelis kartus didesnis, IR dar papildomai didesnis fiksuotu skaičiumi.", "expr": "Du broliai surinko grybų — iš viso 50 grybų. Vyresnysis surinko 3 kartus daugiau grybų negu jaunesnysis, ir dar 2 grybus viršaus.", "q": "Kiek grybų surinko jaunesnysis brolis?", "accepted": ["12"], "hints": ["Pažymėk raide x jaunesniojo brolio surinktų grybų skaičių. Vyresniojo — 3x + 2 (3 kartus daugiau IR dar 2 viršaus).", "Bendras grybų skaičius yra 50. Kokia lygtis gaunasi sudėjus x ir (3x + 2)?", "Sutrauk panašiuosius narius (x + 3x = 4x, tad 4x + 2 = 50), tada iš abiejų pusių atimk 2 ir padalyk iš 4."]}];
+
+let si = 0;       // stotelės indeksas
+let hintIdx = 0;  // kiek užuominų parodyta
+
+function startLearn(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+}
+function renderStation(){
+  const s = stations[si];
+  hintIdx = 0;
+  document.getElementById('stationNum').textContent = (si+1)+" užduotis iš "+stations.length;
+  document.getElementById('stationIntro').innerHTML = s.intro;
+  document.getElementById('stationExpr').innerHTML = fmtMath(s.expr);
+  document.getElementById('stationQ').innerHTML = fmtMath(s.q);
+  document.getElementById('stationInput').value = "";
+  document.getElementById('hintArea').innerHTML = "";
+  document.getElementById('stationFeedback').innerHTML = "";
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('learnBar').style.width = (si/stations.length*100)+"%";
+  document.getElementById('stationInput').focus();
+}
+function showHint(){
+  const s = stations[si];
+  if(hintIdx >= s.hints.length){
+    document.getElementById('hintArea').innerHTML =
+      '<div class="hintbox">Daugiau užuominų nebeturiu 🙂 Pabandyk žingsnis po žingsnio: pažymėk x, sudaryk lygtį, išspręsk. Tiki — tu gali!</div>';
+    return;
+  }
+  let html = "";
+  for(let k=0;k<=hintIdx;k++){
+    html += '<div class="hintbox"><b>Užuomina '+(k+1)+':</b> '+fmtMath(s.hints[k])+'</div>';
+  }
+  document.getElementById('hintArea').innerHTML = html;
+  hintIdx++;
+}
+function checkStation(){
+  const s = stations[si];
+  const val = document.getElementById('stationInput').value.trim();
+  const fb = document.getElementById('stationFeedback');
+  if(!val){ fb.innerHTML='<div class="feedback bad">Įrašyk atsakymą į laukelį 🙂</div>'; return; }
+  if(isCorrect(val, s.accepted)){
+    fb.innerHTML = '<div class="feedback ok">✅ Teisingai! Puikus darbas.</div>';
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('learnBar').style.width = ((si+1)/stations.length*100)+"%";
+  } else {
+    fb.innerHTML = '<div class="feedback bad">❌ Dar ne. Neskubėk — spausk „💡 Užuomina“ ir bandyk žingsnį po žingsnio: x, lygtis, sprendimas.</div>';
+  }
+}
+function nextStation(){
+  si++;
+  if(si < stations.length){
+    renderStation();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    document.getElementById('learn').classList.add('hidden');
+    document.getElementById('test').classList.remove('hidden');
+    document.getElementById('testIntroText').innerHTML = TEST_INTRO;
+    renderTest();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+/* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
+const PASS = 6; // išlaikymo riba iš 6
+const TEST_INTRO = "Šaunuolis! Dabar — <b>6 klausimų</b> testas. Kiekviename uždavinyje pažymėk nežinomąjį raide x, sudaryk lygtį ir ją išspręsk. Įrašyk tik galutinį skaičių.<br><span class=\"note\">Išlaikai (6 iš 6) — pasiūlysiu naują, panašaus sunkumo variantą.</span>";
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Sode auga vyšnios ir slyvos — iš viso 34 medžiai. Vyšnių 6 daugiau negu slyvų. Kiek slyvų auga sode?", "acc": ["14"], "hint": "x=slyvos, vyšnios=x+6. x+x+6=34, tad 2x=28, x=14."}, {"t": "Sąsiuvinis ir rašiklis kartu kainuoja 15 €. Sąsiuvinis 3 € brangesnis už rašiklį. Kiek kainuoja rašiklis?", "acc": ["6"], "hint": "x=rašiklis, sąsiuvinis=x+3. x+x+3=15, tad 2x=12, x=6."}, {"t": "Dviejų lentų ilgis kartu yra 42 m. Viena lenta 2 kartus ilgesnė už kitą. Koks trumpesnės lentos ilgis?", "acc": ["14"], "hint": "x+2x=42, tad 3x=42, x=14."}, {"t": "Tėvo ir sūnaus amžius kartu yra 60 metų. Tėvas 4 kartus vyresnis už sūnų. Kiek metų yra sūnui?", "acc": ["12"], "hint": "x+4x=60, tad 5x=60, x=12."}, {"t": "Sesers ir brolio amžius kartu yra 22 metai. Brolis 4 metais vyresnis už seserį. Kiek metų yra seseriai?", "acc": ["9"], "hint": "x+x+4=22, tad 2x=18, x=9."}, {"t": "Trys draugės nusipirko obuolių — iš viso 36 obuoliai. Rūta nusipirko 2 kartus daugiau obuolių negu Aistė, o Eglė — 6 obuoliais daugiau negu Rūta. Kiek obuolių nusipirko Aistė?", "acc": ["6"], "hint": "x=Aistė, Rūta=2x, Eglė=2x+6. x+2x+2x+6=36, tad 5x=30, x=6."}]}, {"label": "variantas B", "qs": [{"t": "Parke auga klevai ir liepos — iš viso 38 medžiai. Klevų 8 daugiau negu liepų. Kiek liepų auga parke?", "acc": ["15"], "hint": "x+x+8=38, tad 2x=30, x=15."}, {"t": "Bloknotas ir markeris kartu kainuoja 19 €. Bloknotas 5 € brangesnis už markerį. Kiek kainuoja markeris?", "acc": ["7"], "hint": "x+x+5=19, tad 2x=14, x=7."}, {"t": "Dviejų kaspinų ilgis kartu yra 54 cm. Vienas kaspinas 2 kartus ilgesnis už kitą. Koks trumpesnio kaspino ilgis?", "acc": ["18"], "hint": "x+2x=54, tad 3x=54, x=18."}, {"t": "Mamos ir dukros amžius kartu yra 65 metai. Mama 4 kartus vyresnė už dukrą. Kiek metų yra dukrai?", "acc": ["13"], "hint": "x+4x=65, tad 5x=65, x=13."}, {"t": "Dviejų draugų surinktų kaštonų skaičius kartu yra 26. Vienas surinko 6 kaštonais daugiau negu kitas. Kiek kaštonų surinko tas, kuris surinko mažiau?", "acc": ["10"], "hint": "x+x+6=26, tad 2x=20, x=10."}, {"t": "Trys broliai augina triušius — iš viso 45 triušiai. Antrasis augina 2 kartus daugiau triušių negu pirmasis, o trečiasis — 5 triušiais daugiau negu antrasis. Kiek triušių augina pirmasis brolis?", "acc": ["8"], "hint": "x+2x+(2x+5)=45, tad 5x=40, x=8."}]}, {"label": "variantas C", "qs": [{"t": "Sandėlyje sukrauta obuolių ir kriaušių dėžių — iš viso 30 dėžių. Obuolių dėžių 4 daugiau negu kriaušių. Kiek kriaušių dėžių yra sandėlyje?", "acc": ["13"], "hint": "x+x+4=30, tad 2x=26, x=13."}, {"t": "Kuprinė ir sportbačiai kartu kainuoja 96 €. Kuprinė 12 € pigesnė už sportbačius. Kiek kainuoja kuprinė?", "acc": ["42"], "hint": "x=kuprinė, sportbačiai=x+12. x+x+12=96, tad 2x=84, x=42."}, {"t": "Dviejų vamzdžių ilgis kartu yra 64 m. Vienas vamzdis 8 m ilgesnis už kitą. Koks trumpesnio vamzdžio ilgis?", "acc": ["28"], "hint": "x+x+8=64, tad 2x=56, x=28."}, {"t": "Tėvo ir dukros amžius kartu yra 44 metai. Tėvas 3 kartus vyresnis už dukrą. Kiek metų yra dukrai?", "acc": ["11"], "hint": "x+3x=44, tad 4x=44, x=11."}, {"t": "Dviejų sodo lysvių plotas kartu yra 48 kvadratiniai metrai. Viena lysvė 3 kartus didesnė už kitą. Koks mažesnės lysvės plotas?", "acc": ["12"], "hint": "x+3x=48, tad 4x=48, x=12."}, {"t": "Trys draugai rinko braškes — iš viso 56 kilogramai. Jonas surinko 2 kartus daugiau negu Tomas, o Andrius — 6 kilogramais daugiau negu Jonas. Kiek kilogramų braškių surinko Tomas?", "acc": ["10"], "hint": "x=Tomas, Jonas=2x, Andrius=2x+6. x+2x+(2x+6)=56, tad 5x=50, x=10."}]}];
+
+let vi = 0;               // dabartinio varianto indeksas
+let testQs = testVariants[0].qs;
+
+function renderTest(){
+  testQs = testVariants[vi].qs;
+  document.getElementById('variantLabel').textContent = testVariants[vi].label;
+  let html = "";
+  testQs.forEach((q,i)=>{
+    html += '<div class="test-q" id="tq'+i+'">'
+      + '<div class="qh"><span>'+(i+1)+'.</span> '+fmtMath(q.t)+'</div>'
+      + '<input type="text" id="ta'+i+'" autocomplete="off" placeholder="Atsakymas...">'
+      + '<div id="tf'+i+'"></div>'
+      + '</div>';
+  });
+  document.getElementById('testQuestions').innerHTML = html;
+}
+function submitTest(){
+  let score = 0;
+  testQs.forEach((q,i)=>{
+    const val = document.getElementById('ta'+i).value;
+    const ok = isCorrect(val, q.acc);
+    const head = document.querySelector('#tq'+i+' .qh');
+    const old = head.querySelector('.badge'); if(old) old.remove();
+    const badge = document.createElement('span');
+    badge.className = 'badge '+(ok?'ok':'bad');
+    badge.textContent = ok?'✓ teisingai':'✗ dar ne';
+    head.appendChild(badge);
+    document.getElementById('tf'+i).innerHTML = ok
+      ? '<div class="feedback ok">Puiku!</div>'
+      : '<div class="hintbox"><b>Užuomina:</b> '+fmtMath(q.hint)+' — pataisyk ir vėl spausk „Baigti ir įsivertinti“.</div>';
+    if(ok) score++;
+  });
+  showResult(score);
+}
+function gradeComment(score){
+  if(score===6) return {g:10, c:"Nuostabu! Temą moki puikiai. 🌟"};
+  if(score===5) return {g:8,  c:"Labai gerai! Peržiūrėk vieną suklydimą."};
+  if(score===4) return {g:7,  c:"Gerai! Tema aiški, liko šiek tiek patobulinti."};
+  if(score===3) return {g:6,  c:"Pagrindus supranti, bet verta dar patreniruoti sunkesnius atvejus."};
+  if(score===2) return {g:4,  c:"Pusė teisingų — grįžk prie asistento užduočių ir pakartok."};
+  const s6 = Math.max(Math.round(score/6*10),1);
+  return {g:s6, c:"Reikia dar treniruotis. Peržiūrėk užuominas prie klaidų ir pabandyk iš naujo."};
+}
+function showResult(score){
+  const {g,c} = gradeComment(score);
+  const passed = score >= PASS;
+  const hasNext = vi < testVariants.length - 1;
+  let banner = passed
+    ? '<div class="feedback ok" style="justify-content:center">🎉 Testas išlaikytas! ('+testVariants[vi].label+')</div>'
+    : '<div class="feedback bad" style="justify-content:center">Dar neišlaikei — reikia bent '+PASS+' iš 6. Nenusimink, pabandyk dar!</div>';
+  let buttons = '';
+  if(passed && hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Naujas variantas (panašaus sunkumo)</button>';
+  } else if(passed && !hasNext){
+    buttons += '<button class="btn" onclick="nextVariant()">➡️ Pakartoti kitą variantą</button>';
+  }
+  buttons += '<button class="btn-ghost" onclick="retryTest()">↻ Tas pats variantas iš naujo</button>'
+           + '<button class="btn-ghost" onclick="backToLearn()">← Grįžti prie užduočių</button>';
+  document.getElementById('testResult').innerHTML =
+    '<div class="card center">'
+    + banner
+    + '<div class="score-big">'+score+' / 6</div>'
+    + '<div class="grade">Pažymys: <b>'+g+'</b></div>'
+    + '<p style="max-width:520px;margin:10px auto 0">'+c+'</p>'
+    + '<div class="row" style="justify-content:center">'+buttons+'</div></div>';
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function retryTest(){
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextVariant(){
+  vi = (vi + 1) % testVariants.length;
+  renderTest();
+  document.getElementById('testResult').innerHTML="";
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToLearn(){
+  si=0;
+  document.getElementById('test').classList.add('hidden');
+  document.getElementById('testResult').innerHTML="";
+  document.getElementById('learn').classList.remove('hidden');
+  renderStation();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pabėgimas · 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis · 5 klasė</title>
+<style>
+  :root{
+    --bg:#0e1726;--bg2:#132033;--panel:#182a44;--panel2:#1e3252;
+    --ink:#e8eef7;--muted:#9fb2cc;--line:#2a4066;
+    --amber:#f6b53d;--amber2:#ffcd6b;--teal:#3fd0c9;--teal2:#7ce7e1;
+    --ok:#3ecf7a;--bad:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.5);
+    --math:'Cambria Math','Cambria',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(63,208,201,.10),transparent 60%),
+      radial-gradient(900px 500px at 0% 110%,rgba(246,181,61,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 18px 60px}
+  .mono{font-family:'Consolas','Courier New',monospace}
+  .math{font-family:var(--math);font-size:1.18em;letter-spacing:.3px}
+
+  .hud{position:sticky;top:0;z-index:60;display:flex;gap:10px;align-items:center;
+    padding:10px 0;background:linear-gradient(var(--bg),rgba(14,23,38,.85) 80%,transparent)}
+  .timer{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+  .timer b{color:var(--teal2);font-family:'Consolas',monospace;font-size:20px}
+  .timer.low{border-color:var(--bad);background:#2a1520}
+  .timer.low b{color:var(--bad)}
+  .progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .progress b{color:var(--amber2)}
+  .vartag{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px 12px;font-weight:700;font-size:15px;color:var(--teal2);white-space:nowrap}
+
+  .intro{background:linear-gradient(160deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:20px;padding:30px 26px;box-shadow:var(--shadow);
+    text-align:center;margin-top:10px}
+  .badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--amber2);border:1px solid var(--amber);border-radius:999px;padding:5px 14px;margin-bottom:16px}
+  .intro h1{margin:6px 0 4px;font-size:clamp(24px,5vw,38px);line-height:1.1}
+  .intro h1 .amber{color:var(--amber2)}
+  .intro .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .story{background:rgba(0,0,0,.22);border-left:3px solid var(--teal);border-radius:10px;
+    padding:16px 18px;text-align:left;font-size:16px;line-height:1.6;margin:0 auto 22px;max-width:640px}
+  .story .drop{color:var(--teal2);font-weight:700}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto 22px;
+    text-align:left}
+  .rule{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font-size:14px;color:var(--muted)}
+  .rule b{color:var(--ink)}
+  .varpick{max-width:640px;margin:0 auto 24px;text-align:left}
+  .varpick label{display:block;font-weight:700;margin-bottom:8px;font-size:15px}
+  .varpick select{width:100%;padding:13px;font-size:16px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:inherit}
+  .varpick select:focus{outline:none;border-color:var(--teal)}
+  .varpick .hintline{color:var(--muted);font-size:13px;margin-top:7px}
+
+  button{border:none;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:800;
+    cursor:pointer;font-family:inherit;transition:transform .06s ease,filter .15s ease}
+  button:active{transform:translateY(1px)}
+  .primary{background:linear-gradient(180deg,var(--amber2),var(--amber));color:#3a2600}
+  .primary:hover{filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-size:14px;padding:10px 16px;font-weight:600}
+  .ghost:hover{color:var(--ink);border-color:var(--teal)}
+
+  .station{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;overflow:hidden}
+  .station.locked{opacity:.55;filter:grayscale(.4)}
+  .station.solved{border-color:var(--ok);background:linear-gradient(160deg,#123021,var(--panel))}
+  .st-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .st-num{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-weight:900;font-size:18px;background:var(--panel2);border:1px solid var(--line);color:var(--amber2)}
+  .station.solved .st-num{background:var(--ok);color:#06331b;border-color:var(--ok)}
+  .st-title{font-size:18px;font-weight:800}
+  .st-lock{margin-left:auto;font-size:22px}
+  .st-body{margin-top:10px}
+  .eqbox{background:rgba(0,0,0,.28);border:1px dashed var(--line);border-radius:12px;
+    padding:16px 18px;text-align:center;margin:10px 0 14px}
+  .eqbox .math{font-size:clamp(17px,3.4vw,24px);color:var(--teal2)}
+  .qtext{font-size:16px;line-height:1.55;margin:0 0 12px}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .answer-row .lead{font-weight:800;color:var(--amber2);font-size:17px;font-family:var(--math)}
+  input.ans{width:120px;padding:12px;font-size:18px;text-align:center;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-family:'Consolas',monospace}
+  input.ans:focus{outline:none;border-color:var(--teal)}
+  input.ans:disabled{opacity:.7}
+  .unlock{background:var(--teal);color:#06322f;font-size:16px;padding:12px 20px;border-radius:10px}
+  .unlock:hover{filter:brightness(1.07)}
+  .fb{margin-top:12px;font-weight:700;min-height:22px;font-size:15px}
+  .fb.ok{color:var(--ok)}
+  .fb.bad{color:var(--bad)}
+  .hintbtn{margin-top:12px}
+  .hint{margin-top:10px;background:rgba(246,181,61,.10);border-left:3px solid var(--amber);
+    border-radius:8px;padding:11px 14px;font-size:14px;color:var(--amber2);display:none}
+  .hint.show{display:block}
+  .digit-reveal{display:flex;align-items:center;gap:12px;margin-top:14px;
+    background:rgba(62,207,122,.12);border:1px solid var(--ok);border-radius:10px;padding:12px 16px}
+  .digit-reveal .lbl{font-size:14px;color:var(--muted)}
+  .digit-reveal .dg{margin-left:auto;font-family:'Consolas',monospace;font-size:30px;font-weight:900;
+    color:var(--teal2);letter-spacing:2px}
+
+  .vault{background:linear-gradient(160deg,#241a30,#182a44);border:2px solid var(--amber);
+    border-radius:18px;padding:26px;margin:20px 0;text-align:center;box-shadow:var(--shadow);display:none}
+  .vault.show{display:block;animation:pop .4s ease}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .vault h2{margin:0 0 6px;font-size:24px}
+  .vault .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .code-slots{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap}
+  .code-slots .hintdg{width:36px;height:48px;border-radius:10px;background:rgba(0,0,0,.3);
+    border:1px solid var(--line);display:grid;place-items:center;font-family:'Consolas',monospace;
+    font-size:20px;font-weight:900;color:var(--teal2)}
+  .vault input.code{width:min(400px,92%);padding:15px;font-size:22px;text-align:center;
+    letter-spacing:6px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);
+    color:var(--amber2);font-family:'Consolas',monospace;font-weight:900;margin:14px 0}
+  .vault input.code:focus{outline:none;border-color:var(--amber)}
+
+  .win{background:linear-gradient(160deg,#0f3527,#123a44);border:2px solid var(--ok);
+    border-radius:20px;padding:34px 26px;text-align:center;box-shadow:var(--shadow);display:none;margin-top:16px}
+  .win.show{display:block;animation:pop .45s ease}
+  .win h2{font-size:clamp(28px,6vw,44px);margin:0 0 6px}
+  .win .em{font-size:60px;margin-bottom:6px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .stat{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;
+    padding:14px 20px;min-width:120px}
+  .stat .v{font-size:26px;font-weight:900;color:var(--teal2);font-family:'Consolas',monospace}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .rank{font-size:20px;font-weight:800;color:var(--amber2);margin:6px 0 2px}
+
+  .foot{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  .confetti{position:fixed;top:-10px;width:10px;height:14px;z-index:999;pointer-events:none;border-radius:2px}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud" style="display:none">
+    <div class="timer" id="timerBox">⏱ <b id="timerVal">30:00</b></div>
+    <div class="vartag" id="varTag">Variantas 1</div>
+    <div class="progress">🔓 <b id="progVal">0</b> / 10</div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="badge">Pabėgimo planas · Turgaus sandėlio naktis</span>
+    <h1>Turgaus <span class="amber">sandėlio</span> paslaptis</h1>
+    <div class="sub">Pabėgimo kambarys · 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis · 5 klasė</div>
+
+    <div class="story">
+      <p><span class="drop">Prekeivio pameistry,</span> padėjai sutvarkyti turgaus sandėlį po prekybos dienos
+      ir netikėtai likai jame užrakintas — durys užsitrenkė automatiškai. Ant sienos kabo prekeivio
+      užrašų lapas:</p>
+      <p style="margin:12px 0 0"><i>„Tarp tavęs ir laisvės — dešimt prekybos užrašų. Kiekviename aprašyta,
+      kiek prekių, kiek jos sveria ar kainuoja — bet visada tik BENDRAS dydis ir SANTYKIS tarp dviejų
+      prekių. Pažymėk nežinomąjį raide x, sudaryk lygtį ir ją išspręsk — taip sužinosi po vieną sandėlio
+      durų kodo skaitmenį."</i></p>
+      <p style="margin:12px 0 0">Spręsk iš eilės — nuo paprasčiausios sumos ir skirtumo, per kartotinius
+      dydžius, amžių uždavinius, iki gudresnės sargo mįslės su trimis dydžiais pačioje pabaigoje.
+      Laikas bėga.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><b>🔒 10 užrašų.</b> Atrakinami iš eilės, sudarant ir sprendžiant lygtis.</div>
+      <div class="rule"><b>🔢 Kiekvienas užrašas</b> duoda po vieną durų kodo skaitmenį.</div>
+      <div class="rule"><b>💡 Įstrigai?</b> Patarimas nukreipia — kaip žymėti x ir sudaryti lygtį, bet atsakymo neduoda.</div>
+      <div class="rule"><b>⏱ 30 minučių.</b> Kuo greičiau, tuo aukštesnis pameistrio rangas.</div>
+    </div>
+
+    <div class="varpick">
+      <label for="varSel">🎫 Pasirink savo variantą (pasako mokytoja):</label>
+      <select id="varSel">
+        <option value="0">Variantas 1</option>
+        <option value="1">Variantas 2</option>
+        <option value="2">Variantas 3</option>
+        <option value="3">Variantas 4</option>
+      </select>
+      <div class="hintline">Skirtingi variantai turi kitus skaičius ir kitą durų kodą — kad kaimynas nenusirašytų.</div>
+    </div>
+
+    <button class="primary" onclick="startGame()">▶ Pradėti tvarkymą</button>
+  </section>
+
+  <div id="stations" style="display:none"></div>
+
+  <section class="vault" id="vault">
+    <h2>🚪 Sandėlio durys</h2>
+    <div class="sub">Surinkti skaitmenys (iš eilės nuo 1 iki 10 užrašo):</div>
+    <div class="code-slots" id="codeSlots"></div>
+    <input class="code mono" id="codeInput" maxlength="10" inputmode="numeric"
+      placeholder="__________" autocomplete="off">
+    <div class="fb" id="vaultFb"></div>
+    <div><button class="primary" onclick="tryVault()">🗝 Atrakinti duris</button></div>
+  </section>
+
+  <section class="win" id="win">
+    <div class="em">🏃💨</div>
+    <h2>Pabėgai iš sandėlio!</h2>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Durys atsivėrė, tvarkymas baigtas.
+      Tekstinių uždavinių sprendimas sudarant lygtis tau nebe paslaptis — moki pažymėti nežinomąjį
+      raide x, kitą dydį išreikšti per x ir sudaryti bei išspręsti lygtį.</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wTime">--:--</div><div class="k">Laikas</div></div>
+      <div class="stat"><div class="v" id="wHints">0</div><div class="k">Patarimų</div></div>
+      <div class="stat"><div class="v" id="wTries">0</div><div class="k">Klaidų</div></div>
+    </div>
+    <div class="rank" id="wRank"></div>
+    <div style="margin-top:18px"><button class="ghost" onclick="location.reload()">↻ Iš naujo</button></div>
+  </section>
+
+  <div class="foot">Mokytoja Violeta · 5 klasė · 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis · atidaryk naršyklėje</div>
+</div>
+
+<script>
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){ return esc(s); }
+
+/* Patarimai TIK nukreipia (kaip žymėti x, kaip sudaryti lygtį), atsakymo NEATSKLEIDŽIA. */
+const HINTS = [
+  "Pažymėk x=mažesnysis dydis, kitą dydį užrašyk x+skirtumas. Sudaryk lygtį iš bendros sumos ir susumuok abu dydžius.",
+  "Pažymėk x=pigesnė prekė, brangesnė = x+skirtumas eurų. Sudaryk lygtį iš bendros kainos.",
+  "Pažymėk x=trumpesnioji virvė, ilgesnioji = kartotinis · x. Sudėk abu dydžius į lygtį.",
+  "Pažymėk x=lengvesnė dėžė, sunkesnė = kartotinis · x. Sutrauk panašiuosius narius ir padalyk iš viso koeficiento.",
+  "Pažymėk x=jaunesnysis, vyresnysis = x+metų skirtumas. Sudaryk lygtį iš bendro amžiaus.",
+  "Pažymėk x=jaunesnysis, vyresnysis = kartotinis · x. Sutrauk panašiuosius narius ir padalyk.",
+  "Pažymėk x=pigesnė prekė, brangesnė = kartotinis · x. Sudaryk lygtį iš bendros kainos.",
+  "Pažymėk x=trumpesnioji atkarpa, ilgesnioji = x+skirtumas. Sudaryk lygtį iš viso ilgio.",
+  "Trys dydžiai: pirmąjį pažymėk x, antrąjį išreišk per x, trečiąjį — per antrąjį. Sudėk visus tris į vieną lygtį.",
+  "Pažymėk mažesnįjį dydį x, didesnįjį — per x. Šįkart klausiama apie ANTRĄJĮ (apskaičiuotą) dydį, ne apie x — perskaityk klausimą atidžiai!",
+];
+
+/* ================= 4 VARIANTAI · 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis ================= */
+const VARIANTS = [
+ /* --- VARIANTAS 1 · kodas 9921081907 --- */
+ [
+  {title:"Pirmas užrašas: sodas", q:"Sode auga obuoliai ir kriaušės — iš viso 24 medžiai. Obuolių yra 6 daugiau negu kriaušių. Kiek kriaušių auga sode? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Antras užrašas: kaina", q:"Knyga ir žurnalas kartu kainuoja 26 €. Knyga 8 € brangesnė už žurnalą. Kiek eurų kainuoja žurnalas? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Trečias užrašas: virvės", q:"Dviejų virvių ilgis kartu yra 48 m. Viena virvė 3 kartus ilgesnė už kitą. Koks trumpesnės virvės ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Ketvirtas užrašas: dėžės", q:"Dvi dėžės sveria iš viso 84 kg. Viena dėžė 3 kartus sunkesnė už kitą. Kiek kilogramų sveria lengvesnė dėžė? Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Penktas užrašas: amžiai", q:"Tėvo ir dukros amžius kartu yra 51 metai. Tėvas 31 metais vyresnis už dukrą. Kiek metų yra dukrai? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Šeštas užrašas: amžiai kartotinis", q:"Sesers ir brolio amžius kartu yra 40 metų. Brolis 4 kartus vyresnis už seserį. Kiek metų yra seseriai? Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Septintas užrašas: kaina kartotinė", q:"Kuprinė ir bateliai kartu kainuoja 84 €. Kuprinė 3 kartus brangesnė už batelius. Kiek eurų kainuoja bateliai? Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Aštuntas užrašas: atkarpos", q:"Dviejų virvių ilgis kartu yra 96 cm. Viena virvė 18 cm ilgesnė už kitą. Koks trumpesnės virvės ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Devintas užrašas: trys draugai", q:"Tomas, Jonas ir Petras surinko iš viso 60 kaštonų. Jonas surinko 2 kartus daugiau kaštonų negu Tomas, o Petras — 10 kaštonų daugiau negu Jonas. Kiek kaštonų surinko Tomas? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Dešimtas užrašas: sargo mįslė", q:"Dviračiu ir paspirtuku nuvažiuotas atstumas kartu yra 54 km. Dviračiu nuvažiuota 2 kartus daugiau kilometrų negu paspirtuku, ir dar 3 km viršaus. Kiek kilometrų nuvažiuota DVIRAČIU? Koks atsakymo PASKUTINIS skaitmuo?", ans:7},
+ ],
+ /* --- VARIANTAS 2 · kodas 5783304083 --- */
+ [
+  {title:"Pirmas užrašas: parkas", q:"Parke auga klevai ir liepos — iš viso 38 medžiai. Klevų 8 daugiau negu liepų. Kiek liepų auga parke? Koks atsakymo PASKUTINIS skaitmuo?", ans:5},
+  {title:"Antras užrašas: kaina", q:"Bloknotas ir markeris kartu kainuoja 19 €. Bloknotas 5 € brangesnis už markerį. Kiek eurų kainuoja markeris? Koks atsakymo PASKUTINIS skaitmuo?", ans:7},
+  {title:"Trečias užrašas: kaspinai", q:"Dviejų kaspinų ilgis kartu yra 54 cm. Vienas kaspinas 2 kartus ilgesnis už kitą. Koks trumpesnio kaspino ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Ketvirtas užrašas: dėžės", q:"Dvi dėžės su knygomis sveria iš viso 65 kg. Viena dėžė 4 kartus sunkesnė už kitą. Kiek kilogramų sveria lengvesnė dėžė? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Penktas užrašas: amžiai kartotinis", q:"Mamos ir dukros amžius kartu yra 65 metai. Mama 4 kartus vyresnė už dukrą. Kiek metų yra dukrai? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Šeštas užrašas: kaštonai", q:"Dviejų draugų surinktų kaštonų skaičius kartu yra 26. Vienas surinko 6 kaštonais daugiau negu kitas. Kiek kaštonų surinko tas, kuris surinko mažiau? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Septintas užrašas: kaina kartotinė", q:"Kuprinė ir sportbačiai kartu kainuoja 70 €. Sportbačiai 4 kartus brangesni už kuprinę. Kiek eurų kainuoja kuprinė? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Aštuntas užrašas: atkarpos", q:"Dviejų kaspinų ilgis kartu yra 50 cm. Vienas kaspinas 10 cm ilgesnis už kitą. Koks trumpesnio kaspino ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Devintas užrašas: trys broliai", q:"Trys broliai augina triušius — iš viso 45 triušiai. Antrasis augina 2 kartus daugiau triušių negu pirmasis, o trečiasis — 5 triušiais daugiau negu antrasis. Kiek triušių augina pirmasis brolis? Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Dešimtas užrašas: sargo mįslė", q:"Dviejų vamzdžių ilgis kartu yra 39 m. Vienas vamzdis 7 m ilgesnis už kitą. Koks ILGESNIO vamzdžio ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+ ],
+ /* --- VARIANTAS 3 · kodas 3281206940 --- */
+ [
+  {title:"Pirmas užrašas: sandėlis", q:"Sandėlyje sukrauta obuolių ir kriaušių dėžių — iš viso 30 dėžių. Obuolių dėžių 4 daugiau negu kriaušių. Kiek kriaušių dėžių yra sandėlyje? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Antras užrašas: kaina", q:"Kuprinė ir sportbačiai kartu kainuoja 96 €. Sportbačiai 12 € brangesni už kuprinę. Kiek eurų kainuoja kuprinė? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Trečias užrašas: vamzdžiai", q:"Dviejų vamzdžių ilgis kartu yra 64 m. Vienas vamzdis 8 m ilgesnis už kitą. Koks trumpesnio vamzdžio ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Ketvirtas užrašas: amžiai kartotinis", q:"Tėvo ir dukros amžius kartu yra 44 metai. Tėvas 3 kartus vyresnis už dukrą. Kiek metų yra dukrai? Koks atsakymo PASKUTINIS skaitmuo?", ans:1},
+  {title:"Penktas užrašas: sodo lysvės", q:"Dviejų sodo lysvių plotas kartu yra 48 kvadratiniai metrai. Viena lysvė 3 kartus didesnė už kitą. Koks mažesnės lysvės plotas? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Šeštas užrašas: trys draugai", q:"Trys draugai rinko uogas — iš viso 56 kilogramai. Antrasis surinko 2 kartus daugiau uogų negu pirmasis, o trečiasis — 6 kilogramais daugiau negu antrasis. Kiek kilogramų uogų surinko pirmasis draugas? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+  {title:"Septintas užrašas: kaina", q:"Sąsiuvinis ir pieštukas kartu kainuoja 16 €. Sąsiuvinis 4 € brangesnis už pieštuką. Kiek eurų kainuoja pieštukas? Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Aštuntas užrašas: dėžės", q:"Dvi dėžės su vaisiais sveria iš viso 54 kg. Viena dėžė 5 kartus sunkesnė už kitą. Kiek kilogramų sveria lengvesnė dėžė? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Devintas užrašas: broliai", q:"Dviejų brolių amžius kartu yra 37 metai. Vyresnysis brolis 9 metais vyresnis už jaunesnįjį. Kiek metų yra jaunesniajam broliui? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Dešimtas užrašas: sargo mįslė", q:"Dviejų juostų ilgis kartu yra 45 m. Viena juosta 2 kartus ilgesnė už kitą. Koks ILGESNĖS juostos ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+ ],
+ /* --- VARIANTAS 4 · kodas 4642953860 --- */
+ [
+  {title:"Pirmas užrašas: sodas", q:"Sode auga vyšnios ir slyvos — iš viso 34 medžiai. Vyšnių 6 daugiau negu slyvų. Kiek slyvų auga sode? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Antras užrašas: kaina", q:"Sąsiuvinis ir rašiklis kartu kainuoja 15 €. Sąsiuvinis 3 € brangesnis už rašiklį. Kiek eurų kainuoja rašiklis? Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Trečias užrašas: lentos", q:"Dviejų lentų ilgis kartu yra 42 m. Viena lenta 2 kartus ilgesnė už kitą. Koks trumpesnės lentos ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:4},
+  {title:"Ketvirtas užrašas: amžiai kartotinis", q:"Tėvo ir sūnaus amžius kartu yra 60 metų. Tėvas 4 kartus vyresnis už sūnų. Kiek metų yra sūnui? Koks atsakymo PASKUTINIS skaitmuo?", ans:2},
+  {title:"Penktas užrašas: amžiai", q:"Sesers ir brolio amžius kartu yra 22 metai. Brolis 4 metais vyresnis už seserį. Kiek metų yra seseriai? Koks atsakymo PASKUTINIS skaitmuo?", ans:9},
+  {title:"Šeštas užrašas: kaštonai", q:"Dviejų draugų surinktų kaštonų skaičius kartu yra 36. Vienas surinko 6 kaštonais daugiau negu kitas. Kiek kaštonų surinko tas, kuris surinko mažiau? Koks atsakymo PASKUTINIS skaitmuo?", ans:5},
+  {title:"Septintas užrašas: kaina kartotinė", q:"Knyga ir žurnalas kartu kainuoja 18 €. Knyga 5 kartus brangesnė už žurnalą. Kiek eurų kainuoja žurnalas? Koks atsakymo PASKUTINIS skaitmuo?", ans:3},
+  {title:"Aštuntas užrašas: juostos", q:"Dviejų juostų ilgis kartu yra 50 cm. Viena juosta 14 cm ilgesnė už kitą. Koks trumpesnės juostos ilgis? Koks atsakymo PASKUTINIS skaitmuo?", ans:8},
+  {title:"Devintas užrašas: trys draugės", q:"Trys draugės nusipirko obuolių — iš viso 36 obuoliai. Rūta nusipirko 2 kartus daugiau obuolių negu Aistė, o Eglė — 6 obuoliais daugiau negu Rūta. Kiek obuolių nusipirko Aistė? Koks atsakymo PASKUTINIS skaitmuo?", ans:6},
+  {title:"Dešimtas užrašas: sargo mįslė", q:"Dvi dėžės sveria iš viso 50 kg. Viena dėžė 4 kartus sunkesnė už kitą. Kiek kilogramų sveria SUNKESNĖ dėžė? Koks atsakymo PASKUTINIS skaitmuo?", ans:0},
+ ],
+];
+
+let STATIONS = VARIANTS[0];
+let variantIdx = 0;
+let current = 0, solved = 0, hintsUsed = 0, wrongTries = 0;
+let timeLeft = 30*60, timerId = null;
+
+function startGame(){
+  variantIdx = parseInt(document.getElementById('varSel').value,10) || 0;
+  STATIONS = VARIANTS[variantIdx];
+  document.getElementById('varTag').textContent = 'Variantas '+(variantIdx+1);
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('stations').style.display='block';
+  buildStations();
+  timerId = setInterval(tick, 1000);
+}
+
+function tick(){
+  timeLeft--;
+  const m = Math.floor(Math.max(timeLeft,0)/60), s = Math.max(timeLeft,0)%60;
+  const box = document.getElementById('timerBox');
+  document.getElementById('timerVal').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timeLeft <= 120) box.classList.add('low');
+  if(timeLeft <= 0){ clearInterval(timerId); document.getElementById('timerVal').textContent="00:00"; }
+}
+
+function buildStations(){
+  const host = document.getElementById('stations');
+  host.innerHTML = STATIONS.map((st,i)=>{
+    const locked = i>0;
+    return `
+    <section class="station ${locked?'locked':''}" id="st${i}">
+      <div class="st-head">
+        <div class="st-num">${i+1}</div>
+        <div class="st-title">${st.title}</div>
+        <div class="st-lock" id="lock${i}">${locked?'🔒':'🔓'}</div>
+      </div>
+      <div class="st-body" id="body${i}" ${locked?'style="display:none"':''}>
+        <p class="qtext">${fmtMath(st.q)}</p>
+        <div class="answer-row">
+          <span class="lead">Skaitmuo =</span>
+          <input class="ans mono" id="in${i}" inputmode="numeric" autocomplete="off"
+            placeholder="?" onkeydown="if(event.key==='Enter')check(${i})">
+          <button class="unlock" onclick="check(${i})">Atrakinti 🔓</button>
+        </div>
+        <div class="fb" id="fb${i}"></div>
+        <button class="ghost hintbtn" onclick="showHint(${i})">💡 Patarimas</button>
+        <div class="hint" id="hint${i}">${HINTS[i]}</div>
+        <div class="digit-reveal" id="dig${i}" style="display:none">
+          <span class="lbl">Šio užrašo skaitmuo durų kodui:</span>
+          <span class="dg" id="dgv${i}"></span>
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function showHint(i){
+  const h = document.getElementById('hint'+i);
+  if(!h.classList.contains('show')){ h.classList.add('show'); hintsUsed++; }
+}
+
+function check(i){
+  if(i!==current) return;
+  const raw = document.getElementById('in'+i).value.trim().replace(',','.');
+  const fb = document.getElementById('fb'+i);
+  if(raw===''){ fb.className='fb bad'; fb.textContent='Įrašyk atsakymą.'; return; }
+  if(Number(raw)===STATIONS[i].ans){
+    const card = document.getElementById('st'+i);
+    card.classList.remove('locked'); card.classList.add('solved');
+    document.getElementById('lock'+i).textContent='✅';
+    document.getElementById('in'+i).disabled=true;
+    fb.className='fb ok'; fb.textContent='Teisingai! Užrašas atsivėrė.';
+    const dig = document.getElementById('dig'+i);
+    dig.style.display='flex';
+    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    solved++; current++;
+    document.getElementById('progVal').textContent = solved;
+    if(i+1 < STATIONS.length){
+      const next = document.getElementById('st'+(i+1));
+      next.classList.remove('locked');
+      document.getElementById('lock'+(i+1)).textContent='🔓';
+      document.getElementById('body'+(i+1)).style.display='block';
+      next.scrollIntoView({behavior:'smooth',block:'center'});
+      document.getElementById('in'+(i+1)).focus();
+    } else { openVault(); }
+  } else {
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Ne tas skaitmuo. Perskaičiuok arba spausk patarimą. (Bandymų: '+wrongTries+')';
+  }
+}
+
+function openVault(){
+  const v = document.getElementById('vault');
+  v.classList.add('show');
+  document.getElementById('codeSlots').innerHTML =
+    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+  v.scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('codeInput').focus();
+}
+
+function tryVault(){
+  const code = document.getElementById('codeInput').value.trim();
+  const real = STATIONS.map(s=>s.ans).join('');
+  const fb = document.getElementById('vaultFb');
+  if(code===real){
+    if(timerId) clearInterval(timerId);
+    fb.className='fb ok'; fb.textContent='Durys atsiveria...';
+    win();
+  } else {
+    fb.className='fb bad';
+    fb.textContent='Kodas neteisingas. Surink skaitmenis iš eilės nuo 1 iki 10 užrašo.';
+  }
+}
+
+function win(){
+  document.getElementById('vault').classList.remove('show');
+  document.getElementById('vault').style.display='none';
+  const w = document.getElementById('win');
+  w.classList.add('show');
+  const used = 30*60 - timeLeft;
+  const m = Math.floor(used/60), s = used%60;
+  document.getElementById('wTime').textContent =
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('wHints').textContent = hintsUsed;
+  document.getElementById('wTries').textContent = wrongTries;
+  let rank;
+  if(timeLeft>0 && hintsUsed===0 && wrongTries===0) rank="🥇 Legendinis pameistrys (be patarimų ir klaidų!)";
+  else if(timeLeft>0 && hintsUsed<=2 && wrongTries<=3) rank="🥈 Patyręs pameistrys";
+  else if(timeLeft>0) rank="🥉 Vos spėjai — bet pabėgai!";
+  else rank="🔦 Ištrūkai, nors prekeivis jau grįžta. Kitą kartą greičiau!";
+  document.getElementById('wRank').textContent = rank;
+  confetti();
+  w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function confetti(){
+  const colors=['#f6b53d','#3fd0c9','#3ecf7a','#ffcd6b','#7ce7e1'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=colors[i%colors.length];
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    const dur=2.4+Math.random()*2;
+    c.style.transition='top '+dur+'s linear, opacity '+dur+'s linear';
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{ c.style.top='105vh'; c.style.opacity='0'; });
+    setTimeout(()=>c.remove(), dur*1000+200);
+  }
+}
+</script>
+</body>
+</html>

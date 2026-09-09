@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontrolinio treniruoklis: 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis (5 kl.)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:640px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:20px; margin:8px 0 2px;}
+  header p{color:var(--pilka); font-size:13.5px; margin:0 0 14px;}
+
+  .juosta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:14px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .juosta .virs{display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--pilka); margin-bottom:7px;}
+  .juosta .virs b{color:var(--rasalas); font-size:15px;}
+  .baras{height:14px; background:var(--geltona); border-radius:8px; overflow:hidden;}
+  .baras > div{height:100%; width:0%; background:linear-gradient(90deg,#e0a05a,#7fae5f);
+    border-radius:8px; transition:width .4s ease;}
+  .statai{display:flex; gap:18px; margin-top:9px; font-size:13px; color:var(--pilka); flex-wrap:wrap;}
+  .statai b{color:var(--rasalas);}
+
+  .pasiruoses{display:none; background:var(--zalia-f); border:1px solid #bcdcbc;
+    color:var(--zalia); border-radius:12px; padding:12px 16px; margin-bottom:16px; font-weight:600;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
+    font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
+  .klausimas{font-size:18px; text-align:left; margin:6px 0 20px; letter-spacing:.1px; line-height:1.5;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
+  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .ivestis label{font-size:18px; color:var(--pilka);}
+  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
+  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
+  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
+  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
+    border-radius:10px; padding:14px 16px; display:none;}
+  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
+  .sprendimas ol{margin:0; padding-left:20px;}
+  .sprendimas li{font-size:15.5px; margin:6px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+
+  .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
+  .apacia b{color:var(--rasalas);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Kontrolinio treniruoklis: 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis (5 kl.)</h1>
+    <p id="paantraste">7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis · 5 klasė · treniruokis, kol būsi pasiruošęs</p>
+  </header>
+
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+
+  <div class="juosta">
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="baras"><div id="baras"></div></div>
+    <div class="statai">
+      <span>Serija: <b id="serija">0</b></span>
+      <span>Išspręsta: <b id="isviso">0</b></span>
+      <span id="silpna"></span>
+    </div>
+  </div>
+
+  <div class="korta">
+    <span class="tipas" id="tipas">—</span>
+    <div class="klausimas" id="klausimas">—</div>
+    <div class="ivestis">
+      <label id="ivPre">atsakymas =</label>
+      <input type="text" id="atsakymas" autocomplete="off" inputmode="numeric" placeholder="?">
+    </div>
+    <div class="simboliai" id="simboliai"></div>
+    <div class="veiksmai">
+      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
+      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
+    </div>
+    <div class="verdiktas" id="verdiktas"></div>
+    <div class="sprendimas" id="sprendimas">
+      <h4>Sprendimas žingsnis po žingsnio</h4>
+      <ol id="zingsniai"></ol>
+    </div>
+  </div>
+
+  <div class="apacia">
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+// Kontrolinio treniruoklio generatoriai — 5 kl. 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis.
+// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+
+// --- 1) SUMA IR SKIRTUMAS (bendri dydžiai: ilgis, kiekis, svoris — be kainos ir amžiaus) ---
+const CONTEXTS_SD = [
+  (x,d,s) => ({
+    q: `Dviejų virvių ilgis kartu yra ${s} cm. Viena virvė ${d} cm ilgesnė už kitą. Koks trumpesnės virvės ilgis (cm)?`,
+    xName: "trumpesnės virvės ilgis", oName: "ilgesnės virvės ilgis", unit: "cm"
+  }),
+  (x,d,s) => ({
+    q: `Dviejų klasių mokinių skaičius kartu yra ${s}. Vienoje klasėje ${d} mokiniais daugiau negu kitoje. Kiek mokinių yra mažesnėje klasėje?`,
+    xName: "mažesnės klasės mokinių skaičius", oName: "didesnės klasės mokinių skaičius", unit: ""
+  }),
+  (x,d,s) => ({
+    q: `Dviejų maišų su grūdais svoris kartu yra ${s} kg. Vienas maišas ${d} kg sunkesnis už kitą. Kiek kilogramų sveria lengvesnis maišas?`,
+    xName: "lengvesnio maišo svoris", oName: "sunkesnio maišo svoris", unit: "kg"
+  }),
+  (x,d,s) => ({
+    q: `Sodo medžių (obelų ir kriaušių) skaičius kartu yra ${s}. Obelų yra ${d} daugiau negu kriaušių. Kiek kriaušių auga sode?`,
+    xName: "kriaušių skaičius", oName: "obelų skaičius", unit: ""
+  }),
+];
+
+// --- 2) KARTOTINIS IR SUMA (bendri dydžiai: svoris, ilgis, tūris) ---
+const CONTEXTS_MS = [
+  (x,k,s) => ({
+    q: `Dvi dėžės sveria iš viso ${s} kg. Viena dėžė ${k} kartus sunkesnė už kitą. Kiek kilogramų sveria lengvesnė dėžė?`,
+    xName: "lengvesnės dėžės svoris", oName: "sunkesnės dėžės svoris", unit: "kg"
+  }),
+  (x,k,s) => ({
+    q: `Dviejų virvių ilgis kartu yra ${s} m. Viena virvė ${k} kartus ilgesnė už kitą. Koks trumpesnės virvės ilgis?`,
+    xName: "trumpesnės virvės ilgis", oName: "ilgesnės virvės ilgis", unit: "m"
+  }),
+  (x,k,s) => ({
+    q: `Dviejų statinių vandens kiekis (litrais) kartu yra ${s}. Vienoje statinėje ${k} kartus daugiau vandens negu kitoje. Kiek litrų vandens yra mažesnėje statinėje?`,
+    xName: "mažesnės statinės vandens kiekis", oName: "didesnės statinės vandens kiekis", unit: "l"
+  }),
+];
+
+// --- 3) AMŽIAI (suma+skirtumas arba kartotinis, keli asmenų poros pavadinimai) ---
+// amzius: "X ir Y" (giminininko linksniu, sakiniui "... amžius kartu yra..."); older/younger formos
+// kiekvienam linksniui atskirai, kad nereikėtų spėlioti galūnių.
+const AGE_PAIRS = [
+  { amzius:"Tėvo ir sūnaus", older_nom:"Tėvas", younger_acc:"sūnų",
+    older_dat:"tėvui", younger_dat:"sūnui", older_gen:"tėvo", younger_gen:"sūnaus", adj:"vyresnis" },
+  { amzius:"Mamos ir dukros", older_nom:"Mama", younger_acc:"dukrą",
+    older_dat:"mamai", younger_dat:"dukrai", older_gen:"mamos", younger_gen:"dukros", adj:"vyresnė" },
+  { amzius:"Sesers ir brolio", older_nom:"Brolis", younger_acc:"seserį",
+    older_dat:"broliui", younger_dat:"seseriai", older_gen:"brolio", younger_gen:"sesers", adj:"vyresnis" },
+];
+
+// --- 4) KAINA (suma+skirtumas arba kartotinis, keli prekių pavadinimai) ---
+// item1 visada sakinyje lyginamas kaip brangesnis; adj sutampa su item1 gimine.
+const PRICE_PAIRS = [
+  { item1_nom:"Knyga", item1_low:"knyga", item1_gen:"knygos", adj:"brangesnė",
+    item2_low:"žurnalas", item2_gen:"žurnalo", item2_acc:"žurnalą" },
+  { item1_nom:"Kuprinė", item1_low:"kuprinė", item1_gen:"kuprinės", adj:"brangesnė",
+    item2_low:"bateliai", item2_gen:"batelių", item2_acc:"batelius" },
+  { item1_nom:"Sąsiuvinis", item1_low:"sąsiuvinis", item1_gen:"sąsiuvinio", adj:"brangesnis",
+    item2_low:"pieštukas", item2_gen:"pieštuko", item2_acc:"pieštuką" },
+];
+
+const GENERATORIAI = [
+  // 1) Suma ir skirtumas
+  { label:"Suma ir skirtumas", gen(){
+      const x = randint(6, 40);
+      const d = randint(2, 30);
+      const s = 2*x + d;
+      const ctx = choice(CONTEXTS_SD)(x, d, s);
+      const askOther = choice([true,false]);
+      const ans = askOther ? (x+d) : x;
+      const askName = askOther ? ctx.oName : ctx.xName;
+      return { q: ctx.q,
+        ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+        `Pažymime raide x ${ctx.xName} (mažesnysis dydis). Tada ${ctx.oName} yra x + ${d}.`,
+        `Bendra suma yra ${s}, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+        `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+        `Taigi ${ctx.xName} = ${x}, o ${ctx.oName} = ${x} + ${d} = ${x+d}. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Klausiama apie ${toAcc(askName)}: ${ans}.`
+      ]};
+  }},
+
+  // 2) Kartotinis ir suma
+  { label:"Kartotinis ir suma", gen(){
+      const k = randint(2, 6);
+      const x = randint(4, Math.floor(90/(k+1)));
+      const s = x*(k+1);
+      const ctx = choice(CONTEXTS_MS)(x, k, s);
+      const askOther = choice([true,false]);
+      const ans = askOther ? (k*x) : x;
+      const askName = askOther ? ctx.oName : ctx.xName;
+      return { q: ctx.q,
+        ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+        `Pažymime raide x ${ctx.xName} (mažesnysis dydis). Tada ${ctx.oName} yra ${k}x (${k} kartus daugiau).`,
+        `Bendra suma yra ${s}, todėl lygtis: x + ${k}x = ${s}.`,
+        `Sutraukiame panašiuosius narius: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+        `Taigi ${ctx.xName} = ${x}, o ${ctx.oName} = ${k} · ${x} = ${k*x}. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Klausiama apie ${toAcc(askName)}: ${ans}.`
+      ]};
+  }},
+
+  // 3) Amžiai (suma+skirtumas arba kartotinis)
+  { label:"Amžiai", gen(){
+      const p = choice(AGE_PAIRS);
+      const mult = choice([true,false]);
+      const askOlder = choice([true,false]);
+      const askWho = askOlder ? p.older_dat : p.younger_dat;
+      if(mult){
+        const k = randint(2,5);
+        const x = randint(4, Math.floor(70/(k+1)));
+        const s = x*(k+1);
+        const ans = askOlder ? (k*x) : x;
+        return { q: `${p.amzius} amžius kartu yra ${s} metai. ${p.older_nom} ${k} kartus ${p.adj} už ${p.younger_acc}. Kiek metų yra ${askWho}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.younger_gen} amžių (jaunesniojo). ${cap(p.older_gen)} amžius yra ${k}x.`,
+          `Bendras amžius yra ${s} metai, todėl lygtis: x + ${k}x = ${s}.`,
+          `Sutraukiame: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+          `Taigi jaunesniajam yra ${x} metai, o ${p.older_gen} amžius — ${k*x} metai. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      } else {
+        const x = randint(4, 40);
+        const d = randint(2, 30);
+        const s = 2*x + d;
+        const ans = askOlder ? (x+d) : x;
+        return { q: `${p.amzius} amžius kartu yra ${s} metai. ${p.older_nom} ${d} metais ${p.adj} už ${p.younger_acc}. Kiek metų yra ${askWho}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.younger_gen} amžių (jaunesniojo). ${cap(p.older_gen)} amžius yra x + ${d}.`,
+          `Bendras amžius yra ${s} metai, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+          `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+          `Taigi jaunesniajam yra ${x} metai, o ${p.older_gen} amžius — ${x+d} metai. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      }
+  }},
+
+  // 4) Kaina (suma+skirtumas arba kartotinis) — item1 visada brangesnis, item2 visada pigesnis
+  { label:"Kaina", gen(){
+      const p = choice(PRICE_PAIRS);
+      const mult = choice([true,false]);
+      const askExpensive = choice([true,false]);
+      const askWhat = askExpensive ? p.item1_low : p.item2_low;
+      if(mult){
+        const k = randint(2,6);
+        const x = randint(3, Math.floor(90/(k+1)));
+        const s = x*(k+1);
+        const ans = askExpensive ? (k*x) : x;
+        return { q: `${p.item1_nom} ir ${p.item2_low} kartu kainuoja ${s} €. ${p.item1_nom} ${k} kartus ${p.adj} už ${p.item2_acc}. Kiek eurų kainuoja ${askWhat}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.item2_gen} kainą (pigesnės prekės). ${cap(p.item1_gen)} kaina yra ${k}x.`,
+          `Bendra kaina yra ${s} €, todėl lygtis: x + ${k}x = ${s}.`,
+          `Sutraukiame: ${k+1}x = ${s}; x = ${s} : ${k+1} = ${x}.`,
+          `Taigi ${p.item2_low} kainuoja ${x} €, o ${p.item1_low} kaina — ${k*x} €. Patikrinimas: ${x} + ${k*x} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      } else {
+        const x = randint(3, 45);
+        const d = randint(2, 30);
+        const s = 2*x + d;
+        const ans = askExpensive ? (x+d) : x;
+        return { q: `${p.item1_nom} ir ${p.item2_low} kartu kainuoja ${s} €. ${p.item1_nom} ${d} € ${p.adj} už ${p.item2_acc}. Kiek eurų kainuoja ${askWhat}?`,
+          ans: ans, ansText: String(ans), pre:"atsakymas =", steps:[
+          `Pažymime raide x ${p.item2_gen} kainą (pigesnės prekės). ${cap(p.item1_gen)} kaina yra x + ${d}.`,
+          `Bendra kaina yra ${s} €, todėl lygtis: x + (x + ${d}) = ${s}, t. y. 2x + ${d} = ${s}.`,
+          `Sprendžiame: 2x = ${s} − ${d} = ${s-d}; x = ${s-d} : 2 = ${x}.`,
+          `Taigi ${p.item2_low} kainuoja ${x} €, o ${p.item1_low} kaina — ${x+d} €. Patikrinimas: ${x} + ${x+d} = ${s} ✓. Atsakymas: ${ans}.`
+        ]};
+      }
+  }},
+];
+
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+// Linksniuotė: „apie ką?" reikalauja galininko. Dydžių pavadinimai baigiasi „-ius" (skaičius -> skaičių)
+// arba „-is" (ilgis -> ilgį, svoris -> svorį, kiekis -> kiekį) — verčiam paskutinį žodį.
+function toAcc(phrase){
+  const parts = phrase.split(' ');
+  let last = parts[parts.length-1];
+  if(last.endsWith('ius')) last = last.slice(0,-3)+'ių';
+  else if(last.endsWith('is')) last = last.slice(0,-2)+'į';
+  parts[parts.length-1] = last;
+  return parts.join(' ');
+}
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  p.ansType = 'number';
+  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Kontrolinio treniruoklis: 7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis (5 kl.)", "subtitle": "7.3.4 Tekstinių uždavinių sprendimas sudarant lygtis · 5 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": []};
+
+// ---- Būsena ----
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+const $ = id => document.getElementById(id);
+const LANGO = META.lango||10, RIBA = META.riba||9;
+
+function initTekstai(){
+  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
+  $('paantraste').textContent = META.subtitle || '';
+  document.title = META.title || 'Kontrolinio treniruoklis';
+  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
+  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
+  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
+
+function naujas(){
+  S.dabartinis = makeProblem();
+  S.atsakyta = false;
+  $('tipas').textContent = S.dabartinis.label;
+  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
+  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
+  $('atsakymas').value = '';
+  $('atsakymas').disabled = false;
+  $('verdiktas').style.display='none';
+  $('sprendimas').style.display='none';
+  $('tikrinti').style.display='';
+  $('kitas').style.display='none';
+  $('atsakymas').focus();
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+function tikrinti(){
+  if(S.atsakyta) return;
+  const p = S.dabartinis;
+  const val = parseVal($('atsakymas').value);
+  if(isNaN(val)){ $('atsakymas').focus(); return; }
+  const ok = Math.abs(val - p.ans) < 1e-6;
+  S.atsakyta = true;
+  S.isviso++;
+  S.istorija.push(ok);
+  const lab = S.dabartinis.label;
+  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
+  S.serija = ok ? S.serija+1 : 0;
+
+  const v = $('verdiktas');
+  v.style.display='block';
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+
+  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
+  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
+  $('atsakymas').disabled = true;
+  $('tikrinti').style.display='none';
+  $('kitas').style.display='';
+  $('kitas').focus();
+  atnaujinti();
+}
+
+function atnaujinti(){
+  const lang = S.istorija.slice(-LANGO);
+  const teis = lang.filter(x=>x).length;
+  const pct = Math.round(teis/LANGO*100);
+  $('baras').style.width = pct+'%';
+  $('pctTekstas').textContent = teis+'/'+LANGO+' teisingų';
+  $('serija').textContent = S.serija;
+  $('isviso').textContent = S.isviso;
+
+  let worst=null;
+  for(const [lab,st] of Object.entries(S.byLabel)){
+    if(st.total>=2){ const r=st.ok/st.total; if(!worst||r<worst.r) worst={lab,r}; }
+  }
+  $('silpna').innerHTML = worst && worst.r<1
+    ? `Silpna vieta: <b>${worst.lab}</b> (${Math.round(worst.r*100)} %)` : '';
+
+  if(S.istorija.length>=LANGO && teis>=RIBA){ S.ready=true; }
+  $('pasiruoses').style.display = S.ready ? 'block' : 'none';
+}
+
+$('tikrinti').addEventListener('click', tikrinti);
+$('kitas').addEventListener('click', naujas);
+$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
+
+initTekstai();
+naujas();
+</script>
+</body>
+</html>
