@@ -130,9 +130,9 @@ function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 // --- Temos generatoriai (įkeliami builder'io) ---
 // BENDRAS kontrolinio treniruoklis — 7 klasė, "6 klasės kartojimas".
 // Skirtas 7 klasės mokiniams pasiruošti atsiskaitymui iš 6 klasės medžiagos.
-// 10 uždavinių tipų, kiekvienas savo IIFE (kad vidiniai pagalbininkai
-// nesikirstų), etiketė = tipo numeris + pavadinimas (silpnos vietos sekimui
-// pagal TIPĄ, ne pagal potemę).
+// 14 uždavinių tipų (1–10 skaičiai, 11–14 reiškiniai/lygtys), kiekvienas
+// savo IIFE (kad vidiniai pagalbininkai nesikirstų), etiketė = tipo
+// numeris + pavadinimas (silpnos vietos sekimui pagal TIPĄ, ne pagal potemę).
 //
 // Šablonas jau apibrėžia globaliai: randint(a,b), choice(arr), nz(a,b) (ne
 // nulis), nf(n) (LT skaičius su − ir ,), pm(n) („+ 3" / „− 3").
@@ -613,6 +613,206 @@ const GENERATORIAI = [].concat(
         `Kablelį skaičiuje ${nf(original)} perkeliame per ${n} skaitmen(-į/-is) į ${direction==='right'?'dešinę':'kairę'}.`,
         `${nf(original)} ${op} ${factorLabel} = ${ansText}` ];
       return { q:`${nf(original)} ${op} ${factorLabel}`, ans:val, ansText, pre:'atsakymas =', steps };
+    }}];
+  })(),
+
+  // ============================================================
+  // 11. Panašiųjų narių sutraukimas (reiškiniai su x ir laisvaisiais nariais)
+  // ============================================================
+  (function(){
+    function lead(c, v){ if(c===1) return v; if(c===-1) return '−'+v; return nf(c)+v; }
+    function xTermsStr(cs, v){ let s=lead(cs[0], v); for(let i=1;i<cs.length;i++) s+=' '+pm(cs[i])+v; return s; }
+    function buildAnswer(xCoef, cConst, v){
+      const xShort = xCoef===1 ? v : (xCoef===-1 ? '−'+v : nf(xCoef)+v);
+      const xExplicit = (xCoef<0?'−':'') + Math.abs(xCoef) + v;
+      const cSign = cConst<0 ? '−' : '+';
+      const cAbs = Math.abs(cConst);
+      const canonical = `${xShort} ${cSign} ${cAbs}`;
+      const forms = new Set();
+      [xShort, xExplicit].forEach(xp=>{
+        forms.add(`${xp} ${cSign} ${cAbs}`);
+        forms.add(`${xp}${cSign}${cAbs}`);
+        const xpBare = xp.replace(/^−/,'');
+        const xSecond = xp.charAt(0)==='−' ? `− ${xpBare}` : `+ ${xp}`;
+        const leadConst = cConst<0 ? `−${cAbs}` : `${cAbs}`;
+        forms.add(`${leadConst} ${xSecond}`);
+        forms.add(`${leadConst}${xSecond}`);
+      });
+      forms.delete(canonical);
+      return { ansText: canonical, ansAlt: Array.from(forms) };
+    }
+    return [{ label:"11. Panašiųjų narių sutraukimas", gen(){
+      const v = choice(['x','a','b','y']);
+      const nX = choice([2,2,3]);
+      const nC = choice([1,1,2]);
+      let xCoefs, consts, xSum, cSum, tries=0;
+      do {
+        xCoefs=[]; for(let i=0;i<nX;i++) xCoefs.push(nz(-9,9));
+        consts=[]; for(let i=0;i<nC;i++) consts.push(nz(-15,15));
+        xSum = xCoefs.reduce((s,c)=>s+c,0);
+        cSum = consts.reduce((s,c)=>s+c,0);
+        tries++;
+      } while((xSum===0 || cSum===0) && tries<40);
+      if(xSum===0){ xCoefs[0]+=1; xSum+=1; }
+      if(cSum===0){ consts[0]+=1; cSum+=1; }
+
+      // maišome narių eilę (skaičiai su raide ir laisvieji nariai), kaip vadovėlyje
+      const items = xCoefs.map(c=>({isX:true,val:c})).concat(consts.map(c=>({isX:false,val:c})));
+      for(let i=items.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [items[i],items[j]]=[items[j],items[i]]; }
+      const dispParts = items.map((it,i)=>{
+        const magStr = it.isX ? (Math.abs(it.val)===1 ? v : Math.abs(it.val)+v) : String(Math.abs(it.val));
+        if(i===0) return (it.val<0?'−':'') + magStr;
+        return (it.val<0?'− ':'+ ') + magStr;
+      });
+      const qStr = dispParts.join(' ');
+
+      const {ansText, ansAlt} = buildAnswer(xSum, cSum, v);
+      const steps = [
+        `Sugrupuojame narius su ${v} ir laisvuosius narius.`,
+        `Nariai su ${v}: ${xTermsStr(xCoefs, v)} = ${lead(xSum,v)}`,
+        `Laisvieji nariai: ${nf(consts[0])}${consts.slice(1).map(c=>' '+pm(c)).join('')} = ${nf(cSum)}`,
+        `Sutraukę gauname: ${ansText}`
+      ];
+      return { q:`Sutrauk panašiuosius narius: ${qStr}`, ans:ansText, ansText, ansType:'text', ansAlt, pre:'supaprastintas reiškinys =', steps };
+    }}];
+  })(),
+
+  // ============================================================
+  // 12. Skliaustų atskleidimas ir supaprastinimas
+  // ============================================================
+  (function(){
+    function buildAnswer(xCoef, cConst, v){
+      const xShort = xCoef===1 ? v : (xCoef===-1 ? '−'+v : nf(xCoef)+v);
+      const xExplicit = (xCoef<0?'−':'') + Math.abs(xCoef) + v;
+      const cSign = cConst<0 ? '−' : '+';
+      const cAbs = Math.abs(cConst);
+      const canonical = `${xShort} ${cSign} ${cAbs}`;
+      const forms = new Set();
+      [xShort, xExplicit].forEach(xp=>{
+        forms.add(`${xp} ${cSign} ${cAbs}`);
+        forms.add(`${xp}${cSign}${cAbs}`);
+        const xpBare = xp.replace(/^−/,'');
+        const xSecond = xp.charAt(0)==='−' ? `− ${xpBare}` : `+ ${xp}`;
+        const leadConst = cConst<0 ? `−${cAbs}` : `${cAbs}`;
+        forms.add(`${leadConst} ${xSecond}`);
+        forms.add(`${leadConst}${xSecond}`);
+      });
+      forms.delete(canonical);
+      return { ansText: canonical, ansAlt: Array.from(forms) };
+    }
+    return [{ label:"12. Skliaustų atskleidimas ir supaprastinimas", gen(){
+      const v='x';
+      let c1,c2,p1,p2,op,xCoef,cConst,tries=0;
+      do{
+        c1=randint(2,7); c2=randint(2,7);
+        p1=nz(-8,8); p2=nz(-8,8);
+        op=choice(['+','−']);
+        xCoef = op==='+' ? c1+c2 : c1-c2;
+        cConst = op==='+' ? c1*p1+c2*p2 : c1*p1-c2*p2;
+        tries++;
+      } while((xCoef===0 || cConst===0) && tries<60);
+      if(xCoef===0){ c1+=1; xCoef = op==='+' ? c1+c2 : c1-c2; cConst = op==='+' ? c1*p1+c2*p2 : c1*p1-c2*p2; }
+      if(cConst===0){ p1+=1; cConst = op==='+' ? c1*p1+c2*p2 : c1*p1-c2*p2; }
+
+      const secondXCoef = op==='+' ? c2 : -c2;
+      const secondConst = op==='+' ? c2*p2 : -c2*p2;
+      const qStr = `${c1}(${v} ${pm(p1)}) ${op} ${c2}(${v} ${pm(p2)})`;
+
+      const {ansText, ansAlt} = buildAnswer(xCoef, cConst, v);
+      const steps = [
+        `Pirmą skliaustą atskleidžiame: ${c1}(${v} ${pm(p1)}) = ${c1}${v} ${pm(c1*p1)}`,
+        `Antrą skliaustą atskleidžiame (žiūrime į ženklą prieš skliaustus): ${op} ${c2}(${v} ${pm(p2)}) = ${secondXCoef<0?'−':'+'} ${Math.abs(secondXCoef)}${v} ${pm(secondConst)}`,
+        `Sudedame panašiuosius narius: (${c1} ${secondXCoef<0?'−':'+'} ${Math.abs(secondXCoef)})${v} + (${nf(c1*p1)} ${secondConst<0?'−':'+'} ${Math.abs(secondConst)}) = ${ansText}`
+      ];
+      return { q:`Atskleisk skliaustus ir supaprastink: ${qStr}`, ans:ansText, ansText, ansType:'text', ansAlt, pre:'supaprastintas reiškinys =', steps };
+    }}];
+  })(),
+
+  // ============================================================
+  // 13. Lygčių sprendimas (sveikieji sprendiniai)
+  // ============================================================
+  (function(){
+    return [{ label:"13. Lygčių sprendimas", gen(){
+      const mode = choice(['simple','simple','bothSides','brackets']);
+      const x0 = nz(-12,12);
+      if(mode==='simple'){
+        const a = randint(2,9)*choice([1,1,-1]);
+        const b = nz(-15,15);
+        const c = a*x0+b;
+        return { q:`${nf(a)}x ${pm(b)} = ${nf(c)}`, ans:x0, ansText:nf(x0), pre:'x =', steps:[
+          `${nf(a)}x ${pm(b)} = ${nf(c)}`,
+          `${nf(a)}x = ${nf(c)} ${pm(-b)} = ${nf(c-b)}`,
+          `x = ${nf(c-b)} : ${nf(a)} = ${nf(x0)}`
+        ]};
+      }
+      if(mode==='bothSides'){
+        const a = randint(5,9);
+        const c = randint(2,a-2);
+        const b = nz(-9,9);
+        const d = (a-c)*x0+b;
+        return { q:`${a}x ${pm(b)} = ${c}x ${pm(d)}`, ans:x0, ansText:nf(x0), pre:'x =', steps:[
+          `${a}x ${pm(b)} = ${c}x ${pm(d)}`,
+          `${a}x − ${c}x = ${nf(d)} ${pm(-b)}`,
+          `${a-c}x = ${nf(d-b)}`,
+          `x = ${nf(d-b)} : ${a-c} = ${nf(x0)}`
+        ]};
+      }
+      // brackets
+      const a = randint(2,6);
+      const b = nz(-7,7);
+      const c = a*(x0+b);
+      return { q:`${a}(x ${pm(b)}) = ${nf(c)}`, ans:x0, ansText:nf(x0), pre:'x =', steps:[
+        `${a}(x ${pm(b)}) = ${nf(c)}`,
+        `x ${pm(b)} = ${nf(c)} : ${a} = ${nf(c/a)}`,
+        `x = ${nf(c/a)} ${pm(-b)} = ${nf(x0)}`
+      ]};
+    }}];
+  })(),
+
+  // ============================================================
+  // 14. Tekstinis uždavinys sudarant lygtį (sveikasis sprendinys)
+  // ============================================================
+  (function(){
+    return [{ label:"14. Tekstinis uždavinys (lygtis)", gen(){
+      const kind = choice(['incMul','decMul','mulInc','mulDec']);
+      const M = randint(2,9);
+      const N = randint(2,20);
+      const x0 = nz(-15,15);
+      let K, q, steps;
+      if(kind==='incMul'){
+        K = (x0+N)*M;
+        q = `Skaičių padidinus ${N} vienetų ir gautą sumą padauginus iš ${M}, gaunama ${nf(K)}. Raskite tą skaičių.`;
+        steps = [
+          `Ieškomą skaičių pažymime x. Sudarome lygtį: (x + ${N}) · ${M} = ${nf(K)}`,
+          `x + ${N} = ${nf(K)} : ${M} = ${nf(K/M)}`,
+          `x = ${nf(K/M)} − ${N} = ${nf(x0)}`
+        ];
+      } else if(kind==='decMul'){
+        K = (x0-N)*M;
+        q = `Skaičių sumažinus ${N} vienetų ir gautą skirtumą padauginus iš ${M}, gaunama ${nf(K)}. Raskite tą skaičių.`;
+        steps = [
+          `Ieškomą skaičių pažymime x. Sudarome lygtį: (x − ${N}) · ${M} = ${nf(K)}`,
+          `x − ${N} = ${nf(K)} : ${M} = ${nf(K/M)}`,
+          `x = ${nf(K/M)} + ${N} = ${nf(x0)}`
+        ];
+      } else if(kind==='mulInc'){
+        K = M*x0+N;
+        q = `Skaičių padauginus iš ${M} ir gautą sandaugą padidinus ${N} vienetų, gaunama ${nf(K)}. Raskite tą skaičių.`;
+        steps = [
+          `Ieškomą skaičių pažymime x. Sudarome lygtį: ${M}x + ${N} = ${nf(K)}`,
+          `${M}x = ${nf(K)} − ${N} = ${nf(K-N)}`,
+          `x = ${nf(K-N)} : ${M} = ${nf(x0)}`
+        ];
+      } else {
+        K = M*x0-N;
+        q = `Skaičių padauginus iš ${M} ir gautą sandaugą sumažinus ${N} vienetų, gaunama ${nf(K)}. Raskite tą skaičių.`;
+        steps = [
+          `Ieškomą skaičių pažymime x. Sudarome lygtį: ${M}x − ${N} = ${nf(K)}`,
+          `${M}x = ${nf(K)} + ${N} = ${nf(K+N)}`,
+          `x = ${nf(K+N)} : ${M} = ${nf(x0)}`
+        ];
+      }
+      return { q, ans:x0, ansText:nf(x0), pre:'atsakymas =', steps };
     }}];
   })()
 
