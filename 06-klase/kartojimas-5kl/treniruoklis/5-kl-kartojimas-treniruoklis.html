@@ -329,6 +329,65 @@ const GENERATORIAI = [
         `= ${nf(ans)}`
       ]};
   }},
+  { label: "Skaitinio reiškinio reikšmė", gen() {
+      const e = choice([3, 4, 5, 6, 8]);
+      const k = randint(2, 9);
+      const prod = e * k;                    // (c+d) = e·k, dalyba be liekanos
+      const c = randint(1, prod - 1), d = prod - c;
+      const a = randint(5, 30), b = randint(2, 9);
+      const ans = a + b * k;
+      return { q: `Apskaičiuok: ${a} + ${b}·(${c}+${d}):${e}`, ans, steps: [
+        `${a} + ${b}·(${c}+${d}):${e}`,
+        `= ${a} + ${b}·${c + d}:${e}`,
+        `= ${a} + ${b}·${k}`,
+        `= ${nf(ans)}`
+      ]};
+  }},
+  { label: "Reiškinio reikšmė su kintamaisiais", gen() {
+      const ca = randint(3, 9), cb = randint(2, 8);
+      const mv = randint(2, 9), nv = randint(1, 8);
+      const ans = ca * mv - cb * nv;
+      return { q: `Apskaičiuok reiškinio ${ca}m − ${cb}n reikšmę, kai m=${mv}, n=${nv}.`, ans, steps: [
+        `${ca}·${mv} − ${cb}·${nv}`,
+        `= ${ca * mv} − ${cb * nv}`,
+        `= ${nf(ans)}`
+      ]};
+  }},
+  { label: "Panašiųjų narių sutraukimas", gen() {
+      const va = choice(["x", "y", "n", "a", "m"]);
+      const la = randint(8, 40), lb = randint(2, la - 1);
+      const op = choice(["+", "-"]);
+      const coef = op === "+" ? la + lb : la - lb;
+      const ansText = `${coef}${va}`;
+      return { q: `Sutraukite panašiuosius narius: ${la}${va} ${op === "+" ? "+" : "−"} ${lb}${va}`,
+        ans: ansText, ansType: "text", ansText, steps: [
+        `${la}${va} ${op} ${lb}${va}`,
+        `= ${ansText}`
+      ]};
+  }},
+  { label: "Atskliautimas", gen() {
+      const va = choice(["x", "y", "n", "a", "m"]);
+      const k = randint(2, 8), b = randint(2, 12);
+      const sign = choice(["+", "-"]);
+      const kb = k * b;
+      const ansText = sign === "+" ? `${k}${va}+${kb}` : `${k}${va}−${kb}`;
+      const sd = sign === "+" ? "+" : "−";
+      return { q: `Atskliauskite: ${k}(${va} ${sd} ${b})`,
+        ans: ansText, ansType: "text", ansText, steps: [
+        `${k}(${va} ${sd} ${b})`,
+        `= ${k}·${va} ${sd} ${k}·${b}`,
+        `= ${ansText}`
+      ]};
+  }},
+  { label: "Lygties sprendimas", gen() {
+      const a = randint(2, 9), x0 = nz(2, 12), b = randint(2, 30);
+      const c = a * x0 + b;
+      return { q: `Išspręskite lygtį: ${a}x + ${b} = ${c}`, ans: x0, steps: [
+        `${a}x + ${b} = ${c}`,
+        `${a}x = ${c} − ${b} = ${c - b}`,
+        `x = ${c - b} : ${a} = ${nf(x0)}`
+      ]};
+  }},
 ];
 
 
