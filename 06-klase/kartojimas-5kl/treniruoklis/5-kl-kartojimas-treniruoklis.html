@@ -208,11 +208,11 @@ const GENERATORIAI = [
       const nprimes = randint(2, 3);
       while (primes.length < nprimes) { const p = choice(pool); if (!primes.includes(p)) primes.push(p); }
       let N = 1, total = 0;
-      const parts = [];
+      const parts = [];   // 5-6 kl. dar nėra laipsnių — rašome sandauga, ne p^e
       for (const p of primes) {
         const e = randint(1, p === 2 ? 3 : 2);
         N *= Math.pow(p, e); total += e;
-        parts.push(e === 1 ? `${p}` : `${p}^${e}`);
+        for (let i = 0; i < e; i++) parts.push(`${p}`);
       }
       return { q: `${N} — kiek iš viso pirminių dauginamųjų (su pasikartojimais) turi šis skaičius?`, ans: total, steps: [
         `${N} = ${parts.join(" · ")}`,
