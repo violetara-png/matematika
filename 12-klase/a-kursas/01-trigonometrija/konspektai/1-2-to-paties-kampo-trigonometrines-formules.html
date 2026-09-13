@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To paties kampo trigonometrinės formulės — 12 klasė</title>
+<style>
+  :root{
+    --tema:#c14343; --tema-sv:#fbe9e9;
+    --taisykle:#0a7d52; --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --demesio:#c62828; --demesio-sv:#fdecec;
+    --uzd:#6a1b9a; --pilka:#5b6472; --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif; color:#1c2430; line-height:1.5; margin:0; background:#f4f6f9;}
+  .lapas{max-width:820px; margin:24px auto; background:#fff; padding:32px 40px 48px; border-radius:10px; box-shadow:0 2px 14px rgba(0,0,0,.08);}
+  h1{font-size:26px; margin:0 0 4px; color:var(--tema); border-bottom:3px solid var(--tema); padding-bottom:10px;}
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 .15em}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor; padding:0 .35em}
+  .fr>span:last-child{padding:0 .35em}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{font-size:18px; margin:0; padding:12px 18px; background:var(--tema); color:#fff; display:flex; gap:10px; align-items:baseline;}
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{background:var(--taisykle-sv); border-left:4px solid var(--taisykle); border-radius:4px; padding:12px 16px; margin:0 0 14px;}
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{background:var(--pvz-sv); border-left:4px solid var(--pvz); border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;}
+  .pvz b{color:var(--pvz)}
+  .demesio{background:var(--demesio-sv); border-left:4px solid var(--demesio); border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;}
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{text-align:center; font-size:20px; margin:12px 0; padding:10px; background:#fff; border:1px dashed var(--taisykle); border-radius:6px;}
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija); font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>To paties kampo trigonometrinės formulės</h1>
+  <p class="klase">Matematika · 12 klasė · A kursas (išplėstinis) · 1 skyrius „Trigonometrija" · VBE pasiruošimas</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Pagrindinė trigonometrijos tapatybė</a></li>
+      <li><a href="#t2">To paties kampo tangento formulė</a></li>
+      <li><a href="#t3">Formulė tg²α + 1 = 1/cos²α</a></li>
+      <li><a href="#t4">Trigonometrinių funkcijų ženklai ketvirčiuose</a></li>
+      <li><a href="#t5">1 pavyzdys. Reiškinių prastinimas</a></li>
+      <li><a href="#t6">2 pavyzdys. Kitų funkcijų reikšmių radimas</a></li>
+      <li><a href="#t7">3 pavyzdys. Sandaugos sinα·cosα radimas</a></li>
+      <li><a href="#t8">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Pagrindinė trigonometrijos tapatybė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Sprendžiant uždavinius dažnai reikia prastinti sudėtingesnius trigonometrinius reiškinius arba rasti vienos trigonometrinės funkcijos reikšmę, kai yra žinoma to paties kampo kitos trigonometrinės funkcijos reikšmė. Todėl svarbu žinoti formules, siejančias vieną trigonometrinę funkciją su kita.</p>
+        <p>Svarbiausia tarp jų — <span class="zenk">pagrindinė trigonometrijos tapatybė</span>:</p>
+        <div class="formule math">sin²<span class="term-a">α</span> + cos²<span class="term-a">α</span> = 1</div>
+        <p class="demesio"><b>Kodėl ji teisinga?</b> Vienetinio apskritimo taško koordinatės yra <span class="math">(cosα, sinα)</span>, o taškas nuo centro nutolęs per spindulį <span class="math">R = 1</span>. Pagal atstumo formulę (arba Pitagoro teoremą) <span class="math">cos²α + sin²α = 1²= 1</span> — bet kuriam kampui α.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> To paties kampo tangento formulė</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>To paties argumento tangento, sinuso ir kosinuso sąsają žinome iš tangento apibrėžties:</p>
+        <div class="formule math">tg<span class="term-a">α</span> = <span class="fr"><span>sin<span class="term-a">α</span></span><span>cos<span class="term-a">α</span></span></span>, &nbsp; cos<span class="term-a">α</span> ≠ 0</div>
+        <p>Tačiau kartais tangentą patogu susieti tik su <b>viena</b> trigonometrine funkcija — pavyzdžiui, vien su kosinusu. Tokią formulę išvedame kitame skyrelyje.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Formulė tg²α + 1 = 1/cos²α</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Išvedimas.</span> Pagrindinės trigonometrijos tapatybės <span class="math">sin²α + cos²α = 1</span> abi puses padalykime iš <span class="math">cos²α ≠ 0</span>:</p>
+        <p class="math" style="text-align:center">
+          <span class="fr"><span>sin²α</span><span>cos²α</span></span> + <span class="fr"><span>cos²α</span><span>cos²α</span></span> = <span class="fr"><span>1</span><span>cos²α</span></span>
+        </p>
+        <p>Kadangi <span class="math"><span class="fr"><span>sinα</span><span>cosα</span></span> = tgα</span>, gauname:</p>
+        <div class="formule math">tg²<span class="term-a">α</span> + 1 = <span class="fr"><span>1</span><span>cos²<span class="term-a">α</span></span></span>, &nbsp; cos<span class="term-a">α</span> ≠ 0</div>
+        <p class="pvz"><b>Kam ji naudinga.</b> Ši formulė leidžia rasti <span class="math">cosα</span> tiesiogiai iš <span class="math">tgα</span> (ir atvirkščiai), <b>be sinα</b> — tai pravers 2 pavyzdyje.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Trigonometrinių funkcijų ženklai ketvirčiuose</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Pagrindinė tapatybė duoda <span class="math">cosα</span> (arba <span class="math">sinα</span>) reikšmę tik <b>iki ženklo</b> — kvadratinė šaknis visada turi du sprendinius, <span class="math">+</span> ir <span class="math">−</span>. Teisingą ženklą parenkame pagal ketvirtį, kuriam priklauso kampas <span class="math">α</span>:</p>
+        <table class="kort math">
+          <tr><th>Ketvirtis</th><th>Intervalas</th><th>sinα</th><th>cosα</th><th>tgα</th></tr>
+          <tr><td>I</td><td>0 &lt; α &lt; π/2</td><td class="gerai">+</td><td class="gerai">+</td><td class="gerai">+</td></tr>
+          <tr><td>II</td><td>π/2 &lt; α &lt; π</td><td class="gerai">+</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td></tr>
+          <tr><td>III</td><td>π &lt; α &lt; 3π/2</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td><td class="gerai">+</td></tr>
+          <tr><td>IV</td><td>3π/2 &lt; α &lt; 2π</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td><td class="gerai">+</td><td class="klaida" style="text-decoration:none; color:var(--demesio)">−</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Dėmesio.</b> Prieš rašydami galutinį atsakymą <b>visada</b> patikriname, kuriam ketvirčiui priklauso kampas, ir parenkame ženklą pagal šią lentelę — kitaip lieka du „teisingi" atsakymai vietoj vieno.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> 1 pavyzdys. Reiškinių prastinimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><b>Suprastinkime reiškinius:</b></p>
+        <p class="math">a) sin⁴α + sin²α cos²α + cos²α;</p>
+        <p class="pvz"><b>Sprendimas.</b> Iškeliame prieš skliaustus pirmųjų dviejų narių bendrąjį daugiklį <span class="math">sin²α</span>, paskui pritaikome pagrindinę trigonometrijos tapatybę <span class="math">sin²α + cos²α = 1</span>:<br>
+        <span class="math">sin⁴α + sin²αcos²α + cos²α = sin²α(sin²α + cos²α) + cos²α = sin²α·1 + cos²α = sin²α + cos²α = <span class="gerai">1</span></span></p>
+
+        <p class="math" style="margin-top:14px">b) <span class="fr"><span>sin³α + cos³α</span><span>sinα + cosα</span></span> + sinα cosα − sin²α.</p>
+        <p class="pvz"><b>Sprendimas.</b> Remdamiesi kubų sumos formule <span class="math">a³ + b³ = (a + b)(a² − ab + b²)</span>, trupmenos skaitiklį išskaidome daugikliais ir trupmeną suprastiname. Tada pritaikome pagrindinę trigonometrijos tapatybę:<br>
+        <span class="math">= <span class="fr"><span>(sinα + cosα)(sin²α − sinαcosα + cos²α)</span><span>sinα + cosα</span></span> + sinαcosα − sin²α</span><br>
+        <span class="math">= sin²α − sinαcosα + cos²α + sinαcosα − sin²α = cos²α</span></p>
+        <p class="demesio"><b>Atsakymas.</b> a) 1;&nbsp; b) <span class="math"><span class="gerai">cos²α</span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> 2 pavyzdys. Kitų funkcijų reikšmių radimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p class="math"><b>Apskaičiuokime cosα ir tgα, kai</b> sinα = −4/5, o π &lt; α &lt; 3π/2.</p>
+        <p class="pvz"><b>Sprendimas.</b> Į pagrindinę trigonometrijos tapatybę <span class="math">sin²α + cos²α = 1</span> įrašome kampo α sinuso reikšmę ir apskaičiuojame kosinuso reikšmę:<br>
+        <span class="math">(−<span class="fr"><span>4</span><span>5</span></span>)² + cos²α = 1 &nbsp;⇒&nbsp; cos²α = 1 − <span class="fr"><span>16</span><span>25</span></span> = <span class="fr"><span>9</span><span>25</span></span></span><br>
+        Iš abiejų lygties pusių ištraukę kvadratinę šaknį, gauname dvi kosinuso reikšmes — teigiamą ir neigiamą:<br>
+        <span class="math">cosα = −<span class="fr"><span>3</span><span>5</span></span> &nbsp;arba&nbsp; cosα = <span class="fr"><span>3</span><span>5</span></span></span><br>
+        Kadangi pagal sąlygą kampas α priklauso <b>III ketvirčiui</b> (žr. 4 skyrelio lentelę, ten <span class="math">cosα &lt; 0</span>), tai <span class="math">cosα = −<span class="fr"><span>3</span><span>5</span></span></span>.<br>
+        Į tapatybę <span class="math">tg²α + 1 = <span class="fr"><span>1</span><span>cos²α</span></span></span> įrašę <span class="math">cos²α</span> reikšmę, apskaičiuojame tangento reikšmę:<br>
+        <span class="math">tg²α + 1 = <span class="fr"><span>1</span><span>9/25</span></span> = <span class="fr"><span>25</span><span>9</span></span> &nbsp;⇒&nbsp; tg²α = <span class="fr"><span>25</span><span>9</span></span> − 1 = <span class="fr"><span>16</span><span>9</span></span></span><br>
+        <span class="math">tgα = <span class="fr"><span>4</span><span>3</span></span> &nbsp;arba&nbsp; tgα = −<span class="fr"><span>4</span><span>3</span></span></span>, o kadangi kampas α priklauso III ketvirčiui (tgα &gt; 0), tai <span class="math">tgα = <span class="fr"><span>4</span><span>3</span></span></span>.</p>
+        <p class="demesio"><b>Pastaba.</b> Kampo α tangentą galima apskaičiuoti ir remiantis lygybe <span class="math">tgα = <span class="fr"><span>sinα</span><span>cosα</span></span></span>: <span class="math">tgα = <span class="fr"><span>−4/5</span><span>−3/5</span></span> = <span class="gerai"><span class="fr"><span>4</span><span>3</span></span></span></span> — tas pats atsakymas.</p>
+        <p class="pvz"><b>Atsakymas.</b> <span class="math">cosα = −3/5</span>, &nbsp;<span class="math">tgα = 4/3</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="potema" id="t7">
+    <h2><span class="nr">7</span> 3 pavyzdys. Sandaugos sinα·cosα radimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p class="math"><b>Apskaičiuokime sinα cosα reikšmę, kai</b> sinα + cosα = m.</p>
+        <p class="pvz"><b>Sprendimas.</b> Lygybės <span class="math">sinα + cosα = m</span> abi puses pakeliame kvadratu:<br>
+        <span class="math">(sinα + cosα)² = m² &nbsp;⇒&nbsp; sin²α + 2sinαcosα + cos²α = m²</span><br>
+        Pritaikome pagrindinę trigonometrijos tapatybę ir apskaičiuojame <span class="math">sinαcosα</span> reikšmę:<br>
+        <span class="math">1 + 2sinαcosα = m² &nbsp;⇒&nbsp; 2sinαcosα = m² − 1 &nbsp;|:2</span><br>
+        <span class="math">sinαcosα = <span class="gerai"><span class="fr"><span>m² − 1</span><span>2</span></span></span></span></p>
+        <p class="demesio"><b>Sekimo taisyklė.</b> Jei sąlygoje duota <span class="math">sinα − cosα = m</span> (su minusu), sandauga bus <span class="math">sinαcosα = <span class="fr"><span>1 − m²</span><span>2</span></span></span> — ženklas prie <span class="math">m²</span> apsiverčia, nes kvadrate atsiranda <span class="math">−2sinαcosα</span>.</p>
+        <p class="pvz"><b>Atsakymas.</b> <span class="math"><span class="fr"><span>m² − 1</span><span>2</span></span></span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="potema" id="t8">
+    <h2><span class="nr">8</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">sin²α + cos²α = 0</span></td><td class="math"><span class="gerai">= 1</span> (tapatybė, ne lygtis su nežinomuoju)</td></tr>
+          <tr><td class="math"><span class="klaida">cosα = √(1 − sin²α)</span> (visada +)</td><td class="math">ženklą <span class="gerai">renkamės pagal ketvirtį</span>, ne visada +</td></tr>
+          <tr><td class="math"><span class="klaida">tg²α + 1 = 1/sin²α</span></td><td class="math"><span class="gerai">= 1/cos²α</span></td></tr>
+          <tr><td class="math"><span class="klaida">(sinα + cosα)² = sin²α + cos²α</span></td><td class="math"><span class="gerai">= 1 + 2sinαcosα</span> (dvinaris kvadratas!)</td></tr>
+          <tr><td class="math"><span class="klaida">sinα−cosα=m ⇒ sinαcosα=(m²−1)/2</span></td><td class="math"><span class="gerai">=(1−m²)/2</span> (ženklas kitoks nei sumos atveju)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Kai reikia rasti <b>ženklą</b>, pirmiausia nustatau kampo <b>ketvirtį</b>, o tik tada renkuosi <span class="math">+</span> arba <span class="math">−</span> iš dviejų šaknies reikšmių. Pertvarkant reiškinius — pirma ieškau, kur galima „pamatyti" <span class="math">sin²α + cos²α</span>, nes tada jį iš karto pakeičiu vienetu.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 12 klasės A kurso matematika · VBE pasiruošimas · tema „To paties kampo trigonometrinės formulės"
+  </footer>
+
+</div>
+</body>
+</html>
