@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Koordinačių plokštuma — pavyzdžiai ir savikontrolė (1.2.2)</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --orange-bg:#fff3e2; --orange-bd:#e2911f; --orange-tx:#c9760f;
+    --red-bg:#fdecec; --red-bd:#d64545; --red-tx:#c62d2d;
+    --lav:#eef1fb; --tblh:#e9ecf8; --bd:#dfe4ef; --muted:#8a93a6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.5;margin:0;padding:26px 30px 10px;}
+  h1{color:var(--blue);font-size:21pt;margin:0 0 6px;font-weight:800;}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 0 6px;border-radius:2px;}
+  .subtitle{color:var(--muted);font-size:10pt;margin:0 0 18px;font-weight:600;}
+  .parthead{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+  .parthead .tag{background:var(--blue);color:#fff;font-weight:800;font-size:10pt;padding:4px 12px;border-radius:20px;letter-spacing:.5px;}
+  .parthead .txt{color:var(--blue);font-weight:800;font-size:13pt;}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;}
+  .banner{background:var(--banner);color:#fff;padding:9px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+         background:rgba(255,255,255,.22);border-radius:6px;font-size:9.5pt;font-weight:800;}
+  .body{padding:13px 16px;}
+  .ex{background:var(--orange-bg);border-left:5px solid var(--orange-bd);border-radius:10px;
+      padding:9px 14px;margin-bottom:9px;}
+  .ex:last-child{margin-bottom:0;}
+  .ex .q{font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .ex .line{margin:2px 0;font-size:11pt;}
+  .res{color:var(--green-tx);font-weight:800;}
+  .muted2{color:#8a93a6;}
+  .green{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+  .green b.kw{color:var(--green-tx);}
+  ol.tasks{margin:4px 0;padding-left:26px;}
+  ol.tasks li{margin:6px 0;}
+  .grp{color:var(--blue);font-weight:800;font-size:10.5pt;margin:12px 0 2px;text-transform:uppercase;letter-spacing:.6px;}
+  .grp:first-child{margin-top:2px;}
+  .answers{background:var(--lav);border:1px solid #dfe4f6;border-radius:12px;padding:12px 16px;}
+  .answers h3{color:var(--blue);margin:0 0 6px;font-size:11pt;text-transform:uppercase;letter-spacing:.8px;}
+  .answers .row{font-size:10.6pt;margin:3px 0;}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:8px;padding-top:10px;border-top:1px solid #eceff5;}
+  .two{column-count:2;column-gap:26px;}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif;}
+</style>
+</head>
+<body>
+
+<h1>Koordinačių plokštuma — pavyzdžiai ir savikontrolė</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 6 klasė · potemė 1.2.2 · koordinačių sistema OXY, ketvirčiai, taškai ant ašių, kraštinės ir plotas</p>
+
+<div class="parthead"><span class="tag">I DALIS</span><span class="txt">Išspręsti pavyzdžiai</span></div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="banner"><span class="badge">1</span> Koordinačių nustatymas pagal aprašymą</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> pirmiausia žiūrime, kiek vienetų į kairę (−) arba dešinę (+) — tai abscisė x. Tada, kiek vienetų aukštyn (+) arba žemyn (−) — tai ordinatė y.</div>
+    <div class="ex">
+      <div class="q math">Taškas D yra 6 vnt. į dešinę ir 4 vnt. žemyn nuo O. Kokios D koordinatės?</div>
+      <div class="line math">D(<span class="res">6; −4</span>)</div>
+    </div>
+    <div class="ex">
+      <div class="q math">Taškas E yra 2 vnt. į kairę ir 5 vnt. aukštyn nuo O. Kokios E koordinatės?</div>
+      <div class="line math">E(<span class="res">−2; 5</span>)</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="banner"><span class="badge">2</span> Ketvirčiai ir taškai ant ašių</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> ženklai I(+;+), II(−;+), III(−;−), IV(+;−). Jei viena koordinatė lygi nuliui, taškas yra ant ašies (y = 0 → OX ašis, x = 0 → OY ašis) ir ketvirčiui nepriklauso.</div>
+    <div class="ex">
+      <div class="q math">Taškas F(−8; −3). Kuriam ketvirčiui priklauso?</div>
+      <div class="line math">Abi koordinatės neigiamos → <span class="res">III ketvirtis</span></div>
+    </div>
+    <div class="ex">
+      <div class="q math">Taškas G(0; 7). Ant kurios ašies jis yra?</div>
+      <div class="line math">x = 0 → taškas ant <span class="res">OY ašies</span></div>
+    </div>
+    <div class="ex">
+      <div class="q math">Taškas H(9; −2). Kuriam ketvirčiui priklauso?</div>
+      <div class="line math">Abscisė teigiama, ordinatė neigiama → <span class="res">IV ketvirtis</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="banner"><span class="badge">3</span> Kraštinės ilgis ir trikampio plotas</div>
+  <div class="body">
+    <div class="green"><b class="kw">Taisyklė:</b> jei du taškai turi tą pačią ordinatę, atkarpa lygiagreti OX ašiai, ilgis — abscisių skirtumo modulis. Jei tą pačią abscisę — lygiagreti OY ašiai, ilgis — ordinačių skirtumo modulis. Statusis trikampis: plotas = (kateto1 · kateto2) : 2.</div>
+    <div class="ex">
+      <div class="q math">A(−5; 2), B(3; 2). Koks AB ilgis (AB lygiagreti OX ašiai)?</div>
+      <div class="line math">AB = |3 − (−5)| = <span class="res">8</span></div>
+    </div>
+    <div class="ex">
+      <div class="q math">B(3; 2), C(3; −4). Koks BC ilgis (BC lygiagreti OY ašiai)?</div>
+      <div class="line math">BC = |2 − (−4)| = <span class="res">6</span></div>
+    </div>
+    <div class="ex">
+      <div class="q math">Trikampis ABC (A, B, C — kaip aukščiau) statusis, statieji AB ir BC. Koks trikampio plotas?</div>
+      <div class="line math">S = (8 · 6) : 2 = <span class="res">24</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="parthead" style="margin-top:22px"><span class="tag">II DALIS</span><span class="txt">Savikontrolė</span></div>
+
+<div class="card">
+  <div class="banner"><span class="badge">?</span> Išspręsk savarankiškai, paskui pasitikrink atsakymus</div>
+  <div class="body">
+    <div class="green"><b class="kw">Nurodymas:</b> koordinatę visada rašyk tvarka (abscisė; ordinatė); ketvirtį nustatyk pagal ženklus; kraštinės ilgis — skirtumo modulis; ploto formulė statusiam trikampiui — (kateto1 · kateto2) : 2. Atsakymus rasi lapo apačioje.</div>
+
+    <div class="grp">Koordinačių nustatymas pagal aprašymą</div>
+    <div class="two">
+      <ol class="tasks math">
+        <li>Taškas M yra 7 vnt. į dešinę ir 3 vnt. aukštyn nuo O. Koordinatės?</li>
+        <li>Taškas N yra 4 vnt. į kairę ir 6 vnt. žemyn nuo O. Koordinatės?</li>
+        <li>Taškas P yra 5 vnt. į kairę ir 1 vnt. aukštyn nuo O. Koordinatės?</li>
+        <li>Taškas R yra 8 vnt. į dešinę ir 2 vnt. žemyn nuo O. Koordinatės?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Ketvirčiai</div>
+    <div class="two">
+      <ol class="tasks math" start="5">
+        <li>K(−6; 4). Kuriam ketvirčiui priklauso?</li>
+        <li>L(3; −7). Kuriam ketvirčiui priklauso?</li>
+        <li>M(−2; −9). Kuriam ketvirčiui priklauso?</li>
+        <li>N(5; 6). Kuriam ketvirčiui priklauso?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Taškai ant ašių</div>
+    <div class="two">
+      <ol class="tasks math" start="9">
+        <li>Taškas turi y = 0, x = −4. Ant kurios ašies jis yra?</li>
+        <li>Taškas turi x = 0, y = 9. Ant kurios ašies jis yra?</li>
+        <li>Taškas O(0; 0). Kam jis priklauso — kokiai ašiai (ašims) ir kokiam ketvirčiui?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Kraštinės ilgis ir plotas</div>
+    <div class="two">
+      <ol class="tasks math" start="12">
+        <li>A(−3; 5), B(4; 5). Koks AB ilgis (lygiagreti OX ašiai)?</li>
+        <li>B(4; 5), C(4; −2). Koks BC ilgis (lygiagreti OY ašiai)?</li>
+        <li>Trikampis ABC (kaip 12–13 užd.) statusis, statieji AB ir BC. Koks jo plotas?</li>
+      </ol>
+    </div>
+
+    <div class="grp">Taikymas</div>
+    <ol class="tasks math" start="15">
+      <li>Namas pažymėtas H(−6; 3), mokykla — M(2; 3) (ta pati ordinatė, t. y. ant vienos horizontalios linijos). Koks atstumas tarp jų (vienetais)?</li>
+      <li>Taško abscisė lygi −12. Koks šios abscisės modulis?</li>
+    </ol>
+  </div>
+</div>
+
+<div class="answers">
+  <h3>Atsakymai</h3>
+  <div class="two">
+    <div class="row math"><b>1.</b> (7; 3) &nbsp;&nbsp; <b>2.</b> (−4; −6) &nbsp;&nbsp; <b>3.</b> (−5; 1) &nbsp;&nbsp; <b>4.</b> (8; −2)</div>
+    <div class="row math"><b>5.</b> II ketvirtis &nbsp;&nbsp; <b>6.</b> IV ketvirtis &nbsp;&nbsp; <b>7.</b> III ketvirtis &nbsp;&nbsp; <b>8.</b> I ketvirtis</div>
+    <div class="row math"><b>9.</b> OX ašies &nbsp;&nbsp; <b>10.</b> OY ašies &nbsp;&nbsp; <b>11.</b> abiem ašims; nė vienam ketvirčiui</div>
+    <div class="row math"><b>12.</b> 7 &nbsp;&nbsp; <b>13.</b> 7 &nbsp;&nbsp; <b>14.</b> 24,5</div>
+    <div class="row math"><b>15.</b> 8 &nbsp;&nbsp; <b>16.</b> 12</div>
+  </div>
+</div>
+
+<p class="footer">Mokytoja Violeta · 6 klasės matematikos kursas · potemė 1.2.2 „Koordinačių plokštuma" · pavyzdžiai ir savikontrolė</p>
+
+</body>
+</html>

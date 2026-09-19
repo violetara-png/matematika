@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Testas: Skaičiai (skaičių tiesė, priešingi, palyginimas, aibės, koordinatės)</title>
+<title>Testas: Skaičių palyginimas</title>
 <style>
   :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
     --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
@@ -25,6 +25,11 @@
   .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
   .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
   .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
   .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
     border-radius:10px;margin:7px 0;cursor:pointer}
   .opt:hover{background:#f3f6fa}
@@ -60,7 +65,7 @@
 </style>
 </head>
 <body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="6-01-skaiciai-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 1. Skaičiai";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
-<header><h1>Skaičiai (skaičių tiesė, priešingi, palyginimas, aibės, koordinatės)</h1><p id="subj"></p></header>
+<header><h1>Skaičių palyginimas</h1><p id="subj"></p></header>
 <div class="wrap">
 
   <!-- 1. REGISTRACIJA -->
@@ -116,7 +121,7 @@
 </div>
 
 <script>
-const CFG = {"title": "Skaičiai (skaičių tiesė, priešingi, palyginimas, aibės, koordinatės)", "dalykas": "Matematika", "sheet_id": "1LaRC25nwNcNFHO5q0aI1K-2a5oURPtcksDmfF2JeCbM", "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Skaičius ir koordinates supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti."]]}, "variants": [{"id": 1, "mc": [{"q": "Koks skaičius yra priešingas skaičiui 7?", "options": ["−7", "7", "0", "1 : 7"], "correct": 0}, {"q": "Kam lygus skaičiaus modulis |−9|?", "options": ["−9", "9", "0", "18"], "correct": 1}, {"q": "Kuris iš skaičių −5, −2, −10, −7 yra didžiausias?", "options": ["−5", "−2", "−10", "−7"], "correct": 1}, {"q": "Apskaičiuok: −(−8) =", "options": ["−8", "8", "0", "16"], "correct": 1}, {"q": "Kuriame koordinačių plokštumos ketvirtyje yra taškas (−2; 5)?", "options": ["I", "II", "III", "IV"], "correct": 1}, {"q": "Kiek sveikųjų skaičių yra tarp −2 ir 3?", "options": ["4", "5", "3", "6"], "correct": 0}, {"q": "Koks yra didžiausias neigiamas sveikasis skaičius?", "options": ["0", "1", "−1", "2"], "correct": 2}, {"q": "Kurioms skaičių aibėms priklauso skaičius −5?", "options": ["N, Z ir Q (visoms)", "Z ir Q", "tik Q", "tik N"], "correct": 1}, {"q": "Kuris iš skaičių −6 ir −1 yra didesnis?", "options": ["−6", "−1", "abu lygūs", "0"], "correct": 1}, {"q": "Kurioje vietoje yra taškas su koordinatėmis (0; −3)?", "options": ["OX ašyje", "OY ašyje", "I ketvirtyje", "III ketvirtyje"], "correct": 1}], "open": [{"q": "Apskaičiuok modulį: |−15| =", "a": "MTU="}, {"q": "Užrašyk skaičių, priešingą skaičiui −6.", "a": "Ng=="}, {"q": "Apskaičiuok: −(−12) =", "a": "MTI="}, {"q": "Kiek sveikųjų skaičių yra tarp −4 ir 3?", "a": "Ng=="}, {"q": "Užrašyk didžiausią neigiamą sveikąjį skaičių.", "a": "4oiSMQ=="}, {"q": "Taškas M koordinatė −8. Taškas K nutolęs 10 vienetinių atkarpų į dešinę nuo M. Kokia taško K koordinatė?", "a": "Mg=="}, {"q": "Kokia koordinatė taško, nutolusio 6 vienetinių atkarpų į kairę nuo atskaitos taško O(0)?", "a": "4oiSNg=="}, {"q": "Kam lygus skaičiaus −2,7 modulis?", "a": "Miw3"}, {"q": "Kuris skaičius didesnis: −6 ar −1? Užrašyk jį.", "a": "4oiSMQ=="}, {"q": "Užrašyk skaičių, simetrišką skaičiui −4 taško O(0) atžvilgiu (t. y. jam priešingą).", "a": "NA=="}]}, {"id": 2, "mc": [{"q": "Koks skaičius yra priešingas skaičiui 4?", "options": ["−4", "4", "0", "1 : 4"], "correct": 0}, {"q": "Kam lygus skaičiaus modulis |−6|?", "options": ["−6", "6", "0", "12"], "correct": 1}, {"q": "Kuris iš skaičių −3, −8, −1, −9 yra didžiausias?", "options": ["−3", "−8", "−1", "−9"], "correct": 2}, {"q": "Apskaičiuok: −(−5) =", "options": ["−5", "5", "0", "10"], "correct": 1}, {"q": "Kuriame koordinačių plokštumos ketvirtyje yra taškas (3; −4)?", "options": ["I", "II", "III", "IV"], "correct": 3}, {"q": "Kiek sveikųjų skaičių yra tarp −3 ir 2?", "options": ["4", "5", "3", "6"], "correct": 0}, {"q": "Koks yra mažiausias natūralusis skaičius?", "options": ["0", "1", "−1", "2"], "correct": 1}, {"q": "Kurioms skaičių aibėms priklauso skaičius 8?", "options": ["N, Z ir Q (visoms)", "Z ir Q", "tik Q", "tik N"], "correct": 0}, {"q": "Kuris iš skaičių −2 ir −8 yra didesnis?", "options": ["−2", "−8", "abu lygūs", "0"], "correct": 0}, {"q": "Kurioje vietoje yra taškas su koordinatėmis (−2; 0)?", "options": ["OX ašyje", "OY ašyje", "I ketvirtyje", "III ketvirtyje"], "correct": 0}], "open": [{"q": "Apskaičiuok modulį: |−12| =", "a": "MTI="}, {"q": "Užrašyk skaičių, priešingą skaičiui −9.", "a": "OQ=="}, {"q": "Apskaičiuok: −(−7) =", "a": "Nw=="}, {"q": "Kiek sveikųjų skaičių yra tarp −5 ir 2?", "a": "Ng=="}, {"q": "Užrašyk mažiausią natūralųjį skaičių.", "a": "MQ=="}, {"q": "Taškas M koordinatė −5. Taškas K nutolęs 8 vienetinių atkarpų į dešinę nuo M. Kokia taško K koordinatė?", "a": "Mw=="}, {"q": "Kokia koordinatė taško, nutolusio 4 vienetinių atkarpų į kairę nuo atskaitos taško O(0)?", "a": "4oiSNA=="}, {"q": "Kam lygus skaičiaus −3,4 modulis?", "a": "Myw0"}, {"q": "Kuris skaičius didesnis: −2 ar −8? Užrašyk jį.", "a": "4oiSMg=="}, {"q": "Užrašyk skaičių, simetrišką skaičiui −7 taško O(0) atžvilgiu (t. y. jam priešingą).", "a": "Nw=="}]}, {"id": 3, "mc": [{"q": "Koks skaičius yra priešingas skaičiui 9?", "options": ["−9", "9", "0", "1 : 9"], "correct": 0}, {"q": "Kam lygus skaičiaus modulis |−11|?", "options": ["−11", "11", "0", "22"], "correct": 1}, {"q": "Kuris iš skaičių −4, −1, −6, −12 yra didžiausias?", "options": ["−4", "−1", "−6", "−12"], "correct": 1}, {"q": "Apskaičiuok: −(−10) =", "options": ["−10", "10", "0", "20"], "correct": 1}, {"q": "Kuriame koordinačių plokštumos ketvirtyje yra taškas (−3; −5)?", "options": ["I", "II", "III", "IV"], "correct": 2}, {"q": "Kiek sveikųjų skaičių yra tarp −1 ir 4?", "options": ["4", "5", "3", "6"], "correct": 0}, {"q": "Koks yra didžiausias neigiamas sveikasis skaičius?", "options": ["0", "1", "−1", "2"], "correct": 2}, {"q": "Kurioms skaičių aibėms priklauso skaičius −3?", "options": ["N, Z ir Q (visoms)", "Z ir Q", "tik Q", "tik N"], "correct": 1}, {"q": "Kuris iš skaičių −7 ir −3 yra didesnis?", "options": ["−7", "−3", "abu lygūs", "0"], "correct": 1}, {"q": "Kurioje vietoje yra taškas su koordinatėmis (4; 0)?", "options": ["OX ašyje", "OY ašyje", "I ketvirtyje", "III ketvirtyje"], "correct": 0}], "open": [{"q": "Apskaičiuok modulį: |−20| =", "a": "MjA="}, {"q": "Užrašyk skaičių, priešingą skaičiui −8.", "a": "OA=="}, {"q": "Apskaičiuok: −(−15) =", "a": "MTU="}, {"q": "Kiek sveikųjų skaičių yra tarp −3 ir 4?", "a": "Ng=="}, {"q": "Užrašyk didžiausią neigiamą sveikąjį skaičių.", "a": "4oiSMQ=="}, {"q": "Taškas M koordinatė −9. Taškas K nutolęs 11 vienetinių atkarpų į dešinę nuo M. Kokia taško K koordinatė?", "a": "Mg=="}, {"q": "Kokia koordinatė taško, nutolusio 5 vienetinių atkarpų į kairę nuo atskaitos taško O(0)?", "a": "4oiSNQ=="}, {"q": "Kam lygus skaičiaus −1,6 modulis?", "a": "MSw2"}, {"q": "Kuris skaičius didesnis: −7 ar −3? Užrašyk jį.", "a": "4oiSMw=="}, {"q": "Užrašyk skaičių, simetrišką skaičiui −6 taško O(0) atžvilgiu (t. y. jam priešingą).", "a": "Ng=="}]}, {"id": 4, "mc": [{"q": "Koks skaičius yra priešingas skaičiui 6?", "options": ["−6", "6", "0", "1 : 6"], "correct": 0}, {"q": "Kam lygus skaičiaus modulis |−8|?", "options": ["−8", "8", "0", "16"], "correct": 1}, {"q": "Kuris iš skaičių −2, −9, −5, −11 yra didžiausias?", "options": ["−2", "−9", "−5", "−11"], "correct": 0}, {"q": "Apskaičiuok: −(−7) =", "options": ["−7", "7", "0", "14"], "correct": 1}, {"q": "Kuriame koordinačių plokštumos ketvirtyje yra taškas (5; −1)?", "options": ["I", "II", "III", "IV"], "correct": 3}, {"q": "Kiek sveikųjų skaičių yra tarp −4 ir 1?", "options": ["4", "5", "3", "6"], "correct": 0}, {"q": "Koks yra mažiausias natūralusis skaičius?", "options": ["0", "1", "−1", "2"], "correct": 1}, {"q": "Kurioms skaičių aibėms priklauso skaičius 12?", "options": ["N, Z ir Q (visoms)", "Z ir Q", "tik Q", "tik N"], "correct": 0}, {"q": "Kuris iš skaičių −9 ir −2 yra didesnis?", "options": ["−9", "−2", "abu lygūs", "0"], "correct": 1}, {"q": "Kurioje vietoje yra taškas su koordinatėmis (0; 6)?", "options": ["OX ašyje", "OY ašyje", "I ketvirtyje", "III ketvirtyje"], "correct": 1}], "open": [{"q": "Apskaičiuok modulį: |−17| =", "a": "MTc="}, {"q": "Užrašyk skaičių, priešingą skaičiui −4.", "a": "NA=="}, {"q": "Apskaičiuok: −(−9) =", "a": "OQ=="}, {"q": "Kiek sveikųjų skaičių yra tarp −2 ir 5?", "a": "Ng=="}, {"q": "Užrašyk mažiausią natūralųjį skaičių.", "a": "MQ=="}, {"q": "Taškas M koordinatė −6. Taškas K nutolęs 9 vienetinių atkarpų į dešinę nuo M. Kokia taško K koordinatė?", "a": "Mw=="}, {"q": "Kokia koordinatė taško, nutolusio 8 vienetinių atkarpų į kairę nuo atskaitos taško O(0)?", "a": "4oiSOA=="}, {"q": "Kam lygus skaičiaus −4,1 modulis?", "a": "NCwx"}, {"q": "Kuris skaičius didesnis: −9 ar −2? Užrašyk jį.", "a": "4oiSMg=="}, {"q": "Užrašyk skaičių, simetrišką skaičiui −5 taško O(0) atžvilgiu (t. y. jam priešingą).", "a": "NQ=="}]}]};
+const CFG = {"title": "Skaičių palyginimas", "dalykas": "Matematika", "sheet_id": "1CV52CdRyJDP3GMEnP_gXsnn5Y0N7BwGOWsAsiDksNl0", "trukme_min": 0, "grading": {"mc_points": 1, "open_points": 2, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Skaičius lygini labai tiksliai."], [65, "Gerai. Peržiūrėk, kur suklydai lyginant neigiamus skaičius."], [45, "Patenkinamai — verta pakartoti temą apie neigiamų skaičių palyginimą."], [0, "Reikia pakartoti temą ir pasitreniruoti su skaičių tiese."]]}, "variants": [{"id": 1, "mc": [{"q": "Koks ženklas tinka tarp skaičių -6 ir -9?", "options": ["-6 > -9", "-6 < -9", "-6 = -9", "negalima palyginti"], "correct": 0}, {"q": "Koks ženklas tinka tarp skaičių 5,2 ir -7?", "options": ["5,2 < -7", "5,2 > -7", "5,2 = -7", "negalima palyginti"], "correct": 1}, {"q": "Koks ženklas tinka tarp skaičių -3,1 ir -2,4?", "options": ["-3,1 > -2,4", "-3,1 = -2,4", "-3,1 < -2,4", "negalima palyginti"], "correct": 2}, {"q": "Koks ženklas tinka tarp skaičių -0,6 ir -0,5?", "options": ["-0,6 > -0,5", "-0,6 = -0,5", "negalima palyginti", "-0,6 < -0,5"], "correct": 3}, {"q": "Kuris iš skaičių -8, 3, -1,5, 0 yra didžiausias?", "options": ["-8", "3", "-1,5", "0"], "correct": 1}, {"q": "Kuris iš skaičių -8, 3, -1,5, 0 yra mažiausias?", "options": ["3", "-1,5", "-8", "0"], "correct": 2}, {"q": "Kuri skaičių eilė surašyta DIDĖJIMO tvarka?", "options": ["2; 0; -1,1; -3; -9", "-9; 2; -3; 0; -1,1", "0; -1,1; 2; -3; -9", "-9; -3; -1,1; 0; 2"], "correct": 3}, {"q": "Kuri skaičių eilė surašyta MAŽĖJIMO tvarka?", "options": ["2; 0; -1,1; -3; -9", "-9; -3; -1,1; 0; 2", "-9; 2; -3; 0; -1,1", "-9; -3; 2; -1,1; 0"], "correct": 0}, {"q": "Koks ženklas tinka tarp skaičių 0 ir -0,01?", "options": ["0 < -0,01", "0 > -0,01", "0 = -0,01", "negalima palyginti"], "correct": 1}, {"q": "Palyginę modulius |-7| = 7 ir |-4,5| = 4,5, nustatykite, kuris skaičius DIDESNIS: -7 ar -4,5?", "options": ["-7", "abu lygūs", "-4,5", "negalima nustatyti"], "correct": 2}], "open": [{"q": "Kuris skaičius didesnis: -6 ar -9? (parašykite tą skaičių)", "a": "LTY="}, {"q": "Kuris skaičius mažesnis: -3,1 ar -2,4? (parašykite tą skaičių)", "a": "LTMsMQ=="}, {"q": "Kuris modulis didesnis: |-7| ar |-4,5|? (parašykite skaitinę reikšmę)", "a": "Nw=="}, {"q": "Duoti skaičiai: -6, -3, -2, 0, 4, 1,5. Kiek iš jų yra DIDESNI už -2? (tik skaičių)", "a": "Mw=="}, {"q": "Duoti skaičiai: -6, -3, -2, 0, 4, 1,5. Kiek iš jų yra MAŽESNI už 1? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -7, 4, -2, 0, -9, 6, -1. Kiek iš jų yra NEIGIAMI? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -14, 6, -0,9, 21, -15. Parašykite DIDŽIAUSIĄ iš jų.", "a": "MjE="}, {"q": "Duoti skaičiai: -14, 6, -0,9, 21, -15. Parašykite MAŽIAUSIĄ iš jų.", "a": "LTE1"}, {"q": "Kuris skaičius didesnis: -12 ar -15? (parašykite tą skaičių)", "a": "LTEy"}, {"q": "Koks didžiausias SVEIKASIS skaičius, tenkinantis -4 < x < 2? (tik skaičių)", "a": "MQ=="}]}, {"id": 2, "mc": [{"q": "Koks ženklas tinka tarp skaičių -8 ir -13?", "options": ["-8 < -13", "-8 > -13", "-8 = -13", "negalima palyginti"], "correct": 1}, {"q": "Koks ženklas tinka tarp skaičių 6,3 ir -9?", "options": ["6,3 < -9", "6,3 = -9", "6,3 > -9", "negalima palyginti"], "correct": 2}, {"q": "Koks ženklas tinka tarp skaičių -4,2 ir -3,5?", "options": ["-4,2 > -3,5", "-4,2 = -3,5", "negalima palyginti", "-4,2 < -3,5"], "correct": 3}, {"q": "Koks ženklas tinka tarp skaičių -0,8 ir -0,75?", "options": ["-0,8 < -0,75", "-0,8 > -0,75", "-0,8 = -0,75", "negalima palyginti"], "correct": 0}, {"q": "Kuris iš skaičių -6, 5, -2,5, 0 yra didžiausias?", "options": ["-6", "-2,5", "5", "0"], "correct": 2}, {"q": "Kuris iš skaičių -6, 5, -2,5, 0 yra mažiausias?", "options": ["5", "-2,5", "0", "-6"], "correct": 3}, {"q": "Kuri skaičių eilė surašyta DIDĖJIMO tvarka?", "options": ["-7; -5; -1,3; 0; 4", "4; 0; -1,3; -5; -7", "-7; 4; -5; 0; -1,3", "0; -1,3; 4; -5; -7"], "correct": 0}, {"q": "Kuri skaičių eilė surašyta MAŽĖJIMO tvarka?", "options": ["-7; -5; -1,3; 0; 4", "4; 0; -1,3; -5; -7", "-7; 4; -5; 0; -1,3", "-7; -5; 4; -1,3; 0"], "correct": 1}, {"q": "Koks ženklas tinka tarp skaičių 0 ir -0,02?", "options": ["0 < -0,02", "0 = -0,02", "0 > -0,02", "negalima palyginti"], "correct": 2}, {"q": "Palyginę modulius |-9| = 9 ir |-5,2| = 5,2, nustatykite, kuris skaičius DIDESNIS: -9 ar -5,2?", "options": ["-9", "abu lygūs", "negalima nustatyti", "-5,2"], "correct": 3}], "open": [{"q": "Kuris skaičius didesnis: -8 ar -13? (parašykite tą skaičių)", "a": "LTg="}, {"q": "Kuris skaičius mažesnis: -4,2 ar -3,5? (parašykite tą skaičių)", "a": "LTQsMg=="}, {"q": "Kuris modulis didesnis: |-9| ar |-5,2|? (parašykite skaitinę reikšmę)", "a": "OQ=="}, {"q": "Duoti skaičiai: -7, -4, -3, 1, 5, 2,5. Kiek iš jų yra DIDESNI už -3? (tik skaičių)", "a": "Mw=="}, {"q": "Duoti skaičiai: -7, -4, -3, 1, 5, 2,5. Kiek iš jų yra MAŽESNI už 2? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -8, 3, -4, 0, -11, 7, -2. Kiek iš jų yra NEIGIAMI? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -16, 8, -1,1, 23, -17. Parašykite DIDŽIAUSIĄ iš jų.", "a": "MjM="}, {"q": "Duoti skaičiai: -16, 8, -1,1, 23, -17. Parašykite MAŽIAUSIĄ iš jų.", "a": "LTE3"}, {"q": "Kuris skaičius didesnis: -14 ar -17? (parašykite tą skaičių)", "a": "LTE0"}, {"q": "Koks didžiausias SVEIKASIS skaičius, tenkinantis -5 < x < 3? (tik skaičių)", "a": "Mg=="}]}, {"id": 3, "mc": [{"q": "Koks ženklas tinka tarp skaičių -5 ir -12?", "options": ["-5 < -12", "-5 = -12", "-5 > -12", "negalima palyginti"], "correct": 2}, {"q": "Koks ženklas tinka tarp skaičių 4,1 ir -8?", "options": ["4,1 < -8", "4,1 = -8", "negalima palyginti", "4,1 > -8"], "correct": 3}, {"q": "Koks ženklas tinka tarp skaičių -5,3 ir -4,6?", "options": ["-5,3 < -4,6", "-5,3 > -4,6", "-5,3 = -4,6", "negalima palyginti"], "correct": 0}, {"q": "Koks ženklas tinka tarp skaičių -0,4 ir -0,3?", "options": ["-0,4 > -0,3", "-0,4 < -0,3", "-0,4 = -0,3", "negalima palyginti"], "correct": 1}, {"q": "Kuris iš skaičių -9, 2, -3,5, 0 yra didžiausias?", "options": ["-9", "-3,5", "0", "2"], "correct": 3}, {"q": "Kuris iš skaičių -9, 2, -3,5, 0 yra mažiausias?", "options": ["-9", "2", "-3,5", "0"], "correct": 0}, {"q": "Kuri skaičių eilė surašyta DIDĖJIMO tvarka?", "options": ["5; 0; -1,6; -2; -8", "-8; -2; -1,6; 0; 5", "-8; 5; -2; 0; -1,6", "0; -1,6; -2; 5; -8"], "correct": 1}, {"q": "Kuri skaičių eilė surašyta MAŽĖJIMO tvarka?", "options": ["-8; -2; -1,6; 0; 5", "-8; 5; -2; 0; -1,6", "5; 0; -1,6; -2; -8", "-8; 5; -2; -1,6; 0"], "correct": 2}, {"q": "Koks ženklas tinka tarp skaičių 0 ir -0,05?", "options": ["0 < -0,05", "0 = -0,05", "negalima palyginti", "0 > -0,05"], "correct": 3}, {"q": "Palyginę modulius |-6| = 6 ir |-3,8| = 3,8, nustatykite, kuris skaičius DIDESNIS: -6 ar -3,8?", "options": ["-3,8", "-6", "abu lygūs", "negalima nustatyti"], "correct": 0}], "open": [{"q": "Kuris skaičius didesnis: -5 ar -12? (parašykite tą skaičių)", "a": "LTU="}, {"q": "Kuris skaičius mažesnis: -5,3 ar -4,6? (parašykite tą skaičių)", "a": "LTUsMw=="}, {"q": "Kuris modulis didesnis: |-6| ar |-3,8|? (parašykite skaitinę reikšmę)", "a": "Ng=="}, {"q": "Duoti skaičiai: -8, -5, -4, -1, 3, 3,5. Kiek iš jų yra DIDESNI už -4? (tik skaičių)", "a": "Mw=="}, {"q": "Duoti skaičiai: -8, -5, -4, -1, 3, 3,5. Kiek iš jų yra MAŽESNI už 0? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -6, 5, -3, 0, -10, 8, -4. Kiek iš jų yra NEIGIAMI? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -13, 7, -1,2, 19, -14. Parašykite DIDŽIAUSIĄ iš jų.", "a": "MTk="}, {"q": "Duoti skaičiai: -13, 7, -1,2, 19, -14. Parašykite MAŽIAUSIĄ iš jų.", "a": "LTE0"}, {"q": "Kuris skaičius didesnis: -11 ar -16? (parašykite tą skaičių)", "a": "LTEx"}, {"q": "Koks didžiausias SVEIKASIS skaičius, tenkinantis -6 < x < 1? (tik skaičių)", "a": "MA=="}]}, {"id": 4, "mc": [{"q": "Koks ženklas tinka tarp skaičių -7 ir -14?", "options": ["-7 < -14", "-7 = -14", "negalima palyginti", "-7 > -14"], "correct": 3}, {"q": "Koks ženklas tinka tarp skaičių 3,8 ir -5?", "options": ["3,8 > -5", "3,8 < -5", "3,8 = -5", "negalima palyginti"], "correct": 0}, {"q": "Koks ženklas tinka tarp skaičių -2,7 ir -1,9?", "options": ["-2,7 > -1,9", "-2,7 < -1,9", "-2,7 = -1,9", "negalima palyginti"], "correct": 1}, {"q": "Koks ženklas tinka tarp skaičių -5/6 ir -2/3?", "options": ["-5/6 > -2/3", "-5/6 = -2/3", "-5/6 < -2/3", "negalima palyginti"], "correct": 2}, {"q": "Kuris iš skaičių -7, 4, -4,5, 0 yra didžiausias?", "options": ["4", "-7", "-4,5", "0"], "correct": 0}, {"q": "Kuris iš skaičių -7, 4, -4,5, 0 yra mažiausias?", "options": ["4", "-7", "-4,5", "0"], "correct": 1}, {"q": "Kuri skaičių eilė surašyta DIDĖJIMO tvarka?", "options": ["3; 0; -1,7; -4; -10", "-10; 3; -4; 0; -1,7", "-10; -4; -1,7; 0; 3", "0; -1,7; 3; -4; -10"], "correct": 2}, {"q": "Kuri skaičių eilė surašyta MAŽĖJIMO tvarka?", "options": ["-10; -4; -1,7; 0; 3", "-10; 3; -4; 0; -1,7", "-10; -4; 3; -1,7; 0", "3; 0; -1,7; -4; -10"], "correct": 3}, {"q": "Koks ženklas tinka tarp skaičių 0 ir -0,03?", "options": ["0 > -0,03", "0 < -0,03", "0 = -0,03", "negalima palyginti"], "correct": 0}, {"q": "Palyginę modulius |-8| = 8 ir |-6,1| = 6,1, nustatykite, kuris skaičius DIDESNIS: -8 ar -6,1?", "options": ["-8", "-6,1", "abu lygūs", "negalima nustatyti"], "correct": 1}], "open": [{"q": "Kuris skaičius didesnis: -7 ar -14? (parašykite tą skaičių)", "a": "LTc="}, {"q": "Kuris skaičius mažesnis: -2,7 ar -1,9? (parašykite tą skaičių)", "a": "LTIsNw=="}, {"q": "Kuris modulis didesnis: |-8| ar |-6,1|? (parašykite skaitinę reikšmę)", "a": "OA=="}, {"q": "Duoti skaičiai: -5, -2, -1, 2, 6, 4,5. Kiek iš jų yra DIDESNI už -1? (tik skaičių)", "a": "Mw=="}, {"q": "Duoti skaičiai: -5, -2, -1, 2, 6, 4,5. Kiek iš jų yra MAŽESNI už 3? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -5, 6, -1, 0, -12, 9, -3. Kiek iš jų yra NEIGIAMI? (tik skaičių)", "a": "NA=="}, {"q": "Duoti skaičiai: -18, 9, -1,3, 25, -19. Parašykite DIDŽIAUSIĄ iš jų.", "a": "MjU="}, {"q": "Duoti skaičiai: -18, 9, -1,3, 25, -19. Parašykite MAŽIAUSIĄ iš jų.", "a": "LTE5"}, {"q": "Kuris skaičius didesnis: -13 ar -18? (parašykite tą skaičių)", "a": "LTEz"}, {"q": "Koks didžiausias SVEIKASIS skaičius, tenkinantis -3 < x < 5? (tik skaičių)", "a": "NA=="}]}]};
 // Google Sheets „web app" nuoroda (Apps Script). Tuščia arba nepakeista = automatinis
 // siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
@@ -251,6 +256,15 @@ function awaySeconds(){
 function val(id){return document.getElementById(id).value.trim();}
 
 function renderTest(){
+  const openCard = document.getElementById('openBlock').closest('.card');
+  const mcLabel = document.querySelector('#testScreen .sec-label');
+  if(!variant.open.length){
+    openCard.style.display = 'none';
+    if(mcLabel) mcLabel.textContent = 'Pasirink teisingą atsakymą';
+  } else {
+    openCard.style.display = '';
+    if(mcLabel) mcLabel.textContent = 'I dalis · Pasirink teisingą atsakymą (A–D)';
+  }
   document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
     <div class="q">
       <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
@@ -258,7 +272,7 @@ function renderTest(){
         <label class="opt"><input type="radio" name="mc${i}" value="${j}">
         <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
     </div>`).join('');
-  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+  const KEYS = ['α','β','γ','δ','a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
   document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
     <div class="q">
       <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
@@ -273,7 +287,39 @@ function renderTest(){
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 // Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
 // markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+// Jei klausimo tekste jau yra tikras HTML brėžinys (pvz. SVG koordinačių grafikas geometrijos/
+// funkcijų uždaviniuose), nieko nekeičiam — esc() sugadintų žymes (žr. matematikos-notacija fmt-math.js).
+// Saugūs inline žymėjimo tagai (paryškinimui klausimo tekste) — atstatomi po esc() iš fiksuoto
+// sąrašo (be atributų, be dinaminio turinio), tad negalima jais įpinti savavališko HTML.
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
+function fmtMath(s){
+  s = s + '';
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
+  // {fr:SKAITIKLIS|VARDIKLIS} -> aiškus laiptuotos trupmenos žymeklis. Naudok šitą, kai
+  // skaitiklis/vardiklis NĖRA grynas skaitmuo (pvz. "1/cos²α", "sin2α/sinα",
+  // "(tanA+tanB)/(1−tanA·tanB)", "√2/2") — patikimiau nei spėlioti iš skliaustų/skaitmenų
+  // (žr. online-test-graikiskos-raides-ir-sqrt-trupmena.md apie ankstesnį spėjimo bug'ą).
+  out = out.replace(/\{fr:([^|{}]*)\|([^|{}]*)\}/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // Skaitmuo/skaitmuo ARBA (N)π/skaitmuo (pvz. "3/4", "π/2", "3π/2") -> laiptuota trupmena.
+  out = out.replace(/(\d*π|\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline (žr.
+  // matematikos-notacija/notacija.css .sqrt). Šaknys NĖRA auto-aptinkamos regex'u (per daug
+  // variantų, ką reiškia "turinys po šaknimi") — generatoriuje rašyk šiuos žymeklius tiesiogiai
+  // vietoj plokščio "√(...)" teksto.
+  // Kilpa iki nekintamo taško — įdėtosios šaknys (žymeklis šalia žymeklio, pvz. {sqrt:(16 − {sqrt:13})²})
+  // reikalauja kelių praėjimų: [^{}]* negali "peršokti" vidinio žymeklio riestinio skliausto per
+  // vieną .replace() kvietimą, tad be kilpos vidinė šaknis konvertuojama, o išorinė lieka neišspręsta.
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
@@ -281,11 +327,33 @@ function b64utf8(s){
     c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
   catch(e){ return ''; }
 }
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+// Grynas skaičius (sveikas, dešimtainis ar trupmena a/b) -> sutraukta trupmena „n/d" (kad 1/2≠1/6, o 3/6=1/2=0.5)
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
 // Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
 function normalize(s){
-  s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=(s||'').trim();
+  // Nukerpame „x=", „y=" prefiksą — imame tik dešinę pusę (pvz. „x=5" → „5")
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  s=s.replace(/°/g,''); // laipsnio ženklas nesvarbus lyginant (74 == 74°)
+  // Grynas skaičius/trupmena -> kanoninė sutraukta forma (vardiklis NEnumetamas)
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
   if(!/^[+-]/.test(s)) s='+'+s;
   const tokens=s.match(/[+-][^+-]+/g)||[];
   const terms=tokens.map(t=>{
@@ -293,8 +361,8 @@ function normalize(s){
     const mNum=rest.match(/^(\d*\.?\d*)/);
     let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
     let vars=rest.slice(mNum?mNum[1].length:0);
-    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
-    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    vars=vars.replace(/([a-zα-ω])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-zα-ω]/.test(ch)).sort().join('');
     return {coef:sign*coef,vars};
   }).filter(t=>t.coef!==0||t.vars!=='');
   const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
@@ -463,8 +531,8 @@ function showResult(r){
     <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
     ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
     <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
-    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
-    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>${variant.open.length ? 'I dalis (A–D) teisingai' : 'Teisingai atsakyta'}</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    ${ variant.open.length ? `<div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>` : '' }
     <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
     <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
     <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>

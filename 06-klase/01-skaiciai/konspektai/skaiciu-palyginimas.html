@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skaičių palyginimas — 6 klasė</title>
+<style>
+  :root{
+    --tema:#1e5fa8;      /* mėlyna — temos */
+    --tema-sv:#e8f1fb;
+    --taisykle:#0a7d52;  /* žalia — taisyklė */
+    --taisykle-sv:#e6f6ee;
+    --pvz:#b25c00;       /* oranžinė — pavyzdys */
+    --pvz-sv:#fdf0e2;
+    --demesio:#c62828;   /* raudona — dėmesio */
+    --demesio-sv:#fdecec;
+    --uzd:#6a1b9a;       /* violetinė — užduotis */
+    --pilka:#5b6472;
+    --linija:#d8dee6;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:#1c2430; line-height:1.5; margin:0;
+    background:#f4f6f9;
+  }
+  .lapas{
+    max-width:820px; margin:24px auto; background:#fff;
+    padding:32px 40px 48px; border-radius:10px;
+    box-shadow:0 2px 14px rgba(0,0,0,.08);
+  }
+  h1{
+    font-size:26px; margin:0 0 4px; color:var(--tema);
+    border-bottom:3px solid var(--tema); padding-bottom:10px;
+  }
+  .klase{font-size:14px; color:var(--pilka); margin:0 0 22px; font-weight:600}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  .turinys{background:var(--tema-sv); border-radius:8px; padding:14px 20px; margin-bottom:28px;}
+  .turinys h2{font-size:15px; margin:0 0 8px; color:var(--tema); text-transform:uppercase; letter-spacing:.4px}
+  .turinys ol{margin:0; padding-left:22px}
+  .turinys li{margin:3px 0}
+  .turinys a{color:#1c2430; text-decoration:none}
+  .turinys a:hover{text-decoration:underline}
+  .potema{margin:0 0 30px; border:1px solid var(--linija); border-radius:8px; overflow:hidden}
+  .potema>h2{
+    font-size:18px; margin:0; padding:12px 18px; background:var(--tema);
+    color:#fff; display:flex; gap:10px; align-items:baseline;
+  }
+  .potema>h2 .nr{font-size:14px; opacity:.85; font-weight:600}
+  .vidus{padding:16px 18px 18px}
+  .konsp{
+    background:var(--taisykle-sv); border-left:4px solid var(--taisykle);
+    border-radius:4px; padding:12px 16px; margin:0 0 14px;
+  }
+  .konsp p{margin:0 0 8px}
+  .konsp p:last-child{margin-bottom:0}
+  .zenk{font-weight:700; color:var(--taisykle)}
+  .pvz{
+    background:var(--pvz-sv); border-left:4px solid var(--pvz);
+    border-radius:4px; padding:10px 16px; margin:10px 0 0; font-size:15px;
+  }
+  .pvz b{color:var(--pvz)}
+  .demesio{
+    background:var(--demesio-sv); border-left:4px solid var(--demesio);
+    border-radius:4px; padding:10px 16px; margin:12px 0 0; font-size:14.5px;
+  }
+  .demesio b{color:var(--demesio)}
+  .term-a{color:var(--tema); font-weight:700}
+  .term-b{color:var(--demesio); font-weight:700}
+  .formule{
+    text-align:center; font-size:20px; margin:12px 0; padding:10px;
+    background:#fff; border:1px dashed var(--taisykle); border-radius:6px;
+  }
+  table.kort{width:100%; border-collapse:collapse; margin:12px 0 0; font-size:15px}
+  table.kort th, table.kort td{border:1px solid var(--linija); padding:8px 10px; text-align:center}
+  table.kort th{background:var(--tema-sv); color:var(--tema); font-weight:700}
+  .klaida{color:var(--demesio); text-decoration:line-through}
+  .gerai{color:var(--taisykle); font-weight:700}
+  footer{margin-top:28px; padding-top:14px; border-top:1px solid var(--linija);
+    font-size:12px; color:var(--pilka); text-align:center}
+  @page{ size:A4 portrait; margin:14mm }
+  @media print{
+    body{background:#fff}
+    .lapas{box-shadow:none; margin:0; max-width:none; border-radius:0; padding:0}
+    .potema{break-inside:avoid}
+    a{color:#1c2430 !important}
+  }
+</style>
+</head>
+<body>
+<div class="lapas">
+
+  <h1>Skaičių palyginimas</h1>
+  <p class="klase">Matematika · 6 klasė · 1.1.3 tema · sveikieji ir dešimtainiai skaičiai</p>
+
+  <nav class="turinys">
+    <h2>Ką išmoksi šioje pamokoje</h2>
+    <ol>
+      <li><a href="#t1">Skaičiai skaičių tiesėje</a></li>
+      <li><a href="#t2">Teigiamas ir neigiamas skaičius</a></li>
+      <li><a href="#t3">Dviejų neigiamų skaičių palyginimas</a></li>
+      <li><a href="#t4">Ženklai ⩾ ir ⩽</a></li>
+      <li><a href="#t5">Skaičių surašymas tvarka</a></li>
+      <li><a href="#t6">Dažniausios klaidos</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="potema" id="t1">
+    <h2><span class="nr">1</span> Skaičiai skaičių tiesėje</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Skaičių tiesėje kiekvieną skaičių atitinka vienas taškas.</span> Kuo skaičius <b>didesnis</b>, tuo jo taškas skaičių tiesėje yra <b>labiau dešinėje</b>. Kuo skaičius <b>mažesnis</b>, tuo jo taškas yra <b>labiau kairėje</b>.</p>
+        <p>Todėl lyginant du skaičius pakanka pažiūrėti, kuris iš jų skaičių tiesėje stovi dešiniau — tas ir yra didesnis.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Skaičius <span class="math">4</span> skaičių tiesėje yra dešiniau už <span class="math">−3</span>, todėl <span class="math">4 &gt; −3</span>. Skaičius <span class="math">−7</span> yra kairiau už <span class="math">−2</span>, todėl <span class="math">−7 &lt; −2</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="potema" id="t2">
+    <h2><span class="nr">2</span> Teigiamas ir neigiamas skaičius</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Bet kuris teigiamas skaičius yra didesnis už nulį</span> (<span class="math">a &gt; 0</span>), o <span class="zenk">bet kuris neigiamas skaičius yra mažesnis už nulį</span> (<span class="math">a &lt; 0</span>).</p>
+        <div class="formule math">teigiamas &gt; 0 &gt; neigiamas</div>
+        <p>Iš čia išplaukia svarbi taisyklė: <b>bet koks teigiamas skaičius visada didesnis už bet kokį neigiamą skaičių</b>, kad ir kokie dideli jų moduliai būtų.</p>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">3,7 &gt; −8</span> (nes <span class="math">3,7</span> teigiamas, o <span class="math">−8</span> neigiamas)<br>
+        <span class="math">6 &gt; −9</span> (nesvarbu, kad <span class="math">9 &gt; 6</span> — ženklas svarbiau)<br>
+        <span class="math">0 &gt; −0,2</span> (nulis visada didesnis už bet kurį neigiamą skaičių)</p>
+        <p class="demesio"><b>Dėmesio.</b> Lyginant teigiamą su neigiamu <b>niekada nežiūrime</b>, kuris skaičius „didesnis be ženklo“. Teigiamas visada laimi, net jei jo skaitmuo mažesnis: <span class="math">1 &gt; −100</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="potema" id="t3">
+    <h2><span class="nr">3</span> Dviejų neigiamų skaičių palyginimas</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Kai lyginame du neigiamus skaičius, taisyklė apsiverčia.</span> Iš dviejų neigiamų skaičių <b>didesnis</b> yra tas, kurio <b>modulis (atstumas iki nulio) mažesnis</b>.</p>
+        <div class="formule math">jei |a| &lt; |b|, tai −a &gt; −b</div>
+        <p>Kitaip tariant: kuo neigiamas skaičius „toliau“ nuo nulio (didesnis modulis), tuo jis <b>mažesnis</b>.</p>
+        <p class="pvz"><b>Pavyzdys.</b> Palyginkime <span class="math">−5</span> ir <span class="math">−9</span>.<br>
+        <span class="math">|−5| = 5</span>, &nbsp; <span class="math">|−9| = 9</span>. &nbsp; Kadangi <span class="math">5 &lt; 9</span>, tai <span class="math gerai">−5 &gt; −9</span>.</p>
+        <p class="pvz"><b>Antras pavyzdys.</b> Palyginkime <span class="math">−3,5</span> ir <span class="math">−3,2</span>.<br>
+        <span class="math">|−3,5| = 3,5</span>, &nbsp; <span class="math">|−3,2| = 3,2</span>. &nbsp; Kadangi <span class="math">3,5 &gt; 3,2</span>, tai <span class="math gerai">−3,5 &lt; −3,2</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="potema" id="t4">
+    <h2><span class="nr">4</span> Ženklai ⩾ ir ⩽</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p>Šalia jau žinomų ženklų <span class="math">&gt;</span> („daugiau“) ir <span class="math">&lt;</span> („mažiau“) naudojami ir sudėtiniai ženklai:</p>
+        <table class="kort">
+          <tr><th>Ženklas</th><th>Skaitome</th><th>Reiškia</th></tr>
+          <tr><td class="math">a ⩾ b</td><td>„a daugiau arba lygu b“</td><td class="math">a &gt; b <b>arba</b> a = b</td></tr>
+          <tr><td class="math">a ⩽ b</td><td>„a mažiau arba lygu b“</td><td class="math">a &lt; b <b>arba</b> a = b</td></tr>
+        </table>
+        <p class="pvz"><b>Pavyzdžiai.</b><br>
+        <span class="math">x ⩾ −4</span> reiškia, kad <span class="math">x</span> gali būti <span class="math">−4</span> arba bet koks skaičius, didesnis už <span class="math">−4</span>.<br>
+        <span class="math">y ⩽ 6</span> reiškia, kad <span class="math">y</span> gali būti <span class="math">6</span> arba bet koks skaičius, mažesnis už <span class="math">6</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="potema" id="t5">
+    <h2><span class="nr">5</span> Skaičių surašymas tvarka</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <p><span class="zenk">Rikiuojant kelis skaičius didėjimo arba mažėjimo tvarka</span>, patogiausia:</p>
+        <p><b>1)</b> atskirti teigiamus ir neigiamus skaičius (nulis — riba tarp jų);<br>
+        <b>2)</b> teigiamus surikiuoti įprastai (didesnis skaitmuo — didesnis skaičius);<br>
+        <b>3)</b> neigiamus surikiuoti <b>pagal modulį atvirkščiai</b> (didesnis modulis — mažesnis skaičius).</p>
+        <p class="pvz"><b>Pavyzdys.</b> Surašykime didėjimo tvarka skaičius <span class="math">−8; 3; −4; 0</span>.<br>
+        Neigiami pagal modulį: <span class="math">|−4| = 4 &lt; |−8| = 8</span>, todėl <span class="math">−4 &gt; −8</span>.<br>
+        Didėjimo tvarka: <span class="math gerai">−8; −4; 0; 3</span>.</p>
+        <p class="pvz"><b>Pavyzdys su dešimtainiais.</b> Surašykime didėjimo tvarka <span class="math">−3,5; 2; −3; 0; −1,2</span>.<br>
+        Neigiamų moduliai: <span class="math">3,5 &gt; 3 &gt; 1,2</span>, todėl <span class="math">−3,5 &lt; −3 &lt; −1,2</span>.<br>
+        Didėjimo tvarka: <span class="math gerai">−3,5; −3; −1,2; 0; 2</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="potema" id="t6">
+    <h2><span class="nr">6</span> Dažniausios klaidos</h2>
+    <div class="vidus">
+      <div class="konsp">
+        <table class="kort">
+          <tr><th>Klaida</th><th>Teisingai</th></tr>
+          <tr><td class="math"><span class="klaida">−5 &lt; −9, nes 5 &lt; 9</span></td><td class="math"><span class="gerai">−5 &gt; −9</span> (moduliai: 5 &lt; 9, todėl mažesnio modulio skaičius didesnis)</td></tr>
+          <tr><td class="math"><span class="klaida">−15 &gt; −6, nes 15 &gt; 6</span></td><td class="math"><span class="gerai">−15 &lt; −6</span> (didesnis modulis — mažesnis skaičius)</td></tr>
+          <tr><td class="math"><span class="klaida">−20 &gt; 5, nes 20 &gt; 5</span></td><td class="math"><span class="gerai">5 &gt; −20</span> (teigiamas visada didesnis už neigiamą)</td></tr>
+          <tr><td class="math"><span class="klaida">didėjimo tvarka: −1; −2; −3</span></td><td class="math"><span class="gerai">−3; −2; −1</span> (didėjimo tvarka — nuo mažiausio)</td></tr>
+        </table>
+        <p class="demesio" style="margin-top:14px"><b>Auksinė taisyklė.</b> Lygindamas du neigiamus skaičius, visada <b>pirmiausia apskaičiuok jų modulius</b>, o tada palygink juos <b>atvirkščiai</b>: didesnis modulis reiškia mažesnį skaičių.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Mokytoja Violeta · 6 klasės matematikos kursas · tema „Skaičių palyginimas“ (1.1.3)
+  </footer>
+
+</div>
+</body>
+</html>

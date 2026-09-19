@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kortelės: Skaičiai (6 klasė)</title>
+<title>Kortelės: Koordinačių plokštuma (1.2.2)</title>
 <style>
   :root{
     --bg:#f4f6f9; --card:#ffffff; --ink:#1f2937; --accent:#1f4e79;
@@ -26,24 +26,24 @@
   .inner{position:absolute; inset:0; transition:transform .5s; transform-style:preserve-3d}
   .card.flipped .inner{transform:rotateY(180deg)}
   .face{position:absolute; inset:0; backface-visibility:hidden; background:var(--card); border-radius:22px;
-    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center}
+    box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 26px}
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
-  .expr{font-size:clamp(22px,5vw,40px); font-weight:700; font-family:"Cambria Math",Cambria,Georgia,serif}
+  .expr{font-size:clamp(16px,2.9vw,22px); font-weight:700; text-align:center; line-height:1.4}
   .back{transform:rotateY(180deg)}
-  .back .expr{color:var(--accent)}
+  .back .expr{color:var(--accent); font-size:clamp(24px,5.6vw,42px)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
   .controls{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
   button.ctrl{border:none; background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
     font-size:16px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); font-weight:600}
   button.ctrl:hover{background:#eef2f7}
   button.primary{background:var(--accent2); color:#fff}
-  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 20px; text-align:center; margin:10px 0}
-  .practice .q{font-size:clamp(20px,5vw,34px); font-weight:700; margin-bottom:8px; font-family:"Cambria Math",Cambria,Georgia,serif}
+  .practice .qbox{background:var(--card); border-radius:22px; box-shadow:var(--shadow); padding:34px 24px; text-align:center; margin:10px 0}
+  .practice .q{font-size:clamp(16px,2.8vw,22px); font-weight:700; margin-bottom:8px; line-height:1.4}
   .practice input{width:100%; max-width:360px; padding:14px 16px; font-size:22px; text-align:center;
     border:2px solid #cbd5e1; border-radius:12px; margin-top:14px; outline:none}
   .practice input:focus{border-color:var(--accent2)}
-  .feedback{min-height:34px; margin-top:14px; font-size:20px; font-weight:700}
+  .feedback{min-height:34px; margin-top:14px; font-size:19px; font-weight:700}
   .feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
   .score{text-align:center; color:var(--muted); margin-top:8px; font-size:15px}
   .keys{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
@@ -53,7 +53,7 @@
 </style>
 </head>
 <body>
-<header><h1>Skaičiai (6 klasė)</h1><p>Interaktyvios kortelės · 20 klausim. · priešingi, modulis, palyginimas, koordinatės</p></header>
+<header><h1>Koordinačių plokštuma</h1><p>Interaktyvios kortelės · 12 klausim. · 6 klasė · 1.2.2</p></header>
 <div class="tabs">
   <button class="tab active" id="tabCards">🃏 Kortelės</button>
   <button class="tab" id="tabPractice">✏️ Praktika</button>
@@ -80,13 +80,14 @@
     <div class="counter" id="pCounter"></div>
     <div class="qbox">
       <div class="q" id="pQuestion"></div>
-      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą</div>
-      <input id="pInput" type="text" autocomplete="off" placeholder="atsakymas"
+      <div style="color:var(--muted);font-size:15px">Įrašyk atsakymą (skaičių arba OX / OY)</div>
+      <input id="pInput" type="text" inputmode="text" autocomplete="off" placeholder="atsakymas"
              onkeydown="if(event.key==='Enter')checkAnswer()">
       <div class="keys">
-        <button onclick="ins('−')">−</button><button onclick="ins('0')">0</button>
         <button onclick="ins('1')">1</button><button onclick="ins('2')">2</button>
-        <button onclick="ins(',')">,</button><button onclick="bksp()">⌫</button>
+        <button onclick="ins('3')">3</button><button onclick="ins('4')">4</button>
+        <button onclick="ins('5')">5</button><button onclick="ins('6')">6</button>
+        <button onclick="ins('-')">−</button><button onclick="bksp()">⌫</button>
       </div>
       <div class="feedback" id="pFeedback"></div>
     </div>
@@ -99,29 +100,21 @@
     <div class="score" id="pScore"></div>
   </section>
 </div>
-<footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
+<footer>Mokytoja Violeta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
 const CARDS = [
-  ["Užrašyk skaičių, priešingą skaičiui −6", "6"],
-  ["Užrašyk skaičių, priešingą skaičiui 8", "−8"],
-  ["−(−9) =", "9"],
-  ["−(−15) =", "15"],
-  ["Užrašyk skaičių, priešingą skaičiui −3,5", "3,5"],
-  ["|−7| =", "7"],
-  ["|12| =", "12"],
-  ["|−2,5| =", "2,5"],
-  ["|0| =", "0"],
-  ["|−20| =", "20"],
-  ["Kuris didesnis: −6 ar −1?", "−1"],
-  ["Kuris didesnis: −8 ar −2?", "−2"],
-  ["Kuris mažesnis: −4 ar 3?", "−4"],
-  ["Kiek sveikųjų skaičių yra tarp −2 ir 3?", "4"],
-  ["Kiek sveikųjų skaičių yra tarp −3 ir 2?", "4"],
-  ["Užrašyk didžiausią neigiamą sveikąjį skaičių", "−1"],
-  ["Užrašyk mažiausią natūralųjį skaičių", "1"],
-  ["Taškas M(−7). K nutolęs 9 vnt. į dešinę. K koordinatė?", "2"],
-  ["Kokia koordinatė taško, nutolusio 6 vnt. į kairę nuo O(0)?", "−6"],
-  ["Skaičius, simetriškas −4 taško O(0) atžvilgiu", "4"]
+  ["Taškas B yra 3 vnt. į kairę ir 2 vnt. aukštyn nuo O. Koks yra jo x (abscisė)?", "-3"],
+  ["Taškas B (tas pats: 3 vnt. į kairę, 2 vnt. aukštyn nuo O). Koks yra jo y (ordinatė)?", "2"],
+  ["Taškas K(-5; 3). Kuriam ketvirčiui (skaičius 1-4) jis priklauso?", "2"],
+  ["Taškas L(4; -2). Kuriam ketvirčiui (skaičius 1-4) jis priklauso?", "4"],
+  ["Taškas turi ordinatę y = 0. Ant kurios ašies jis yra? (įrašyk OX arba OY)", "OX"],
+  ["Taškas turi abscisę x = 0. Ant kurios ašies jis yra? (įrašyk OX arba OY)", "OY"],
+  ["Taškas P yra 5 vnt. į kairę ir 2 vnt. aukštyn nuo O. Koks yra jo x (abscisė)?", "-5"],
+  ["Taškas P (tas pats: 5 vnt. į kairę, 2 vnt. aukštyn). Koks yra jo y (ordinatė)?", "2"],
+  ["A(-2; 3), B(4; 3) — kraštinė AB lygiagreti OX ašiai. Koks jos ilgis?", "6"],
+  ["B(4; 3), C(4; -1) — kraštinė BC lygiagreti OY ašiai. Koks jos ilgis?", "4"],
+  ["Statusis trikampis, statieji AB = 6, BC = 4. Koks jo plotas?", "12"],
+  ["Taško abscisė lygi -9. Koks šios abscisės modulis?", "9"]
 ];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');

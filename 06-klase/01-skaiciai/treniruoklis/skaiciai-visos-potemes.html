@@ -36,6 +36,7 @@
   .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
     font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
   .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
+  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
   .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
   .ivestis label{font-size:18px; color:var(--pilka);}
   input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
@@ -66,6 +67,11 @@
   .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
   .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
   .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
 </style>
 </head>
 <body>
@@ -125,8 +131,18 @@ function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replac
 // 6 klasė · tema „1. Skaičiai" generatoriai kontrolinio treniruokliui.
 // Turinys pagal tos temos testą ir plakatus: priešingi skaičiai, modulis,
 // palyginimas, sveikieji tarp skaičių, koordinatė / poslinkis skaičių tiesėje,
-// koordinačių ketvirtis. Visi atsakymai — vienas skaičius.
+// koordinačių ketvirtis, skaičių aibės (N/Z/Q) ir atvirkštiniai skaičiai.
 // Pagalbininkai (randint, choice, nz, nf, pm) ateina iš šablono.
+
+// --- Trupmenų pagalbininkai (atvirkštinio skaičiaus generatoriui) ---
+function gcd6(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+// suprastina n/d, vardiklį palieka teigiamą, ženklą rodo kaip „−" prieš trupmeną
+function frText6(n,d){
+  let g=gcd6(n,d); n/=g; d/=g;
+  if(d<0){ n=-n; d=-d; }
+  const neg = n<0, an = Math.abs(n);
+  return d===1 ? (neg?'−':'')+an : (neg?'−':'')+an+'/'+d;
+}
 
 const GENERATORIAI = [
   { label:"Priešingas skaičius", gen(){
@@ -207,6 +223,66 @@ const GENERATORIAI = [
         `x ${x>0?'> 0 (dešinėje)':'< 0 (kairėje)'}, y ${y>0?'> 0 (viršuje)':'< 0 (apačioje)'} → ${rom} ketvirtis.`,
         `Atsakymas: ${k}`
       ]};
+  }},
+  { label:"Skaičių aibės", gen(){
+      const tipas = choice(['natūralusis','sveikasis','racionalusis']);
+      let disp, ans=tipas, why;
+      if(tipas==='natūralusis'){
+        const a = randint(1,60);
+        disp = nf(a);
+        why = [
+          `${disp} yra teigiamas sveikasis skaičius.`,
+          `Teigiamieji sveikieji skaičiai yra natūralieji, todėl ${disp} priklauso natūraliesiems (o kartu ir sveikiesiems, ir racionaliesiems, bet mažiausia tinkanti aibė — natūralieji).`
+        ];
+      } else if(tipas==='sveikasis'){
+        const a = choice([0, -randint(1,50)]);
+        disp = nf(a);
+        why = [
+          `${disp} yra sveikasis skaičius.`,
+          a===0
+            ? `Natūralieji skaičiai prasideda nuo 1, todėl 0 natūraliesiems nepriklauso.`
+            : `Neigiami skaičiai natūraliesiems nepriklauso (natūralieji — tik teigiami sveikieji).`,
+          `Mažiausia tinkanti aibė — sveikieji skaičiai.`
+        ];
+      } else {
+        if(Math.random()<0.5){
+          const d = randint(2,9); let n = randint(1,d-1); const g=gcd6(n,d); n/=g; const dd=d/g;
+          const neg = Math.random()<0.5;
+          disp = (neg?'−':'')+n+'/'+dd;
+        } else {
+          const whole = nz(-15,15), dd = randint(1,9);
+          disp = nf(whole + (whole<0 ? -dd/10 : dd/10));
+        }
+        why = [
+          `${disp} nėra sveikasis skaičius (jis trupmeninis), todėl nepriklauso nei natūraliesiems, nei sveikiesiems.`,
+          `Visos trupmenos ir dešimtainės trupmenos priklauso racionaliesiems skaičiams.`
+        ];
+      }
+      return { q:`Kuriai skaičių aibei priklauso skaičius ${disp}? Rašyk mažiausią tinkančią: natūralusis, sveikasis ar racionalusis.`,
+        ans, ansType:"text", ansAlt: ans==='natūralusis'?['n']:(ans==='sveikasis'?['z']:['q']), pre:"aibė =",
+        steps:[...why, `Atsakymas: ${ans}`] };
+  }},
+  { label:"Atvirkštinis skaičius", gen(){
+      if(Math.random()<0.5){
+        let a = nz(-12,12); while(a===1||a===-1) a=nz(-12,12);
+        const ans = 1/a, at = frText6(1,a);
+        return { q:`Koks skaičius yra atvirkštinis skaičiui ${nf(a)}?`, ans, ansText:at, pre:"atsakymas =", steps:[
+          `Du skaičiai vadinami atvirkštiniais, jeigu jų sandauga lygi 1.`,
+          `${nf(a)} = ${a}/1, todėl atvirkštinis jam yra 1/${a}.`,
+          `Patikrinam: ${a} · (${at}) = 1.`,
+          `Atsakymas: ${at}`
+        ]};
+      }
+      const d = randint(2,9); let n = randint(1,d-1); const g=gcd6(n,d); n/=g; const dd=d/g;
+      const neg = Math.random()<0.5, sn = neg?-n:n;
+      const disp = (neg?'−':'')+n+'/'+dd;
+      const ans = dd/sn, at = frText6(dd,sn);
+      return { q:`Koks skaičius yra atvirkštinis skaičiui ${disp}?`, ans, ansText:at, pre:"atsakymas =", steps:[
+        `Du skaičiai vadinami atvirkštiniais, jeigu jų sandauga lygi 1.`,
+        `Sukeičiame skaitiklį su vardikliu: ${disp} → ${at}.`,
+        `Ženklas prieš trupmeną nesikeičia.`,
+        `Atsakymas: ${at}`
+      ]};
   }}
 ];
 
@@ -220,7 +296,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Kontrolinio treniruoklis: Skaičiai (6 klasė)", "subtitle": "Skaičiai · 6 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ","]};
+const META = {"title": "Kontrolinio treniruoklis: Skaičiai (6 klasė)", "subtitle": "Skaičiai · 6 klasė · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "atsakymas =", "simboliai": ["−", ",", "/"]};
 
 // ---- Būsena ----
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
@@ -239,11 +315,21 @@ function initTekstai(){
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtMath(s){
   if(/<svg[\s>]/i.test(s)) return s;
-  return esc(s)
+  let out = esc(s)
     .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
     .replace(/\^([▢□])/g, '<sup>$1</sup>')
     .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
     .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline. Kilpa iki
+  // nekintamo taško leidžia įdėtąsias šaknis (žymeklis šalia žymeklio).
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
 }
 
 function naujas(){
@@ -261,14 +347,42 @@ function naujas(){
   $('atsakymas').focus();
 }
 
-function norm(s){ return (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.'); }
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+
+// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
+// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
 
 function tikrinti(){
   if(S.atsakyta) return;
-  const raw = norm($('atsakymas').value);
-  if(raw==='' || isNaN(parseFloat(raw))){ $('atsakymas').focus(); return; }
-  const val = parseFloat(raw);
-  const ok = Math.abs(val - S.dabartinis.ans) < 1e-6;
+  const p = S.dabartinis;
+  let ok;
+  if(p.ansType === 'text'){
+    const raw = $('atsakymas').value;
+    if(raw.trim()===''){ $('atsakymas').focus(); return; }
+    const val = normText(raw);
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    ok = accepted.includes(val);
+  } else {
+    const val = parseVal($('atsakymas').value);
+    if(isNaN(val)){ $('atsakymas').focus(); return; }
+    ok = Math.abs(val - p.ans) < 1e-6;
+  }
   S.atsakyta = true;
   S.isviso++;
   S.istorija.push(ok);
@@ -279,8 +393,8 @@ function tikrinti(){
 
   const v = $('verdiktas');
   v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(nf(S.dabartinis.ans)); }
-  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(nf(S.dabartinis.ans)); }
+  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
+  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
 
   $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
   $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';

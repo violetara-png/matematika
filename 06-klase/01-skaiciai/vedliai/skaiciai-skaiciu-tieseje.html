@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mokymosi asistentas — Skaičiai (6 kl.)</title>
+<title>Mokymosi asistentas — Skaičiai skaičių tiesėje (6 kl.)</title>
 <style>
   :root{
     --bg:#f4f7fb; --card:#ffffff; --ink:#1f2a37; --muted:#5b6b7f;
@@ -81,17 +81,17 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>🧭 Mokymosi asistentas „Skaičius“</h1>
-    <p>Tema: <b>Skaičiai</b> · 6 klasė · skaičių tiesė, moduliai, priešingi, palyginimas, koordinatės</p>
+    <h1>🧭 Mokymosi asistentas „Neta“</h1>
+    <p>Tema: <b>Skaičiai skaičių tiesėje</b> · 6 klasė · potemė 1.1.1</p>
   </header>
 
   <!-- ============ PRADŽIA ============ -->
   <section id="intro" class="card center">
     <div class="assistant" style="text-align:left">
-      <div class="avatar">S<small>i</small></div>
+      <div class="avatar">N<small>i</small></div>
       <div class="bubble">
-        <div class="name">Skaičius</div>
-        Sveikas! Kartu pasitreniruosime <b>neigiamus skaičius</b>: modulį, priešingus skaičius, palyginimą ir skaičių tiesę.<br><br>Svarbu: <b>gatavo atsakymo neduosiu</b> — vesiu klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Neigiamą skaičių rašyk su minusu, pvz. <b>−3</b> arba <b>-3</b>.
+        <div class="name">Neta</div>
+        Sveikas! Aš — tavo mokymosi asistentė. Kartu pasitreniruosime skaityti taškų <b>koordinates skaičių tiesėje</b>, skirti teigiamuosius ir neigiamuosius skaičius bei skaičiuoti <b>atstumą tarp taškų</b>.<br><br>Svarbu: <b>aš neduosiu tau gatavo atsakymo</b>. Aš vesiu tave klausimais ir užuominomis, o atsakymą surasi <b>tu pats</b>. Pabaigoje bus 10 klausimų testas, kad pats pamatytum, ką jau moki.
       </div>
     </div>
     <button class="btn" onclick="startLearn()">Pradėti mokytis →</button>
@@ -103,9 +103,9 @@
     <div class="card">
       <span class="task-num" id="stationNum">1 užduotis</span>
       <div class="assistant">
-        <div class="avatar">S<small>i</small></div>
+        <div class="avatar">N<small>i</small></div>
         <div class="bubble">
-          <div class="name">Skaičius</div>
+          <div class="name">Neta</div>
           <div id="stationIntro"></div>
         </div>
       </div>
@@ -116,7 +116,7 @@
 
       <label class="field">Tavo atsakymas:</label>
       <input type="text" id="stationInput" autocomplete="off" placeholder="Įrašyk čia..." onkeydown="if(event.key==='Enter')checkStation()">
-      <div class="kbd"><button onclick="ins('−')">−</button><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button></div>
+      <div class="kbd"><button onclick="ins('−')">−</button><button onclick="ins('0')">0</button><button onclick="ins('1')">1</button><button onclick="ins('2')">2</button><button onclick="ins('3')">3</button><button onclick="ins('4')">4</button><button onclick="ins('5')">5</button><button onclick="ins('6')">6</button><button onclick="ins('7')">7</button><button onclick="ins('8')">8</button><button onclick="ins('9')">9</button></div>
 
       <div id="stationFeedback"></div>
 
@@ -133,10 +133,10 @@
     <div class="card">
       <span class="task-num">Įsivertinimo testas · <span id="variantLabel">variantas A</span></span>
       <div class="assistant">
-        <div class="avatar">S<small>i</small></div>
+        <div class="avatar">N<small>i</small></div>
         <div class="bubble">
-          <div class="name">Skaičius</div>
-          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk skaičiumi (jei neigiamas — su minusu, pvz. −5).<br><span class="note">Išlaikai (6+) — pasiūlysiu naują variantą.</span>
+          <div class="name">Neta</div>
+          Šaunuolis! Dabar — <b>10 klausimų</b>. Atsakyk pats, o aš gale suskaičiuosiu pažymį (10 balų skalė) ir parašysiu komentarą. Neigiamą skaičių rašyk su minuso ženklu, pvz. <b>-7</b>.<br><span class="note">Išlaikai (6 ar daugiau) — pasiūlysiu naują, panašaus sunkumo variantą.</span>
         </div>
       </div>
       <div id="testQuestions"></div>
@@ -158,7 +158,8 @@ function normalize(s){
     .replace(/[*×✕]/g,"")   // daugybos ženklai išmetami (3*a -> 3a)
     .replace(/·/g,"")
     .replace(/[–—−]/g,"-")  // visi brūkšneliai -> -
-    .replace(/,/g,".");
+    .replace(/,/g,".")
+    .replace(/°/g,"");      // laipsnio ženklas nesvarbus lyginant (74 == 74°)
 }
 function isCorrect(input, accepted){
   const n = normalize(input);
@@ -170,7 +171,7 @@ function ins(ch){
 }
 
 /* ---------- MOKYMOSI UŽDUOTYS ---------- */
-const stations = [{"intro": "Pradėkime nuo <b>modulio</b>. Modulis |a| — tai atstumas nuo nulio, jis niekada nebūna neigiamas.", "expr": "|−8|", "q": "Kam lygu?", "accepted": ["8"], "hints": ["Modulis — atstumas iki nulio; atstumas neneigiamas.", "Modulis tiesiog nuima minuso ženklą.", "|−8| — kiek vienetų nuo nulio iki −8?"]}, {"intro": "Dabar <b>priešingi skaičiai</b> ir dvigubas minusas.", "expr": "−(−6)", "q": "Kam lygu?", "accepted": ["6"], "hints": ["Du minusai iš eilės vienas kitą naikina.", "−(−6) reiškia skaičių, priešingą −6.", "Priešingas −6 yra teigiamas."]}, {"intro": "<b>Palyginimas.</b> Skaičių tiesėje didesnis yra tas, kuris dešiniau.", "expr": "−3  ir  5", "q": "Kuris skaičius didesnis? Įrašyk jį.", "accepted": ["5"], "hints": ["Teigiamas visada dešiniau už neigiamą.", "5 yra dešinėje nuo nulio, −3 kairėje.", "Didesnis tas, kuris dešiniau."]}, {"intro": "<b>Sveikieji skaičiai tarp dviejų skaičių.</b> Skaičiuok tik sveikuosius, griežtai tarp jų.", "expr": "tarp −2 ir 3", "q": "Kiek sveikųjų skaičių yra tarp −2 ir 3? (kraštinių neįskaitant)", "accepted": ["4"], "hints": ["Išvardyk sveikuosius taškus tarp −2 ir 3, neįskaitant pačių −2 ir 3.", "Tai −1, 0, 1, 2.", "Suskaičiuok, kiek jų yra."]}, {"intro": "Paskutinė — <b>judėjimas skaičių tiese</b>. Į dešinę reiškia pridėti.", "expr": "M(−7), 9 vnt. į dešinę", "q": "Taškas M(−7). Pajudėk 9 vienetus į dešinę. Kokia nauja koordinatė?", "accepted": ["2"], "hints": ["Judėti į dešinę = pridėti.", "Pradėk nuo −7 ir pridėk 9.", "−7 + 9 — kiek gausi?"]}];
+const stations = [{"intro": "Pradėkime nuo pačių pagrindų. Skaičių tiesėje atskaitos taškas <b>O(0)</b>, o taškas <b>A(1)</b> žymi vienetinę atkarpą. Taškai <b>dešiniau</b> O žymi teigiamuosius skaičius.", "expr": "O(0), A(1) ... C — 5 vnt. dešiniau O", "q": "Taškas C yra 5 vienetinėmis atkarpomis dešiniau atskaitos taško O. Kokia taško C koordinatė?", "accepted": ["5"], "hints": ["Prisimink: dešiniau taško O esantys taškai žymi kuriuos skaičius — teigiamuosius ar neigiamuosius?", "Kadangi C yra dešiniau O, jo koordinatė bus teigiama. Kiek vienetinių atkarpų C nutolęs nuo O?", "Koordinatė lygi tam pačiam skaičiui, kiek vienetinių atkarpų taškas nutolęs į dešinę nuo O. Įrašyk tą skaičių."]}, {"intro": "Dabar priešinga kryptis. Taškai <b>kairiau</b> O žymi neigiamuosius skaičius — prieš juos visada rašomas ženklas „−“.", "expr": "D — 8 vnt. kairiau O", "q": "Taškas D yra 8 vienetinėmis atkarpomis kairiau atskaitos taško O. Užrašyk taško D koordinatę (su ženklu).", "accepted": ["-8"], "hints": ["Prisimink: kairiau taško O esantys taškai žymi kuriuos skaičius — teigiamuosius ar neigiamuosius?", "Kadangi D yra kairiau O, jo koordinatė bus neigiama — prieš skaičių reikės rašyti ženklą „−“.", "Skaitinė koordinatės dalis lygi atstumui nuo O (8 vienetinės atkarpos). Prirašyk prie jos minuso ženklą ir įrašyk visą koordinatę."]}, {"intro": "Skaičius <b>0</b> užima ypatingą vietą — jis nėra nei teigiamas, nei neigiamas.", "expr": "−5;&nbsp;&nbsp;0;&nbsp;&nbsp;6", "q": "Iš skaičių −5; 0; 6 užrašyk tą, kuris nei teigiamas, nei neigiamas.", "accepted": ["0"], "hints": ["Peržiūrėk kiekvieną iš trijų skaičių: ar jis didesnis, ar mažesnis už nulį?", "Vienas iš šių trijų skaičių nėra nei didesnis, nei mažesnis už nulį — jis pats yra ta riba tarp teigiamųjų ir neigiamųjų.", "Šis skaičius skiria teigiamuosius skaičius nuo neigiamųjų skaičių tiesėje. Įrašyk jį."]}, {"intro": "Atstumas nuo taško iki atskaitos taško O vadinamas taško koordinatės <b>moduliu</b> — jis visada neneigiamas.", "expr": "G(−7)", "q": "Taško G koordinatė lygi −7. Koks atstumas nuo O iki G (vienetinėmis atkarpomis)?", "accepted": ["7"], "hints": ["Atstumas nuo taško iki atskaitos taško O vadinamas koordinatės moduliu.", "Modulis visada neneigiamas — nesvarbu, ar taškas kairiau, ar dešiniau O.", "Modulis lygus skaitinei koordinatės daliai be ženklo. Įrašyk tą skaičių."]}, {"intro": "Paskutinė ir svarbiausia taisyklė — <b>atstumas tarp dviejų taškų</b> A(a) ir B(b) skaičiuojamas moduliu: AB = |a − b|.", "expr": "A(−5), B(9)", "q": "Taškai A(−5) ir B(9). Koks atstumas AB vienetinėmis atkarpomis?", "accepted": ["14"], "hints": ["Dviejų taškų atstumą randame kaip jų koordinačių skirtumo modulį: AB = |a − b|.", "Įstatyk A ir B koordinates į formulę: |9 − (−5)|. Ką gauni skliaustų viduje?", "9 − (−5) reiškia tą patį, kas 9 + 5. Apskaičiuok šią sumą — tai ir bus atstumas AB."]}];
 
 let si = 0;       // stotelės indeksas
 let hintIdx = 0;  // kiek užuominų parodyta
@@ -236,7 +237,7 @@ function nextStation(){
 
 /* ---------- ĮSIVERTINIMO TESTAS (keli variantai) ---------- */
 const PASS = 6; // išlaikymo riba iš 10
-const testVariants = [{"label": "variantas A", "qs": [{"t": "Apskaičiuok: <span>|−7|</span>.", "acc": ["7"], "hint": "Modulis nuima minusą."}, {"t": "Kam lygu <span>−(−6)</span>?", "acc": ["6"], "hint": "Du minusai naikina vienas kitą."}, {"t": "Kuris skaičius didesnis: <span>-4 ar 5</span>? Įrašyk jį.", "acc": ["5"], "hint": "Didesnis tas, kuris dešiniau skaičių tiesėje."}, {"t": "Kiek sveikųjų skaičių yra tarp <span>-2 ir 3</span>? (kraštinių neįskaitant)", "acc": ["4"], "hint": "Išvardyk sveikuosius griežtai tarp jų."}, {"t": "Taškas M(-3). Pajudėk 8 vnt. į dešinę. Kokia koordinatė?", "acc": ["5"], "hint": "-3 + 8."}, {"t": "Apskaičiuok: <span>|−4| + |3|</span>.", "acc": ["7"], "hint": "Abu moduliai teigiami, tada sudėk."}, {"t": "Apskaičiuok: <span>|−4| − |−3|</span>.", "acc": ["1"], "hint": "4 − 3."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>−5</span>.", "acc": ["5"], "hint": "Priešingas neigiamam yra teigiamas."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>5</span>.", "acc": ["-5"], "hint": "Priešingas teigiamam yra neigiamas."}, {"t": "Kiek vienetinių atkarpų nuo O(0) iki taško <span>−7</span>? (modulis)", "acc": ["7"], "hint": "Atstumas iki nulio = modulis."}]}, {"label": "variantas B", "qs": [{"t": "Apskaičiuok: <span>|−6|</span>.", "acc": ["6"], "hint": "Modulis nuima minusą."}, {"t": "Kam lygu <span>−(−8)</span>?", "acc": ["8"], "hint": "Du minusai naikina vienas kitą."}, {"t": "Kuris skaičius didesnis: <span>-7 ar 9</span>? Įrašyk jį.", "acc": ["9"], "hint": "Didesnis tas, kuris dešiniau skaičių tiesėje."}, {"t": "Kiek sveikųjų skaičių yra tarp <span>-1 ir 5</span>? (kraštinių neįskaitant)", "acc": ["5"], "hint": "Išvardyk sveikuosius griežtai tarp jų."}, {"t": "Taškas M(-5). Pajudėk 7 vnt. į dešinę. Kokia koordinatė?", "acc": ["2"], "hint": "-5 + 7."}, {"t": "Apskaičiuok: <span>|−5| + |2|</span>.", "acc": ["7"], "hint": "Abu moduliai teigiami, tada sudėk."}, {"t": "Apskaičiuok: <span>|−5| − |−2|</span>.", "acc": ["3"], "hint": "5 − 2."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>−4</span>.", "acc": ["4"], "hint": "Priešingas neigiamam yra teigiamas."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>4</span>.", "acc": ["-4"], "hint": "Priešingas teigiamam yra neigiamas."}, {"t": "Kiek vienetinių atkarpų nuo O(0) iki taško <span>−6</span>? (modulis)", "acc": ["6"], "hint": "Atstumas iki nulio = modulis."}]}, {"label": "variantas C", "qs": [{"t": "Apskaičiuok: <span>|−9|</span>.", "acc": ["9"], "hint": "Modulis nuima minusą."}, {"t": "Kam lygu <span>−(−3)</span>?", "acc": ["3"], "hint": "Du minusai naikina vienas kitą."}, {"t": "Kuris skaičius didesnis: <span>-2 ar 6</span>? Įrašyk jį.", "acc": ["6"], "hint": "Didesnis tas, kuris dešiniau skaičių tiesėje."}, {"t": "Kiek sveikųjų skaičių yra tarp <span>-3 ir 2</span>? (kraštinių neįskaitant)", "acc": ["4"], "hint": "Išvardyk sveikuosius griežtai tarp jų."}, {"t": "Taškas M(-6). Pajudėk 7 vnt. į dešinę. Kokia koordinatė?", "acc": ["1"], "hint": "-6 + 7."}, {"t": "Apskaičiuok: <span>|−6| + |1|</span>.", "acc": ["7"], "hint": "Abu moduliai teigiami, tada sudėk."}, {"t": "Apskaičiuok: <span>|−6| − |−1|</span>.", "acc": ["5"], "hint": "6 − 1."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>−7</span>.", "acc": ["7"], "hint": "Priešingas neigiamam yra teigiamas."}, {"t": "Užrašyk skaičių, priešingą skaičiui <span>7</span>.", "acc": ["-7"], "hint": "Priešingas teigiamam yra neigiamas."}, {"t": "Kiek vienetinių atkarpų nuo O(0) iki taško <span>−9</span>? (modulis)", "acc": ["9"], "hint": "Atstumas iki nulio = modulis."}]}];
+const testVariants = [{"label": "variantas A", "qs": [{"t": "Taškas C yra 4 vienetinėmis atkarpomis dešiniau atskaitos taško O. Kokia jo koordinatė?", "acc": ["4"], "hint": "Dešiniau O esantys taškai turi teigiamą koordinatę, lygią atstumui nuo O."}, {"t": "Taškas D yra 9 vienetinėmis atkarpomis kairiau atskaitos taško O. Kokia jo koordinatė (su ženklu)?", "acc": ["-9"], "hint": "Kairiau O esantys taškai turi neigiamą koordinatę — nepamiršk minuso ženklo."}, {"t": "Iš skaičių <span>−3; 0; 7</span> kuris nei teigiamas, nei neigiamas?", "acc": ["0"], "hint": "Ieškok skaičiaus, kuris nėra nei didesnis, nei mažesnis už nulį."}, {"t": "Taško E koordinatė lygi −6. Koks atstumas nuo O iki E?", "acc": ["6"], "hint": "Modulis — tai koordinatės skaitinė dalis be ženklo."}, {"t": "Taškai A(−2) ir B(9). Koks atstumas AB vienetinėmis atkarpomis?", "acc": ["11"], "hint": "Naudok formulę AB = |a − b|, kur a ir b — taškų koordinatės."}, {"t": "Taškai M(−10) ir N(−3). Koks atstumas MN vienetinėmis atkarpomis?", "acc": ["7"], "hint": "Abi koordinatės neigiamos — atimk atidžiai ir imk modulį."}, {"t": "Iš skaičių <span>−8; 5; 0; −1; 6; 2</span> kiek yra teigiamų?", "acc": ["3"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių didesni už nulį."}, {"t": "Iš to paties sąrašo <span>−8; 5; 0; −1; 6; 2</span> kiek yra neigiamų?", "acc": ["2"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių mažesni už nulį."}, {"t": "Taškas H sutampa su atskaitos tašku O. Kokia jo koordinatė?", "acc": ["0"], "hint": "Atskaitos taško koordinatė visada ta pati, nesvarbu, kokia tema."}, {"t": "Taškai P(−15) ir Q(8). Koks atstumas PQ vienetinėmis atkarpomis?", "acc": ["23"], "hint": "Naudok formulę |a − b| su duotomis koordinatėmis."}]}, {"label": "variantas B", "qs": [{"t": "Taškas C yra 6 vienetinėmis atkarpomis dešiniau atskaitos taško O. Kokia jo koordinatė?", "acc": ["6"], "hint": "Dešiniau O esantys taškai turi teigiamą koordinatę, lygią atstumui nuo O."}, {"t": "Taškas D yra 11 vienetinėmis atkarpomis kairiau atskaitos taško O. Kokia jo koordinatė (su ženklu)?", "acc": ["-11"], "hint": "Kairiau O esantys taškai turi neigiamą koordinatę — nepamiršk minuso ženklo."}, {"t": "Iš skaičių <span>−5; 8; 0</span> kuris nei teigiamas, nei neigiamas?", "acc": ["0"], "hint": "Ieškok skaičiaus, kuris nėra nei didesnis, nei mažesnis už nulį."}, {"t": "Taško E koordinatė lygi −9. Koks atstumas nuo O iki E?", "acc": ["9"], "hint": "Modulis — tai koordinatės skaitinė dalis be ženklo."}, {"t": "Taškai A(−4) ir B(7). Koks atstumas AB vienetinėmis atkarpomis?", "acc": ["11"], "hint": "Naudok formulę AB = |a − b|, kur a ir b — taškų koordinatės."}, {"t": "Taškai M(−12) ir N(−5). Koks atstumas MN vienetinėmis atkarpomis?", "acc": ["7"], "hint": "Abi koordinatės neigiamos — atimk atidžiai ir imk modulį."}, {"t": "Iš skaičių <span>−9; 3; 0; −4; 7; 1</span> kiek yra teigiamų?", "acc": ["3"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių didesni už nulį."}, {"t": "Iš to paties sąrašo <span>−9; 3; 0; −4; 7; 1</span> kiek yra neigiamų?", "acc": ["2"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių mažesni už nulį."}, {"t": "Taškas H sutampa su atskaitos tašku O. Kokia jo koordinatė?", "acc": ["0"], "hint": "Atskaitos taško koordinatė visada ta pati, nesvarbu, kokia tema."}, {"t": "Taškai P(−18) ir Q(6). Koks atstumas PQ vienetinėmis atkarpomis?", "acc": ["24"], "hint": "Naudok formulę |a − b| su duotomis koordinatėmis."}]}, {"label": "variantas C", "qs": [{"t": "Taškas C yra 8 vienetinėmis atkarpomis dešiniau atskaitos taško O. Kokia jo koordinatė?", "acc": ["8"], "hint": "Dešiniau O esantys taškai turi teigiamą koordinatę, lygią atstumui nuo O."}, {"t": "Taškas D yra 13 vienetinėmis atkarpomis kairiau atskaitos taško O. Kokia jo koordinatė (su ženklu)?", "acc": ["-13"], "hint": "Kairiau O esantys taškai turi neigiamą koordinatę — nepamiršk minuso ženklo."}, {"t": "Iš skaičių <span>−7; 0; 4</span> kuris nei teigiamas, nei neigiamas?", "acc": ["0"], "hint": "Ieškok skaičiaus, kuris nėra nei didesnis, nei mažesnis už nulį."}, {"t": "Taško E koordinatė lygi −11. Koks atstumas nuo O iki E?", "acc": ["11"], "hint": "Modulis — tai koordinatės skaitinė dalis be ženklo."}, {"t": "Taškai A(−6) ir B(5). Koks atstumas AB vienetinėmis atkarpomis?", "acc": ["11"], "hint": "Naudok formulę AB = |a − b|, kur a ir b — taškų koordinatės."}, {"t": "Taškai M(−14) ir N(−6). Koks atstumas MN vienetinėmis atkarpomis?", "acc": ["8"], "hint": "Abi koordinatės neigiamos — atimk atidžiai ir imk modulį."}, {"t": "Iš skaičių <span>−6; 2; 0; −9; 8; 4</span> kiek yra teigiamų?", "acc": ["3"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių didesni už nulį."}, {"t": "Iš to paties sąrašo <span>−6; 2; 0; −9; 8; 4</span> kiek yra neigiamų?", "acc": ["2"], "hint": "Peržiūrėk sąrašą ir suskaičiuok, kiek skaičių mažesni už nulį."}, {"t": "Taškas H sutampa su atskaitos tašku O. Kokia jo koordinatė?", "acc": ["0"], "hint": "Atskaitos taško koordinatė visada ta pati, nesvarbu, kokia tema."}, {"t": "Taškai P(−21) ir Q(9). Koks atstumas PQ vienetinėmis atkarpomis?", "acc": ["30"], "hint": "Naudok formulę |a − b| su duotomis koordinatėmis."}]}];
 
 let vi = 0;               // dabartinio varianto indeksas
 let testQs = testVariants[0].qs;
