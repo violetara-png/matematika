@@ -283,6 +283,59 @@ const GENERATORIAI = [
         `Ženklas prieš trupmeną nesikeičia.`,
         `Atsakymas: ${at}`
       ]};
+  }},
+  { label:"Taškas skaičių tiesėje (brėžinys)", gen(){
+      // Brėžinyje matomi tik O(0) ir vienas atskaitos taškas (vienetas); likusius taškus
+      // mokinys turi perskaityti SKAIČIUODAMAS langelius (vizualus įgūdis, ne tekstinis aprašymas).
+      const unit = choice([1,2,5,10]);
+      const n = randint(5,7); // kiek raidėmis pažymėtų taškų (be O)
+      const pool = [];
+      for(let k=-6;k<=6;k++){ if(k!==0 && k!==1) pool.push(k); }
+      for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=pool[i]; pool[i]=pool[j]; pool[j]=t; }
+      const ks = [1].concat(pool.slice(0, n-1)); // k=1 visada = atskaitos (vienetinis) taškas
+      const letters = ['A','B','C','D','E','F','G','H','K','L','M','N','P','Q','R','S','T','U','V','W'];
+      for(let i=letters.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=letters[i]; letters[i]=letters[j]; letters[j]=t; }
+      const labels = {};
+      ks.forEach((k,i)=>{ labels[k]=letters[i]; });
+      const otherKs = ks.filter(k=>k!==1);
+      const xk = choice(otherKs);
+      const xLabel = labels[xk];
+      const ans = xk*unit;
+
+      const allKs = ks.concat([0]);
+      const kmin = Math.min.apply(null, allKs), kmax = Math.max.apply(null, allKs);
+      const tickPx=44, margin=50, height=112, lineY=height*0.55;
+      const xPos = k => margin + (k-kmin)*tickPx;
+      const width = xPos(kmax)+margin;
+      const arrowX2 = xPos(kmax)+26, lineX1 = xPos(kmin)-26;
+      let svg = '<svg width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'" xmlns="http://www.w3.org/2000/svg" font-family="Cambria Math, Georgia, serif" font-size="15">';
+      svg += '<line x1="'+lineX1+'" y1="'+lineY+'" x2="'+arrowX2+'" y2="'+lineY+'" stroke="#1c2430" stroke-width="2"/>';
+      svg += '<polygon points="'+arrowX2+','+lineY+' '+(arrowX2-12)+','+(lineY-6)+' '+(arrowX2-12)+','+(lineY+6)+'" fill="#1c2430"/>';
+      svg += '<g stroke="#1c2430" stroke-width="1.6">';
+      for(let k=kmin;k<=kmax;k++){
+        const xx=xPos(k); const major=(k===0||k===1);
+        svg += '<line x1="'+xx+'" y1="'+(major?lineY-8:lineY-6)+'" x2="'+xx+'" y2="'+(major?lineY+8:lineY+6)+'"/>';
+      }
+      svg += '</g>';
+      const extraColors=['#b25c00','#c62828','#6a1b9a','#00838f','#8d6e63','#5d4037'];
+      let ci=0;
+      svg += '<circle cx="'+xPos(0)+'" cy="'+lineY+'" r="4.2" fill="#1e5fa8"/><text x="'+(xPos(0)-4)+'" y="'+(lineY-20)+'" fill="#1e5fa8">O</text>';
+      ks.forEach((k,i)=>{
+        const xx=xPos(k);
+        const color = (k===1) ? '#0a7d52' : extraColors[ci++%extraColors.length];
+        const above = (k===1) ? true : (i%2===0);
+        const ly = above ? lineY-20 : lineY+34;
+        svg += '<circle cx="'+xx+'" cy="'+lineY+'" r="4.2" fill="'+color+'"/><text x="'+(xx-4)+'" y="'+ly+'" fill="'+color+'">'+labels[k]+'</text>';
+      });
+      svg += '<text x="'+(xPos(0)-4)+'" y="'+(lineY+22)+'" fill="#5b6472" font-size="13">0</text>';
+      svg += '<text x="'+(xPos(1)-4)+'" y="'+(lineY+22)+'" fill="#5b6472" font-size="13">'+unit+'</text>';
+      svg += '</svg>';
+
+      const dir = xk>0 ? 'dešiniau' : 'kairiau';
+      return { q:'Brėžinyje pavaizduota skaičių tiesė. '+svg+' Kokia taško '+xLabel+' koordinatė?', ans, pre:"atsakymas =", steps:[
+        'Taškas '+xLabel+' yra '+Math.abs(xk)+' vienetinėmis atkarpomis '+dir+' taško O, o vienetas (atkarpa nuo O iki A) lygus '+unit+'.',
+        nf(xk)+' · '+unit+' = '+nf(ans)
+      ]};
   }}
 ];
 
