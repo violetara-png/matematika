@@ -155,7 +155,7 @@
       juodosios skylės. Visi skyriai automatiškai užsirakino pagal saugos protokolą, susietą su
       <b>skaičių tiesės koordinatėmis</b>. Kompiuteris rodo paskutinę žinutę:</p>
       <p style="margin:12px 0 0"><i>„Dešimt skyrių tarp tavęs ir gelbėjimosi kapsulės. Kiekvienas
-      atsirakina teisingai apskaičiavus koordinatę ar atstumą skaičių tiesėje ir duoda po vieną
+      atsirakina teisingai perskaičius ar apskaičiavus koordinatę skaičių tiesėje ir duoda po vieną
       pagrindinio šliuzo kodo skaitmenį. Surink kodą, atrakink šliuzą ir palik laivą, kol jo
       nenutraukė gravitacija."</i></p>
       <p style="margin:12px 0 0">Skaičiuok tiksliai. Laikas bėga.</p>
@@ -215,71 +215,97 @@
 <script>
 /* Patarimai TIK nukreipia (metodas, principas), atsakymo NEATSKLEIDŽIA. */
 const HINTS = [
-  "Prisimink: dešiniau atskaitos taško O skaičiai teigiami, kairiau — neigiami. Koordinatės modulis — tai atstumas nuo O, visada teigiamas skaičius.",
+  "Prisimink: dešiniau atskaitos taško O skaičiai teigiami, kairiau — neigiami. Suskaičiuok, per kiek vienetinių atkarpų taškas nutolęs nuo O, ir prirašyk tinkamą ženklą.",
   "Tas pats principas kaip pirmame skyriuje — tik dabar taškas yra kitoje pusėje nuo O.",
-  "Atstumą tarp dviejų taškų skaičiuok kaip koordinačių skirtumo modulį: |a − b|. Nesvarbu, kurią iš kurios atimsi.",
-  "Abu taškai gali būti kairiau O — vis tiek naudok tą pačią formulę |a − b|, tik atidžiai atimk neigiamus skaičius.",
+  "Rask tiesėje tašką A ir suskaičiuok, per kiek vienetinių atkarpų (ir kuria kryptimi nuo O) jis pažymėtas.",
+  "Abu taškai kairiau O — tiesiog suskaičiuok, per kiek vienetinių atkarpų nuo O pažymėtas taškas N, ir prirašyk minuso ženklą.",
   "Teigiamas skaičius yra didesnis už nulį. Peržiūrėk sąrašą po vieną ir suskaičiuok, kiek jų tokių.",
   "Neigiamas skaičius yra mažesnis už nulį. Nulio nepamiršk skaičiuodamas — jis nei teigiamas, nei neigiamas.",
   "Ieškok sąraše skaičiaus, kuris nėra nei didesnis, nei mažesnis už nulį — jis vienintelis toks. Suskaičiuok, kelintoje vietoje jis stovi (nuo 1).",
-  "Modulis — tai atstumas nuo atskaitos taško O iki duoto taško, nesvarbu, kurioje pusėje jis yra.",
-  "Užrašyk kaip lygtį: taškas kairiau O, tad jo koordinatė lygi −x. Pridėk prie jos nurodytą poslinkį ir prilygink gautai koordinatei.",
-  "Užrašyk kaip lygtį: taškas dešiniau O, tad jo koordinatė lygi x. Atimk iš jos nurodytą poslinkį ir prilygink gautai koordinatei.",
+  "Suskaičiuok, per kiek vienetinių atkarpų taškas T nutolęs nuo O, ir nepamiršk minuso ženklo — T yra kairiau O.",
+  "Jei taškas pasislinko į dešinę ir atsidūrė ties nurodyta koordinate, jo pradinė koordinatė buvo tiek pat vienetų kairiau — atimk poslinkį iš galutinės koordinatės.",
+  "Jei taškas pasislinko į kairę ir atsidūrė ties nurodyta koordinate, jo pradinė koordinatė buvo tiek pat vienetų dešiniau — pridėk poslinkį prie galutinės koordinatės.",
 ];
+
+/* Piešia skaičių tiesę su pažymėtais taškais (SVG), naudojama eq laukuose. */
+function nl(min,max,points){
+  const W=560,H=96,pad=26,y=56;
+  const span=max-min;
+  const px=v=>pad+(v-min)/span*(W-2*pad);
+  let ticks='';
+  for(let v=min; v<=max; v++){
+    const tx=px(v);
+    ticks += `<line x1="${tx}" y1="${y-6}" x2="${tx}" y2="${y+6}" stroke="#2a4066" stroke-width="1.6"/>`;
+  }
+  const zeroX = px(0);
+  ticks += `<text x="${zeroX-4}" y="${y+24}" fill="#9fb2cc" font-size="13">0</text>`;
+  let dots='';
+  points.forEach((p,i)=>{
+    const tx=px(p.x);
+    const above = i%2===0;
+    dots += `<circle cx="${tx}" cy="${y}" r="5" fill="#f6b53d"/>`;
+    dots += `<text x="${tx-5}" y="${above? y-14 : y+30}" fill="#ffcd6b" font-weight="700" font-size="16">${p.label}</text>`;
+  });
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="display:block">
+    <line x1="${pad-8}" y1="${y}" x2="${W-pad+8}" y2="${y}" stroke="#3fd0c9" stroke-width="2"/>
+    <polygon points="${W-pad+8},${y} ${W-pad-4},${y-6} ${W-pad-4},${y+6}" fill="#3fd0c9"/>
+    ${ticks}${dots}
+  </svg>`;
+}
 
 /* ================= 4 VARIANTAI · skaičiai skaičių tiesėje ================= */
 const VARIANTS = [
- /* --- VARIANTAS 1 · kodas 6875233947 --- */
+ /* --- VARIANTAS 1 · kodas 6842233947 --- */
  [
-  { title:"Priekinis liukas", eq:"P: 6 vnt. kairiau O", q:"Navigacinis taškas P yra 6 vienetinėmis atkarpomis kairiau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:6 },
-  { title:"Dešinysis sparnas", eq:"Q: 8 vnt. dešiniau O", q:"Navigacinis taškas Q yra 8 vienetinėmis atkarpomis dešiniau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:8 },
-  { title:"Navigacijos koridorius A", eq:"A(−4), B(3)", q:"Koridoriuje du jutikliai: A(−4) ir B(3). Koks atstumas AB vienetinėmis atkarpomis?", ans:7 },
-  { title:"Navigacijos koridorius B", eq:"M(−7), N(−2)", q:"Kitame koridoriuje jutikliai M(−7) ir N(−2). Koks atstumas MN vienetinėmis atkarpomis?", ans:5 },
+  { title:"Priekinis liukas", eq:nl(-10,10,[{x:-6,label:'P'}]), q:"Erdvėlaivio navigaciniame ekrane pažymėtas taškas P. Perskaityk jo padėtį skaičių tiesėje ir įrašyk koordinatę (su ženklu, jei reikia).", ans:-6 },
+  { title:"Dešinysis sparnas", eq:nl(-10,10,[{x:8,label:'Q'}]), q:"Ekrane pažymėtas taškas Q. Kokia jo koordinatė?", ans:8 },
+  { title:"Navigacijos koridorius A", eq:nl(-10,10,[{x:-4,label:'A'},{x:3,label:'B'}]), q:"Koridoriuje pažymėti du jutikliai, A ir B. Kokia taško A koordinatė?", ans:-4 },
+  { title:"Navigacijos koridorius B", eq:nl(-10,10,[{x:-7,label:'M'},{x:-2,label:'N'}]), q:"Kitame koridoriuje pažymėti jutikliai M ir N. Kokia taško N koordinatė?", ans:-2 },
   { title:"Įgulos kajutė", eq:"−6; 2; 0; −3; 5", q:"Kajutės ekrane rodomi taškai: −6; 2; 0; −3; 5. Kiek iš jų yra teigiami?", ans:2 },
   { title:"Krovinių skyrius", eq:"−8; −1; 4; −5; 9; 2", q:"Krovinių jutikliai rodo taškus: −8; −1; 4; −5; 9; 2. Kiek iš jų yra neigiami?", ans:3 },
   { title:"Ryšių postas", eq:"−5; 8; 0; −2; 6", q:"Ryšių ekrane rodomi taškai: −5; 8; 0; −2; 6. Kelintas iš eilės (skaičiuojant nuo 1) yra taškas, kuris nei teigiamas, nei neigiamas?", ans:3 },
-  { title:"Kuro talpykla", eq:"T(−9)", q:"Kuro jutiklio taškas T(−9). Koks jo atstumas nuo atskaitos taško O (t. y. koordinatės modulis)?", ans:9 },
-  { title:"Variklių skyrius", eq:"", q:"Variklio modulis M yra x vienetinių atkarpų kairiau stoties O (jo koordinatė lygi −x). Prijungus papildomą energiją, modulis pasislenka 5 vienetais į dešinę ir atsiduria taške su koordinate 1. Koks buvo x?", ans:4 },
-  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K yra x vienetinių atkarpų dešiniau stoties O (koordinatė lygi x). Avariniu atveju ji pasislenka 10 vienetinių atkarpų į kairę ir atsiduria taške su koordinate −3. Koks buvo x?", ans:7 },
+  { title:"Kuro talpykla", eq:nl(-10,10,[{x:-9,label:'T'}]), q:"Kuro jutiklis skaičių tiesėje pažymėtas tašku T. Kokia taško T koordinatė?", ans:-9 },
+  { title:"Variklių skyrius", eq:"", q:"Variklio daviklis M iš pradžių buvo tam tikroje vietoje kairiau stoties O. Suveikus avariniam protokolui, jis pasislinko 5 vienetinėmis atkarpomis į dešinę ir atsidūrė taške su koordinate 1. Per kiek vienetų kairiau O jis buvo iš pradžių?", ans:4 },
+  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K iš pradžių buvo tam tikroje vietoje dešiniau stoties O. Avariniu atveju ji pasislinko 10 vienetinių atkarpų į kairę ir atsidūrė taške su koordinate −3. Per kiek vienetų dešiniau O ji buvo iš pradžių?", ans:7 },
  ],
- /* --- VARIANTAS 2 · kodas 3975334646 --- */
+ /* --- VARIANTAS 2 · kodas 3964334646 --- */
  [
-  { title:"Priekinis liukas", eq:"P: 3 vnt. kairiau O", q:"Navigacinis taškas P yra 3 vienetinėmis atkarpomis kairiau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:3 },
-  { title:"Dešinysis sparnas", eq:"Q: 9 vnt. dešiniau O", q:"Navigacinis taškas Q yra 9 vienetinėmis atkarpomis dešiniau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:9 },
-  { title:"Navigacijos koridorius A", eq:"A(−6), B(1)", q:"Koridoriuje du jutikliai: A(−6) ir B(1). Koks atstumas AB vienetinėmis atkarpomis?", ans:7 },
-  { title:"Navigacijos koridorius B", eq:"M(−9), N(−4)", q:"Kitame koridoriuje jutikliai M(−9) ir N(−4). Koks atstumas MN vienetinėmis atkarpomis?", ans:5 },
+  { title:"Priekinis liukas", eq:nl(-10,10,[{x:-3,label:'P'}]), q:"Erdvėlaivio navigaciniame ekrane pažymėtas taškas P. Perskaityk jo padėtį skaičių tiesėje ir įrašyk koordinatę (su ženklu, jei reikia).", ans:-3 },
+  { title:"Dešinysis sparnas", eq:nl(-10,10,[{x:9,label:'Q'}]), q:"Ekrane pažymėtas taškas Q. Kokia jo koordinatė?", ans:9 },
+  { title:"Navigacijos koridorius A", eq:nl(-10,10,[{x:-6,label:'A'},{x:1,label:'B'}]), q:"Koridoriuje pažymėti du jutikliai, A ir B. Kokia taško A koordinatė?", ans:-6 },
+  { title:"Navigacijos koridorius B", eq:nl(-10,10,[{x:-9,label:'M'},{x:-4,label:'N'}]), q:"Kitame koridoriuje pažymėti jutikliai M ir N. Kokia taško N koordinatė?", ans:-4 },
   { title:"Įgulos kajutė", eq:"−7; 4; 0; −1; 8; 3", q:"Kajutės ekrane rodomi taškai: −7; 4; 0; −1; 8; 3. Kiek iš jų yra teigiami?", ans:3 },
   { title:"Krovinių skyrius", eq:"−8; −2; 5; −6; 9", q:"Krovinių jutikliai rodo taškus: −8; −2; 5; −6; 9. Kiek iš jų yra neigiami?", ans:3 },
   { title:"Ryšių postas", eq:"−9; 2; −4; 0; 7; −1", q:"Ryšių ekrane rodomi taškai: −9; 2; −4; 0; 7; −1. Kelintas iš eilės (skaičiuojant nuo 1) yra taškas, kuris nei teigiamas, nei neigiamas?", ans:4 },
-  { title:"Kuro talpykla", eq:"T(−6)", q:"Kuro jutiklio taškas T(−6). Koks jo atstumas nuo atskaitos taško O (t. y. koordinatės modulis)?", ans:6 },
-  { title:"Variklių skyrius", eq:"", q:"Variklio modulis M yra x vienetinių atkarpų kairiau stoties O (jo koordinatė lygi −x). Pasislinkus 3 vienetais į dešinę, jis atsiduria taške su koordinate −1. Koks buvo x?", ans:4 },
-  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K yra x vienetinių atkarpų dešiniau stoties O (koordinatė lygi x). Pasislinkus 8 vienetais į kairę, ji atsiduria taške su koordinate −2. Koks buvo x?", ans:6 },
+  { title:"Kuro talpykla", eq:nl(-10,10,[{x:-6,label:'T'}]), q:"Kuro jutiklis skaičių tiesėje pažymėtas tašku T. Kokia taško T koordinatė?", ans:-6 },
+  { title:"Variklių skyrius", eq:"", q:"Variklio daviklis M iš pradžių buvo tam tikroje vietoje kairiau stoties O. Suveikus avariniam protokolui, jis pasislinko 3 vienetinėmis atkarpomis į dešinę ir atsidūrė taške su koordinate −1. Per kiek vienetų kairiau O jis buvo iš pradžių?", ans:4 },
+  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K iš pradžių buvo tam tikroje vietoje dešiniau stoties O. Avariniu atveju ji pasislinko 8 vienetinių atkarpų į kairę ir atsidūrė taške su koordinate −2. Per kiek vienetų dešiniau O ji buvo iš pradžių?", ans:6 },
  ],
- /* --- VARIANTAS 3 · kodas 7485233745 --- */
+ /* --- VARIANTAS 3 · kodas 7433233745 --- */
  [
-  { title:"Priekinis liukas", eq:"P: 7 vnt. kairiau O", q:"Navigacinis taškas P yra 7 vienetinėmis atkarpomis kairiau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:7 },
-  { title:"Dešinysis sparnas", eq:"Q: 4 vnt. dešiniau O", q:"Navigacinis taškas Q yra 4 vienetinėmis atkarpomis dešiniau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:4 },
-  { title:"Navigacijos koridorius A", eq:"A(−3), B(5)", q:"Koridoriuje du jutikliai: A(−3) ir B(5). Koks atstumas AB vienetinėmis atkarpomis?", ans:8 },
-  { title:"Navigacijos koridorius B", eq:"M(−8), N(−3)", q:"Kitame koridoriuje jutikliai M(−8) ir N(−3). Koks atstumas MN vienetinėmis atkarpomis?", ans:5 },
+  { title:"Priekinis liukas", eq:nl(-10,10,[{x:-7,label:'P'}]), q:"Erdvėlaivio navigaciniame ekrane pažymėtas taškas P. Perskaityk jo padėtį skaičių tiesėje ir įrašyk koordinatę (su ženklu, jei reikia).", ans:-7 },
+  { title:"Dešinysis sparnas", eq:nl(-10,10,[{x:4,label:'Q'}]), q:"Ekrane pažymėtas taškas Q. Kokia jo koordinatė?", ans:4 },
+  { title:"Navigacijos koridorius A", eq:nl(-10,10,[{x:-3,label:'A'},{x:5,label:'B'}]), q:"Koridoriuje pažymėti du jutikliai, A ir B. Kokia taško A koordinatė?", ans:-3 },
+  { title:"Navigacijos koridorius B", eq:nl(-10,10,[{x:-8,label:'M'},{x:-3,label:'N'}]), q:"Kitame koridoriuje pažymėti jutikliai M ir N. Kokia taško N koordinatė?", ans:-3 },
   { title:"Įgulos kajutė", eq:"−9; 6; 0; −2; 1", q:"Kajutės ekrane rodomi taškai: −9; 6; 0; −2; 1. Kiek iš jų yra teigiami?", ans:2 },
   { title:"Krovinių skyrius", eq:"−4; −7; 3; 8; −1; 2", q:"Krovinių jutikliai rodo taškus: −4; −7; 3; 8; −1; 2. Kiek iš jų yra neigiami?", ans:3 },
   { title:"Ryšių postas", eq:"6; −3; 0; −8; 5", q:"Ryšių ekrane rodomi taškai: 6; −3; 0; −8; 5. Kelintas iš eilės (skaičiuojant nuo 1) yra taškas, kuris nei teigiamas, nei neigiamas?", ans:3 },
-  { title:"Kuro talpykla", eq:"T(−7)", q:"Kuro jutiklio taškas T(−7). Koks jo atstumas nuo atskaitos taško O (t. y. koordinatės modulis)?", ans:7 },
-  { title:"Variklių skyrius", eq:"", q:"Variklio modulis M yra x vienetinių atkarpų kairiau stoties O (jo koordinatė lygi −x). Pasislinkus 6 vienetais į dešinę, jis atsiduria taške su koordinate 2. Koks buvo x?", ans:4 },
-  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K yra x vienetinių atkarpų dešiniau stoties O (koordinatė lygi x). Pasislinkus 9 vienetais į kairę, ji atsiduria taške su koordinate −4. Koks buvo x?", ans:5 },
+  { title:"Kuro talpykla", eq:nl(-10,10,[{x:-7,label:'T'}]), q:"Kuro jutiklis skaičių tiesėje pažymėtas tašku T. Kokia taško T koordinatė?", ans:-7 },
+  { title:"Variklių skyrius", eq:"", q:"Variklio daviklis M iš pradžių buvo tam tikroje vietoje kairiau stoties O. Suveikus avariniam protokolui, jis pasislinko 6 vienetinėmis atkarpomis į dešinę ir atsidūrė taške su koordinate 2. Per kiek vienetų kairiau O jis buvo iš pradžių?", ans:4 },
+  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K iš pradžių buvo tam tikroje vietoje dešiniau stoties O. Avariniu atveju ji pasislinko 9 vienetinių atkarpų į kairę ir atsidūrė taške su koordinate −4. Per kiek vienetų dešiniau O ji buvo iš pradžių?", ans:5 },
  ],
- /* --- VARIANTAS 4 · kodas 5285334862 --- */
+ /* --- VARIANTAS 4 · kodas 5221334862 --- */
  [
-  { title:"Priekinis liukas", eq:"P: 5 vnt. kairiau O", q:"Navigacinis taškas P yra 5 vienetinėmis atkarpomis kairiau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:5 },
-  { title:"Dešinysis sparnas", eq:"Q: 2 vnt. dešiniau O", q:"Navigacinis taškas Q yra 2 vienetinėmis atkarpomis dešiniau atskaitos taško O. Koks šio taško koordinatės modulis?", ans:2 },
-  { title:"Navigacijos koridorius A", eq:"A(−2), B(6)", q:"Koridoriuje du jutikliai: A(−2) ir B(6). Koks atstumas AB vienetinėmis atkarpomis?", ans:8 },
-  { title:"Navigacijos koridorius B", eq:"M(−6), N(−1)", q:"Kitame koridoriuje jutikliai M(−6) ir N(−1). Koks atstumas MN vienetinėmis atkarpomis?", ans:5 },
+  { title:"Priekinis liukas", eq:nl(-10,10,[{x:-5,label:'P'}]), q:"Erdvėlaivio navigaciniame ekrane pažymėtas taškas P. Perskaityk jo padėtį skaičių tiesėje ir įrašyk koordinatę (su ženklu, jei reikia).", ans:-5 },
+  { title:"Dešinysis sparnas", eq:nl(-10,10,[{x:2,label:'Q'}]), q:"Ekrane pažymėtas taškas Q. Kokia jo koordinatė?", ans:2 },
+  { title:"Navigacijos koridorius A", eq:nl(-10,10,[{x:-2,label:'A'},{x:6,label:'B'}]), q:"Koridoriuje pažymėti du jutikliai, A ir B. Kokia taško A koordinatė?", ans:-2 },
+  { title:"Navigacijos koridorius B", eq:nl(-10,10,[{x:-6,label:'M'},{x:-1,label:'N'}]), q:"Kitame koridoriuje pažymėti jutikliai M ir N. Kokia taško N koordinatė?", ans:-1 },
   { title:"Įgulos kajutė", eq:"−3; 7; 0; −9; 4; 1", q:"Kajutės ekrane rodomi taškai: −3; 7; 0; −9; 4; 1. Kiek iš jų yra teigiami?", ans:3 },
   { title:"Krovinių skyrius", eq:"−5; −2; 6; −8; 3", q:"Krovinių jutikliai rodo taškus: −5; −2; 6; −8; 3. Kiek iš jų yra neigiami?", ans:3 },
   { title:"Ryšių postas", eq:"9; −4; −1; 0; 6", q:"Ryšių ekrane rodomi taškai: 9; −4; −1; 0; 6. Kelintas iš eilės (skaičiuojant nuo 1) yra taškas, kuris nei teigiamas, nei neigiamas?", ans:4 },
-  { title:"Kuro talpykla", eq:"T(−8)", q:"Kuro jutiklio taškas T(−8). Koks jo atstumas nuo atskaitos taško O (t. y. koordinatės modulis)?", ans:8 },
-  { title:"Variklių skyrius", eq:"", q:"Variklio modulis M yra x vienetinių atkarpų kairiau stoties O (jo koordinatė lygi −x). Pasislinkus 4 vienetais į dešinę, jis atsiduria taške su koordinate −2. Koks buvo x?", ans:6 },
-  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K yra x vienetinių atkarpų dešiniau stoties O (koordinatė lygi x). Pasislinkus 7 vienetais į kairę, ji atsiduria taške su koordinate −5. Koks buvo x?", ans:2 },
+  { title:"Kuro talpykla", eq:nl(-10,10,[{x:-8,label:'T'}]), q:"Kuro jutiklis skaičių tiesėje pažymėtas tašku T. Kokia taško T koordinatė?", ans:-8 },
+  { title:"Variklių skyrius", eq:"", q:"Variklio daviklis M iš pradžių buvo tam tikroje vietoje kairiau stoties O. Suveikus avariniam protokolui, jis pasislinko 4 vienetinėmis atkarpomis į dešinę ir atsidūrė taške su koordinate −2. Per kiek vienetų kairiau O jis buvo iš pradžių?", ans:6 },
+  { title:"Pagrindinis šliuzas", eq:"", q:"Paskutinis skyrius! Gelbėjimosi kapsulė K iš pradžių buvo tam tikroje vietoje dešiniau stoties O. Avariniu atveju ji pasislinko 7 vienetinių atkarpų į kairę ir atsidūrė taške su koordinate −5. Per kiek vienetų dešiniau O ji buvo iš pradžių?", ans:2 },
  ],
 ];
 
@@ -359,7 +385,7 @@ function check(i){
     fb.className='fb ok'; fb.textContent='Teisingai! Skyrius atsirakino.';
     const dig = document.getElementById('dig'+i);
     dig.style.display='flex';
-    document.getElementById('dgv'+i).textContent = STATIONS[i].ans;
+    document.getElementById('dgv'+i).textContent = Math.abs(STATIONS[i].ans);
     solved++; current++;
     document.getElementById('progVal').textContent = solved;
     if(i+1 < STATIONS.length){
@@ -381,14 +407,14 @@ function openVault(){
   const v = document.getElementById('vault');
   v.classList.add('show');
   document.getElementById('codeSlots').innerHTML =
-    STATIONS.map(s=>`<div class="hintdg">${s.ans}</div>`).join('');
+    STATIONS.map(s=>`<div class="hintdg">${Math.abs(s.ans)}</div>`).join('');
   v.scrollIntoView({behavior:'smooth',block:'center'});
   document.getElementById('codeInput').focus();
 }
 
 function tryVault(){
   const code = document.getElementById('codeInput').value.trim();
-  const real = STATIONS.map(s=>s.ans).join('');
+  const real = STATIONS.map(s=>Math.abs(s.ans)).join('');
   const fb = document.getElementById('vaultFb');
   if(code===real){
     if(timerId) clearInterval(timerId);
