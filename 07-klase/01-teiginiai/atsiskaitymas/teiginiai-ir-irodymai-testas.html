@@ -282,8 +282,10 @@ function b64utf8(s){
   catch(e){ return ''; }
 }
 // Atsakymo normalizavimas — atlaidus tarpams, *, ·, narių tvarkai, x² vs x^2, kableliui
+const DIACRITIC_FOLD={'ą':'a','č':'c','ę':'e','ė':'e','į':'i','š':'s','ų':'u','ū':'u','ž':'z'};
 function normalize(s){
   s=(s||'').toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[ąčęėįšųūž]/g,ch=>DIACRITIC_FOLD[ch]); // be lietuviškos klaviatūros įrašytas atsakymas irgi įskaitomas
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
   s=s.replace(/²/g,'^2').replace(/³/g,'^3');
   if(!/^[+-]/.test(s)) s='+'+s;
