@@ -348,6 +348,14 @@ function normalize(s){
   if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
   // Nukerpame matavimo vienetus / žodžius gale (pvz. „10 grybų" → „10", „9 cm" → „9")
   s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  // Mišrusis skaičius su tarpu tarp sveikosios dalies ir trupmenos (pvz. "-2 1/2" = -5/2) ->
+  // paverčiamas netaisyklinga trupmena PRIEŠ naikinant tarpus (žemiau), kad tarpas nesulietų
+  // skaitmenų (be šito „-2 1/2" virsdavo „-21/2", t.y. visai kitu skaičiumi).
+  const _mixed=s.match(/^([+\-−–—]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if(_mixed){
+    const sign=/[-−–—]/.test(_mixed[1])?-1:1, whole=parseInt(_mixed[2],10), num=parseInt(_mixed[3],10), den=parseInt(_mixed[4],10);
+    if(den!==0) s=(sign*(whole*den+num))+'/'+den;
+  }
   s=s.toLowerCase().replace(/\s+/g,'');
   s=s.replace(/[ąčęėįšųūž]/g,ch=>({ą:'a',č:'c',ę:'e',ė:'e',į:'i',š:'s',ų:'u',ū:'u',ž:'z'}[ch])); // be lietuviškos klaviatūros įrašytas atsakymas irgi įskaitomas
   s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
