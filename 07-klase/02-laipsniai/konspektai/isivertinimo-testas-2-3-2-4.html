@@ -53,9 +53,10 @@
   .fieldrow input{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:15px;padding:7px 10px;
     border:1.5px solid var(--line);border-radius:7px;width:220px;max-width:60vw}
   .fieldrow input:focus{outline:none;border-color:var(--tema)}
-  .insb{border:1.5px solid var(--line);background:#fbfcfe;border-radius:7px;width:34px;height:34px;
+  .insb{border:1.5px solid var(--line);background:#fbfcfe;border-radius:7px;min-width:34px;height:34px;padding:0 8px;
     font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;color:var(--tema);cursor:pointer}
   .insb:hover{background:var(--tema-sv)}
+  .exprhint{font-size:12.5px;color:var(--grey);margin:-2px 0 8px}
   .opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
   .opt{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:8px 12px;cursor:pointer;
     font-size:14.5px;display:flex;gap:6px;align-items:center;user-select:none}
@@ -438,14 +439,18 @@ function render(){
         let ph = 'skaičius';
         if(f.kind==='set') ph = 'pvz. {2; 5; 8}';
         else if(f.kind==='interval') ph = 'pvz. [-2;5)';
-        else if(f.kind==='expr') ph = 'pvz. 3a-1 arba 2√5-2';
+        else if(f.kind==='expr') ph = 'pvz. 10a^7 arba 3a-1';
         html += '<div class="fieldrow"><label class="math">'+f.label+'</label>'+
           '<input type="text" id="'+inpId+'" placeholder="'+ph+'">';
         if(f.kind==='expr'){
-          html += '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'√\')">√</button>'+
+          html += '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'^\')" title="Laipsnis (rodiklis)">x<sup>n</sup></button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'√\')">√</button>'+
                   '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'π\')">π</button>';
         }
         html += '</div>';
+        if(f.kind==='expr'){
+          html += '<div class="exprhint">Laipsnį rašyk su <b>^</b> (pvz. <span class="math">a^7</span> reiškia a septintuoju laipsniu), arba spausk <b>x<sup>n</sup></b> mygtuką.</div>';
+        }
       });
     } else if(ex.type==='mc' || ex.type==='multi'){
       html += '<div class="opts">';
