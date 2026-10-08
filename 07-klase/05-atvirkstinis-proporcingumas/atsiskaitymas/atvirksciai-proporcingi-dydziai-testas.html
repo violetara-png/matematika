@@ -278,7 +278,7 @@ function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 function fmtMath(s){
   s = s + '';
   if(/<svg[\s>]/i.test(s)) return s;
-  return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  return esc(s).replace(/\b(\d+|[A-Za-zπ])\/(\d+|[A-Za-zπ])\b/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
 }
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
@@ -416,18 +416,6 @@ function sendToSheets(){
   if(!student.result) return;
   note.className = 'sheet-status sending';
   note.textContent = '⏳ Siunčiama mokytojai…';
-
-  // sendBeacon patikimai išsiunčia duomenis fone, net jei mokinys iškart
-  // uždaro langą pamatęs pažymį (forma+iframe siuntimas apačioje gali
-  // nutrūkti nespėjęs nukeliauti — sendBeacon tai apeina).
-  try{
-    if(navigator.sendBeacon){
-      const params = new URLSearchParams();
-      params.append('data', JSON.stringify(student.result));
-      if (CFG.sheet_id) params.append('sheet_id', CFG.sheet_id);
-      navigator.sendBeacon(SHEETS_URL, params);
-    }
-  }catch(e){}
 
   // Naujas paslėptas iframe kiekvienam siuntimui
   const old = document.getElementById('sheetFrame');
