@@ -30,6 +30,9 @@
   .face .tag{position:absolute; top:14px; left:18px; color:var(--muted); font-size:15px}
   .face .side{position:absolute; top:14px; right:18px; color:var(--muted); font-size:14px; letter-spacing:.5px}
   .expr{font-size:clamp(24px,6vw,44px); font-weight:700; text-align:center}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 .1em}
+  .fr>span:first-child{border-bottom:2px solid currentColor;padding:0 .12em}
+  .fr>span:last-child{padding:0 .12em}
   .back{transform:rotateY(180deg)}
   .back .expr{color:var(--accent)}
   .hint{position:absolute; bottom:14px; color:var(--muted); font-size:13px}
@@ -102,29 +105,29 @@
 <footer>Sukurta pamokai · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
 <script>
 const CARDS = [
-  ["Taškas (4; 9) priklauso grafikui y = k : x. Rask k.", "36"],
-  ["y = 20 : x. Rask y, kai x = 4.", "5"],
-  ["y = 20 : x. Rask y, kai x = 5.", "4"],
-  ["y = 30 : x. Rask y, kai x = 6.", "5"],
-  ["y = 30 : x. Rask y, kai x = 5.", "6"],
-  ["Taškas (3; 8) priklauso grafikui y = k : x. Rask k.", "24"],
-  ["Taškas (6; 9) priklauso grafikui y = k : x. Rask k.", "54"],
-  ["y = 48 : x. Rask y, kai x = 8.", "6"],
-  ["y = 48 : x. Rask y, kai x = 6.", "8"],
-  ["y = 45 : x. Rask y, kai x = 9.", "5"],
-  ["Taškas (7; 7) priklauso grafikui y = k : x. Rask k.", "49"],
-  ["y = 60 : x. Rask y, kai x = 12.", "5"],
-  ["y = 60 : x. Rask y, kai x = 5.", "12"],
-  ["y = 27 : x. Rask y, kai x = 3.", "9"],
-  ["y = 27 : x. Rask y, kai x = 9.", "3"],
-  ["Taškas (10; 10) priklauso grafikui y = k : x. Rask k.", "100"]
+  ["Taškas (4; 9) priklauso grafikui y = <span class='fr'><span>k</span><span>x</span></span>. Rask k.", "36"],
+  ["y = <span class='fr'><span>20</span><span>x</span></span>. Rask y, kai x = 4.", "5"],
+  ["y = <span class='fr'><span>20</span><span>x</span></span>. Rask y, kai x = 5.", "4"],
+  ["y = <span class='fr'><span>30</span><span>x</span></span>. Rask y, kai x = 6.", "5"],
+  ["y = <span class='fr'><span>30</span><span>x</span></span>. Rask y, kai x = 5.", "6"],
+  ["Taškas (3; 8) priklauso grafikui y = <span class='fr'><span>k</span><span>x</span></span>. Rask k.", "24"],
+  ["Taškas (6; 9) priklauso grafikui y = <span class='fr'><span>k</span><span>x</span></span>. Rask k.", "54"],
+  ["y = <span class='fr'><span>48</span><span>x</span></span>. Rask y, kai x = 8.", "6"],
+  ["y = <span class='fr'><span>48</span><span>x</span></span>. Rask y, kai x = 6.", "8"],
+  ["y = <span class='fr'><span>45</span><span>x</span></span>. Rask y, kai x = 9.", "5"],
+  ["Taškas (7; 7) priklauso grafikui y = <span class='fr'><span>k</span><span>x</span></span>. Rask k.", "49"],
+  ["y = <span class='fr'><span>60</span><span>x</span></span>. Rask y, kai x = 12.", "5"],
+  ["y = <span class='fr'><span>60</span><span>x</span></span>. Rask y, kai x = 5.", "12"],
+  ["y = <span class='fr'><span>27</span><span>x</span></span>. Rask y, kai x = 3.", "9"],
+  ["y = <span class='fr'><span>27</span><span>x</span></span>. Rask y, kai x = 9.", "3"],
+  ["Taškas (10; 10) priklauso grafikui y = <span class='fr'><span>k</span><span>x</span></span>. Rask k.", "100"]
 ];
 let order = CARDS.map((_,i)=>i); let ci = 0;
 const cardEl = document.getElementById('card');
 function renderCard(){
   const [f,b]=CARDS[order[ci]]; cardEl.classList.remove('flipped');
-  document.getElementById('cardFront').textContent=f;
-  document.getElementById('cardBack').textContent=b;
+  document.getElementById('cardFront').innerHTML=f;
+  document.getElementById('cardBack').innerHTML=b;
   document.getElementById('cardNum').textContent=order[ci]+1;
   document.getElementById('cardNumB').textContent=order[ci]+1;
   document.getElementById('cardCounter').textContent=`Kortelė ${ci+1} iš ${CARDS.length}`;
@@ -169,7 +172,7 @@ function normalize(s){
 }
 function renderPractice(){
   done=false; const q=CARDS[porder[pi]][0];
-  document.getElementById('pQuestion').textContent=q;
+  document.getElementById('pQuestion').innerHTML=q;
   document.getElementById('pInput').value='';
   document.getElementById('pInput').focus();
   document.getElementById('pFeedback').textContent='';

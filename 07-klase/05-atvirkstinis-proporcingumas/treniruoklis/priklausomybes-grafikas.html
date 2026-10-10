@@ -131,8 +131,8 @@ const GENERATORIAI = [
   // ============ 1) k radimas iš grafiko taško (lengva) ============
   { label:"Koeficiento k radimas iš taško", pre:"k =", gen(){
       const x0=randint(1,9), y0=randint(1,9), k=x0*y0;
-      return { q:`Taškas (${x0}; ${y0}) priklauso grafikui y = k : x. Koks yra k?`, ans:k, pre:"k =", steps:[
-        `Jei taškas (x₀; y₀) priklauso grafikui y = k : x, tai k = x₀ · y₀.`,
+      return { q:`Taškas (${x0}; ${y0}) priklauso grafikui y = {fr:k|x}. Koks yra k?`, ans:k, pre:"k =", steps:[
+        `Jei taškas (x₀; y₀) priklauso grafikui y = {fr:k|x}, tai k = x₀ · y₀.`,
         `k = ${x0} · ${y0}`,
         `k = ${k}`
       ]};
@@ -140,44 +140,44 @@ const GENERATORIAI = [
   // ============ 1b) k radimas iš grafiko taško (sunkiau) ============
   { label:"Koeficiento k radimas iš taško", pre:"k =", gen(){
       const x0=randint(3,16), y0=randint(3,14), k=x0*y0;
-      return { q:`Taškas A(${x0}; ${y0}) priklauso grafikui y = k : x. Koks yra k?`, ans:k, pre:"k =", steps:[
-        `Jei taškas (x₀; y₀) priklauso grafikui y = k : x, tai k = x₀ · y₀.`,
+      return { q:`Taškas A(${x0}; ${y0}) priklauso grafikui y = {fr:k|x}. Koks yra k?`, ans:k, pre:"k =", steps:[
+        `Jei taškas (x₀; y₀) priklauso grafikui y = {fr:k|x}, tai k = x₀ · y₀.`,
         `k = ${x0} · ${y0}`,
         `k = ${k}`
       ]};
   }},
   // ============ 2) y = k : x, raskite y (lengva) ============
-  { label:"Reikšmės y radimas (y = k : x)", pre:"y =", gen(){
+  { label:"Reikšmės y radimas (y = k/x)", pre:"y =", gen(){
       const x0=randint(2,9), y0=randint(2,9), k=x0*y0;
-      return { q:`y = ${k} : x. Kam lygu y, kai x = ${x0}?`, ans:y0, pre:"y =", steps:[
-        `y = ${k} : x`,
+      return { q:`y = {fr:${k}|x}. Kam lygu y, kai x = ${x0}?`, ans:y0, pre:"y =", steps:[
+        `y = {fr:${k}|x}`,
         `y = ${k} : ${x0}`,
         `y = ${y0}`
       ]};
   }},
   // ============ 2b) y = k : x, raskite y (sunkiau) ============
-  { label:"Reikšmės y radimas (y = k : x)", pre:"y =", gen(){
+  { label:"Reikšmės y radimas (y = k/x)", pre:"y =", gen(){
       const x0=randint(3,18), y0=randint(3,16), k=x0*y0;
-      return { q:`Atvirkščiai proporcingi dydžiai: y = ${k} : x. Kam lygu y, kai x = ${x0}?`, ans:y0, pre:"y =", steps:[
-        `y = ${k} : x`,
+      return { q:`Atvirkščiai proporcingi dydžiai: y = {fr:${k}|x}. Kam lygu y, kai x = ${x0}?`, ans:y0, pre:"y =", steps:[
+        `y = {fr:${k}|x}`,
         `y = ${k} : ${x0}`,
         `y = ${y0}`
       ]};
   }},
   // ============ 3) y = k : x, raskite x (lengva) ============
-  { label:"Reikšmės x radimas (y = k : x)", pre:"x =", gen(){
+  { label:"Reikšmės x radimas (y = k/x)", pre:"x =", gen(){
       const x0=randint(2,9), y0=randint(2,9), k=x0*y0;
-      return { q:`y = ${k} : x. Kam lygu x, kai y = ${y0}?`, ans:x0, pre:"x =", steps:[
-        `Kadangi x · y = k, tai x = k : y.`,
+      return { q:`y = {fr:${k}|x}. Kam lygu x, kai y = ${y0}?`, ans:x0, pre:"x =", steps:[
+        `Kadangi x · y = k, tai x = {fr:k|y}.`,
         `x = ${k} : ${y0}`,
         `x = ${x0}`
       ]};
   }},
   // ============ 3b) y = k : x, raskite x (sunkiau) ============
-  { label:"Reikšmės x radimas (y = k : x)", pre:"x =", gen(){
+  { label:"Reikšmės x radimas (y = k/x)", pre:"x =", gen(){
       const x0=randint(3,17), y0=randint(3,15), k=x0*y0;
-      return { q:`Grafikas y = ${k} : x. Kam lygu x, kai y = ${y0}?`, ans:x0, pre:"x =", steps:[
-        `Kadangi x · y = k, tai x = k : y.`,
+      return { q:`Grafikas y = {fr:${k}|x}. Kam lygu x, kai y = ${y0}?`, ans:x0, pre:"x =", steps:[
+        `Kadangi x · y = k, tai x = {fr:k|y}.`,
         `x = ${k} : ${y0}`,
         `x = ${x0}`
       ]};
@@ -217,6 +217,7 @@ function fmtMath(s){
     .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
     .replace(/\^([▢□])/g, '<sup>$1</sup>')
     .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/\{fr:([^|{}]*)\|([^|{}]*)\}/g, '<span class="fr"><span>$1</span><span>$2</span></span>')
     .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
 }
 
