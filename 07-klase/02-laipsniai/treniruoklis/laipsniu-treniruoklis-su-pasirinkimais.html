@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laipsnių treniruoklis su pasirinkimais · 7 klasė</title>
+<style>
+  :root{
+    --pb:#00796b; --pb-d:#00564d; --bg:#eef2f7; --card:#fff; --ink:#1c2430;
+    --muted:#637990; --line:#d7dee8; --good:#14674b; --good-bg:#f1faf4;
+    --bad:#9b4424; --bad-bg:#fdf1ec; --geltona:#fcecc9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1150px;margin:0 auto;padding:28px 18px 60px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .tag{font-weight:800;color:var(--pb);font-size:13px;letter-spacing:1.5px}
+  h1{font-size:clamp(24px,4vw,34px);margin:6px 0}
+  header p{color:var(--muted);margin:0;max-width:560px}
+  .simb{font:52px Georgia,serif;color:var(--pb)}
+
+  .panelas{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin:20px 0;box-shadow:0 8px 26px rgba(23,53,76,.06)}
+  .kontroles{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
+  .kontroles label{font-weight:700;font-size:13.5px;color:var(--ink)}
+  select{display:block;margin-top:7px;border:1px solid #a9bbca;border-radius:10px;background:#fff;font:inherit;font-size:15px;padding:10px 12px;color:inherit}
+  button#naujas{border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--pb);color:#fff}
+  button#naujas:hover{background:var(--pb-d)}
+  .pastaba{font-size:13.5px;color:var(--muted);margin:14px 0 0}
+  .stat-eilute{display:flex;gap:18px;flex-wrap:wrap;font-weight:700;margin-top:14px;font-size:14.5px}
+  .baro-fonas{height:9px;background:#dfe9ef;border-radius:10px;margin-top:9px;overflow:hidden}
+  .baro-fonas>div{height:100%;width:0;background:var(--pb);border-radius:10px;transition:width .35s ease}
+
+  .rinkinys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .korta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(23,53,76,.05)}
+  .korta.correct{border-color:#9fcdb8;background:var(--good-bg)}
+  .korta.incorrect{border-color:#e4b79a;background:var(--bad-bg)}
+  .virsutine{display:flex;justify-content:space-between;color:var(--muted);font-size:12.5px;margin-bottom:10px}
+  .formule{display:flex;align-items:center;min-height:86px;font-family:Georgia,serif;font-size:30px;gap:10px}
+  .baze{white-space:nowrap}
+  .baze sup{font-size:.55em;margin-left:1px}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;font-size:.72em;margin:0 2px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .ivedimas{display:flex;gap:9px;margin-top:4px}
+  .ivedimas input{width:100%;min-width:0;border:1px solid #a9bbca;border-radius:10px;font:inherit;font-size:17px;padding:10px 12px;text-align:center}
+  .ivedimas input:focus{outline:3px solid var(--geltona);outline-offset:1px;border-color:var(--pb)}
+  .ivedimas button{border:0;border-radius:10px;padding:0 18px;font:inherit;font-weight:700;cursor:pointer;background:#e8eef4;color:#243e58}
+  .ivedimas button:hover{background:#dbe3ec}
+  .griztamasis{margin-top:13px;font-size:15px;line-height:1.6}
+  .griztamasis.gerai{color:var(--good)}
+  .griztamasis.blogai{color:var(--bad)}
+  footer{color:var(--muted);font-size:13.5px;margin-top:24px;text-align:center}
+  @media(max-width:720px){.rinkinys{grid-template-columns:1fr}.wrap{padding:20px 14px}.panelas{padding:16px}header{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="min-width:0;flex:1">
+      <div class="tag">7 KLASĖ · 2. LAIPSNIAI</div>
+      <h1>Laipsnių treniruoklis su pasirinkimais</h1>
+      <p>Pasirink laipsnio rodiklį ir skaičiaus tipą, tada kelk skaičius kvadratu ir kubu, iškart matysi, ar teisingai, ir pilną sprendimą.</p>
+    </div>
+    <div class="simb" aria-hidden="true">a² a³</div>
+  </header>
+
+  <section class="panelas">
+    <div class="kontroles">
+      <label>Laipsnis
+        <select id="modas">
+          <option value="all">Kvadratu ir kubu</option>
+          <option value="2">Tik kvadratu</option>
+          <option value="3">Tik kubu</option>
+        </select>
+      </label>
+      <label>Keliamas skaičius
+        <select id="tipas">
+          <option value="all">Visi tipai</option>
+          <option value="integer">Sveikieji skaičiai</option>
+          <option value="decimal">Dešimtainiai skaičiai</option>
+          <option value="fraction">Paprastosios trupmenos</option>
+          <option value="mixed">Mišrieji skaičiai</option>
+        </select>
+      </label>
+      <button id="naujas">↻ Naujas užduočių rinkinys</button>
+    </div>
+    <p class="pastaba">Atsakymą rašyk, pvz.: <b>36</b>, <b>−0,343</b>, <b>9/16</b> arba <b>−27/64</b>. Tinka ir taškas vietoj kablelio, ir mišrioji trupmena (pvz. <b>1 1/2</b>).</p>
+    <div class="stat-eilute" id="statistika" aria-live="polite"></div>
+    <div class="baro-fonas"><div id="juosta"></div></div>
+  </section>
+
+  <div class="rinkinys" id="uzduotys"></div>
+
+  <footer>10 užduočių viename rinkinyje · kiekviename naujame rinkinyje kiti skaičiai · treniruokis tiek kartų, kiek reikia.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const KIND_LABEL = {integer:"Sveikasis skaičius", decimal:"Dešimtainis skaičius", fraction:"Paprastoji trupmena", mixed:"Mišrusis skaičius"};
+  const SQUARE_BASES = Array.from({length:20},(_,i)=>i+1).concat([25]); // 1..20, 25
+  const CUBE_BASES   = Array.from({length:10},(_,i)=>i+1);              // 1..10
+
+  function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+  function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function fr(n,d){ return `<span class="fr"><span>${n}</span><span>${d}</span></span>`; }
+  function fracHtml(n,d){ return d===1 ? String(n) : fr(n,d); }
+  function signedFracHtml(sign,n,d){ const body = fracHtml(n,d); return sign<0 ? `−${body}` : body; }
+  function mixedHtml(sign,whole,remN,remD){
+    const fracPart = remN ? fracHtml(remN,remD) : "";
+    const body = whole ? (fracPart ? `${whole} ${fracPart}` : `${whole}`) : fracPart;
+    return sign<0 ? `−${body}` : body;
+  }
+  function fmtDec(x){
+    const neg = x<0; x=Math.abs(x);
+    let s = x.toFixed(6).replace(/0+$/,"").replace(/\.$/,"");
+    if(s==="") s="0";
+    s = s.replace(".", ",");
+    return (neg?"−":"") + s;
+  }
+  function powerFormula(p, baseHtml, wrapParen){
+    const base = wrapParen ? `(${baseHtml})` : baseHtml;
+    return `<span class="baze">${base}<sup>${p}</sup></span>`;
+  }
+
+  function generate(p, kind){
+    const bases = p===2 ? SQUARE_BASES : CUBE_BASES;
+    const sign = Math.random()<0.45 ? -1 : 1;
+    let a, b=1;
+    if(kind==="integer"){
+      a = choice(bases);
+    } else if(kind==="decimal"){
+      const pool = bases.filter(x=>x%10!==0);
+      a = choice(pool); b = 10;
+    } else {
+      const denPool = bases.filter(x=>x>1);
+      let tries=0;
+      do{
+        a = choice(bases);
+        b = choice(denPool);
+        tries++;
+      } while((gcd(a,b)!==1 || (kind==="fraction" ? a>=b : a<=b)) && tries<500);
+    }
+    const powA = Math.pow(a,p), powB = Math.pow(b,p);
+    const signedPowA = Math.pow(sign,p) * powA;
+    const answer = signedPowA/powB;
+    let formula, explanation;
+
+    if(kind==="integer"){
+      const baseDisp = sign<0 ? `−${a}` : `${a}`;
+      formula = powerFormula(p, baseDisp, sign<0);
+      if(p===2){
+        explanation = sign>0
+          ? `${a}² = ${a} · ${a} = <b>${powA}</b>.`
+          : `(−${a})² = (−${a}) · (−${a}) = <b>${powA}</b>.<br>Neigiamo skaičiaus kvadratas yra teigiamas.`;
+      } else {
+        explanation = sign>0
+          ? `${a}³ = ${a} · ${a} · ${a} = <b>${powA}</b>.`
+          : `(−${a})³ = (−${a}) · (−${a}) · (−${a}) = <b>−${powA}</b>.<br>Neigiamo skaičiaus kubas yra neigiamas.`;
+      }
+    } else if(kind==="decimal"){
+      const baseDec = fmtDec(a/b);
+      const baseDisp = sign<0 ? `−${baseDec}` : baseDec;
+      formula = powerFormula(p, baseDisp, sign<0);
+      const ansDec = fmtDec(answer);
+      if(p===2){
+        explanation = sign>0
+          ? `${baseDec}² = ${baseDec} · ${baseDec} = <b>${ansDec}</b>.`
+          : `(−${baseDec})² = (−${baseDec}) · (−${baseDec}) = <b>${ansDec}</b>.<br>Neigiamo skaičiaus kvadratas yra teigiamas.`;
+      } else {
+        explanation = sign>0
+          ? `${baseDec}³ = ${baseDec} · ${baseDec} · ${baseDec} = <b>${ansDec}</b>.`
+          : `(−${baseDec})³ = (−${baseDec}) · (−${baseDec}) · (−${baseDec}) = <b>${ansDec}</b>.<br>Neigiamo skaičiaus kubas yra neigiamas.`;
+      }
+    } else if(kind==="fraction"){
+      const baseFrac = fracHtml(a,b);
+      const baseDisp = sign<0 ? `−${baseFrac}` : baseFrac;
+      formula = powerFormula(p, baseDisp, true);
+      const ansFrac = fracHtml(powA,powB);
+      if(p===2){
+        explanation = `Keliame kvadratu ir skaitiklį, ir vardiklį: (${baseDisp})² = (${a} · ${a})/(${b} · ${b}) = <b>${ansFrac}</b>.`
+          + (sign<0 ? "<br>Neigiamo skaičiaus kvadratas yra teigiamas." : "");
+      } else {
+        const ansDisplay = sign<0 ? `−${ansFrac}` : ansFrac;
+        explanation = `Keliame kubu ir skaitiklį, ir vardiklį: (${baseDisp})³ = (${a} · ${a} · ${a})/(${b} · ${b} · ${b}) = <b>${ansDisplay}</b>.`
+          + (sign<0 ? "<br>Neigiamo skaičiaus kubas yra neigiamas." : "");
+      }
+    } else { // mixed
+      const whole=Math.floor(a/b), remN=a%b;
+      const baseMixed = mixedHtml(sign,whole,remN,b);
+      const baseImproper = signedFracHtml(sign,a,b);
+      formula = powerFormula(p, baseMixed, true);
+      const ansFrac = fracHtml(powA,powB);
+      const ansDisplay = (p===3 && sign<0) ? `−${ansFrac}` : ansFrac;
+      explanation = `Mišrųjį skaičių pirma paverčiame netaisyklingąja trupmena: ${baseMixed} = ${baseImproper}.`
+        + `<br>Keliame ${p===2?"kvadratu":"kubu"} ir skaitiklį, ir vardiklį: (${baseImproper})${p===2?"²":"³"} = <b>${ansDisplay}</b>.`
+        + (sign<0 ? `<br>Neigiamo skaičiaus ${p===2?"kvadratas yra teigiamas":"kubas yra neigiamas"}.` : "");
+    }
+
+    return { p, kind, formula, explanation, answer, key:`${p}:${kind}:${sign*a}/${b}` };
+  }
+
+  function parseAnswer(str){
+    let s = str.trim().replace(/−/g,"-").replace(/,/g,".");
+    if(s==="") return NaN;
+    let m = s.match(/^([+-]?)(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+    if(m){
+      const den=+m[4]; if(!den) return NaN;
+      const val = (+m[2]) + (+m[3])/den;
+      return m[1]==="-" ? -val : val;
+    }
+    m = s.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+    if(m){
+      const den=+m[2]; if(!den) return NaN;
+      return (+m[1])/den;
+    }
+    if(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return Number(s);
+    return NaN;
+  }
+
+  let tasks = [];
+  let previousKeys = new Set();
+
+  function updateStats(){
+    const done = tasks.filter(t=>t.status==="correct").length;
+    const first = tasks.filter(t=>t.first===true).length;
+    document.getElementById("statistika").textContent = `Išspręsta: ${done} / 10 · Teisingai iš pirmo karto: ${first}`;
+    document.getElementById("juosta").style.width = (done/10*100) + "%";
+  }
+
+  function checkAnswer(idx){
+    const t = tasks[idx];
+    const inputEl = document.getElementById("atsakymas"+idx);
+    const feedbackEl = document.getElementById("grizt"+idx);
+    const v = parseAnswer(inputEl.value);
+    if(!Number.isFinite(v)){
+      feedbackEl.className = "griztamasis blogai";
+      feedbackEl.textContent = "Įrašyk skaičių, trupmeną arba mišrųjį skaičių. Pavyzdžiui: 0,49 arba 9/16 arba 1 1/2.";
+      return;
+    }
+    const ok = Math.abs(v - t.answer) < 1e-9;
+    if(!t.attempted) t.first = ok;
+    t.attempted = true;
+    t.status = ok ? "correct" : "incorrect";
+    document.getElementById("korta"+idx).className = "korta " + t.status;
+    feedbackEl.className = "griztamasis " + (ok ? "gerai" : "blogai");
+    feedbackEl.innerHTML = (ok ? "✓ Teisingai!" : "Dar ne. Pažiūrėk sprendimą ir bandyk vėl.") + "<br>" + t.explanation;
+    updateStats();
+  }
+
+  function startSet(){
+    const modas = document.getElementById("modas").value;
+    const tipasVal = document.getElementById("tipas").value;
+    const kindDistribution = ["integer","integer","decimal","decimal","fraction","fraction","mixed","mixed","decimal","fraction"];
+    const seen = new Set();
+    const next = [];
+    for(let i=0;i<10;i++){
+      const p = modas==="all" ? (i%2 ? 3 : 2) : +modas;
+      const kind = tipasVal==="all" ? kindDistribution[i] : tipasVal;
+      let t, count=0;
+      do{ t = generate(p, kind); count++; }
+      while((seen.has(t.key) || previousKeys.has(t.key)) && count<500);
+      seen.add(t.key);
+      next.push(Object.assign(t, {status:null, attempted:false, first:undefined}));
+    }
+    tasks = next;
+    previousKeys = seen;
+
+    document.getElementById("uzduotys").innerHTML = tasks.map((t,i)=>`
+      <article class="korta" id="korta${i}">
+        <div class="virsutine"><b>${String(i+1).padStart(2,"0")} / 10</b><span>${KIND_LABEL[t.kind]}</span></div>
+        <div class="formule">${t.formula}<span style="padding-left:10px">=</span></div>
+        <form class="ivedimas" data-i="${i}">
+          <input id="atsakymas${i}" aria-label="${i+1} užduoties atsakymas" placeholder="Tavo atsakymas" autocomplete="off">
+          <button type="submit">Tikrinti</button>
+        </form>
+        <div class="griztamasis" id="grizt${i}" role="status"></div>
+      </article>`).join("");
+
+    document.querySelectorAll(".ivedimas").forEach(f=>{
+      f.onsubmit = e=>{ e.preventDefault(); checkAnswer(+f.dataset.i); };
+    });
+    updateStats();
+  }
+
+  document.getElementById("naujas").onclick = startSet;
+  document.getElementById("modas").onchange = startSet;
+  document.getElementById("tipas").onchange = startSet;
+  startSet();
+})();
+</script>
+</body>
+</html>
