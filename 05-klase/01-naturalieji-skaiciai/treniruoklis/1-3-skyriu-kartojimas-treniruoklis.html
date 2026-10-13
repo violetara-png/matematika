@@ -358,9 +358,12 @@ function initTekstai(){
 }
 
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+const SAFE_TAGS = ['b','/b','u','/u','i','/i','sup','/sup','sub','/sub'];
 function fmtMath(s){
   if(/<svg[\s>]/i.test(s)) return s;
-  let out = esc(s)
+  let out = esc(s);
+  SAFE_TAGS.forEach(t=>{ out = out.split('&lt;'+t+'&gt;').join('<'+t+'>'); });
+  out = out
     .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
     .replace(/\^([▢□])/g, '<sup>$1</sup>')
     .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
