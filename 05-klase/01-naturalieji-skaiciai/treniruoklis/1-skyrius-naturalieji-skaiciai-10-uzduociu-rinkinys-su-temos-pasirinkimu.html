@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Natūralieji skaičiai · 10 užduočių rinkinys · 5 klasė</title>
+<style>
+:root{
+  --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+  --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+  --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+  --geltona:#f3ead7; --melyna:#4a6d8c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--smelis);color:var(--rasalas);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.55}
+main{max-width:720px;margin:0 auto;padding:26px 18px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.tag{font-size:12.5px;letter-spacing:.1em;font-weight:800;color:var(--sildyta)}
+h1{font-size:clamp(24px,4.5vw,32px);margin:8px 0 4px;letter-spacing:-.01em}
+.intro{max-width:620px;color:var(--pilka);font-size:16px;margin-top:6px}
+button#home{border:1px solid var(--linija);background:var(--popierius);color:var(--rasalas);border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;cursor:pointer}
+
+.setup{background:var(--popierius);border:1px solid var(--linija);padding:22px;border-radius:16px;margin-top:20px;box-shadow:0 2px 10px rgba(60,40,20,.05)}
+.setup label{display:block;font-weight:700;font-size:15px;margin-bottom:8px}
+.setup select{display:block;width:100%;border:1px solid #d9c9b4;padding:12px;border-radius:10px;background:#fff;font:inherit;font-size:15px}
+.setup button{margin-top:16px;border:0;border-radius:10px;padding:13px 22px;font:inherit;font-weight:700;cursor:pointer;background:var(--sildyta);color:#fff;width:100%}
+.setup button:hover{background:#ad4e32}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0 0}
+.chips span{border:1px solid var(--linija);border-radius:30px;padding:6px 12px;font-size:12.5px;background:var(--smelis);color:var(--pilka)}
+.hint{font-size:13.5px;color:var(--pilka);margin-top:14px;line-height:1.6}
+
+.korta{background:var(--popierius);border:1px solid var(--linija);border-radius:16px;padding:clamp(18px,4vw,30px);margin-top:20px;box-shadow:0 2px 10px rgba(60,40,20,.05)}
+.meta{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--pilka)}
+progress{width:100%;height:8px;accent-color:var(--sildyta);margin:14px 0 18px;border-radius:8px;overflow:hidden;border:none}
+progress::-webkit-progress-bar{background:var(--geltona);border-radius:8px}
+progress::-webkit-progress-value{background:var(--sildyta);border-radius:8px}
+h2{font-size:clamp(19px,3vw,23px);line-height:1.45;margin:6px 0 6px;font-weight:600}
+#drawing{text-align:center;margin:6px 0}
+#drawing svg{max-width:420px;width:100%;height:auto}
+.fields{display:grid;gap:14px;margin:20px 0}
+.fields label{font-size:14.5px;color:var(--pilka);font-weight:600}
+.fields input{display:block;width:100%;max-width:260px;margin:7px auto 0;padding:13px;
+  border:2px solid var(--linija);border-radius:10px;font-size:21px;text-align:center;font-family:inherit}
+.fields input:focus{outline:none;border-color:var(--sildyta)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{border:0;border-radius:10px;padding:12px 20px;font-size:15.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-p{background:var(--sildyta);color:#fff}
+.btn-a{background:var(--geltona);color:var(--rasalas)}
+.btn:active{transform:translateY(1px)}
+.feedback{margin-top:18px;padding:16px 18px;background:var(--zalia-f);border:1px solid #bcdcbc;color:var(--zalia);
+  border-radius:10px;line-height:1.6;white-space:pre-line;font-size:15px}
+.feedback.wrong{background:var(--raudona-f);border-color:#e6bfbc;color:var(--raudona)}
+.hidden{display:none!important}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.stats div{background:var(--smelis);border-radius:12px;padding:16px;text-align:center}
+.stats strong{display:block;font-size:28px;color:var(--rasalas)}
+.stats span{font-size:12.5px;color:var(--pilka)}
+#summary h2{text-align:left}
+#summary .actions{justify-content:flex-start;margin-top:18px}
+footer{font-size:12.5px;color:var(--pilka);margin-top:22px;line-height:1.6}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+.fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+.fr>span:last-child{padding:0 4px}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <div class="tag">5 KLASĖ · 1 SKYRIUS</div>
+    <h1>Natūralieji skaičiai — 10 užduočių rinkinys</h1>
+  </div>
+  <button id="home" class="hidden">Temų pasirinkimas</button>
+</header>
+
+<div id="start">
+  <p class="intro">Pasitreniruok prieš atsiskaitymą. Spręsk savo tempu, pasitikrink ir iš karto gauk paaiškinimą.</p>
+  <div class="setup">
+    <label for="topic">Ką šiandien treniruosi?
+      <select id="topic"></select>
+    </label>
+    <button id="begin">Pradėti 10 užduočių →</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <p class="hint">Kiekvieną kartą — nauji skaičiai. Paaiškinimą gausi po kiekvieno patikrinimo. Skaičius gali rašyti su tarpais arba be jų.</p>
+</div>
+
+<section id="exercise" class="korta hidden">
+  <div class="meta"><span id="topicname"></span><span id="counter"></span></div>
+  <progress id="progress" max="10" value="0"></progress>
+  <h2 id="question"></h2>
+  <div id="drawing"></div>
+  <form id="form">
+    <div class="fields" id="fields"></div>
+    <div class="actions">
+      <button type="submit" class="btn btn-p" id="check">Pasitikrinti</button>
+      <button type="button" class="btn btn-a" id="reveal">Parodyti atsakymą</button>
+      <button type="button" class="btn btn-a hidden" id="next">Kita užduotis →</button>
+    </div>
+  </form>
+  <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+</section>
+
+<section id="summary" class="korta hidden"></section>
+
+<footer>Vertinamas pirmasis bandymas. Gali taisyti atsakymą ir bandyti dar kartą. Parodytas atsakymas į teisingų pirmųjų bandymų skaičių neįtraukiamas.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const choice=a=>a[rnd(0,a.length-1)];
+function grp(n){
+  const s=Math.abs(Math.trunc(n)).toString();let out='';
+  for(let i=0;i<s.length;i++){ if(i>0 && (s.length-i)%3===0) out+=' '; out+=s[i]; }
+  return (n<0?'−':'')+out;
+}
+function randLen(len){ return rnd(Math.pow(10,len-1), Math.pow(10,len)-1); }
+function digitAt(n,p){ return Math.floor(n/Math.pow(10,p))%10; }
+
+const classNames=['vienetų','tūkstančių','milijonų'];
+const sectionNames=['vienetų','dešimčių','šimtų'];
+function placeLabel(p){ return `${classNames[Math.floor(p/3)]} klasės ${sectionNames[p%3]}`; }
+const PLACE_NAMES=['vienetų','dešimčių','šimtų','tūkstančių','dešimt tūkstančių','šimtų tūkstančių'];
+
+// --- skaičiai žodžiais (LT) ---
+const units=['','vienas','du','trys','keturi','penki','šeši','septyni','aštuoni','devyni'];
+const teens=['dešimt','vienuolika','dvylika','trylika','keturiolika','penkiolika','šešiolika','septyniolika','aštuoniolika','devyniolika'];
+const tens=['','','dvidešimt','trisdešimt','keturiasdešimt','penkiasdešimt','šešiasdešimt','septyniasdešimt','aštuoniasdešimt','devyniasdešimt'];
+function small(n){
+  let a=[];
+  if(n>=100){ let h=Math.floor(n/100); a.push(h===1?'šimtas':units[h]+' šimtai'); n%=100; }
+  if(n>=10 && n<=19) a.push(teens[n-10]);
+  else{ if(n>=20) a.push(tens[Math.floor(n/10)]); if(n%10) a.push(units[n%10]); }
+  return a.join(' ');
+}
+function wordNumber(n){
+  if(!n) return 'nulis';
+  let a=[];
+  for(const [d,forms] of [[1000000,['milijonas','milijonai','milijonų']],[1000,['tūkstantis','tūkstančiai','tūkstančių']]]){
+    let k=Math.floor(n/d);
+    if(k){ let f=(k%100>=10&&k%100<=19)?2:(k%10===1?0:(k%10===0?2:1)); a.push(small(k)+' '+forms[f]); n%=d; }
+  }
+  if(n) a.push(small(n));
+  return a.join(' ');
+}
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// --- romėniškieji skaitmenys ---
+const ROMAN_VALS=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+function toRoman(n){ let s=''; for(const [v,c] of ROMAN_VALS) while(n>=v){ s+=c; n-=v; } return s; }
+function romanParts(n){ const p=[]; for(const [v,c] of ROMAN_VALS) while(n>=v){ p.push([c,v]); n-=v; } return p; }
+
+const norm=s=>String(s).replace(/[\s ]/g,'').trim();
+function num(s){ s=norm(s); return /^-?\d+$/.test(s)?Number(s):NaN; }
+const field=(label,answer,type='num',ansText)=>({label,answer,type,ansText});
+function accept(s,f){
+  if(f.type==='sign') return norm(s)===f.answer;
+  if(f.type==='roman') return norm(s).toUpperCase()===f.answer;
+  if(f.type==='text') return norm(s).toLowerCase()===String(f.answer).toLowerCase();
+  return num(s)===f.answer;
+}
+function fieldAnswerText(f){ return f.ansText || (f.type==='num'?grp(f.answer):f.answer); }
+
+const topics=[
+  ['skaitmuo','1.1.1 Skaičius ir skaitmuo'],
+  ['klases','1.1.2 Skaitmenų skyrių lentelė'],
+  ['reiksme','1.2.1 Skaitmens reikšmė'],
+  ['rasome','1.2.2 Rašome natūraliuosius skaičius'],
+  ['tiese','1.3.1 Skaičių tiesė'],
+  ['lyginame','1.3.2 Palyginame natūraliuosius skaičius'],
+  ['apvaliname10','1.4.1 Apvaliname iki dešimčių'],
+  ['apvaliname','1.4.2 Apvaliname iki nurodyto skyriaus'],
+  ['romenai1','1.5.1 Romėniškieji skaitmenys'],
+  ['romenai2','1.5.2 Rašome romėniškaisiais skaitmenimis']
+];
+const topicLabel=k=>topics.find(t=>t[0]===k)[1];
+
+function make(type){
+  let fs=[], question='', explain='', svg='';
+
+  if(type==='skaitmuo'){
+    const names={1:'vienaženklis',2:'dviženklis',3:'triženklis',4:'keturženklis',5:'penkiaženklis',6:'šešiaženklis'};
+    const mode=rnd(0,1);
+    const len=rnd(2,6);
+    const n=randLen(len);
+    if(mode===0){
+      question=`Koks yra skaičius ${grp(n)}: ${Object.values(names).join(', ')}?`;
+      fs=[field('Atsakymas',names[len],'text')];
+      explain=`Skaičius ${grp(n)} parašytas ${len} skaitmenimis, todėl jis yra ${names[len]}. Atsakymas: ${names[len]}.`;
+    } else {
+      const digits=String(n).split('').join(', ');
+      question=`Kiek skaitmenų parašyta sudarant skaičių ${grp(n)} (skaitmenys: ${digits})?`;
+      fs=[field('Skaitmenų skaičius',len)];
+      explain=`Skaičiuojame visus skaitmenis iš eilės: ${digits} — iš viso ${len}. Net jei koks skaitmuo pasikartoja, jis vis tiek skaičiuojamas. Atsakymas: ${len}.`;
+    }
+  }
+
+  if(type==='klases'){
+    const len=rnd(4,7);
+    const n=randLen(len);
+    const mode=rnd(0,1);
+    if(mode===0){
+      const p=rnd(0,len-1);
+      const d=digitAt(n,p);
+      question=`Skaičiuje ${grp(n)} koks skaitmuo yra ${placeLabel(p)} skyriuje?`;
+      fs=[field('Skaitmuo',d)];
+      explain=`Suskirstome skaičių klasėmis po tris skaitmenis iš dešinės. ${placeLabel(p)} skyrius — tai ${p+1}-as skaitmuo skaičiuojant nuo dešinės. Skaičiuje ${grp(n)} ten yra skaitmuo ${d}. Atsakymas: ${d}.`;
+    } else {
+      const count=Math.ceil(len/3);
+      question=`Iš kiek klasių sudarytas skaičius ${grp(n)}?`;
+      fs=[field('Klasių skaičius',count)];
+      explain=`${grp(n)} turi ${len} skaitmenis. Skaitmenis grupuojame po tris iš dešinės — paskutinė (kairiausia) grupė gali būti nepilna, bet vis tiek sudaro atskirą klasę. Iš viso gaunasi ${count} klasės(ių). Atsakymas: ${count}.`;
+    }
+  }
+
+  if(type==='reiksme'){
+    const len=rnd(3,6);
+    let n,p,d;
+    do{ n=randLen(len); p=rnd(0,len-1); d=digitAt(n,p); }while(d===0);
+    const val=d*Math.pow(10,p);
+    const mode=rnd(0,1);
+    if(mode===0){
+      question=`Kokia skaitmens ${d} reikšmė skaičiuje ${grp(n)}?`;
+      fs=[field('Reikšmė',val,'num',grp(val))];
+      explain=`Skaitmuo ${d} skaičiuje ${grp(n)} stovi ${PLACE_NAMES[p]} skyriuje. Jo reikšmė = ${d} × ${grp(Math.pow(10,p))} = ${grp(val)}. Atsakymas: ${grp(val)}.`;
+    } else {
+      question=`Skaičiuje ${grp(n)} kurio skaitmens reikšmė lygi ${grp(val)}?`;
+      fs=[field('Skaitmuo',d)];
+      explain=`${grp(val)} = skaitmuo × ${grp(Math.pow(10,p))}, taigi ieškome skaitmens ${PLACE_NAMES[p]} skyriuje. Ten stovi skaitmuo ${d}. Atsakymas: ${d}.`;
+    }
+  }
+
+  if(type==='rasome'){
+    const mode=rnd(0,1);
+    if(mode===0){
+      const len=rnd(4,6);
+      const n=randLen(len);
+      question=`Užrašyk skaitmenimis: „${cap(wordNumber(n))}".`;
+      fs=[field('Skaičius',n,'num',grp(n))];
+      explain=`Užrašome kiekvieną paminėtą klasę ir jos skaitmenis iš eilės, nuo didžiausios klasės iki vienetų. Atsakymas: ${grp(n)}.`;
+    } else {
+      const len=rnd(4,6);
+      let n, terms, nonzero;
+      do{
+        n=randLen(len);
+        const ds=String(n);
+        terms=ds.split('').map((dd,i)=>Number(dd)*Math.pow(10,ds.length-1-i));
+        nonzero=terms.map((t,i)=>({t,i})).filter(x=>x.t);
+      } while(nonzero.length<2);
+      const pickIdx=choice(nonzero).i;
+      const shown=terms.map((t,i)=>i===pickIdx?'▢':(t?grp(t):null)).filter(x=>x!==null).join(' + ');
+      question=`Įrašyk trūkstamą dėmenį, kad gautum skaičių ${grp(n)}: ${shown} = ${grp(n)}.`;
+      fs=[field('Trūkstamas dėmuo',terms[pickIdx],'num',grp(terms[pickIdx]))];
+      const full=terms.filter(t=>t).map(grp).join(' + ');
+      explain=`Kiekvieną skaitmenį dauginame iš jo skyriaus vertės: ${grp(n)} = ${full}. Nulinių dėmenų rašyti nereikia. Atsakymas: ${grp(terms[pickIdx])}.`;
+    }
+  }
+
+  if(type==='tiese'){
+    const mode=rnd(0,1);
+    if(mode===0){
+      const R=rnd(10,20);
+      const c=rnd(1,R-1);
+      question=`Kurį skaičių žymi taškas P skaičių tiesėje?`;
+      fs=[field('Taško P koordinatė',c)];
+      const step=460/R;
+      svg=`<svg viewBox="0 0 500 90" role="img" aria-label="Skaičių tiesė nuo 0 iki ${R} su pažymėtu tašku P.">`;
+      for(let i=0;i<=R;i++) svg+=`<path d="M${20+i*step} 18V48" stroke="#c8d9e8"/>`;
+      svg+=`<path d="M10 33H490l-8 -5m8 5l-8 5" fill="none" stroke="#2c2620" stroke-width="2"/>`;
+      svg+=`<text x="20" y="72" text-anchor="middle" font-size="16">0</text>`;
+      svg+=`<text x="${20+R*step}" y="72" text-anchor="middle" font-size="16">${R}</text>`;
+      svg+=`<circle cx="${20+c*step}" cy="33" r="5" fill="#c9603f"/><text x="${20+c*step}" y="15" text-anchor="middle" font-size="16">P</text>`;
+      svg+=`</svg>`;
+      explain=`Nuo 0 iki ${R} skaičių tiesė padalyta į ${R} vienodų dalių (vienetinių atkarpų). Suskaičiuojame, kiek tokių atkarpų yra nuo 0 iki taško P: ${c}. Atsakymas: ${c}.`;
+    } else {
+      const a=rnd(20,200);
+      const k=rnd(2,30);
+      const dir=choice([1,-1]);
+      const b=a+dir*k;
+      const kryptis=dir>0?'į dešinę':'į kairę';
+      question=`Taškas A skaičių tiesėje žymi skaičių ${a}. Taškas B yra per ${k} vienetų ${kryptis} nuo A. Kokį skaičių žymi taškas B?`;
+      fs=[field('Taško B koordinatė',b)];
+      explain=`Kryptis „${kryptis}" reiškia ${dir>0?'sudėtį':'atimtį'}. ${a} ${dir>0?'+':'−'} ${k} = ${b}. Atsakymas: ${b}.`;
+    }
+  }
+
+  if(type==='lyginame'){
+    const mode=rnd(0,1);
+    if(mode===0){
+      const sameLen=choice([true,false]);
+      let a,b,ans;
+      if(!sameLen){
+        let l1=rnd(2,5), l2; do{ l2=rnd(2,5); }while(l2===l1);
+        a=randLen(l1); b=randLen(l2);
+        ans=a>b?'>':'<';
+        question=`Koks ženklas (>, < ar =) tinka tarp skaičių ${grp(a)} ir ${grp(b)}?`;
+        fs=[field('Ženklas',ans,'sign')];
+        explain=`${grp(a)} sudarytas iš ${l1} skaitmenų, o ${grp(b)} — iš ${l2} skaitmenų. Skaičius su daugiau skaitmenų visada yra didesnis. Atsakymas: ${ans}.`;
+      } else {
+        const l=rnd(2,5);
+        do{ a=randLen(l); b=randLen(l); }while(a===b);
+        ans=a>b?'>':'<';
+        question=`Koks ženklas (>, < ar =) tinka tarp skaičių ${grp(a)} ir ${grp(b)}?`;
+        fs=[field('Ženklas',ans,'sign')];
+        explain=`${grp(a)} ir ${grp(b)} turi po ${l} skaitmenis, tad lyginame skyrius nuo kairiausio, kol randame skirtumą. Atsakymas: ${ans}.`;
+      }
+    } else {
+      const l=rnd(2,4);
+      const nums=new Set();
+      while(nums.size<4) nums.add(randLen(l));
+      const arr=[...nums];
+      const wantMax=choice([true,false]);
+      const ans=wantMax?Math.max(...arr):Math.min(...arr);
+      question=`Rask ${wantMax?'didžiausią':'mažiausią'} skaičių: ${arr.map(grp).join('; ')}.`;
+      fs=[field('Skaičius',ans,'num',grp(ans))];
+      explain=`Visi skaičiai turi po ${l} skaitmenis, tad lyginame juos skyrius po skyriaus nuo kairės. ${wantMax?'Didžiausias':'Mažiausias'} iš jų — ${grp(ans)}. Atsakymas: ${grp(ans)}.`;
+    }
+  }
+
+  if(type==='apvaliname10'){
+    const n=rnd(12,987);
+    const a=Math.round(n/10)*10;
+    const next=n%10;
+    question=`Suapvalink ${n} iki dešimčių.`;
+    fs=[field('Suapvalintas skaičius',a)];
+    explain=`Žiūrime į vienetų skaitmenį: ${next}. ${next>=5?'Jis yra 5 arba didesnis, todėl dešimčių skaitmenį padidiname vienetu':'Jis mažesnis už 5, todėl dešimčių skaitmens nekeičiame'}. Vienetų skaitmenį pakeičiame nuliu. Atsakymas: ${a}.`;
+  }
+
+  if(type==='apvaliname'){
+    const opts=[[10,'dešimčių'],[100,'šimtų'],[1000,'tūkstančių'],[10000,'dešimt tūkstančių'],[100000,'šimtų tūkstančių']];
+    const [power,name]=choice(opts);
+    const n=rnd(power, Math.min(power*998, 999999));
+    const a=Math.round(n/power)*power;
+    const next=Math.floor(n/(power/10))%10;
+    question=`Suapvalink ${grp(n)} iki ${name}.`;
+    fs=[field('Suapvalintas skaičius',a,'num',grp(a))];
+    explain=`Žiūrime į skaitmenį iš karto dešinėje nuo apvalinamo skyriaus: ${next}. ${next>=5?'Jis 5 arba didesnis, todėl apvalinamo skyriaus skaitmenį padidiname vienetu':'Jis mažesnis už 5, todėl apvalinamo skyriaus skaitmens nekeičiame'}. Dešinėje esančius skaitmenis pakeičiame nuliais. Atsakymas: ${grp(a)}.`;
+  }
+
+  if(type==='romenai1'){
+    const n=choice([rnd(1,20),rnd(1,20),rnd(21,50),rnd(51,100)]);
+    const roman=toRoman(n);
+    const parts=romanParts(n);
+    const dalys=parts.map(([c,v])=>`${c} = ${v}`).join(', ');
+    const suma=parts.map(([,v])=>v).join(' + ');
+    question=`Paversk romėniškąjį skaičių ${roman} į paprastą (arabiškąjį).`;
+    fs=[field('Skaičius',n)];
+    explain=`${roman} — surandame kiekvienos dalies reikšmę: ${dalys}. Sudedame: ${suma} = ${n}. Atsakymas: ${n}.`;
+  }
+
+  if(type==='romenai2'){
+    const n=choice([rnd(1,20),rnd(1,20),rnd(21,50),rnd(51,100)]);
+    const roman=toRoman(n);
+    const parts=romanParts(n);
+    const dalys=parts.map(([c,v])=>`${v} = ${c}`).join(', ');
+    question=`Užrašyk skaičių ${n} romėniškaisiais skaitmenimis.`;
+    fs=[field('Romėniškasis užrašas',roman,'roman')];
+    explain=`${n} skaidome į dalis: ${dalys}. Sudėję dalis gauname ${roman}. Atsakymas: ${roman}.`;
+  }
+
+  return {type,question,fields:fs,explain,svg};
+}
+
+// ---- Eiga ----
+let questions=[],index=0,records=[],first=true;
+const topicSel=$('topic');
+topicSel.add(new Option('Visos temos · mišrus rinkinys','mixed'));
+topics.forEach(([v,t])=>{ topicSel.add(new Option(t,v)); let s=document.createElement('span'); s.textContent=t; $('chips').append(s); });
+
+function start(){
+  const selected=topicSel.value;
+  questions=Array.from({length:10},(_,i)=>make(selected==='mixed'?topics[i%topics.length][0]:selected));
+  index=0; records=[];
+  $('start').classList.add('hidden');
+  $('summary').classList.add('hidden');
+  $('exercise').classList.remove('hidden');
+  $('home').classList.remove('hidden');
+  render();
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render(){
+  const q=questions[index];
+  first=true;
+  $('question').textContent=q.question;
+  $('topicname').textContent=topicLabel(q.type);
+  $('counter').textContent=`${index+1} / 10`;
+  $('progress').value=index;
+  $('drawing').innerHTML=q.svg||'';
+  $('fields').replaceChildren();
+  q.fields.forEach((f,i)=>{
+    const l=document.createElement('label'); l.textContent=f.label;
+    const input=document.createElement('input');
+    input.id=`answer${i}`; input.autocomplete='off';
+    input.placeholder = f.type==='sign' ? '>, < arba =' : (f.type==='roman' ? 'Pvz., XIV' : '?');
+    input.inputMode = f.type==='num' ? 'numeric' : 'text';
+    l.append(input); $('fields').append(l);
+  });
+  $('feedback').classList.add('hidden');
+  $('next').classList.add('hidden');
+  $('check').disabled=false; $('check').classList.remove('hidden');
+  $('reveal').disabled=false;
+  document.getElementById('answer0').focus();
+}
+
+function solutionText(q){
+  return q.fields.map(f=>`${f.label}: ${fieldAnswerText(f)}`).join(' • ');
+}
+
+function show(t,wrong){
+  const el=$('feedback');
+  el.textContent=t; el.className='feedback'+(wrong?' wrong':'');
+  el.classList.remove('hidden');
+}
+
+function check(reveal=false){
+  const q=questions[index];
+  const values=q.fields.map((_,i)=>$(`answer${i}`).value);
+  if(!reveal && values.some(v=>!v.trim())){ show('Įrašyk atsakymą. Tuomet galėsi pasitikrinti.',true); return; }
+  const correct = !reveal && q.fields.every((f,i)=>accept(values[i],f));
+  if(first){ records.push({type:q.type,correct}); first=false; }
+  if(correct || reveal){
+    $('check').classList.add('hidden');
+    $('next').classList.remove('hidden');
+    $('next').textContent = index===9 ? 'Pamatyti rezultatą →' : 'Kita užduotis →';
+  } else {
+    $('next').classList.remove('hidden');
+    $('next').textContent = index===9 ? 'Baigti rinkinį →' : 'Praleisti ir tęsti →';
+  }
+  const heading = correct ? 'Teisingai!' : (reveal ? 'Pasimokyk iš paaiškinimo.' : 'Dar ne viskas teisinga. Gali pataisyti ir bandyti dar kartą.');
+  show(heading+'\n\n'+q.explain+'\n\n'+solutionText(q), !correct);
+}
+
+function next(){
+  index++;
+  if(index<10){ render(); return; }
+  const score=records.filter(r=>r.correct).length;
+  $('exercise').classList.add('hidden');
+  $('summary').classList.remove('hidden');
+  const revisit=[...new Set(records.filter(r=>!r.correct).map(r=>r.type))];
+  $('summary').innerHTML=`
+    <div class="tag">TRENIRUOTĖ BAIGTA</div>
+    <h2>${score>=8?'Puikus darbas!':score>=5?'Jau įsibėgėji!':'Treniruotė padeda mokytis!'}</h2>
+    <div class="stats">
+      <div><strong>${score}/10</strong><span>teisingai iš pirmo karto</span></div>
+      <div><strong>${score*10}%</strong><span>pirmųjų bandymų tikslumas</span></div>
+      <div><strong>10</strong><span>atliktų užduočių</span></div>
+    </div>
+    <p>${revisit.length ? 'Dar pasitreniruok šias temas: '+revisit.map(topicLabel).join(', ')+'.' : 'Visas šio rinkinio užduotis įveikei iš pirmo karto. Išbandyk naują rinkinį!'}</p>
+    <div class="actions">
+      <button class="btn btn-p" id="again">Naujas 10 užduočių rinkinys</button>
+      <button class="btn btn-a" id="choose">Pasirinkti kitą temą</button>
+    </div>`;
+  $('again').onclick=start;
+  $('choose').onclick=home;
+  $('summary').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function home(){
+  $('exercise').classList.add('hidden');
+  $('summary').classList.add('hidden');
+  $('start').classList.remove('hidden');
+  $('home').classList.add('hidden');
+}
+
+$('begin').onclick=start;
+$('home').onclick=home;
+$('form').onsubmit=e=>{ e.preventDefault(); check(); };
+$('reveal').onclick=()=>check(true);
+$('next').onclick=next;
+</script>
+</body>
+</html>
