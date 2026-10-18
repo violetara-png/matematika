@@ -128,24 +128,30 @@ function powExpr(base, exp){
   // base^exp uzrasymas su teisingu "^(-n)" formatu neigiamam rodikliui
   return exp < 0 ? `${base}^(${exp})` : `${base}^${exp}`;
 }
+function powSupOrNothing(e){ return e===1 ? '' : `^${e<0?`(${e})`:e}`; }
 
 const GENERATORIAI = [
-  // 1. Sandauga ir dalyba (tas pats skaitinis pagrindas, rodikliai gali būti neigiami)
-  { label:"Sandauga ir dalyba (tas pats pagrindas)",
-    note:"Atlikite veiksmą ir atsakymą užrašykite laipsniu.", gen(){
+  // 1a. Sandauga (tas pats pagrindas)
+  { label:"Laipsnių savybės",
+    note:"Kiekvieną reiškinį apskaičiuok arba užrašyk vienu laipsniu.", gen(){
       const p = choice([2,3,5,7,11]);
-      const op = choice(['*','/']);
       const m = nz(-9,9), n = nz(-9,9);
-      const exp = op === '*' ? m+n : m-n;
-      const q = op === '*' ? `${powExpr(p,m)} · ${powExpr(p,n)}` : `${powExpr(p,m)} : ${powExpr(p,n)}`;
+      const exp = m+n;
       const ans = exp === 0 ? '1' : powExpr(p, exp);
-      const val = Math.pow(p, exp);
-      return { q: `${q} =`, ans, ansType:'text', ansAlt:[String(val)],
-        steps:[`Rodikliai ${op==='*'?'sudedami':'atimami'}: ${m} ${op==='*'?'+':'−'} ${n} = ${exp}`,
-               `= ${ans}`] };
+      return { q: `${powExpr(p,m)} · ${powExpr(p,n)} =`, ans, ansType:'text', ansAlt:[String(Math.pow(p,exp))],
+        steps:[`Rodikliai sudedami: ${m} + ${n} = ${exp}`, `= ${ans}`] };
   }},
-  // 2. Laipsnis keliamas laipsniu
-  { label:"Laipsnis keliamas laipsniu", note:"Suprastinkite.", gen(){
+  // 1b. Dalyba (tas pats pagrindas)
+  { label:"Laipsnių savybės", gen(){
+      const p = choice([2,3,5,7,11]);
+      const m = nz(-9,9), n = nz(-9,9);
+      const exp = m-n;
+      const ans = exp === 0 ? '1' : powExpr(p, exp);
+      return { q: `${powExpr(p,m)} : ${powExpr(p,n)} =`, ans, ansType:'text', ansAlt:[String(Math.pow(p,exp))],
+        steps:[`Rodikliai atimami: ${m} − ${n} = ${exp}`, `= ${ans}`] };
+  }},
+  // 1c. Laipsnis keliamas laipsniu
+  { label:"Laipsnių savybės", gen(){
       const p = choice([2,3,5,7,11,12,13]);
       const m = nz(-5,5), n = nz(-4,4);
       const exp = m*n;
@@ -153,7 +159,26 @@ const GENERATORIAI = [
       return { q:`(${powExpr(p,m)})${n<0?`^(${n})`:`^${n}`} =`, ans, ansType:'text', ansAlt:[String(Math.pow(p,exp))],
         steps:[`(${powExpr(p,m)})^${n} = ${powExpr(p, m*n)}`, `= ${ans}`] };
   }},
-  // 3. Raidinis pagrindas (a, b arba x)
+  // 1d. Sandaugos laipsnis: p^n · q^n = (p·q)^n
+  { label:"Laipsnių savybės", gen(){
+      const n = nz(-5,5);
+      let p = randint(2,12), q = randint(2,12);
+      while(q === p) q = randint(2,12);
+      const pq = p*q;
+      const ans = powExpr(pq, n);
+      return { q:`${powExpr(p,n)} · ${powExpr(q,n)} =`, ans, ansType:'text', ansAlt:[String(Math.pow(pq,n))],
+        steps:[`${p} · ${q} = ${pq}, rodiklis lieka tas pats`, `= ${ans}`] };
+  }},
+  // 1e. Dalmens laipsnis: p^n : q^n = (p:q)^n
+  { label:"Laipsnių savybės", gen(){
+      const n = nz(-5,5);
+      const q = randint(2,9), k = randint(2,9);
+      const p = q*k; // p:q = k (sveikas skaicius)
+      const ans = powExpr(k, n);
+      return { q:`${powExpr(p,n)} : ${powExpr(q,n)} =`, ans, ansType:'text', ansAlt:[String(Math.pow(k,n))],
+        steps:[`${p} : ${q} = ${k}, rodiklis lieka tas pats`, `= ${ans}`] };
+  }},
+  // 2. Raidinis pagrindas (a, b arba x)
   { label:"Raidinis pagrindas", note:"Reiškinį užrašykite laipsniu.", gen(){
       const letter = choice(['a','b','x','m','n']);
       const op = choice(['*','/']);
@@ -164,7 +189,7 @@ const GENERATORIAI = [
       return { q: `${q} =`, ans, ansType:'text',
         steps:[`${op==='*'?'Rodikliai sudedami':'Rodikliai atimami'}: ${m} ${op==='*'?'+':'−'} ${n} = ${exp}`, `= ${ans}`] };
   }},
-  // 4. Apskaičiuokite (skaitinė reikšmė)
+  // 3. Apskaičiuokite (skaitinė reikšmė)
   { label:"Apskaičiuokite", note:"Apskaičiuokite reiškinio reikšmę.", gen(){
       const p = choice([2,3,5]);
       const op = choice(['*','/']);
@@ -177,7 +202,7 @@ const GENERATORIAI = [
       return { q:`${q} =`, ans: ansVal, ansText,
         steps:[`= ${powExpr(p, exp)}`, `= ${ansText}`] };
   }},
-  // 5. Suvienodinkite pagrindus
+  // 4. Suvienodinkite pagrindus
   { label:"Suvienodinkite pagrindus", note:"Pagrindus suvienodinkite, tada apskaičiuokite.", gen(){
       const opts = [[2,2],[2,3],[3,2],[3,3],[5,2]]; // [p, k] -> q = p^k
       const [p,k] = choice(opts);
@@ -192,7 +217,7 @@ const GENERATORIAI = [
                `${powExpr(p,m)} · ${powExpr(p,k*n)} = ${powExpr(p, totalExp)}`,
                `= ${ansText}`] };
   }},
-  // 6. Užrašykite laipsniu, pagrindas a arba (-a)
+  // 5. Užrašykite laipsniu, pagrindas a arba (-a)
   { label:"Pagrindas a (arba −a)", note:"Reiškinį užrašykite laipsniu.", gen(){
       const base = choice(['a','(-a)']);
       const op = choice(['*','/']);
@@ -203,7 +228,7 @@ const GENERATORIAI = [
       return { q:`${q} =`, ans, ansType:'text',
         steps:[`Rodikliai ${op==='*'?'sudedami':'atimami'}: ${exp}`, `= ${ans}`] };
   }},
-  // 7. Suprastinkite (su skaitiniu koeficientu)
+  // 6. Suprastinkite (su skaitiniu koeficientu)
   { label:"Suprastinkite su koeficientu", note:"Suprastinkite reiškinį.", gen(){
       const c1 = choice([2,3,4,5,-2,-3,0.5,0.2,2.5]);
       const c2 = choice([2,3,4,5,-2,-3,0.4,0.5,4]);
@@ -216,8 +241,6 @@ const GENERATORIAI = [
                `= ${ansStr}`] };
   }}
 ];
-
-function powSupOrNothing(e){ return e===1 ? '' : `^${e<0?`(${e})`:e}`; }
 
 
 // naudoja verify_gen.mjs (atsitiktinis vienas uždavinys patikrai) — pagrindinis puslapis
