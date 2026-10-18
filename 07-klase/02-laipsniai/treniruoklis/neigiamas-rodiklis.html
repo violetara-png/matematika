@@ -53,6 +53,13 @@
   .uzd input[type=text].ok{border-color:var(--ok); background:var(--ok-f)}
   .uzd input[type=text].ne{border-color:var(--ne); background:var(--ne-f)}
   .zenklas{font-size:19px; width:22px; text-align:center}
+  .ivedimas{display:flex; flex-direction:column; gap:4px; align-items:center}
+  .simb-row{display:flex; gap:3px}
+  .simb-row button{border:1px solid var(--linija); background:var(--bg); color:var(--tekst);
+    border-radius:6px; width:24px; height:24px; font-size:13px; line-height:1; cursor:pointer;
+    padding:0; font-family:inherit}
+  .simb-row button:hover{background:var(--linija)}
+  @media print{ .ivedimas .simb-row{display:none!important} }
   .sprendimas{flex-basis:100%; font-size:13.5px; color:var(--pilka); background:var(--bg);
     border-radius:8px; padding:8px 12px; margin-top:4px; display:none}
   .sprendimas b{color:var(--tekst)}
@@ -331,9 +338,13 @@ function pieshti(){
     let html = `<h2>${esc(antraste)}</h2>`;
     if(grupe[0].note) html += `<p class="nuoroda">${esc(grupe[0].note)}</p>`;
     grupe.forEach(p=>{
+      const simbHtml = SIMBOLIAI.map(s=>`<button type="button" class="simb" data-target="at${p.idx}" data-ch="${esc(s)}">${esc(s)}</button>`).join('');
       html += `<div class="uzd" data-idx="${p.idx}">
         <span class="klaus">${fmtMath(p.q)}</span>
-        <input type="text" id="at${p.idx}" autocomplete="off" inputmode="text" placeholder="?">
+        <div class="ivedimas">
+          <input type="text" id="at${p.idx}" autocomplete="off" inputmode="text" placeholder="?">
+          <div class="simb-row">${simbHtml}</div>
+        </div>
         <span class="zenklas" id="zn${p.idx}"></span>
         <div class="sprendimas" id="sp${p.idx}"></div>
       </div>`;
@@ -385,6 +396,23 @@ function patikrinti(){
   b.className = 'busena ' + (correct===total ? 'ok' : (correct===0 ? 'ne' : ''));
   b.textContent = `Teisingai: ${correct} iš ${total}.` + (correct===total ? ' Puiku!' : '');
 }
+
+const SIMBOLIAI = (META.simboliai && META.simboliai.length) ? META.simboliai : ['^','(',')','/','+','−',','];
+
+function insSymbol(inputId, ch){
+  const el = document.getElementById(inputId);
+  if(!el) return;
+  const s = el.selectionStart ?? el.value.length, e = el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos = s + ch.length;
+  el.focus();
+  el.setSelectionRange(pos,pos);
+}
+$('grupes').addEventListener('click', e=>{
+  const b = e.target.closest('.simb');
+  if(!b) return;
+  insSymbol(b.dataset.target, b.dataset.ch);
+});
 
 $('tikrinti').addEventListener('click', patikrinti);
 $('nauji').addEventListener('click', naujiSkaiciai);
