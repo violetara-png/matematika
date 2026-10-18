@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 klasės kurso kartojimas ✨</title>
+<style>
+  :root{
+    --bg:#eef2f7; --kort:#fff; --tekst:#1c2430; --pilka:#5b6472; --linija:#d8dee6;
+    --tema:#1e5fa8; --tema-t:#2b74c4; --ok:#1e7e34; --ok-f:#eaf6ec; --ne:#b91c1c; --ne-f:#fdecec;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#131720; --kort:#1c2230; --tekst:#e7ecf3; --pilka:#9aa6b6; --linija:#2c3648;
+      --ok-f:#113322; --ne-f:#3a1414;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--tekst); font-family:"Segoe UI",system-ui,sans-serif;
+    line-height:1.5; font-size:16px;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 0 60px}
+  header{background:linear-gradient(135deg,var(--tema),var(--tema-t)); color:#fff; padding:34px 24px 28px}
+  header h1{font-size:28px; margin:0 0 10px}
+  header p{margin:0; font-size:14.5px; opacity:.95; max-width:640px}
+  .korpusas{padding:20px 20px 0}
+  .grizti{display:inline-block; margin:16px 0 0; color:var(--tema-t); font-size:13px; text-decoration:none}
+  .grizti:hover{text-decoration:underline}
+
+  .juosta{background:var(--kort); border:1px solid var(--linija); border-radius:14px;
+    padding:14px 18px; margin:16px 0; display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; box-shadow:0 3px 14px rgba(0,0,0,.06)}
+  .busena{font-weight:600; font-size:14.5px}
+  .busena.ok{color:var(--ok)} .busena.ne{color:var(--ne)}
+  .mygtukai{display:flex; gap:8px; flex-wrap:wrap}
+  .btn{border:none; border-radius:10px; padding:11px 18px; font-size:14.5px; font-weight:600;
+    cursor:pointer; font-family:inherit; white-space:nowrap}
+  .btn-p{background:var(--tema); color:#fff}
+  .btn-a{background:var(--linija); color:var(--tekst)}
+  .btn:active{transform:translateY(1px)}
+
+  .pastabos{font-size:12.5px; color:var(--pilka); margin:0 0 18px; line-height:1.6}
+
+  .grupe{background:var(--kort); border:1px solid var(--linija); border-radius:14px;
+    padding:18px 20px; margin-bottom:16px; box-shadow:0 3px 14px rgba(0,0,0,.05)}
+  .grupe h2{font-size:17px; margin:0 0 4px; color:var(--tema-t)}
+  .grupe .nuoroda{font-size:13.5px; color:var(--pilka); margin:0 0 14px}
+  .uzd{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:9px 0;
+    border-top:1px solid var(--linija)}
+  .uzd:first-of-type{border-top:none}
+  .uzd .klaus{font-size:19px; flex:1 1 200px; min-width:160px}
+  .uzd .klaus svg{display:block; max-width:300px; width:100%; height:auto; margin:8px 0}
+  .uzd input[type=text]{font-size:17px; width:150px; padding:7px 10px; text-align:center;
+    border:2px solid var(--linija); border-radius:9px; font-family:inherit; background:var(--kort); color:var(--tekst)}
+  .uzd input[type=text]:focus{outline:none; border-color:var(--tema)}
+  .uzd input[type=text].ok{border-color:var(--ok); background:var(--ok-f)}
+  .uzd input[type=text].ne{border-color:var(--ne); background:var(--ne-f)}
+  .zenklas{font-size:19px; width:22px; text-align:center}
+  .sprendimas{flex-basis:100%; font-size:13.5px; color:var(--pilka); background:var(--bg);
+    border-radius:8px; padding:8px 12px; margin-top:4px; display:none}
+  .sprendimas b{color:var(--tekst)}
+
+  footer{text-align:center; margin-top:24px; font-size:12.5px; color:var(--pilka); padding-bottom:10px}
+
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
+
+  @media print{
+    header{background:none!important; color:var(--tekst)!important; padding:0 0 10px}
+    .juosta, .grizti, .mygtukai{display:none!important}
+    .sprendimas{display:none!important}
+    .uzd input[type=text]{border:1.5px solid #888; background:#fff}
+    .grupe{box-shadow:none; border:1px solid #bbb; break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">7 klasės kurso kartojimas ✨</h1>
+    <p id="paantraste">16 užduočių 7 klasei. Įrašyk atsakymus ir tikrinkis. Paspaudus Nauji skaičiai, užduotys sugeneruojamos iš naujo.</p>
+  </header>
+  <div class="korpusas">
+    <a class="grizti" id="grizti" href="../" style="display:none">← Atgal į temą</a>
+
+    <div class="juosta">
+      <span class="busena" id="busena">Paspausk „Patikrinti atsakymus", kai užpildysi.</span>
+      <div class="mygtukai">
+        <button class="btn btn-p" id="tikrinti">Patikrinti atsakymus</button>
+        <button class="btn btn-a" id="nauji">Nauji skaičiai ↻</button>
+        <button class="btn btn-a" id="spausdinti">Spausdinti</button>
+      </div>
+    </div>
+    <p class="pastabos" id="pastabos"></p>
+
+    <div id="grupes"></div>
+
+    <footer id="poraste">Mokytoja Violeta</footer>
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
+function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
+function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
+
+// --- Temos generatoriai (įkeliami builder'io) ---
+// 7 klasės kurso kartojimas — kontrolinio treniruoklis (visi 7 skyriai, mišrus kartojimas)
+// Šablonas apibrėžia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n) — ČIA jų NEapibrėžiam.
+// 16 generatorių tipų, proporcingai skyrių dydžiui (1.Teiginiai..7.Trikampiai/keturkampiai).
+
+const GENERATORIAI = [
+  // 1. Teiginiai — teiginio teisingumas
+  { label:"1. Teiginiai", gen(){
+      const a=randint(5,40), b=randint(5,40)+ (Math.random()<0.5?0:0);
+      let x=a, y=b; while(y===x) y=randint(5,40);
+      const trueStmt = choice([true,false]);
+      const lo=Math.min(x,y), hi=Math.max(x,y);
+      const left = trueStmt ? hi : lo, right = trueStmt ? lo : hi;
+      return { q:`Ar teiginys „${left} > ${right}" yra teisingas?`, ans:(trueStmt?"taip":"ne"), ansType:'text',
+        steps:[`${left} ${trueStmt?'>':'<'} ${right}`, `Teiginys ${trueStmt?'teisingas':'klaidingas'} — ${trueStmt?'taip':'ne'}`] };
+  }},
+  // 2. Laipsniai — vienodų pagrindų daugyba
+  { label:"2. Laipsniai", note:"Kiekvieną reiškinį apskaičiuok arba užrašyk vienu laipsniu.", gen(){
+      const p=choice([2,3,5,7]), m=randint(4,8), n=randint(1,3), s=m+n, val=Math.pow(p,s);
+      return { q:`Apskaičiuok ir užrašyk laipsniu: ${p}^${m} · ${p}^${n} =`, ans:`${p}^${s}`, ansType:'text', ansAlt:[String(val)],
+        steps:[`${p}^${m} · ${p}^${n} = ${p}^(${m}+${n})`, `= ${p}^${s}`] };
+  }},
+  // 3. Laipsniai — vienodų pagrindų dalyba
+  { label:"2. Laipsniai", gen(){
+      const p=choice([2,3,5,7]), m=randint(6,10), n=randint(1,4), s=m-n, val=Math.pow(p,s);
+      return { q:`Apskaičiuok ir užrašyk laipsniu: ${p}^${m} : ${p}^${n} =`, ans:`${p}^${s}`, ansType:'text', ansAlt:[String(val)],
+        steps:[`${p}^${m} : ${p}^${n} = ${p}^(${m}−${n})`, `= ${p}^${s}`] };
+  }},
+  // 4. Laipsniai — neigiamas rodiklis
+  { label:"2. Laipsniai", gen(){
+      const base=randint(2,6), n=randint(2,3), den=Math.pow(base,n), val=1/den;
+      return { q:`Apskaičiuok: ${base}^(−${n}) = ?`, ans:val, ansText:`1/${den}`,
+        steps:[`${base}^(−${n}) = 1/${base}^${n} = 1/${den}`] };
+  }},
+  // 5. Procentai — kainos pokytis
+  { label:"3. Procentai", note:"Apskaičiuok nurodytą dydį procentais.", gen(){
+      const k=randint(2,20), price=k*20, m=randint(1,8), pct=m*5, up=choice([true,false]);
+      const delta=k*m, res = up ? price+delta : price-delta;
+      return { q:`Prekė kainavo ${nf(price)} Eur. Kaina ${up?'padidėjo':'sumažėjo'} ${pct}%. Kiek Eur kainuoja prekė dabar?`,
+        ans:res, steps:[`Pokytis = ${nf(price)} · ${pct}% = ${nf(delta)} Eur`,
+        `Nauja kaina = ${nf(price)} ${up?'+':'−'} ${nf(delta)} = ${nf(res)} Eur`] };
+  }},
+  // 6. Procentai — paprastosios palūkanos
+  { label:"3. Procentai", gen(){
+      const p=randint(5,20), principal=p*100, rate=choice([2,4,5,8,10]), years=randint(2,4);
+      const interest = p*rate*years;
+      return { q:`Indėlis ${nf(principal)} Eur, metinės paprastosios palūkanos ${rate}%. Kiek Eur palūkanų susikaups per ${years} metus?`,
+        ans:interest, steps:[`Palūkanos = ${nf(principal)} · ${rate}% · ${years} = ${nf(interest)} Eur`] };
+  }},
+  // 7. Nelygybės — vieno žingsnio
+  { label:"4. Nelygybės", note:"Išspręsk nelygybę, atsakymą užrašyk intervalu.", gen(){
+      const a=randint(1,12), b=randint(a+5,a+25), res=b-a;
+      return { q:`Išspręsk nelygybę ir atsakymą užrašyk intervalu: x + ${a} < ${b}`, ans:`(-∞;${res})`, ansType:'text',
+        steps:[`x < ${b} − ${a}`,`x < ${res}`,`Atsakymas: (-∞;${res})`] };
+  }},
+  // 8. Nelygybės — dalyba iš neigiamo
+  { label:"4. Nelygybės", gen(){
+      const a=choice([2,3,4,5]), x0=nz(-6,6), b=-a*x0;
+      return { q:`Išspręsk nelygybę ir atsakymą užrašyk intervalu: −${a}x > ${nf(b)}`,
+        ans:`(-∞;${x0})`, ansType:'text',
+        steps:[`Dalijame iš −${a} — nelygybės ženklas keičiasi`,`x < ${nf(b)} : (−${a}) = ${nf(x0)}`,`x < ${nf(x0)}`,`Atsakymas: (-∞;${x0})`] };
+  }},
+  // 9. Nelygybės — dvigubosios
+  { label:"4. Nelygybės", gen(){
+      const a=randint(1,10), b=randint(1,8), c=randint(a+3,a+15);
+      return { q:`Išspręsk dvigubąją nelygybę ir atsakymą užrašyk intervalu: ${a} < x + ${b} < ${c}`,
+        ans:`(${a-b};${c-b})`, ansType:'text',
+        steps:[`Atimame ${b} iš visų dalių`,`${a-b} < x < ${c-b}`,`Atsakymas: (${a-b};${c-b})`] };
+  }},
+  // 10. Atvirkštinis proporcingumas — lentelė
+  { label:"5. Atvirkštinis proporcingumas", note:"Raskite ieškomą dydį.", gen(){
+      const x1=choice([2,3,4,5,6]), y1=randint(3,10), k=x1*y1;
+      const divs=[]; for(let d=2;d<=20;d++){ if(d!==x1 && k%d===0) divs.push(d); }
+      const x2=divs.length?choice(divs):k, y2=k/x2;
+      return { q:`Dydžiai x ir y yra atvirkščiai proporcingi. Kai x = ${x1}, y = ${y1}. Koks y, kai x = ${x2}?`,
+        ans:y2, steps:[`Sandauga k = x·y = ${x1}·${y1} = ${k}`,`y = ${k} : ${x2} = ${nf(y2)}`] };
+  }},
+  // 11. Atvirkštinis proporcingumas — tekstinis
+  { label:"5. Atvirkštinis proporcingumas", gen(){
+      const N=choice([4,6,8,10,12]), H=randint(4,10), k=N*H;
+      const divs=[]; for(let d=2;d<=24;d++){ if(d!==N && k%d===0) divs.push(d); }
+      const M=divs.length?choice(divs):k, t=k/M;
+      return { q:`${N} darbininkai darbą atlieka per ${H} valandas. Per kiek valandų tą pat darbą atliktų ${M} darbininkų?`,
+        ans:t, steps:[`Darbo apimtis k = ${N}·${H} = ${k}`,`Laikas = ${k} : ${M} = ${nf(t)} val.`] };
+  }},
+  // 12. Tiesės — vienašaliai kampai
+  { label:"6. Tiesės", note:"Raskite kampą arba nustatykite, ar tiesės lygiagrečios.", gen(){
+      const a=randint(50,150), x=180-a;
+      return { q:`Kirstinė kerta dvi lygiagrečias tieses. Vienašaliai kampai lygūs ${a}° ir x°. Koks x?`,
+        ans:x, steps:[`Vienašalių kampų suma = 180°`,`x = 180 − ${a} = ${x}`] };
+  }},
+  // 13. Tiesės — lygiagretumo požymis (bendrakryžmiai kampai)
+  { label:"6. Tiesės", gen(){
+      const a=randint(40,140), equal=choice([true,false]);
+      const b = equal ? a : a + choice([5,8,10,15,20]);
+      return { q:`Kirstinė kerta tieses a ir b. Bendrakryžmiai kampai lygūs ${a}° ir ${b}°. Ar tiesės a ir b lygiagrečios?`,
+        ans:(equal?"taip":"ne"), ansType:'text',
+        steps:[`Bendrakryžmiai kampai lygūs tada ir tik tada, kai tiesės lygiagrečios`,
+               `${a}° ${equal?'=':'≠'} ${b}° → ${equal?'taip':'ne'}`] };
+  }},
+  // 14. Trikampiai — nežinomas kampas
+  { label:"7. Trikampiai ir keturkampiai", note:"Raskite ieškomą kampą arba perimetrą.", gen(){
+      let A,B; do{ A=randint(30,100); B=randint(30,100); }while(A+B>=170);
+      const C=180-A-B;
+      return { q:`Trikampio du kampai lygūs ${A}° ir ${B}°. Koks trečiasis kampas?`,
+        ans:C, steps:[`Trikampio kampų suma = 180°`,`C = 180 − ${A} − ${B} = ${C}`] };
+  }},
+  // 15. Keturkampiai — lygiagretainio gretimas kampas
+  { label:"7. Trikampiai ir keturkampiai", gen(){
+      const A=randint(40,140), B=180-A;
+      return { q:`Lygiagretainio kampas A lygus ${A}°. Koks yra gretimas kampas B?`,
+        ans:B, steps:[`Lygiagretainio gretimų kampų suma = 180°`,`B = 180 − ${A} = ${B}`] };
+  }},
+  // 16. Keturkampiai — trapecijos perimetras
+  { label:"7. Trikampiai ir keturkampiai", gen(){
+      const b1=randint(6,14), b2=randint(4,10), c=randint(3,9), d=randint(3,9), per=b1+b2+c+d;
+      return { q:`Trapecijos pagrindai lygūs ${b1} cm ir ${b2} cm, šoninės kraštinės ${c} cm ir ${d} cm. Koks perimetras?`,
+        ans:per, steps:[`Perimetras = ${b1} + ${b2} + ${c} + ${d} = ${per} cm`] };
+  }}
+];
+
+
+// naudoja verify_gen.mjs (atsitiktinis vienas uždavinys patikrai) — pagrindinis puslapis
+// generuoja VISUS GENERATORIAI narius vienu metu (žr. sugeneruoti() žemiau), ne šitą.
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "7 klasės kurso kartojimas ✨", "subtitle": "16 užduočių 7 klasei. Įrašyk atsakymus ir tikrinkis. Paspaudus Nauji skaičiai, užduotys sugeneruojamos iš naujo.", "pastabos": "Atsakymuose galima rašyti kablelį arba tašką. Laipsnius rašyk kaip 3^5, intervalus nuo-iki.", "poraste": "Mokytoja Violeta", "grizti": "../"};
+const $ = id => document.getElementById(id);
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^([▢□])/g, '<sup>$1</sup>')
+    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
+    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
+    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
+  } while(out !== prev);
+  return out;
+}
+
+// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+function teisingas(p, raw){
+  if(p.ansType === 'text'){
+    if(!raw.trim()) return null;
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    return accepted.includes(normText(raw));
+  }
+  const val = parseVal(raw);
+  if(isNaN(val)) return null;
+  return Math.abs(val - p.ans) < 1e-6;
+}
+
+// ---- Grupavimas: is eiles einantys generatoriai su tuo paciu "label" sudaro viena korta ----
+let PROBLEMS = []; // [{...gen() rezultatas, label, idx}]
+
+function sugeneruoti(){
+  PROBLEMS = GENERATORIAI.map((g,i)=>{
+    const p = g.gen();
+    p.label = g.label;
+    p.note = g.note || null;
+    p.idx = i;
+    return p;
+  });
+}
+
+function pieshti(){
+  const cont = $('grupes');
+  cont.innerHTML = '';
+  let i = 0, grupesSk = 0;
+  while(i < PROBLEMS.length){
+    const label = PROBLEMS[i].label;
+    const grupe = [];
+    while(i < PROBLEMS.length && PROBLEMS[i].label === label){ grupe.push(PROBLEMS[i]); i++; }
+    grupesSk++;
+    const div = document.createElement('div');
+    div.className = 'grupe';
+    const antraste = /^\s*\d/.test(label) ? label : `${grupesSk}. ${label}`;
+    let html = `<h2>${esc(antraste)}</h2>`;
+    if(grupe[0].note) html += `<p class="nuoroda">${esc(grupe[0].note)}</p>`;
+    grupe.forEach(p=>{
+      html += `<div class="uzd" data-idx="${p.idx}">
+        <span class="klaus">${fmtMath(p.q)}</span>
+        <input type="text" id="at${p.idx}" autocomplete="off" inputmode="text" placeholder="?">
+        <span class="zenklas" id="zn${p.idx}"></span>
+        <div class="sprendimas" id="sp${p.idx}"></div>
+      </div>`;
+    });
+    div.innerHTML = html;
+    cont.appendChild(div);
+  }
+}
+
+function naujiSkaiciai(){
+  sugeneruoti();
+  pieshti();
+  $('busena').className = 'busena';
+  $('busena').textContent = 'Naujas variantas paruoštas. Sėkmės!';
+}
+
+function patikrinti(){
+  let correct = 0, answered = 0;
+  PROBLEMS.forEach(p=>{
+    const inp = $('at'+p.idx);
+    const ok = teisingas(p, inp.value);
+    const zn = $('zn'+p.idx);
+    const sp = $('sp'+p.idx);
+    inp.classList.remove('ok','ne');
+    if(ok === null){ zn.textContent=''; sp.style.display='none'; return; }
+    answered++;
+    if(ok){ correct++; inp.classList.add('ok'); zn.textContent='✓'; }
+    else{ inp.classList.add('ne'); zn.textContent='✗'; }
+    if(sp){
+      const steps = (p.steps||[]).map(s=>fmtMath(s)).join(' → ');
+      if(ok && !steps){
+        sp.innerHTML = '';
+        sp.style.display = 'none';
+      } else {
+        sp.innerHTML = ok
+          ? `<b>Sprendimas:</b> ${steps}`
+          : `<b>Teisingas atsakymas:</b> ${fmtMath(atsTekstas(p))}` + (steps ? ` — <b>sprendimas:</b> ${steps}` : '');
+        sp.style.display = 'block';
+      }
+    }
+  });
+  const total = PROBLEMS.length;
+  const b = $('busena');
+  if(answered < total){
+    b.className = 'busena';
+    b.textContent = `Liko neatsakyta: ${total-answered}. Patikrink, ar visi laukai užpildyti.`;
+    return;
+  }
+  b.className = 'busena ' + (correct===total ? 'ok' : (correct===0 ? 'ne' : ''));
+  b.textContent = `Teisingai: ${correct} iš ${total}.` + (correct===total ? ' Puiku!' : '');
+}
+
+$('tikrinti').addEventListener('click', patikrinti);
+$('nauji').addEventListener('click', naujiSkaiciai);
+$('spausdinti').addEventListener('click', ()=>window.print());
+
+$('antraste').textContent = META.title || 'Treniruoklis';
+$('paantraste').textContent = META.subtitle || '';
+document.title = META.title || 'Treniruoklis';
+$('pastabos').textContent = META.pastabos || 'Atsakymuose galima rašyti kablelį arba tašką.';
+if(META.grizti){ $('grizti').href = META.grizti; $('grizti').style.display=''; }
+if(META.poraste) $('poraste').textContent = META.poraste;
+
+naujiSkaiciai();
+</script>
+</body>
+</html>
