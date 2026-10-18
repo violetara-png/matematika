@@ -237,7 +237,8 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function fmtMath(s){
   if(/<svg[\s>]/i.test(s)) return s;
   let out = esc(s)
-    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^\(([^)]+)\)/g, '<sup>$1</sup>')
+    .replace(/\^(-?\d+)/g, '<sup>$1</sup>')
     .replace(/\^([▢□])/g, '<sup>$1</sup>')
     .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
     .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
