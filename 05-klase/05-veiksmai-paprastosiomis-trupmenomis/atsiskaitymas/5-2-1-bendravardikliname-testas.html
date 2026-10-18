@@ -64,7 +64,7 @@
     padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
 </style>
 </head>
-<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#c62828;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><form id="__gateForm" style="background:#fff;color:#1c2430;padding:26px 28px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:330px;width:90%;text-align:center"><div style="font-size:34px">&#128274;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#c62828">&#302;veskite slapta&#382;od&#303;</h2><p id="__gateTopic" style="margin:0 0 14px;font-size:13px;color:#5b6472"></p><input id="__gateInput" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="slapta&#382;odis" style="width:100%;padding:11px;font-size:16px;border:2px solid #cbd5e1;border-radius:10px;text-align:center;outline:none"><div id="__gateErr" style="color:#b91c1c;font-size:13px;min-height:18px;margin-top:6px"></div><button type="submit" style="margin-top:6px;width:100%;padding:11px;font-size:16px;font-weight:600;background:#c62828;color:#fff;border:none;border-radius:10px;cursor:pointer">&#302;eiti</button></form></div><script>(function(){function h(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)+s.charCodeAt(i))>>>0;}return x.toString(36);}var TOPIC="5-05-veiksmai-paprastosiomis-trupmenomis-atsiskaitymas",WANT="19pqerj",LABEL="Atsiskaitymo užduotys · 5. Veiksmai su paprastosiomis trupmenomis ir mišriaisiais skaičiais";var g=document.getElementById("__gate");if(!g)return;if(!WANT){g.parentNode.removeChild(g);return;}var KEY="unlock_"+TOPIC;try{if(sessionStorage.getItem(KEY)===WANT){g.parentNode.removeChild(g);return;}}catch(e){}var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var form=document.getElementById("__gateForm"),inp=document.getElementById("__gateInput"),err=document.getElementById("__gateErr");if(inp)inp.focus();form.addEventListener("submit",function(e){e.preventDefault();if(h((inp.value||"").trim().toLowerCase())==="19pqerj"){try{sessionStorage.setItem(KEY,WANT);}catch(e){}g.parentNode.removeChild(g);}else{err.textContent="Neteisingas slapta\u017eodis";inp.value="";inp.focus();}});})();</script>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#1f2a44;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><div style="background:#fff;color:#1c2430;padding:28px 30px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:360px;width:90%;text-align:center"><div style="font-size:34px">&#8987;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#1f2a44">Laukiama mokytojos leidimo</h2><p id="__gateTopic" style="margin:0 0 10px;font-size:13px;color:#5b6472;font-weight:600"></p><p id="__gateMsg" style="margin:0;font-size:14px;color:#5b6472">Testas atsidarys automatiškai, kai mokytoja jį įjungs.</p></div></div><script>(function(){var SID="16mY5jlERJWgz6HkDKX4nLTtH8fP3abJZQMopOIEkcRY",LABEL="Atsiskaitymo užduotys · 5. Veiksmai su paprastosiomis trupmenomis ir mišriaisiais skaičiais · 5.2.1 Bendravardikliname — testas",ROUTER="https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";var g=document.getElementById("__gate");if(!g)return;var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var msg=document.getElementById("__gateMsg");var timer=null;function check(){fetch(ROUTER+"?action=status&sheet_id="+encodeURIComponent(SID)+"&label="+encodeURIComponent(LABEL)).then(function(r){return r.json();}).then(function(d){if(d&&d.enabled){if(timer){clearInterval(timer);}g.parentNode.removeChild(g);}else if(msg){msg.textContent="Testas šiuo metu išjungtas. Palauk mokytojos nurodymo.";}}).catch(function(){if(msg){msg.textContent="Nepavyko patikrinti būsenos. Bandoma dar kartą…";}});}check();timer=setInterval(check,7000);})();</script>
 <header><h1>Atsiskaitymo testas: 5.2.1 Bendravardikliname</h1><p id="subj"></p></header>
 <div class="wrap">
 
@@ -448,18 +448,6 @@ function sendToSheets(){
   if(!student.result) return;
   note.className = 'sheet-status sending';
   note.textContent = '⏳ Siunčiama mokytojai…';
-
-  // sendBeacon patikimai išsiunčia duomenis fone, net jei mokinys iškart
-  // uždaro langą pamatęs pažymį (forma+iframe siuntimas apačioje gali
-  // nutrūkti nespėjęs nukeliauti — sendBeacon tai apeina).
-  try{
-    if(navigator.sendBeacon){
-      const params = new URLSearchParams();
-      params.append('data', JSON.stringify(student.result));
-      if (CFG.sheet_id) params.append('sheet_id', CFG.sheet_id);
-      navigator.sendBeacon(SHEETS_URL, params);
-    }
-  }catch(e){}
 
   // Naujas paslėptas iframe kiekvienam siuntimui
   const old = document.getElementById('sheetFrame');
