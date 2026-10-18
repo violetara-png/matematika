@@ -5,103 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Testas: 1 skyrius · Kvadratinė ir kubinė šaknys — bendras atsiskaitymas</title>
 <style>
-  :root{--bg:#eef2f7;--card:#fff;--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;
-    --ok:#15803d;--bad:#b91c1c;--muted:#6b7280;--line:#d7dee8;--shadow:0 10px 30px rgba(0,0,0,.1)}
+  :root{--bg:#f3f5fa;--card:#fff;--ink:#20243b;--accent:#544bbd;--accent2:#625ac4;
+    --ok:#15803d;--bad:#b42535;--muted:#6b7185;--line:#dfe2ef;--shadow:0 8px 25px rgba(32,36,59,.06)}
   *{box-sizing:border-box}
   body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  header{background:var(--accent);color:#fff;padding:18px 20px;text-align:center}
-  header h1{margin:0;font-size:clamp(18px,2.6vw,24px)}
-  header p{margin:4px 0 0;opacity:.85;font-size:14px}
-  .wrap{max-width:760px;margin:0 auto;padding:20px}
-  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
-  h2{margin:0 0 14px;font-size:19px;color:var(--accent)}
-  label{display:block;font-weight:600;margin:12px 0 6px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  header.hdr{padding:28px 0 6px}
+  .eyebrow{color:var(--accent2);font-size:13px;letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+  h1{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:8px 0 6px}
+  header.hdr p{margin:0 0 12px;color:var(--muted)}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .pill{background:#eeecff;color:#4b419f;border-radius:30px;padding:5px 14px;font-size:13px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--ink)}
+  label{display:block;font-weight:650;margin:14px 0 5px}
   input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
-  input:focus,select:focus{border-color:var(--accent2)}
-  .q{padding:16px 0;border-top:1px solid var(--line)}
-  .q:first-child{border-top:none}
-  .qnum{font-weight:700;color:var(--accent)}
-  .qtext{font-size:18px;margin:4px 0 10px}
-  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
-  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
-  .fr>span:last-child{padding:0 4px}
-  .opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
-    border-radius:10px;margin:7px 0;cursor:pointer}
-  .opt:hover{background:#f3f6fa}
-  .opt input{width:auto;margin:0}
-  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
-  button{border:none;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer}
-  .primary{background:var(--accent2);color:#fff}
-  .primary:hover{background:#245a94}
+  input:focus,select:focus{border-color:var(--accent2);outline:3px solid #d5d2ff}
+  .variants{border:0;padding:0;margin:18px 0 6px}
+  .variants legend{font-weight:650;padding:0;margin-bottom:8px}
+  .variant-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .variant-choice{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid var(--line);border-radius:12px;cursor:pointer}
+  .variant-choice:has(input:checked){background:#eeecff;border-color:var(--accent)}
+  .variant-choice input{width:19px;height:19px;flex-shrink:0;margin:0}
+  .muted{color:var(--muted);font-size:14px;line-height:1.55}
+  .q .muted{margin-bottom:2px}
+  button{border:none;border-radius:11px;padding:13px 20px;font-size:16px;font-weight:650;cursor:pointer}
+  .primary{background:var(--accent);color:#fff}
+  .primary:hover{background:#463ea6}
+  .primary:disabled{opacity:.5;cursor:not-allowed}
+  .secondary{background:#eae8f8;color:#39316f}
+  .secondary:disabled{opacity:.4;cursor:not-allowed}
   .hidden{display:none}
   .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
-  .exit-banner{position:sticky;top:8px;z-index:50;background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:12px 16px;border-radius:10px;margin-bottom:14px;box-shadow:0 4px 14px rgba(185,28,28,.28);text-align:center}
-  .timer{position:sticky;top:8px;z-index:49;background:#e8f1fb;border:2px solid #2b6cb0;color:#1e5fa8;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:12px;text-align:center;font-size:17px}
+  .bar{position:sticky;top:0;z-index:5;background:#f3f5faf0;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+  .bar .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  progress{flex:1;accent-color:var(--accent2);height:8px}
+  .exit-banner{background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:10px 14px;border-radius:10px;margin:10px 0;text-align:center}
+  .timer{background:#eeecff;border:2px solid var(--accent2);color:#3b3480;font-weight:700;padding:9px 14px;border-radius:10px;margin:10px 0;text-align:center}
   .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
-  .notice-integrity{background:#fff7ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;color:#7c2d12;border-radius:10px;padding:12px 16px;margin:6px 0 16px;font-size:14px;line-height:1.55}
-  .notice-integrity b{color:#b45309}
-  .result-big{font-size:44px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .sec-label{font-size:12px;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:8px}
+  .qnum{color:var(--muted);font-size:13px;margin-bottom:2px}
+  .qtext{font-size:19px;margin:2px 0 14px}
+  math{font-size:1.08em;vertical-align:middle}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer}
+  .opt:has(input:checked){background:#f0edff;border-color:var(--accent2)}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#f3f5fa;border-color:var(--accent2)}
+  #nav{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+  #nav button{padding:9px;min-width:36px;font-size:13px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px}
+  #nav button.filled{background:#e3ecf0;border-color:#9fc7d4;color:#17616e}
+  #nav button.current{border:2px solid var(--accent)}
+  .finish-bar{position:sticky;bottom:0;z-index:4;background:#f3f5faf5;border-top:1px solid var(--line);padding:12px 0;margin-top:10px}
+  .finish-bar .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .result-big{font-size:56px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
   .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
-  .grade{font-size:30px;font-weight:800}
-  .comment{background:#f3f6fa;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px}
-  .note{color:var(--muted);font-size:14px;margin-top:10px}
+  .grade{font-size:28px;font-weight:800}
+  .comment{background:#eeecff;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px;color:#39316f}
   .dl{display:block;width:100%;text-align:center;margin-top:16px}
-  .sec-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
-  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;
-    font-weight:600;cursor:pointer;min-width:40px}
-  .ekey:hover{background:#eef2f7;border-color:var(--accent2)}
   .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
   .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
   .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
   .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
-  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;
-    padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:24px 0}
 </style>
 </head>
 <body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#1f2a44;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><div style="background:#fff;color:#1c2430;padding:28px 30px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:360px;width:90%;text-align:center"><div style="font-size:34px">&#8987;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#1f2a44">Laukiama mokytojos leidimo</h2><p id="__gateTopic" style="margin:0 0 10px;font-size:13px;color:#5b6472;font-weight:600"></p><p id="__gateMsg" style="margin:0;font-size:14px;color:#5b6472">Testas atsidarys automatiškai, kai mokytoja jį įjungs.</p></div></div><script>(function(){var SID="1Lty4jgcdL-t7NNiNOOa-PlkBW4xU7lKCAHmIvZf7m5c",LABEL="Atsiskaitymo užduotys · 1. Kvadratinė ir kubinė šaknys · ★★ Visas skyrius (1.1–1.10) — bendras atsiskaitymas",ROUTER="https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";var g=document.getElementById("__gate");if(!g)return;var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var msg=document.getElementById("__gateMsg");var timer=null;function check(){fetch(ROUTER+"?action=status&sheet_id="+encodeURIComponent(SID)+"&label="+encodeURIComponent(LABEL)).then(function(r){return r.json();}).then(function(d){if(d&&d.enabled){if(timer){clearInterval(timer);}g.parentNode.removeChild(g);}else if(msg){msg.textContent="Testas šiuo metu išjungtas. Palauk mokytojos nurodymo.";}}).catch(function(){if(msg){msg.textContent="Nepavyko patikrinti būsenos. Bandoma dar kartą…";}});}check();timer=setInterval(check,7000);})();</script>
-<header><h1>1 skyrius · Kvadratinė ir kubinė šaknys — bendras atsiskaitymas</h1><p id="subj"></p></header>
 <div class="wrap">
+
+  <header class="hdr">
+    <span class="eyebrow" id="eyebrow"></span>
+    <h1>Kvadratinė ir kubinė šaknys</h1>
+    <p>Bendras 1 skyriaus atsiskaitymas. Susikaupk, apskaičiuok ir parodyk, ką moki.</p>
+    <div class="pillrow">
+      <span class="pill" id="pillPts"></span>
+      <span class="pill" id="pillMin"></span>
+      <span class="pill">Be skaičiuotuvo</span>
+    </div>
+  </header>
 
   <!-- 1. REGISTRACIJA -->
   <section id="regScreen" class="card">
-    <h2>Mokinio registracija</h2>
-    <div class="notice-integrity">
-      <b>⚠ Sąžiningumo taisyklės</b><br>
-      Testo metu automatiškai fiksuojama, jei išeini iš testo lango ar naudojiesi kitais langais bei
-      programomis. Už tokį elgesį įvertinimas gali būti mažinamas, o kelis kartus pažeidus taisykles
-      testo rezultatas <b>anuliuojamas</b>. Spręsk savarankiškai ir sąžiningai. Sėkmės!
-    </div>
+    <h2>Prieš pradedant</h2>
+    <p class="muted">Įvesk savo duomenis ir pasirink testo variantą.</p>
     <label>Klasė</label>
-    <input id="klase" type="text" placeholder="pvz. 7a">
+    <input id="klase" type="text" placeholder="pvz. 8b">
     <label>Vardas</label>
     <input id="vardas" type="text" placeholder="Vardas">
     <label>Pavardė</label>
     <input id="pavarde" type="text" placeholder="Pavardė">
-    <div id="lygisRow" style="display:none">
-      <label>Testo lygis</label>
-      <select id="lygis"></select>
-    </div>
-    <label>Testo variantas</label>
-    <select id="variantas"></select>
+    <fieldset class="variants">
+      <legend>Testo variantas</legend>
+      <div class="variant-grid" id="variantGrid"></div>
+    </fieldset>
+    <p class="muted">Testo metu fiksuojamas skirtuko paslėpimas, lango aktyvumo praradimas ir išėjimas iš viso ekrano.
+      Perspėjimą matysi tu, o įvykius — mokytoja. Atsakymus galėsi taisyti iki pateikimo, teisingi atsakymai
+      sprendžiant nerodomi.</p>
     <div class="warn" id="regWarn"></div>
-    <button class="primary" style="margin-top:16px;width:100%" onclick="startTest()">Pradėti testą</button>
+    <button class="primary" style="margin-top:6px;width:100%" onclick="startTest()">Pradėti testą →</button>
   </section>
 
   <!-- 2. TESTAS -->
   <section id="testScreen" class="hidden">
-    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
-    <div class="exit-banner" id="exitBanner" style="display:none"></div>
-    <div class="card">
-      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
-      <div id="mcBlock"></div>
+    <div class="bar">
+      <div class="row">
+        <span class="muted" id="qPos"></span>
+        <progress id="prog" value="0" max="20"></progress>
+      </div>
     </div>
-    <div class="card">
-      <div class="sec-label">II dalis · Atviro atsakymo klausimai</div>
-      <div id="openBlock"></div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div id="nav"></div>
+    <div class="card" id="qCard"></div>
+    <div class="row" style="display:flex;justify-content:space-between;margin-top:14px">
+      <button type="button" class="secondary" id="prevBtn" onclick="gotoQ(curQ-1)">← Atgal</button>
+      <button type="button" class="secondary" id="nextBtn" onclick="gotoQ(curQ+1)">Pirmyn →</button>
     </div>
     <div class="warn" id="testWarn"></div>
-    <button class="primary" style="width:100%" onclick="submitTest()">Pateikti testą</button>
+    <div class="finish-bar">
+      <div class="row">
+        <span class="muted" id="answeredCount"></span>
+        <button class="primary" onclick="submitTest()">Pateikti testą ✓</button>
+      </div>
+    </div>
   </section>
 
   <!-- 3. REZULTATAI -->
@@ -110,9 +139,10 @@
     <div id="resultInfo"></div>
     <div class="sheet-status" id="sheetNote"></div>
     <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
-    <div class="note" id="dlNote"></div>
+    <div class="note muted" id="dlNote" style="margin-top:8px;text-align:center"></div>
   </section>
 
+  <footer>Matematika · Mokytoja Violeta</footer>
 </div>
 
 <script>
@@ -121,54 +151,104 @@ const CFG = {"title": "1 skyrius · Kvadratinė ir kubinė šaknys — bendras a
 // siuntimas išjungtas (tada naudojamas atsisiuntimo būdas).
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
 function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
-document.getElementById('subj').textContent =
-  (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'Online testas';
 
-// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
-// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
-const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
-const vsel = document.getElementById('variantas');
-const lsel = document.getElementById('lygis');
-let GRADING = CFG.grading;
+const ROMAN = ['I','II','III','IV','V','VI','VII','VIII'];
+const sample = CFG.variants[0];
+const totalQ = sample.mc.length + sample.open.length;
+const totalPts = sample.mc.length*CFG.grading.mc_points + sample.open.length*CFG.grading.open_points;
+document.getElementById('eyebrow').textContent = CFG.dalykas + ' · žinių patikrinimas';
+document.getElementById('pillPts').textContent = totalPts + ' taškų';
+document.getElementById('pillMin').textContent = CFG.trukme_min + ' minutės';
 
-function currentVariants(){
-  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
-  return CFG.variants;
-}
-function fillVariants(){
-  const vs = currentVariants();
-  vsel.innerHTML = '<option value="">— pasirink —</option>' +
-    vs.map(v=>`<option value="${v.id}">${v.id} variantas</option>`).join('');
-}
-if(HAS_LEVELS){
-  document.getElementById('lygisRow').style.display = '';
-  lsel.innerHTML = '<option value="">— pasirink —</option>' +
-    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
-  lsel.addEventListener('change', fillVariants);
-}
-fillVariants();
+const variantGrid = document.getElementById('variantGrid');
+variantGrid.innerHTML = CFG.variants.map((v,i)=>`
+  <label class="variant-choice"><input type="radio" name="variantas" value="${v.id}">
+  <span>${ROMAN[i]||v.id} variantas</span></label>`).join('');
 
 let student = {}, variant = null;
 let leaveCount = 0, testActive = false;
 const LETTERS = ['A','B','C','D','E','F'];
 
+// ---- Klausimų seka (sujungti MC + atviri, rodomi po vieną) ----
+let QLIST = [], curQ = 0, mcSelected = [], openValues = [];
+
+function buildQList(){
+  QLIST = variant.mc.map((q,i)=>({type:'mc', i})).concat(variant.open.map((q,i)=>({type:'open', i})));
+  mcSelected = new Array(variant.mc.length).fill(null);
+  openValues = new Array(variant.open.length).fill('');
+  curQ = 0;
+  document.getElementById('prog').max = QLIST.length;
+  document.getElementById('answeredCount').textContent = '';
+}
+function buildNav(){
+  document.getElementById('nav').innerHTML = QLIST.map((_,k)=>
+    `<button type="button" id="navBtn${k}" onclick="gotoQ(${k})">${k+1}</button>`).join('');
+}
+function isAnswered(k){
+  const it = QLIST[k];
+  return it.type==='mc' ? mcSelected[it.i]!==null : openValues[it.i].trim()!=='';
+}
+function updateNav(){
+  QLIST.forEach((_,k)=>{
+    const b = document.getElementById('navBtn'+k);
+    b.classList.toggle('filled', isAnswered(k));
+    b.classList.toggle('current', k===curQ);
+  });
+  const answered = QLIST.filter((_,k)=>isAnswered(k)).length;
+  document.getElementById('answeredCount').textContent = `Atsakyta: ${answered} / ${QLIST.length}`;
+  document.getElementById('prog').value = answered;
+  document.getElementById('prevBtn').disabled = curQ===0;
+  document.getElementById('nextBtn').disabled = curQ===QLIST.length-1;
+}
+function gotoQ(k){
+  if(k<0 || k>=QLIST.length) return;
+  curQ = k;
+  renderCurrent();
+}
+function renderCurrent(){
+  const it = QLIST[curQ];
+  document.getElementById('qPos').textContent = `Klausimas ${curQ+1} / ${QLIST.length}`;
+  const card = document.getElementById('qCard');
+  if(it.type==='mc'){
+    const q = variant.mc[it.i];
+    card.innerHTML = `
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div class="qtext">${fmtMath(q.q)}</div>
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mcCur" value="${j}" ${mcSelected[it.i]===j?'checked':''}
+          onchange="mcSelected[${it.i}]=${j};updateNav()">
+          <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}`;
+  } else {
+    const q = variant.open[it.i];
+    const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+    card.innerHTML = `
+      <div class="sec-label">II dalis · Atviro atsakymo klausimas</div>
+      <div class="qtext">${fmtMath(q.q)}</div>
+      <input type="text" id="openCur" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false" value="${esc(openValues[it.i])}">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen('${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen()">⌫</button>
+      </div>`;
+    document.getElementById('openCur').addEventListener('input', function(){
+      openValues[it.i] = this.value; updateNav();
+    });
+  }
+  updateNav();
+}
+
 function startTest(){
-  const k=val('klase'), v=val('vardas'), p=val('pavarde'), vr=vsel.value;
-  const lv = HAS_LEVELS ? lsel.value : null;
-  if(!k||!v||!p||!vr || (HAS_LEVELS && !lv)){
-    document.getElementById('regWarn').textContent =
-      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+  const k=val('klase'), v=val('vardas'), p=val('pavarde');
+  const sel = document.querySelector('input[name="variantas"]:checked');
+  if(!k||!v||!p||!sel){
+    document.getElementById('regWarn').textContent = 'Užpildyk visus laukus ir pasirink variantą.';
     return;
   }
-  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(vr)};
-  let level=null;
-  if(HAS_LEVELS){
-    level=CFG.levels.find(x=>x.id===lv);
-    GRADING = (level && level.grading) ? level.grading : CFG.grading;
-    student.lygis = lv; student.lygis_label = level ? level.label : lv;
-  }
-  variant=currentVariants().find(x=>x.id===student.variantas);
-  renderTest();
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(sel.value)};
+  variant=CFG.variants.find(x=>x.id===student.variantas);
+  buildQList();
+  buildNav();
+  renderCurrent();
   document.getElementById('regScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
   window.scrollTo(0,0);
@@ -250,30 +330,12 @@ function awaySeconds(){
 }
 function val(id){return document.getElementById(id).value.trim();}
 
-function renderTest(){
-  document.getElementById('mcBlock').innerHTML = variant.mc.map((q,i)=>`
-    <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
-      ${q.options.map((o,j)=>`
-        <label class="opt"><input type="radio" name="mc${i}" value="${j}">
-        <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}
-    </div>`).join('');
-  const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
-  document.getElementById('openBlock').innerHTML = variant.open.map((q,i)=>`
-    <div class="q">
-      <div><span class="qnum">${i+1}.</span> <span class="qtext">${fmtMath(q.q)}</span></div>
-      <input type="text" id="open${i}" placeholder="Tavo atsakymas" autocomplete="off"
-             inputmode="text" autocapitalize="off" spellcheck="false">
-      <div class="editor">
-        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen(${i},'${k}')">${k}</button>`).join('')}
-        <button type="button" class="ekey" onclick="bkspOpen(${i})">⌫</button>
-      </div>
-    </div>`).join('');
-}
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-// Matematinis formatavimas: „skaičius/skaičius" -> laiptuota trupmena. Įvedama TIK mūsų span
-// markup aplink jau escapintą tekstą, tad saugu (be XSS). Dalyba rašoma „:", ne „/".
-function fmtMath(s){return esc(s).replace(/(\d+)\/(\d+)/g,'<span class="fr"><span>$1</span><span>$2</span></span>');}
+// Matematinis formatavimas: „skaičius/skaičius" -> MathML trupmena (<math><mfrac>).
+function fmtMath(s){
+  return esc(s).replace(/(\d+)\/(\d+)/g,
+    '<math><mfrac><mn>$1</mn><mn>$2</mn></mfrac></math>');
+}
 
 // Atviro atsakymo raktų dekodavimas (Unicode-saugus base64)
 function b64utf8(s){
@@ -323,50 +385,45 @@ function normalize(s){
   return canon.length?canon.join('+'):'0';
 }
 
-// Simbolių redaktorius atviro atsakymo laukams
-function insOpen(i, ch){
-  const el=document.getElementById('open'+i);
+// Simbolių redaktorius atviro atsakymo laukui (visada veikia su esamu klausimu)
+function insOpen(ch){
+  const el=document.getElementById('openCur');
   const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
   el.value = el.value.slice(0,s) + ch + el.value.slice(e);
   const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+  el.dispatchEvent(new Event('input'));
 }
-function bkspOpen(i){
-  const el=document.getElementById('open'+i);
+function bkspOpen(){
+  const el=document.getElementById('openCur');
   const s=el.selectionStart, e=el.selectionEnd;
   if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
   else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+  el.dispatchEvent(new Event('input'));
 }
 
 function submitTest(){
   // ar viskas atsakyta?
-  let unanswered=0;
-  variant.mc.forEach((q,i)=>{ if(!document.querySelector(`input[name="mc${i}"]:checked`)) unanswered++; });
-  variant.open.forEach((q,i)=>{ if(!document.getElementById('open'+i).value.trim()) unanswered++; });
+  const unanswered = QLIST.filter((_,k)=>!isAnswered(k)).length;
   if(unanswered>0){
     document.getElementById('testWarn').textContent =
       `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
     if(!window._confirmed){ window._confirmed=true; return; }
   }
   // I dalis (A–D) — automatinis vertinimas
-  let correct=0; const mcAns=[];
-  variant.mc.forEach((q,i)=>{
-    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
-    const a=sel?parseInt(sel.value):-1; mcAns.push(a);
-    if(a===q.correct) correct++;
-  });
-  const mcPts = correct * GRADING.mc_points;
-  const mcMax = variant.mc.length * GRADING.mc_points;
+  let correct=0;
+  variant.mc.forEach((q,i)=>{ if(mcSelected[i]===q.correct) correct++; });
+  const mcPts = correct * CFG.grading.mc_points;
+  const mcMax = variant.mc.length * CFG.grading.mc_points;
 
   // II dalis (atviri) — automatinis vertinimas pagal normalizuotą atsakymą
   const openPts=[]; let openCorrect=0;
-  const openAns = variant.open.map((q,i)=>{
-    const val=document.getElementById('open'+i).value.trim();
+  variant.open.forEach((q,i)=>{
+    const v=openValues[i].trim();
     let pts=0;
-    if(q.a){ const key=b64utf8(q.a); if(val && normalize(val)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    if(q.a){ const key=b64utf8(q.a); if(v && normalize(v)===normalize(key)){ pts=CFG.grading.open_points; openCorrect++; } }
     openPts.push(pts);
-    return val;
   });
-  const openMax = variant.open.length * GRADING.open_points;
+  const openMax = variant.open.length * CFG.grading.open_points;
 
   const total = mcPts + openPts.reduce((a,b)=>a+b,0);
   const totalMax = mcMax + openMax;
@@ -379,8 +436,8 @@ function submitTest(){
   try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
   student.result = {
     ...student,
-    mc_atsakymai: mcAns, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
-    atviri_atsakymai: openAns, atviri_taskai: openPts, open_teisingai: openCorrect,
+    mc_atsakymai: mcSelected, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openValues, atviri_taskai: openPts, open_teisingai: openCorrect,
     open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
     viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
     isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
@@ -459,29 +516,28 @@ function sendToSheets(){
 
 function gradeFromPct(pct){
   // scale: [[threshold%,grade],...] mažėjančia tvarka
-  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
-  return GRADING.scale[GRADING.scale.length-1][1];
+  for(const [t,g] of CFG.grading.scale){ if(pct*100>=t) return g; }
+  return CFG.grading.scale[CFG.grading.scale.length-1][1];
 }
 function commentFromPct(pct){
-  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
-  return GRADING.comments[GRADING.comments.length-1][1];
+  for(const [t,c] of CFG.grading.comments){ if(pct*100>=t) return c; }
+  return CFG.grading.comments[CFG.grading.comments.length-1][1];
 }
 
 function showResult(r){
   document.getElementById('resultInfo').innerHTML = `
     <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
-    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
     <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
     <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
     <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
     <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
-    <div class="result-row"><span>Procentai</span><b>${Math.round(r.pct*100)}%</b></div>
+    <div class="result-big">${Math.round(r.pct*100)}%</div>
     <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
     <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
     <div class="comment">${commentFromPct(r.pct)}</div>
     ${ sheetsConfigured()
-        ? '<div class="note">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
-        : '<div class="note">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+        ? '<div class="note muted">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note muted">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
 }
 
 function downloadResult(){
