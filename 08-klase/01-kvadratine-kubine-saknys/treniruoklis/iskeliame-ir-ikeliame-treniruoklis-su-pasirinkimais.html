@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iškeliame ir įkeliame — treniruoklis su pasirinkimais · 8 klasė</title>
+<style>
+  :root{
+    --pb:#00796b; --pb-d:#00564d; --bg:#eef2f7; --card:#fff; --ink:#1c2430;
+    --muted:#637990; --line:#d7dee8; --good:#14674b; --good-bg:#f1faf4;
+    --bad:#9b4424; --bad-bg:#fdf1ec; --geltona:#fcecc9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1150px;margin:0 auto;padding:28px 18px 60px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .tag{font-weight:800;color:var(--pb);font-size:13px;letter-spacing:1.5px}
+  h1{font-size:clamp(24px,4vw,34px);margin:6px 0}
+  header p{color:var(--muted);margin:0;max-width:620px}
+  .simb{font:52px Georgia,serif;color:var(--pb)}
+
+  .panelas{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin:20px 0;box-shadow:0 8px 26px rgba(23,53,76,.06)}
+  .kontroles{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
+  .kontroles label{font-weight:700;font-size:13.5px;color:var(--ink)}
+  select{display:block;margin-top:7px;border:1px solid #a9bbca;border-radius:10px;background:#fff;font:inherit;font-size:15px;padding:10px 12px;color:inherit}
+  button#naujas{border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--pb);color:#fff}
+  button#naujas:hover{background:var(--pb-d)}
+  .formules{font-size:14.5px;color:var(--muted);margin:14px 0 0;display:flex;gap:26px;flex-wrap:wrap}
+  .formules b{color:var(--ink);font-family:Georgia,serif;font-size:16px}
+  .pastaba{font-size:13.5px;color:var(--muted);margin:10px 0 0}
+  .stat-eilute{display:flex;gap:18px;flex-wrap:wrap;font-weight:700;margin-top:14px;font-size:14.5px}
+  .baro-fonas{height:9px;background:#dfe9ef;border-radius:10px;margin-top:9px;overflow:hidden}
+  .baro-fonas>div{height:100%;width:0;background:var(--pb);border-radius:10px;transition:width .35s ease}
+
+  .rinkinys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .korta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(23,53,76,.05)}
+  .korta.correct{border-color:#9fcdb8;background:var(--good-bg)}
+  .korta.incorrect{border-color:#e4b79a;background:var(--bad-bg)}
+  .virsutine{display:flex;justify-content:space-between;color:var(--muted);font-size:12.5px;margin-bottom:10px}
+  .formule{display:flex;align-items:center;flex-wrap:wrap;min-height:70px;font-family:Georgia,serif;font-size:28px;gap:10px}
+  .saknis{display:inline-flex;align-items:center}
+  .rod{font-size:1.4em;position:relative;line-height:1}
+  .rod sup{font-size:.32em;position:absolute;left:.1em;top:.03em}
+  .posaknis{border-top:2px solid currentColor;padding:5px 8px 0 4px;display:inline-flex;align-items:center;gap:6px}
+  .ivedimas{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap;align-items:center;font-family:Georgia,serif;font-size:19px}
+  .ivedimas input{border:1px solid #a9bbca;border-radius:10px;font:inherit;font-size:19px;padding:9px 10px;text-align:center}
+  .ivedimas input.coef{width:70px}
+  .ivedimas input.rad{width:70px}
+  .ivedimas input.n{width:170px}
+  .ivedimas input:focus{outline:3px solid var(--geltona);outline-offset:1px;border-color:var(--pb)}
+  .ivedimas button{border:0;border-radius:10px;padding:0 18px;height:40px;font-family:"Segoe UI",system-ui,sans-serif;font-size:15px;font-weight:700;cursor:pointer;background:#e8eef4;color:#243e58}
+  .ivedimas button:hover{background:#dbe3ec}
+  .variantai{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+  .variantai button{border:1px solid #a9bbca;border-radius:10px;background:#fff;font-family:Georgia,serif;font-size:17px;padding:9px 8px;cursor:pointer;color:var(--ink)}
+  .variantai button:hover{background:#eef2f7}
+  .variantai button.pick-correct{border-color:#9fcdb8;background:var(--good-bg);color:var(--good);font-weight:700}
+  .variantai button.pick-wrong{border-color:#e4b79a;background:var(--bad-bg);color:var(--bad)}
+  .variantai button:disabled{cursor:default}
+  .griztamasis{margin-top:13px;font-size:15px;line-height:1.6}
+  .griztamasis.gerai{color:var(--good)}
+  .griztamasis.blogai{color:var(--bad)}
+  footer{color:var(--muted);font-size:13.5px;margin-top:24px;text-align:center}
+  @media(max-width:720px){.rinkinys{grid-template-columns:1fr}.wrap{padding:20px 14px}.panelas{padding:16px}header{display:block}.variantai{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="min-width:0;flex:1">
+      <div class="tag">8 KLASĖ · 1.8 IŠKELIAME IR ĮKELIAME</div>
+      <h1>Iškeliame ir įkeliame — treniruoklis su pasirinkimais</h1>
+      <p>Pasirink užduoties tipą ir šaknies rūšį — iškart matysi, ar teisingai, ir pilną sprendimą.</p>
+    </div>
+    <div class="simb" aria-hidden="true">√ ∛</div>
+  </header>
+
+  <section class="panelas">
+    <div class="kontroles">
+      <label>Užduoties tipas
+        <select id="tipas">
+          <option value="mixed">Mišrios (iškėlimas / įkėlimas / atpažinimas)</option>
+          <option value="extract">Tik iškėlimas prieš ženklą</option>
+          <option value="insert">Tik įkėlimas po šaknimi</option>
+          <option value="mc">Tik atpažinimas (pasirinkimai)</option>
+        </select>
+      </label>
+      <label>Šaknys
+        <select id="modas">
+          <option value="all">Kvadratinės ir kubinės</option>
+          <option value="2">Tik kvadratinės</option>
+          <option value="3">Tik kubinės</option>
+        </select>
+      </label>
+      <button id="naujas">↻ Naujas užduočių rinkinys</button>
+    </div>
+    <div class="formules">
+      <span><b>√(a²·b) = a√b</b>, kai a ≥ 0</span>
+      <span><b>∛(a³·b) = a∛b</b></span>
+    </div>
+    <p class="pastaba">Iškėlimo užduotyse rašyk daugiklį prieš šaknį ir skaičių po šaknimi į atskirus langelius. Įkėlimo užduotyse — skaičių, kuris liktų po viena šaknimi (gali būti neigiamas, pvz. −250).</p>
+    <div class="stat-eilute" id="statistika" aria-live="polite"></div>
+    <div class="baro-fonas"><div id="juosta"></div></div>
+  </section>
+
+  <div class="rinkinys" id="uzduotys"></div>
+
+  <footer>10 užduočių viename rinkinyje · kiekviename naujame rinkinyje kiti skaičiai · treniruokis tiek kartų, kiek reikia.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const TYPE_LABEL = {extract:"Iškėlimas", insert:"Įkėlimas", mc:"Atpažinimas"};
+  const SF = [2,3,5,6,7,10,11,13,14,15,17,19,21,22,23];   // kvadratinei: bekvadračiai pošakniai
+  const CF = [2,3,4,5,6,7,9,10,11,12,13];                 // kubinei: bekubiai pošakniai
+
+  function randInt(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+  function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+  function radicalFormula(p, bodyHtml){
+    return `<span class="saknis"><span class="rod">${p===3?"<sup>3</sup>":""}√</span><span class="posaknis">${bodyHtml}</span></span>`;
+  }
+  function coefRadical(coefHtml, p, bodyHtml){
+    return `<span class="saknis">${coefHtml}<span class="rod">${p===3?"<sup>3</sup>":""}√</span><span class="posaknis">${bodyHtml}</span></span>`;
+  }
+
+  // --- vieno uždavinio duomenys (a, b, N, ženklas) pagal šaknies laipsnį p ---
+  function pickParts(p){
+    if(p===2){
+      const a = randInt(2,9), b = choice(SF);
+      return { a, b, pow:a*a, neg:false };
+    }
+    const a = randInt(2,4), b = choice(CF);
+    return { a, b, pow:a*a*a, neg: Math.random()<0.35 };
+  }
+
+  function genExtract(p){
+    const { a, b, pow, neg } = pickParts(p);
+    const N = pow*b;
+    const sym = p===3?"∛":"√";
+    const bodyN = neg ? `(−${N})` : `${N}`;
+    const formula = radicalFormula(p, neg ? `(−${N})` : `${N}`);
+    const correctCoef = neg ? -a : a;
+    let explanation;
+    if(p===2){
+      explanation = `√${N} = √(${pow}·${b}) = √${pow} · √${b} = ${a}√${b}.`;
+    } else if(!neg){
+      explanation = `∛${N} = ∛(${pow}·${b}) = ∛${pow} · ∛${b} = ${a}∛${b}.`;
+    } else {
+      explanation = `∛(−${N}) = ∛(−${pow}·${b}) = −∛${pow} · ∛${b} = −${a}∛${b}.`;
+    }
+    return { type:"extract", p, sym, formula, correctCoef, correctRad:b, explanation, key:`E${p}:${bodyN}` };
+  }
+
+  function genInsert(p){
+    const { a, b, pow, neg } = pickParts(p);
+    const N = pow*b;
+    const coefHtml = neg ? `−${a}` : `${a}`;
+    const formula = coefRadical(coefHtml, p, `${b}`);
+    const correctAnswer = neg ? -N : N;
+    let explanation;
+    if(p===2){
+      explanation = `${a}√${b} = √(${a}²·${b}) = √(${pow}·${b}) = √${N}.`;
+    } else if(!neg){
+      explanation = `${a}∛${b} = ∛(${a}³·${b}) = ∛(${pow}·${b}) = ∛${N}.`;
+    } else {
+      explanation = `−${a}∛${b} = −∛(${a}³·${b}) = −∛(${pow}·${b}) = ∛(−${N}).`;
+    }
+    return { type:"insert", p, formula, correctAnswer, explanation, key:`I${p}:${coefHtml}${p===3?"∛":"√"}${b}` };
+  }
+
+  function genMc(p){
+    const { a, b, pow, neg } = pickParts(p);
+    const N = pow*b;
+    const sym = p===3?"∛":"√";
+    const formula = radicalFormula(p, neg ? `(−${N})` : `${N}`);
+    const label = (coef,rad) => `${coef}${sym}${rad}`;
+    const correct = label(neg?`−${a}`:`${a}`, b);
+    const opts = new Set([correct]);
+    const variants = [
+      label(neg?`−${a+1}`:`${a+1}`, b),          // klaidingas daugiklis
+      label(neg?`−${a}`:`${a}`, b+2),            // klaidingas pošaknis
+      label(neg?`−${b}`:`${b}`, a),              // sukeisti vietomis
+      label(neg?`−${Math.max(2,a-1)}`:`${Math.max(2,a-1)}`, b)
+    ];
+    for(const v of variants){ if(opts.size<4) opts.add(v); }
+    let guard=0;
+    while(opts.size<4 && guard<20){ opts.add(label(`${randInt(2,9)}`, choice(p===2?SF:CF))); guard++; }
+    const options = shuffle(Array.from(opts));
+    const correctIndex = options.indexOf(correct);
+    let explanation;
+    if(p===2){
+      explanation = `√${N} = √(${pow}·${b}) = √${pow} · √${b} = ${a}√${b}.`;
+    } else if(!neg){
+      explanation = `∛${N} = ∛(${pow}·${b}) = ∛${pow} · ∛${b} = ${a}∛${b}.`;
+    } else {
+      explanation = `∛(−${N}) = ∛(−${pow}·${b}) = −∛${pow} · ∛${b} = −${a}∛${b}.`;
+    }
+    return { type:"mc", p, formula, options, correctIndex, explanation, key:`M${p}:${neg?-N:N}` };
+  }
+
+  function normNum(s){
+    s = (s||"").trim().replace(/\s/g,"").replace(/−/g,"-").replace(",",".");
+    if(s==="") return NaN;
+    return Number(s);
+  }
+
+  let tasks = [];
+  let previousKeys = new Set();
+
+  function updateStats(){
+    const done = tasks.filter(t=>t.status==="correct").length;
+    const first = tasks.filter(t=>t.first===true).length;
+    document.getElementById("statistika").textContent = `Išspręsta: ${done} / 10 · Teisingai iš pirmo karto: ${first}`;
+    document.getElementById("juosta").style.width = (done/10*100) + "%";
+  }
+
+  function markCard(idx, ok){
+    const t = tasks[idx];
+    if(!t.attempted) t.first = ok;
+    t.attempted = true;
+    t.status = ok ? "correct" : "incorrect";
+    document.getElementById("korta"+idx).className = "korta " + t.status;
+    const feedbackEl = document.getElementById("grizt"+idx);
+    feedbackEl.className = "griztamasis " + (ok ? "gerai" : "blogai");
+    feedbackEl.innerHTML = (ok ? "✓ Teisingai!" : "Dar ne. Pažiūrėk sprendimą ir bandyk vėl.") + "<br>" + t.explanation;
+    updateStats();
+  }
+
+  function checkExtract(idx){
+    const t = tasks[idx];
+    const coefEl = document.getElementById("coef"+idx);
+    const radEl = document.getElementById("rad"+idx);
+    const coefV = normNum(coefEl.value), radV = normNum(radEl.value);
+    if(!Number.isFinite(coefV) || !Number.isFinite(radV)){
+      const feedbackEl = document.getElementById("grizt"+idx);
+      feedbackEl.className = "griztamasis blogai";
+      feedbackEl.textContent = "Užpildyk abu langelius sveikaisiais skaičiais.";
+      return;
+    }
+    const ok = coefV===t.correctCoef && radV===t.correctRad;
+    markCard(idx, ok);
+  }
+
+  function checkInsert(idx){
+    const t = tasks[idx];
+    const nEl = document.getElementById("nval"+idx);
+    const v = normNum(nEl.value);
+    if(!Number.isFinite(v)){
+      const feedbackEl = document.getElementById("grizt"+idx);
+      feedbackEl.className = "griztamasis blogai";
+      feedbackEl.textContent = "Įrašyk sveikąjį skaičių, pvz. 20 arba −250.";
+      return;
+    }
+    markCard(idx, v===t.correctAnswer);
+  }
+
+  function checkMc(idx, chosenIdx, btn){
+    const t = tasks[idx];
+    if(t.attempted) return;
+    const ok = chosenIdx===t.correctIndex;
+    const buttons = document.querySelectorAll(`#korta${idx} .variantai button`);
+    buttons.forEach((b,i)=>{
+      b.disabled = true;
+      if(i===t.correctIndex) b.classList.add("pick-correct");
+      else if(i===chosenIdx) b.classList.add("pick-wrong");
+    });
+    markCard(idx, ok);
+  }
+
+  function cardBody(t, i){
+    if(t.type==="extract"){
+      return `
+        <div class="formule">${t.formula}<span style="padding-left:6px">=</span></div>
+        <div class="ivedimas">
+          <input id="coef${i}" class="coef" placeholder="a" autocomplete="off" aria-label="daugiklis">
+          <span>${t.sym}</span>
+          <input id="rad${i}" class="rad" placeholder="b" autocomplete="off" aria-label="po šaknimi">
+          <button type="button" data-act="extract">Tikrinti</button>
+        </div>`;
+    }
+    if(t.type==="insert"){
+      return `
+        <div class="formule">${t.formula}<span style="padding-left:6px">=</span></div>
+        <div class="ivedimas">
+          <input id="nval${i}" class="n" placeholder="skaičius po šaknimi" autocomplete="off" aria-label="atsakymas">
+          <button type="button" data-act="insert">Tikrinti</button>
+        </div>`;
+    }
+    return `
+      <div class="formule">${t.formula}<span style="padding-left:6px">=</span></div>
+      <div class="variantai">${t.options.map((o,oi)=>`<button type="button" data-opt="${oi}">${o}</button>`).join("")}</div>`;
+  }
+
+  function startSet(){
+    const tipasVal = document.getElementById("tipas").value;
+    const modas = document.getElementById("modas").value;
+    const typeSeq = ["extract","extract","insert","insert","mc","extract","insert","mc","extract","insert"];
+    const seen = new Set();
+    const next = [];
+    for(let i=0;i<10;i++){
+      const p = modas==="all" ? (i%2 ? 3 : 2) : +modas;
+      const kind = tipasVal==="mixed" ? typeSeq[i] : tipasVal;
+      let t, count=0;
+      do{
+        t = kind==="extract" ? genExtract(p) : kind==="insert" ? genInsert(p) : genMc(p);
+        count++;
+      } while((seen.has(t.key) || previousKeys.has(t.key)) && count<500);
+      seen.add(t.key);
+      next.push(Object.assign(t, {status:null, attempted:false, first:undefined}));
+    }
+    tasks = next;
+    previousKeys = seen;
+
+    document.getElementById("uzduotys").innerHTML = tasks.map((t,i)=>`
+      <article class="korta" id="korta${i}">
+        <div class="virsutine"><b>${String(i+1).padStart(2,"0")} / 10</b><span>${TYPE_LABEL[t.type]} · ${t.p===3?"kubinė":"kvadratinė"}</span></div>
+        ${cardBody(t,i)}
+        <div class="griztamasis" id="grizt${i}" role="status"></div>
+      </article>`).join("");
+
+    document.querySelectorAll(".korta").forEach(card=>{
+      const i = +card.id.replace("korta","");
+      const actBtn = card.querySelector('[data-act]');
+      if(actBtn){
+        actBtn.onclick = () => actBtn.dataset.act==="extract" ? checkExtract(i) : checkInsert(i);
+        card.querySelectorAll("input").forEach(inp=>{
+          inp.addEventListener("keydown", e=>{ if(e.key==="Enter") actBtn.click(); });
+        });
+      }
+      card.querySelectorAll("[data-opt]").forEach(btn=>{
+        btn.onclick = () => checkMc(i, +btn.dataset.opt, btn);
+      });
+    });
+    updateStats();
+  }
+
+  document.getElementById("naujas").onclick = startSet;
+  document.getElementById("tipas").onchange = startSet;
+  document.getElementById("modas").onchange = startSet;
+  startSet();
+})();
+</script>
+</body>
+</html>
