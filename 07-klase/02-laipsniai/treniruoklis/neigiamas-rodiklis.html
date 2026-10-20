@@ -260,7 +260,7 @@ function makeProblem(){
 }
 // === GEN END ===
 
-const META = {"title": "Laipsnio su sveikuoju rodikliu savybės", "subtitle": "7 klasė · Laipsniai · įrašyk atsakymus ir tikrinkis. Paspaudus Nauji skaičiai, užduotys sugeneruojamos iš naujo.", "pastabos": "Atsakymuose galima rašyti kablelį arba tašką. Laipsnius rašyk kaip 3^5 arba 3^(-5).", "poraste": "Mokytoja Violeta", "grizti": "../"};
+const META = {"title": "Laipsnio su sveikuoju rodikliu savybės", "subtitle": "7 klasė · Laipsniai · įrašyk atsakymus ir tikrinkis. Paspaudus Nauji skaičiai, užduotys sugeneruojamos iš naujo.", "pastabos": "Atsakymuose galima rašyti kablelį arba tašką. Laipsnius rašyk kaip 3^5 arba 3^-5 (skliaustai nebūtini).", "poraste": "Mokytoja Violeta", "grizti": "../"};
 const $ = id => document.getElementById(id);
 
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -294,6 +294,7 @@ function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.a
 function normText(s){
   return (s||'').toString().trim().toLowerCase()
     .replace(/\s+/g,'')
+    .replace(/\^\(([^)]+)\)/g,'^$1')
     .replace(/-/g,'−')
     .replace(/<=/g,'≤').replace(/=</g,'≤')
     .replace(/>=/g,'≥').replace(/=>/g,'≥')
