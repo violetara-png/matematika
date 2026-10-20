@@ -358,10 +358,15 @@ function awaySeconds(){
 function val(id){return document.getElementById(id).value.trim();}
 
 function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-// Matematinis formatavimas: „skaičius/skaičius" -> MathML trupmena (<math><mfrac>).
+// Matematinis formatavimas: trupmena (skaičius/skaičius, raidė/skaičius, skaičius/raidė,
+// raidė/raidė — pvz. 4/x, x/6, k/x) -> MathML (<math><mfrac>). Vienos raidės ribojimas
+// (ne \w+) apsaugo vienetus kaip „20 km/h" nuo klaidingo pavertimo trupmena.
 function fmtMath(s){
-  return esc(s).replace(/(\d+)\/(\d+)/g,
-    '<math><mfrac><mn>$1</mn><mn>$2</mn></mfrac></math>');
+  return esc(s).replace(/\b(\d+(?:,\d+)?|[a-z])\/(\d+(?:,\d+)?|[a-z])\b/g, function(_, num, den){
+    var ne = /^[a-z]$/.test(num) ? '<mi>'+num+'</mi>' : '<mn>'+num+'</mn>';
+    var de = /^[a-z]$/.test(den) ? '<mi>'+den+'</mi>' : '<mn>'+den+'</mn>';
+    return '<math><mfrac>'+ne+de+'</mfrac></math>';
+  });
 }
 
 function b64utf8(s){
