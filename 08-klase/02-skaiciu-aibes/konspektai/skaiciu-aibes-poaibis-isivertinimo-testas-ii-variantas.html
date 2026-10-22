@@ -57,6 +57,7 @@
     font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;color:var(--tema);cursor:pointer}
   .insb:hover{background:var(--tema-sv)}
   .exprhint{font-size:12.5px;color:var(--grey);margin:-2px 0 8px}
+  .opentools{display:flex;gap:8px;margin:6px 0 10px}
   .opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
   .opt{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:8px 12px;cursor:pointer;
     font-size:14.5px;display:flex;gap:6px;align-items:center;user-select:none}
@@ -461,6 +462,11 @@ function render(){
       html += '</div>';
     } else if(ex.type==='open'){
       html += '<textarea class="opentxt" id="ex'+i+'_ta" placeholder="Rašyk savo atsakymą čia..."></textarea>';
+      html += '<div class="opentools">'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'√\')" title="Kvadratinė šaknis">√</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∛\')" title="Kubinė šaknis">∛</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'π\')" title="Pi">π</button>'+
+              '</div>';
       html += '<div class="sample"><b>Pavyzdinis atsakymas:</b> <span class="math">'+ex.sample+'</span></div>';
     }
 
