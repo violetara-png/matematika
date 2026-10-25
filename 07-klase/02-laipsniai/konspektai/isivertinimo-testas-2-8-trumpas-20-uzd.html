@@ -355,12 +355,18 @@ function selfScore(i, ok){
   updateScore();
 }
 
+function fracHTML(s){
+  const m = /^(-)?(\d+)\/(\d+)$/.exec(String(s).trim());
+  if(!m) return s;
+  return (m[1]?'−':'') + '<span class="fr"><span>'+m[2]+'</span><span>'+m[3]+'</span></span>';
+}
+
 function answerText(ex){
   if(ex.type==='fields'){
     return ex.fields.map(f=>{
       if(f.kind==='number') return f.ans;
       if(f.kind==='set') return '{'+f.ans.join('; ')+'}';
-      if(f.kind==='expr') return f.ans;
+      if(f.kind==='expr') return fracHTML(f.ans);
       return f.ans.replace(';','; ');
     }).join(' &nbsp;·&nbsp; ');
   }
