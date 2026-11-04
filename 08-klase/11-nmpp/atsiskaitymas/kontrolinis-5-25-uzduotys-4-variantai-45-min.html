@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMPP pasiruošimas — kontrolinis 5 (25 uždaviniai)</title>
+<style>
+  :root{--bg:#f3f5fa;--card:#fff;--ink:#20243b;--accent:#544bbd;--accent2:#625ac4;
+    --ok:#15803d;--bad:#b42535;--muted:#6b7185;--line:#dfe2ef;--shadow:0 8px 25px rgba(32,36,59,.06)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  header.hdr{padding:28px 0 6px}
+  .eyebrow{color:var(--accent2);font-size:13px;letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+  h1{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:8px 0 6px}
+  header.hdr p{margin:0 0 12px;color:var(--muted)}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .pill{background:#eeecff;color:#4b419f;border-radius:30px;padding:5px 14px;font-size:13px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px;margin:16px 0}
+  h2{margin:0 0 14px;font-size:19px;color:var(--ink)}
+  label{display:block;font-weight:650;margin:14px 0 5px}
+  input[type=text],select{width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line);border-radius:10px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2);outline:3px solid #d5d2ff}
+  .variants{border:0;padding:0;margin:18px 0 6px}
+  .variants legend{font-weight:650;padding:0;margin-bottom:8px}
+  .variant-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .variant-choice{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid var(--line);border-radius:12px;cursor:pointer}
+  .variant-choice:has(input:checked){background:#eeecff;border-color:var(--accent)}
+  .variant-choice input{width:19px;height:19px;flex-shrink:0;margin:0}
+  .muted{color:var(--muted);font-size:14px;line-height:1.55}
+  .q .muted{margin-bottom:2px}
+  button{border:none;border-radius:11px;padding:13px 20px;font-size:16px;font-weight:650;cursor:pointer}
+  .primary{background:var(--accent);color:#fff}
+  .primary:hover{background:#463ea6}
+  .primary:disabled{opacity:.5;cursor:not-allowed}
+  .secondary{background:#eae8f8;color:#39316f}
+  .secondary:disabled{opacity:.4;cursor:not-allowed}
+  .hidden{display:none}
+  .warn{color:var(--bad);font-weight:600;margin-top:10px;min-height:20px}
+  .bar{position:sticky;top:0;z-index:5;background:#f3f5faf0;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+  .bar .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  progress{flex:1;accent-color:var(--accent2);height:8px}
+  .exit-banner{background:#fee2e2;border:2px solid var(--bad);color:#991b1b;font-weight:700;padding:10px 14px;border-radius:10px;margin:10px 0;text-align:center}
+  .timer{background:#eeecff;border:2px solid var(--accent2);color:#3b3480;font-weight:700;padding:9px 14px;border-radius:10px;margin:10px 0;text-align:center}
+  .timer.low{background:#fee2e2;border-color:var(--bad);color:#991b1b}
+  .sec-label{font-size:12px;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:8px}
+  .qnum{color:var(--muted);font-size:13px;margin-bottom:2px}
+  .qtext{font-size:19px;margin:2px 0 14px}
+  .qfig{margin:0 0 14px;text-align:center}
+  .qfig svg{max-width:100%;height:auto}
+  math{font-size:1.08em;vertical-align:middle}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer}
+  .opt:has(input:checked){background:#f0edff;border-color:var(--accent2)}
+  .opt input{width:auto;margin:0}
+  .opt .letter{font-weight:700;color:var(--accent2);min-width:22px}
+  .editor{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .ekey{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:17px;font-weight:600;cursor:pointer;min-width:40px}
+  .ekey:hover{background:#f3f5fa;border-color:var(--accent2)}
+  #nav{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+  #nav button{padding:9px;min-width:36px;font-size:13px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:8px}
+  #nav button.filled{background:#e3ecf0;border-color:#9fc7d4;color:#17616e}
+  #nav button.current{border:2px solid var(--accent)}
+  .finish-bar{position:sticky;bottom:0;z-index:4;background:#f3f5faf5;border-top:1px solid var(--line);padding:12px 0;margin-top:10px}
+  .finish-bar .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .result-big{font-size:56px;font-weight:800;color:var(--accent);text-align:center;margin:6px 0}
+  .result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .grade{font-size:28px;font-weight:800}
+  .comment{background:#eeecff;border-left:4px solid var(--accent2);padding:12px 14px;border-radius:8px;margin-top:14px;font-size:16px;color:#39316f}
+  .dl{display:block;width:100%;text-align:center;margin-top:16px}
+  .sheet-status{margin:14px 0 4px;padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;min-height:20px}
+  .sheet-status.sending{background:#fef9c3;border-left:4px solid #ca8a04;color:#854d0e}
+  .sheet-status.ok{background:#dcfce7;border-left:4px solid var(--ok);color:#166534}
+  .sheet-status.err{background:#fee2e2;border-left:4px solid var(--bad);color:#991b1b}
+  .retry{background:#fff;border:1px solid var(--line);color:var(--accent);font-size:14px;padding:8px 14px;border-radius:9px;margin-top:8px;cursor:pointer;font-weight:600}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:24px 0}
+</style>
+</head>
+<body><div id="__gate" style="position:fixed;inset:0;z-index:2147483647;background:#1f2a44;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,sans-serif"><div style="background:#fff;color:#1c2430;padding:28px 30px;border-radius:16px;box-shadow:0 12px 45px rgba(0,0,0,.35);max-width:360px;width:90%;text-align:center"><div style="font-size:34px">&#8987;</div><h2 style="margin:6px 0 4px;font-size:19px;color:#1f2a44">Laukiama mokytojos leidimo</h2><p id="__gateTopic" style="margin:0 0 10px;font-size:13px;color:#5b6472;font-weight:600"></p><p id="__gateMsg" style="margin:0;font-size:14px;color:#5b6472">Testas atsidarys automatiškai, kai mokytoja jį įjungs.</p></div></div><script>(function(){var SID="1zHlbQI1nsscZFq9H3AVnVIrqE0TaMtPaI0Flpo886yE",LABEL="🔒 Atsiskaitymas · 11. NMPP · Kontrolinis 5 (25 užduotys, 4 variantai, 45 min)",KLASE="8 klasė",ROUTER="https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";var g=document.getElementById("__gate");if(!g)return;var lab=document.getElementById("__gateTopic");if(lab)lab.textContent=LABEL;var msg=document.getElementById("__gateMsg");var timer=null;function check(){fetch(ROUTER+"?action=status&sheet_id="+encodeURIComponent(SID)+"&label="+encodeURIComponent(LABEL)+"&klase="+encodeURIComponent(KLASE)).then(function(r){return r.json();}).then(function(d){if(d&&d.enabled){if(timer){clearInterval(timer);}g.parentNode.removeChild(g);}else if(msg){msg.textContent="Testas šiuo metu išjungtas. Palauk mokytojos nurodymo.";}}).catch(function(){if(msg){msg.textContent="Nepavyko patikrinti būsenos. Bandoma dar kartą…";}});}check();timer=setInterval(check,7000);})();</script>
+<div class="wrap">
+
+  <header class="hdr">
+    <span class="eyebrow" id="eyebrow"></span>
+    <h1 id="hTitle"></h1>
+    <p>Žinių patikrinimas. Susikaupk, apskaičiuok ir parodyk, ką moki.</p>
+    <div class="pillrow">
+      <span class="pill" id="pillPts"></span>
+      <span class="pill" id="pillMin"></span>
+      <span class="pill">Be skaičiuotuvo</span>
+    </div>
+  </header>
+
+  <!-- 1. REGISTRACIJA -->
+  <section id="regScreen" class="card">
+    <h2>Prieš pradedant</h2>
+    <p class="muted">Įvesk savo duomenis ir pasirink testo variantą.</p>
+    <label>Klasė</label>
+    <input id="klase" type="text" placeholder="pvz. 8b">
+    <label>Vardas</label>
+    <input id="vardas" type="text" placeholder="Vardas">
+    <label>Pavardė</label>
+    <input id="pavarde" type="text" placeholder="Pavardė">
+    <div id="lygisRow" style="display:none">
+      <label>Testo lygis</label>
+      <select id="lygis"></select>
+    </div>
+    <fieldset class="variants">
+      <legend>Testo variantas</legend>
+      <div class="variant-grid" id="variantGrid"></div>
+    </fieldset>
+    <p class="muted">Testo metu fiksuojamas skirtuko paslėpimas, lango aktyvumo praradimas ir išėjimas iš viso ekrano.
+      Perspėjimą matysi tu, o įvykius — mokytoja. Atsakymus galėsi taisyti iki pateikimo, teisingi atsakymai
+      sprendžiant nerodomi.</p>
+    <div class="warn" id="regWarn"></div>
+    <button class="primary" style="margin-top:6px;width:100%" onclick="startTest()">Pradėti testą →</button>
+  </section>
+
+  <!-- 2. TESTAS -->
+  <section id="testScreen" class="hidden">
+    <div class="bar">
+      <div class="row">
+        <span class="muted" id="qPos"></span>
+        <progress id="prog" value="0" max="20"></progress>
+      </div>
+    </div>
+    <div class="exit-banner" id="exitBanner" style="display:none"></div>
+    <div class="timer" id="timerBox" style="display:none">⏱ Liko laiko: <b id="timerVal">--:--</b></div>
+    <div id="nav"></div>
+    <div class="card" id="qCard"></div>
+    <div class="row" style="display:flex;justify-content:space-between;margin-top:14px">
+      <button type="button" class="secondary" id="prevBtn" onclick="gotoQ(curQ-1)">← Atgal</button>
+      <button type="button" class="secondary" id="nextBtn" onclick="gotoQ(curQ+1)">Pirmyn →</button>
+    </div>
+    <div class="warn" id="testWarn"></div>
+    <div class="finish-bar">
+      <div class="row">
+        <span class="muted" id="answeredCount"></span>
+        <button class="primary" onclick="submitTest()">Pateikti testą ✓</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. REZULTATAI -->
+  <section id="resultScreen" class="hidden card">
+    <h2>Testas pateiktas ✓</h2>
+    <div id="resultInfo"></div>
+    <div class="sheet-status" id="sheetNote"></div>
+    <button class="primary dl" id="dlBtn" onclick="downloadResult()">⬇ Atsisiųsti rezultatą ir atsiųsti mokytojai</button>
+    <div class="note muted" id="dlNote" style="margin-top:8px;text-align:center"></div>
+  </section>
+
+  <footer>Matematika · Mokytoja Violeta</footer>
+</div>
+
+<script>
+const CFG = {"title": "NMPP pasiruošimas — kontrolinis 5 (25 uždaviniai)", "dalykas": "Matematika", "sheet_id": "1zHlbQI1nsscZFq9H3AVnVIrqE0TaMtPaI0Flpo886yE", "trukme_min": 45, "grading": {"mc_points": 1, "open_points": 1, "scale": [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]], "comments": [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti su kontrolinio treniruokliu."]]}, "variants": [{"id": 1, "mc": [{"q": "Pasirinkite teisingą nelygybės 5y − 19 ≥ -69 sprendinį.", "options": ["y ≥ -10", "y ≥ -11", "y &lt; -10", "y &gt; -10"], "correct": 0}, {"q": "Kortų malkoje yra 52 kortos. Kokia tikimybė atsitiktinai ištraukti kryžių tūzą?", "options": ["2/52", "1/52", "4/52", "3/52"], "correct": 1}, {"q": "Rombo įstrižainių ilgiai yra 18 cm ir 20 cm. Kam lygus rombo plotas?", "options": ["360 cm²", "90 cm²", "180 cm²", "38 cm²"], "correct": 2}, {"q": "Apskaičiuokite: 2^1 : 2^1 · 2^6 : 2^1.", "options": ["16", "64", "34", "32"], "correct": 3}, {"q": "Kuriuo atveju reiškinio 2d − 7 − 6d + 10,4 panašieji nariai sutraukti teisingai?", "options": ["-4d + 3,4", "-4d − 3,4", "8d + 3,4", "4d + 3,4"], "correct": 0}, {"q": "Lygiašonio trikampio viršūnės kampas yra 36°. Kam lygus pagrindo kampas?", "options": ["36°", "72°", "144°", "82°"], "correct": 1}, {"q": "Atlikite veiksmus su laipsniais: 2^3 − (3^2)².", "options": ["89", "73", "-73", "-71"], "correct": 2}, {"q": "Kuris iš skaičių yra mažiausias sveikasis nelygybės 6x − 25 &lt; 9x sprendinys?", "options": ["-7", "-5", "-9", "-8"], "correct": 3}, {"q": "Apskritimo ilgis yra 40π cm. Kam lygus skritulio plotas?", "options": ["400π cm²", "800π cm²", "40π cm²", "20π cm²"], "correct": 0}, {"q": "Mokinė turi 3 skirtingas sukneles, 4 švarkus ir 6 poras batų. Kiek skirtingų aprangos derinių ji gali sudaryti?", "options": ["24", "72", "82", "12"], "correct": 1}], "open": [{"q": "Žinoma, kad Išvestis = Įvestis · 3. Kam lygi Išvestis, kai Įvestis n = 16?", "a": "NDg="}, {"q": "Skaičių 3114519 suapvalinkite iki šimtų tūkstančių.", "a": "MzEwMDAwMA=="}, {"q": "Išspręskite nelygybių sistemą: 4x ≥ -20, &nbsp;&nbsp; x + 19 &lt; 22. Koks yra mažiausias sveikasis šios sistemos sprendinys?", "a": "LTU="}, {"q": "Stačiakampio gretasienio formos dėžutės tūris 80 cm³. Dėžutės pagrindo plotas — 16 cm². Koks dėžutės aukštis?", "a": "NQ=="}, {"q": "Iš 25 bilietų 13 yra „laimingi“. Kokia tikimybė ištraukti „laimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MTMvMjU="}, {"q": "Atskliauskite ir sutraukite panašiuosius narius: 2(a − 5) − 5(2a − 18) = ?", "a": "LThhKzgw"}, {"q": "Taškas G(-4; -9) pažymėtas koordinačių plokštumoje. Kuriame ketvirtyje jis yra? (Atsakymą parašykite romėniškuoju skaitmeniu, pvz. II.)", "a": "SUlJ"}, {"q": "Agnė turi virvę, kurios ilgis 24 m, ir nori ją panaudoti kaip ribą apskritimo formos gėlių lysvei apjuosti. Koks bus lysvės spindulio ilgis? Laikykite, kad π ≈ 3.", "a": "NA=="}, {"q": "Jeigu 9a + 9b = 108, tai kam lygus reiškinys 3a + 3b − 3?", "a": "MzM="}, {"q": "Elena išsikeitė 600 eurų į Šveicarijos frankus, kai valiutos kursas buvo 1 EUR : 9,9 CHF. Nojus išsikeitė tiek pat eurų, kai kursas buvo 1 EUR : 10,1 CHF. Kiek frankų daugiau gavo Nojus?", "a": "MTIw"}, {"q": "Skuteris kainuoja 700 Eur. Nuolaidų metu jo kaina sumažėjo 15 %. Turite papildomą 5 % nuolaidą nuo naujos kainos. Kiek galiausiai sumokėsite už skuterį?", "a": "NTY1LjI1"}, {"q": "Stačiojo trikampio plotas 33 m². Vienas iš jo statinių yra 5 metrais ilgesnis už kitą. Koks yra ilgesniojo statinio ilgis (m)?", "a": "MTE="}, {"q": "Trikampio DEF plotas 176 cm², kraštinės DE ilgis 18 cm. Apskaičiuokite aukštinės, nubrėžtos į kraštinę DE, ilgį.", "a": "MTc2Lzk="}, {"q": "Loterijoje yra 200 bilietų, iš kurių 4 yra „laimingi“. Kokia tikimybė nusipirkti „nelaimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MC45OA=="}, {"q": "Stačiakampio PQRS įstrižainė PR dalija jį į dvi dalis. Gauti du trikampiai: PQR ir PRS. Stačiakampio perimetras 30 cm, trikampio PQR plotas 28 cm². Apskaičiuokite ilgesniosios stačiakampio kraštinės ilgį.", "a": "OA=="}]}, {"id": 2, "mc": [{"q": "Pasirinkite teisingą nelygybės 3y − 8 ≥ 22 sprendinį.", "options": ["y ≥ 9", "y ≥ 10", "y &lt; 10", "y &gt; 10"], "correct": 1}, {"q": "Kortų malkoje yra 52 kortos. Kokia tikimybė atsitiktinai ištraukti kryžių karalių?", "options": ["3/52", "2/52", "1/52", "4/52"], "correct": 2}, {"q": "Rombo įstrižainių ilgiai yra 12 cm ir 14 cm. Kam lygus rombo plotas?", "options": ["168 cm²", "42 cm²", "26 cm²", "84 cm²"], "correct": 3}, {"q": "Apskaičiuokite: 2^1 : 2^1 · 2^5 : 2^2.", "options": ["8", "16", "4", "10"], "correct": 0}, {"q": "Kuriuo atveju reiškinio 3d − 7 − 14d + 11 panašieji nariai sutraukti teisingai?", "options": ["-11d − 4", "-11d + 4", "17d + 4", "11d + 4"], "correct": 1}, {"q": "Lygiašonio trikampio viršūnės kampas yra 64°. Kam lygus pagrindo kampas?", "options": ["64°", "53°", "58°", "116°"], "correct": 2}, {"q": "Atlikite veiksmus su laipsniais: 2^3 − (2^2)².", "options": ["-6", "24", "8", "-8"], "correct": 3}, {"q": "Kuris iš skaičių yra mažiausias sveikasis nelygybės 4x − 20 &lt; 10x sprendinys?", "options": ["-3", "-4", "0", "-2"], "correct": 0}, {"q": "Apskritimo ilgis yra 24π cm. Kam lygus skritulio plotas?", "options": ["288π cm²", "144π cm²", "24π cm²", "12π cm²"], "correct": 1}, {"q": "Mokinė turi 7 skirtingas sukneles, 5 švarkus ir 6 poras batų. Kiek skirtingų aprangos derinių ji gali sudaryti?", "options": ["30", "35", "210", "229"], "correct": 2}], "open": [{"q": "Žinoma, kad Išvestis = Įvestis · 8. Kam lygi Išvestis, kai Įvestis n = 18?", "a": "MTQ0"}, {"q": "Skaičių 6334264 suapvalinkite iki šimtų tūkstančių.", "a": "NjMwMDAwMA=="}, {"q": "Išspręskite nelygybių sistemą: 5x ≥ 50, &nbsp;&nbsp; x + 16 &lt; 37. Koks yra mažiausias sveikasis šios sistemos sprendinys?", "a": "MTA="}, {"q": "Stačiakampio gretasienio formos dėžutės tūris 72 cm³. Dėžutės pagrindo plotas — 18 cm². Koks dėžutės aukštis?", "a": "NA=="}, {"q": "Iš 30 bilietų 3 yra „laimingi“. Kokia tikimybė ištraukti „laimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MS8xMA=="}, {"q": "Atskliauskite ir sutraukite panašiuosius narius: 4(a − 3) − 6(2a − 24) = ?", "a": "LThhKzEzMg=="}, {"q": "Taškas G(1; -9) pažymėtas koordinačių plokštumoje. Kuriame ketvirtyje jis yra? (Atsakymą parašykite romėniškuoju skaitmeniu, pvz. II.)", "a": "SVY="}, {"q": "Agnė turi virvę, kurios ilgis 24 m, ir nori ją panaudoti kaip ribą apskritimo formos gėlių lysvei apjuosti. Koks bus lysvės spindulio ilgis? Laikykite, kad π ≈ 3.", "a": "NA=="}, {"q": "Jeigu 9a + 6b = 105, tai kam lygus reiškinys 3a + 2b − 11?", "a": "MjQ="}, {"q": "Elena išsikeitė 600 eurų į Šveicarijos frankus, kai valiutos kursas buvo 1 EUR : 9,6 CHF. Nojus išsikeitė tiek pat eurų, kai kursas buvo 1 EUR : 9,9 CHF. Kiek frankų daugiau gavo Nojus?", "a": "MTgw"}, {"q": "Skuteris kainuoja 700 Eur. Nuolaidų metu jo kaina sumažėjo 15 %. Turite papildomą 20 % nuolaidą nuo naujos kainos. Kiek galiausiai sumokėsite už skuterį?", "a": "NDc2"}, {"q": "Stačiojo trikampio plotas 135 m². Vienas iš jo statinių yra 3 metrais ilgesnis už kitą. Koks yra ilgesniojo statinio ilgis (m)?", "a": "MTg="}, {"q": "Trikampio DEF plotas 66 cm², kraštinės DE ilgis 8 cm. Apskaičiuokite aukštinės, nubrėžtos į kraštinę DE, ilgį.", "a": "MTYuNQ=="}, {"q": "Loterijoje yra 120 bilietų, iš kurių 33 yra „laimingi“. Kokia tikimybė nusipirkti „nelaimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MC43MjU="}, {"q": "Stačiakampio PQRS įstrižainė PR dalija jį į dvi dalis. Gauti du trikampiai: PQR ir PRS. Stačiakampio perimetras 42 cm, trikampio PQR plotas 52 cm². Apskaičiuokite ilgesniosios stačiakampio kraštinės ilgį.", "a": "MTM="}]}, {"id": 3, "mc": [{"q": "Pasirinkite teisingą nelygybės 2y − 3 ≥ -33 sprendinį.", "options": ["y &gt; -15", "y &lt; -15", "y ≥ -15", "y ≥ -16"], "correct": 2}, {"q": "Kortų malkoje yra 52 kortos. Kokia tikimybė atsitiktinai ištraukti vynų tūzą?", "options": ["3/52", "2/52", "4/52", "1/52"], "correct": 3}, {"q": "Rombo įstrižainių ilgiai yra 14 cm ir 12 cm. Kam lygus rombo plotas?", "options": ["84 cm²", "42 cm²", "26 cm²", "168 cm²"], "correct": 0}, {"q": "Apskaičiuokite: 5^3 : 5^3 · 5^5 : 5^3.", "options": ["125", "25", "30", "5"], "correct": 1}, {"q": "Kuriuo atveju reiškinio 2d − 4 − 2d + 3,5 panašieji nariai sutraukti teisingai?", "options": ["4d − 0,5", "0d + 0,5", "0d − 0,5", "1d − 0,5"], "correct": 2}, {"q": "Lygiašonio trikampio viršūnės kampas yra 70°. Kam lygus pagrindo kampas?", "options": ["110°", "70°", "65°", "55°"], "correct": 3}, {"q": "Atlikite veiksmus su laipsniais: 5^2 − (2^2)².", "options": ["9", "11", "41", "1"], "correct": 0}, {"q": "Kuris iš skaičių yra mažiausias sveikasis nelygybės 3x − 13 &lt; 9x sprendinys?", "options": ["-3", "-2", "-1", "1"], "correct": 1}, {"q": "Apskritimo ilgis yra 44π cm. Kam lygus skritulio plotas?", "options": ["22π cm²", "968π cm²", "484π cm²", "44π cm²"], "correct": 2}, {"q": "Mokinė turi 9 skirtingas sukneles, 6 švarkus ir 2 poras batų. Kiek skirtingų aprangos derinių ji gali sudaryti?", "options": ["54", "128", "12", "108"], "correct": 3}], "open": [{"q": "Žinoma, kad Išvestis = Įvestis · 4. Kam lygi Išvestis, kai Įvestis n = 15?", "a": "NjA="}, {"q": "Skaičių 8801207 suapvalinkite iki šimtų tūkstančių.", "a": "ODgwMDAwMA=="}, {"q": "Išspręskite nelygybių sistemą: 5x ≥ 20, &nbsp;&nbsp; x + 2 &lt; 11. Koks yra mažiausias sveikasis šios sistemos sprendinys?", "a": "NA=="}, {"q": "Stačiakampio gretasienio formos dėžutės tūris 144 cm³. Dėžutės pagrindo plotas — 18 cm². Koks dėžutės aukštis?", "a": "OA=="}, {"q": "Iš 15 bilietų 12 yra „laimingi“. Kokia tikimybė ištraukti „laimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "NC81"}, {"q": "Atskliauskite ir sutraukite panašiuosius narius: 5(a − 4) − 4(2a − 16) = ?", "a": "LTNhKzQ0"}, {"q": "Taškas G(1; 3) pažymėtas koordinačių plokštumoje. Kuriame ketvirtyje jis yra? (Atsakymą parašykite romėniškuoju skaitmeniu, pvz. II.)", "a": "SQ=="}, {"q": "Agnė turi virvę, kurios ilgis 24 m, ir nori ją panaudoti kaip ribą apskritimo formos gėlių lysvei apjuosti. Koks bus lysvės spindulio ilgis? Laikykite, kad π ≈ 3.", "a": "NA=="}, {"q": "Jeigu 6a + 9b = 90, tai kam lygus reiškinys 2a + 3b − 17?", "a": "MTM="}, {"q": "Elena išsikeitė 500 eurų į Šveicarijos frankus, kai valiutos kursas buvo 1 EUR : 10,4 CHF. Nojus išsikeitė tiek pat eurų, kai kursas buvo 1 EUR : 10,5 CHF. Kiek frankų daugiau gavo Nojus?", "a": "NTA="}, {"q": "Skuteris kainuoja 500 Eur. Nuolaidų metu jo kaina sumažėjo 10 %. Turite papildomą 10 % nuolaidą nuo naujos kainos. Kiek galiausiai sumokėsite už skuterį?", "a": "NDA1"}, {"q": "Stačiojo trikampio plotas 70 m². Vienas iš jo statinių yra 4 metrais ilgesnis už kitą. Koks yra ilgesniojo statinio ilgis (m)?", "a": "MTQ="}, {"q": "Trikampio DEF plotas 95 cm², kraštinės DE ilgis 19 cm. Apskaičiuokite aukštinės, nubrėžtos į kraštinę DE, ilgį.", "a": "MTA="}, {"q": "Loterijoje yra 80 bilietų, iš kurių 18 yra „laimingi“. Kokia tikimybė nusipirkti „nelaimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MC43NzU="}, {"q": "Stačiakampio PQRS įstrižainė PR dalija jį į dvi dalis. Gauti du trikampiai: PQR ir PRS. Stačiakampio perimetras 46 cm, trikampio PQR plotas 60 cm². Apskaičiuokite ilgesniosios stačiakampio kraštinės ilgį.", "a": "MTU="}]}, {"id": 4, "mc": [{"q": "Pasirinkite teisingą nelygybės 6y − 15 ≥ 21 sprendinį.", "options": ["y &gt; 6", "y ≥ 5", "y &lt; 6", "y ≥ 6"], "correct": 3}, {"q": "Kortų malkoje yra 52 kortos. Kokia tikimybė atsitiktinai ištraukti kryžių damą?", "options": ["1/52", "2/52", "3/52", "4/52"], "correct": 0}, {"q": "Rombo įstrižainių ilgiai yra 16 cm ir 20 cm. Kam lygus rombo plotas?", "options": ["80 cm²", "160 cm²", "320 cm²", "36 cm²"], "correct": 1}, {"q": "Apskaičiuokite: 3^6 : 3^2 · 3^7 : 3^2.", "options": ["6561", "19686", "19683", "59049"], "correct": 2}, {"q": "Kuriuo atveju reiškinio 9d − 15 − 14d + 4,1 panašieji nariai sutraukti teisingai?", "options": ["5d − 10,9", "-5d + 10,9", "23d − 10,9", "-5d − 10,9"], "correct": 3}, {"q": "Lygiašonio trikampio viršūnės kampas yra 56°. Kam lygus pagrindo kampas?", "options": ["62°", "124°", "67°", "56°"], "correct": 0}, {"q": "Atlikite veiksmus su laipsniais: 4^3 − (3^2)².", "options": ["145", "-17", "-15", "17"], "correct": 1}, {"q": "Kuris iš skaičių yra mažiausias sveikasis nelygybės 2x − 11 &lt; 6x sprendinys?", "options": ["-1", "-3", "-2", "1"], "correct": 2}, {"q": "Apskritimo ilgis yra 34π cm. Kam lygus skritulio plotas?", "options": ["17π cm²", "578π cm²", "34π cm²", "289π cm²"], "correct": 3}, {"q": "Mokinė turi 4 skirtingas sukneles, 3 švarkus ir 2 poras batų. Kiek skirtingų aprangos derinių ji gali sudaryti?", "options": ["24", "34", "12", "6"], "correct": 0}], "open": [{"q": "Žinoma, kad Išvestis = Įvestis · 6. Kam lygi Išvestis, kai Įvestis n = 12?", "a": "NzI="}, {"q": "Skaičių 7867892 suapvalinkite iki šimtų tūkstančių.", "a": "NzkwMDAwMA=="}, {"q": "Išspręskite nelygybių sistemą: 2x ≥ 12, &nbsp;&nbsp; x + 19 &lt; 29. Koks yra mažiausias sveikasis šios sistemos sprendinys?", "a": "Ng=="}, {"q": "Stačiakampio gretasienio formos dėžutės tūris 63 cm³. Dėžutės pagrindo plotas — 9 cm². Koks dėžutės aukštis?", "a": "Nw=="}, {"q": "Iš 25 bilietų 23 yra „laimingi“. Kokia tikimybė ištraukti „laimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MjMvMjU="}, {"q": "Atskliauskite ir sutraukite panašiuosius narius: 5(a − 4) − 2(2a − 16) = ?", "a": "MWErMTI="}, {"q": "Taškas G(2; 8) pažymėtas koordinačių plokštumoje. Kuriame ketvirtyje jis yra? (Atsakymą parašykite romėniškuoju skaitmeniu, pvz. II.)", "a": "SQ=="}, {"q": "Agnė turi virvę, kurios ilgis 18 m, ir nori ją panaudoti kaip ribą apskritimo formos gėlių lysvei apjuosti. Koks bus lysvės spindulio ilgis? Laikykite, kad π ≈ 3.", "a": "Mw=="}, {"q": "Jeigu 8a + 4b = 46, tai kam lygus reiškinys 4a + 2b − 16?", "a": "Nw=="}, {"q": "Elena išsikeitė 900 eurų į Šveicarijos frankus, kai valiutos kursas buvo 1 EUR : 10 CHF. Nojus išsikeitė tiek pat eurų, kai kursas buvo 1 EUR : 10,5 CHF. Kiek frankų daugiau gavo Nojus?", "a": "NDUw"}, {"q": "Skuteris kainuoja 300 Eur. Nuolaidų metu jo kaina sumažėjo 25 %. Turite papildomą 10 % nuolaidą nuo naujos kainos. Kiek galiausiai sumokėsite už skuterį?", "a": "MjAyLjU="}, {"q": "Stačiojo trikampio plotas 70 m². Vienas iš jo statinių yra 4 metrais ilgesnis už kitą. Koks yra ilgesniojo statinio ilgis (m)?", "a": "MTQ="}, {"q": "Trikampio DEF plotas 76 cm², kraštinės DE ilgis 12 cm. Apskaičiuokite aukštinės, nubrėžtos į kraštinę DE, ilgį.", "a": "MzgvMw=="}, {"q": "Loterijoje yra 150 bilietų, iš kurių 9 yra „laimingi“. Kokia tikimybė nusipirkti „nelaimingą“ bilietą (atsakymą pateikite trumpinta trupmena)?", "a": "MC45NA=="}, {"q": "Stačiakampio PQRS įstrižainė PR dalija jį į dvi dalis. Gauti du trikampiai: PQR ir PRS. Stačiakampio perimetras 48 cm, trikampio PQR plotas 67.5 cm². Apskaičiuokite ilgesniosios stačiakampio kraštinės ilgį.", "a": "MTU="}]}]};
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwtLoCXCohr46jsbMD4aBKIrVkyNKA1eDn-hdDmI3jeDSWcuV8TJyMRVw-2EZhHa2iakg/exec";
+function sheetsConfigured(){ return SHEETS_URL && SHEETS_URL.indexOf('__SHEETS') !== 0; }
+
+const ROMAN = ['I','II','III','IV','V','VI','VII','VIII'];
+
+// Lygiai (nebūtina): jei CFG.levels yra, registracijoje rodomas lygio pasirinkimas,
+// o variantų sąrašas ir vertinimas priklauso nuo pasirinkto lygio. Jei nėra — sena elgsena.
+const HAS_LEVELS = Array.isArray(CFG.levels) && CFG.levels.length > 0;
+let GRADING = CFG.grading;
+const lsel = document.getElementById('lygis');
+
+function currentVariants(){
+  if(HAS_LEVELS){ const l = CFG.levels.find(x=>x.id===lsel.value); return l ? l.variants : []; }
+  return CFG.variants;
+}
+const variantGrid = document.getElementById('variantGrid');
+function fillVariants(){
+  const vs = currentVariants();
+  variantGrid.innerHTML = vs.map((v,i)=>`
+    <label class="variant-choice"><input type="radio" name="variantas" value="${v.id}">
+    <span>${ROMAN[i]||v.id} variantas</span></label>`).join('');
+}
+if(HAS_LEVELS){
+  document.getElementById('lygisRow').style.display = '';
+  lsel.innerHTML = '<option value="">— pasirink —</option>' +
+    CFG.levels.map(l=>`<option value="${l.id}">${l.label}</option>`).join('');
+  lsel.addEventListener('change', fillVariants);
+} else {
+  fillVariants();
+}
+
+const sample = HAS_LEVELS ? CFG.levels[0].variants[0] : CFG.variants[0];
+const totalPts = sample.mc.length*GRADING.mc_points + sample.open.length*GRADING.open_points;
+document.getElementById('eyebrow').textContent = (CFG.dalykas ? CFG.dalykas + ' · ' : '') + 'žinių patikrinimas';
+document.getElementById('hTitle').textContent = CFG.title || 'Žinių patikrinimas';
+document.getElementById('pillPts').textContent = totalPts + ' taškų';
+document.getElementById('pillMin').textContent = (CFG.trukme_min || '—') + ' minutės';
+
+let student = {}, variant = null;
+let leaveCount = 0, testActive = false;
+const LETTERS = ['A','B','C','D','E','F'];
+
+// ---- Klausimų seka (sujungti MC + atviri, rodomi po vieną) ----
+let QLIST = [], curQ = 0, mcSelected = [], openValues = [];
+
+function buildQList(){
+  QLIST = variant.mc.map((q,i)=>({type:'mc', i})).concat(variant.open.map((q,i)=>({type:'open', i})));
+  mcSelected = new Array(variant.mc.length).fill(null);
+  openValues = new Array(variant.open.length).fill('');
+  curQ = 0;
+  document.getElementById('prog').max = QLIST.length;
+  document.getElementById('answeredCount').textContent = '';
+}
+function buildNav(){
+  document.getElementById('nav').innerHTML = QLIST.map((_,k)=>
+    `<button type="button" id="navBtn${k}" onclick="gotoQ(${k})">${k+1}</button>`).join('');
+}
+function isAnswered(k){
+  const it = QLIST[k];
+  return it.type==='mc' ? mcSelected[it.i]!==null : openValues[it.i].trim()!=='';
+}
+function updateNav(){
+  QLIST.forEach((_,k)=>{
+    const b = document.getElementById('navBtn'+k);
+    b.classList.toggle('filled', isAnswered(k));
+    b.classList.toggle('current', k===curQ);
+  });
+  const answered = QLIST.filter((_,k)=>isAnswered(k)).length;
+  document.getElementById('answeredCount').textContent = `Atsakyta: ${answered} / ${QLIST.length}`;
+  document.getElementById('prog').value = answered;
+  document.getElementById('prevBtn').disabled = curQ===0;
+  document.getElementById('nextBtn').disabled = curQ===QLIST.length-1;
+}
+function gotoQ(k){
+  if(k<0 || k>=QLIST.length) return;
+  curQ = k;
+  renderCurrent();
+}
+function renderCurrent(){
+  const it = QLIST[curQ];
+  document.getElementById('qPos').textContent = `Klausimas ${curQ+1} / ${QLIST.length}`;
+  const card = document.getElementById('qCard');
+  if(it.type==='mc'){
+    const q = variant.mc[it.i];
+    card.innerHTML = `
+      <div class="sec-label">I dalis · Pasirink teisingą atsakymą (A–D)</div>
+      <div class="qtext">${fmtMath(q.q)}</div>
+      ${q.fig ? '<div class="qfig">'+q.fig+'</div>' : ''}
+      ${q.options.map((o,j)=>`
+        <label class="opt"><input type="radio" name="mcCur" value="${j}" ${mcSelected[it.i]===j?'checked':''}
+          onchange="mcSelected[${it.i}]=${j};updateNav()">
+          <span class="letter">${LETTERS[j]}</span><span>${fmtMath(o)}</span></label>`).join('')}`;
+  } else {
+    const q = variant.open[it.i];
+    const KEYS = ['a','b','c','x','y','²','³','√','+','−','·','/','(',')','=',','];
+    card.innerHTML = `
+      <div class="sec-label">II dalis · Atviro atsakymo klausimas</div>
+      <div class="qtext">${fmtMath(q.q)}</div>
+      ${q.fig ? '<div class="qfig">'+q.fig+'</div>' : ''}
+      <input type="text" id="openCur" placeholder="Tavo atsakymas" autocomplete="off"
+             inputmode="text" autocapitalize="off" spellcheck="false" value="${esc(openValues[it.i])}">
+      <div class="editor">
+        ${KEYS.map(k=>`<button type="button" class="ekey" onclick="insOpen('${k}')">${k}</button>`).join('')}
+        <button type="button" class="ekey" onclick="bkspOpen()">⌫</button>
+      </div>`;
+    document.getElementById('openCur').addEventListener('input', function(){
+      openValues[it.i] = this.value; updateNav();
+    });
+  }
+  updateNav();
+}
+
+function startTest(){
+  const k=val('klase'), v=val('vardas'), p=val('pavarde');
+  const sel = document.querySelector('input[name="variantas"]:checked');
+  const lv = HAS_LEVELS ? lsel.value : null;
+  if(!k||!v||!p||!sel || (HAS_LEVELS && !lv)){
+    document.getElementById('regWarn').textContent =
+      HAS_LEVELS ? 'Užpildyk visus laukus, pasirink lygį ir variantą.' : 'Užpildyk visus laukus ir pasirink variantą.';
+    return;
+  }
+  student={klase:k,vardas:v,pavarde:p,variantas:parseInt(sel.value)};
+  if(HAS_LEVELS){
+    const level=CFG.levels.find(x=>x.id===lv);
+    GRADING = (level && level.grading) ? level.grading : CFG.grading;
+    student.lygis = lv; student.lygis_label = level ? level.label : lv;
+  }
+  variant=currentVariants().find(x=>x.id===student.variantas);
+  buildQList();
+  buildNav();
+  renderCurrent();
+  document.getElementById('regScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  enableIntegrity();
+  startTimer();
+}
+
+// ---- Testo trukmė (laikmatis) ----
+let timerId = null;
+function startTimer(){
+  const mins = parseInt(CFG.trukme_min) || 0;
+  if(mins <= 0) return;                       // 0 arba nenurodyta = be laiko limito
+  let remaining = mins * 60;
+  const box = document.getElementById('timerBox');
+  const val = document.getElementById('timerVal');
+  box.style.display = 'block';
+  function tick(){
+    const m = Math.floor(remaining/60), s = remaining % 60;
+    val.textContent = m + ':' + (s<10?'0':'') + s;
+    if(remaining <= 60) box.classList.add('low');   // paskutinė minutė — raudona
+    if(remaining <= 0){
+      clearInterval(timerId); timerId = null;
+      const w = document.getElementById('testWarn');
+      if(w) w.textContent = '⏱ Laikas baigėsi — testas pateikiamas automatiškai.';
+      window._confirmed = true;                      // apeinam neatsakytų klausimų patvirtinimą
+      submitTest();
+      return;
+    }
+    remaining--;
+  }
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+/* ---- Sąžiningumo stebėjimas ----
+   Negalime užrakinti kompiuterio iš naršyklės, bet galime:
+   1) atidaryti testą per visą ekraną,
+   2) suskaičiuoti, kiek kartų mokinys išėjo iš testo lango (perjungė langą,
+      atidarė kitą programą/skaičiuotuvą) — tai matys mokytoja Excel'yje,
+   3) uždrausti kopijavimą / dešinį pelės klavišą.
+   Tikram užrakinimui naudok Safe Exam Browser (nemokama). */
+function enableIntegrity(){
+  testActive = true;
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  setTimeout(function(){
+    window.addEventListener('blur', onAway);
+    window.addEventListener('focus', onBack);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? onAway() : onBack(); });
+  }, 500);
+  if(!window._focusTimer) window._focusTimer = setInterval(function(){
+    if(document.hidden || !document.hasFocus()) onAway();
+  }, 1000);
+  document.addEventListener('contextmenu', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('copy', e=>{ if(testActive) e.preventDefault(); });
+  document.addEventListener('paste', e=>{ if(testActive) e.preventDefault(); });
+}
+let away = false, awayStart = 0, awayMs = 0;
+function fmtDur(s){ const m=Math.floor(s/60), r=s%60; return m>0 ? (m+' min '+r+' s') : (r+' s'); }
+function onAway(){
+  if(!testActive || away) return;
+  away = true; leaveCount++; awayStart = Date.now();
+  const b=document.getElementById('exitBanner');
+  if(b){ b.style.display='block'; b.textContent = `⚠ Užfiksuotas išėjimas iš testo lango (kartų: ${leaveCount}). Grįžk į testą!`; }
+  const w=document.getElementById('testWarn');
+  if(w) w.textContent = `⚠ Išėjai iš testo lango. Užfiksuota (kartų: ${leaveCount}).`;
+}
+function onBack(){
+  if(away && awayStart){ awayMs += Date.now() - awayStart; awayStart = 0; }
+  away = false;
+}
+function awaySeconds(){
+  let ms = awayMs;
+  if(away && awayStart) ms += Date.now() - awayStart;
+  return Math.round(ms/1000);
+}
+function val(id){return document.getElementById(id).value.trim();}
+
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// {tbl:a,b,c|d,e,f} -> maža x/y lentelė (po esc() — saugu, nes pati HTML struktūra čia
+// trusted, ne vartotojo įvestis). Naudojama lentelę-atitikti-formulę / lentelę-skaityti
+// uždaviniams, kad x/y poros būtų matomos kaip tikra lentelė, ne sąrašas kableliais.
+function fmtTbl(s){
+  return s.replace(/\{tbl:([^|{}]*)\|([^|{}]*)\}/g, function(_, row1, row2){
+    var td = function(v){ return '<td style="border:1px solid #c7d0dc;padding:5px 12px;text-align:center;min-width:26px">'+v+'</td>'; };
+    var tr = function(label, vals){ return '<tr>'+td('<b>'+label+'</b>')+vals.split(',').map(td).join('')+'</tr>'; };
+    return '<table style="border-collapse:collapse;margin:6px 0 0">'+tr('x', row1)+tr('y', row2)+'</table>';
+  });
+}
+// Matematinis formatavimas: trupmena (skaičius/skaičius, raidė/skaičius, skaičius/raidė,
+// raidė/raidė — pvz. 4/x, x/6, k/x) -> MathML (<math><mfrac>). Vienos raidės ribojimas
+// (ne \w+) apsaugo vienetus kaip „20 km/h" nuo klaidingo pavertimo trupmena.
+function fmtMath(s){
+  return fmtTbl(esc(s)).replace(/\b(\d+(?:,\d+)?|[a-z])\/(\d+(?:,\d+)?|[a-z])\b/g, function(_, num, den){
+    var ne = /^[a-z]$/.test(num) ? '<mi>'+num+'</mi>' : '<mn>'+num+'</mn>';
+    var de = /^[a-z]$/.test(den) ? '<mi>'+den+'</mi>' : '<mn>'+den+'</mn>';
+    return '<math><mfrac>'+ne+de+'</mfrac></math>';
+  });
+}
+
+function b64utf8(s){
+  try{ return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+  catch(e){ return ''; }
+}
+function _gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;}
+function _rational(s){
+  if(!s) return null;
+  let m=s.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+  if(m){ let n=parseInt(m[1],10), d=parseInt(m[2],10); if(d===0) return null; if(d<0){n=-n;d=-d;} const g=_gcd(n,d); return (n/g)+'/'+(d/g); }
+  if(/^[+-]?\d+$/.test(s)) return parseInt(s,10)+'/1';
+  if(s.indexOf('.')>=0 && /^[+-]?(\d+\.\d*|\.\d+)$/.test(s)){
+    let neg=/^-/.test(s), t=s.replace(/^[+-]/,''), p=t.split('.'), ip=p[0]||'0', fp=p[1]||'';
+    let den=Math.pow(10,fp.length), numr=parseInt(ip+fp,10); if(isNaN(numr)) return null; if(neg)numr=-numr;
+    const g=_gcd(numr,den); return (numr/g)+'/'+(den/g);
+  }
+  return null;
+}
+function normalize(s){
+  s=(s||'').trim();
+  if(s.indexOf('=')>=0) s=s.slice(s.lastIndexOf('=')+1);
+  s=s.replace(/\s+[\p{L}.]+$/u,'').trim();
+  s=s.toLowerCase().replace(/\s+/g,'');
+  s=s.replace(/[−–—]/g,'-').replace(/[·*]/g,'').replace(/,/g,'.');
+  s=s.replace(/²/g,'^2').replace(/³/g,'^3');
+  const _r=_rational(s); if(_r!==null) return 'r'+_r;
+  if(!/^[+-]/.test(s)) s='+'+s;
+  const tokens=s.match(/[+-][^+-]+/g)||[];
+  const terms=tokens.map(t=>{
+    const sign=t[0]==='-'?-1:1; let rest=t.slice(1);
+    const mNum=rest.match(/^(\d*\.?\d*)/);
+    let coef=mNum&&mNum[1]!==''?parseFloat(mNum[1]):1;
+    let vars=rest.slice(mNum?mNum[1].length:0);
+    vars=vars.replace(/([a-z])\^(\d)/g,(_,l,n)=>l.repeat(parseInt(n)));
+    vars=vars.split('').filter(ch=>/[a-z]/.test(ch)).sort().join('');
+    return {coef:sign*coef,vars};
+  }).filter(t=>t.coef!==0||t.vars!=='');
+  const map={}; terms.forEach(t=>{map[t.vars]=(map[t.vars]||0)+t.coef;});
+  const canon=Object.keys(map).filter(k=>map[k]!==0).map(k=>map[k]+':'+k).sort();
+  return canon.length?canon.join('+'):'0';
+}
+
+function insOpen(ch){
+  const el=document.getElementById('openCur');
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos=s+ch.length; el.focus(); el.setSelectionRange(pos,pos);
+  el.dispatchEvent(new Event('input'));
+}
+function bkspOpen(){
+  const el=document.getElementById('openCur');
+  const s=el.selectionStart, e=el.selectionEnd;
+  if(s===e && s>0){ el.value=el.value.slice(0,s-1)+el.value.slice(e); el.focus(); el.setSelectionRange(s-1,s-1); }
+  else if(s!==e){ el.value=el.value.slice(0,s)+el.value.slice(e); el.focus(); el.setSelectionRange(s,s); }
+  el.dispatchEvent(new Event('input'));
+}
+
+function submitTest(){
+  const unanswered = QLIST.filter((_,k)=>!isAnswered(k)).length;
+  if(unanswered>0){
+    document.getElementById('testWarn').textContent =
+      `Liko neatsakyta klausimų: ${unanswered}. Jei nori pateikti vis tiek, spausk dar kartą.`;
+    if(!window._confirmed){ window._confirmed=true; return; }
+  }
+  let correct=0;
+  variant.mc.forEach((q,i)=>{ if(mcSelected[i]===q.correct) correct++; });
+  const mcPts = correct * GRADING.mc_points;
+  const mcMax = variant.mc.length * GRADING.mc_points;
+
+  const openPts=[]; let openCorrect=0;
+  variant.open.forEach((q,i)=>{
+    const v=openValues[i].trim();
+    let pts=0;
+    if(q.a){ const key=b64utf8(q.a); if(v && normalize(v)===normalize(key)){ pts=GRADING.open_points; openCorrect++; } }
+    openPts.push(pts);
+  });
+  const openMax = variant.open.length * GRADING.open_points;
+
+  const total = mcPts + openPts.reduce((a,b)=>a+b,0);
+  const totalMax = mcMax + openMax;
+  const pct = totalMax ? total/totalMax : 0;
+  const grade = gradeFromPct(pct);
+
+  testActive = false;
+  if(timerId){ clearInterval(timerId); timerId = null; }
+  document.getElementById('timerBox').style.display = 'none';
+  try{ if(document.exitFullscreen && document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+  student.result = {
+    ...student,
+    mc_atsakymai: mcSelected, mc_teisingai: correct, mc_taskai: mcPts, mc_max: mcMax,
+    atviri_atsakymai: openValues, atviri_taskai: openPts, open_teisingai: openCorrect,
+    open_taskai: openPts.reduce((a,b)=>a+b,0), open_max: openMax,
+    viso_taskai: total, viso_max: totalMax, procentai: pct, pazymys: grade,
+    isejo_is_lango: leaveCount>0 ? (leaveCount + ' (' + fmtDur(awaySeconds()) + ')') : 0,
+    laikas: new Date().toISOString()
+  };
+  showResult({correct, mcPts, mcMax, openCorrect, openSum: openPts.reduce((a,b)=>a+b,0), openMax, total, totalMax, pct, grade});
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+  sendToSheets();
+}
+
+let _sent = false, _sheetTimer = null;
+function sendToSheets(){
+  const note = document.getElementById('sheetNote');
+  if(!sheetsConfigured()){
+    if(note){ note.textContent = ''; note.className = 'sheet-status'; }
+    return;
+  }
+  if(!student.result) return;
+  note.className = 'sheet-status sending';
+  note.textContent = '⏳ Siunčiama mokytojai…';
+
+  const old = document.getElementById('sheetFrame');
+  if(old) old.remove();
+  const ifr = document.createElement('iframe');
+  ifr.name = 'sheetFrame'; ifr.id = 'sheetFrame'; ifr.style.display = 'none';
+  document.body.appendChild(ifr);
+
+  let done = false;
+  function ok(){
+    if(done) return; done = true;
+    if(_sheetTimer){ clearTimeout(_sheetTimer); _sheetTimer = null; }
+    _sent = true;
+    note.className = 'sheet-status ok';
+    note.textContent = '✓ Rezultatas išsiųstas mokytojai.';
+    const btn = document.getElementById('dlBtn');
+    if(btn) btn.textContent = '⬇ Atsisiųsti rezultatą (atsarginė kopija)';
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST'; form.action = SHEETS_URL; form.target = 'sheetFrame';
+  form.style.display = 'none';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'data'; inp.value = JSON.stringify(student.result);
+  form.appendChild(inp);
+  if (CFG.sheet_id) {
+    const inpSid = document.createElement('input');
+    inpSid.type = 'hidden'; inpSid.name = 'sheet_id'; inpSid.value = CFG.sheet_id;
+    form.appendChild(inpSid);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  if(form.parentNode) form.parentNode.removeChild(form);
+
+  setTimeout(function(){ ifr.onload = ok; }, 0);
+
+  _sheetTimer = setTimeout(function(){
+    if(done) return; done = true;
+    note.className = 'sheet-status err';
+    note.innerHTML = '⚠ Nepavyko patvirtinti išsiuntimo. Atsisiųsk rezultatą žemiau ir atsiųsk mokytojai.' +
+      '<br><button type="button" class="retry" onclick="sendToSheets()">↻ Bandyti siųsti dar kartą</button>';
+  }, 15000);
+}
+
+function gradeFromPct(pct){
+  for(const [t,g] of GRADING.scale){ if(pct*100>=t) return g; }
+  return GRADING.scale[GRADING.scale.length-1][1];
+}
+function commentFromPct(pct){
+  for(const [t,c] of GRADING.comments){ if(pct*100>=t) return c; }
+  return GRADING.comments[GRADING.comments.length-1][1];
+}
+
+function showResult(r){
+  document.getElementById('resultInfo').innerHTML = `
+    <div class="result-row"><span>Mokinys</span><b>${esc(student.vardas)} ${esc(student.pavarde)}, ${esc(student.klase)}</b></div>
+    ${ student.lygis_label ? `<div class="result-row"><span>Lygis</span><b>${esc(student.lygis_label)}</b></div>` : '' }
+    <div class="result-row"><span>Variantas</span><b>${student.variantas}</b></div>
+    <div class="result-row"><span>I dalis (A–D) teisingai</span><b>${r.correct} iš ${variant.mc.length} (${r.mcPts} t.)</b></div>
+    <div class="result-row"><span>II dalis (atviri) teisingai</span><b>${r.openCorrect} iš ${variant.open.length} (${r.openSum} t.)</b></div>
+    <div class="result-row"><span>Viso taškų</span><b>${r.total} iš ${r.totalMax}</b></div>
+    <div class="result-big">${Math.round(r.pct*100)}%</div>
+    <div class="result-row"><span>Pažymys</span><span class="grade">${r.grade}</span></div>
+    <div class="result-row"><span>Išėjimai iš testo lango</span><b style="${leaveCount>0?'color:#b91c1c':''}">${leaveCount>0 ? leaveCount+' ('+fmtDur(awaySeconds())+')' : 0}</b></div>
+    <div class="comment">${commentFromPct(r.pct)}</div>
+    ${ sheetsConfigured()
+        ? '<div class="note muted">Tavo rezultatas siunčiamas mokytojai automatiškai — palauk žinutės žemiau.</div>'
+        : '<div class="note muted">Nepamiršk atsisiųsti rezultato ir jį atsiųsti mokytojai (kad patektų į bendrą lentelę).</div>' }`;
+}
+
+function downloadResult(){
+  const data = JSON.stringify(student.result, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safe = s => (s||'').replace(/[^\p{L}\p{N}]+/gu,'_');
+  a.href = url;
+  a.download = `rezultatas_${safe(student.pavarde)}_${safe(student.vardas)}_${safe(student.klase)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('dlNote').textContent =
+    'Failas atsisiųstas. Atsiųsk jį mokytojai (pvz., per Teams ar el. paštu).';
+}
+</script>
+</body>
+</html>
