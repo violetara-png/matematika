@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daugybos lentelė — XO kova</title>
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --card: #ffffff;
+    --navy: #1f2b3a;
+    --gold: #f5c242;
+    --gold-dark: #e0a826;
+    --road: #e4d4bb;
+    --x-color: #1f7a99;
+    --o-color: #e0486b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    padding: 24px;
+  }
+  .wrap { max-width: 620px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: #666; margin: 0 0 18px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .name-inputs { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .name-row { display: flex; align-items: center; gap: 10px; }
+  .name-row .sym { font-size: 24px; font-weight: 700; width: 32px; text-align: center; }
+  .name-row.x .sym { color: var(--x-color); }
+  .name-row.o .sym { color: var(--o-color); }
+  .name-inputs input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid var(--road);
+    font-size: 15px;
+  }
+  .start-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .start-btn:hover { background: var(--gold-dark); }
+  .turn-indicator {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--cream);
+  }
+  .turn-indicator.x-turn { color: var(--x-color); }
+  .turn-indicator.o-turn { color: var(--o-color); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .cell {
+    aspect-ratio: 1;
+    background: var(--cream);
+    border: none;
+    border-radius: 14px;
+    font-size: 42px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cell:hover:not(:disabled) { outline: 3px solid var(--gold); }
+  .cell.x { color: var(--x-color); }
+  .cell.o { color: var(--o-color); }
+  .cell.burned { background: #e4e4e4; color: #bbb; font-size: 28px; }
+  .cell.win { background: #fff2bf; }
+  .cell:disabled { cursor: default; }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31,43,58,.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+  .modal h2 { margin: 0 0 8px; font-size: 18px; }
+  .expr { font-size: 28px; font-weight: 700; margin: 20px 0; color: var(--navy); }
+  .answer-reveal { font-size: 24px; font-weight: 700; color: var(--gold-dark); margin: 14px 0; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .modal-actions button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .btn-reveal { background: var(--gold); }
+  .btn-reveal:hover { background: var(--gold-dark); }
+  .btn-correct { background: #d7f4dc; border: 2px solid #4caf6e; }
+  .btn-wrong { background: #fbd9dd; border: 2px solid #e0486b; }
+  .again {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>⚔️ Daugybos lentelė — XO kova</h1>
+  <p class="subtitle" id="subtitleText"></p>
+
+  <div class="card" id="setupCard">
+    <h2 style="margin-top:0;">Komandų pavadinimai</h2>
+    <div class="name-inputs">
+      <div class="name-row x"><span class="sym">X</span><input type="text" id="nameX" placeholder="X komanda"></div>
+      <div class="name-row o"><span class="sym">O</span><input type="text" id="nameO" placeholder="O komanda"></div>
+    </div>
+    <button class="start-btn" id="startBtn">⚔️ Pradėti kovą</button>
+  </div>
+
+  <div class="card" id="gameCard" style="display:none">
+    <div class="turn-indicator" id="turnIndicator"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<div class="overlay" id="questionOverlay">
+  <div class="modal">
+    <h2 id="qTeamLabel">Komandos ėjimas</h2>
+    <div class="expr" id="exprText"></div>
+    <div class="answer-reveal" id="answerReveal" style="display:none"></div>
+    <div class="modal-actions" id="revealActions">
+      <button class="btn-reveal" id="revealBtn">👁 Rodyti atsakymą</button>
+    </div>
+    <div class="modal-actions" id="judgeActions" style="display:none">
+      <button class="btn-correct" id="correctBtn">✅ Teisingai</button>
+      <button class="btn-wrong" id="wrongBtn">❌ Neteisingai</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="finishOverlay">
+  <div class="modal">
+    <div style="font-size:48px;" id="finishEmoji">🏆</div>
+    <h2 id="finishTitle">Žaidimas baigtas!</h2>
+    <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
+  </div>
+</div>
+
+<script>
+const META = {"title": "Daugybos lentelė — XO kova", "subtitle": "2-10 daugybos lentelė"};
+document.getElementById('subtitleText').textContent = META.subtitle || '';
+if (!META.subtitle) document.getElementById('subtitleText').style.display = 'none';
+
+// === GEN START ===
+function randint(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function nz(a, b) { let v; do { v = randint(a, b); } while (v === 0); return v; }
+function fmt(n) { return n < 0 ? '(' + n + ')' : '' + n; }
+
+const DAUGYBOS_POROS = (() => {
+  const all = [];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = a; b <= 10; b++) all.push({ a, b });
+  }
+  return all;
+})();
+
+const GENERATORIAI = [
+  { label: 'Daugyba', gen: () => {
+      const p = DAUGYBOS_POROS[randint(0, DAUGYBOS_POROS.length - 1)];
+      return { label: 'Daugyba', q: p.a + ' × ' + p.b + ' = ?', ans: p.a * p.b };
+  }}
+];
+
+
+function generateQuestion() {
+  const g = GENERATORIAI[Math.floor(Math.random() * GENERATORIAI.length)];
+  return g.gen();
+}
+// === GEN END ===
+
+const WIN_LINES = [
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
+];
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function genUniqueQuestions(n) {
+  const seen = new Set();
+  const qs = [];
+  let guard = 0;
+  while (qs.length < n && guard < 2000) {
+    const q = generateQuestion();
+    guard++;
+    if (seen.has(q.q)) continue;
+    seen.add(q.q);
+    qs.push(q);
+  }
+  while (qs.length < n) qs.push(generateQuestion());
+  return qs;
+}
+
+let teams = { X: { name: 'X komanda' }, O: { name: 'O komanda' } };
+let turn = 'X';
+let cells = [];
+
+const setupCard = document.getElementById('setupCard');
+const gameCard = document.getElementById('gameCard');
+const grid = document.getElementById('grid');
+const turnIndicator = document.getElementById('turnIndicator');
+
+document.getElementById('startBtn').onclick = () => {
+  const nx = document.getElementById('nameX').value.trim();
+  const no = document.getElementById('nameO').value.trim();
+  teams.X.name = nx || 'X komanda';
+  teams.O.name = no || 'O komanda';
+  turn = 'X';
+  buildGrid();
+  updateTurnIndicator();
+  setupCard.style.display = 'none';
+  gameCard.style.display = 'block';
+};
+
+function buildGrid() {
+  const qs = genUniqueQuestions(9);
+  cells = qs.map(q => ({ q: q.q, ans: q.ans, state: 'open' }));
+  renderGrid();
+}
+
+function renderGrid() {
+  grid.innerHTML = '';
+  cells.forEach((cell, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cell';
+    if (cell.state === 'X') { btn.classList.add('x'); btn.textContent = 'X'; btn.disabled = true; }
+    else if (cell.state === 'O') { btn.classList.add('o'); btn.textContent = 'O'; btn.disabled = true; }
+    else if (cell.state === 'burned') { btn.classList.add('burned'); btn.textContent = '✕'; btn.disabled = true; }
+    else { btn.textContent = '❓'; btn.onclick = () => openCell(i); }
+    grid.appendChild(btn);
+  });
+}
+
+function updateTurnIndicator() {
+  turnIndicator.textContent = turn + ' ėjimas: ' + teams[turn].name;
+  turnIndicator.className = 'turn-indicator ' + (turn === 'X' ? 'x-turn' : 'o-turn');
+}
+
+function openCell(i) {
+  const cell = cells[i];
+  document.getElementById('qTeamLabel').textContent = teams[turn].name + ' ėjimas';
+  document.getElementById('exprText').textContent = cell.q;
+  document.getElementById('answerReveal').style.display = 'none';
+  document.getElementById('revealActions').style.display = 'flex';
+  document.getElementById('judgeActions').style.display = 'none';
+  document.getElementById('questionOverlay').classList.add('show');
+  document.getElementById('revealBtn').onclick = () => {
+    document.getElementById('answerReveal').textContent = cell.ans;
+    document.getElementById('answerReveal').style.display = 'block';
+    document.getElementById('revealActions').style.display = 'none';
+    document.getElementById('judgeActions').style.display = 'flex';
+  };
+  document.getElementById('correctBtn').onclick = () => resolveCell(i, true);
+  document.getElementById('wrongBtn').onclick = () => resolveCell(i, false);
+}
+
+function resolveCell(i, correct) {
+  document.getElementById('questionOverlay').classList.remove('show');
+  cells[i].state = correct ? turn : 'burned';
+  renderGrid();
+  if (correct && checkWin(turn)) {
+    showFinish(turn);
+    return;
+  }
+  if (cells.every(c => c.state !== 'open')) {
+    showFinish(null);
+    return;
+  }
+  turn = turn === 'X' ? 'O' : 'X';
+  updateTurnIndicator();
+}
+
+function checkWin(symbol) {
+  return WIN_LINES.some(line => line.every(idx => cells[idx].state === symbol));
+}
+
+function showFinish(winnerSymbol) {
+  if (winnerSymbol) {
+    document.getElementById('finishEmoji').textContent = '🏆';
+    document.getElementById('finishTitle').textContent = teams[winnerSymbol].name + ' laimėjo!';
+  } else {
+    document.getElementById('finishEmoji').textContent = '🤝';
+    document.getElementById('finishTitle').textContent = 'Lygiosios!';
+  }
+  document.getElementById('finishOverlay').classList.add('show');
+}
+
+document.getElementById('againBtn').onclick = () => {
+  document.getElementById('finishOverlay').classList.remove('show');
+  gameCard.style.display = 'none';
+  setupCard.style.display = 'block';
+};
+</script>
+</body>
+</html>
