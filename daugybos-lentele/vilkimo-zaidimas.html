@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daugybos lentelė — nutempk atsakymus</title>
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --card: #ffffff;
+    --navy: #1f2b3a;
+    --gold: #f5c242;
+    --gold-dark: #e0a826;
+    --road: #e4d4bb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    padding: 24px;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: #666; margin: 0 0 18px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .timer {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .timer.low { background: #fbd9dd; color: #c23652; }
+  .instruction { font-size: 14px; color: #555; margin-bottom: 16px; }
+  .board { display: flex; gap: 24px; flex-wrap: wrap; }
+  .left-col { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 10px; }
+  .qrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  .qrow .qtext { flex: 1; font-weight: 700; font-size: 16px; }
+  .dropzone {
+    width: 90px;
+    height: 44px;
+    border: 2px dashed var(--road);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .dropzone.filled { border-style: solid; }
+  .dropzone.correct { border-color: #4caf6e; background: #d7f4dc; }
+  .dropzone.wrong { border-color: #e0486b; background: #fbd9dd; }
+  .pool {
+    flex: 0 0 180px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 60px;
+  }
+  .tile {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+  }
+  .tile.dragging {
+    position: fixed;
+    z-index: 50;
+    opacity: .92;
+    pointer-events: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+  }
+  .check-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+  }
+  .check-btn:hover { background: var(--gold-dark); }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31,43,58,.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+  .modal h2 { margin: 0 0 8px; font-size: 20px; }
+  .score-big { font-size: 40px; font-weight: 700; color: var(--gold-dark); margin: 14px 0; }
+  .rank { font-size: 16px; font-weight: 700; margin-bottom: 18px; }
+  .again {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🖐 Daugybos lentelė — nutempk atsakymus</h1>
+  <p class="subtitle" id="subtitleText"></p>
+
+  <div class="card">
+    <div class="topbar">
+      <span class="timer" id="timerDisplay">3:00</span>
+    </div>
+    <div class="instruction">Nutempk kiekvieną atsakymą prie teisingo uždavinio, tada paspausk „Patikrinti atsakymus".</div>
+    <div class="board">
+      <div class="left-col" id="leftCol"></div>
+      <div class="pool" id="pool"></div>
+    </div>
+    <button class="check-btn" id="checkBtn">✅ Patikrinti atsakymus</button>
+  </div>
+</div>
+
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <h2 id="resultTitle">Rezultatas</h2>
+    <div class="score-big" id="scoreBig"></div>
+    <div class="rank" id="rankText"></div>
+    <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
+  </div>
+</div>
+
+<script>
+const META = {"title": "Daugybos lentelė — nutempk atsakymus", "subtitle": "2-10 daugybos lentelė"};
+document.getElementById('subtitleText').textContent = META.subtitle || '';
+if (!META.subtitle) document.getElementById('subtitleText').style.display = 'none';
+
+// === GEN START ===
+function randint(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function nz(a, b) { let v; do { v = randint(a, b); } while (v === 0); return v; }
+function fmt(n) { return n < 0 ? '(' + n + ')' : '' + n; }
+
+const DAUGYBOS_POROS = (() => {
+  const all = [];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = a; b <= 10; b++) all.push({ a, b });
+  }
+  return all;
+})();
+
+const GENERATORIAI = [
+  { label: 'Daugyba', gen: () => {
+      const p = DAUGYBOS_POROS[randint(0, DAUGYBOS_POROS.length - 1)];
+      return { label: 'Daugyba', q: p.a + ' × ' + p.b + ' = ?', ans: p.a * p.b };
+  }}
+];
+
+
+function generateQuestion() {
+  const g = GENERATORIAI[Math.floor(Math.random() * GENERATORIAI.length)];
+  return g.gen();
+}
+// === GEN END ===
+
+const ITEM_COUNT = 8;
+const TIME_LIMIT = 180;
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function genUniqueQuestions(n) {
+  const seen = new Set();
+  const qs = [];
+  let guard = 0;
+  while (qs.length < n && guard < 2000) {
+    const q = generateQuestion();
+    guard++;
+    if (seen.has(q.q)) continue;
+    seen.add(q.q);
+    qs.push(q);
+  }
+  while (qs.length < n) qs.push(generateQuestion());
+  return qs;
+}
+
+const leftCol = document.getElementById('leftCol');
+const pool = document.getElementById('pool');
+const timerDisplay = document.getElementById('timerDisplay');
+let items = [];
+let timeLeft = TIME_LIMIT;
+let timerHandle = null;
+let dragEl = null, dragOffsetX = 0, dragOffsetY = 0;
+
+function buildBoard() {
+  leftCol.innerHTML = '';
+  pool.innerHTML = '';
+  items = genUniqueQuestions(ITEM_COUNT);
+  items.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.className = 'qrow';
+    row.innerHTML = '<span class="qtext">' + item.q + '</span>';
+    const zone = document.createElement('div');
+    zone.className = 'dropzone';
+    zone.dataset.idx = i;
+    row.appendChild(zone);
+    leftCol.appendChild(row);
+  });
+  const tiles = shuffle(items.map((item, i) => ({ ans: item.ans, idx: i })));
+  tiles.forEach(t => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.textContent = t.ans;
+    tile.dataset.correctIdx = t.idx;
+    tile.addEventListener('pointerdown', (e) => startDrag(e, tile));
+    pool.appendChild(tile);
+  });
+}
+
+function startDrag(e, tile) {
+  e.preventDefault();
+  dragEl = tile;
+  const rect = tile.getBoundingClientRect();
+  dragOffsetX = e.clientX - rect.left;
+  dragOffsetY = e.clientY - rect.top;
+  tile.classList.add('dragging');
+  tile.style.width = rect.width + 'px';
+  tile.style.left = rect.left + 'px';
+  tile.style.top = rect.top + 'px';
+  document.body.appendChild(tile);
+  document.addEventListener('pointermove', onDragMove);
+  document.addEventListener('pointerup', onDragEnd);
+}
+
+function onDragMove(e) {
+  if (!dragEl) return;
+  dragEl.style.left = (e.clientX - dragOffsetX) + 'px';
+  dragEl.style.top = (e.clientY - dragOffsetY) + 'px';
+}
+
+function onDragEnd(e) {
+  if (!dragEl) return;
+  const tile = dragEl;
+  tile.classList.remove('dragging');
+  tile.style.position = '';
+  tile.style.left = '';
+  tile.style.top = '';
+  tile.style.width = '';
+  document.removeEventListener('pointermove', onDragMove);
+  document.removeEventListener('pointerup', onDragEnd);
+
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const zone = el ? el.closest('.dropzone') : null;
+  if (zone) {
+    if (zone.firstElementChild && zone.firstElementChild !== tile) {
+      pool.appendChild(zone.firstElementChild);
+    }
+    zone.appendChild(tile);
+    zone.classList.add('filled');
+    zone.classList.remove('correct', 'wrong');
+  } else {
+    pool.appendChild(tile);
+  }
+  dragEl = null;
+}
+
+function startTimer() {
+  clearInterval(timerHandle);
+  timeLeft = TIME_LIMIT;
+  updateTimerDisplay();
+  timerHandle = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerHandle);
+      checkAnswers();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(Math.max(0, timeLeft) / 60);
+  const s = Math.max(0, timeLeft) % 60;
+  timerDisplay.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  timerDisplay.classList.toggle('low', timeLeft <= 30);
+}
+
+function checkAnswers() {
+  clearInterval(timerHandle);
+  let correct = 0;
+  document.querySelectorAll('.dropzone').forEach(zone => {
+    const idx = parseInt(zone.dataset.idx, 10);
+    const tile = zone.firstElementChild;
+    zone.classList.remove('correct', 'wrong');
+    if (tile && parseInt(tile.dataset.correctIdx, 10) === idx) {
+      zone.classList.add('correct');
+      correct++;
+    } else if (tile) {
+      zone.classList.add('wrong');
+    }
+  });
+  document.getElementById('scoreBig').textContent = correct + ' / ' + ITEM_COUNT;
+  let rank;
+  const pct = correct / ITEM_COUNT;
+  if (pct === 1) rank = '🌟 Puikiai! Visi atsakymai teisingi.';
+  else if (pct >= 0.7) rank = '👍 Gerai! Dar šiek tiek pasitreniruok.';
+  else rank = '💪 Reikia daugiau treniruotės — pabandyk dar kartą.';
+  document.getElementById('rankText').textContent = rank;
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+document.getElementById('checkBtn').onclick = checkAnswers;
+document.getElementById('againBtn').onclick = () => {
+  document.getElementById('resultOverlay').classList.remove('show');
+  buildBoard();
+  startTimer();
+};
+
+buildBoard();
+startTimer();
+</script>
+</body>
+</html>
