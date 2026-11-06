@@ -239,17 +239,72 @@
     cursor: pointer;
     font-size: 15px;
   }
+  .player-choice {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .player-btn {
+    background: var(--cream);
+    border: 2px solid var(--road);
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .player-btn .pn {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+  .player-btn:hover { border-color: var(--gold); background: #fff; }
+  .scoreboard {
+    display: none;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .scoreboard.show { display: flex; }
+  .score-item {
+    background: var(--cream);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .score-item.active { border-color: var(--gold); background: #fff; }
+  .finish-scoreboard {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 6px 0 4px;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>🎲 Racionaliųjų skaičių sudėtis ir atimtis</h1>
   <p class="subtitle" id="subtitleText"></p>
-  <div class="card">
+
+  <div class="card" id="setupCard">
+    <h2 style="margin-top:0;">Kiek žaidėjų?</h2>
+    <div class="player-choice">
+      <button class="player-btn" data-n="1"><span class="pn">1</span>1 žaidėjas<br>🦊</button>
+      <button class="player-btn" data-n="2"><span class="pn">2</span>2 žaidėjai<br>🦊 🐻</button>
+      <button class="player-btn" data-n="3"><span class="pn">3</span>3 žaidėjai<br>🦊 🐻 🐱</button>
+    </div>
+  </div>
+
+  <div class="card" id="gameCard" style="display:none">
     <div class="topbar">
       <span id="cellLabel"></span>
       <span class="stars">⭐ <span id="starCount">0</span></span>
     </div>
+    <div class="scoreboard" id="scoreboard"></div>
     <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
     <div class="instruction">Mesk kauliuką ir keliauk per langelius. Ant ❓ langelių spręsk uždavinį, kiti langeliai duoda arba atima žvaigždes.</div>
     <div class="board-zone">
@@ -280,9 +335,10 @@
 <div class="overlay" id="finishOverlay">
   <div class="modal finish-screen">
     <div style="font-size:48px;">🏆</div>
-    <h2>Atvykai į finišą!</h2>
+    <h2 id="finishTitle">Atvykai į finišą!</h2>
     <div>Surinkai <strong id="finalStars"></strong> žvaigždes</div>
     <div class="rank" id="rankText"></div>
+    <div class="finish-scoreboard" id="finishScoreboard"></div>
     <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
   </div>
 </div>
@@ -354,22 +410,25 @@ for (let n = 1; n <= TOTAL_CELLS; n++) {
 }
 const CELL_SIZE = 74, GAP = 18, OFFSET_X = 16, OFFSET_Y = 16;
 
-let current = 1;
-let stars = 0;
+const PLAYER_ICONS = ['🦊', '🐻', '🐱'];
+let numPlayers = 1;
+let players = [];
+let turnIdx = 0;
 let rolling = false;
+let lastRoll = 0;
 
 const board = document.getElementById('board');
 const die = document.getElementById('die');
 const rollBtn = document.getElementById('rollBtn');
 const message = document.getElementById('message');
-const token = document.createElement('div');
-token.className = 'token';
-token.textContent = '🦊';
+const setupCard = document.getElementById('setupCard');
+const gameCard = document.getElementById('gameCard');
+const scoreboard = document.getElementById('scoreboard');
 
 function cellLeft(c) { return OFFSET_X + pos[c].c * (CELL_SIZE + GAP); }
 function cellTop(c) { return OFFSET_Y + pos[c].r * (CELL_SIZE + GAP); }
 
-function buildBoard() {
+function buildCells() {
   for (let n = 1; n <= TOTAL_CELLS; n++) {
     const div = document.createElement('div');
     const type = cellType[n];
@@ -387,19 +446,62 @@ function buildBoard() {
     div.style.top = cellTop(n) + 'px';
     board.appendChild(div);
   }
-  board.appendChild(token);
-  placeToken();
 }
 
-function placeToken() {
-  token.style.left = (cellLeft(current) + 15) + 'px';
-  token.style.top = (cellTop(current) + 15) + 'px';
+function createTokens() {
+  board.querySelectorAll('.token').forEach(t => t.remove());
+  players.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'token';
+    el.textContent = p.icon;
+    board.appendChild(el);
+    p.tokenEl = el;
+  });
+  placeTokens();
+}
+
+function placeTokens() {
+  players.forEach((p, i) => {
+    const off = numPlayers > 1 ? i * 15 : 15;
+    p.tokenEl.style.left = (cellLeft(p.current) + off) + 'px';
+    p.tokenEl.style.top = (cellTop(p.current) + off) + 'px';
+  });
+}
+
+function initPlayers(n) {
+  numPlayers = n;
+  players = [];
+  for (let i = 0; i < n; i++) players.push({ current: 1, stars: 0, icon: PLAYER_ICONS[i] });
+  turnIdx = 0;
+  rolling = false;
+  rollBtn.disabled = false;
+  message.textContent = '';
+  createTokens();
+  scoreboard.classList.toggle('show', numPlayers > 1);
+  updateTopbar();
+  setupCard.style.display = 'none';
+  gameCard.style.display = 'block';
+}
+
+document.querySelectorAll('.player-btn').forEach(btn => {
+  btn.onclick = () => initPlayers(parseInt(btn.dataset.n, 10));
+});
+
+function renderScoreboard() {
+  scoreboard.innerHTML = players.map((p, i) =>
+    '<span class="score-item' + (i === turnIdx ? ' active' : '') + '">' + p.icon + ' ' + p.stars + '⭐</span>'
+  ).join('');
 }
 
 function updateTopbar() {
-  document.getElementById('cellLabel').textContent = 'Langelis ' + current + ' iš ' + TOTAL_CELLS;
-  document.getElementById('starCount').textContent = stars;
-  document.getElementById('progressBar').style.width = ((current - 1) / (TOTAL_CELLS - 1) * 100) + '%';
+  const p = players[turnIdx];
+  const label = numPlayers > 1
+    ? (p.icon + ' Žaidėjo ' + (turnIdx + 1) + ' ėjimas · langelis ' + p.current + ' iš ' + TOTAL_CELLS)
+    : ('Langelis ' + p.current + ' iš ' + TOTAL_CELLS);
+  document.getElementById('cellLabel').textContent = label;
+  document.getElementById('starCount').textContent = p.stars;
+  document.getElementById('progressBar').style.width = ((p.current - 1) / (TOTAL_CELLS - 1) * 100) + '%';
+  if (numPlayers > 1) renderScoreboard();
 }
 
 let soundOn = true;
@@ -450,6 +552,7 @@ function rollDice() {
     if (ticks > 8) {
       clearInterval(spin);
       const roll = 1 + Math.floor(Math.random() * 6);
+      lastRoll = roll;
       die.textContent = diceFaces[roll - 1];
       movePlayer(roll);
     }
@@ -458,23 +561,25 @@ function rollDice() {
 
 function animateSteps(n, forward, onDone) {
   if (n <= 0) { onDone(); return; }
+  const p = players[turnIdx];
   let moved = 0;
   const step = setInterval(() => {
-    if (moved >= n || (forward && current >= TOTAL_CELLS) || (!forward && current <= 1)) {
+    if (moved >= n || (forward && p.current >= TOTAL_CELLS) || (!forward && p.current <= 1)) {
       clearInterval(step);
       onDone();
       return;
     }
-    current += forward ? 1 : -1;
+    p.current += forward ? 1 : -1;
     moved++;
-    placeToken();
+    placeTokens();
     updateTopbar();
     playStepSound(!forward);
   }, forward ? 220 : 200);
 }
 
 function movePlayer(steps) {
-  const remaining = TOTAL_CELLS - current;
+  const p = players[turnIdx];
+  const remaining = TOTAL_CELLS - p.current;
   if (steps <= remaining) {
     animateSteps(steps, true, resolveCell);
   } else {
@@ -491,16 +596,17 @@ function moveBack(n) {
 }
 
 function resolveCell() {
-  const type = cellType[current];
+  const p = players[turnIdx];
+  const type = cellType[p.current];
   if (type === 'q') {
     showQuestion();
   } else if (type === 'surprise') {
-    stars += 1;
+    p.stars += 1;
     updateTopbar();
     message.textContent = '✨ Siurprizas! +1 ⭐';
     endTurn();
   } else if (type === 'gift') {
-    stars += 2;
+    p.stars += 2;
     updateTopbar();
     message.textContent = '🎁 Radai dovanų dėžę! +2 ⭐';
     endTurn();
@@ -508,7 +614,7 @@ function resolveCell() {
     message.textContent = '🧊 Slidu! Grįžk 2 langelius atgal.';
     setTimeout(() => moveBack(2), 600);
   } else if (type === 'star') {
-    stars += 1;
+    p.stars += 1;
     updateTopbar();
     message.textContent = '⭐ Bonusinė žvaigždė! +1 ⭐';
     endTurn();
@@ -521,6 +627,10 @@ function resolveCell() {
 
 function endTurn() {
   rolling = false;
+  if (numPlayers > 1) {
+    turnIdx = (turnIdx + 1) % numPlayers;
+    updateTopbar();
+  }
   rollBtn.disabled = false;
 }
 
@@ -540,6 +650,7 @@ function showQuestion() {
 }
 
 function answerQuestion(picked, correct, wrap) {
+  const p = players[turnIdx];
   const buttons = wrap.querySelectorAll('button');
   buttons.forEach(b => {
     b.disabled = true;
@@ -548,47 +659,53 @@ function answerQuestion(picked, correct, wrap) {
   });
   const feedback = document.getElementById('feedback');
   if (picked === correct) {
-    stars += 1;
+    p.stars += 1;
     updateTopbar();
     feedback.textContent = '✅ Teisingai! +1 ⭐';
     feedback.style.color = '#2e8b4f';
     playCorrectSound();
   } else {
-    feedback.textContent = '❌ Neteisingai. Teisingas atsakymas: ' + correct;
+    feedback.textContent = '❌ Neteisingai. Teisingas atsakymas: ' + correct + '. Grįžk ' + lastRoll + ' langelį(-ius) atgal.';
     feedback.style.color = '#c23652';
     playWrongSound();
   }
   setTimeout(() => {
     document.getElementById('questionOverlay').classList.remove('show');
-    endTurn();
+    if (picked === correct) {
+      endTurn();
+    } else {
+      animateSteps(lastRoll, false, resolveCell);
+    }
   }, 1300);
 }
 
 function showFinish() {
-  document.getElementById('finalStars').textContent = stars;
+  const winner = players[turnIdx];
+  document.getElementById('finishTitle').textContent = numPlayers > 1
+    ? (winner.icon + ' Žaidėjas ' + (turnIdx + 1) + ' laimėjo!')
+    : 'Atvykai į finišą!';
+  document.getElementById('finalStars').textContent = winner.stars;
   let rank;
-  if (stars >= 14) rank = '🌟 Puikiai! Tema įveikta tvirtai.';
-  else if (stars >= 8) rank = '👍 Gerai! Dar šiek tiek pasitreniruok.';
+  if (winner.stars >= 14) rank = '🌟 Puikiai! Tema įveikta tvirtai.';
+  else if (winner.stars >= 8) rank = '👍 Gerai! Dar šiek tiek pasitreniruok.';
   else rank = '💪 Reikia daugiau treniruotės — pabandyk dar kartą.';
   document.getElementById('rankText').textContent = rank;
+  document.getElementById('finishScoreboard').innerHTML = numPlayers > 1
+    ? players.map((pl, i) => (pl.icon + ' Žaidėjas ' + (i + 1) + ': ' + pl.stars + '⭐')).join('<br>')
+    : '';
   document.getElementById('finishOverlay').classList.add('show');
 }
 
 document.getElementById('againBtn').onclick = () => {
-  current = 1;
-  stars = 0;
-  rolling = false;
-  rollBtn.disabled = false;
-  message.textContent = '';
-  updateTopbar();
-  placeToken();
   document.getElementById('finishOverlay').classList.remove('show');
+  gameCard.style.display = 'none';
+  setupCard.style.display = 'block';
+  message.textContent = '';
 };
 
 rollBtn.onclick = rollDice;
 
-buildBoard();
-updateTopbar();
+buildCells();
 </script>
 </body>
 </html>
