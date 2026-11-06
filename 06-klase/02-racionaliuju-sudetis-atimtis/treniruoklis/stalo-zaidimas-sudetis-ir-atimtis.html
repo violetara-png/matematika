@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Racionaliųjų skaičių sudėtis ir atimtis</title>
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --card: #ffffff;
+    --navy: #1f2b3a;
+    --gold: #f5c242;
+    --gold-dark: #e0a826;
+    --q-bg: #bfe3f5;
+    --q-icon: #e0486b;
+    --surprise-bg: #e3d4f7;
+    --gift-bg: #ffd3e0;
+    --ice-bg: #cdeafd;
+    --star-bg: #fff2bf;
+    --road: #e4d4bb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    padding: 24px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: #666; margin: 0 0 18px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .stars {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 16px;
+  }
+  .progress {
+    height: 8px;
+    background: #eee2cc;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width .4s ease;
+  }
+  .instruction {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 15px;
+  }
+  .board-zone {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .dice-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 130px;
+  }
+  .die {
+    font-size: 54px;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 2px solid var(--road);
+    border-radius: 14px;
+  }
+  .message {
+    min-height: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--gold-dark);
+    font-size: 14px;
+  }
+  button.roll {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 10px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.roll:disabled { opacity: .5; cursor: default; }
+  button.roll:hover:not(:disabled) { background: var(--gold-dark); }
+  .board {
+    position: relative;
+    flex: 1;
+    min-width: 420px;
+    height: 420px;
+    background: linear-gradient(135deg, #fdf6ec, #fbeaf0);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .deco { position: absolute; font-size: 22px; opacity: .55; }
+  .cell {
+    position: absolute;
+    width: 74px;
+    height: 74px;
+    border-radius: 14px;
+    background: var(--q-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: box-shadow .2s;
+  }
+  .cell .num {
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    font-size: 11px;
+    color: #555;
+    font-weight: 600;
+  }
+  .cell.type-q .icon { color: var(--q-icon); }
+  .cell.type-surprise { background: var(--surprise-bg); }
+  .cell.type-gift { background: var(--gift-bg); }
+  .cell.type-ice { background: var(--ice-bg); }
+  .cell.type-star { background: var(--star-bg); }
+  .cell.start, .cell.finish {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--navy);
+    color: #fff;
+    text-align: center;
+    line-height: 1.3;
+    gap: 2px;
+  }
+  .cell.start .icon, .cell.finish .icon { font-size: 22px; }
+  .token {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: left .35s ease, top .35s ease;
+    z-index: 5;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31,43,58,.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+  .modal h2 { margin: 0 0 6px; font-size: 18px; }
+  .expr {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 18px 0;
+    color: var(--navy);
+  }
+  .answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .answers button {
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #e4d4bb;
+    background: var(--cream);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .answers button:hover { border-color: var(--gold); }
+  .answers button.correct { background: #d7f4dc; border-color: #4caf6e; }
+  .answers button.wrong { background: #fbd9dd; border-color: #e0486b; }
+  .answers button[disabled] { cursor: default; }
+  .feedback { margin-top: 14px; font-weight: 700; min-height: 20px; }
+  .finish-screen h2 { font-size: 24px; }
+  .finish-screen .rank { font-size: 17px; margin: 10px 0 18px; color: var(--gold-dark); font-weight: 700; }
+  .again {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎲 Racionaliųjų skaičių sudėtis ir atimtis</h1>
+  <p class="subtitle" id="subtitleText"></p>
+  <div class="card">
+    <div class="topbar">
+      <span id="cellLabel"></span>
+      <span class="stars">⭐ <span id="starCount">0</span></span>
+    </div>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="instruction">Mesk kauliuką ir keliauk per langelius. Ant ❓ langelių spręsk uždavinį, kiti langeliai duoda arba atima žvaigždes.</div>
+    <div class="board-zone">
+      <div class="dice-area">
+        <div class="die" id="die">⚀</div>
+        <div class="message" id="message"></div>
+        <button class="roll" id="rollBtn">🎲 Mesti kauliuką</button>
+      </div>
+      <div class="board" id="board">
+        <span class="deco" style="top:4px;left:4px;">🌲</span>
+        <span class="deco" style="top:4px;right:4px;">🏔️</span>
+        <span class="deco" style="bottom:4px;left:50%;">🌳</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="questionOverlay">
+  <div class="modal">
+    <h2>Išspręsk!</h2>
+    <div class="expr" id="exprText"></div>
+    <div class="answers" id="answerButtons"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+</div>
+
+<div class="overlay" id="finishOverlay">
+  <div class="modal finish-screen">
+    <div style="font-size:48px;">🏆</div>
+    <h2>Atvykai į finišą!</h2>
+    <div>Surinkai <strong id="finalStars"></strong> žvaigždes</div>
+    <div class="rank" id="rankText"></div>
+    <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
+  </div>
+</div>
+
+<script>
+const META = {"title": "Racionaliųjų skaičių sudėtis ir atimtis", "subtitle": "6 klasė · stalo žaidimas"};
+document.getElementById('subtitleText').textContent = META.subtitle || '';
+if (!META.subtitle) document.getElementById('subtitleText').style.display = 'none';
+
+// === GEN START ===
+function randint(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function nz(a, b) { let v; do { v = randint(a, b); } while (v === 0); return v; }
+function fmt(n) { return n < 0 ? '(' + n + ')' : '' + n; }
+function makeOptions(correct, extra) {
+  const opts = new Set([correct]);
+  (extra || []).forEach(v => { if (opts.size < 4 && v !== correct) opts.add(v); });
+  let guard = 0;
+  while (opts.size < 4 && guard < 40) {
+    opts.add(correct + (randint(-6, 6) || 1));
+    guard++;
+  }
+  const arr = [...opts];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const GENERATORIAI = [
+  { label: 'Sudėtis su neigiamais', gen: () => {
+      let a, b;
+      do { a = randint(-15, 15); b = randint(-15, 15); } while (a === 0 || b === 0 || (a > 0 && b > 0));
+      const correct = a + b;
+      const options = makeOptions(correct, [a - b, Math.abs(a) + Math.abs(b), -correct]);
+      return { label: 'Sudėtis su neigiamais', q: fmt(a) + ' + ' + fmt(b) + ' = ?', ans: correct, options };
+  }},
+  { label: 'Atimtis su neigiamais', gen: () => {
+      let a, b;
+      do { a = randint(-15, 15); b = randint(-15, 15); } while (a === 0 || b === 0 || (a > 0 && b > 0));
+      const correct = a - b;
+      const options = makeOptions(correct, [a + b, Math.abs(a) - Math.abs(b), -correct]);
+      return { label: 'Atimtis su neigiamais', q: fmt(a) + ' − ' + fmt(b) + ' = ?', ans: correct, options };
+  }}
+];
+
+
+function generateQuestion() {
+  const g = GENERATORIAI[Math.floor(Math.random() * GENERATORIAI.length)];
+  return g.gen();
+}
+// === GEN END ===
+
+const TOTAL_CELLS = 20;
+const cellType = {
+  1: 'start', 2: 'q', 3: 'q', 4: 'surprise', 5: 'q', 6: 'q',
+  7: 'gift', 8: 'q', 9: 'q', 10: 'ice', 11: 'q', 12: 'q',
+  13: 'star', 14: 'q', 15: 'q', 16: 'gift', 17: 'q', 18: 'q',
+  19: 'ice', 20: 'finish'
+};
+const cellIcon = { q: '❓', surprise: '❔', gift: '🎁', ice: '🧊', star: '⭐' };
+const ROW_LEN = 5;
+const pos = {};
+for (let n = 1; n <= TOTAL_CELLS; n++) {
+  const row = Math.floor((n - 1) / ROW_LEN);
+  const idx = (n - 1) % ROW_LEN;
+  pos[n] = { r: row, c: row % 2 === 0 ? idx : (ROW_LEN - 1 - idx) };
+}
+const CELL_SIZE = 74, GAP = 18, OFFSET_X = 16, OFFSET_Y = 16;
+
+let current = 1;
+let stars = 0;
+let rolling = false;
+
+const board = document.getElementById('board');
+const die = document.getElementById('die');
+const rollBtn = document.getElementById('rollBtn');
+const message = document.getElementById('message');
+const token = document.createElement('div');
+token.className = 'token';
+token.textContent = '🦊';
+
+function cellLeft(c) { return OFFSET_X + pos[c].c * (CELL_SIZE + GAP); }
+function cellTop(c) { return OFFSET_Y + pos[c].r * (CELL_SIZE + GAP); }
+
+function buildBoard() {
+  for (let n = 1; n <= TOTAL_CELLS; n++) {
+    const div = document.createElement('div');
+    const type = cellType[n];
+    if (type === 'start') {
+      div.className = 'cell start';
+      div.innerHTML = '<span class="icon">🏁</span>START';
+    } else if (type === 'finish') {
+      div.className = 'cell finish';
+      div.innerHTML = '<span class="icon">🏆</span>FINIŠAS';
+    } else {
+      div.className = 'cell type-' + type;
+      div.innerHTML = '<span class="num">' + n + '</span><span class="icon">' + cellIcon[type] + '</span>';
+    }
+    div.style.left = cellLeft(n) + 'px';
+    div.style.top = cellTop(n) + 'px';
+    board.appendChild(div);
+  }
+  board.appendChild(token);
+  placeToken();
+}
+
+function placeToken() {
+  token.style.left = (cellLeft(current) + 15) + 'px';
+  token.style.top = (cellTop(current) + 15) + 'px';
+}
+
+function updateTopbar() {
+  document.getElementById('cellLabel').textContent = 'Langelis ' + current + ' iš ' + TOTAL_CELLS;
+  document.getElementById('starCount').textContent = stars;
+  document.getElementById('progressBar').style.width = ((current - 1) / (TOTAL_CELLS - 1) * 100) + '%';
+}
+
+const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+function rollDice() {
+  if (rolling) return;
+  rolling = true;
+  rollBtn.disabled = true;
+  message.textContent = '';
+  let ticks = 0;
+  const spin = setInterval(() => {
+    die.textContent = diceFaces[Math.floor(Math.random() * 6)];
+    ticks++;
+    if (ticks > 8) {
+      clearInterval(spin);
+      const roll = 1 + Math.floor(Math.random() * 6);
+      die.textContent = diceFaces[roll - 1];
+      movePlayer(roll);
+    }
+  }, 70);
+}
+
+function movePlayer(steps) {
+  let moved = 0;
+  const step = setInterval(() => {
+    if (current < TOTAL_CELLS && moved < steps) {
+      current++;
+      moved++;
+      placeToken();
+      updateTopbar();
+    } else {
+      clearInterval(step);
+      resolveCell();
+    }
+  }, 220);
+}
+
+function moveBack(n) {
+  let moved = 0;
+  const step = setInterval(() => {
+    if (current > 1 && moved < n) {
+      current--;
+      moved++;
+      placeToken();
+      updateTopbar();
+    } else {
+      clearInterval(step);
+      resolveCell();
+    }
+  }, 200);
+}
+
+function resolveCell() {
+  const type = cellType[current];
+  if (type === 'q') {
+    showQuestion();
+  } else if (type === 'surprise') {
+    stars += 1;
+    updateTopbar();
+    message.textContent = '✨ Siurprizas! +1 ⭐';
+    endTurn();
+  } else if (type === 'gift') {
+    stars += 2;
+    updateTopbar();
+    message.textContent = '🎁 Radai dovanų dėžę! +2 ⭐';
+    endTurn();
+  } else if (type === 'ice') {
+    message.textContent = '🧊 Slidu! Grįžk 2 langelius atgal.';
+    setTimeout(() => moveBack(2), 600);
+  } else if (type === 'star') {
+    stars += 1;
+    updateTopbar();
+    message.textContent = '⭐ Bonusinė žvaigždė! +1 ⭐';
+    endTurn();
+  } else if (type === 'finish') {
+    showFinish();
+  } else {
+    endTurn();
+  }
+}
+
+function endTurn() {
+  rolling = false;
+  rollBtn.disabled = false;
+}
+
+function showQuestion() {
+  const q = generateQuestion();
+  document.getElementById('exprText').textContent = q.q;
+  const wrap = document.getElementById('answerButtons');
+  wrap.innerHTML = '';
+  document.getElementById('feedback').textContent = '';
+  q.options.forEach(val => {
+    const btn = document.createElement('button');
+    btn.textContent = val;
+    btn.onclick = () => answerQuestion(val, q.ans, wrap);
+    wrap.appendChild(btn);
+  });
+  document.getElementById('questionOverlay').classList.add('show');
+}
+
+function answerQuestion(picked, correct, wrap) {
+  const buttons = wrap.querySelectorAll('button');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (Number(b.textContent) === correct) b.classList.add('correct');
+    else if (Number(b.textContent) === picked && picked !== correct) b.classList.add('wrong');
+  });
+  const feedback = document.getElementById('feedback');
+  if (picked === correct) {
+    stars += 1;
+    updateTopbar();
+    feedback.textContent = '✅ Teisingai! +1 ⭐';
+    feedback.style.color = '#2e8b4f';
+  } else {
+    feedback.textContent = '❌ Neteisingai. Teisingas atsakymas: ' + correct;
+    feedback.style.color = '#c23652';
+  }
+  setTimeout(() => {
+    document.getElementById('questionOverlay').classList.remove('show');
+    endTurn();
+  }, 1300);
+}
+
+function showFinish() {
+  document.getElementById('finalStars').textContent = stars;
+  let rank;
+  if (stars >= 14) rank = '🌟 Puikiai! Tema įveikta tvirtai.';
+  else if (stars >= 8) rank = '👍 Gerai! Dar šiek tiek pasitreniruok.';
+  else rank = '💪 Reikia daugiau treniruotės — pabandyk dar kartą.';
+  document.getElementById('rankText').textContent = rank;
+  document.getElementById('finishOverlay').classList.add('show');
+}
+
+document.getElementById('againBtn').onclick = () => {
+  current = 1;
+  stars = 0;
+  rolling = false;
+  rollBtn.disabled = false;
+  message.textContent = '';
+  updateTopbar();
+  placeToken();
+  document.getElementById('finishOverlay').classList.remove('show');
+};
+
+rollBtn.onclick = rollDice;
+
+buildBoard();
+updateTopbar();
+</script>
+</body>
+</html>
