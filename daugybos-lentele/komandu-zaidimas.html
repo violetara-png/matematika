@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daugybos lentelė — komandų žaidimas</title>
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --card: #ffffff;
+    --navy: #1f2b3a;
+    --gold: #f5c242;
+    --gold-dark: #e0a826;
+    --tile-bg: #bfe3f5;
+    --tile-used: #e4e4e4;
+    --surprise-bg: #ffd3e0;
+    --road: #e4d4bb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    padding: 24px;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: #666; margin: 0 0 18px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .team-choice {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .team-choice button {
+    background: var(--cream);
+    border: 2px solid var(--road);
+    border-radius: 14px;
+    padding: 18px 10px;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .team-choice button:hover { border-color: var(--gold); background: #fff; }
+  .name-inputs { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .name-inputs input {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid var(--road);
+    font-size: 15px;
+  }
+  .start-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .start-btn:hover { background: var(--gold-dark); }
+  .scoreboard {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .team-card {
+    flex: 1;
+    min-width: 120px;
+    background: var(--cream);
+    border: 3px solid transparent;
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .team-card.active { border-color: var(--gold); background: #fff; }
+  .team-card .tname { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .team-card .tscore { font-size: 24px; font-weight: 700; color: var(--gold-dark); }
+  .tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .tile {
+    aspect-ratio: 1;
+    background: var(--tile-bg);
+    border: none;
+    border-radius: 14px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile:hover:not(:disabled) { outline: 3px solid var(--gold); }
+  .tile.surprise { background: var(--surprise-bg); }
+  .tile:disabled {
+    background: var(--tile-used);
+    color: #999;
+    cursor: default;
+    font-size: 14px;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31,43,58,.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+  }
+  .modal h2 { margin: 0 0 8px; font-size: 18px; }
+  .expr {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 20px 0;
+    color: var(--navy);
+  }
+  .answer-reveal {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    margin: 14px 0;
+  }
+  .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .modal-actions button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .btn-reveal { background: var(--gold); }
+  .btn-reveal:hover { background: var(--gold-dark); }
+  .btn-correct { background: #d7f4dc; border: 2px solid #4caf6e; }
+  .btn-correct:hover { background: #c3edca; }
+  .btn-wrong { background: #fbd9dd; border: 2px solid #e0486b; }
+  .btn-wrong:hover { background: #f8c4cb; }
+  .surprise-text { font-size: 18px; font-weight: 700; color: #c23652; margin: 20px 0; }
+  .again {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .finish-scoreboard { font-size: 16px; line-height: 1.8; margin: 14px 0; text-align: left; }
+  .finish-scoreboard .win { font-weight: 700; color: var(--gold-dark); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎯 Daugybos lentelė — komandų žaidimas</h1>
+  <p class="subtitle">2–10 daugybos lentelė · komandinis žaidimas</p>
+
+  <div class="card" id="setupCard">
+    <h2 style="margin-top:0;">Kiek komandų?</h2>
+    <div class="team-choice" id="teamChoice">
+      <button data-n="2">2</button>
+      <button data-n="3">3</button>
+      <button data-n="4">4</button>
+    </div>
+    <div class="name-inputs" id="nameInputs" style="display:none"></div>
+    <button class="start-btn" id="startBtn" style="display:none">▶ Pradėti žaidimą</button>
+  </div>
+
+  <div class="card" id="gameCard" style="display:none">
+    <div class="scoreboard" id="scoreboard"></div>
+    <div class="tiles-grid" id="tilesGrid"></div>
+  </div>
+</div>
+
+<div class="overlay" id="questionOverlay">
+  <div class="modal">
+    <h2 id="qTeamLabel">Komandos ėjimas</h2>
+    <div class="expr" id="exprText"></div>
+    <div class="answer-reveal" id="answerReveal" style="display:none"></div>
+    <div class="modal-actions" id="revealActions">
+      <button class="btn-reveal" id="revealBtn">👁 Rodyti atsakymą</button>
+    </div>
+    <div class="modal-actions" id="judgeActions" style="display:none">
+      <button class="btn-correct" id="correctBtn">✅ Teisingai (+10)</button>
+      <button class="btn-wrong" id="wrongBtn">❌ Neteisingai</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="surpriseOverlay">
+  <div class="modal">
+    <div style="font-size:48px;">🎁</div>
+    <h2>Siurprizas!</h2>
+    <div class="surprise-text" id="surpriseText"></div>
+    <button class="start-btn" id="surpriseOkBtn">Gerai, toliau!</button>
+  </div>
+</div>
+
+<div class="overlay" id="finishOverlay">
+  <div class="modal">
+    <div style="font-size:48px;">🏆</div>
+    <h2 id="finishTitle">Žaidimas baigtas!</h2>
+    <div class="finish-scoreboard" id="finishScoreboard"></div>
+    <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
+  </div>
+</div>
+
+<script>
+const TEAM_COLORS = ['#e0486b', '#1f7a99', '#4caf6e', '#8a5fc2'];
+const TILE_COUNT = 20;
+const SURPRISE_COUNT = 4;
+
+function randint(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function genPairs() {
+  const all = [];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = a; b <= 10; b++) all.push({ a, b });
+  }
+  return shuffle(all).slice(0, TILE_COUNT - SURPRISE_COUNT);
+}
+
+const SURPRISES = [
+  { text: '+15 taškų jūsų komandai!', effect: (p) => { p.score += 15; } },
+  { text: '-10 taškų jūsų komandai.', effect: (p) => { p.score = Math.max(0, p.score - 10); } },
+  { text: 'Visos komandos gauna +5 taškus!', effect: () => { teams.forEach(t => t.score += 5); } },
+  { text: 'Sukeiskite taškus su kita komanda!', effect: (p) => {
+      const others = teams.filter(t => t !== p);
+      const other = others[randint(0, others.length - 1)];
+      const tmp = p.score; p.score = other.score; other.score = tmp;
+    } },
+  { text: 'Praleidžiate šį ėjimą be taškų.', effect: () => {} }
+];
+
+let numTeams = 2;
+let teams = [];
+let turnIdx = 0;
+let tiles = [];
+
+const teamChoice = document.getElementById('teamChoice');
+const nameInputs = document.getElementById('nameInputs');
+const startBtn = document.getElementById('startBtn');
+const setupCard = document.getElementById('setupCard');
+const gameCard = document.getElementById('gameCard');
+const scoreboard = document.getElementById('scoreboard');
+const tilesGrid = document.getElementById('tilesGrid');
+
+teamChoice.querySelectorAll('button').forEach(btn => {
+  btn.onclick = () => {
+    numTeams = parseInt(btn.dataset.n, 10);
+    nameInputs.innerHTML = '';
+    for (let i = 0; i < numTeams; i++) {
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.placeholder = (i + 1) + ' komanda';
+      inp.id = 'teamName' + i;
+      nameInputs.appendChild(inp);
+    }
+    nameInputs.style.display = 'flex';
+    startBtn.style.display = 'block';
+  };
+});
+
+startBtn.onclick = () => {
+  teams = [];
+  for (let i = 0; i < numTeams; i++) {
+    const inp = document.getElementById('teamName' + i);
+    const name = (inp.value || inp.placeholder).trim();
+    teams.push({ name, score: 0, color: TEAM_COLORS[i] });
+  }
+  turnIdx = 0;
+  buildTiles();
+  renderScoreboard();
+  renderTiles();
+  setupCard.style.display = 'none';
+  gameCard.style.display = 'block';
+};
+
+function buildTiles() {
+  const pairs = genPairs();
+  const entries = pairs.map(p => ({ type: 'q', a: p.a, b: p.b }));
+  for (let i = 0; i < SURPRISE_COUNT; i++) entries.push({ type: 'surprise' });
+  tiles = shuffle(entries).map((e, i) => ({ ...e, n: i + 1, used: false }));
+}
+
+function renderScoreboard() {
+  scoreboard.innerHTML = teams.map((t, i) =>
+    '<div class="team-card' + (i === turnIdx ? ' active' : '') + '" style="border-color:' + (i === turnIdx ? t.color : 'transparent') + '">' +
+    '<div class="tname" style="color:' + t.color + '">' + t.name + '</div>' +
+    '<div class="tscore">' + t.score + '</div></div>'
+  ).join('');
+}
+
+function renderTiles() {
+  tilesGrid.innerHTML = '';
+  tiles.forEach(tile => {
+    const btn = document.createElement('button');
+    btn.className = 'tile' + (tile.type === 'surprise' && !tile.used ? ' surprise' : '');
+    btn.textContent = tile.used ? (tile.type === 'q' ? (tile.a + '×' + tile.b + '=' + (tile.a * tile.b)) : '🎁') : tile.n;
+    btn.disabled = tile.used;
+    btn.onclick = () => openTile(tile);
+    tilesGrid.appendChild(btn);
+  });
+}
+
+function openTile(tile) {
+  if (tile.type === 'q') {
+    document.getElementById('qTeamLabel').textContent = teams[turnIdx].name + ' ėjimas';
+    document.getElementById('exprText').textContent = tile.a + ' × ' + tile.b + ' = ?';
+    document.getElementById('answerReveal').style.display = 'none';
+    document.getElementById('revealActions').style.display = 'flex';
+    document.getElementById('judgeActions').style.display = 'none';
+    document.getElementById('questionOverlay').classList.add('show');
+    document.getElementById('revealBtn').onclick = () => {
+      document.getElementById('answerReveal').textContent = tile.a + ' × ' + tile.b + ' = ' + (tile.a * tile.b);
+      document.getElementById('answerReveal').style.display = 'block';
+      document.getElementById('revealActions').style.display = 'none';
+      document.getElementById('judgeActions').style.display = 'flex';
+    };
+    document.getElementById('correctBtn').onclick = () => finishTile(tile, true);
+    document.getElementById('wrongBtn').onclick = () => finishTile(tile, false);
+  } else {
+    const s = SURPRISES[randint(0, SURPRISES.length - 1)];
+    s.effect(teams[turnIdx]);
+    document.getElementById('surpriseText').textContent = teams[turnIdx].name + ': ' + s.text;
+    tile.used = true;
+    renderTiles();
+    renderScoreboard();
+    document.getElementById('surpriseOverlay').classList.add('show');
+    document.getElementById('surpriseOkBtn').onclick = () => {
+      document.getElementById('surpriseOverlay').classList.remove('show');
+      nextTurn();
+    };
+  }
+}
+
+function finishTile(tile, correct) {
+  if (correct) teams[turnIdx].score += 10;
+  tile.used = true;
+  document.getElementById('questionOverlay').classList.remove('show');
+  renderTiles();
+  renderScoreboard();
+  nextTurn();
+}
+
+function nextTurn() {
+  turnIdx = (turnIdx + 1) % numTeams;
+  renderScoreboard();
+  if (tiles.every(t => t.used)) showFinish();
+}
+
+function showFinish() {
+  const sorted = teams.slice().sort((a, b) => b.score - a.score);
+  const topScore = sorted[0].score;
+  document.getElementById('finishTitle').textContent = '🏆 ' + sorted[0].name + ' laimėjo!';
+  document.getElementById('finishScoreboard').innerHTML = sorted.map(t =>
+    '<div' + (t.score === topScore ? ' class="win"' : '') + '>' + t.name + ': ' + t.score + ' taškų</div>'
+  ).join('');
+  document.getElementById('finishOverlay').classList.add('show');
+}
+
+document.getElementById('againBtn').onclick = () => {
+  document.getElementById('finishOverlay').classList.remove('show');
+  gameCard.style.display = 'none';
+  setupCard.style.display = 'block';
+  nameInputs.style.display = 'none';
+  startBtn.style.display = 'none';
+};
+</script>
+</body>
+</html>
