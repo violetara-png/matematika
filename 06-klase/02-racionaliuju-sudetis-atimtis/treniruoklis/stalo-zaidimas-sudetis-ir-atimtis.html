@@ -257,7 +257,7 @@
         <div class="die" id="die">⚀</div>
         <div class="message" id="message"></div>
         <button class="roll" id="rollBtn">🎲 Mesti kauliuką</button>
-        <button class="sound-toggle" id="soundBtn" title="Įjungti/išjungti garsą">🔊</button>
+        <button class="sound-toggle" id="soundBtn" title="Įjungti/išjungti garsą">🔊 Garsas</button>
       </div>
       <div class="board" id="board">
         <span class="deco" style="top:4px;left:4px;">🌲</span>
@@ -432,7 +432,7 @@ function playWrongSound() { beep(180, 0.28, 'sawtooth', 0.18); }
 const soundBtn = document.getElementById('soundBtn');
 soundBtn.onclick = () => {
   soundOn = !soundOn;
-  soundBtn.textContent = soundOn ? '🔊' : '🔇';
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Be garso';
 };
 
 const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
@@ -456,36 +456,38 @@ function rollDice() {
   }, 70);
 }
 
-function movePlayer(steps) {
+function animateSteps(n, forward, onDone) {
+  if (n <= 0) { onDone(); return; }
   let moved = 0;
   const step = setInterval(() => {
-    if (current < TOTAL_CELLS && moved < steps) {
-      current++;
-      moved++;
-      placeToken();
-      updateTopbar();
-      playStepSound(false);
-    } else {
+    if (moved >= n || (forward && current >= TOTAL_CELLS) || (!forward && current <= 1)) {
       clearInterval(step);
-      resolveCell();
+      onDone();
+      return;
     }
-  }, 220);
+    current += forward ? 1 : -1;
+    moved++;
+    placeToken();
+    updateTopbar();
+    playStepSound(!forward);
+  }, forward ? 220 : 200);
+}
+
+function movePlayer(steps) {
+  const remaining = TOTAL_CELLS - current;
+  if (steps <= remaining) {
+    animateSteps(steps, true, resolveCell);
+  } else {
+    const overshoot = steps - remaining;
+    animateSteps(remaining, true, () => {
+      message.textContent = '↩️ Per daug! Grįžk ' + overshoot + ' langelį(-ius) atgal.';
+      setTimeout(() => animateSteps(overshoot, false, resolveCell), 500);
+    });
+  }
 }
 
 function moveBack(n) {
-  let moved = 0;
-  const step = setInterval(() => {
-    if (current > 1 && moved < n) {
-      current--;
-      moved++;
-      placeToken();
-      updateTopbar();
-      playStepSound(true);
-    } else {
-      clearInterval(step);
-      resolveCell();
-    }
-  }, 200);
+  animateSteps(n, false, resolveCell);
 }
 
 function resolveCell() {
