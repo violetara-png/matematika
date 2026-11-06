@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daugybos lentelė — žaltys ir kopėčios</title>
+<style>
+  :root {
+    --cream: #f7f2ea;
+    --card: #ffffff;
+    --navy: #1f2b3a;
+    --gold: #f5c242;
+    --gold-dark: #e0a826;
+    --q-bg: #bfe3f5;
+    --q-icon: #e0486b;
+    --surprise-bg: #e3d4f7;
+    --gift-bg: #ffd3e0;
+    --ice-bg: #cdeafd;
+    --star-bg: #fff2bf;
+    --road: #e4d4bb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    padding: 24px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: #666; margin: 0 0 18px; }
+  .card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .stars {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 16px;
+  }
+  .progress {
+    height: 8px;
+    background: #eee2cc;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width .4s ease;
+  }
+  .instruction {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 15px;
+  }
+  .board-zone {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .dice-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 130px;
+  }
+  .die {
+    font-size: 54px;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 2px solid var(--road);
+    border-radius: 14px;
+  }
+  .message {
+    min-height: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--gold-dark);
+    font-size: 14px;
+  }
+  button.roll {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 10px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.roll:disabled { opacity: .5; cursor: default; }
+  button.roll:hover:not(:disabled) { background: var(--gold-dark); }
+  button.sound-toggle {
+    background: #fff;
+    border: 2px solid var(--road);
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.sound-toggle:hover { border-color: var(--gold); }
+  .board {
+    position: relative;
+    flex: 1;
+    min-width: 420px;
+    height: 420px;
+    background: linear-gradient(135deg, #fdf6ec, #fbeaf0);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .deco { position: absolute; font-size: 22px; opacity: .55; }
+  .cell {
+    position: absolute;
+    width: 74px;
+    height: 74px;
+    border-radius: 14px;
+    background: var(--q-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: box-shadow .2s;
+  }
+  .cell .num {
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    font-size: 11px;
+    color: #555;
+    font-weight: 600;
+  }
+  .cell.type-q .icon { color: var(--q-icon); }
+  .cell.type-surprise { background: var(--surprise-bg); }
+  .cell.type-gift { background: var(--gift-bg); }
+  .cell.type-ice { background: var(--ice-bg); }
+  .cell.type-star { background: var(--star-bg); }
+  .cell.type-ladder { background: #d7f4dc; }
+  .cell.type-snake { background: #ffe0b3; }
+  .cell .target {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #555;
+  }
+  .cell.start, .cell.finish {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--navy);
+    color: #fff;
+    text-align: center;
+    line-height: 1.3;
+    gap: 2px;
+  }
+  .cell.start .icon, .cell.finish .icon { font-size: 22px; }
+  .token {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: left .35s ease, top .35s ease;
+    z-index: 5;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31,43,58,.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+  }
+  .modal h2 { margin: 0 0 6px; font-size: 18px; }
+  .expr {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 18px 0;
+    color: var(--navy);
+  }
+  .answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .answers button {
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #e4d4bb;
+    background: var(--cream);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .answers button:hover { border-color: var(--gold); }
+  .answers button.correct { background: #d7f4dc; border-color: #4caf6e; }
+  .answers button.wrong { background: #fbd9dd; border-color: #e0486b; }
+  .answers button[disabled] { cursor: default; }
+  .feedback { margin-top: 14px; font-weight: 700; min-height: 20px; }
+  .finish-screen h2 { font-size: 24px; }
+  .finish-screen .rank { font-size: 17px; margin: 10px 0 18px; color: var(--gold-dark); font-weight: 700; }
+  .again {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .player-choice {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .player-btn {
+    background: var(--cream);
+    border: 2px solid var(--road);
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .player-btn .pn {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+  .player-btn:hover { border-color: var(--gold); background: #fff; }
+  .scoreboard {
+    display: none;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .scoreboard.show { display: flex; }
+  .score-item {
+    background: var(--cream);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .score-item.active { border-color: var(--gold); background: #fff; }
+  .finish-scoreboard {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 6px 0 4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎲 Daugybos lentelė — žaltys ir kopėčios</h1>
+  <p class="subtitle" id="subtitleText"></p>
+
+  <div class="card" id="setupCard">
+    <h2 style="margin-top:0;">Kiek žaidėjų?</h2>
+    <div class="player-choice">
+      <button class="player-btn" data-n="1"><span class="pn">1</span>1 žaidėjas<br>🦊</button>
+      <button class="player-btn" data-n="2"><span class="pn">2</span>2 žaidėjai<br>🦊 🐻</button>
+      <button class="player-btn" data-n="3"><span class="pn">3</span>3 žaidėjai<br>🦊 🐻 🐱</button>
+    </div>
+  </div>
+
+  <div class="card" id="gameCard" style="display:none">
+    <div class="topbar">
+      <span id="cellLabel"></span>
+      <span class="stars">⭐ <span id="starCount">0</span></span>
+    </div>
+    <div class="scoreboard" id="scoreboard"></div>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="instruction">Mesk kauliuką ir keliauk per langelius. Ant ❓ langelių spręsk uždavinį, kiti langeliai duoda arba atima žvaigždes.</div>
+    <div class="board-zone">
+      <div class="dice-area">
+        <div class="die" id="die">⚀</div>
+        <div class="message" id="message"></div>
+        <button class="roll" id="rollBtn">🎲 Mesti kauliuką</button>
+        <button class="sound-toggle" id="soundBtn" title="Įjungti/išjungti garsą">🔊 Garsas</button>
+      </div>
+      <div class="board" id="board">
+        <span class="deco" style="top:4px;left:4px;">🌲</span>
+        <span class="deco" style="top:4px;right:4px;">🏔️</span>
+        <span class="deco" style="bottom:4px;left:50%;">🌳</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="questionOverlay">
+  <div class="modal">
+    <h2>Išspręsk!</h2>
+    <div class="expr" id="exprText"></div>
+    <div class="answers" id="answerButtons"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+</div>
+
+<div class="overlay" id="finishOverlay">
+  <div class="modal finish-screen">
+    <div style="font-size:48px;">🏆</div>
+    <h2 id="finishTitle">Atvykai į finišą!</h2>
+    <div>Surinkai <strong id="finalStars"></strong> žvaigždes</div>
+    <div class="rank" id="rankText"></div>
+    <div class="finish-scoreboard" id="finishScoreboard"></div>
+    <button class="again" id="againBtn">🔄 Žaisti iš naujo</button>
+  </div>
+</div>
+
+<script>
+const META = {"title": "Daugybos lentelė — žaltys ir kopėčios", "subtitle": "2-10 daugybos lentelė"};
+document.getElementById('subtitleText').textContent = META.subtitle || '';
+if (!META.subtitle) document.getElementById('subtitleText').style.display = 'none';
+
+// === GEN START ===
+function randint(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function nz(a, b) { let v; do { v = randint(a, b); } while (v === 0); return v; }
+function fmt(n) { return n < 0 ? '(' + n + ')' : '' + n; }
+function makeOptions(correct, extra) {
+  const opts = new Set([correct]);
+  (extra || []).forEach(v => { if (opts.size < 4 && v !== correct) opts.add(v); });
+  let guard = 0;
+  while (opts.size < 4 && guard < 40) {
+    opts.add(correct + (randint(-6, 6) || 1));
+    guard++;
+  }
+  const arr = [...opts];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const DAUGYBOS_POROS = (() => {
+  const all = [];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = a; b <= 10; b++) all.push({ a, b });
+  }
+  return all;
+})();
+
+const GENERATORIAI = [
+  { label: 'Daugyba', gen: () => {
+      const p = DAUGYBOS_POROS[randint(0, DAUGYBOS_POROS.length - 1)];
+      const correct = p.a * p.b;
+      const options = makeOptions(correct, [p.a * (p.b + 1), p.a * (p.b - 1), (p.a + 1) * p.b, (p.a - 1) * p.b]);
+      return { label: 'Daugyba', q: p.a + ' × ' + p.b + ' = ?', ans: correct, options };
+  }}
+];
+
+
+function generateQuestion() {
+  const g = GENERATORIAI[Math.floor(Math.random() * GENERATORIAI.length)];
+  return g.gen();
+}
+// === GEN END ===
+
+const TOTAL_CELLS = 20;
+const cellType = {
+  1: 'start', 2: 'q', 3: 'ladder', 4: 'surprise', 5: 'q', 6: 'q',
+  7: 'gift', 8: 'q', 9: 'ladder', 10: 'ice', 11: 'q', 12: 'snake',
+  13: 'star', 14: 'q', 15: 'q', 16: 'gift', 17: 'snake', 18: 'q',
+  19: 'ice', 20: 'finish'
+};
+const LADDERS = { 3: 14, 9: 18 };
+const SNAKES = { 12: 2, 17: 5 };
+const cellIcon = { q: '❓', surprise: '❔', gift: '🎁', ice: '🧊', star: '⭐', ladder: '🪜', snake: '🐍' };
+const ROW_LEN = 5;
+const pos = {};
+for (let n = 1; n <= TOTAL_CELLS; n++) {
+  const row = Math.floor((n - 1) / ROW_LEN);
+  const idx = (n - 1) % ROW_LEN;
+  pos[n] = { r: row, c: row % 2 === 0 ? idx : (ROW_LEN - 1 - idx) };
+}
+const CELL_SIZE = 74, GAP = 18, OFFSET_X = 16, OFFSET_Y = 16;
+
+const PLAYER_ICONS = ['🦊', '🐻', '🐱'];
+let numPlayers = 1;
+let players = [];
+let turnIdx = 0;
+let rolling = false;
+let lastRoll = 0;
+
+const board = document.getElementById('board');
+const die = document.getElementById('die');
+const rollBtn = document.getElementById('rollBtn');
+const message = document.getElementById('message');
+const setupCard = document.getElementById('setupCard');
+const gameCard = document.getElementById('gameCard');
+const scoreboard = document.getElementById('scoreboard');
+
+function cellLeft(c) { return OFFSET_X + pos[c].c * (CELL_SIZE + GAP); }
+function cellTop(c) { return OFFSET_Y + pos[c].r * (CELL_SIZE + GAP); }
+
+function buildCells() {
+  for (let n = 1; n <= TOTAL_CELLS; n++) {
+    const div = document.createElement('div');
+    const type = cellType[n];
+    if (type === 'start') {
+      div.className = 'cell start';
+      div.innerHTML = '<span class="icon">🏁</span>START';
+    } else if (type === 'finish') {
+      div.className = 'cell finish';
+      div.innerHTML = '<span class="icon">🏆</span>FINIŠAS';
+    } else if (type === 'ladder' || type === 'snake') {
+      const target = type === 'ladder' ? LADDERS[n] : SNAKES[n];
+      div.className = 'cell type-' + type;
+      div.innerHTML = '<span class="num">' + n + '</span><span class="icon">' + cellIcon[type] + '</span><span class="target">→' + target + '</span>';
+    } else {
+      div.className = 'cell type-' + type;
+      div.innerHTML = '<span class="num">' + n + '</span><span class="icon">' + cellIcon[type] + '</span>';
+    }
+    div.style.left = cellLeft(n) + 'px';
+    div.style.top = cellTop(n) + 'px';
+    board.appendChild(div);
+  }
+}
+
+function createTokens() {
+  board.querySelectorAll('.token').forEach(t => t.remove());
+  players.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'token';
+    el.textContent = p.icon;
+    board.appendChild(el);
+    p.tokenEl = el;
+  });
+  placeTokens();
+}
+
+function placeTokens() {
+  players.forEach((p, i) => {
+    const off = numPlayers > 1 ? i * 15 : 15;
+    p.tokenEl.style.left = (cellLeft(p.current) + off) + 'px';
+    p.tokenEl.style.top = (cellTop(p.current) + off) + 'px';
+  });
+}
+
+function initPlayers(n) {
+  numPlayers = n;
+  players = [];
+  for (let i = 0; i < n; i++) players.push({ current: 1, stars: 0, icon: PLAYER_ICONS[i] });
+  turnIdx = 0;
+  rolling = false;
+  rollBtn.disabled = false;
+  message.textContent = '';
+  createTokens();
+  scoreboard.classList.toggle('show', numPlayers > 1);
+  updateTopbar();
+  setupCard.style.display = 'none';
+  gameCard.style.display = 'block';
+}
+
+document.querySelectorAll('.player-btn').forEach(btn => {
+  btn.onclick = () => initPlayers(parseInt(btn.dataset.n, 10));
+});
+
+function renderScoreboard() {
+  scoreboard.innerHTML = players.map((p, i) =>
+    '<span class="score-item' + (i === turnIdx ? ' active' : '') + '">' + p.icon + ' ' + p.stars + '⭐</span>'
+  ).join('');
+}
+
+function updateTopbar() {
+  const p = players[turnIdx];
+  const label = numPlayers > 1
+    ? (p.icon + ' Žaidėjo ' + (turnIdx + 1) + ' ėjimas · langelis ' + p.current + ' iš ' + TOTAL_CELLS)
+    : ('Langelis ' + p.current + ' iš ' + TOTAL_CELLS);
+  document.getElementById('cellLabel').textContent = label;
+  document.getElementById('starCount').textContent = p.stars;
+  document.getElementById('progressBar').style.width = ((p.current - 1) / (TOTAL_CELLS - 1) * 100) + '%';
+  if (numPlayers > 1) renderScoreboard();
+}
+
+let soundOn = true;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function beep(freq, duration, type, volume, delay) {
+  if (!soundOn) return;
+  const ctx = getAudioCtx();
+  const t0 = ctx.currentTime + (delay || 0);
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(volume || 0.2, t0 + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t0);
+  osc.stop(t0 + duration + 0.02);
+}
+function playDiceTick() { beep(300 + Math.random() * 250, 0.05, 'square', 0.14); }
+function playStepSound(reverse) { beep(reverse ? 330 : 520, 0.06, 'triangle', 0.12); }
+function playCorrectSound() { beep(523.25, 0.12, 'sine', 0.22); beep(659.25, 0.18, 'sine', 0.22, 0.12); }
+function playWrongSound() { beep(180, 0.28, 'sawtooth', 0.18); }
+
+const soundBtn = document.getElementById('soundBtn');
+soundBtn.onclick = () => {
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊 Garsas' : '🔇 Be garso';
+};
+
+const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+function rollDice() {
+  if (rolling) return;
+  rolling = true;
+  rollBtn.disabled = true;
+  message.textContent = '';
+  let ticks = 0;
+  const spin = setInterval(() => {
+    die.textContent = diceFaces[Math.floor(Math.random() * 6)];
+    playDiceTick();
+    ticks++;
+    if (ticks > 8) {
+      clearInterval(spin);
+      const roll = 1 + Math.floor(Math.random() * 6);
+      lastRoll = roll;
+      die.textContent = diceFaces[roll - 1];
+      movePlayer(roll);
+    }
+  }, 70);
+}
+
+function animateSteps(n, forward, onDone) {
+  if (n <= 0) { onDone(); return; }
+  const p = players[turnIdx];
+  let moved = 0;
+  const step = setInterval(() => {
+    if (moved >= n || (forward && p.current >= TOTAL_CELLS) || (!forward && p.current <= 1)) {
+      clearInterval(step);
+      onDone();
+      return;
+    }
+    p.current += forward ? 1 : -1;
+    moved++;
+    placeTokens();
+    updateTopbar();
+    playStepSound(!forward);
+  }, forward ? 220 : 200);
+}
+
+function movePlayer(steps) {
+  const p = players[turnIdx];
+  const remaining = TOTAL_CELLS - p.current;
+  if (steps <= remaining) {
+    animateSteps(steps, true, resolveCell);
+  } else {
+    const overshoot = steps - remaining;
+    animateSteps(remaining, true, () => {
+      message.textContent = '↩️ Per daug! Grįžk ' + overshoot + ' langelį(-ius) atgal.';
+      setTimeout(() => animateSteps(overshoot, false, resolveCell), 500);
+    });
+  }
+}
+
+function moveBack(n) {
+  animateSteps(n, false, resolveCell);
+}
+
+function resolveCell() {
+  const p = players[turnIdx];
+  const type = cellType[p.current];
+  if (type === 'q') {
+    showQuestion();
+  } else if (type === 'surprise') {
+    p.stars += 1;
+    updateTopbar();
+    message.textContent = '✨ Siurprizas! +1 ⭐';
+    endTurn();
+  } else if (type === 'gift') {
+    p.stars += 2;
+    updateTopbar();
+    message.textContent = '🎁 Radai dovanų dėžę! +2 ⭐';
+    endTurn();
+  } else if (type === 'ice') {
+    message.textContent = '🧊 Slidu! Grįžk 2 langelius atgal.';
+    setTimeout(() => moveBack(2), 600);
+  } else if (type === 'star') {
+    p.stars += 1;
+    updateTopbar();
+    message.textContent = '⭐ Bonusinė žvaigždė! +1 ⭐';
+    endTurn();
+  } else if (type === 'ladder') {
+    const target = LADDERS[p.current];
+    message.textContent = '🪜 Kopėčios! Užlipi į langelį ' + target + '.';
+    setTimeout(() => animateSteps(target - p.current, true, resolveCell), 600);
+  } else if (type === 'snake') {
+    const target = SNAKES[p.current];
+    message.textContent = '🐍 Žaltys! Nuslysti į langelį ' + target + '.';
+    setTimeout(() => animateSteps(p.current - target, false, resolveCell), 600);
+  } else if (type === 'finish') {
+    showFinish();
+  } else {
+    endTurn();
+  }
+}
+
+function endTurn() {
+  rolling = false;
+  if (numPlayers > 1) {
+    turnIdx = (turnIdx + 1) % numPlayers;
+    updateTopbar();
+  }
+  rollBtn.disabled = false;
+}
+
+function showQuestion() {
+  const q = generateQuestion();
+  document.getElementById('exprText').textContent = q.q;
+  const wrap = document.getElementById('answerButtons');
+  wrap.innerHTML = '';
+  document.getElementById('feedback').textContent = '';
+  q.options.forEach(val => {
+    const btn = document.createElement('button');
+    btn.textContent = val;
+    btn.onclick = () => answerQuestion(val, q.ans, wrap);
+    wrap.appendChild(btn);
+  });
+  document.getElementById('questionOverlay').classList.add('show');
+}
+
+function answerQuestion(picked, correct, wrap) {
+  const p = players[turnIdx];
+  const buttons = wrap.querySelectorAll('button');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (Number(b.textContent) === correct) b.classList.add('correct');
+    else if (Number(b.textContent) === picked && picked !== correct) b.classList.add('wrong');
+  });
+  const feedback = document.getElementById('feedback');
+  if (picked === correct) {
+    p.stars += 1;
+    updateTopbar();
+    feedback.textContent = '✅ Teisingai! +1 ⭐';
+    feedback.style.color = '#2e8b4f';
+    playCorrectSound();
+  } else {
+    feedback.textContent = '❌ Neteisingai. Teisingas atsakymas: ' + correct + '. Grįžk ' + lastRoll + ' langelį(-ius) atgal.';
+    feedback.style.color = '#c23652';
+    playWrongSound();
+  }
+  setTimeout(() => {
+    document.getElementById('questionOverlay').classList.remove('show');
+    if (picked === correct) {
+      endTurn();
+    } else {
+      animateSteps(lastRoll, false, resolveCell);
+    }
+  }, 1300);
+}
+
+function showFinish() {
+  const winner = players[turnIdx];
+  document.getElementById('finishTitle').textContent = numPlayers > 1
+    ? (winner.icon + ' Žaidėjas ' + (turnIdx + 1) + ' laimėjo!')
+    : 'Atvykai į finišą!';
+  document.getElementById('finalStars').textContent = winner.stars;
+  let rank;
+  if (winner.stars >= 11) rank = '🌟 Puikiai! Tema įveikta tvirtai.';
+  else if (winner.stars >= 6) rank = '👍 Gerai! Dar šiek tiek pasitreniruok.';
+  else rank = '💪 Reikia daugiau treniruotės — pabandyk dar kartą.';
+  document.getElementById('rankText').textContent = rank;
+  document.getElementById('finishScoreboard').innerHTML = numPlayers > 1
+    ? players.map((pl, i) => (pl.icon + ' Žaidėjas ' + (i + 1) + ': ' + pl.stars + '⭐')).join('<br>')
+    : '';
+  document.getElementById('finishOverlay').classList.add('show');
+}
+
+document.getElementById('againBtn').onclick = () => {
+  document.getElementById('finishOverlay').classList.remove('show');
+  gameCard.style.display = 'none';
+  setupCard.style.display = 'block';
+  message.textContent = '';
+};
+
+rollBtn.onclick = rollDice;
+
+buildCells();
+</script>
+</body>
+</html>
