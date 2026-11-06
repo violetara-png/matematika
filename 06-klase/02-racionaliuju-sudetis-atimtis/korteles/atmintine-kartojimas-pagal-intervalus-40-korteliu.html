@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atmintinė</title>
+<style>
+  :root{
+    --bg:#EAEBE3;
+    --bg-line: rgba(34,38,43,.07);
+    --surface:#FBFAF6;
+    --surface-border:#D9D7C9;
+    --punch:#D9D7C9;
+    --ink:#22262B;
+    --muted:#6E7268;
+    --accent:#2F5D62;
+    --accent-ink:#FFFFFF;
+    --warn:#B5482A;
+    --hard:#A9752B;
+    --good:#2F5D62;
+    --easy:#3F7D4A;
+    --focus:#2F5D62;
+    --shadow: 0 1px 0 rgba(34,38,43,.04), 0 10px 24px -14px rgba(34,38,43,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B1D19;
+      --bg-line: rgba(236,233,223,.06);
+      --surface:#25271F;
+      --surface-border:#3A3D32;
+      --punch:#1B1D19;
+      --ink:#ECE9DF;
+      --muted:#9B9E8E;
+      --accent:#75ADA4;
+      --accent-ink:#17221F;
+      --warn:#DD8265;
+      --hard:#D9B35C;
+      --good:#75ADA4;
+      --easy:#86C290;
+      --focus:#75ADA4;
+      --shadow: 0 1px 0 rgba(0,0,0,.2), 0 10px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B1D19;
+    --bg-line: rgba(236,233,223,.06);
+    --surface:#25271F;
+    --surface-border:#3A3D32;
+    --punch:#1B1D19;
+    --ink:#ECE9DF;
+    --muted:#9B9E8E;
+    --accent:#75ADA4;
+    --accent-ink:#17221F;
+    --warn:#DD8265;
+    --hard:#D9B35C;
+    --good:#75ADA4;
+    --easy:#86C290;
+    --focus:#75ADA4;
+    --shadow: 0 1px 0 rgba(0,0,0,.2), 0 10px 28px -14px rgba(0,0,0,.6);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    background:
+      repeating-linear-gradient(to bottom, transparent 0 35px, var(--bg-line) 35px 36px),
+      var(--bg);
+    color:var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: 48px 20px 64px;
+  }
+  .wrap{ width:100%; max-width:600px; display:flex; flex-direction:column; gap:28px; }
+
+  header{ text-align:center; display:flex; flex-direction:column; gap:6px; }
+  .kicker{
+    font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:600;
+  }
+  h1{
+    font-family: "Iowan Old Style","Palatino Linotype", Georgia, "Times New Roman", serif;
+    font-size:2.1rem; margin:0; text-wrap:balance; font-weight:600;
+    letter-spacing:-.01em;
+  }
+  .sub{ color:var(--muted); font-size:.92rem; margin:0; text-wrap:balance; }
+
+  .ledger{
+    display:flex; align-items:center; justify-content:center; gap:0;
+    background:var(--surface); border:1px solid var(--surface-border);
+    border-radius:10px; box-shadow:var(--shadow); overflow:hidden;
+  }
+  .ledger-item{
+    flex:1; text-align:center; padding:12px 8px; position:relative;
+  }
+  .ledger-item + .ledger-item::before{
+    content:""; position:absolute; left:0; top:14px; bottom:14px; width:1px;
+    background:var(--surface-border);
+  }
+  .ledger-num{
+    display:block; font-family: ui-monospace,"SF Mono","Cascadia Code", Consolas, "Roboto Mono", monospace;
+    font-variant-numeric: tabular-nums; font-size:1.3rem; font-weight:600; color:var(--accent);
+  }
+  .ledger-label{ display:block; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+
+  .stage{ display:flex; justify-content:center; perspective:1400px; }
+  .card{
+    width:100%; max-width:440px; aspect-ratio: 5/3.1; position:relative;
+    transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,.1,.2,1);
+    cursor:pointer; outline:none;
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  @media (prefers-reduced-motion: reduce){ .card{ transition:none; } }
+  .card:focus-visible .face{ box-shadow: var(--shadow), 0 0 0 3px var(--focus); }
+
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    background:var(--surface); border:1px solid var(--surface-border);
+    border-radius:14px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; padding:28px 30px;
+  }
+  .face::before{
+    content:""; position:absolute; top:16px; left:50%; transform:translateX(-50%);
+    width:64px; height:12px;
+    background-image: radial-gradient(circle 5px, var(--punch) 98%, transparent 100%),
+                       radial-gradient(circle 5px, var(--punch) 98%, transparent 100%);
+    background-position: 0 0, 100% 0; background-repeat:no-repeat; background-size:12px 12px;
+  }
+  .face .topic{
+    font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+    margin-top:20px; text-align:center; min-height: 1em;
+  }
+  .face .content{
+    flex:1; display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:6px 4px; white-space:pre-line;
+  }
+  .face.front .content{
+    font-family: "Iowan Old Style","Palatino Linotype", Georgia, serif;
+    font-size:1.5rem; line-height:1.3; font-weight:600;
+  }
+  .face.back{ transform: rotateY(180deg); }
+  .face.back .content{
+    font-family: ui-monospace,"SF Mono","Cascadia Code", Consolas, "Roboto Mono", monospace;
+    font-size:1.18rem; line-height:1.5;
+  }
+  .face .hint{ text-align:center; font-size:.76rem; color:var(--muted); }
+
+  .rate-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .rate-row.hidden{ visibility:hidden; pointer-events:none; }
+  .rate-btn{
+    border:1px solid var(--surface-border); background:var(--surface); color:var(--ink);
+    border-radius:10px; padding:12px 6px; font-size:.86rem; font-weight:600; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    font-family:inherit; transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .rate-btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+  .rate-btn:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--focus); }
+  .rate-btn .k{
+    font-family: ui-monospace,monospace; font-size:.68rem; color:var(--muted);
+    border:1px solid var(--surface-border); border-radius:4px; padding:0 5px;
+  }
+  .rate-btn.warn{ border-top:3px solid var(--warn); }
+  .rate-btn.hard{ border-top:3px solid var(--hard); }
+  .rate-btn.good{ border-top:3px solid var(--good); }
+  .rate-btn.easy{ border-top:3px solid var(--easy); }
+
+  .done{
+    background:var(--surface); border:1px solid var(--surface-border); border-radius:14px;
+    box-shadow:var(--shadow); padding:40px 30px; text-align:center; display:flex;
+    flex-direction:column; gap:10px; align-items:center;
+  }
+  .done h2{
+    font-family:"Iowan Old Style", Georgia, serif; margin:0; font-size:1.4rem;
+  }
+  .done p{ margin:0; color:var(--muted); font-size:.9rem; max-width:360px; }
+  .done .next-date{
+    font-family: ui-monospace,monospace; color:var(--accent); font-weight:600; font-size:1rem;
+  }
+
+  .explain{
+    font-size:.82rem; color:var(--muted); line-height:1.55; text-align:center;
+    max-width:460px; margin:0 auto;
+  }
+  footer{
+    text-align:center; font-size:.76rem; color:var(--muted); line-height:1.6;
+  }
+  footer .reset{
+    background:none; border:1px solid var(--surface-border); color:var(--muted);
+    padding:5px 11px; border-radius:7px; font-size:.74rem; cursor:pointer; font-family:inherit;
+  }
+  footer .reset:hover{ color:var(--warn); border-color:var(--warn); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="kicker">Kortelių kartojimas · pakartojimo intervalai</span>
+    <h1>Atmintinė</h1>
+    <p class="sub">6 kl. · Teigiamų ir neigiamų skaičių sudėtis ir atimtis</p>
+  </header>
+
+  <div class="ledger">
+    <div class="ledger-item"><span class="ledger-num" id="statDue">0</span><span class="ledger-label">Likę šiandien</span></div>
+    <div class="ledger-item"><span class="ledger-num" id="statDone">0</span><span class="ledger-label">Atlikta šiandien</span></div>
+    <div class="ledger-item"><span class="ledger-num" id="statTotal">0</span><span class="ledger-label">Viso kortelių</span></div>
+  </div>
+
+  <div id="stage" class="stage">
+    <div class="card" id="card" tabindex="0" role="button" aria-label="Kortelė. Paspausk arba spragtelėk tarpo klavišą, kad apverstum.">
+      <div class="face front">
+        <span class="topic" id="topicFront"></span>
+        <div class="content" id="front">—</div>
+        <span class="hint">Spustelėk kortelę arba tarpo klavišą</span>
+      </div>
+      <div class="face back">
+        <span class="topic" id="topicBack"></span>
+        <div class="content" id="back">—</div>
+        <span class="hint">Kaip prisiminei?</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rate-row hidden" id="rateRow">
+    <button class="rate-btn warn" data-q="0">Nežinojau<span class="k">1</span></button>
+    <button class="rate-btn hard" data-q="1">Sunkiai<span class="k">2</span></button>
+    <button class="rate-btn good" data-q="2">Gerai<span class="k">3</span></button>
+    <button class="rate-btn easy" data-q="3">Lengvai<span class="k">4</span></button>
+  </div>
+
+  <div class="done" id="doneScreen" style="display:none">
+    <h2 id="doneTitle">Visos šiandienos kortelės pakartotos!</h2>
+    <p id="doneBody">Kita kortelė grįžta: <span class="next-date" id="nextDate">—</span></p>
+  </div>
+
+  <p class="explain">Kaip tai veikia: kiekviena kortelė turi savo pakartojimo intervalą. Atsakius teisingai, intervalas ilgėja (1 d. → 6 d. → 2–3 savaitės → mėnesiai); atsakius „Nežinojau", jis grąžinamas prie 1 dienos. Taip laikas skiriamas toms kortelėms, kurios dar neįsiminė.</p>
+
+  <footer>
+    Progresas saugomas šiame naršyklės įrenginyje (localStorage) — nekeliauja tarp įrenginių ir dingsta, jei
+    išvalomi naršyklės duomenys.
+    <br><br>
+    <button class="reset" id="resetBtn">Atstatyti progresą</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DECK = [{"id": "c1", "topic": "Taisyklė", "front": "Kaip sudėti skaičius su vienodais ženklais?", "back": "Rašau bendrą ženklą, po jo sudedu modulius.\n−8 + (−7) = −15"}, {"id": "c2", "topic": "Taisyklė", "front": "Kaip sudėti skaičius su skirtingais ženklais?", "back": "Iš didesnio modulio atimu mažesnį, imu didesniojo ženklą.\n−8 + 3 = −5"}, {"id": "c3", "topic": "Formulė", "front": "Atimtis: a − b = ?", "back": "a − b = a + (−b)\nAtimti = pridėti priešingą."}, {"id": "c4", "topic": "Dėmesio", "front": "−(−7) = ?", "back": "+7. Du minusai iš eilės virsta pliusu.\na − (−b) = a + b"}, {"id": "c5", "topic": "Taisyklė", "front": "Kam lygi priešingų skaičių suma?", "back": "Nuliui.\n−7 + 7 = 0\na + (−a) = 0"}, {"id": "c6", "topic": "Taisyklė", "front": "Kas yra algebrinė suma?", "back": "Reiškinys su tik sudėtimi ir atimtimi, užrašytas kaip suma.\n−20 − 15 = −20 + (−15)"}, {"id": "c7", "topic": "Pavyzdys", "front": "Apskaičiuok: −3 − (−7)", "back": "−3 + 7 = 4"}, {"id": "c8", "topic": "Dėmesio", "front": "5 − (−8) = ?", "back": "NE −3, o 13.\n5 − (−8) = 5 + 8 = 13"}, {"id": "c9", "topic": "Pavyzdys", "front": "Apskaičiuok: −14 + 20 − 8", "back": "20 + (−14 − 8) = 20 + (−22) = −2"}, {"id": "c10", "topic": "Auksinė taisyklė", "front": "Du žingsniai, kurių niekada nepamirštu sprendžiant sudėtį/atimtį?", "back": "1) Sutvarkau ženklus (du minusai iš eilės → pliusas).\n2) Vienodi ženklai → modulius sudedu; skirtingi → atimu (iš didesnio mažesnį)."}, {"id": "c11", "topic": "Pavyzdys", "front": "Apskaičiuok: −30 + (−90)", "back": "Vienodi ženklai, sudedu modulius:\n−(30 + 90) = −120"}, {"id": "c12", "topic": "Pavyzdys", "front": "Apskaičiuok: 12 + (−20)", "back": "Skirtingi ženklai: 20 − 12 = 8,\nimu didesniojo modulio ženklą (−20): −8"}, {"id": "c13", "topic": "Pavyzdys", "front": "Apskaičiuok: −17 + 37", "back": "Skirtingi ženklai: 37 − 17 = 20,\nimu didesniojo modulio ženklą (37): +20"}, {"id": "c14", "topic": "Dėmesio", "front": "−7 − 7 = ?", "back": "NE 0! Tai −7 + (−7) = −14.\nNuliui lygu tik priešingų skaičių suma: −7 + 7 = 0."}, {"id": "c15", "topic": "Pavyzdys", "front": "Apskaičiuok: 7 − (−6)", "back": "Atimti (−6) = pridėti 6:\n7 + 6 = 13"}, {"id": "c16", "topic": "Pavyzdys", "front": "Apskaičiuok: −8 − (−20)", "back": "Atimti (−20) = pridėti 20:\n−8 + 20 = 12"}, {"id": "c17", "topic": "Dėmesio", "front": "Kodėl 4 − 11 ≠ 7?", "back": "Nuo mažesnio atimamas didesnis — rezultatas neigiamas:\n4 − 11 = −7, ne 7."}, {"id": "c18", "topic": "Taisyklė", "front": "Kaip atimti neigiamą skaičių: a − (−b)?", "back": "Du minusai iš eilės virsta pliusu:\na − (−b) = a + b"}, {"id": "c19", "topic": "Pavyzdys", "front": "Apskaičiuok: −20 − 15 + 25 − 10", "back": "Sugrupuoju algebrinę sumą:\n(−20 − 15 − 10) + 25 = −45 + 25 = −20"}, {"id": "c20", "topic": "Auksinė taisyklė", "front": "Kaip patikrinti, ar atsakymo ženklas teisingas (skirtingi ženklai)?", "back": "Atsakymo ženklas turi sutapti su to skaičiaus ženklu, kurio MODULIS didesnis."}, {"id": "c21", "topic": "Skirtingi ženklai", "front": "Apskaičiuok: +5 + (−7)", "back": "Skirtingi ženklai: 7 − 5 = 2,\nimu didesniojo modulio (−7) ženklą: −2"}, {"id": "c22", "topic": "Vienodi ženklai", "front": "Apskaičiuok: −5 + (−7)", "back": "Vienodi ženklai, sudedu modulius:\n−(5 + 7) = −12"}, {"id": "c23", "topic": "Vienodi ženklai", "front": "Apskaičiuok: +5 + (+25)", "back": "Vienodi ženklai (abu +):\n5 + 25 = 30"}, {"id": "c24", "topic": "Skirtingi ženklai", "front": "Apskaičiuok: −5 + (+25)", "back": "Skirtingi ženklai: 25 − 5 = 20,\nimu didesniojo modulio (+25) ženklą: +20"}, {"id": "c25", "topic": "Vienodi ženklai", "front": "Apskaičiuok: −5 + (−25)", "back": "Vienodi ženklai, sudedu modulius:\n−(5 + 25) = −30"}, {"id": "c26", "topic": "Vienodi ženklai", "front": "Apskaičiuok: −9 + (−6)", "back": "Vienodi ženklai, sudedu modulius:\n−(9 + 6) = −15"}, {"id": "c27", "topic": "Skirtingi ženklai", "front": "Apskaičiuok: −5 + (+7)", "back": "Skirtingi ženklai: 7 − 5 = 2,\nimu didesniojo modulio (+7) ženklą: +2"}, {"id": "c28", "topic": "Skirtingi ženklai", "front": "Apskaičiuok: −5 + (+8)", "back": "Skirtingi ženklai: 8 − 5 = 3,\nimu didesniojo modulio (+8) ženklą: +3"}, {"id": "c29", "topic": "Priešingi skaičiai", "front": "Apskaičiuok: −5 + (+5)", "back": "Priešingi skaičiai, suma lygi 0."}, {"id": "c30", "topic": "Priešingi skaičiai", "front": "Apskaičiuok: −6 + (+6)", "back": "Priešingi skaičiai, suma lygi 0."}, {"id": "c31", "topic": "Teigiamas − teigiamas", "front": "Apskaičiuok: 15 − 9", "back": "Abu teigiami, didesnis > mažesnis:\n15 − 9 = 6"}, {"id": "c32", "topic": "Teigiamas − teigiamas", "front": "Apskaičiuok: 7 − 12", "back": "Abu teigiami, bet mažesnis − didesnis:\nrezultatas neigiamas, 7 − 12 = −5"}, {"id": "c33", "topic": "Teigiamas − neigiamas", "front": "Apskaičiuok: 6 − (−9)", "back": "Atimti (−9) = pridėti 9:\n6 + 9 = 15"}, {"id": "c34", "topic": "Teigiamas − neigiamas", "front": "Apskaičiuok: 11 − (−7)", "back": "Atimti (−7) = pridėti 7:\n11 + 7 = 18"}, {"id": "c35", "topic": "Teigiamas − neigiamas", "front": "Apskaičiuok: 20 − (−5)", "back": "Atimti (−5) = pridėti 5:\n20 + 5 = 25"}, {"id": "c36", "topic": "Neigiamas − teigiamas", "front": "Apskaičiuok: −6 − 9", "back": "−6 − 9 = −6 + (−9) = −15"}, {"id": "c37", "topic": "Neigiamas − teigiamas", "front": "Apskaičiuok: −11 − 7", "back": "−11 − 7 = −11 + (−7) = −18"}, {"id": "c38", "topic": "Neigiamas − teigiamas", "front": "Apskaičiuok: −20 − 5", "back": "−20 − 5 = −20 + (−5) = −25"}, {"id": "c39", "topic": "Neigiamas − neigiamas", "front": "Apskaičiuok: −6 − (−9)", "back": "Atimti (−9) = pridėti 9:\n−6 + 9 = 3"}, {"id": "c40", "topic": "Neigiamas − neigiamas", "front": "Apskaičiuok: −11 − (−7)", "back": "Atimti (−7) = pridėti 7:\n−11 + 7 = −4"}];
+  var STORAGE_KEY = "atmintine_" + "6kl-racionaliuju-sudetis-atimtis";
+
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  }
+  function addDays(dateStr, n){
+    var parts = dateStr.split("-").map(Number);
+    var d = new Date(parts[0], parts[1]-1, parts[2]);
+    d.setDate(d.getDate()+n);
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  }
+  function daysBetween(a,b){
+    var pa=a.split("-").map(Number), pb=b.split("-").map(Number);
+    var da=new Date(pa[0],pa[1]-1,pa[2]), db=new Date(pb[0],pb[1]-1,pb[2]);
+    return Math.round((db-da)/86400000);
+  }
+  function formatDate(dateStr){
+    var p = dateStr.split("-").map(Number);
+    var d = new Date(p[0],p[1]-1,p[2]);
+    return d.toLocaleDateString("lt-LT", {day:"numeric", month:"long"});
+  }
+
+  function freshState(){
+    var today = todayStr();
+    var cards = {};
+    DECK.forEach(function(c){
+      cards[c.id] = {ef:2.5, interval:0, reps:0, due:today};
+    });
+    return {cards:cards, doneToday:0, lastSeenDate:today};
+  }
+
+  function loadState(){
+    var raw;
+    try{ raw = localStorage.getItem(STORAGE_KEY); }catch(e){ raw = null; }
+    if(!raw) return freshState();
+    try{
+      var parsed = JSON.parse(raw);
+      var today = todayStr();
+      if(parsed.lastSeenDate !== today){ parsed.doneToday = 0; parsed.lastSeenDate = today; }
+      DECK.forEach(function(c){
+        if(!parsed.cards[c.id]) parsed.cards[c.id] = {ef:2.5, interval:0, reps:0, due:today};
+      });
+      return parsed;
+    }catch(e){ return freshState(); }
+  }
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  var state = loadState();
+  var queue = [];
+  var currentId = null;
+  var flipped = false;
+
+  var elCard = document.getElementById("card");
+  var elFront = document.getElementById("front");
+  var elBack = document.getElementById("back");
+  var elTopicFront = document.getElementById("topicFront");
+  var elTopicBack = document.getElementById("topicBack");
+  var elRateRow = document.getElementById("rateRow");
+  var elStage = document.getElementById("stage");
+  var elDone = document.getElementById("doneScreen");
+  var elNextDate = document.getElementById("nextDate");
+  var elDoneTitle = document.getElementById("doneTitle");
+  var elStatDue = document.getElementById("statDue");
+  var elStatDone = document.getElementById("statDone");
+  var elStatTotal = document.getElementById("statTotal");
+
+  function buildQueue(){
+    var today = todayStr();
+    queue = DECK.filter(function(c){ return state.cards[c.id].due <= today; })
+                .map(function(c){ return c.id; });
+  }
+
+  function cardById(id){ return DECK.filter(function(c){ return c.id===id; })[0]; }
+
+  function updateStats(){
+    elStatDue.textContent = queue.length;
+    elStatDone.textContent = state.doneToday;
+    elStatTotal.textContent = DECK.length;
+  }
+
+  function nextDueOverall(){
+    var min = null;
+    DECK.forEach(function(c){
+      var due = state.cards[c.id].due;
+      if(min===null || due < min) min = due;
+    });
+    return min;
+  }
+
+  function showDone(){
+    elStage.style.display = "none";
+    elRateRow.classList.add("hidden");
+    elDone.style.display = "flex";
+    var next = nextDueOverall();
+    var today = todayStr();
+    var diff = daysBetween(today, next);
+    if(diff<=0){ elNextDate.textContent = "šiandien"; }
+    else if(diff===1){ elNextDate.textContent = "rytoj (" + formatDate(next) + ")"; }
+    else{ elNextDate.textContent = formatDate(next) + " (po " + diff + " d.)"; }
+    elDoneTitle.textContent = state.doneToday>0 ? "Visos šiandienos kortelės pakartotos!" : "Šiandien kortelių nėra";
+  }
+
+  function showCard(){
+    if(queue.length===0){ updateStats(); showDone(); return; }
+    elStage.style.display = "flex";
+    elDone.style.display = "none";
+    currentId = queue[0];
+    var c = cardById(currentId);
+    elTopicFront.textContent = c.topic || "";
+    elTopicBack.textContent = c.topic || "";
+    elFront.textContent = c.front;
+    elBack.textContent = c.back;
+    flipped = false;
+    elCard.classList.remove("flipped");
+    elRateRow.classList.add("hidden");
+    updateStats();
+  }
+
+  function flip(){
+    if(!currentId) return;
+    flipped = !flipped;
+    elCard.classList.toggle("flipped", flipped);
+    elRateRow.classList.toggle("hidden", !flipped);
+  }
+
+  function rate(q){
+    if(!currentId || !flipped) return;
+    var cs = state.cards[currentId];
+    var quality = [2,3,4,5][q];
+    if(quality < 3){
+      cs.reps = 0;
+      cs.interval = 1;
+    } else {
+      cs.reps += 1;
+      if(cs.reps === 1) cs.interval = 1;
+      else if(cs.reps === 2) cs.interval = 6;
+      else cs.interval = Math.round(cs.interval * cs.ef);
+      cs.ef = cs.ef + (0.1 - (5-quality)*(0.08 + (5-quality)*0.02));
+      if(cs.ef < 1.3) cs.ef = 1.3;
+    }
+    cs.due = addDays(todayStr(), cs.interval);
+    state.doneToday += 1;
+    saveState();
+    queue.shift();
+    showCard();
+  }
+
+  elCard.addEventListener("click", flip);
+  elCard.addEventListener("keydown", function(e){
+    if(e.key===" " || e.key==="Enter"){ e.preventDefault(); flip(); }
+  });
+  elRateRow.querySelectorAll(".rate-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){ rate(Number(btn.getAttribute("data-q"))); });
+  });
+  document.addEventListener("keydown", function(e){
+    if(flipped && ["1","2","3","4"].indexOf(e.key) !== -1){
+      rate(Number(e.key)-1);
+    }
+  });
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    if(!window.confirm("Atstatyti visą pakartojimo progresą šiai kolodai šiame įrenginyje?")) return;
+    state = freshState();
+    saveState();
+    buildQueue();
+    showCard();
+  });
+
+  buildQueue();
+  showCard();
+})();
+</script>
+</body>
+</html>
