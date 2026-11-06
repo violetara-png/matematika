@@ -112,6 +112,16 @@
   }
   button.roll:disabled { opacity: .5; cursor: default; }
   button.roll:hover:not(:disabled) { background: var(--gold-dark); }
+  button.sound-toggle {
+    background: #fff;
+    border: 2px solid var(--road);
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.sound-toggle:hover { border-color: var(--gold); }
   .board {
     position: relative;
     flex: 1;
@@ -247,6 +257,7 @@
         <div class="die" id="die">⚀</div>
         <div class="message" id="message"></div>
         <button class="roll" id="rollBtn">🎲 Mesti kauliuką</button>
+        <button class="sound-toggle" id="soundBtn" title="Įjungti/išjungti garsą">🔊</button>
       </div>
       <div class="board" id="board">
         <span class="deco" style="top:4px;left:4px;">🌲</span>
@@ -391,6 +402,39 @@ function updateTopbar() {
   document.getElementById('progressBar').style.width = ((current - 1) / (TOTAL_CELLS - 1) * 100) + '%';
 }
 
+let soundOn = true;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function beep(freq, duration, type, volume, delay) {
+  if (!soundOn) return;
+  const ctx = getAudioCtx();
+  const t0 = ctx.currentTime + (delay || 0);
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(volume || 0.2, t0 + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t0);
+  osc.stop(t0 + duration + 0.02);
+}
+function playDiceTick() { beep(300 + Math.random() * 250, 0.05, 'square', 0.14); }
+function playStepSound(reverse) { beep(reverse ? 330 : 520, 0.06, 'triangle', 0.12); }
+function playCorrectSound() { beep(523.25, 0.12, 'sine', 0.22); beep(659.25, 0.18, 'sine', 0.22, 0.12); }
+function playWrongSound() { beep(180, 0.28, 'sawtooth', 0.18); }
+
+const soundBtn = document.getElementById('soundBtn');
+soundBtn.onclick = () => {
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? '🔊' : '🔇';
+};
+
 const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 function rollDice() {
@@ -401,6 +445,7 @@ function rollDice() {
   let ticks = 0;
   const spin = setInterval(() => {
     die.textContent = diceFaces[Math.floor(Math.random() * 6)];
+    playDiceTick();
     ticks++;
     if (ticks > 8) {
       clearInterval(spin);
@@ -419,6 +464,7 @@ function movePlayer(steps) {
       moved++;
       placeToken();
       updateTopbar();
+      playStepSound(false);
     } else {
       clearInterval(step);
       resolveCell();
@@ -434,6 +480,7 @@ function moveBack(n) {
       moved++;
       placeToken();
       updateTopbar();
+      playStepSound(true);
     } else {
       clearInterval(step);
       resolveCell();
@@ -503,9 +550,11 @@ function answerQuestion(picked, correct, wrap) {
     updateTopbar();
     feedback.textContent = '✅ Teisingai! +1 ⭐';
     feedback.style.color = '#2e8b4f';
+    playCorrectSound();
   } else {
     feedback.textContent = '❌ Neteisingai. Teisingas atsakymas: ' + correct;
     feedback.style.color = '#c23652';
+    playWrongSound();
   }
   setTimeout(() => {
     document.getElementById('questionOverlay').classList.remove('show');
