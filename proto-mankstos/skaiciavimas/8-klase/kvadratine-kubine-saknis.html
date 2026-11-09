@@ -52,7 +52,7 @@
 <header>
   <a class="grizti" href="./">← 8 klasė</a>
   <h1>√ ∛ Kvadratinė ir kubinė šaknis</h1>
-  <p>Tikslūs kvadratai/kubai ir supaprastinimas iki k√m</p>
+  <p>Pošaknis — tikslus kvadratas (1–20)² arba kubas (1–10)³</p>
 </header>
 <div class="wrap">
   <div class="stats">
@@ -68,8 +68,8 @@
     <button class="ctrl" id="soundBtn" onclick="toggleSound()">🔊 Garsas</button>
   </div>
   <div class="howto">
-    <b>Kaip žaisti:</b> jei pošaknis — tikslus kvadratas/kubas, atsakymas yra sveikasis skaičius. Jei ne,
-    išskaidyk į didžiausią tikslų kvadratą (kubą) ir likutį: √50 = √(25·2) = 5√2.
+    <b>Kaip žaisti:</b> pošaknis visada gautas keliant 1–20 kvadratu arba 1–10 kubu, tad atsakymas —
+    sveikasis skaičius. Kubinės šaknies pošaknis gali būti ir neigiamas.
   </div>
 </div>
 <footer>Proto mankšta · veikia be interneto, atsidaro bet kurioje naršyklėje</footer>
@@ -179,65 +179,27 @@ async function startGame(){
   await nextRound();
 }
 
-const SQUAREFREE = [2, 3, 5, 6, 7, 10, 11, 13, 14, 15];
-const CUBEFREE = [2, 3, 4, 5, 6, 7, 9, 10];
-
 async function nextRound(){
   accepting = false;
   const isCube = Math.random() < 0.4;
   const sym = isCube ? '∛' : '√';
-  const perfect = Math.random() < (isCube ? 0.55 : 0.35);
 
   let options;
   if(!isCube){
-    if(perfect){
-      const k = 2 + Math.floor(Math.random() * 11);
-      const n = k * k;
-      correctStr = String(k);
-      exprEl.textContent = sym + n + ' = ?';
-      options = new Set([correctStr, String(k - 1), String(k + 1), String(k * 2), String(n)]);
-    }else{
-      const k = 2 + Math.floor(Math.random() * 4);
-      const allowedM = SQUAREFREE.filter(x => k * k * x <= 80);
-      const m = randItem(allowedM.length ? allowedM : [2]);
-      const n = k * k * m;
-      correctStr = formatRadical(k, m, sym);
-      exprEl.textContent = sym + n + ' = ?';
-      const otherPool = SQUAREFREE.filter(x => x !== m && k * k * x <= 80);
-      const otherM = randItem(otherPool.length ? otherPool : [m === 2 ? 3 : 2]);
-      options = new Set([
-        correctStr,
-        sym + n,
-        formatRadical(k * k, m, sym),
-        formatRadical(k, otherM, sym),
-        formatRadical(k + 1, m, sym),
-      ]);
-    }
+    // Mokiniai traukia šaknį tik iš skaičių, gautų keliant kvadratu skaičius 1–20.
+    const k = 1 + Math.floor(Math.random() * 20);
+    const n = k * k;
+    correctStr = String(k);
+    exprEl.textContent = sym + n + ' = ?';
+    options = new Set([correctStr, String(k - 1), String(k + 1), String(k + 2)]);
   }else{
-    if(perfect){
-      let k = 2 + Math.floor(Math.random() * 5);
-      if(Math.random() < 0.4) k = -k;
-      const n = k * k * k;
-      correctStr = String(k);
-      exprEl.textContent = sym + (n < 0 ? '(' + n + ')' : n) + ' = ?';
-      options = new Set([correctStr, String(-k), String(k + (k > 0 ? 1 : -1)), String(Math.abs(k))]);
-    }else{
-      const k = 2 + Math.floor(Math.random() * 3);
-      const allowedM = CUBEFREE.filter(x => k * k * k * x <= 100);
-      const m = randItem(allowedM.length ? allowedM : [2]);
-      const n = k * k * k * m;
-      correctStr = formatRadical(k, m, sym);
-      exprEl.textContent = sym + n + ' = ?';
-      const otherPool = CUBEFREE.filter(x => x !== m && k * k * k * x <= 100);
-      const otherM = randItem(otherPool.length ? otherPool : [m === 2 ? 3 : 2]);
-      options = new Set([
-        correctStr,
-        sym + n,
-        formatRadical(k * k, m, sym),
-        formatRadical(k, otherM, sym),
-        formatRadical(k + 1, m, sym),
-      ]);
-    }
+    // Mokiniai traukia šaknį tik iš skaičių, gautų keliant kubu skaičius 1–10 (gali būti neigiami).
+    let k = 1 + Math.floor(Math.random() * 10);
+    if(Math.random() < 0.4) k = -k;
+    const n = k * k * k;
+    correctStr = String(k);
+    exprEl.textContent = sym + (n < 0 ? '(' + n + ')' : n) + ' = ?';
+    options = new Set([correctStr, String(-k), String(k > 0 ? k - 1 : k + 1), String((k > 0 ? k : -k) + 1)]);
   }
 
   options.delete(correctStr);
