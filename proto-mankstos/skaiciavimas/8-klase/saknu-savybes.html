@@ -180,7 +180,7 @@ async function nextRound(){
     q = 1 + Math.floor(Math.random() * 3);
     if(q === p) q = (q % 3) + 1;
     const maxSide = Math.max(p, q);
-    const allowedM = MPOOL.filter(x => maxSide * maxSide * x <= 36);
+    const allowedM = MPOOL.filter(x => maxSide * maxSide * x <= 20);
     if(!allowedM.length) continue;
     m = randItem(allowedM);
     a = p * p * m;
@@ -200,7 +200,7 @@ async function nextRound(){
     String(a + b),
     String(p * q),
     String(answer + m),
-    String(a * b),
+    String(p + q + m),
     useNeg ? String(-answer) : String(answer + 1),
   ]);
   options.delete(correctStr);
