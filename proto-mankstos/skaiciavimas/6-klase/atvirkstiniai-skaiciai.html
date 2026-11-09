@@ -27,8 +27,13 @@
   .timerBar{height:100%; width:100%; background:var(--accent2); border-radius:6px}
   .timerBar.hurry{background:var(--bad)}
   .expr{font-size:clamp(22px,6.5vw,34px); font-weight:700; margin:0 0 16px; text-align:center}
-  .expr .lbl{display:block; font-size:.4em; font-weight:600; color:var(--muted); margin-bottom:4px}
-  .expr .tail{display:block; font-size:.5em; font-weight:600; color:var(--muted); margin-top:4px}
+  .expr .lbl{display:block; font-size:.4em; font-weight:600; color:var(--muted); margin-bottom:8px}
+  .expr .row{display:flex; align-items:center; justify-content:center; gap:12px}
+  .expr .eq{font-size:.75em}
+  .fr{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; line-height:1.15;
+    font-family:"Cambria Math",Cambria,Georgia,serif; font-size:.85em}
+  .fr>span:first-child{border-bottom:2px solid currentColor; padding:0 6px 2px}
+  .fr>span:last-child{padding:2px 6px 0}
   .display{width:100%; max-width:280px; padding:14px; font-size:26px; text-align:center; font-weight:700;
     border:2px solid var(--accent2); border-radius:12px; background:#fff; color:var(--ink); margin-bottom:14px; min-height:26px}
   .keys{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; max-width:280px; margin-bottom:18px}
@@ -207,7 +212,9 @@ async function nextRound(){
   let n = 1 + Math.floor(Math.random() * (10 + level));
   if(Math.random() < 0.5) n = -n;
   correctAnswer = n;
-  exprEl.innerHTML = '<span class="lbl">Atvirkštinis skaičiui</span>' + formatTerm(n) + '<span class="tail">= 1 / ?</span>';
+  exprEl.innerHTML = '<span class="lbl">Atvirkštinis skaičiui</span>'
+    + '<span class="row">' + formatTerm(n) + '<span class="eq">=</span>'
+    + '<span class="fr"><span>1</span><span>?</span></span></span>';
   const timeLimit = Math.max(3200, 6200 - level * 280);
   setMsg('Įrašyk atsakymą ir spausk ✓', 'info');
   accepting = true;
