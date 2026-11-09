@@ -170,16 +170,23 @@ async function startGame(){
   await nextRound();
 }
 
-const MPOOL = [2, 3, 5, 6, 7, 10, 11];
+const MPOOL = [2, 3, 5, 6, 7];
 
 async function nextRound(){
   accepting = false;
-  const m = randItem(MPOOL);
-  const p = 1 + Math.floor(Math.random() * 4);
-  let q = 1 + Math.floor(Math.random() * 4);
-  if(q === p) q = (q % 4) + 1;
-  const a = p * p * m;
-  const b = q * q * m;
+  let p, q, m, a, b;
+  for(let tries = 0; tries < 30; tries++){
+    p = 1 + Math.floor(Math.random() * 3);
+    q = 1 + Math.floor(Math.random() * 3);
+    if(q === p) q = (q % 3) + 1;
+    const maxSide = Math.max(p, q);
+    const allowedM = MPOOL.filter(x => maxSide * maxSide * x <= 36);
+    if(!allowedM.length) continue;
+    m = randItem(allowedM);
+    a = p * p * m;
+    b = q * q * m;
+    break;
+  }
   const answer = p * q * m;
   const useNeg = Math.random() < 0.35;
 

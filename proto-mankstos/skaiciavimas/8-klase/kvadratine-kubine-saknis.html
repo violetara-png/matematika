@@ -191,18 +191,20 @@ async function nextRound(){
   let options;
   if(!isCube){
     if(perfect){
-      const k = 2 + Math.floor(Math.random() * 18);
+      const k = 2 + Math.floor(Math.random() * 11);
       const n = k * k;
       correctStr = String(k);
       exprEl.textContent = sym + n + ' = ?';
       options = new Set([correctStr, String(k - 1), String(k + 1), String(k * 2), String(n)]);
     }else{
-      const k = 2 + Math.floor(Math.random() * 9);
-      const m = randItem(SQUAREFREE);
+      const k = 2 + Math.floor(Math.random() * 4);
+      const allowedM = SQUAREFREE.filter(x => k * k * x <= 80);
+      const m = randItem(allowedM.length ? allowedM : [2]);
       const n = k * k * m;
       correctStr = formatRadical(k, m, sym);
       exprEl.textContent = sym + n + ' = ?';
-      const otherM = randItem(SQUAREFREE.filter(x => x !== m));
+      const otherPool = SQUAREFREE.filter(x => x !== m && k * k * x <= 80);
+      const otherM = randItem(otherPool.length ? otherPool : [m === 2 ? 3 : 2]);
       options = new Set([
         correctStr,
         sym + n,
@@ -213,19 +215,21 @@ async function nextRound(){
     }
   }else{
     if(perfect){
-      let k = 2 + Math.floor(Math.random() * 9);
+      let k = 2 + Math.floor(Math.random() * 5);
       if(Math.random() < 0.4) k = -k;
       const n = k * k * k;
       correctStr = String(k);
       exprEl.textContent = sym + (n < 0 ? '(' + n + ')' : n) + ' = ?';
       options = new Set([correctStr, String(-k), String(k + (k > 0 ? 1 : -1)), String(Math.abs(k))]);
     }else{
-      const k = 2 + Math.floor(Math.random() * 5);
-      const m = randItem(CUBEFREE);
+      const k = 2 + Math.floor(Math.random() * 3);
+      const allowedM = CUBEFREE.filter(x => k * k * k * x <= 100);
+      const m = randItem(allowedM.length ? allowedM : [2]);
       const n = k * k * k * m;
       correctStr = formatRadical(k, m, sym);
       exprEl.textContent = sym + n + ' = ?';
-      const otherM = randItem(CUBEFREE.filter(x => x !== m));
+      const otherPool = CUBEFREE.filter(x => x !== m && k * k * k * x <= 100);
+      const otherM = randItem(otherPool.length ? otherPool : [m === 2 ? 3 : 2]);
       options = new Set([
         correctStr,
         sym + n,
