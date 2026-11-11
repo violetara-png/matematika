@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 klasė — lapkričio kartojimo įsivertinimo testas (I variantas)</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --green:#0a7d52; --green-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --red:#c62828; --red-sv:#fdecec;
+    --ink:#1c2430; --grey:#5b6472; --line:#d8dee6;
+    --gold:#c9930a;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);line-height:1.5;margin:0;background:#f4f6f9}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  /* Bendra matematikos notacija (references/matematikos-notacija/notacija.css) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em;}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em);}
+  .sqrt.cbrt::before{content:"∛";}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px;}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em);}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px;}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.6em;font-weight:400;line-height:1;transform:scaleY(1.35);transform-origin:center;display:inline-block;}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3;}
+  .sys .rows span{white-space:nowrap;}
+  sup, sub{line-height:0;}
+  .lapas{max-width:880px;margin:0 auto;padding:0 20px 60px}
+  header.top{background:var(--tema);color:#fff;padding:28px 20px 22px;margin-bottom:0}
+  header.top .inner{max-width:840px;margin:0 auto}
+  header.top h1{margin:0 0 6px;font-size:26px}
+  header.top p{margin:0;color:#cfe0f4;font-size:14px;font-weight:600}
+  .instr{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--grey)}
+  .instr b{color:var(--tema)}
+  .score-bar{position:sticky;top:0;z-index:20;background:#fff;border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 2px 10px rgba(20,40,90,.08);padding:12px 18px;margin:14px 0 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .score-bar .pts{font-size:20px;font-weight:800;color:var(--tema)}
+  .score-bar .sub{font-size:13px;color:var(--grey);font-weight:600}
+  .score-bar .bar{flex:1;min-width:140px;height:10px;background:var(--tema-sv);border-radius:6px;overflow:hidden}
+  .score-bar .bar>div{height:100%;background:var(--green);width:0%;transition:width .25s}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(20,40,90,.06)}
+  .card .banner{background:var(--tema);color:#fff;padding:9px 16px;font-weight:700;font-size:13.5px;display:flex;gap:10px;align-items:center}
+  .card .banner .badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;
+    background:rgba(255,255,255,.22);border-radius:6px;font-size:12px;font-weight:800;padding:0 5px}
+  .card .body{padding:14px 18px 16px}
+  .given{font-size:15.5px;margin:0 0 12px}
+  .fieldrow{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+  .fieldrow label{font-weight:700;color:var(--tema);min-width:70px}
+  .fieldrow input{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:15px;padding:7px 10px;
+    border:1.5px solid var(--line);border-radius:7px;width:220px;max-width:60vw}
+  .fieldrow input:focus{outline:none;border-color:var(--tema)}
+  .insb{border:1.5px solid var(--line);background:#fbfcfe;border-radius:7px;min-width:34px;height:34px;padding:0 8px;
+    font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;color:var(--tema);cursor:pointer}
+  .insb:hover{background:var(--tema-sv)}
+  .exprhint{font-size:12.5px;color:var(--grey);margin:-2px 0 8px}
+  .opentools{display:flex;gap:8px;margin:6px 0 10px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .opt{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:8px 12px;cursor:pointer;
+    font-size:14.5px;display:flex;gap:6px;align-items:center;user-select:none}
+  .opt .k{font-weight:800;color:var(--tema)}
+  .opt.sel{border-color:var(--tema);background:var(--tema-sv)}
+  .opt.locked{cursor:default}
+  .actions{margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  button.check{background:var(--tema);color:#fff;border:0;border-radius:8px;padding:8px 18px;font-size:14px;
+    font-weight:700;cursor:pointer}
+  button.check:hover{background:#174e8c}
+  button.check:disabled{background:#b7c4d8;cursor:default}
+  .fb{font-weight:700;font-size:14.5px;padding:8px 12px;border-radius:8px;display:none}
+  .fb.ok{display:block;background:var(--green-sv);color:var(--green)}
+  .fb.bad{display:block;background:var(--red-sv);color:var(--red)}
+  .fb .ans{font-weight:800}
+  textarea.opentxt{width:100%;min-height:64px;font-family:inherit;font-size:14.5px;padding:9px 11px;
+    border:1.5px solid var(--line);border-radius:7px;resize:vertical;box-sizing:border-box}
+  textarea.opentxt:focus{outline:none;border-color:var(--tema)}
+  .sample{background:var(--pvz-sv);border:1px solid #f0d3ab;border-radius:8px;padding:10px 12px;margin-top:10px;
+    font-size:14.5px;color:var(--pvz);display:none}
+  .sample b{color:var(--pvz)}
+  .selfrow{display:none;margin-top:10px;gap:10px;flex-wrap:wrap}
+  button.self{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:7px 14px;font-size:14px;
+    font-weight:700;cursor:pointer}
+  button.self.y{color:var(--green);border-color:var(--green)}
+  button.self.y:hover{background:var(--green-sv)}
+  button.self.n{color:var(--red);border-color:var(--red)}
+  button.self.n:hover{background:var(--red-sv)}
+
+  .result{background:linear-gradient(135deg,var(--tema),#123f70);color:#fff;border-radius:14px;
+    padding:26px 26px 22px;margin:26px 0;text-align:center}
+  .result h2{margin:0 0 10px;font-size:19px;color:#cfe0f4;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+  .result .grade{font-size:64px;font-weight:900;color:#ffe08a;line-height:1}
+  .result .row{margin-top:10px;font-size:16px;color:#eaf1fb}
+  .result .comment{margin-top:12px;font-size:14.5px;color:#dbe7f7;font-style:italic}
+  .result .warn{margin-top:10px;font-size:13px;color:#ffd9a0}
+
+  footer{text-align:center;color:var(--grey);font-size:12px;margin-top:10px;padding-top:14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="inner">
+  <h1>4 klasė — lapkričio kartojimo įsivertinimo testas (I variantas)</h1>
+  <p>Matematika · 4 klasė · mišrus kartojimas</p>
+</div></header>
+
+<div class="lapas">
+
+  <div class="instr">
+    <b>Kaip naudotis.</b> Spręsk pratimus bet kokia tvarka. Kiekvieną pratimą patikrink mygtuku „Tikrinti“ — iškart pamatysi, ar teisingai, ir teisingą atsakymą. Kiekvienas pratimas vertas 1 tašką (jei pratime kelios dalys — taškas skiriamas tik kai <b>visos</b> dalys teisingos). Atviro atsakymo pratimuose (kur atsakymų gali būti kelios teisingos formuluotės) paspaudus „Rodyti atsakymą“ pamatysi pavyzdinį atsakymą ir pats pažymėsi, ar atsakei teisingai. Rezultatas ir pažymys apačioje atsinaujina automatiškai. Niekur nesiunčiama — testas skirtas tik tavo pačio pasitikrinimui.
+  </div>
+
+  <div class="score-bar">
+    <div class="pts">🎯 <span id="scoreNow">0</span> / <span id="scoreMax">0</span> t.</div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="sub">Patikrinta: <span id="doneCount">0</span>/<span id="doneMax">0</span></div>
+  </div>
+
+  <div id="exercises"></div>
+
+  <div class="result" id="resultBox">
+    <h2>Bendras rezultatas</h2>
+    <div class="grade" id="gradeOut">—</div>
+    <div class="row"><span id="ptsOut">0 / 0</span> taškų &nbsp;·&nbsp; <span id="pctOut">0%</span></div>
+    <div class="comment" id="commentOut"></div>
+    <div class="warn" id="warnOut"></div>
+  </div>
+
+  <footer>Mokytoja Violeta · 4 klasės matematika · kartojimo įsivertinimo testas</footer>
+</div>
+
+<script>
+const EXERCISES = [{"kicker": "Trupmena ir dešimtainis skaičius", "given": "Kuri dešimtainė trupmena atitinka <span class=\"fr\"><span>6</span><span>10</span></span>?", "type": "mc", "options": [{"k": "A", "t": "6,0"}, {"k": "B", "t": "0,6"}, {"k": "C", "t": "0,06"}, {"k": "D", "t": "60,0"}], "correct": "B"}, {"kicker": "Trupmena ir dešimtainis skaičius", "given": "Kuri dešimtainė trupmena atitinka <span class=\"fr\"><span>23</span><span>100</span></span>?", "type": "mc", "options": [{"k": "A", "t": "2,3"}, {"k": "B", "t": "0,023"}, {"k": "C", "t": "0,23"}, {"k": "D", "t": "23,0"}], "correct": "C"}, {"kicker": "Trupmena ir dešimtainis skaičius", "given": "Kuri dešimtainė trupmena atitinka 2 sveikus ir <span class=\"fr\"><span>2</span><span>10</span></span>?", "type": "mc", "options": [{"k": "A", "t": "2,02"}, {"k": "B", "t": "0,22"}, {"k": "C", "t": "22,0"}, {"k": "D", "t": "2,2"}], "correct": "D"}, {"kicker": "Trupmena ir dešimtainis skaičius", "given": "Kuri dešimtainė trupmena atitinka 6 sveikus ir <span class=\"fr\"><span>1</span><span>10</span></span>?", "type": "mc", "options": [{"k": "A", "t": "6,1"}, {"k": "B", "t": "6,01"}, {"k": "C", "t": "1,6"}, {"k": "D", "t": "61,0"}], "correct": "A"}, {"kicker": "Skaičių seka", "given": "Kokie du skaičiai turi būti sekoje: <span class=\"math\">657, 658, 659, …, 661, …</span>?", "type": "mc", "options": [{"k": "A", "t": "558 ir 662"}, {"k": "B", "t": "660 ir 662"}, {"k": "C", "t": "662 ir 663"}, {"k": "D", "t": "600 ir 602"}], "correct": "B"}, {"kicker": "Skaičių seka", "given": "Kokie du skaičiai turi būti sekoje: <span class=\"math\">303, 302, 301, …, …, 298</span>?", "type": "mc", "options": [{"k": "A", "t": "300 ir 290"}, {"k": "B", "t": "302 ir 303"}, {"k": "C", "t": "300 ir 299"}, {"k": "D", "t": "300 ir 297"}], "correct": "C"}, {"kicker": "Skaičių seka", "given": "Kokie du skaičiai turi būti sekoje: <span class=\"math\">…, …, 600, 601, 602, 603</span>?", "type": "mc", "options": [{"k": "A", "t": "580 ir 590"}, {"k": "B", "t": "597 ir 598"}, {"k": "C", "t": "591 ir 591"}, {"k": "D", "t": "598 ir 599"}], "correct": "D"}, {"kicker": "Skaičiaus užrašymas", "given": "Užrašykite skaičiais:", "type": "fields", "fields": [{"label": "a) penki šimtai, trys dešimtys ir du vienetai =", "kind": "number", "ans": 532}, {"label": "b) trys šimtai ir septynios dešimtys =", "kind": "number", "ans": 370}, {"label": "c) aštuoni šimtai ir septyni vienetai =", "kind": "number", "ans": 807}, {"label": "d) vienas tūkstantis =", "kind": "number", "ans": 1000}]}, {"kicker": "Kokia dalis nuspalvinta?", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"110\" height=\"110\" viewBox=\"0 0 100 100\"><path d=\"M50 50 L50 10 A40 40 0 0 1 84.64 30 Z\" fill=\"#ffb86b\" stroke=\"#1c2430\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"2\"/></svg></div>Kuri trupmena nurodo nuspalvintą apskritimo dalį?", "type": "mc", "options": [{"k": "B", "t": "<span class=\"fr\"><span>1</span><span>6</span></span>"}, {"k": "A", "t": "<span class=\"fr\"><span>2</span><span>3</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>1</span><span>2</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>3</span><span>8</span></span>"}], "correct": "B"}, {"kicker": "Kokia dalis nuspalvinta?", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"110\" height=\"110\" viewBox=\"0 0 100 100\"><path d=\"M50 50 L50 10 A40 40 0 0 1 50 90 Z\" fill=\"#ffb86b\" stroke=\"#1c2430\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"2\"/></svg></div>Kuri trupmena nurodo nuspalvintą apskritimo dalį?", "type": "mc", "options": [{"k": "D", "t": "<span class=\"fr\"><span>1</span><span>2</span></span>"}, {"k": "A", "t": "<span class=\"fr\"><span>1</span><span>6</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>3</span><span>8</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>2</span><span>3</span></span>"}], "correct": "D"}, {"kicker": "Kokia dalis nuspalvinta?", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"110\" height=\"110\" viewBox=\"0 0 100 100\"><path d=\"M50 50 L50 10 A40 40 0 0 1 78.28 78.28 Z\" fill=\"#ffb86b\" stroke=\"#1c2430\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"2\"/></svg></div>Kuri trupmena nurodo nuspalvintą apskritimo dalį?", "type": "mc", "options": [{"k": "A", "t": "<span class=\"fr\"><span>3</span><span>8</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>3</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>1</span><span>6</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>1</span><span>2</span></span>"}], "correct": "A"}, {"kicker": "Kokia dalis nuspalvinta?", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"110\" height=\"110\" viewBox=\"0 0 100 100\"><path d=\"M50 50 L50 10 A40 40 0 1 1 15.36 70 Z\" fill=\"#ffb86b\" stroke=\"#1c2430\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"#1c2430\" stroke-width=\"2\"/></svg></div>Kuri trupmena nurodo nuspalvintą apskritimo dalį?", "type": "mc", "options": [{"k": "C", "t": "<span class=\"fr\"><span>2</span><span>3</span></span>"}, {"k": "A", "t": "<span class=\"fr\"><span>1</span><span>2</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>1</span><span>6</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>3</span><span>8</span></span>"}], "correct": "C"}, {"kicker": "Kurios trupmenos didesnės? (bendras vardiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>2</span><span>5</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>1</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>3</span><span>5</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>4</span><span>5</span></span>"}], "correct": ["C", "D"]}, {"kicker": "Kurios trupmenos didesnės? (bendras vardiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>1</span><span>5</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>1</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>3</span><span>5</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>4</span><span>5</span></span>"}], "correct": ["B", "C", "D"]}, {"kicker": "Kurios trupmenos didesnės? (bendras vardiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>3</span><span>5</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>1</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>3</span><span>5</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>4</span><span>5</span></span>"}], "correct": ["D"]}, {"kicker": "Kurios trupmenos didesnės? (bendras skaitiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>2</span><span>7</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>6</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>2</span><span>7</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>2</span><span>8</span></span>"}], "correct": ["A", "B"]}, {"kicker": "Kurios trupmenos didesnės? (bendras skaitiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>2</span><span>8</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>6</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>2</span><span>7</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>2</span><span>8</span></span>"}], "correct": ["A", "B", "C"]}, {"kicker": "Kurios trupmenos didesnės? (bendras skaitiklis)", "given": "Kurios iš šių trupmenų yra <b>didesnės</b> už <span class=\"fr\"><span>2</span><span>6</span></span>? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "<span class=\"fr\"><span>2</span><span>5</span></span>"}, {"k": "B", "t": "<span class=\"fr\"><span>2</span><span>6</span></span>"}, {"k": "C", "t": "<span class=\"fr\"><span>2</span><span>7</span></span>"}, {"k": "D", "t": "<span class=\"fr\"><span>2</span><span>8</span></span>"}], "correct": ["A"]}, {"kicker": "Sudėtis stulpeliu", "given": "Sudėkite stulpeliu: <span class=\"math\">324 + 573 =</span> ?", "type": "fields", "fields": [{"label": "suma =", "kind": "number", "ans": 897}]}, {"kicker": "Sudėtis stulpeliu", "given": "Sudėkite stulpeliu: <span class=\"math\">456 + 182 =</span> ?", "type": "fields", "fields": [{"label": "suma =", "kind": "number", "ans": 638}]}, {"kicker": "Atimtis stulpeliu", "given": "Atimkite stulpeliu: <span class=\"math\">879 − 165 =</span> ?", "type": "fields", "fields": [{"label": "skirtumas =", "kind": "number", "ans": 714}]}, {"kicker": "Atimtis stulpeliu", "given": "Atimkite stulpeliu: <span class=\"math\">657 − 164 =</span> ?", "type": "fields", "fields": [{"label": "skirtumas =", "kind": "number", "ans": 493}]}, {"kicker": "Daugyba stulpeliu", "given": "Sudauginkite stulpeliu: <span class=\"math\">79 · 6 =</span> ?", "type": "fields", "fields": [{"label": "sandauga =", "kind": "number", "ans": 474}]}, {"kicker": "Daugyba stulpeliu", "given": "Sudauginkite stulpeliu: <span class=\"math\">27 · 3 =</span> ?", "type": "fields", "fields": [{"label": "sandauga =", "kind": "number", "ans": 81}]}, {"kicker": "Dalyba kampu", "given": "Padalinkite kampu: <span class=\"math\">65 : 5 =</span> ?", "type": "fields", "fields": [{"label": "dalmuo =", "kind": "number", "ans": 13}]}, {"kicker": "Dalyba kampu", "given": "Padalinkite kampu: <span class=\"math\">356 : 2 =</span> ?", "type": "fields", "fields": [{"label": "dalmuo =", "kind": "number", "ans": 178}]}, {"kicker": "Dalyba kampu", "given": "Padalinkite kampu: <span class=\"math\">384 : 8 =</span> ?", "type": "fields", "fields": [{"label": "dalmuo =", "kind": "number", "ans": 48}]}, {"kicker": "Kampų rūšys", "given": "<div style=\"display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px\"><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,19.38 80,80 10,80\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">A</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"10,15 80,15 80,85 10,85\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">B</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"20,5 70,5 70,95 20,95\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">C</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 81.14,38.26 67.34,80.74 22.66,80.74 8.86,38.26\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">D</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 77.91,31 77.91,69 45,88 12.09,69 12.09,31\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">E</div></div></div>Kurios figūros turi bent vieną <b>statųjį</b> kampą? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "Figūra A"}, {"k": "B", "t": "Figūra B"}, {"k": "C", "t": "Figūra C"}, {"k": "D", "t": "Figūra D"}, {"k": "E", "t": "Figūra E"}], "correct": ["B", "C"]}, {"kicker": "Kampų rūšys", "given": "<div style=\"display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px\"><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,19.38 80,80 10,80\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">A</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"10,15 80,15 80,85 10,85\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">B</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"20,5 70,5 70,95 20,95\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">C</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 81.14,38.26 67.34,80.74 22.66,80.74 8.86,38.26\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">D</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 77.91,31 77.91,69 45,88 12.09,69 12.09,31\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">E</div></div></div>Kurios figūros turi bent vieną <b>smailųjį</b> kampą? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "Figūra A"}, {"k": "B", "t": "Figūra B"}, {"k": "C", "t": "Figūra C"}, {"k": "D", "t": "Figūra D"}, {"k": "E", "t": "Figūra E"}], "correct": ["A"]}, {"kicker": "Kampų rūšys", "given": "<div style=\"display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px\"><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,19.38 80,80 10,80\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">A</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"10,15 80,15 80,85 10,85\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">B</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"20,5 70,5 70,95 20,95\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">C</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 81.14,38.26 67.34,80.74 22.66,80.74 8.86,38.26\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">D</div></div><div style=\"text-align:center\"><svg width=\"86\" height=\"86\" viewBox=\"0 0 90 100\"><polygon points=\"45,12 77.91,31 77.91,69 45,88 12.09,69 12.09,31\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.5\"/></svg><div style=\"font-weight:700\">E</div></div></div>Kurios figūros turi bent vieną <b>bukąjį</b> kampą? Pažymėk visas tinkamas.", "type": "multi", "options": [{"k": "A", "t": "Figūra A"}, {"k": "B", "t": "Figūra B"}, {"k": "C", "t": "Figūra C"}, {"k": "D", "t": "Figūra D"}, {"k": "E", "t": "Figūra E"}], "correct": ["D", "E"]}, {"kicker": "Simetrija", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"300\" height=\"130\" viewBox=\"0 0 300 130\"><line x1=\"150\" y1=\"5\" x2=\"150\" y2=\"125\" stroke=\"#c62828\" stroke-width=\"2.5\" stroke-dasharray=\"5,4\"/><rect x=\"70\" y=\"30\" width=\"40\" height=\"60\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><rect x=\"190\" y=\"30\" width=\"40\" height=\"60\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/></svg></div>Ar šios dvi figūros yra simetriškos raudonai ašiai?", "type": "mc", "options": [{"k": "A", "t": "Simetriškos"}, {"k": "B", "t": "Nesimetriškos"}], "correct": "A"}, {"kicker": "Simetrija", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"300\" height=\"130\" viewBox=\"0 0 300 130\"><line x1=\"150\" y1=\"5\" x2=\"150\" y2=\"125\" stroke=\"#c62828\" stroke-width=\"2.5\" stroke-dasharray=\"5,4\"/><polygon points=\"70,90 110,90 90,30\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><polygon points=\"230,90 190,90 210,30\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/></svg></div>Ar šios dvi figūros yra simetriškos raudonai ašiai?", "type": "mc", "options": [{"k": "A", "t": "Simetriškos"}, {"k": "B", "t": "Nesimetriškos"}], "correct": "A"}, {"kicker": "Simetrija", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"300\" height=\"130\" viewBox=\"0 0 300 130\"><line x1=\"150\" y1=\"5\" x2=\"150\" y2=\"125\" stroke=\"#c62828\" stroke-width=\"2.5\" stroke-dasharray=\"5,4\"/><line x1=\"70\" y1=\"30\" x2=\"110\" y2=\"90\" stroke=\"#1e5fa8\" stroke-width=\"3\"/><line x1=\"230\" y1=\"45\" x2=\"190\" y2=\"90\" stroke=\"#1e5fa8\" stroke-width=\"3\"/></svg></div>Ar šios dvi figūros yra simetriškos raudonai ašiai?", "type": "mc", "options": [{"k": "A", "t": "Simetriškos"}, {"k": "B", "t": "Nesimetriškos"}], "correct": "B"}, {"kicker": "Raskite x reikšmę", "given": "Išspręskite lygtį: <span class=\"math\">580 − x = 100</span>", "type": "fields", "fields": [{"label": "x =", "kind": "number", "ans": 480}]}, {"kicker": "Raskite x reikšmę", "given": "Išspręskite lygtį: <span class=\"math\">x + 120 = 360</span>", "type": "fields", "fields": [{"label": "x =", "kind": "number", "ans": 240}]}, {"kicker": "Raskite x reikšmę", "given": "Išspręskite lygtį: <span class=\"math\">130 + x = 350</span>", "type": "fields", "fields": [{"label": "x =", "kind": "number", "ans": 220}]}, {"kicker": "Raskite x reikšmę", "given": "Išspręskite lygtį: <span class=\"math\">x − 330 = 550</span>", "type": "fields", "fields": [{"label": "x =", "kind": "number", "ans": 880}]}, {"kicker": "Perimetras", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"170\" height=\"150\" viewBox=\"0 0 110 120\"><polygon points=\"15,95 70,100 95,40 40,15\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><text x=\"37.8\" y=\"110.7\" font-size=\"12.5\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">3 cm</text><text x=\"96.0\" y=\"73.7\" font-size=\"12.5\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">4 cm</text><text x=\"72.2\" y=\"14.3\" font-size=\"12.5\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">5 cm</text><text x=\"14.0\" y=\"51.3\" font-size=\"12.5\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">2 cm</text></svg><div style=\"font-size:11.5px;color:#5b6472;margin-top:2px\">(brėžinys schematinis, ne tiksliai pagal mastelį)</div></div>Keturkampio kraštinės yra 3 cm, 4 cm, 5 cm ir 2 cm (žr. brėžinį). Koks yra jo perimetras?", "type": "fields", "fields": [{"label": "P =", "kind": "number", "ans": 14}]}, {"kicker": "Perimetras", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"124\" height=\"96\" viewBox=\"0 0 124 96\"><rect x=\"20\" y=\"20\" width=\"84\" height=\"56\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><text x=\"62.0\" y=\"14\" font-size=\"13\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">6 cm</text><text x=\"116\" y=\"52.0\" font-size=\"13\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">4 cm</text></svg></div>Stačiakampio kraštinės yra 6 cm ir 4 cm (žr. brėžinį). Koks yra jo perimetras?", "type": "fields", "fields": [{"label": "P =", "kind": "number", "ans": 20}]}, {"kicker": "Perimetras", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"116\" height=\"105.28203230275508\" viewBox=\"0 0 116 105.28203230275508\"><polygon points=\"58.0,18 98,87.28203230275508 18,87.28203230275508\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><text x=\"58.0\" y=\"103.28203230275508\" font-size=\"13\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">5 cm</text></svg></div>Lygiakraštio trikampio (visos kraštinės lygios) kraštinė yra 5 cm (žr. brėžinį). Koks yra jo perimetras?", "type": "fields", "fields": [{"label": "P =", "kind": "number", "ans": 15}]}, {"kicker": "Perimetras", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"116\" height=\"116\" viewBox=\"0 0 116 116\"><rect x=\"18\" y=\"18\" width=\"80\" height=\"80\" fill=\"#eef4fb\" stroke=\"#1c2430\" stroke-width=\"2.2\"/><text x=\"58.0\" y=\"12\" font-size=\"13\" text-anchor=\"middle\" fill=\"#1c2430\" font-weight=\"700\">8 cm</text></svg></div>Kvadrato kraštinė yra 8 cm (žr. brėžinį). Koks yra jo perimetras?", "type": "fields", "fields": [{"label": "P =", "kind": "number", "ans": 32}]}, {"kicker": "Vienetų smulkinimas", "given": "Išsmulkinkite: <span class=\"math\">3 cm 5 mm = ... mm</span>", "type": "fields", "fields": [{"label": "mm =", "kind": "number", "ans": 35}]}, {"kicker": "Vienetų smulkinimas", "given": "Išsmulkinkite: <span class=\"math\">4 m 10 cm = ... cm</span>", "type": "fields", "fields": [{"label": "cm =", "kind": "number", "ans": 410}]}, {"kicker": "Vienetų smulkinimas", "given": "Išsmulkinkite: <span class=\"math\">3 Eur 5 ct = ... ct</span>", "type": "fields", "fields": [{"label": "ct =", "kind": "number", "ans": 305}]}, {"kicker": "Vienetų smulkinimas", "given": "Išsmulkinkite: <span class=\"math\">2 min 20 s = ... s</span>", "type": "fields", "fields": [{"label": "s =", "kind": "number", "ans": 140}]}, {"kicker": "Sustambink", "given": "Sustambinkite: <span class=\"math\">452 ct = ?</span>", "type": "mc", "options": [{"k": "A", "t": "45 Eur 2 ct"}, {"k": "B", "t": "4 Eur 52 ct"}, {"k": "C", "t": "4 Eur 5 ct 2"}, {"k": "D", "t": "452 Eur"}], "correct": "B"}, {"kicker": "Sustambink", "given": "Sustambinkite: <span class=\"math\">45 mm = ?</span>", "type": "mc", "options": [{"k": "A", "t": "45 cm"}, {"k": "B", "t": "4 cm 50 mm"}, {"k": "C", "t": "4 cm 5 mm"}, {"k": "D", "t": "0,45 cm"}], "correct": "C"}, {"kicker": "Sustambink", "given": "Sustambinkite: <span class=\"math\">452 cm = ?</span>", "type": "mc", "options": [{"k": "A", "t": "45 m 2 cm"}, {"k": "B", "t": "4 m 5 cm 2"}, {"k": "C", "t": "4,52 cm"}, {"k": "D", "t": "4 m 52 cm"}], "correct": "D"}, {"kicker": "Sustambink", "given": "Sustambinkite: <span class=\"math\">40 mm = ?</span>", "type": "mc", "options": [{"k": "A", "t": "4 cm"}, {"k": "B", "t": "40 cm"}, {"k": "C", "t": "0,4 cm"}, {"k": "D", "t": "4 dm"}], "correct": "A"}, {"kicker": "Kalendorius", "given": "Gegužės mėnesio kalendorius: 1-oji diena yra <b>trečiadienis</b> (mėnuo turi 31 dieną). Gegužės 15 dieną reikia pažymėti svarbias datas: <b>GELTONAI</b> — po trijų dienų (nuo gegužės 15 d.) švenčiamas draugo gimtadienis; <b>RAUDONAI</b> — dovaną reikia paruošti vieną dieną prieš gimtadienį; <b>MĖLYNAI</b> — po savaitės (skaičiuojant nuo gegužės 15 d.) reikia apsilankyti pas gydytoją; <b>ŽALIAI</b> — paskutinį gegužės mėnesio šeštadienį reikia aplankyti močiutę. Kurią gegužės dieną reikia pažymėti kiekviena spalva?<div style=\"text-align:center;font-weight:700;margin:4px 0 2px\">Gegužė</div><div style=\"overflow-x:auto;margin:10px 0\"><table style=\"border-collapse:collapse;margin:0 auto;font-size:13px\"><tr><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#eef4fb\">P</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#eef4fb\">A</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#eef4fb\">T</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#eef4fb\">K</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#eef4fb\">Pn</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#fdecec\">Š</th><th style=\"border:1px solid #d8dee6;padding:6px 10px;background:#fdecec\">S</th></tr><tr><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\"></td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\"></td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">1</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">2</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">3</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">4</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">5</td></tr><tr><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">6</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">7</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">8</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">9</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">10</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">11</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">12</td></tr><tr><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">13</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">14</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">15</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">16</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">17</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">18</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">19</td></tr><tr><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">20</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">21</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">22</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">23</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">24</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">25</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\">26</td></tr><tr><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">27</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">28</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">29</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">30</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fff\">31</td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\"></td><td style=\"border:1px solid #d8dee6;padding:6px 10px;text-align:center;background:#fdecec\"></td></tr></table></div>", "type": "fields", "fields": [{"label": "GELTONAI, gegužės ... d.", "kind": "number", "ans": 18}, {"label": "RAUDONAI, gegužės ... d.", "kind": "number", "ans": 17}, {"label": "MĖLYNAI, gegužės ... d.", "kind": "number", "ans": 22}, {"label": "ŽALIAI, gegužės ... d.", "kind": "number", "ans": 25}]}, {"kicker": "Diagramos skaitymas", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"310\" height=\"222\" viewBox=\"0 0 310 222\"><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"150\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">0</text><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"170\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">2</text><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"190\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">4</text><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"210\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">6</text><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"230\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">8</text><line x1=\"250\" y1=\"10\" x2=\"250\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"250\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">10</text><line x1=\"270\" y1=\"10\" x2=\"270\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"270\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">12</text><line x1=\"290\" y1=\"10\" x2=\"290\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"290\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">14</text><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><line x1=\"150\" y1=\"182\" x2=\"290\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><text x=\"220.0\" y=\"218\" font-size=\"12\" text-anchor=\"middle\" fill=\"#1c2430\">Mokinių skaičius</text><rect x=\"150\" y=\"14\" width=\"60\" height=\"26\" fill=\"#3b4252\"/><text x=\"142\" y=\"31.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Į stovyklą</text><rect x=\"150\" y=\"56\" width=\"120\" height=\"26\" fill=\"#1e5fa8\"/><text x=\"142\" y=\"73.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Pas senelius</text><rect x=\"150\" y=\"98\" width=\"30\" height=\"26\" fill=\"#c9930a\"/><text x=\"142\" y=\"115.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima į kitą šalį</text><rect x=\"150\" y=\"140\" width=\"90\" height=\"26\" fill=\"#0a7d52\"/><text x=\"142\" y=\"157.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima prie jūros</text></svg></div>Daugiausia mokinių planuoja vykti...", "type": "mc", "options": [{"k": "A", "t": "į stovyklą"}, {"k": "B", "t": "pas senelius"}, {"k": "C", "t": "su šeima į kitą šalį"}, {"k": "D", "t": "su šeima prie jūros"}], "correct": "B"}, {"kicker": "Diagramos skaitymas", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"310\" height=\"222\" viewBox=\"0 0 310 222\"><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"150\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">0</text><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"170\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">2</text><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"190\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">4</text><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"210\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">6</text><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"230\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">8</text><line x1=\"250\" y1=\"10\" x2=\"250\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"250\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">10</text><line x1=\"270\" y1=\"10\" x2=\"270\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"270\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">12</text><line x1=\"290\" y1=\"10\" x2=\"290\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"290\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">14</text><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><line x1=\"150\" y1=\"182\" x2=\"290\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><text x=\"220.0\" y=\"218\" font-size=\"12\" text-anchor=\"middle\" fill=\"#1c2430\">Mokinių skaičius</text><rect x=\"150\" y=\"14\" width=\"60\" height=\"26\" fill=\"#3b4252\"/><text x=\"142\" y=\"31.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Į stovyklą</text><rect x=\"150\" y=\"56\" width=\"120\" height=\"26\" fill=\"#1e5fa8\"/><text x=\"142\" y=\"73.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Pas senelius</text><rect x=\"150\" y=\"98\" width=\"30\" height=\"26\" fill=\"#c9930a\"/><text x=\"142\" y=\"115.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima į kitą šalį</text><rect x=\"150\" y=\"140\" width=\"90\" height=\"26\" fill=\"#0a7d52\"/><text x=\"142\" y=\"157.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima prie jūros</text></svg></div>Mažiausiai mokinių ketina vykti...", "type": "mc", "options": [{"k": "A", "t": "pas senelius"}, {"k": "B", "t": "su šeima prie jūros"}, {"k": "C", "t": "su šeima į kitą šalį"}, {"k": "D", "t": "į stovyklą"}], "correct": "C"}, {"kicker": "Diagramos skaitymas", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"310\" height=\"222\" viewBox=\"0 0 310 222\"><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"150\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">0</text><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"170\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">2</text><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"190\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">4</text><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"210\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">6</text><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"230\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">8</text><line x1=\"250\" y1=\"10\" x2=\"250\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"250\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">10</text><line x1=\"270\" y1=\"10\" x2=\"270\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"270\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">12</text><line x1=\"290\" y1=\"10\" x2=\"290\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"290\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">14</text><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><line x1=\"150\" y1=\"182\" x2=\"290\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><text x=\"220.0\" y=\"218\" font-size=\"12\" text-anchor=\"middle\" fill=\"#1c2430\">Mokinių skaičius</text><rect x=\"150\" y=\"14\" width=\"60\" height=\"26\" fill=\"#3b4252\"/><text x=\"142\" y=\"31.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Į stovyklą</text><rect x=\"150\" y=\"56\" width=\"120\" height=\"26\" fill=\"#1e5fa8\"/><text x=\"142\" y=\"73.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Pas senelius</text><rect x=\"150\" y=\"98\" width=\"30\" height=\"26\" fill=\"#c9930a\"/><text x=\"142\" y=\"115.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima į kitą šalį</text><rect x=\"150\" y=\"140\" width=\"90\" height=\"26\" fill=\"#0a7d52\"/><text x=\"142\" y=\"157.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima prie jūros</text></svg></div>Kiek mokinių iš viso planuoja keliauti <b>su šeima</b> (į kitą šalį + prie jūros)?", "type": "fields", "fields": [{"label": "mokinių =", "kind": "number", "ans": 12}]}, {"kicker": "Diagramos skaitymas", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"310\" height=\"222\" viewBox=\"0 0 310 222\"><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"150\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">0</text><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"170\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">2</text><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"190\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">4</text><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"210\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">6</text><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"230\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">8</text><line x1=\"250\" y1=\"10\" x2=\"250\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"250\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">10</text><line x1=\"270\" y1=\"10\" x2=\"270\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"270\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">12</text><line x1=\"290\" y1=\"10\" x2=\"290\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"290\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">14</text><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><line x1=\"150\" y1=\"182\" x2=\"290\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><text x=\"220.0\" y=\"218\" font-size=\"12\" text-anchor=\"middle\" fill=\"#1c2430\">Mokinių skaičius</text><rect x=\"150\" y=\"14\" width=\"60\" height=\"26\" fill=\"#3b4252\"/><text x=\"142\" y=\"31.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Į stovyklą</text><rect x=\"150\" y=\"56\" width=\"120\" height=\"26\" fill=\"#1e5fa8\"/><text x=\"142\" y=\"73.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Pas senelius</text><rect x=\"150\" y=\"98\" width=\"30\" height=\"26\" fill=\"#c9930a\"/><text x=\"142\" y=\"115.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima į kitą šalį</text><rect x=\"150\" y=\"140\" width=\"90\" height=\"26\" fill=\"#0a7d52\"/><text x=\"142\" y=\"157.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima prie jūros</text></svg></div>Kiek mokiniais daugiau ketina vykti pas senelius negu į stovyklą?", "type": "fields", "fields": [{"label": "mokiniais daugiau =", "kind": "number", "ans": 6}]}, {"kicker": "Diagramos skaitymas", "given": "<div style=\"text-align:center;margin:8px 0\"><svg width=\"310\" height=\"222\" viewBox=\"0 0 310 222\"><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"150\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">0</text><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"170\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">2</text><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"190\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">4</text><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"210\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">6</text><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"230\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">8</text><line x1=\"250\" y1=\"10\" x2=\"250\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"250\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">10</text><line x1=\"270\" y1=\"10\" x2=\"270\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"270\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">12</text><line x1=\"290\" y1=\"10\" x2=\"290\" y2=\"182\" stroke=\"#e2e7ee\" stroke-width=\"1\"/><text x=\"290\" y=\"198\" font-size=\"11\" text-anchor=\"middle\" fill=\"#5b6472\">14</text><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><line x1=\"150\" y1=\"182\" x2=\"290\" y2=\"182\" stroke=\"#5b6472\" stroke-width=\"1.5\"/><text x=\"220.0\" y=\"218\" font-size=\"12\" text-anchor=\"middle\" fill=\"#1c2430\">Mokinių skaičius</text><rect x=\"150\" y=\"14\" width=\"60\" height=\"26\" fill=\"#3b4252\"/><text x=\"142\" y=\"31.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Į stovyklą</text><rect x=\"150\" y=\"56\" width=\"120\" height=\"26\" fill=\"#1e5fa8\"/><text x=\"142\" y=\"73.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Pas senelius</text><rect x=\"150\" y=\"98\" width=\"30\" height=\"26\" fill=\"#c9930a\"/><text x=\"142\" y=\"115.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima į kitą šalį</text><rect x=\"150\" y=\"140\" width=\"90\" height=\"26\" fill=\"#0a7d52\"/><text x=\"142\" y=\"157.0\" font-size=\"12\" text-anchor=\"end\" fill=\"#1c2430\">Su šeima prie jūros</text></svg></div>Kiek kartų mažiau mokinių planuoja keliauti į kitą šalį negu pas senelius?", "type": "fields", "fields": [{"label": "kartų mažiau =", "kind": "number", "ans": 4}]}, {"kicker": "Nelygybė", "given": "Nurodykite du MAŽIAUSIUS natūraliuosius skaičius iš sąrašo 1,2,3,4,5,6,7,8,9,10, kurie tenkina: <span class=\"math\">483 − ☐ < 478</span>", "type": "fields", "fields": [{"label": "du mažiausi tinkami skaičiai =", "kind": "set", "ans": [6, 7]}]}, {"kicker": "Nelygybė", "given": "Nurodykite du MAŽIAUSIUS natūraliuosius skaičius iš sąrašo 30,31,32,...,40, kurie tenkina: <span class=\"math\">☐ · 10 > 350</span>", "type": "fields", "fields": [{"label": "du mažiausi tinkami skaičiai =", "kind": "set", "ans": [36, 37]}]}, {"kicker": "Nelygybė", "given": "Nurodykite du MAŽIAUSIUS natūraliuosius skaičius iš sąrašo 1,2,3,4,5,6, kurie tenkina: <span class=\"math\">12 : ☐ > 3</span>", "type": "fields", "fields": [{"label": "du mažiausi tinkami skaičiai =", "kind": "set", "ans": [1, 2]}]}, {"kicker": "Nelygybė", "given": "Nurodykite du MAŽIAUSIUS natūraliuosius skaičius iš sąrašo 10,11,...,20, kurie tenkina: <span class=\"math\">29 − ☐ < 15</span>", "type": "fields", "fields": [{"label": "du mažiausi tinkami skaičiai =", "kind": "set", "ans": [15, 16]}]}, {"kicker": "Uždavinys → reiškinys", "given": "Į šokių šventę 1 dieną atėjo 300 žiūrovų, 2 dieną — 3 kartus mažiau. Kuris reiškinys parodo, kiek žiūrovų atėjo per abi dienas?", "type": "mc", "options": [{"k": "A", "t": "300 − 300 : 3"}, {"k": "B", "t": "300 + 300 : 3"}, {"k": "C", "t": "(300+300):3"}, {"k": "D", "t": "300·3"}], "correct": "B"}, {"kicker": "Uždavinys → reiškinys", "given": "Per 1 valandą automobilis nuvažiavo 60 km, per 2-ąją — 2 kartus toliau. Kuris reiškinys parodo, kiek km nuvažiavo per abi valandas?", "type": "mc", "options": [{"k": "A", "t": "(60+60)·2"}, {"k": "B", "t": "60·2−60"}, {"k": "C", "t": "60 + 60 · 2"}, {"k": "D", "t": "60:2+60"}], "correct": "C"}, {"kicker": "Uždavinys → reiškinys", "given": "4 maži rinkiniai turi po 9 paveikslėlius, vienas didelis rinkinys turi 24 paveikslėlius. Kuris reiškinys parodo, kiek daugiau paveikslėlių yra mažuosiuose rinkiniuose nei didžiajame?", "type": "mc", "options": [{"k": "A", "t": "4·9+24"}, {"k": "B", "t": "4+9−24"}, {"k": "C", "t": "24−4·9"}, {"k": "D", "t": "4 · 9 − 24"}], "correct": "D"}, {"kicker": "Trupmenos dalis nuo dydžio", "given": "Tomas paėmė 50 cm ilgio lentą ir paprašė atpjauti <span class=\"fr\"><span>1</span><span>5</span></span> jos. Kokio ilgio bus atpjauta dalis?", "type": "fields", "fields": [{"label": "cm =", "kind": "number", "ans": 10}]}, {"kicker": "Trupmenos dalis nuo dydžio", "given": "Skaistė bėga 50 m distanciją ir įveikė <span class=\"fr\"><span>1</span><span>10</span></span> viso atstumo. Kiek metrų ji nubėgo?", "type": "fields", "fields": [{"label": "m =", "kind": "number", "ans": 5}]}, {"kicker": "Žodinis uždavinys", "given": "Ramūnas pasiėmė 8 Eur ir pusę jų išleido. Kiek eurų jis išleido?", "type": "fields", "fields": [{"label": "Eur =", "kind": "number", "ans": 4}]}, {"kicker": "Žodinis uždavinys", "given": "Sima žiūri 60 min trukmės filmą ir trečdalį jo jau pažiūrėjo. Kiek minučių ji jau žiūri filmą?", "type": "fields", "fields": [{"label": "min =", "kind": "number", "ans": 20}]}, {"kicker": "Žodinis uždavinys", "given": "Kajus nori išspręsti 21 uždavinį ir trečdalį jų jau išsprendė. Kiek uždavinių jam liko išspręsti?", "type": "fields", "fields": [{"label": "uždavinių =", "kind": "number", "ans": 14}]}, {"kicker": "Žodinis uždavinys", "given": "Tinklinio kamuolys kainuoja 32 Eur, o futbolo kamuolys — 8 Eur brangiau. Kiek kainuoja abu kamuoliai kartu?", "type": "fields", "fields": [{"label": "Eur =", "kind": "number", "ans": 72}]}];
+const GRADE_SCALE = [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]];
+const COMMENTS = [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti su kontrolinio treniruokliu."]];
+
+const state = EXERCISES.map(()=>({checked:false, correct:false}));
+
+function normNum(s){
+  s = String(s).trim().replace(/−/g,'-');
+  if(s==='') return null;
+  const n = parseInt(s,10);
+  return isNaN(n) ? null : n;
+}
+function normSet(s){
+  s = String(s).replace(/−/g,'-').replace(/[{}]/g,'').trim();
+  if(s==='') return null;
+  const parts = s.split(/[;,]/).map(x=>x.trim()).filter(x=>x!=='');
+  const nums = parts.map(x=>parseInt(x,10));
+  if(nums.some(isNaN)) return null;
+  return nums.slice().sort((a,b)=>a-b);
+}
+function arrEq(a,b){
+  if(!a || !b || a.length!==b.length) return false;
+  return a.every((v,i)=>v===b[i]);
+}
+function normInterval(s){
+  s = String(s).replace(/−/g,'-').replace(/\s+/g,'').replace(/∞/g,'inf');
+  if(s.length<3) return null;
+  const open = s[0], close = s[s.length-1];
+  if(!'[('.includes(open) || !'])'.includes(close)) return null;
+  const inner = s.slice(1,-1);
+  const parts = inner.split(/[;,]/);
+  if(parts.length!==2) return null;
+  const a = parts[0], b = parts[1];
+  if(a==='' || b==='') return null;
+  return open+a+';'+b+close;
+}
+
+// --- 'expr' kind: algebrinės išraiškos tikrinamos SKAIČIUOJANT (ne teksto atitikimu),
+// kad "19-2√13" ir "-2√13+19" būtų priimami kaip lygiaverčiai.
+function exprTokenize(s){
+  s = String(s).trim();
+  const toks = []; let i = 0;
+  while(i < s.length){
+    const c = s[i];
+    if(/\s/.test(c)){ i++; continue; }
+    if(c === '√'){ toks.push({t:'SQRT'}); i++; continue; }
+    if(c === 'π'){ toks.push({t:'PI'}); i++; continue; }
+    if(/[0-9.,]/.test(c)){
+      let j = i; while(j < s.length && /[0-9.,]/.test(s[j])) j++;
+      const numStr = s.slice(i,j).replace(',', '.');
+      toks.push({t:'NUM', v: parseFloat(numStr)});
+      i = j; continue;
+    }
+    if(/[a-zA-Z]/.test(c)){
+      if(s.slice(i,i+4).toLowerCase() === 'sqrt'){ toks.push({t:'SQRT'}); i += 4; continue; }
+      if(s.slice(i,i+2).toLowerCase() === 'pi'){ toks.push({t:'PI'}); i += 2; continue; }
+      toks.push({t:'VAR', v:c.toLowerCase()}); i++; continue;
+    }
+    if(c === '(' ){ toks.push({t:'LP'}); i++; continue; }
+    if(c === ')'){ toks.push({t:'RP'}); i++; continue; }
+    if(c === '+'){ toks.push({t:'PLUS'}); i++; continue; }
+    if(c === '-' || c === '−'){ toks.push({t:'MINUS'}); i++; continue; }
+    if(c === '*' || c === '·' || c === '×'){ toks.push({t:'STAR'}); i++; continue; }
+    if(c === '/' || c === ':'){ toks.push({t:'SLASH'}); i++; continue; }
+    if(c === '^'){ toks.push({t:'CARET'}); i++; continue; }
+    throw new Error('bad char ' + c);
+  }
+  toks.push({t:'END'});
+  return toks;
+}
+function exprParse(toks){
+  let pos = 0;
+  const peek = () => toks[pos];
+  const nxt = () => toks[pos++];
+  const canStartFactor = t => ['NUM','VAR','PI','LP','SQRT'].includes(t.t);
+  function pExpr(){
+    let node = pTerm();
+    while(peek().t === 'PLUS' || peek().t === 'MINUS'){
+      const op = nxt().t; node = {op: op==='PLUS'?'+':'-', l:node, r:pTerm()};
+    }
+    return node;
+  }
+  function pTerm(){
+    let node = pUnary();
+    while(true){
+      if(peek().t === 'STAR' || peek().t === 'SLASH'){
+        const op = nxt().t; node = {op: op==='STAR'?'*':'/', l:node, r:pUnary()};
+      } else if(canStartFactor(peek())){
+        node = {op:'*', l:node, r:pUnary()};
+      } else break;
+    }
+    return node;
+  }
+  function pUnary(){
+    if(peek().t === 'MINUS'){ nxt(); return {op:'neg', l:pUnary()}; }
+    if(peek().t === 'PLUS'){ nxt(); return pUnary(); }
+    return pPower();
+  }
+  function pPower(){
+    let node = pAtom();
+    if(peek().t === 'CARET'){ nxt(); node = {op:'^', l:node, r:pUnary()}; }
+    return node;
+  }
+  function pAtom(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'PI'){ nxt(); return {op:'num', v:Math.PI}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    if(tok.t === 'SQRT'){
+      nxt();
+      if(peek().t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return {op:'sqrt', l:e}; }
+      return {op:'sqrt', l:pSqrtArg()};
+    }
+    throw new Error('unexpected ' + tok.t);
+  }
+  function pSqrtArg(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    throw new Error('bad sqrt arg');
+  }
+  const node = pExpr();
+  if(peek().t !== 'END') throw new Error('trailing');
+  return node;
+}
+function exprEval(node, env){
+  switch(node.op){
+    case 'num': return node.v;
+    case 'var': if(!(node.v in env)) throw new Error('unknown var ' + node.v); return env[node.v];
+    case '+': return exprEval(node.l,env) + exprEval(node.r,env);
+    case '-': return exprEval(node.l,env) - exprEval(node.r,env);
+    case '*': return exprEval(node.l,env) * exprEval(node.r,env);
+    case '/': return exprEval(node.l,env) / exprEval(node.r,env);
+    case '^': return Math.pow(exprEval(node.l,env), exprEval(node.r,env));
+    case 'neg': return -exprEval(node.l,env);
+    case 'sqrt': return Math.sqrt(exprEval(node.l,env));
+  }
+  throw new Error('bad node');
+}
+function evalExprStr(s, env){
+  return exprEval(exprParse(exprTokenize(s)), env || {});
+}
+function exprEquiv(ansStr, userStr, testPoints){
+  const pts = (testPoints && testPoints.length) ? testPoints : [{}];
+  try{
+    return pts.every(env => {
+      const a = evalExprStr(ansStr, env);
+      const b = evalExprStr(userStr, env);
+      return isFinite(a) && isFinite(b) && Math.abs(a-b) < 1e-6 * Math.max(1, Math.abs(a));
+    });
+  } catch(e){ return false; }
+}
+
+function checkExercise(i){
+  const ex = EXERCISES[i];
+  const root = document.getElementById('ex'+i);
+  let ok = true;
+
+  if(ex.type==='fields'){
+    ex.fields.forEach((f,fi)=>{
+      const inp = document.getElementById('ex'+i+'_f'+fi);
+      const raw = inp.value;
+      let good = false;
+      if(f.kind==='number'){ good = normNum(raw)===f.ans; }
+      else if(f.kind==='set'){ good = arrEq(normSet(raw), f.ans); }
+      else if(f.kind==='interval'){ good = normInterval(raw)===f.ans; }
+      else if(f.kind==='expr'){ good = raw.trim()!=='' && exprEquiv(f.ans, raw, f.testPoints); }
+      inp.style.borderColor = good ? 'var(--green)' : 'var(--red)';
+      inp.disabled = true;
+      if(!good) ok = false;
+    });
+  } else if(ex.type==='mc'){
+    const sel = root.querySelector('.opt.sel');
+    const chosen = sel ? sel.dataset.k : null;
+    ok = chosen === ex.correct;
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      if(o.dataset.k===ex.correct) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(o===sel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  } else if(ex.type==='multi'){
+    const chosen = Array.from(root.querySelectorAll('.opt.sel')).map(o=>o.dataset.k).sort();
+    const correct = ex.correct.slice().sort();
+    ok = arrEq(chosen, correct);
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      const isCorrect = ex.correct.includes(o.dataset.k);
+      const wasSel = o.classList.contains('sel');
+      if(isCorrect) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(wasSel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  }
+
+  state[i].checked = true;
+  state[i].correct = ok;
+
+  const fb = document.getElementById('ex'+i+'_fb');
+  fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+  fb.innerHTML = ok ? '✓ Teisingai!' : ('✗ Neteisingai. Teisingas atsakymas: <span class="ans math">' + answerText(ex) + '</span>');
+  document.getElementById('ex'+i+'_btn').disabled = true;
+
+  updateScore();
+}
+
+function revealOpen(i){
+  const root = document.getElementById('ex'+i);
+  root.querySelector('.sample').style.display = 'block';
+  root.querySelector('.selfrow').style.display = 'flex';
+  document.getElementById('ex'+i+'_btn').disabled = true;
+  document.getElementById('ex'+i+'_ta').disabled = true;
+}
+
+function selfScore(i, ok){
+  state[i].checked = true;
+  state[i].correct = ok;
+  const root = document.getElementById('ex'+i);
+  root.querySelectorAll('.self').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('ex'+i+'_fb');
+  fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+  fb.innerHTML = ok ? '✓ Pažymėjai: atsakei teisingai.' : '✗ Pažymėjai: suklydai.';
+  updateScore();
+}
+
+function fracHTML(s){
+  const m = /^(-)?(\d+)\/(\d+)$/.exec(String(s).trim());
+  if(!m) return s;
+  return (m[1]?'−':'') + '<span class="fr"><span>'+m[2]+'</span><span>'+m[3]+'</span></span>';
+}
+
+function answerText(ex){
+  if(ex.type==='fields'){
+    return ex.fields.map(f=>{
+      if(f.kind==='number') return f.ans;
+      if(f.kind==='set') return '{'+f.ans.join('; ')+'}';
+      if(f.kind==='expr') return fracHTML(f.ans);
+      return f.ans.replace(';','; ');
+    }).join(' &nbsp;·&nbsp; ');
+  }
+  if(ex.type==='mc'){
+    const o = ex.options.find(o=>o.k===ex.correct);
+    return ex.correct + '. ' + o.t;
+  }
+  if(ex.type==='multi'){
+    return ex.correct.join(', ');
+  }
+  return '';
+}
+
+function insertAtCursor(inputId, ch){
+  const inp = document.getElementById(inputId);
+  if(!inp || inp.disabled) return;
+  const start = inp.selectionStart ?? inp.value.length;
+  const end = inp.selectionEnd ?? inp.value.length;
+  inp.value = inp.value.slice(0,start) + ch + inp.value.slice(end);
+  inp.focus();
+  inp.setSelectionRange(start+ch.length, start+ch.length);
+}
+
+function toggleOpt(exIdx, k, multi){
+  const ex = EXERCISES[exIdx];
+  if(state[exIdx].checked) return;
+  const root = document.getElementById('ex'+exIdx);
+  if(multi){
+    const el = root.querySelector('.opt[data-k="'+k+'"]');
+    el.classList.toggle('sel');
+  } else {
+    root.querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel', o.dataset.k===k));
+  }
+}
+
+function updateScore(){
+  const checkedCount = state.filter(s=>s.checked).length;
+  const correctCount = state.filter(s=>s.correct).length;
+  document.getElementById('scoreNow').textContent = correctCount;
+  document.getElementById('doneCount').textContent = checkedCount;
+  document.getElementById('barFill').style.width = Math.round(correctCount/EXERCISES.length*100)+'%';
+
+  const pct = correctCount/EXERCISES.length*100;
+  let grade = GRADE_SCALE[GRADE_SCALE.length-1][1];
+  for(const [t,g] of GRADE_SCALE){ if(pct>=t){ grade=g; break; } }
+  let comment = COMMENTS[COMMENTS.length-1][1];
+  for(const [t,c] of COMMENTS){ if(pct>=t){ comment=c; break; } }
+
+  document.getElementById('gradeOut').textContent = grade;
+  document.getElementById('ptsOut').textContent = correctCount+' / '+EXERCISES.length;
+  document.getElementById('pctOut').textContent = Math.round(pct)+'%';
+  document.getElementById('commentOut').textContent = comment;
+  const warnEl = document.getElementById('warnOut');
+  if(checkedCount < EXERCISES.length){
+    warnEl.style.display='block';
+    warnEl.textContent = 'Patikrinai '+checkedCount+' iš '+EXERCISES.length+' pratimų — rezultatas kol kas negalutinis.';
+  } else {
+    warnEl.style.display='none';
+  }
+}
+
+function render(){
+  document.getElementById('scoreMax').textContent = EXERCISES.length;
+  document.getElementById('doneMax').textContent = EXERCISES.length;
+  const root = document.getElementById('exercises');
+  let html = '';
+  EXERCISES.forEach((ex,i)=>{
+    html += '<div class="card" id="ex'+i+'">';
+    html += '<div class="banner"><span class="badge">'+(i+1)+'</span> '+ex.kicker+'</div>';
+    html += '<div class="body">';
+    html += '<p class="given">'+ex.given+'</p>';
+
+    if(ex.type==='fields'){
+      ex.fields.forEach((f,fi)=>{
+        const inpId = 'ex'+i+'_f'+fi;
+        let ph = 'skaičius';
+        if(f.kind==='set') ph = 'pvz. {2; 5; 8}';
+        else if(f.kind==='interval') ph = 'pvz. [-2;5)';
+        else if(f.kind==='expr') ph = 'pvz. 10a^7 arba 3a-1';
+        html += '<div class="fieldrow"><label class="math">'+f.label+'</label>'+
+          '<input type="text" id="'+inpId+'" placeholder="'+ph+'">';
+        if(f.kind==='expr'){
+          html += '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'^\')" title="Laipsnis (rodiklis)">x<sup>n</sup></button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'√\')">√</button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'π\')">π</button>';
+        }
+        html += '</div>';
+        if(f.kind==='expr'){
+          html += '<div class="exprhint">Laipsnį rašyk su <b>^</b> (pvz. <span class="math">a^7</span> reiškia a septintuoju laipsniu), arba spausk <b>x<sup>n</sup></b> mygtuką.</div>';
+        }
+      });
+    } else if(ex.type==='mc' || ex.type==='multi'){
+      html += '<div class="opts">';
+      ex.options.forEach(o=>{
+        html += '<div class="opt" data-k="'+o.k+'" onclick="toggleOpt('+i+',\''+o.k+'\','+(ex.type==='multi')+')">'+
+          '<span class="k">'+o.k+'</span><span class="math">'+o.t+'</span></div>';
+      });
+      html += '</div>';
+    } else if(ex.type==='open'){
+      html += '<textarea class="opentxt" id="ex'+i+'_ta" placeholder="Rašyk savo atsakymą čia..."></textarea>';
+      html += '<div class="opentools">'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'√\')" title="Kvadratinė šaknis">√</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∛\')" title="Kubinė šaknis">∛</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'π\')" title="Pi">π</button>'+
+              '</div>';
+      html += '<div class="sample"><b>Pavyzdinis atsakymas:</b> <span class="math">'+ex.sample+'</span></div>';
+    }
+
+    if(ex.type==='open'){
+      html += '<div class="actions"><button class="check" id="ex'+i+'_btn" onclick="revealOpen('+i+')">Rodyti atsakymą</button>'+
+        '<div class="fb" id="ex'+i+'_fb"></div></div>';
+      html += '<div class="selfrow">'+
+        '<button type="button" class="self y" onclick="selfScore('+i+',true)">✓ Atsakiau teisingai</button>'+
+        '<button type="button" class="self n" onclick="selfScore('+i+',false)">✗ Suklydau</button></div>';
+    } else {
+      html += '<div class="actions"><button class="check" id="ex'+i+'_btn" onclick="checkExercise('+i+')">Tikrinti</button>'+
+        '<div class="fb" id="ex'+i+'_fb"></div></div>';
+    }
+    html += '</div></div>';
+  });
+  root.innerHTML = html;
+}
+
+render();
+updateScore();
+</script>
+</body>
+</html>
