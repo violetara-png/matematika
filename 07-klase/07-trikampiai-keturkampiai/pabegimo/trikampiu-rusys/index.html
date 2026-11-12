@@ -229,7 +229,7 @@ const VARIANTS = [
  /* --- VARIANTAS 1 · kodas 0965872197 --- */
  [
   { title:"Pirmoji atrama", label:"Vienetų skaitmuo =", eq:"54° + 36° + x = 180°",
-    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 54° ir 36°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:0 },
+    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 54° ir 36°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:0, full:90 },
   { title:"Lygiašonė sija", label:"Pagrindo kampas =", eq:"viršūnės kampas = 162°",
     q:"Sijos skerspjūvis — lygiašonis trikampis, kurio viršūnės kampas 162°. Kokio dydžio kiekvienas pagrindo kampas?", ans:9 },
   { title:"Santykio brėžinys", label:"Kraštinė =", eq:"2 : 3 : 4,  P = 18",
@@ -252,7 +252,7 @@ const VARIANTS = [
  /* --- VARIANTAS 2 · kodas 8635591256 --- */
  [
   { title:"Pirmoji atrama", label:"Vienetų skaitmuo =", eq:"46° + 46° + x = 180°",
-    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 46° ir 46°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:8 },
+    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 46° ir 46°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:8, full:88 },
   { title:"Lygiašonė sija", label:"Pagrindo kampas =", eq:"viršūnės kampas = 168°",
     q:"Sijos skerspjūvis — lygiašonis trikampis, kurio viršūnės kampas 168°. Kokio dydžio kiekvienas pagrindo kampas?", ans:6 },
   { title:"Santykio brėžinys", label:"Kraštinė =", eq:"3 : 4 : 5,  P = 12",
@@ -275,7 +275,7 @@ const VARIANTS = [
  /* --- VARIANTAS 3 · kodas 1365463348 --- */
  [
   { title:"Pirmoji atrama", label:"Vienetų skaitmuo =", eq:"25° + 64° + x = 180°",
-    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 25° ir 64°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:1 },
+    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 25° ir 64°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:1, full:91 },
   { title:"Lygiašonė sija", label:"Pagrindo kampas =", eq:"viršūnės kampas = 174°",
     q:"Sijos skerspjūvis — lygiašonis trikampis, kurio viršūnės kampas 174°. Kokio dydžio kiekvienas pagrindo kampas?", ans:3 },
   { title:"Santykio brėžinys", label:"Kraštinė =", eq:"4 : 5 : 6,  P = 15",
@@ -298,7 +298,7 @@ const VARIANTS = [
  /* --- VARIANTAS 4 · kodas 5845653165 --- */
  [
   { title:"Pirmoji atrama", label:"Vienetų skaitmuo =", eq:"15° + 40° + x = 180°",
-    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 15° ir 40°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:5 },
+    q:"Tiltą laikanti pirmoji trikampė atrama turi du žinomus kampus: 15° ir 40°. Apskaičiuok trečiąjį kampą ir įrašyk TIK jo vienetų skaitmenį.", ans:5, full:125 },
   { title:"Lygiašonė sija", label:"Pagrindo kampas =", eq:"viršūnės kampas = 164°",
     q:"Sijos skerspjūvis — lygiašonis trikampis, kurio viršūnės kampas 164°. Kokio dydžio kiekvienas pagrindo kampas?", ans:8 },
   { title:"Santykio brėžinys", label:"Kraštinė =", eq:"2 : 3 : 5,  P = 20",
@@ -407,6 +407,10 @@ function check(i){
       next.scrollIntoView({behavior:'smooth',block:'center'});
       document.getElementById('in'+(i+1)).focus();
     } else { openVault(); }
+  } else if(STATIONS[i].full!==undefined && Number(raw)===STATIONS[i].full){
+    wrongTries++;
+    fb.className='fb bad';
+    fb.textContent='Kampą paskaičiavai teisingai, bet reikia įrašyti TIK jo vienetų skaitmenį, ne visą kampo reikšmę. (Bandymų: '+wrongTries+')';
   } else {
     wrongTries++;
     fb.className='fb bad';
