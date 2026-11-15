@@ -136,13 +136,18 @@
   function buildOperands(op, kind){
     if(op==="mul"){
       if(kind==="natural"){
-        let left = decOperand(choice([1,2])), right = natOperand(randInt(2,99));
+        let left = decOperand(choice([1,2]));
+        let right = Math.random()<0.5 ? natOperand(randInt(2,9)) : natOperand(randInt(10,99));
         if(Math.random()<0.5) [left,right]=[right,left];
         return [left,right];
       }
       if(kind==="power10") return [decOperand(choice([1,2])), powerOperand(choice(POWERS10))];
       if(kind==="smalldec") return [decOperand(choice([1,2])), smallOperand(choice(SMALL))];
-      return [decOperand(choice([1,2])), decOperand(choice([1,2]))];
+      // kind === "decimal": pusė atvejų 1 po kablelio × 1 po kablelio, pusė — 1 po kablelio × 2 po kablelio
+      if(Math.random()<0.5) return [decOperand(1), decOperand(1)];
+      { let left = decOperand(1), right = decOperand(2);
+        if(Math.random()<0.5) [left,right]=[right,left];
+        return [left,right]; }
     }
     // op === "div"
     if(kind==="natural"){
