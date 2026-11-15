@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ženklų treniruotė: teigiami ir neigiami skaičiai (6 klasė)</title>
+<style>
+  :root{
+    --smelis:#faf6ef; --popierius:#fff; --rasalas:#2c2620; --pilka:#6f665c;
+    --linija:#e7ddcf; --sildyta:#c9603f; --sildyta-t:#fbf1ea;
+    --zalia:#4f8a52; --zalia-f:#eaf4ea; --raudona:#c0504a; --raudona-f:#fbeeed;
+    --geltona:#f3ead7; --melyna:#4a6d8c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--smelis); color:var(--rasalas);
+    font-family:"Segoe UI",system-ui,sans-serif; line-height:1.5; font-size:16px;}
+  .wrap{max-width:860px; margin:0 auto; padding:18px 16px 60px;}
+  header h1{font-size:23px; margin:8px 0 4px;}
+  header p{color:var(--pilka); font-size:14px; margin:0 0 14px;}
+
+  .korta{background:var(--popierius); border:1px solid var(--linija); border-radius:12px;
+    padding:18px 20px; margin-bottom:16px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
+  .korta h2{font-size:16px; margin:0 0 10px;}
+
+  .veiksmo-mygtukai{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+  .veiksmo-mygtukai button{font:inherit; cursor:pointer; border:1px solid var(--linija);
+    border-radius:10px; padding:9px 16px; background:var(--geltona); color:var(--rasalas); font-weight:600;}
+  .veiksmo-mygtukai button:hover{filter:brightness(.97);}
+  .veiksmo-mygtukai button.aktyvus{background:var(--sildyta); color:#fff; border-color:var(--sildyta);}
+  .veiksmo-mygtukai button:focus-visible{outline:3px solid var(--melyna); outline-offset:2px;}
+
+  .pastaba{font-size:13.5px; color:var(--pilka); margin:8px 0;}
+  details{margin-top:6px;}
+  summary{cursor:pointer; font-weight:700; font-size:14.5px;}
+  details p{font-size:14.5px; margin:8px 0 0;}
+
+  .uzdaviniu-tinklelis{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;}
+  .uzd{border:1px solid var(--linija); border-radius:12px; padding:14px 16px; background:var(--popierius);}
+  .uzd.gerai{border-color:#bcdcbc; background:var(--zalia-f);}
+  .uzd.blogai{border-color:#e6bfbc; background:var(--raudona-f);}
+  .uzd-virsus{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .nr{color:var(--pilka); font-size:13px; min-width:18px;}
+  .israiska{font-size:21px; font-weight:700; letter-spacing:.2px;}
+  .uzd input[type=text]{width:90px; padding:8px 10px; text-align:center; font-size:20px;
+    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  .uzd input[type=text]:focus{outline:none; border-color:var(--sildyta);}
+  .grizt-info{font-size:14px; line-height:1.55; margin-top:8px;}
+
+  .pranesimas{min-height:20px; font-size:14px; color:var(--raudona); font-weight:600;}
+  #rezultatas{font-size:17px;}
+
+  .veiksmai-apacioje{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;}
+  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:15.5px; font-weight:700;
+    cursor:pointer; font-family:inherit;}
+  .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn:active{transform:translateY(1px);}
+
+  @media(max-width:640px){
+    .uzdaviniu-tinklelis{grid-template-columns:1fr;}
+    .israiska{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Ženklų treniruotė</h1>
+    <p>Teigiami ir neigiami skaičiai: sudėtis, atimtis, daugyba, dalyba (6 klasė). Pasirink veiksmą, apskaičiuok ir pasitikrink!</p>
+  </header>
+
+  <div class="korta">
+    <h2>Kurį veiksmą treniruosiesi?</h2>
+    <div class="veiksmo-mygtukai" id="veiksmoMygtukai"></div>
+    <p class="pastaba">Skaičiai ir atsakymai nuo −20 iki 20. Dalyba be liekanos. Nauja treniruotė: naujos užduotys.</p>
+    <details>
+      <summary>Prisimink taisykles 💡</summary>
+      <p><b>Sudėtis:</b> vienodų ženklų skaičių modulius sudedame ir paliekame jų ženklą. Skirtingų ženklų: iš didesnio modulio atimame mažesnį ir paliekame didesnio modulio skaičiaus ženklą.</p>
+      <p><b>Atimtis:</b> atimti skaičių reiškia pridėti jam priešingą skaičių, a − b = a + (−b).</p>
+      <p><b>Daugyba ir dalyba:</b> vienodi ženklai, atsakymas teigiamas. Skirtingi ženklai, atsakymas neigiamas.</p>
+    </details>
+  </div>
+
+  <form id="forma">
+    <div class="uzdaviniu-tinklelis" id="uzdaviniai"></div>
+    <div class="korta" id="rezultatas" role="status" hidden></div>
+    <p id="pranesimas" class="pranesimas" role="status"></p>
+    <div class="veiksmai-apacioje">
+      <button class="btn btn-p" id="tikrinti" type="submit">Pasitikrinti</button>
+      <button class="btn btn-a" id="naujos" type="button">↻ Naujos 10 užduočių</button>
+    </div>
+  </form>
+
+  <p class="pastaba" style="text-align:center;">Įvertinimas: 1 teisingas atsakymas = 1 taškas. Pažymys: surinktų taškų skaičius (mažiausias 1).</p>
+</div>
+
+<script>
+const SIMBOLIAI = {sudetis:'+', atimtis:'−', daugyba:'·', dalyba:':'};
+const PAVADINIMAI = {sudetis:'Sudėtis +', atimtis:'Atimtis −', daugyba:'Daugyba ·', dalyba:'Dalyba :', visi:'Visi veiksmai'};
+
+let veiksmas = 'sudetis';
+let uzdaviniai = [];
+let panaudoti = new Set();
+let uzrakinta = false;
+
+function fmt(n){ return n<0 ? '−'+Math.abs(n) : String(n); }
+function suSkliaustais(n){ return n<0 ? '('+fmt(n)+')' : fmt(n); }
+
+function reiksme(a,b,op){
+  if(op==='sudetis') return a+b;
+  if(op==='atimtis') return a-b;
+  if(op==='daugyba') return a*b;
+  return a/b;
+}
+
+function sudarytiAibe(op){
+  const aibe=[];
+  for(let a=-20;a<=20;a++){
+    for(let b=-20;b<=20;b++){
+      if(!a||!b) continue;
+      if(a>0 && b>0) continue;
+      const atsakymas = reiksme(a,b,op);
+      if(!Number.isInteger(atsakymas)) continue;
+      if(Math.abs(atsakymas)>20) continue;
+      aibe.push({a,b,op,atsakymas,raktas:`${op}:${a}:${b}`});
+    }
+  }
+  return aibe;
+}
+
+const AIBES = {
+  sudetis: sudarytiAibe('sudetis'),
+  atimtis: sudarytiAibe('atimtis'),
+  daugyba: sudarytiAibe('daugyba'),
+  dalyba: sudarytiAibe('dalyba'),
+};
+
+function pamaisyti(masyvas){
+  for(let i=masyvas.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [masyvas[i],masyvas[j]]=[masyvas[j],masyvas[i]];
+  }
+  return masyvas;
+}
+
+function sudetiesTaisykle(a,b){
+  if(a+b===0) return 'Priešingų skaičių suma lygi 0.';
+  if(Math.sign(a)===Math.sign(b)){
+    return `Ženklai vienodi: sudedame modulius ${Math.abs(a)} + ${Math.abs(b)} = ${Math.abs(a)+Math.abs(b)} ir paliekame ${a<0?'minuso':'pliuso'} ženklą.`;
+  }
+  const did = Math.max(Math.abs(a),Math.abs(b));
+  const maz = Math.min(Math.abs(a),Math.abs(b));
+  const zenklas = (a+b)<0 ? 'minuso' : 'pliuso';
+  return `Ženklai skirtingi: ${did} − ${maz} = ${Math.abs(a+b)}. Paliekame didesnio modulio skaičiaus ${zenklas} ženklą.`;
+}
+
+function paaiskinimas(u){
+  if(u.op==='sudetis') return sudetiesTaisykle(u.a,u.b);
+  if(u.op==='atimtis'){
+    return `Atimtį keičiame sudėtimi: ${suSkliaustais(u.a)} + ${suSkliaustais(-u.b)} = ${fmt(u.atsakymas)}. ${sudetiesTaisykle(u.a,-u.b)}`;
+  }
+  const vienodi = Math.sign(u.a)===Math.sign(u.b);
+  return `Ženklai ${vienodi?'vienodi, todėl atsakymas teigiamas':'skirtingi, todėl atsakymas neigiamas'}: ${Math.abs(u.a)} ${SIMBOLIAI[u.op]} ${Math.abs(u.b)} = ${Math.abs(u.atsakymas)}.`;
+}
+
+function generuoti(){
+  const veiksmuSarasas = veiksmas==='visi'
+    ? pamaisyti(['sudetis','sudetis','atimtis','atimtis','daugyba','daugyba','dalyba','dalyba','sudetis','atimtis'])
+    : Array(10).fill(veiksmas);
+
+  const panaudotiDabar = new Set();
+  uzdaviniai = veiksmuSarasas.map(op=>{
+    const galimi = AIBES[op].filter(u=>!panaudoti.has(u.raktas) && !panaudotiDabar.has(u.raktas));
+    const sarasas = galimi.length ? galimi : AIBES[op];
+    const u = sarasas[Math.floor(Math.random()*sarasas.length)];
+    panaudotiDabar.add(u.raktas);
+    return u;
+  });
+  panaudoti = panaudotiDabar;
+  uzrakinta = false;
+
+  document.getElementById('uzdaviniai').innerHTML = uzdaviniai.map((u,i)=>`
+    <div class="uzd" id="uzd${i}">
+      <div class="uzd-virsus">
+        <span class="nr">${i+1}.</span>
+        <label class="israiska" for="atsakymas${i}">${suSkliaustais(u.a)} ${SIMBOLIAI[u.op]} ${suSkliaustais(u.b)} =</label>
+        <input id="atsakymas${i}" type="text" inputmode="text" autocomplete="off" aria-label="${i+1} užduoties atsakymas">
+      </div>
+      <div class="grizt-info" id="grizt${i}"></div>
+    </div>
+  `).join('');
+
+  document.getElementById('tikrinti').hidden=false;
+  document.getElementById('rezultatas').hidden=true;
+  document.getElementById('pranesimas').textContent='';
+}
+
+function tikrinti(e){
+  e.preventDefault();
+  if(uzrakinta) return;
+  const laukeliai = uzdaviniai.map((_,i)=>document.getElementById('atsakymas'+i));
+  const reiksmes = laukeliai.map(l=>l.value.trim().replace(/−/g,'-'));
+  const blogas = reiksmes.findIndex(r=>!/^[-+]?\d+$/.test(r));
+  if(blogas!==-1){
+    document.getElementById('pranesimas').textContent='Įrašyk visų 10 užduočių atsakymus sveikaisiais skaičiais (pvz., −5 arba 5).';
+    laukeliai[blogas].focus();
+    return;
+  }
+  let taskai=0;
+  uzdaviniai.forEach((u,i)=>{
+    const teisingai = Number(reiksmes[i])===u.atsakymas;
+    if(teisingai) taskai++;
+    document.getElementById('uzd'+i).classList.add(teisingai?'gerai':'blogai');
+    document.getElementById('grizt'+i).textContent = teisingai
+      ? '✓ Teisingai!'
+      : `✗ Teisingas atsakymas: ${fmt(u.atsakymas)}. ${paaiskinimas(u)}`;
+    laukeliai[i].readOnly=true;
+  });
+  uzrakinta=true;
+  document.getElementById('pranesimas').textContent='';
+  const rez = document.getElementById('rezultatas');
+  rez.hidden=false;
+  const pazymys = Math.max(1,taskai);
+  const komentaras = taskai===10 ? 'Puiku! Ženklus valdai užtikrintai.'
+    : taskai>=7 ? 'Gerai sekasi. Peržiūrėk klaidas ir bandyk dar kartą.'
+    : 'Peržiūrėk paaiškinimus ir išbandyk naują treniruotę.';
+  rez.innerHTML = `<b>${taskai}/10 taškų</b> · ${taskai*10} % · Pažymys: <b>${pazymys}</b>. ${komentaras}`;
+  document.getElementById('tikrinti').hidden=true;
+  rez.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function initMygtukai(){
+  const cont=document.getElementById('veiksmoMygtukai');
+  cont.innerHTML = Object.entries(PAVADINIMAI).map(([k,v])=>
+    `<button type="button" data-veiksmas="${k}" aria-pressed="${k===veiksmas}" class="${k===veiksmas?'aktyvus':''}">${v}</button>`
+  ).join('');
+  cont.addEventListener('click', e=>{
+    const mygtukas = e.target.closest('[data-veiksmas]');
+    if(!mygtukas) return;
+    veiksmas = mygtukas.dataset.veiksmas;
+    cont.querySelectorAll('[data-veiksmas]').forEach(b=>{
+      b.classList.toggle('aktyvus', b===mygtukas);
+      b.setAttribute('aria-pressed', b===mygtukas);
+    });
+    generuoti();
+  });
+}
+
+document.getElementById('forma').addEventListener('submit', tikrinti);
+document.getElementById('naujos').addEventListener('click', generuoti);
+initMygtukai();
+generuoti();
+</script>
+</body>
+</html>
