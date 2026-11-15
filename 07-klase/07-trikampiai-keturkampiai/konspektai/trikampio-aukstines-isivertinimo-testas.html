@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trikampio aukštinės — įsivertinimo testas</title>
+<style>
+  :root{
+    --tema:#1e5fa8; --tema-sv:#e8f1fb;
+    --green:#0a7d52; --green-sv:#e6f6ee;
+    --pvz:#b25c00; --pvz-sv:#fdf0e2;
+    --red:#c62828; --red-sv:#fdecec;
+    --ink:#1c2430; --grey:#5b6472; --line:#d8dee6;
+    --gold:#c9930a;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);line-height:1.5;margin:0;background:#f4f6f9}
+  .math{font-family:"Cambria Math",Cambria,Georgia,serif}
+  /* Bendra matematikos notacija (references/matematikos-notacija/notacija.css) */
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif;}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px;}
+  .fr>span:last-child{padding:0 4px;}
+  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em;}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em);}
+  .sqrt.cbrt::before{content:"∛";}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px;}
+  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em);}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px;}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.6em;font-weight:400;line-height:1;transform:scaleY(1.35);transform-origin:center;display:inline-block;}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3;}
+  .sys .rows span{white-space:nowrap;}
+  sup, sub{line-height:0;}
+  .lapas{max-width:880px;margin:0 auto;padding:0 20px 60px}
+  header.top{background:var(--tema);color:#fff;padding:28px 20px 22px;margin-bottom:0}
+  header.top .inner{max-width:840px;margin:0 auto}
+  header.top h1{margin:0 0 6px;font-size:26px}
+  header.top p{margin:0;color:#cfe0f4;font-size:14px;font-weight:600}
+  .instr{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--grey)}
+  .instr b{color:var(--tema)}
+  .score-bar{position:sticky;top:0;z-index:20;background:#fff;border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 2px 10px rgba(20,40,90,.08);padding:12px 18px;margin:14px 0 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .score-bar .pts{font-size:20px;font-weight:800;color:var(--tema)}
+  .score-bar .sub{font-size:13px;color:var(--grey);font-weight:600}
+  .score-bar .bar{flex:1;min-width:140px;height:10px;background:var(--tema-sv);border-radius:6px;overflow:hidden}
+  .score-bar .bar>div{height:100%;background:var(--green);width:0%;transition:width .25s}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(20,40,90,.06)}
+  .card .banner{background:var(--tema);color:#fff;padding:9px 16px;font-weight:700;font-size:13.5px;display:flex;gap:10px;align-items:center}
+  .card .banner .badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;
+    background:rgba(255,255,255,.22);border-radius:6px;font-size:12px;font-weight:800;padding:0 5px}
+  .card .body{padding:14px 18px 16px}
+  .given{font-size:15.5px;margin:0 0 12px}
+  .fieldrow{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+  .fieldrow label{font-weight:700;color:var(--tema);min-width:70px}
+  .fieldrow input{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:15px;padding:7px 10px;
+    border:1.5px solid var(--line);border-radius:7px;width:220px;max-width:60vw}
+  .fieldrow input:focus{outline:none;border-color:var(--tema)}
+  .insb{border:1.5px solid var(--line);background:#fbfcfe;border-radius:7px;min-width:34px;height:34px;padding:0 8px;
+    font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;color:var(--tema);cursor:pointer}
+  .insb:hover{background:var(--tema-sv)}
+  .exprhint{font-size:12.5px;color:var(--grey);margin:-2px 0 8px}
+  .opentools{display:flex;gap:8px;margin:6px 0 10px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .opt{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:8px 12px;cursor:pointer;
+    font-size:14.5px;display:flex;gap:6px;align-items:center;user-select:none}
+  .opt .k{font-weight:800;color:var(--tema)}
+  .opt.sel{border-color:var(--tema);background:var(--tema-sv)}
+  .opt.locked{cursor:default}
+  .actions{margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  button.check{background:var(--tema);color:#fff;border:0;border-radius:8px;padding:8px 18px;font-size:14px;
+    font-weight:700;cursor:pointer}
+  button.check:hover{background:#174e8c}
+  button.check:disabled{background:#b7c4d8;cursor:default}
+  .fb{font-weight:700;font-size:14.5px;padding:8px 12px;border-radius:8px;display:none}
+  .fb.ok{display:block;background:var(--green-sv);color:var(--green)}
+  .fb.bad{display:block;background:var(--red-sv);color:var(--red)}
+  .fb .ans{font-weight:800}
+  textarea.opentxt{width:100%;min-height:64px;font-family:inherit;font-size:14.5px;padding:9px 11px;
+    border:1.5px solid var(--line);border-radius:7px;resize:vertical;box-sizing:border-box}
+  textarea.opentxt:focus{outline:none;border-color:var(--tema)}
+  .sample{background:var(--pvz-sv);border:1px solid #f0d3ab;border-radius:8px;padding:10px 12px;margin-top:10px;
+    font-size:14.5px;color:var(--pvz);display:none}
+  .sample b{color:var(--pvz)}
+  .selfrow{display:none;margin-top:10px;gap:10px;flex-wrap:wrap}
+  button.self{border:1.5px solid var(--line);background:#fbfcfe;border-radius:8px;padding:7px 14px;font-size:14px;
+    font-weight:700;cursor:pointer}
+  button.self.y{color:var(--green);border-color:var(--green)}
+  button.self.y:hover{background:var(--green-sv)}
+  button.self.n{color:var(--red);border-color:var(--red)}
+  button.self.n:hover{background:var(--red-sv)}
+
+  .result{background:linear-gradient(135deg,var(--tema),#123f70);color:#fff;border-radius:14px;
+    padding:26px 26px 22px;margin:26px 0;text-align:center}
+  .result h2{margin:0 0 10px;font-size:19px;color:#cfe0f4;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+  .result .grade{font-size:64px;font-weight:900;color:#ffe08a;line-height:1}
+  .result .row{margin-top:10px;font-size:16px;color:#eaf1fb}
+  .result .comment{margin-top:12px;font-size:14.5px;color:#dbe7f7;font-style:italic}
+  .result .warn{margin-top:10px;font-size:13px;color:#ffd9a0}
+
+  footer{text-align:center;color:var(--grey);font-size:12px;margin-top:10px;padding-top:14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="inner">
+  <h1>Trikampio aukštinės — įsivertinimo testas</h1>
+  <p>Matematika · 7 klasė · 7 skyrius „Trikampiai ir keturkampiai“ · 7.2 tema „Trikampio aukštinės“</p>
+</div></header>
+
+<div class="lapas">
+
+  <div class="instr">
+    <b>Kaip naudotis.</b> Spręsk pratimus bet kokia tvarka. Kiekvieną pratimą patikrink mygtuku „Tikrinti“ — iškart pamatysi, ar teisingai, ir teisingą atsakymą. Kiekvienas pratimas vertas 1 tašką (jei pratime kelios dalys — taškas skiriamas tik kai <b>visos</b> dalys teisingos). Atviro atsakymo pratimuose (kur atsakymų gali būti kelios teisingos formuluotės) paspaudus „Rodyti atsakymą“ pamatysi pavyzdinį atsakymą ir pats pažymėsi, ar atsakei teisingai. Rezultatas ir pažymys apačioje atsinaujina automatiškai. Niekur nesiunčiama — testas skirtas tik tavo pačio pasitikrinimui.
+  </div>
+
+  <div class="score-bar">
+    <div class="pts">🎯 <span id="scoreNow">0</span> / <span id="scoreMax">0</span> t.</div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="sub">Patikrinta: <span id="doneCount">0</span>/<span id="doneMax">0</span></div>
+  </div>
+
+  <div id="exercises"></div>
+
+  <div class="result" id="resultBox">
+    <h2>Bendras rezultatas</h2>
+    <div class="grade" id="gradeOut">—</div>
+    <div class="row"><span id="ptsOut">0 / 0</span> taškų &nbsp;·&nbsp; <span id="pctOut">0%</span></div>
+    <div class="comment" id="commentOut"></div>
+    <div class="warn" id="warnOut"></div>
+  </div>
+
+  <footer>Mokytoja Violeta · 7 klasės matematika · „Trikampio aukštinės“ · įsivertinimo testas</footer>
+</div>
+
+<script>
+const EXERCISES = [{"kicker": "Aukštinės atpažinimas (a)", "given": "<svg viewBox='0 0 280 200' width='260' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}</style><polygon class=\"s-side\" points=\"60,36 30,170 250,170\"/><line class=\"s-cev\" x1=\"60\" y1=\"36\" x2=\"140\" y2=\"170\"/><line class=\"s-mark\" x1=\"85\" y1=\"175\" x2=\"85\" y2=\"165\"/><line class=\"s-mark\" x1=\"195\" y1=\"175\" x2=\"195\" y2=\"165\"/><line class=\"s-cev\" x1=\"60\" y1=\"36\" x2=\"111.7\" y2=\"170\"/><line class=\"s-cev\" x1=\"60\" y1=\"36\" x2=\"190\" y2=\"170\"/><line class=\"s-cev\" x1=\"60\" y1=\"36\" x2=\"60\" y2=\"170\"/><polyline class=\"s-rt\" points=\"69,170 69,161 60,161\"/><text x='56' y='28' font-size='14' font-weight='600'>A</text><text x='16' y='188' font-size='14' font-weight='600'>B</text><text x='254' y='188' font-size='14' font-weight='600'>C</text><text x='56' y='188' font-size='14' font-weight='600'>P</text><text x='136' y='188' font-size='14' font-weight='600'>Q</text><text x='101.7' y='164' font-size='14' font-weight='600'>R</text><text x='186' y='188' font-size='14' font-weight='600'>S</text></svg>Pažymėkite, kuri atkarpa yra trikampio <span class=\"math\">ABC</span> aukštinė.", "type": "mc", "options": [{"k": "A", "t": "AQ"}, {"k": "B", "t": "AR"}, {"k": "C", "t": "AS"}, {"k": "D", "t": "AP"}], "correct": "D"}, {"kicker": "Aukštinės atpažinimas (b) — bukasis trikampis", "given": "<svg viewBox='0 0 300 220' width='280' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}</style><polygon class=\"s-side\" points=\"110,140 40,190 260,190\"/><line class=\"s-side\" x1=\"110\" y1=\"140\" x2=\"62\" y2=\"124\" stroke-dasharray=\"4 3\"/><line class=\"s-side\" x1=\"110\" y1=\"140\" x2=\"185.7\" y2=\"85.9\" stroke-dasharray=\"4 3\"/><line class=\"s-cev\" x1=\"40\" y1=\"190\" x2=\"62\" y2=\"124\"/><line class=\"s-cev\" x1=\"260\" y1=\"190\" x2=\"185.7\" y2=\"85.9\"/><polyline class=\"s-rt\" points=\"179.2,90.6 183.8,97.1 190.3,92.5\"/><line class=\"s-cev\" x1=\"110\" y1=\"140\" x2=\"150\" y2=\"190\"/><line class=\"s-mark\" x1=\"95\" y1=\"195\" x2=\"95\" y2=\"185\"/><line class=\"s-mark\" x1=\"205\" y1=\"195\" x2=\"205\" y2=\"185\"/><line class=\"s-cev\" x1=\"110\" y1=\"140\" x2=\"117.5\" y2=\"190\"/><text x='106' y='130' font-size='14' font-weight='600'>A</text><text x='26' y='208' font-size='14' font-weight='600'>B</text><text x='264' y='208' font-size='14' font-weight='600'>C</text><text x='46' y='122' font-size='14' font-weight='600'>F</text><text x='191.7' y='83.9' font-size='14' font-weight='600'>G</text><text x='146' y='208' font-size='14' font-weight='600'>M</text><text x='101.5' y='208' font-size='14' font-weight='600'>N</text></svg>Trikampis <span class=\"math\">ABC</span> yra bukasis. Pažymėkite, kuri atkarpa yra jo aukštinė.", "type": "mc", "options": [{"k": "A", "t": "AM"}, {"k": "B", "t": "AN"}, {"k": "C", "t": "BF"}, {"k": "D", "t": "CG"}], "correct": "D"}, {"kicker": "Aukštinių susikirtimo taškas", "given": "<div style='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:flex-start'><svg viewBox='0 0 150 130' width='150' style='display:block;margin:6px auto' aria-label='trikampis ABC'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"20,110 130,110 75,20\"/><line class=\"s-cev\" x1=\"20\" y1=\"110\" x2=\"101.9\" y2=\"64.1\"/><line class=\"s-cev\" x1=\"130\" y1=\"110\" x2=\"48.1\" y2=\"64.1\"/><path class=\"s-arc\" d=\"M 35 110 A 15 15 0 0 1 33.1 102.7\"/><path class=\"s-arc\" d=\"M 33.1 102.7 A 15 15 0 0 1 27.8 97.2\"/><path class=\"s-arc\" d=\"M 115 110 A 15 15 0 0 0 116.9 102.7\"/><path class=\"s-arc\" d=\"M 116.9 102.7 A 15 15 0 0 0 122.2 97.2\"/><text x='6' y='114' font-size='14' font-weight='600'>A</text><text x='136' y='114' font-size='14' font-weight='600'>B</text><text x='71' y='12' font-size='14' font-weight='600'>C</text><circle class=\"s-dot\" cx=\"75\" cy=\"79.2\" r=\"2.6\"/><text x='81' y='75.2' font-size='12' font-weight='600'>N</text></svg><svg viewBox='0 0 150 130' width='150' style='display:block;margin:6px auto' aria-label='trikampis DEF'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"20,110 130,110 95,20\"/><line class=\"s-cev\" x1=\"20\" y1=\"110\" x2=\"112.5\" y2=\"65\"/><line class=\"s-cev\" x1=\"130\" y1=\"110\" x2=\"57.5\" y2=\"65\"/><line class=\"s-mark\" x1=\"125.9\" y1=\"85.7\" x2=\"116.6\" y2=\"89.3\"/><line class=\"s-mark\" x1=\"108.4\" y1=\"40.7\" x2=\"99.1\" y2=\"44.3\"/><line class=\"s-mark\" x1=\"42.6\" y1=\"90.7\" x2=\"34.9\" y2=\"84.3\"/><line class=\"s-mark\" x1=\"80.1\" y1=\"45.7\" x2=\"72.4\" y2=\"39.3\"/><circle class=\"s-dot\" cx=\"81.7\" cy=\"80\" r=\"2.6\"/><text x='87.7' y='76' font-size='12' font-weight='600'>O</text><text x='6' y='114' font-size='14' font-weight='600'>D</text><text x='136' y='114' font-size='14' font-weight='600'>E</text><text x='91' y='12' font-size='14' font-weight='600'>F</text></svg><svg viewBox='0 0 160 130' width='150' style='display:block;margin:6px auto' aria-label='trikampis GHJ'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"20,110 140,110 20,20\"/><line class=\"s-cev\" x1=\"20\" y1=\"110\" x2=\"63.2\" y2=\"52.4\"/><polyline class=\"s-rt\" points=\"29,110 29,101 20,101\"/><polyline class=\"s-rt\" points=\"58.4,58.8 64.8,63.6 69.6,57.2\"/><circle class=\"s-dot\" cx=\"20\" cy=\"110\" r=\"2.8\"/><text x='26' y='100' font-size='12' font-weight='600'>P</text><text x='6' y='124' font-size='14' font-weight='600'>G</text><text x='138' y='102' font-size='14' font-weight='600'>H</text><text x='4' y='16' font-size='14' font-weight='600'>J</text><text x='65.2' y='68.4' font-size='14' font-weight='600'>K</text></svg><svg viewBox='0 0 130 130' width='150' style='display:block;margin:6px auto' aria-label='trikampis KLM'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"20,110 110,110 50,30\"/><line class=\"s-cev\" x1=\"20\" y1=\"110\" x2=\"80\" y2=\"70\"/><line class=\"s-cev\" x1=\"110\" y1=\"110\" x2=\"35\" y2=\"70\"/><circle class=\"s-dot\" cx=\"60\" cy=\"83.3\" r=\"2.6\"/><text x='66' y='79.3' font-size='12' font-weight='600'>R</text><text x='6' y='114' font-size='14' font-weight='600'>K</text><text x='116' y='114' font-size='14' font-weight='600'>L</text><text x='46' y='22' font-size='14' font-weight='600'>M</text></svg></div>Pažymėkite, kuriame trikampyje teisingai pažymėtas <b>aukštinių susikirtimo taškas</b>.", "type": "mc", "options": [{"k": "A", "t": "ABC (taškas N)"}, {"k": "B", "t": "DEF (taškas O)"}, {"k": "C", "t": "GHJ (taškas P)"}, {"k": "D", "t": "KLM (taškas R)"}], "correct": "C"}, {"kicker": "Kurios 3 atkarpos yra aukštinės? (a) — statusis trikampis", "given": "<svg viewBox='0 0 260 200' width='320' style='display:block;margin:8px auto' aria-label='statusis trikampis FGH'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"30,180 230,180 30,60\"/><polyline class=\"s-rt\" points=\"39,180 39,171 30,171\"/><line class=\"s-cev\" x1=\"30\" y1=\"180\" x2=\"82.9\" y2=\"91.8\"/><polyline class=\"s-rt\" points=\"78.8,98.6 85.7,102.7 89.8,95.9\"/><line class=\"s-cev\" x1=\"30\" y1=\"180\" x2=\"130\" y2=\"120\" stroke-dasharray=\"4 3\"/><line class=\"s-mark\" x1=\"182.6\" y1=\"145.7\" x2=\"177.4\" y2=\"154.3\"/><line class=\"s-mark\" x1=\"82.6\" y1=\"85.7\" x2=\"77.4\" y2=\"94.3\"/><text x='14' y='184' font-size='14' font-weight='600'>F</text><text x='238' y='184' font-size='14' font-weight='600'>G</text><text x='14' y='56' font-size='14' font-weight='600'>H</text><text x='84.9' y='107.8' font-size='14' font-weight='600'>K</text><text x='126' y='140' font-size='14' font-weight='600'>M</text></svg>Trikampis <span class=\"math\">FGH</span> yra statusis (statusis kampas prie viršūnės <span class=\"math\">F</span>). Pažymėkite, kurios <b>3 atkarpos</b> yra trikampio <span class=\"math\">FGH</span> aukštinės.", "type": "multi", "options": [{"k": "A", "t": "FH"}, {"k": "B", "t": "FG"}, {"k": "C", "t": "FK"}, {"k": "D", "t": "GH"}, {"k": "E", "t": "FM"}], "correct": ["A", "B", "C"]}, {"kicker": "Kurios 3 atkarpos yra aukštinės? (b) — bukasis trikampis", "given": "<svg viewBox='0 0 300 220' width='320' style='display:block;margin:8px auto' aria-label='bukasis trikampis NPQ'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"120,150 30,190 260,190\"/><line class=\"s-cev\" x1=\"120\" y1=\"150\" x2=\"120\" y2=\"190\"/><polyline class=\"s-rt\" points=\"120,182 128,182 128,190\"/><line class=\"s-side\" x1=\"120\" y1=\"150\" x2=\"47.4\" y2=\"129.2\" stroke-dasharray=\"4 3\"/><line class=\"s-side\" x1=\"120\" y1=\"150\" x2=\"222.1\" y2=\"104.6\" stroke-dasharray=\"4 3\"/><line class=\"s-cev\" x1=\"30\" y1=\"190\" x2=\"47.4\" y2=\"129.2\"/><polyline class=\"s-rt\" points=\"55.1,131.4 52.9,139.1 45.2,136.9\"/><line class=\"s-cev\" x1=\"260\" y1=\"190\" x2=\"222.1\" y2=\"104.6\"/><polyline class=\"s-rt\" points=\"214.8,107.9 218,115.2 225.3,111.9\"/><line class=\"s-cev\" x1=\"120\" y1=\"150\" x2=\"145\" y2=\"190\"/><line class=\"s-cev\" x1=\"260\" y1=\"190\" x2=\"90\" y2=\"190\"/><text x='116' y='140' font-size='14' font-weight='600'>N</text><text x='16' y='208' font-size='14' font-weight='600'>P</text><text x='264' y='208' font-size='14' font-weight='600'>Q</text><text x='116' y='208' font-size='14' font-weight='600'>T</text><text x='31.4' y='127.2' font-size='14' font-weight='600'>R</text><text x='228.1' y='102.6' font-size='14' font-weight='600'>S</text><text x='151' y='208' font-size='14' font-weight='600'>W</text><text x='78' y='208' font-size='14' font-weight='600'>U</text></svg>Trikampis <span class=\"math\">NPQ</span> yra bukasis (bukasis kampas prie viršūnės <span class=\"math\">N</span>). Pažymėkite, kurios <b>3 atkarpos</b> yra trikampio <span class=\"math\">NPQ</span> aukštinės.", "type": "multi", "options": [{"k": "A", "t": "PR"}, {"k": "B", "t": "QS"}, {"k": "C", "t": "NT"}, {"k": "D", "t": "NW"}, {"k": "E", "t": "PQ"}, {"k": "F", "t": "QU"}], "correct": ["A", "B", "C"]}, {"kicker": "Kampai, kai aukštinė dalija kampą (a)", "given": "<svg viewBox='0 0 260 190' width='260' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"30,160 220,160 91.5,70\"/><line class=\"s-cev\" x1=\"91.5\" y1=\"70\" x2=\"91.5\" y2=\"160\"/><polyline class=\"s-rt\" points=\"91.5,151 100.5,151 100.5,160\"/><path class=\"s-arc\" d=\"M 207.7 151.4 A 15 15 0 0 1 205 160\"/><text x='16' y='178' font-size='14' font-weight='600'>P</text><text x='226' y='178' font-size='14' font-weight='600'>Q</text><text x='87.5' y='60' font-size='14' font-weight='600'>R</text><text x='87.5' y='182' font-size='14' font-weight='600'>S</text><text x='182' y='150' font-size='13' font-weight='600' fill='#0a7d52'>35°</text></svg>Žinoma, kad <span class=\"math\">RS</span> yra trikampio <span class=\"math\">PQR</span> aukštinė, o kampas <span class=\"math\">RQP</span> lygus 35°.", "type": "fields", "fields": [{"label": "a) ∠RSQ =", "kind": "number", "ans": 90}, {"label": "b) ∠SRQ =", "kind": "number", "ans": 55}]}, {"kicker": "Kampai, kai aukštinė dalija kampą (b)", "given": "<svg viewBox='0 0 280 190' width='270' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"30,160 250,160 168.6,63\"/><line class=\"s-cev\" x1=\"168.6\" y1=\"63\" x2=\"168.6\" y2=\"160\"/><polyline class=\"s-rt\" points=\"168.6,151 177.6,151 177.6,160\"/><path class=\"s-arc\" d=\"M 42.3 151.4 A 15 15 0 0 0 45 160\"/><path class=\"s-arc\" d=\"M 240.4 148.5 A 15 15 0 0 1 235 160\"/><text x='16' y='178' font-size='14' font-weight='600'>F</text><text x='256' y='178' font-size='14' font-weight='600'>G</text><text x='164.6' y='53' font-size='14' font-weight='600'>E</text><text x='164.6' y='182' font-size='14' font-weight='600'>H</text><text x='46' y='152' font-size='13' font-weight='600' fill='#0a7d52'>35°</text><text x='220' y='152' font-size='13' font-weight='600' fill='#0a7d52'>50°</text></svg>Žinoma, kad <span class=\"math\">EH</span> yra trikampio <span class=\"math\">EFG</span> aukštinė. Apskaičiuokite kampų <span class=\"math\">FEH</span>, <span class=\"math\">HEG</span> ir <span class=\"math\">FEG</span> dydžius.", "type": "fields", "fields": [{"label": "∠FEH =", "kind": "number", "ans": 55}, {"label": "∠HEG =", "kind": "number", "ans": 40}, {"label": "∠FEG =", "kind": "number", "ans": 95}]}, {"kicker": "Kampo tarp aukštinės ir atkarpos apskaičiavimas", "given": "<svg viewBox='0 0 300 200' width='280' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"140,40 30,170 250,170\"/><line class=\"s-cev\" x1=\"140\" y1=\"40\" x2=\"140\" y2=\"170\"/><polyline class=\"s-rt\" points=\"140,161 149,161 149,170\"/><line class=\"s-cev\" x1=\"229.7\" y1=\"146\" x2=\"140\" y2=\"170\"/><line class=\"s-cev\" x1=\"140\" y1=\"40\" x2=\"229.7\" y2=\"146\"/><path class=\"s-arc\" d=\"M 154.5 166.1 A 15 15 0 0 0 155 170\"/><text x='136' y='30' font-size='14' font-weight='600'>A</text><text x='14' y='174' font-size='14' font-weight='600'>B</text><text x='256' y='174' font-size='14' font-weight='600'>C</text><text x='136' y='192' font-size='14' font-weight='600'>E</text><text x='237.7' y='146' font-size='14' font-weight='600'>D</text><text x='195' y='158' font-size='13' font-weight='600' fill='#0a7d52'>15°</text></svg>Apskaičiuokite kampo <span class=\"math\">AED</span> dydį, jei žinoma, kad <span class=\"math\">AE</span> yra trikampio <span class=\"math\">ABC</span> aukštinė, o kampas <span class=\"math\">DEC</span> = 15°.", "type": "fields", "fields": [{"label": "∠AED =", "kind": "number", "ans": 75}]}, {"kicker": "Aukštinė statusiame trikampyje (a)", "given": "<svg viewBox='0 0 260 190' width='250' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"30,170 30,63.7 230,170\"/><polyline class=\"s-rt\" points=\"30,161 39,161 39,170\"/><line class=\"s-cev\" x1=\"30\" y1=\"170\" x2=\"74.1\" y2=\"87.1\"/><polyline class=\"s-rt\" points=\"70.3,94.2 77.4,97.9 81.1,90.9\"/><path class=\"s-arc\" d=\"M 30 155 A 15 15 0 0 0 37 156.8\"/><text x='14' y='180' font-size='14' font-weight='600'>A</text><text x='14' y='67.7' font-size='14' font-weight='600'>B</text><text x='238' y='174' font-size='14' font-weight='600'>C</text><text x='68.1' y='103.1' font-size='14' font-weight='600'>D</text><text x='46' y='144' font-size='13' font-weight='600' fill='#0a7d52'>28°</text></svg>Statusis trikampis <span class=\"math\">ABC</span> (kampas <span class=\"math\">A</span> = 90°). <span class=\"math\">AD</span> yra šio trikampio aukštinė, o kampas <span class=\"math\">BAD</span> = 28°. Apskaičiuokite trikampio <span class=\"math\">ADC</span> kampų dydžius.", "type": "fields", "fields": [{"label": "∠ADC =", "kind": "number", "ans": 90}, {"label": "∠DAC =", "kind": "number", "ans": 62}, {"label": "∠ACD =", "kind": "number", "ans": 28}]}, {"kicker": "Kampo tarp aukštinės ir kraštinės apskaičiavimas", "given": "<svg viewBox='0 0 230 210' width='220' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"40,190 40,63.9 138.5,190\"/><polyline class=\"s-rt\" points=\"40,181 49,181 49,190\"/><line class=\"s-cev\" x1=\"40\" y1=\"190\" x2=\"101.2\" y2=\"142.2\"/><polyline class=\"s-rt\" points=\"94.9,147.1 99.8,153.4 106.1,148.5\"/><line class=\"s-cev\" x1=\"138.5\" y1=\"190\" x2=\"178.5\" y2=\"190\" stroke-dasharray=\"4 3\"/><path class=\"s-arc\" d=\"M 129.3 178.2 A 15 15 0 0 0 153.5 190\"/><text x='24' y='200' font-size='14' font-weight='600'>P</text><text x='24' y='67.9' font-size='14' font-weight='600'>Q</text><text x='134.5' y='210' font-size='14' font-weight='600'>R</text><text x='87.2' y='138.2' font-size='14' font-weight='600'>M</text><text x='154.5' y='180' font-size='13' font-weight='600' fill='#0a7d52'>128°</text></svg>Statusis trikampis <span class=\"math\">PQR</span> (kampas <span class=\"math\">P</span> = 90°). <span class=\"math\">PM</span> yra šio trikampio aukštinė, o kampo <span class=\"math\">R</span> priekampis lygus 128°. Apskaičiuokite kampo <span class=\"math\">MPQ</span> dydį.", "type": "fields", "fields": [{"label": "∠MPQ =", "kind": "number", "ans": 52}]}, {"kicker": "Aukštinė ir trikampio kampai", "given": "<svg viewBox='5 5 300 300' width='300' style='display:block;margin:8px auto' aria-label='trikampis'><style>.s-side{stroke:#1e5fa8;stroke-width:2;fill:none}.s-mark{stroke:#c62828;stroke-width:2}.s-arc{stroke:#0a7d52;stroke-width:1.8;fill:none}.s-rt{stroke:#1c2430;stroke-width:1.6;fill:none}.s-cev{stroke:#5b6472;stroke-width:1.6;fill:none}.s-dot{fill:#1c2430}</style><polygon class=\"s-side\" points=\"285,25 25,285 163.8,285\"/><line class=\"s-cev\" x1=\"285\" y1=\"25\" x2=\"285\" y2=\"285\"/><polyline class=\"s-rt\" points=\"285,277 277,277 277,285\"/><line class=\"s-cev\" x1=\"163.8\" y1=\"285\" x2=\"285\" y2=\"285\" stroke-dasharray=\"4 3\"/><path class=\"s-arc\" d=\"M 274.4 35.6 A 15 15 0 0 1 278.7 38.6\"/><path class=\"s-arc\" d=\"M 35.6 274.4 A 15 15 0 0 0 40 285\"/><text x='281' y='15' font-size='14' font-weight='600'>A</text><text x='9' y='303' font-size='14' font-weight='600'>B</text><text x='159.8' y='303' font-size='14' font-weight='600'>C</text><text x='291' y='303' font-size='14' font-weight='600'>D</text><text x='47' y='275' font-size='13' font-weight='600' fill='#0a7d52'>45°</text><text x='259' y='41' font-size='13' font-weight='600' fill='#0a7d52'>20°</text></svg>Trikampio <span class=\"math\">ABC</span> kampas <span class=\"math\">A</span> lygus 20°, kampas <span class=\"math\">B</span> lygus 45°, o <span class=\"math\">AD</span> yra šio trikampio aukštinė. Apskaičiuokite trikampio <span class=\"math\">ACD</span> kampų dydžius.", "type": "fields", "fields": [{"label": "∠ADC =", "kind": "number", "ans": 90}, {"label": "∠ACD =", "kind": "number", "ans": 65}, {"label": "∠DAC =", "kind": "number", "ans": 25}]}];
+const GRADE_SCALE = [[95, 10], [85, 9], [75, 8], [65, 7], [55, 6], [45, 5], [35, 4], [25, 3], [15, 2], [0, 1]];
+const COMMENTS = [[85, "Puikiai! Temą supranti labai gerai."], [65, "Gerai. Peržiūrėk, kur suklydai."], [45, "Patenkinamai — verta pakartoti temą."], [0, "Reikia pakartoti temą ir pasitreniruoti su kontrolinio treniruokliu."]];
+
+const state = EXERCISES.map(()=>({checked:false, correct:false}));
+
+function normNum(s){
+  s = String(s).trim().replace(/−/g,'-');
+  if(s==='') return null;
+  const n = parseInt(s,10);
+  return isNaN(n) ? null : n;
+}
+function normSet(s){
+  s = String(s).replace(/−/g,'-').replace(/[{}]/g,'').trim();
+  if(s==='') return null;
+  const parts = s.split(/[;,]/).map(x=>x.trim()).filter(x=>x!=='');
+  const nums = parts.map(x=>parseInt(x,10));
+  if(nums.some(isNaN)) return null;
+  return nums.slice().sort((a,b)=>a-b);
+}
+function arrEq(a,b){
+  if(!a || !b || a.length!==b.length) return false;
+  return a.every((v,i)=>v===b[i]);
+}
+function normInterval(s){
+  s = String(s).replace(/−/g,'-').replace(/\s+/g,'').replace(/∞/g,'inf');
+  if(s.length<3) return null;
+  const open = s[0], close = s[s.length-1];
+  if(!'[('.includes(open) || !'])'.includes(close)) return null;
+  const inner = s.slice(1,-1);
+  const parts = inner.split(/[;,]/);
+  if(parts.length!==2) return null;
+  const a = parts[0], b = parts[1];
+  if(a==='' || b==='') return null;
+  return open+a+';'+b+close;
+}
+
+// --- 'expr' kind: algebrinės išraiškos tikrinamos SKAIČIUOJANT (ne teksto atitikimu),
+// kad "19-2√13" ir "-2√13+19" būtų priimami kaip lygiaverčiai.
+function exprTokenize(s){
+  s = String(s).trim();
+  const toks = []; let i = 0;
+  while(i < s.length){
+    const c = s[i];
+    if(/\s/.test(c)){ i++; continue; }
+    if(c === '√'){ toks.push({t:'SQRT'}); i++; continue; }
+    if(c === 'π'){ toks.push({t:'PI'}); i++; continue; }
+    if(/[0-9.,]/.test(c)){
+      let j = i; while(j < s.length && /[0-9.,]/.test(s[j])) j++;
+      const numStr = s.slice(i,j).replace(',', '.');
+      toks.push({t:'NUM', v: parseFloat(numStr)});
+      i = j; continue;
+    }
+    if(/[a-zA-Z]/.test(c)){
+      if(s.slice(i,i+4).toLowerCase() === 'sqrt'){ toks.push({t:'SQRT'}); i += 4; continue; }
+      if(s.slice(i,i+2).toLowerCase() === 'pi'){ toks.push({t:'PI'}); i += 2; continue; }
+      toks.push({t:'VAR', v:c.toLowerCase()}); i++; continue;
+    }
+    if(c === '(' ){ toks.push({t:'LP'}); i++; continue; }
+    if(c === ')'){ toks.push({t:'RP'}); i++; continue; }
+    if(c === '+'){ toks.push({t:'PLUS'}); i++; continue; }
+    if(c === '-' || c === '−'){ toks.push({t:'MINUS'}); i++; continue; }
+    if(c === '*' || c === '·' || c === '×'){ toks.push({t:'STAR'}); i++; continue; }
+    if(c === '/' || c === ':'){ toks.push({t:'SLASH'}); i++; continue; }
+    if(c === '^'){ toks.push({t:'CARET'}); i++; continue; }
+    throw new Error('bad char ' + c);
+  }
+  toks.push({t:'END'});
+  return toks;
+}
+function exprParse(toks){
+  let pos = 0;
+  const peek = () => toks[pos];
+  const nxt = () => toks[pos++];
+  const canStartFactor = t => ['NUM','VAR','PI','LP','SQRT'].includes(t.t);
+  function pExpr(){
+    let node = pTerm();
+    while(peek().t === 'PLUS' || peek().t === 'MINUS'){
+      const op = nxt().t; node = {op: op==='PLUS'?'+':'-', l:node, r:pTerm()};
+    }
+    return node;
+  }
+  function pTerm(){
+    let node = pUnary();
+    while(true){
+      if(peek().t === 'STAR' || peek().t === 'SLASH'){
+        const op = nxt().t; node = {op: op==='STAR'?'*':'/', l:node, r:pUnary()};
+      } else if(canStartFactor(peek())){
+        node = {op:'*', l:node, r:pUnary()};
+      } else break;
+    }
+    return node;
+  }
+  function pUnary(){
+    if(peek().t === 'MINUS'){ nxt(); return {op:'neg', l:pUnary()}; }
+    if(peek().t === 'PLUS'){ nxt(); return pUnary(); }
+    return pPower();
+  }
+  function pPower(){
+    let node = pAtom();
+    if(peek().t === 'CARET'){ nxt(); node = {op:'^', l:node, r:pUnary()}; }
+    return node;
+  }
+  function pAtom(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'PI'){ nxt(); return {op:'num', v:Math.PI}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    if(tok.t === 'SQRT'){
+      nxt();
+      if(peek().t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return {op:'sqrt', l:e}; }
+      return {op:'sqrt', l:pSqrtArg()};
+    }
+    throw new Error('unexpected ' + tok.t);
+  }
+  function pSqrtArg(){
+    const tok = peek();
+    if(tok.t === 'NUM'){ nxt(); return {op:'num', v:tok.v}; }
+    if(tok.t === 'VAR'){ nxt(); return {op:'var', v:tok.v}; }
+    if(tok.t === 'LP'){ nxt(); const e = pExpr(); if(peek().t !== 'RP') throw new Error(')'); nxt(); return e; }
+    throw new Error('bad sqrt arg');
+  }
+  const node = pExpr();
+  if(peek().t !== 'END') throw new Error('trailing');
+  return node;
+}
+function exprEval(node, env){
+  switch(node.op){
+    case 'num': return node.v;
+    case 'var': if(!(node.v in env)) throw new Error('unknown var ' + node.v); return env[node.v];
+    case '+': return exprEval(node.l,env) + exprEval(node.r,env);
+    case '-': return exprEval(node.l,env) - exprEval(node.r,env);
+    case '*': return exprEval(node.l,env) * exprEval(node.r,env);
+    case '/': return exprEval(node.l,env) / exprEval(node.r,env);
+    case '^': return Math.pow(exprEval(node.l,env), exprEval(node.r,env));
+    case 'neg': return -exprEval(node.l,env);
+    case 'sqrt': return Math.sqrt(exprEval(node.l,env));
+  }
+  throw new Error('bad node');
+}
+function evalExprStr(s, env){
+  return exprEval(exprParse(exprTokenize(s)), env || {});
+}
+function exprEquiv(ansStr, userStr, testPoints){
+  const pts = (testPoints && testPoints.length) ? testPoints : [{}];
+  try{
+    return pts.every(env => {
+      const a = evalExprStr(ansStr, env);
+      const b = evalExprStr(userStr, env);
+      return isFinite(a) && isFinite(b) && Math.abs(a-b) < 1e-6 * Math.max(1, Math.abs(a));
+    });
+  } catch(e){ return false; }
+}
+
+function checkExercise(i){
+  const ex = EXERCISES[i];
+  const root = document.getElementById('ex'+i);
+  let ok = true;
+
+  if(ex.type==='fields'){
+    ex.fields.forEach((f,fi)=>{
+      const inp = document.getElementById('ex'+i+'_f'+fi);
+      const raw = inp.value;
+      let good = false;
+      if(f.kind==='number'){ good = normNum(raw)===f.ans; }
+      else if(f.kind==='set'){ good = arrEq(normSet(raw), f.ans); }
+      else if(f.kind==='interval'){ good = normInterval(raw)===f.ans; }
+      else if(f.kind==='expr'){ good = raw.trim()!=='' && exprEquiv(f.ans, raw, f.testPoints); }
+      inp.style.borderColor = good ? 'var(--green)' : 'var(--red)';
+      inp.disabled = true;
+      if(!good) ok = false;
+    });
+  } else if(ex.type==='mc'){
+    const sel = root.querySelector('.opt.sel');
+    const chosen = sel ? sel.dataset.k : null;
+    ok = chosen === ex.correct;
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      if(o.dataset.k===ex.correct) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(o===sel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  } else if(ex.type==='multi'){
+    const chosen = Array.from(root.querySelectorAll('.opt.sel')).map(o=>o.dataset.k).sort();
+    const correct = ex.correct.slice().sort();
+    ok = arrEq(chosen, correct);
+    root.querySelectorAll('.opt').forEach(o=>{
+      o.classList.add('locked');
+      const isCorrect = ex.correct.includes(o.dataset.k);
+      const wasSel = o.classList.contains('sel');
+      if(isCorrect) o.style.borderColor='var(--green)', o.style.background='var(--green-sv)';
+      else if(wasSel) o.style.borderColor='var(--red)', o.style.background='var(--red-sv)';
+    });
+  }
+
+  state[i].checked = true;
+  state[i].correct = ok;
+
+  const fb = document.getElementById('ex'+i+'_fb');
+  fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+  fb.innerHTML = ok ? '✓ Teisingai!' : ('✗ Neteisingai. Teisingas atsakymas: <span class="ans math">' + answerText(ex) + '</span>');
+  document.getElementById('ex'+i+'_btn').disabled = true;
+
+  updateScore();
+}
+
+function revealOpen(i){
+  const root = document.getElementById('ex'+i);
+  root.querySelector('.sample').style.display = 'block';
+  root.querySelector('.selfrow').style.display = 'flex';
+  document.getElementById('ex'+i+'_btn').disabled = true;
+  document.getElementById('ex'+i+'_ta').disabled = true;
+}
+
+function selfScore(i, ok){
+  state[i].checked = true;
+  state[i].correct = ok;
+  const root = document.getElementById('ex'+i);
+  root.querySelectorAll('.self').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('ex'+i+'_fb');
+  fb.className = 'fb ' + (ok ? 'ok' : 'bad');
+  fb.innerHTML = ok ? '✓ Pažymėjai: atsakei teisingai.' : '✗ Pažymėjai: suklydai.';
+  updateScore();
+}
+
+function fracHTML(s){
+  const m = /^(-)?(\d+)\/(\d+)$/.exec(String(s).trim());
+  if(!m) return s;
+  return (m[1]?'−':'') + '<span class="fr"><span>'+m[2]+'</span><span>'+m[3]+'</span></span>';
+}
+
+function answerText(ex){
+  if(ex.type==='fields'){
+    return ex.fields.map(f=>{
+      if(f.kind==='number') return f.ans;
+      if(f.kind==='set') return '{'+f.ans.join('; ')+'}';
+      if(f.kind==='expr') return fracHTML(f.ans);
+      return f.ans.replace(';','; ');
+    }).join(' &nbsp;·&nbsp; ');
+  }
+  if(ex.type==='mc'){
+    const o = ex.options.find(o=>o.k===ex.correct);
+    return ex.correct + '. ' + o.t;
+  }
+  if(ex.type==='multi'){
+    return ex.correct.join(', ');
+  }
+  return '';
+}
+
+function insertAtCursor(inputId, ch){
+  const inp = document.getElementById(inputId);
+  if(!inp || inp.disabled) return;
+  const start = inp.selectionStart ?? inp.value.length;
+  const end = inp.selectionEnd ?? inp.value.length;
+  inp.value = inp.value.slice(0,start) + ch + inp.value.slice(end);
+  inp.focus();
+  inp.setSelectionRange(start+ch.length, start+ch.length);
+}
+
+function toggleOpt(exIdx, k, multi){
+  const ex = EXERCISES[exIdx];
+  if(state[exIdx].checked) return;
+  const root = document.getElementById('ex'+exIdx);
+  if(multi){
+    const el = root.querySelector('.opt[data-k="'+k+'"]');
+    el.classList.toggle('sel');
+  } else {
+    root.querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel', o.dataset.k===k));
+  }
+}
+
+function updateScore(){
+  const checkedCount = state.filter(s=>s.checked).length;
+  const correctCount = state.filter(s=>s.correct).length;
+  document.getElementById('scoreNow').textContent = correctCount;
+  document.getElementById('doneCount').textContent = checkedCount;
+  document.getElementById('barFill').style.width = Math.round(correctCount/EXERCISES.length*100)+'%';
+
+  const pct = correctCount/EXERCISES.length*100;
+  let grade = GRADE_SCALE[GRADE_SCALE.length-1][1];
+  for(const [t,g] of GRADE_SCALE){ if(pct>=t){ grade=g; break; } }
+  let comment = COMMENTS[COMMENTS.length-1][1];
+  for(const [t,c] of COMMENTS){ if(pct>=t){ comment=c; break; } }
+
+  document.getElementById('gradeOut').textContent = grade;
+  document.getElementById('ptsOut').textContent = correctCount+' / '+EXERCISES.length;
+  document.getElementById('pctOut').textContent = Math.round(pct)+'%';
+  document.getElementById('commentOut').textContent = comment;
+  const warnEl = document.getElementById('warnOut');
+  if(checkedCount < EXERCISES.length){
+    warnEl.style.display='block';
+    warnEl.textContent = 'Patikrinai '+checkedCount+' iš '+EXERCISES.length+' pratimų — rezultatas kol kas negalutinis.';
+  } else {
+    warnEl.style.display='none';
+  }
+}
+
+function render(){
+  document.getElementById('scoreMax').textContent = EXERCISES.length;
+  document.getElementById('doneMax').textContent = EXERCISES.length;
+  const root = document.getElementById('exercises');
+  let html = '';
+  EXERCISES.forEach((ex,i)=>{
+    html += '<div class="card" id="ex'+i+'">';
+    html += '<div class="banner"><span class="badge">'+(i+1)+'</span> '+ex.kicker+'</div>';
+    html += '<div class="body">';
+    html += '<p class="given">'+ex.given+'</p>';
+
+    if(ex.type==='fields'){
+      ex.fields.forEach((f,fi)=>{
+        const inpId = 'ex'+i+'_f'+fi;
+        let ph = 'skaičius';
+        if(f.kind==='set') ph = 'pvz. {2; 5; 8}';
+        else if(f.kind==='interval') ph = 'pvz. [-2;5)';
+        else if(f.kind==='expr') ph = 'pvz. 10a^7 arba 3a-1';
+        html += '<div class="fieldrow"><label class="math">'+f.label+'</label>'+
+          '<input type="text" id="'+inpId+'" placeholder="'+ph+'">';
+        if(f.kind==='expr'){
+          html += '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'^\')" title="Laipsnis (rodiklis)">x<sup>n</sup></button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'√\')">√</button>'+
+                  '<button type="button" class="insb" onclick="insertAtCursor(\''+inpId+'\',\'π\')">π</button>';
+        }
+        html += '</div>';
+        if(f.kind==='expr'){
+          html += '<div class="exprhint">Laipsnį rašyk su <b>^</b> (pvz. <span class="math">a^7</span> reiškia a septintuoju laipsniu), arba spausk <b>x<sup>n</sup></b> mygtuką.</div>';
+        }
+      });
+    } else if(ex.type==='mc' || ex.type==='multi'){
+      html += '<div class="opts">';
+      ex.options.forEach(o=>{
+        html += '<div class="opt" data-k="'+o.k+'" onclick="toggleOpt('+i+',\''+o.k+'\','+(ex.type==='multi')+')">'+
+          '<span class="k">'+o.k+'</span><span class="math">'+o.t+'</span></div>';
+      });
+      html += '</div>';
+    } else if(ex.type==='open'){
+      html += '<textarea class="opentxt" id="ex'+i+'_ta" placeholder="Rašyk savo atsakymą čia..."></textarea>';
+      html += '<div class="opentools">'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'√\')" title="Kvadratinė šaknis">√</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∛\')" title="Kubinė šaknis">∛</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'π\')" title="Pi">π</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∅\')" title="Tuščioji aibė">∅</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∈\')" title="Priklauso">∈</button>'+
+              '<button type="button" class="insb" onclick="insertAtCursor(\'ex'+i+'_ta\',\'∉\')" title="Nepriklauso">∉</button>'+
+              '</div>';
+      html += '<div class="sample"><b>Pavyzdinis atsakymas:</b> <span class="math">'+ex.sample+'</span></div>';
+    }
+
+    if(ex.type==='open'){
+      html += '<div class="actions"><button class="check" id="ex'+i+'_btn" onclick="revealOpen('+i+')">Rodyti atsakymą</button>'+
+        '<div class="fb" id="ex'+i+'_fb"></div></div>';
+      html += '<div class="selfrow">'+
+        '<button type="button" class="self y" onclick="selfScore('+i+',true)">✓ Atsakiau teisingai</button>'+
+        '<button type="button" class="self n" onclick="selfScore('+i+',false)">✗ Suklydau</button></div>';
+    } else {
+      html += '<div class="actions"><button class="check" id="ex'+i+'_btn" onclick="checkExercise('+i+')">Tikrinti</button>'+
+        '<div class="fb" id="ex'+i+'_fb"></div></div>';
+    }
+    html += '</div></div>';
+  });
+  root.innerHTML = html;
+}
+
+render();
+updateScore();
+</script>
+</body>
+</html>
