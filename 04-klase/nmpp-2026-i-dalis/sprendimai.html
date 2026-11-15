@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 m. NMPP matematikos (4 kl., Dalis I) pavyzdinių užduočių sprendimai</title>
+<style>
+  :root{
+    --blue:#16478c; --banner:#1c5aa8; --ink:#20303f;
+    --green-bg:#e9f8f0; --green-bd:#2fa15f; --green-tx:#1f8a4c;
+    --lav:#eef1fb; --lav-bd:#dfe4f6;
+    --bd:#dfe4ef; --muted:#8a93a6; --bg:#f4f6fb;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);font-size:11.4pt;line-height:1.55;margin:0;background:var(--bg);padding:26px 16px 60px}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{color:var(--blue);font-size:23pt;margin:0 0 6px;font-weight:800;text-align:center}
+  .rule{height:3px;background:var(--blue);border:0;margin:0 auto 6px;border-radius:2px;max-width:820px}
+  .subtitle{color:var(--muted);font-size:10.5pt;margin:0 0 20px;font-weight:600;text-align:center}
+  .grizti{display:block;text-align:center;color:var(--blue);font-size:12.5px;text-decoration:none;margin-bottom:18px}
+  .grizti:hover{text-decoration:underline}
+  .note{background:#fff3e2;border-left:5px solid #e2911f;border-radius:10px;padding:11px 16px;margin-bottom:20px;font-size:10.6pt;color:#5c4413}
+  .toc{background:var(--lav);border:1px solid var(--lav-bd);border-radius:12px;padding:12px 16px;margin-bottom:22px;text-align:center}
+  .toc .lbl{color:var(--blue);font-weight:800;font-size:10pt;text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:8px}
+  .toc a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin:2px;
+         background:#fff;border:1px solid var(--bd);border-radius:7px;color:var(--blue);font-weight:700;
+         font-size:11px;text-decoration:none}
+  .toc a:hover{background:var(--blue);color:#fff}
+  .card{border:1px solid var(--bd);border-radius:12px;margin-bottom:16px;overflow:hidden;
+        background:#fff;box-shadow:0 1px 3px rgba(20,40,90,.06);page-break-inside:avoid;scroll-margin-top:14px}
+  .banner{background:var(--banner);color:#fff;padding:10px 16px;font-weight:700;font-size:12pt;
+          display:flex;align-items:center;gap:10px}
+  .badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 4px;
+         background:rgba(255,255,255,.24);border-radius:7px;font-size:11pt;font-weight:800}
+  .pts{margin-left:auto;font-size:9.5pt;font-weight:600;opacity:.85}
+  .body{padding:14px 18px 6px}
+  .uzd{background:#fff3e2;border-left:5px solid #e2911f;border-radius:10px;padding:12px 16px;margin-bottom:12px}
+  .uzd .q{font-weight:700;color:var(--ink);margin-bottom:4px}
+  .uzd .line{margin:3px 0}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-top:8px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .sprendimas{background:var(--lav);border:1px solid var(--lav-bd);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+  .sprendimas .lbl,.atsakymas .lbl{color:var(--blue);font-weight:800;font-size:9.5pt;text-transform:uppercase;
+       letter-spacing:.6px;margin-bottom:6px}
+  .atsakymas{background:var(--green-bg);border-left:5px solid var(--green-bd);border-radius:10px;
+             padding:11px 16px;margin-bottom:12px;font-weight:800;color:var(--green-tx);font-size:11.5pt}
+  .atsakymas .lbl{color:var(--green-tx)}
+  .vieta{padding:0 18px 12px;font-size:9pt;color:var(--muted);font-style:italic}
+  .tbl{border-collapse:collapse;margin:8px auto;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .tbl th,.tbl td{border:1px solid var(--bd);padding:4px 9px;text-align:center;font-size:10.5pt}
+  .tbl th{background:var(--lav);color:var(--blue)}
+  .footer{text-align:center;color:var(--muted);font-size:9pt;margin-top:20px;padding-top:14px;border-top:1px solid #dfe4ef}
+  .math{font-family:"Segoe UI",sans-serif}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px;font-family:"Cambria Math",Cambria,Georgia,serif}
+  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
+  .fr>span:last-child{padding:0 4px}
+  .sqrt{display:inline-flex;align-items:flex-end;position:relative;margin:0 .15em .05em}
+  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
+  .sqrt.cbrt::before{content:"∛"}
+  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
+  .sqrt .ix{position:absolute;left:-.1em;top:-.5em;font-size:.5em;font-weight:700;line-height:1}
+  sup,sub{line-height:0}
+  .vec{position:relative;display:inline-block;padding-top:.6em;font-style:italic}
+  .vec i{position:absolute;top:-.05em;left:50%;transform:translateX(-50%) scaleX(.85);font-size:.75em;line-height:1;font-style:normal}
+  .sys{display:inline-flex;align-items:center;vertical-align:middle;column-gap:6px;margin:0 2px}
+  .sys .br{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:2.2em;font-weight:400;line-height:1;transform:scaleY(1.3);transform-origin:center;display:inline-block}
+  .sys .rows{display:inline-flex;flex-direction:column;row-gap:2px;text-align:left;line-height:1.3}
+  .sys .rows span{white-space:nowrap}
+  .pfr{display:inline-flex;align-items:center;vertical-align:middle;margin:0 1px}
+  .pfr .pb{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.7em;font-weight:400;line-height:1;transform:scaleY(1.25);transform-origin:center;display:inline-block}
+  @media print{body{background:#fff}.toc{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>VBE A I dalies pavyzdinių užduočių sprendimai</h1>
+<hr class="rule">
+<p class="subtitle">Matematika · 4 klasė · NMPP pasiruošimas · Dalis I</p>
+<a class="grizti" href="../">← Atgal į temą</a>
+
+<div class="note"><b>Šaltinis:</b> 2026 m. Nacionalinio mokinių pasiekimų patikrinimo (NMPP) matematikos 4 klasei I dalis, 20 uždavinių (30 taškų). Kiekvienam uždaviniui pateiktas pilnas sprendimas ir atsakymas.</div>
+
+<div class="toc"><span class="lbl">Greita nuoroda į uždavinį</span><a href="#u1">1</a><a href="#u2">2</a><a href="#u3">3</a><a href="#u4">4</a><a href="#u5">5</a><a href="#u6">6</a><a href="#u7">7</a><a href="#u8">8</a><a href="#u9">9</a><a href="#u10">10</a><a href="#u11">11</a><a href="#u12">12</a><a href="#u13">13</a><a href="#u14">14</a><a href="#u15">15</a><a href="#u16">16</a><a href="#u17">17</a><a href="#u18">18</a><a href="#u19">19</a><a href="#u20">20</a></div>
+
+
+<div class="card" id="u1">
+  <div class="banner"><span class="badge">1</span><span>1 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Apskaičiuokite stulpeliu: 687 − 518.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">687 − 518 = 169 (atimama stulpeliu: 7−8 skolinamasi, 17−8=9; 7−1(skola)−1=... žr. veiksmą: 687−518=169).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>169</div>
+  </div>
+</div>
+<div class="card" id="u2">
+  <div class="banner"><span class="badge">2</span><span>2 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Apskaičiuokite stulpeliu: 2548 : 7.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">2548 : 7 = 364, nes 7·364 = 7·300 + 7·64 = 2100 + 448 = 2548. (25:7=3 liko 4; 44:7=6 liko 2; 28:7=4 liko 0.)</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>364</div>
+  </div>
+</div>
+<div class="card" id="u3">
+  <div class="banner"><span class="badge">3</span><span>3 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">3.1. Įrašykite skaičiaus 2099 gretimus skaičius (mažesnį ir didesnį). 3.2. Kurioje eilutėje teisingai žodžiais užrašytas skaičius 2099?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">3.1. Gretimi skaičiai: 2098 (mažesnis) ir 2100 (didesnis).<br>3.2. 2099 = 2 tūkstančiai + 99 = „Du tūkstančiai devyniasdešimt devyni“ — teisingas variantas (B).<br>(A) klaidinga — 2 ir 0 (šimtų skaitmuo) sujungti į „20 tūkstančių“. (C) klaidinga — praleistas tūkstančių skaitmuo, skaitoma lyg šimtai. (D) klaidinga — praleista dešimčių skaitmuo.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>Mažesnis: 2098; didesnis: 2100; teisingas užrašymas: (B) Du tūkstančiai devyniasdešimt devyni</div>
+  </div>
+</div>
+<div class="card" id="u4">
+  <div class="banner"><span class="badge">4</span><span>4 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Rokas pirko dėlionę (18 Eur) ir konstruktorių (7 Eur daugiau). Kiek sumokėjo už abu žaislus?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Konstruktorius: 18 + 7 = 25 (Eur).<br>Iš viso: 18 + 25 = 43 (Eur).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>43 Eur</div>
+  </div>
+</div>
+<div class="card" id="u5">
+  <div class="banner"><span class="badge">5</span><span>5 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Pagal diagramą (parduotų žaislų skaičius vasario mėn.) nustatykite, kiek parduota dėlionių (lėlių 600, stalo žaidimų 950, konstruktorių 450, lauko žaislų 300).</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Iš stulpelinės diagramos dėlionių stulpelis siekia 200 ties ašimi.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>200</div>
+  </div>
+</div>
+<div class="card" id="u6">
+  <div class="banner"><span class="badge">6</span><span>6 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">6.1. Skaičių 352 ir 88 skirtumas. 6.2. Skaičių 84 ir 21 sandauga.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">6.1. 352 − 88 = 264.<br>6.2. 84 · 21 = 84·20 + 84 = 1680 + 84 = 1764.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>6.1. 264; 6.2. 1764</div>
+  </div>
+</div>
+<div class="card" id="u7">
+  <div class="banner"><span class="badge">7</span><span>7 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Pagal pateiktą sprendimą (1) 3·4=12; 2) 28−12=16; Atsakymas: 16 arbūzų) nustatykite, koks buvo uždavinio klausimas.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Sprendimas atima iš pradinio kiekio (28) tris dienas po 4 arbūzus sunaudotus — tai atsako į klausimą, kiek arbūzų LIKO po trijų dienų (ne kiek sunaudota, ne kiek atvežta).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>(C) Kiek arbūzų liko kavinėje po trijų dienų?</div>
+  </div>
+</div>
+<div class="card" id="u8">
+  <div class="banner"><span class="badge">8</span><span>8 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Sudėliokite trupmenas 2/7, 2/3, 2/6, 2/4 ir dešimtainius 0,1, 0,5, 0,01, 0,25 didėjimo tvarka.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Trupmenos su tuo pačiu skaitikliu (2): kuo didesnis vardiklis, tuo mažesnė trupmenos reikšmė, todėl didėjimo tvarka pagal MAŽĖJANTĮ vardiklį: 2/7 &lt; 2/6 &lt; 2/4 &lt; 2/3.<br>Dešimtainiai skaičiai didėjimo tvarka: 0,01 &lt; 0,1 &lt; 0,25 &lt; 0,5.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>2/7, 2/6, 2/4, 2/3 ir 0,01, 0,1, 0,25, 0,5</div>
+  </div>
+</div>
+<div class="card" id="u9">
+  <div class="banner"><span class="badge">9</span><span>9 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Šeši vaikai pasiėmė po 5 riešutus, kartu paėmė 1/5 pintinėje buvusių riešutų. Kiek riešutų buvo pintinėje iš pradžių?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Paimta iš viso: 6 · 5 = 30 riešutų — tai 1/5 pradinio kiekio.<br>Pradinis kiekis: 30 · 5 = 150.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>150 riešutų</div>
+  </div>
+</div>
+<div class="card" id="u10">
+  <div class="banner"><span class="badge">10</span><span>10 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Paulius už mėlynes sumokėjo 16 Eur. Adelė pirko 4 litrais mažiau ir sumokėjo 8 Eur mažiau. Kiek litrų mėlynių pirko Paulius?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Tegul P – Paulių pirktų litrų skaičius. Kaina už litrą abiem ta pati: 16/P = (16−8)/(P−4) = 8/(P−4).<br>16(P−4) = 8P ⟹ 16P − 64 = 8P ⟹ 8P = 64 ⟹ P = 8.<br>Patikra: 16/8 = 2 Eur/l; Adelė: 4 l už 8 Eur = 2 Eur/l. ✓</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>8 litrus</div>
+  </div>
+</div>
+<div class="card" id="u11">
+  <div class="banner"><span class="badge">11</span><span>11 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Pagal piktogramą (medžių sodinimas): žinoma, kad pasodinta 250 šermukšnių (5 pilni simboliai) ir 370 beržų (7 pilni + 2 maži simboliai). Kiek pasodinta ąžuolų (8 pilni + 3 maži simboliai)?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Vieno pilno simbolio reikšmė: 250 : 5 = 50 (iš šermukšnių eilutės).<br>Mažo simbolio reikšmė: beržai 7·50 + 2·x = 370 ⟹ 350 + 2x = 370 ⟹ x = 10.<br>Ąžuolai: 8 pilni + 3 maži = 8·50 + 3·10 = 400 + 30 = 430.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>430 ąžuolų</div>
+  </div>
+</div>
+<div class="card" id="u12">
+  <div class="banner"><span class="badge">12</span><span>12 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Pažymėkite keturis daiktus, kurių forma primena ERDVINES geometrines figūras (A–H: skarelė, rėmelis, kamuolys, kauliukas, apvali dėžutė, kortelė, staltiesėlė, dovanų dėžutė-piramidė).</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Erdvinę (3D) figūrą primena: kamuolys (rutulys), kauliukas (kubas), apvali skardinė dėžutė (cilindras), piramidės formos dovanų dėžutė (piramidė). Likusieji (skarelė, rėmelis, staltiesėlė, kortelė) yra plokšti (2D).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>(C) kamuolys, (D) kauliukas, (E) apvali dėžutė, (H) dovanų dėžutė (piramidė)</div>
+  </div>
+</div>
+<div class="card" id="u13">
+  <div class="banner"><span class="badge">13</span><span>13 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">13.1. Turimos figūros: 2 maži apskritimėliai, 1 apskritimas, 1 trikampis, 2 kvadratai. Kurio paveikslėlio (A1–D1) NEPAVYKS sudėlioti? 13.2. Kokios figūros trūksta Sofijos sekoje?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">13.1. Paveikslėlis B1 pavaizduotas su DVIEM dideliais apskritimais (du „galvos“), o turimas tik VIENAS didelis apskritimas — šio paveikslėlio sudėlioti negalima. A1, C1, D1 naudoja lygiai tiek detalių, kiek turima.<br>13.2. Seka sudaryta iš besikartojančio 6 elementų vieneto (palindromas): taškas, kvadratas, apskritimas, trikampis, apskritimas, kvadratas, [taškas]… Trūkstamoje vietoje (4-as vieneto elementas) turi būti TRIKAMPIS.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>13.1. (B1); 13.2. trikampis</div>
+  </div>
+</div>
+<div class="card" id="u14">
+  <div class="banner"><span class="badge">14</span><span>14 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Senelio mechaninis laikrodis rodė 10 val. 10 min. (valandinė tarp 10 ir 11, minutinė ties skaičiumi 2). Kurį laiką rodė Luko elektroninis laikrodis?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Valandinė rodyklė tarp 10 ir 11 → valanda 10. Minutinė rodyklė ties skaičiumi 2 → 2·5 = 10 minučių. Laikas: 10:10.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>(A) 10:10</div>
+  </div>
+</div>
+<div class="card" id="u15">
+  <div class="banner"><span class="badge">15</span><span>15 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Stačiakampės aikštelės ilgis 32 m, plotis 4 m trumpesnis už ilgį. Apskaičiuokite plotą.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Plotis: 32 − 4 = 28 (m).<br>Plotas: 32 · 28 = 896 (m²).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>896 m²</div>
+  </div>
+</div>
+<div class="card" id="u16">
+  <div class="banner"><span class="badge">16</span><span>16 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Sudėliokite skaičius 12, 24, 33, 45 taip, kad lygybė ___ + ___ = ___ + ___ būtų teisinga.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Patikrinus galimas poras: 12 + 45 = 57 ir 24 + 33 = 57 — sutampa.<br>(Kitos dvi poros 12+24=36 su 33+45=78, ir 12+33=45 su 24+45=69 — nesutampa.)</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>12 + 45 = 24 + 33  (=57)</div>
+  </div>
+</div>
+<div class="card" id="u17">
+  <div class="banner"><span class="badge">17</span><span>17 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Darbuotojas pakabino 6 plakatus, dar liko pakabinti 18. Kurią lygtį išsprendę sužinotume, kiek iš viso plakatų turėjo pakabinti?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Jei x – visų plakatų skaičius, tai pakabinus 6, lieka x−6, ir tai lygu 18: x − 6 = 18 (x = 24).</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>(B) x − 6 = 18</div>
+  </div>
+</div>
+<div class="card" id="u18">
+  <div class="banner"><span class="badge">18</span><span>18 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Į tuščius langelius įkelkite palyginimo ženklus: 299−253 ___ 299−198 ir 7+32 ___ 28+11.</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">299 − 253 = 46; 299 − 198 = 101 ⟹ 46 &lt; 101, taigi ženklas „&lt;“.<br>7 + 32 = 39; 28 + 11 = 39 ⟹ lygu, ženklas „=“.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>299−253 &lt; 299−198;  7+32 = 28+11</div>
+  </div>
+</div>
+<div class="card" id="u19">
+  <div class="banner"><span class="badge">19</span><span>19 užduotis</span><span class="pts">2 taškai</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Dviratininkas nuo namų iki miško nuvažiuoja per 2 val. Pėsčiomis 4 km/h greičiu šį atstumą nueitų per 6 val. Koks dviratininko vidutinis greitis?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">Atstumas: 4 km/h · 6 val. = 24 km.<br>Dviratininko greitis: 24 km : 2 val. = 12 km/h.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>12 km/h</div>
+  </div>
+</div>
+<div class="card" id="u20">
+  <div class="banner"><span class="badge">20</span><span>20 užduotis</span><span class="pts">1 taškas</span></div>
+  <div class="body">
+    <div class="uzd"><div class="q">Sąlyga</div><div class="line">Darbininkas 10 m rąstą supjausto 2 m gabalais per 12 min. Per kiek minučių jis supjaustytų tą patį rąstą 1 m gabalais?</div></div>
+    <div class="sprendimas"><div class="lbl">Sprendimas</div><div class="line">2 m gabalais: 10:2 = 5 gabalų ⟹ 4 pjūviai per 12 min ⟹ 1 pjūvis = 3 min.<br>1 m gabalais: 10 gabalų ⟹ 9 pjūviai ⟹ 9 · 3 = 27 min.</div></div>
+    <div class="atsakymas"><span class="lbl">Atsakymas: </span>(C) 27 min.</div>
+  </div>
+</div>
+
+<div class="footer">Mokytoja Violeta · 4 klasė · NMPP pasiruošimas · Pavyzdinių užduočių sprendimai</div>
+</div>
+</body>
+</html>
