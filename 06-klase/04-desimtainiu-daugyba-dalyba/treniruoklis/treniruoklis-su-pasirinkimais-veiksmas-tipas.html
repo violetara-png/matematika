@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dešimtainių skaičių daugyba ir dalyba — treniruoklis su pasirinkimais · 6 klasė</title>
+<style>
+  :root{
+    --pb:#00796b; --pb-d:#00564d; --bg:#eef2f7; --card:#fff; --ink:#1c2430;
+    --muted:#637990; --line:#d7dee8; --good:#14674b; --good-bg:#f1faf4;
+    --bad:#9b4424; --bad-bg:#fdf1ec; --geltona:#fcecc9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1150px;margin:0 auto;padding:28px 18px 60px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .tag{font-weight:800;color:var(--pb);font-size:13px;letter-spacing:1.5px}
+  h1{font-size:clamp(24px,4vw,34px);margin:6px 0}
+  header p{color:var(--muted);margin:0;max-width:560px}
+  .simb{font:52px Georgia,serif;color:var(--pb)}
+
+  .panelas{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin:20px 0;box-shadow:0 8px 26px rgba(23,53,76,.06)}
+  .kontroles{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
+  .kontroles label{font-weight:700;font-size:13.5px;color:var(--ink)}
+  select{display:block;margin-top:7px;border:1px solid #a9bbca;border-radius:10px;background:#fff;font:inherit;font-size:15px;padding:10px 12px;color:inherit}
+  button#naujas{border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;background:var(--pb);color:#fff}
+  button#naujas:hover{background:var(--pb-d)}
+  .pastaba{font-size:13.5px;color:var(--muted);margin:14px 0 0}
+  .stat-eilute{display:flex;gap:18px;flex-wrap:wrap;font-weight:700;margin-top:14px;font-size:14.5px}
+  .baro-fonas{height:9px;background:#dfe9ef;border-radius:10px;margin-top:9px;overflow:hidden}
+  .baro-fonas>div{height:100%;width:0;background:var(--pb);border-radius:10px;transition:width .35s ease}
+
+  .rinkinys{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .korta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(23,53,76,.05)}
+  .korta.correct{border-color:#9fcdb8;background:var(--good-bg)}
+  .korta.incorrect{border-color:#e4b79a;background:var(--bad-bg)}
+  .virsutine{display:flex;justify-content:space-between;color:var(--muted);font-size:12.5px;margin-bottom:10px}
+  .formule{display:flex;align-items:center;min-height:60px;font-family:Georgia,serif;font-size:27px;gap:10px;flex-wrap:wrap}
+  .ivedimas{display:flex;gap:9px;margin-top:4px}
+  .ivedimas input{width:100%;min-width:0;border:1px solid #a9bbca;border-radius:10px;font:inherit;font-size:17px;padding:10px 12px;text-align:center}
+  .ivedimas input:focus{outline:3px solid var(--geltona);outline-offset:1px;border-color:var(--pb)}
+  .ivedimas button{border:0;border-radius:10px;padding:0 18px;font:inherit;font-weight:700;cursor:pointer;background:#e8eef4;color:#243e58}
+  .ivedimas button:hover{background:#dbe3ec}
+  .griztamasis{margin-top:13px;font-size:15px;line-height:1.6}
+  .griztamasis.gerai{color:var(--good)}
+  .griztamasis.blogai{color:var(--bad)}
+  footer{color:var(--muted);font-size:13.5px;margin-top:24px;text-align:center}
+  @media(max-width:720px){.rinkinys{grid-template-columns:1fr}.wrap{padding:20px 14px}.panelas{padding:16px}header{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="min-width:0;flex:1">
+      <div class="tag">6 KLASĖ · NENEIGIAMŲJŲ DEŠIMTAINIŲ SKAIČIŲ DAUGYBA IR DALYBA</div>
+      <h1>Dešimtainių skaičių daugyba ir dalyba — treniruoklis su pasirinkimais</h1>
+      <p>Pasirink veiksmą ir antrojo skaičiaus tipą, tada spręsk — iškart matysi, ar teisingai, ir pilną sprendimą žingsnis po žingsnio.</p>
+    </div>
+    <div class="simb" aria-hidden="true">· :</div>
+  </header>
+
+  <section class="panelas">
+    <div class="kontroles">
+      <label>Veiksmas
+        <select id="modas">
+          <option value="mul">Daugyba</option>
+          <option value="div">Dalyba</option>
+          <option value="mix" selected>Daugyba ir dalyba</option>
+        </select>
+      </label>
+      <label>Antrojo skaičiaus tipas
+        <select id="tipas">
+          <option value="all">Visi tipai</option>
+          <option value="natural">Natūralusis skaičius</option>
+          <option value="power10">10, 100 arba 1000</option>
+          <option value="smalldec">0,1; 0,01 arba 0,001</option>
+          <option value="decimal">Dešimtainis skaičius</option>
+        </select>
+      </label>
+      <button id="naujas">↻ Naujas užduočių rinkinys</button>
+    </div>
+    <p class="pastaba">Atsakymą rašyk su kableliu, pvz.: <b>12,8</b> arba <b>0,034</b>. Taškas vietoje kablelio taip pat tinka.</p>
+    <div class="stat-eilute" id="statistika" aria-live="polite"></div>
+    <div class="baro-fonas"><div id="juosta"></div></div>
+  </section>
+
+  <div class="rinkinys" id="uzduotys"></div>
+
+  <footer>10 užduočių viename rinkinyje · kiekviename naujame rinkinyje kiti skaičiai · treniruokis tiek kartų, kiek reikia.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const OP_LABEL = {mul:"Daugyba", div:"Dalyba"};
+  const OP_SYM = {mul:"·", div:":"};
+  const KIND_LABEL = {
+    natural:"Natūralusis skaičius",
+    power10:"10, 100 arba 1000",
+    smalldec:"0,1; 0,01 arba 0,001",
+    decimal:"Dešimtainis skaičius"
+  };
+  const POWERS10 = [{k:1,val:10},{k:2,val:100},{k:3,val:1000}];
+  const SMALL = [{k:1,val:0.1},{k:2,val:0.01},{k:3,val:0.001}];
+
+  function randInt(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+  function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function skCount(n){ return n===1 ? `${n} skaitmenį` : `${n} skaitmenis`; }
+
+  function decDisp(mant,d){
+    if(d===0) return String(mant);
+    let s = String(mant);
+    while(s.length<=d) s = "0"+s;
+    const intPart = s.slice(0, s.length-d).replace(/^0+(?=\d)/,"") || "0";
+    const fracPart = s.slice(s.length-d);
+    return intPart + "," + fracPart;
+  }
+  function mantRange(d){ return d===0 ? [11,96] : d===1 ? [11,99] : [101,999]; }
+  function decOperand(d){
+    const [mn,mx] = mantRange(d);
+    let mant;
+    do{ mant = randInt(mn,mx); }while(d>0 && mant%10===0);
+    return { mant, d, val: mant/Math.pow(10,d), disp: decDisp(mant,d) };
+  }
+  function natOperand(n){ return { mant:n, d:0, val:n, disp:String(n) }; }
+  function powerOperand(p){ return { mant:p.val, d:0, val:p.val, disp:String(p.val), k:p.k, power:true }; }
+  function smallOperand(p){ return { mant:1, d:p.k, val:p.val, disp:decDisp(1,p.k), k:p.k, small:true }; }
+  function mulOperands(aMant,aD,bMant,bD){
+    let mant = aMant*bMant, d = aD+bD;
+    while(d>0 && mant%10===0){ mant/=10; d--; }
+    return { mant, d };
+  }
+
+  // --- Operandų generavimas pagal veiksmą ir tipą ---
+  function buildOperands(op, kind){
+    if(op==="mul"){
+      if(kind==="natural"){
+        let left = decOperand(choice([1,2])), right = natOperand(randInt(2,99));
+        if(Math.random()<0.5) [left,right]=[right,left];
+        return [left,right];
+      }
+      if(kind==="power10") return [decOperand(choice([1,2])), powerOperand(choice(POWERS10))];
+      if(kind==="smalldec") return [decOperand(choice([1,2])), smallOperand(choice(SMALL))];
+      return [decOperand(choice([1,2])), decOperand(choice([1,2]))];
+    }
+    // op === "div"
+    if(kind==="natural"){
+      const divisorN = randInt(2,9);
+      const quotient = decOperand(choice([1,2]));
+      const dividend = mulOperands(divisorN,0,quotient.mant,quotient.d);
+      return [ {mant:dividend.mant, d:dividend.d, disp:decDisp(dividend.mant,dividend.d)}, natOperand(divisorN), quotient ];
+    }
+    if(kind==="power10"){
+      const pw = choice(POWERS10);
+      const dividendOp = decOperand(choice([0,1,2]));
+      const quotD = dividendOp.d + pw.k;
+      const quotient = { mant:dividendOp.mant, d:quotD, val: dividendOp.mant/Math.pow(10,quotD), disp: decDisp(dividendOp.mant,quotD) };
+      return [ dividendOp, powerOperand(pw), quotient ];
+    }
+    if(kind==="smalldec"){
+      const sm = choice(SMALL);
+      const quotient = Math.random()<0.6 ? natOperand(randInt(2,12)) : decOperand(1);
+      const dividend = mulOperands(1,sm.k,quotient.mant,quotient.d);
+      return [ {mant:dividend.mant, d:dividend.d, disp:decDisp(dividend.mant,dividend.d)}, smallOperand(sm), quotient ];
+    }
+    // kind === "decimal"
+    const divisor = decOperand(choice([1,2]));
+    const quotient = Math.random()<0.6 ? natOperand(randInt(2,12)) : decOperand(1);
+    const dividend = mulOperands(divisor.mant,divisor.d,quotient.mant,quotient.d);
+    return [ {mant:dividend.mant, d:dividend.d, disp:decDisp(dividend.mant,dividend.d)}, divisor, quotient ];
+  }
+
+  function explainMul(kind,left,right,prod,finalDisp){
+    const rawRaw = left.mant*right.mant, dTotal = left.d+right.d, rawDisp = decDisp(rawRaw,dTotal);
+    const trimmed = prod.d < dTotal;
+    const lines = [];
+    if(kind==="power10"){
+      lines.push(`Dauginant dešimtainį skaičių iš ${right.disp}, kablelį perkeliame ${skCount(right.k)} į dešinę: ${left.disp} → ${finalDisp}`);
+      if(left.d < right.k) lines.push(`Trūkstamą skaitmenį (-is) po kablelio papildome nuliu (-iais).`);
+    } else if(kind==="smalldec"){
+      const baze = right.k===1?10:right.k===2?100:1000;
+      lines.push(`Dalyba iš ${baze} ir daugyba iš ${right.disp} duoda tą patį rezultatą: kablelį perkeliame ${skCount(right.k)} į kairę: ${left.disp} → ${finalDisp}`);
+    } else {
+      lines.push(`Dauginame skaičius nepaisydami kablelio: ${left.mant} · ${right.mant} = ${rawRaw}`);
+      if(kind==="natural"){
+        const decOp = left.d>0 ? left : right;
+        lines.push(`Kablelį rašome atskirdami ${skCount(decOp.d)} iš dešinės, nes ${decOp.disp} turi tiek skaitmenų po kablelio: ${rawRaw} → ${rawDisp}`);
+      } else {
+        lines.push(`Kablelį rašome atskirdami ${skCount(dTotal)} iš dešinės (${left.d}+${right.d}, nes abu dauginamieji turi savo skaitmenis po kablelio): ${rawRaw} → ${rawDisp}`);
+      }
+      if(trimmed) lines.push(`Nulį (-ius) gale nurašome: ${rawDisp} = ${finalDisp}`);
+    }
+    lines.push(`Atsakymas: ${finalDisp}`);
+    return lines.join("<br>");
+  }
+
+  function explainDiv(kind,left,right,quotient){
+    const quotientDisp = quotient.disp;
+    const lines = [];
+    if(kind==="natural"){
+      lines.push(`Dalome dešimtainį skaičių iš natūraliojo skaičiaus taip, kaip sveikuosius, o kablelį dalmenyje rašome ties tuo skaitmeniu, kai „nusileidžiame" iki dalinio kablelio.`);
+      lines.push(`Patikriname atvirkštiniu veiksmu: ${quotientDisp} · ${right.disp} = ${left.disp}`);
+    } else if(kind==="power10"){
+      lines.push(`Dalijant dešimtainį skaičių iš ${right.disp}, kablelį perkeliame ${skCount(right.k)} į kairę: ${left.disp} → ${quotientDisp}`);
+      if(String(left.mant).length <= right.k) lines.push(`Trūkstamą skaitmenį (-is) priekyje papildome nuliu (-iais): ${quotientDisp}`);
+    } else if(kind==="smalldec"){
+      const baze = right.k===1?10:right.k===2?100:1000;
+      lines.push(`Dalyba iš ${right.disp} yra tas pats, kas daugyba iš ${baze} — kablelį perkeliame ${skCount(right.k)} į dešinę: ${left.disp} → ${quotientDisp}`);
+    } else {
+      const d2 = right.d, scale = Math.pow(10,d2);
+      const scaledD = Math.max(left.d-d2,0);
+      const scaledMant = left.d>=d2 ? left.mant : left.mant*Math.pow(10,d2-left.d);
+      const scaledDisp = decDisp(scaledMant,scaledD);
+      lines.push(`Dalinį ir daliklį dauginame iš ${scale} (kablelį perkeliame ${skCount(d2)} į dešinę), kad daliklis taptų natūralusis skaičius: ${left.disp} : ${right.disp} = ${scaledDisp} : ${right.mant}`);
+      lines.push(`Dalome: ${scaledDisp} : ${right.mant} = ${quotientDisp}`);
+      lines.push(`Patikriname: ${quotientDisp} · ${right.disp} = ${left.disp}`);
+    }
+    lines.push(`Atsakymas: ${quotientDisp}`);
+    return lines.join("<br>");
+  }
+
+  function generate(op, kind){
+    if(op==="mul"){
+      const [left,right] = buildOperands(op,kind);
+      const prod = mulOperands(left.mant,left.d,right.mant,right.d);
+      const finalDisp = decDisp(prod.mant,prod.d);
+      const answer = prod.mant/Math.pow(10,prod.d);
+      const formula = `${left.disp} ${OP_SYM.mul} ${right.disp}`;
+      const explanation = explainMul(kind,left,right,prod,finalDisp);
+      const key = `mul:${kind}:${formula}`;
+      return { op, kind, formula, explanation, answer, key };
+    }
+    const [left,right,quotient] = buildOperands(op,kind);
+    const answer = quotient.mant/Math.pow(10,quotient.d);
+    const formula = `${left.disp} ${OP_SYM.div} ${right.disp}`;
+    const explanation = explainDiv(kind,left,right,quotient);
+    const key = `div:${kind}:${formula}`;
+    return { op, kind, formula, explanation, answer, key };
+  }
+
+  function parseAnswer(str){
+    let s = str.trim().replace(/−/g,"-").replace(/,/g,".");
+    if(s==="") return NaN;
+    if(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return Number(s);
+    return NaN;
+  }
+
+  let tasks = [];
+  let previousKeys = new Set();
+
+  function updateStats(){
+    const done = tasks.filter(t=>t.status==="correct").length;
+    const first = tasks.filter(t=>t.first===true).length;
+    document.getElementById("statistika").textContent = `Išspręsta: ${done} / 10 · Teisingai iš pirmo karto: ${first}`;
+    document.getElementById("juosta").style.width = (done/10*100) + "%";
+  }
+
+  function checkAnswer(idx){
+    const t = tasks[idx];
+    const inputEl = document.getElementById("atsakymas"+idx);
+    const feedbackEl = document.getElementById("grizt"+idx);
+    const v = parseAnswer(inputEl.value);
+    if(!Number.isFinite(v)){
+      feedbackEl.className = "griztamasis blogai";
+      feedbackEl.textContent = "Įrašyk skaičių. Pavyzdžiui: 12,8 arba 0,034.";
+      return;
+    }
+    const ok = Math.abs(v - t.answer) < 1e-9;
+    if(!t.attempted) t.first = ok;
+    t.attempted = true;
+    t.status = ok ? "correct" : "incorrect";
+    document.getElementById("korta"+idx).className = "korta " + t.status;
+    feedbackEl.className = "griztamasis " + (ok ? "gerai" : "blogai");
+    feedbackEl.innerHTML = (ok ? "✓ Teisingai!" : "Dar ne. Pažiūrėk sprendimą ir bandyk vėl.") + "<br>" + t.explanation;
+    updateStats();
+  }
+
+  function startSet(){
+    const modas = document.getElementById("modas").value;
+    const tipasVal = document.getElementById("tipas").value;
+    const kindDistribution = ["natural","power10","smalldec","decimal","natural","power10","smalldec","decimal","natural","decimal"];
+    const seen = new Set();
+    const next = [];
+    for(let i=0;i<10;i++){
+      const op = modas==="mix" ? (i%2 ? "div" : "mul") : modas;
+      const kind = tipasVal==="all" ? kindDistribution[i] : tipasVal;
+      let t, count=0;
+      do{ t = generate(op, kind); count++; }
+      while((seen.has(t.key) || previousKeys.has(t.key)) && count<500);
+      seen.add(t.key);
+      next.push(Object.assign(t, {status:null, attempted:false, first:undefined}));
+    }
+    tasks = next;
+    previousKeys = seen;
+
+    document.getElementById("uzduotys").innerHTML = tasks.map((t,i)=>`
+      <article class="korta" id="korta${i}">
+        <div class="virsutine"><b>${String(i+1).padStart(2,"0")} / 10</b><span>${OP_LABEL[t.op]} · ${KIND_LABEL[t.kind]}</span></div>
+        <div class="formule">${t.formula}<span style="padding-left:10px">=</span></div>
+        <form class="ivedimas" data-i="${i}">
+          <input id="atsakymas${i}" aria-label="${i+1} užduoties atsakymas" placeholder="Tavo atsakymas" autocomplete="off">
+          <button type="submit">Tikrinti</button>
+        </form>
+        <div class="griztamasis" id="grizt${i}" role="status"></div>
+      </article>`).join("");
+
+    document.querySelectorAll(".ivedimas").forEach(f=>{
+      f.onsubmit = e=>{ e.preventDefault(); checkAnswer(+f.dataset.i); };
+    });
+    updateStats();
+  }
+
+  document.getElementById("naujas").onclick = startSet;
+  document.getElementById("modas").onchange = startSet;
+  document.getElementById("tipas").onchange = startSet;
+  startSet();
+})();
+</script>
+</body>
+</html>
