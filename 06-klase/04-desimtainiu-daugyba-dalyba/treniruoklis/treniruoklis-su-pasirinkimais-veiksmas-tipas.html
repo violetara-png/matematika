@@ -169,9 +169,11 @@
       const dividend = mulOperands(1,sm.k,quotient.mant,quotient.d);
       return [ {mant:dividend.mant, d:dividend.d, disp:decDisp(dividend.mant,dividend.d)}, smallOperand(sm), quotient ];
     }
-    // kind === "decimal"
-    const divisor = decOperand(choice([1,2]));
-    const quotient = Math.random()<0.6 ? natOperand(randInt(2,12)) : decOperand(1);
+    // kind === "decimal": mažas, švariai dalijantis daliklis (1,1–4,9) ir natūralusis dalmuo (2–9)
+    let dmant;
+    do{ dmant = randInt(11,49); }while(dmant%10===0);
+    const divisor = { mant:dmant, d:1, val:dmant/10, disp:decDisp(dmant,1) };
+    const quotient = natOperand(randInt(2,9));
     const dividend = mulOperands(divisor.mant,divisor.d,quotient.mant,quotient.d);
     return [ {mant:dividend.mant, d:dividend.d, disp:decDisp(dividend.mant,dividend.d)}, divisor, quotient ];
   }
