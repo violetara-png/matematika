@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokytojo lapas · Pabėgimo kambarys · Skaičiaus dalies radimas · 4 kl.</title>
+<style>
+  @page{ size:A4 portrait; margin:14mm 14mm; }
+  :root{--ink:#1f2937;--accent:#1f4e79;--accent2:#2b6cb0;--ok:#15803d;--amber:#b45309;
+    --line:#d7dee8;--soft:#eef2f7;--math:'Cambria Math','Cambria',Georgia,serif;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:#fff;font-size:13px;line-height:1.4}
+  .page{max-width:190mm;margin:0 auto;padding:6mm}
+  header.doc{border-bottom:3px solid var(--accent);padding-bottom:8px;margin-bottom:10px}
+  header.doc h1{margin:0;font-size:20px;color:var(--accent)}
+  header.doc .meta{color:#555;font-size:12px;margin-top:3px}
+  .intro-note{background:var(--soft);border-left:4px solid var(--accent2);border-radius:6px;
+    padding:10px 12px;margin:10px 0 16px;font-size:12.5px}
+  .intro-note b{color:var(--accent)}
+  .variant{border:1px solid var(--line);border-radius:8px;margin:0 0 14px;overflow:hidden;
+    page-break-inside:avoid}
+  .variant h2{margin:0;background:var(--accent);color:#fff;font-size:15px;padding:8px 12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .variant h2 .code{font-family:'Consolas',monospace;background:#fff;color:var(--accent);
+    padding:3px 10px;border-radius:6px;font-size:16px;letter-spacing:2px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#555}
+  td.n{width:26px;text-align:center;font-weight:800;color:var(--accent2)}
+  td.eq{font-family:var(--math);font-size:14px}
+  td.sol{color:#333;font-family:var(--math);font-size:13px}
+  td.x{width:44px;text-align:center;font-weight:800;color:var(--ok);font-size:15px}
+  tr:last-child td{border-bottom:none}
+  .word{font-family:'Segoe UI',sans-serif;font-size:11.5px;color:#444;white-space:normal}
+  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 3px;font-family:var(--math)}
+  .fr>span:first-child{border-bottom:1.3px solid currentColor;padding:0 3px}
+  .fr>span:last-child{padding:0 3px}
+  .codeline{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:7px 12px;
+    margin-top:8px;font-size:13px}
+  .codeline b{font-family:'Consolas',monospace;color:var(--ok);font-size:16px;letter-spacing:2px}
+  .tips{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;
+    font-size:12px;page-break-inside:avoid}
+  .tips h3{margin:0 0 6px;color:var(--amber);font-size:13px}
+  .tips ul{margin:0;padding-left:18px}
+  .tips li{margin:3px 0}
+  .noprint{margin:14px 0;text-align:center}
+  .noprint button{background:var(--accent2);color:#fff;border:none;border-radius:8px;
+    padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  @media print{ .noprint{display:none} body{font-size:12px} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="doc">
+    <h1>🔑 Mokytojo lapas — Pabėgimo kambarys</h1>
+    <div class="meta">Tema: <b>Skaičiaus dalies radimas</b> · 4 klasė · Profesoriaus laboratorija · 10 stalčių · 4 variantai</div>
+  </header>
+
+  <div class="intro-note">
+    <b>Kaip veikia:</b> mokinys atidaro <b>index.html</b>, pradžioje pasirenka variantą (1–4),
+    sprendžia 10 stalčių iš eilės. Kiekvieno stalčiaus atsakymas yra vienas galutinio durų kodo
+    skaitmuo (iš eilės nuo 1 iki 10 stalčiaus). Surinkęs visą kodą ir įvedęs jį į seifą, mokinys „pabėga".
+    Skirtingi variantai turi kitus skaičius ir kitą kodą, kad gretimai sėdintys spręstų skirtingus.
+  </div>
+
+  <div id="host"></div>
+
+  <div class="tips">
+    <h3>Patarimai vedant pamoką</h3>
+    <ul>
+      <li>Prieš pradedant paskirk kiekvienam mokiniui variantą (pvz. pagal eilę: 1,2,3,4,1,2…).</li>
+      <li>Laikas — 30 min; galima rungtyniauti, kas pabėgs greičiau ir be patarimų (rangas rodomas gale).</li>
+      <li>Įstrigusiam mokiniui priminkite mygtuką „💡 Patarimas" prie kiekvieno stalčiaus.</li>
+      <li>Galima spręsti komandomis po 2 — vienas skaičiuoja, kitas tikrina.</li>
+      <li>Kodai apačioje — greitam patikrinimui, jei mokinys nespėja ar suklysta.</li>
+      <li>Metodas visur tas pats: padalink iš vardiklio (rask vieną dalį), tada padaugink iš skaitiklio.</li>
+    </ul>
+  </div>
+
+  <div class="noprint">
+    <button onclick="window.print()">🖨 Spausdinti / išsaugoti PDF</button>
+  </div>
+
+</div>
+
+<script>
+function fr(n,d){ return "<span class='fr'><span>"+n+"</span><span>"+d+"</span></span>"; }
+
+const VARIANTS = [
+ { code:"6794583269", rows:[
+   [1, fr(1,4)+" skaičiaus 24", "24 : 4 = 6", 6],
+   [2, fr(1,8)+" skaičiaus 56", "56 : 8 = 7", 7],
+   [3, fr(3,5)+" skaičiaus 15", "15 : 5 = 3;  3 · 3 = 9", 9],
+   [4, fr(2,9)+" skaičiaus 18", "18 : 9 = 2;  2 · 2 = 4", 4],
+   [5, fr(5,6)+" skaičiaus 6", "6 : 6 = 1;  1 · 5 = 5", 5],
+   [6, fr(4,5)+" skaičiaus 10", "10 : 5 = 2;  2 · 4 = 8", 8],
+   ["7w","Lentynoje 24 knygos, "+fr(1,8)+" jų – enciklopedijos. Kiek enciklopedijų?","24 : 8 = 3",3],
+   ["8w","Vazoje 18 gėlių, nuvyto "+fr(8,9)+" jų. Kiek liko šviežių?","18 : 9 = 2;  2 · 8 = 16 nuvyto;  18 − 16 = 2",2],
+   ["9w","Didesnioji iš: "+fr(1,4)+" iš 24, ar "+fr(1,6)+" iš 24?","24:4=6;  24:6=4;  didesnė = 6",6],
+   ["10w","36 kg slyvų, "+fr(1,4)+" pardavė, likusias į 3 dėžes. Kg vienoje dėžėje?","36:4=9 parduota; 36−9=27 liko; 27:3=9",9],
+ ]},
+ { code:"7986764387", rows:[
+   [1, fr(1,3)+" skaičiaus 21", "21 : 3 = 7", 7],
+   [2, fr(1,6)+" skaičiaus 54", "54 : 6 = 9", 9],
+   [3, fr(2,3)+" skaičiaus 12", "12 : 3 = 4;  4 · 2 = 8", 8],
+   [4, fr(3,8)+" skaičiaus 16", "16 : 8 = 2;  2 · 3 = 6", 6],
+   [5, fr(7,8)+" skaičiaus 8", "8 : 8 = 1;  1 · 7 = 7", 7],
+   [6, fr(3,4)+" skaičiaus 8", "8 : 4 = 2;  2 · 3 = 6", 6],
+   ["7w","Sode 32 vaismedžiai, "+fr(1,8)+" jų – kriaušės. Kiek kriaušių?","32 : 8 = 4",4],
+   ["8w","Dėžutėje 27 saldainiai, suvalgyta "+fr(8,9)+" jų. Kiek liko?","27:9=3;  3·8=24 suvalgyta;  27−24=3",3],
+   ["9w","Didesnioji iš: "+fr(2,3)+" iš 12, ar "+fr(3,8)+" iš 16?","12:3=4,4·2=8;  16:8=2,2·3=6;  didesnė = 8",8],
+   ["10w","28 bandelės, "+fr(1,4)+" pardavė, likusias į 3 dėžutes. Kiek vienoje?","28:4=7 parduota; 28−7=21 liko; 21:3=7",7],
+ ]},
+ { code:"9685764294", rows:[
+   [1, fr(1,5)+" skaičiaus 45", "45 : 5 = 9", 9],
+   [2, fr(1,7)+" skaičiaus 42", "42 : 7 = 6", 6],
+   [3, fr(2,5)+" skaičiaus 20", "20 : 5 = 4;  4 · 2 = 8", 8],
+   [4, fr(5,9)+" skaičiaus 9", "9 : 9 = 1;  1 · 5 = 5", 5],
+   [5, fr(7,8)+" skaičiaus 8", "8 : 8 = 1;  1 · 7 = 7", 7],
+   [6, fr(2,3)+" skaičiaus 9", "9 : 3 = 3;  3 · 2 = 6", 6],
+   ["7w","Zoologijos sode 36 gyvūnai, "+fr(1,9)+" jų – liūtai. Kiek liūtų?","36 : 9 = 4",4],
+   ["8w","16 pieštukų, nauji sudaro "+fr(7,8)+" jų. Kiek senų?","16:8=2;  2·7=14 nauji;  16−14=2 seni",2],
+   ["9w","Didesnioji iš: "+fr(1,5)+" iš 45, ar "+fr(1,7)+" iš 42?","45:5=9;  42:7=6;  didesnė = 9",9],
+   ["10w","32 maišai cukraus, "+fr(1,4)+" išvežė, likusius į 6 lentynas. Kiek vienoje?","32:4=8 išvežta; 32−8=24 liko; 24:6=4",4],
+ ]},
+ { code:"7896474379", rows:[
+   [1, fr(1,6)+" skaičiaus 42", "42 : 6 = 7", 7],
+   [2, fr(1,9)+" skaičiaus 72", "72 : 9 = 8", 8],
+   [3, fr(3,7)+" skaičiaus 21", "21 : 7 = 3;  3 · 3 = 9", 9],
+   [4, fr(2,5)+" skaičiaus 15", "15 : 5 = 3;  3 · 2 = 6", 6],
+   [5, fr(4,9)+" skaičiaus 9", "9 : 9 = 1;  1 · 4 = 4", 4],
+   [6, fr(7,8)+" skaičiaus 8", "8 : 8 = 1;  1 · 7 = 7", 7],
+   ["7w","Autobuse 28 keleiviai, "+fr(1,7)+" jų išlipo. Kiek išlipo?","28 : 7 = 4",4],
+   ["8w","27 riešutai, suvalgyta "+fr(8,9)+" jų. Kiek liko?","27:9=3;  3·8=24 suvalgyta;  27−24=3",3],
+   ["9w","Didesnioji iš: "+fr(1,6)+" iš 42, ar "+fr(2,5)+" iš 15?","42:6=7;  15:5=3,3·2=6;  didesnė = 7",7],
+   ["10w","45 vištos, "+fr(1,5)+" parduota, likusias į 4 narvelius. Kiek viename?","45:5=9 parduota; 45−9=36 liko; 36:4=9",9],
+ ]},
+];
+
+document.getElementById('host').innerHTML = VARIANTS.map((v,vi)=>`
+  <div class="variant">
+    <h2><span>Variantas ${vi+1}</span><span class="code">${v.code}</span></h2>
+    <table>
+      <tr><th>#</th><th>Uždavinys</th><th>Sprendimas</th><th>Atsakymas</th></tr>
+      ${v.rows.map(r=>{
+        const num = String(r[0]).replace('w','');
+        const isWord = String(r[0]).includes('w');
+        return `<tr>
+          <td class="n">${num}</td>
+          <td class="${isWord?'eq word':'eq'}">${r[1]}</td>
+          <td class="sol">${r[2]}</td>
+          <td class="x">${r[3]}</td>
+        </tr>`;
+      }).join('')}
+    </table>
+    <div style="padding:8px 12px">
+      <div class="codeline">🔐 Durų kodas: <b>${v.code}</b></div>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
