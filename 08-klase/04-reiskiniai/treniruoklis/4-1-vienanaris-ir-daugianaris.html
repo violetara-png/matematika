@@ -208,7 +208,12 @@ const LANGO = 10, RIBA = 9;
 const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, madeMistake:false, ready:false };
 const $ = id => document.getElementById(id);
 
-function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,'').replace(/-/g,'−'); }
+const SUP_TO_DIGIT = {'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'};
+function norm(s){
+  let t = (s||'').toString().trim().toLowerCase().replace(/\s+/g,'').replace(/-/g,'−');
+  t = t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => '^' + [...m].map(c=>SUP_TO_DIGIT[c]).join(''));
+  return t;
+}
 
 function naujas(){
   S.dabartinis = choice(GENERATORIAI)();
