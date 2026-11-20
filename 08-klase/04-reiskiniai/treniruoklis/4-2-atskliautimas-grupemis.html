@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atskliautimas</title>
+<style>
+  :root{
+    --bg:#eef2f7; --kort:#fff; --tekst:#1c2430; --pilka:#5b6472; --linija:#d8dee6;
+    --tema:#1e5fa8; --tema-t:#2b74c4; --ok:#1e7e34; --ok-f:#eaf6ec; --ne:#b91c1c; --ne-f:#fdecec;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#131720; --kort:#1c2230; --tekst:#e7ecf3; --pilka:#9aa6b6; --linija:#2c3648;
+      --ok-f:#113322; --ne-f:#3a1414;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--tekst); font-family:"Segoe UI",system-ui,sans-serif;
+    line-height:1.5; font-size:16px;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 0 60px}
+  header{background:linear-gradient(135deg,var(--tema),var(--tema-t)); color:#fff; padding:34px 24px 28px}
+  header h1{font-size:28px; margin:0 0 10px}
+  header p{margin:0; font-size:14.5px; opacity:.95; max-width:640px}
+  .korpusas{padding:20px 20px 0}
+  .grizti{display:inline-block; margin:16px 0 0; color:var(--tema-t); font-size:13px; text-decoration:none}
+  .grizti:hover{text-decoration:underline}
+
+  .juosta{background:var(--kort); border:1px solid var(--linija); border-radius:14px;
+    padding:14px 18px; margin:16px 0; display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; box-shadow:0 3px 14px rgba(0,0,0,.06)}
+  .busena{font-weight:600; font-size:14.5px}
+  .busena.ok{color:var(--ok)} .busena.ne{color:var(--ne)}
+  .mygtukai{display:flex; gap:8px; flex-wrap:wrap}
+  .btn{border:none; border-radius:10px; padding:11px 18px; font-size:14.5px; font-weight:600;
+    cursor:pointer; font-family:inherit; white-space:nowrap}
+  .btn-p{background:var(--tema); color:#fff}
+  .btn-a{background:var(--linija); color:var(--tekst)}
+  .btn:active{transform:translateY(1px)}
+
+  .pastabos{font-size:12.5px; color:var(--pilka); margin:0 0 18px; line-height:1.6}
+
+  .dalies{background:linear-gradient(135deg,var(--tema),var(--tema-t)); color:#fff; padding:10px 18px;
+    border-radius:12px; font-size:15px; font-weight:700; margin:22px 0 10px; letter-spacing:.2px}
+
+  .grupe{background:var(--kort); border:1px solid var(--linija); border-radius:14px;
+    padding:18px 20px; margin-bottom:16px; box-shadow:0 3px 14px rgba(0,0,0,.05)}
+  .grupe h2{font-size:17px; margin:0 0 4px; color:var(--tema-t)}
+  .grupe .nuoroda{font-size:13.5px; color:var(--pilka); margin:0 0 14px}
+  .uzd{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:9px 0;
+    border-top:1px solid var(--linija)}
+  .uzd:first-of-type{border-top:none}
+  .uzd .klaus{font-size:17px; flex:1 1 220px; min-width:200px; line-height:1.6}
+  .uzd input[type=text]{font-size:17px; width:170px; padding:7px 10px; text-align:center;
+    border:2px solid var(--linija); border-radius:9px; font-family:inherit; background:var(--kort); color:var(--tekst)}
+  .uzd input[type=text]:focus{outline:none; border-color:var(--tema)}
+  .uzd input[type=text].ok{border-color:var(--ok); background:var(--ok-f)}
+  .uzd input[type=text].ne{border-color:var(--ne); background:var(--ne-f)}
+  .zenklas{font-size:19px; width:22px; text-align:center}
+  .ivedimas{display:flex; flex-direction:column; gap:4px; align-items:center}
+  .simb-row{display:flex; gap:3px}
+  .simb-row button{border:1px solid var(--linija); background:var(--bg); color:var(--tekst);
+    border-radius:6px; width:24px; height:24px; font-size:13px; line-height:1; cursor:pointer;
+    padding:0; font-family:inherit}
+  .simb-row button:hover{background:var(--linija)}
+  @media print{ .ivedimas .simb-row{display:none!important} }
+  .sprendimas{flex-basis:100%; font-size:13.5px; color:var(--pilka); background:var(--bg);
+    border-radius:8px; padding:8px 12px; margin-top:4px; display:none}
+  .sprendimas b{color:var(--tekst)}
+
+  footer{text-align:center; margin-top:24px; font-size:12.5px; color:var(--pilka); padding-bottom:10px}
+
+  @media print{
+    header{background:none!important; color:var(--tekst)!important; padding:0 0 10px}
+    .juosta, .grizti, .mygtukai{display:none!important}
+    .sprendimas{display:none!important}
+    .uzd input[type=text]{border:1.5px solid #888; background:#fff}
+    .grupe{box-shadow:none; border:1px solid #bbb; break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="antraste">Atskliautimas</h1>
+    <p id="paantraste">8 klasė · 4 skyrius „Reiškiniai“ · 4.2 tema · įrašyk atsakymus ir tikrinkis.</p>
+  </header>
+  <div class="korpusas">
+    <a class="grizti" id="grizti" href="../" style="display:none">← Atgal į temą</a>
+
+    <div class="juosta">
+      <span class="busena" id="busena">Paspausk „Patikrinti atsakymus", kai užpildysi.</span>
+      <div class="mygtukai">
+        <button class="btn btn-p" id="tikrinti">Patikrinti atsakymus</button>
+        <button class="btn btn-a" id="nauji">Nauji skaičiai ↻</button>
+        <button class="btn btn-a" id="spausdinti">Spausdinti</button>
+      </div>
+    </div>
+    <p class="pastabos" id="pastabos"></p>
+
+    <div id="grupes"></div>
+
+    <footer id="poraste">Mokytoja Violeta</footer>
+  </div>
+</div>
+
+<script>
+// === GEN START ===
+function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function scoef(min,max){ return choice([1,-1]) * randint(min,max); }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=randint(0,i); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pick2(arr){ const a=choice(arr); let b=choice(arr); while(b===a) b=choice(arr); return [a,b]; }
+function nfInt(n){ return n<0 ? '−'+Math.abs(n) : String(n); }
+
+const SUP = {0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶'};
+function supNum(n){ return SUP[n] !== undefined ? SUP[n] : ('^'+n); }
+
+// --- Vienanarių ir daugianarių konstravimo pagalbininkai ---
+// vienanaris reprezentuojamas {coef:Number, vars:{raidė:laipsnis,...}}
+function varPartStr(vars){
+  return Object.keys(vars).sort().filter(k=>vars[k]).map(k=> vars[k]===1 ? k : k+supNum(vars[k])).join('');
+}
+function monoStr(coef, vars){
+  const vp = varPartStr(vars);
+  if(coef === 0) return '0';
+  const absC = Math.abs(coef);
+  const body = (absC === 1 && vp) ? vp : (String(absC) + vp);
+  return (coef < 0 ? '−' : '') + body;
+}
+function termStr(coef, vars, isFirst){
+  const vp = varPartStr(vars);
+  const absC = Math.abs(coef);
+  const body = (absC === 1 && vp) ? vp : (String(absC) + vp);
+  if(isFirst) return (coef < 0 ? '−' : '') + body;
+  return (coef < 0 ? ' − ' : ' + ') + body;
+}
+function exprFromTerms(terms){
+  const nzTerms = terms.filter(t => t.coef !== 0);
+  if(!nzTerms.length) return '0';
+  return nzTerms.map((t,i) => termStr(t.coef, t.vars, i === 0)).join('');
+}
+function sigOf(vars){ return Object.keys(vars).sort().map(k=>k+':'+vars[k]).join(','); }
+function combineLike(terms){
+  const map = new Map(); const order = [];
+  terms.forEach(t=>{
+    const sig = sigOf(t.vars);
+    if(!map.has(sig)){ map.set(sig, {coef:0, vars:t.vars}); order.push(sig); }
+    map.get(sig).coef += t.coef;
+  });
+  return order.map(sig=>map.get(sig));
+}
+function mulVars(v1,v2){
+  const out = Object.assign({}, v1);
+  for(const k in v2) out[k] = (out[k]||0) + v2[k];
+  return out;
+}
+function mulMono(m1,m2){ return { coef: m1.coef*m2.coef, vars: mulVars(m1.vars, m2.vars) }; }
+function randExpr2(v1,v2,maxE){
+  let e1 = randint(0,maxE), e2 = randint(0,maxE);
+  if(e1===0 && e2===0) e1 = randint(1,maxE);
+  const vars = {};
+  if(e1>0) vars[v1]=e1;
+  if(e2>0) vars[v2]=e2;
+  return vars;
+}
+function termSingle(coef, v){ return termStr(coef, {[v]:1}, true); }
+
+const VARS = ['x','y','a','b','m','n','p','q'];
+const LETTERS = ['A','B','C','D'];
+
+// === 8 kl. 4.2 tema · Atskliautimas ===
+
+function genAtskliausimasZenklas(){
+  const v = choice(VARS);
+  const leadIsVar = choice([true,false]);
+  const leadCoef = scoef(2,9);
+  const leadTerm = { coef: leadCoef, vars: leadIsVar ? {[v]:1} : {} };
+  const extOp = choice(['+','−']);
+  const p = scoef(2,9);
+  const k = scoef(2,9);
+  const innerVarTerm = {coef:p, vars:{[v]:1}};
+  const innerConstTerm = {coef:k, vars:{}};
+  const innerOrder = choice([[innerVarTerm,innerConstTerm],[innerConstTerm,innerVarTerm]]);
+  const innerStr = exprFromTerms(innerOrder);
+  const leadStr = exprFromTerms([leadTerm]);
+  const q = `Atskliauskite ir sutraukite panašiuosius narius: ${leadStr} ${extOp} (${innerStr}).`;
+  const flippedInner = innerOrder.map(t => extOp==='−' ? {coef:-t.coef, vars:t.vars} : t);
+  const allTerms = [leadTerm, ...flippedInner];
+  let combined = combineLike(allTerms);
+  combined.sort((a,b)=> Object.keys(b.vars).length - Object.keys(a.vars).length);
+  const ans = exprFromTerms(combined);
+  return { q, ansType:'text', ans,
+    steps: [`Jei prieš skliaustus '−', visi skliaustuose esantys ženklai apsiverčia; jei '+' — ženklai lieka tie patys.`,
+            `Atskleidę skliaustus gauname: ${exprFromTerms(allTerms)}.`,
+            `Sutraukiame panašiuosius narius: = ${ans}`] };
+}
+
+function genSuprastinimasSandaugos(){
+  const v = choice(VARS);
+  const E = choice([1,2,3]);
+  function splitExp(total){ const e1=randint(0,total); return [e1, total-e1]; }
+  const [e1a,e1b] = splitExp(E);
+  const p1 = scoef(2,9), p2 = scoef(2,9);
+  const m1a = {coef:p1, vars: e1a? {[v]:e1a} : {}};
+  const m1b = {coef:p2, vars: e1b? {[v]:e1b} : {}};
+  const term1 = mulMono(m1a,m1b);
+
+  const [e2a,e2b] = splitExp(E);
+  const q1 = scoef(2,9), q2 = scoef(2,9);
+  const m2a = {coef:q1, vars: e2a? {[v]:e2a} : {}};
+  const m2b = {coef:q2, vars: e2b? {[v]:e2b} : {}};
+  const term2raw = mulMono(m2a,m2b);
+  let sign2 = choice(['+','−']);
+  const term2 = sign2==='−' ? {coef:-term2raw.coef, vars:term2raw.vars} : term2raw;
+
+  function factorPairStr(ma,mb){
+    const aStr = monoStr(ma.coef, ma.vars);
+    const bStrRaw = monoStr(mb.coef, mb.vars);
+    const bStr = mb.coef<0 ? `(${bStrRaw})` : bStrRaw;
+    return `${aStr}·${bStr}`;
+  }
+  const part1 = factorPairStr(m1a,m1b);
+  // Jei antrosios poros pirmasis daugiklis neigiamas, ženklą prieš jį "ištraukiame"
+  // į sign2, kad nebūtų dviejų ženklų iš eilės (pvz. "+ −9", o ne "− 9").
+  let m2aDisplay = m2a, sign2Display = sign2;
+  if(m2a.coef < 0){
+    m2aDisplay = {coef:-m2a.coef, vars:m2a.vars};
+    sign2Display = sign2==='−' ? '+' : '−';
+  }
+  const part2 = factorPairStr(m2aDisplay,m2b);
+  const term2rawDisplay = mulMono(m2aDisplay, m2b);
+  const q = `Suprastinkite reiškinį: ${part1} ${sign2Display} ${part2}.`;
+
+  const combined = combineLike([term1, term2]);
+  const ans = exprFromTerms(combined);
+  return { q, ansType:'text', ans,
+    steps: [`Sudauginame kiekvieną vienanarių porą atskirai.`,
+            `${part1} = ${monoStr(term1.coef, term1.vars)}`,
+            `${part2} = ${monoStr(term2rawDisplay.coef, term2rawDisplay.vars)}`,
+            `Sudedame/atimame gautus vienanarius (žr. ženklą prieš antrąjį): = ${ans}`] };
+}
+
+function genAtskliauskite(){
+  const [v1,v2] = pick2(VARS);
+  const expM = randint(1,2);
+  const monoVars = {[v1]: expM};
+  const coefM = scoef(2,9);
+  const t1 = {coef: scoef(2,9), vars:{[v1]:1}};
+  const t2 = {coef: scoef(2,9), vars:{[v2]:1}};
+  const binomialTerms = [t1,t2];
+  const binomialStr = exprFromTerms(binomialTerms);
+  const monoDisplay = monoStr(coefM, monoVars);
+  const q = `Atskliauskite: ${monoDisplay}·(${binomialStr}).`;
+  const resultTermsRaw = binomialTerms.map(t=>({coef: coefM*t.coef, vars: mulVars(monoVars, t.vars)}));
+  const resultTerms = combineLike(resultTermsRaw);
+  const ans = exprFromTerms(resultTerms);
+  return { q, ansType:'text', ans,
+    steps: [`Kiekvieną skliaustuose esantį narį dauginame iš ${monoDisplay}.`,
+            `${monoDisplay}·${monoStr(t1.coef,t1.vars)} = ${monoStr(resultTermsRaw[0].coef, resultTermsRaw[0].vars)}`,
+            `${monoDisplay}·${t2.coef<0?`(${monoStr(t2.coef,t2.vars)})`:monoStr(t2.coef,t2.vars)} = ${monoStr(resultTermsRaw[1].coef, resultTermsRaw[1].vars)}`,
+            `= ${ans}`] };
+}
+
+function genH_two(){
+  const v = choice(VARS);
+  const c1 = randint(2,6), c2 = randint(2,6);
+  const extOp1 = choice(['+','−']);
+  const extOp2 = choice(['+','−']);
+  const p1 = randint(1,9), s1 = choice(['+','−']), k1 = randint(1,9);
+  const p2 = randint(1,9), s2 = choice(['+','−']), k2 = randint(1,9);
+  const bracket1 = [{coef:p1, vars:{[v]:1}}, {coef: s1==='−'?-k1:k1, vars:{}}];
+  const bracket2 = [{coef:p2, vars:{[v]:1}}, {coef: s2==='−'?-k2:k2, vars:{}}];
+  const bracket1Str = exprFromTerms(bracket1);
+  const bracket2Str = exprFromTerms(bracket2);
+  const lead1 = extOp1==='−' ? `−${c1}` : `${c1}`;
+  const q = `Suprastinkite reiškinį: ${lead1}(${bracket1Str}) ${extOp2} ${c2}(${bracket2Str}).`;
+  const sign1 = extOp1==='−' ? -1 : 1;
+  const sign2 = extOp2==='−' ? -1 : 1;
+  const expanded1 = bracket1.map(t=>({coef: sign1*c1*t.coef, vars:t.vars}));
+  const expanded2 = bracket2.map(t=>({coef: sign2*c2*t.coef, vars:t.vars}));
+  let combined = combineLike([...expanded1, ...expanded2]);
+  combined.sort((a,b)=> Object.keys(b.vars).length - Object.keys(a.vars).length);
+  const ans = exprFromTerms(combined);
+  return { q, ansType:'text', ans,
+    steps: [`Kiekvieną skliaustų narį dauginame iš atitinkamo koeficiento (atsižvelgdami į ženklą prieš skliaustus).`,
+            `Gauname: ${exprFromTerms([...expanded1,...expanded2])}.`,
+            `Sutraukiame panašiuosius narius: = ${ans}`] };
+}
+
+function genH_three(){
+  const [v1,v2] = pick2(VARS);
+  const leadCoef = scoef(2,9);
+  const leadVar = choice([v1,v2]);
+  const lead = {coef:leadCoef, vars:{[leadVar]:1}};
+  const a1 = scoef(2,9), a2 = scoef(2,9);
+  const orderA = choice([[v1,v2],[v2,v1]]);
+  const bracketA = [{coef:a1, vars:{[orderA[0]]:1}}, {coef:a2, vars:{[orderA[1]]:1}}];
+  const opA = choice(['+','−']);
+  const b1 = scoef(2,9), b2 = scoef(2,9);
+  const orderB = choice([[v1,v2],[v2,v1]]);
+  const bracketB = [{coef:b1, vars:{[orderB[0]]:1}}, {coef:b2, vars:{[orderB[1]]:1}}];
+  const opB = choice(['+','−']);
+  const bracketAStr = exprFromTerms(bracketA);
+  const bracketBStr = exprFromTerms(bracketB);
+  const leadStr = exprFromTerms([lead]);
+  const q = `Suprastinkite reiškinį: ${leadStr} ${opA} (${bracketAStr}) ${opB} (${bracketBStr}).`;
+  const signA = opA==='−'?-1:1, signB = opB==='−'?-1:1;
+  const expA = bracketA.map(t=>({coef:signA*t.coef, vars:t.vars}));
+  const expB = bracketB.map(t=>({coef:signB*t.coef, vars:t.vars}));
+  const allTerms = [lead, ...expA, ...expB];
+  let combined = combineLike(allTerms);
+  combined.sort((x,y)=> Object.keys(x.vars)[0].localeCompare(Object.keys(y.vars)[0]));
+  const ans = exprFromTerms(combined);
+  return { q, ansType:'text', ans,
+    steps: [`Skliaustus atskleidžiame atsižvelgdami į ženklą prieš juos (jei '−', vidiniai ženklai apsiverčia).`,
+            `Gauname: ${exprFromTerms(allTerms)}.`,
+            `Sutraukiame panašiuosius narius: = ${ans}`] };
+}
+function genSuprastinimasDvigubas(){ return choice([genH_two, genH_three])(); }
+
+const GENERATORIAI = [
+  { label:"Atskliauskite ir sutraukite panašiuosius narius", gen: genAtskliausimasZenklas },
+  { label:"Atskliauskite ir sutraukite panašiuosius narius", gen: genAtskliausimasZenklas },
+  { label:"Atskliauskite ir sutraukite panašiuosius narius", gen: genAtskliausimasZenklas },
+  { label:"Atskliauskite ir sutraukite panašiuosius narius", gen: genAtskliausimasZenklas },
+
+  { label:"Suprastinkite reiškinį (vienanarių sandaugos)", gen: genSuprastinimasSandaugos },
+  { label:"Suprastinkite reiškinį (vienanarių sandaugos)", gen: genSuprastinimasSandaugos },
+  { label:"Suprastinkite reiškinį (vienanarių sandaugos)", gen: genSuprastinimasSandaugos },
+  { label:"Suprastinkite reiškinį (vienanarių sandaugos)", gen: genSuprastinimasSandaugos },
+
+  { label:"Atskliauskite (vienanarį dauginant iš dvinario su dviem kintamaisiais)", gen: genAtskliauskite },
+  { label:"Atskliauskite (vienanarį dauginant iš dvinario su dviem kintamaisiais)", gen: genAtskliauskite },
+  { label:"Atskliauskite (vienanarį dauginant iš dvinario su dviem kintamaisiais)", gen: genAtskliauskite },
+
+  { label:"Suprastinkite reiškinį (du skliaustai)", gen: genSuprastinimasDvigubas },
+  { label:"Suprastinkite reiškinį (du skliaustai)", gen: genSuprastinimasDvigubas },
+  { label:"Suprastinkite reiškinį (du skliaustai)", gen: genSuprastinimasDvigubas },
+];
+
+function makeProblem(){
+  const g = choice(GENERATORIAI);
+  const p = g.gen();
+  p.label = g.label;
+  return p;
+}
+// === GEN END ===
+
+const META = {"title": "Atskliautimas", "subtitle": "8 klasė · 4 skyrius „Reiškiniai“ · 4.2 tema · įrašyk atsakymus ir tikrinkis. Paspaudus „Nauji skaičiai“, užduotys sugeneruojamos iš naujo.", "pastabos": "Atsakymuose rašyk reiškinį be tarpų, pvz. 6x² (priimama ir 6x^2). Neigiamą skaičių gali žymėti paprastu brūkšneliu.", "poraste": "Mokytoja Violeta", "simboliai": ["²","³","−",","]};
+const $ = id => document.getElementById(id);
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtMath(s){
+  if(/<svg[\s>]/i.test(s)) return s;
+  let out = esc(s)
+    .replace(/\^\(([^)]+)\)/g, '<sup>$1</sup>')
+    .replace(/\^(-?\d+)/g, '<sup>$1</sup>')
+    .replace(/(\d+)\/(\d+)/g, '<span class="fr"><span>$1</span><span>$2</span></span>')
+    .replace(/\{br\}/g, '<br>');
+  return out;
+}
+
+function parseVal(s){
+  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
+  if(s==='') return NaN;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
+  return parseFloat(s);
+}
+function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nfInt(p.ans)); }
+function normText(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/\^2/g,'²').replace(/\^3/g,'³').replace(/\^4/g,'⁴')
+    .replace(/-/g,'−')
+    .replace(/<=/g,'≤').replace(/=</g,'≤')
+    .replace(/>=/g,'≥').replace(/=>/g,'≥')
+    .replace(/infinity|inf\b/g,'∞');
+}
+function teisingas(p, raw){
+  if(p.ansType === 'text'){
+    if(!raw.trim()) return null;
+    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
+    return accepted.includes(normText(raw));
+  }
+  const val = parseVal(raw);
+  if(isNaN(val)) return null;
+  return Math.abs(val - p.ans) < 1e-6;
+}
+
+let PROBLEMS = [];
+
+function sugeneruoti(){
+  PROBLEMS = GENERATORIAI.map((g,i)=>{
+    const p = g.gen();
+    p.label = g.label;
+    p.part = g.part || null;
+    p.note = g.note || null;
+    p.idx = i;
+    return p;
+  });
+}
+
+function pieshti(){
+  const cont = $('grupes');
+  cont.innerHTML = '';
+  let i = 0, grupesSk = 0;
+  while(i < PROBLEMS.length){
+    const label = PROBLEMS[i].label;
+    if(PROBLEMS[i].part){
+      const h = document.createElement('div');
+      h.className = 'dalies';
+      h.textContent = PROBLEMS[i].part;
+      cont.appendChild(h);
+    }
+    const grupe = [];
+    while(i < PROBLEMS.length && PROBLEMS[i].label === label){ grupe.push(PROBLEMS[i]); i++; }
+    grupesSk++;
+    const div = document.createElement('div');
+    div.className = 'grupe';
+    const antraste = /^\s*\d/.test(label) ? label : `${grupesSk}. ${label}`;
+    let html = `<h2>${esc(antraste)}</h2>`;
+    if(grupe[0].note) html += `<p class="nuoroda">${esc(grupe[0].note)}</p>`;
+    grupe.forEach(p=>{
+      const simbHtml = SIMBOLIAI.map(s=>`<button type="button" class="simb" data-target="at${p.idx}" data-ch="${esc(s)}">${esc(s)}</button>`).join('');
+      html += `<div class="uzd" data-idx="${p.idx}">
+        <span class="klaus">${fmtMath(p.q)}</span>
+        <div class="ivedimas">
+          <input type="text" id="at${p.idx}" autocomplete="off" inputmode="text" placeholder="?">
+          <div class="simb-row">${simbHtml}</div>
+        </div>
+        <span class="zenklas" id="zn${p.idx}"></span>
+        <div class="sprendimas" id="sp${p.idx}"></div>
+      </div>`;
+    });
+    div.innerHTML = html;
+    cont.appendChild(div);
+  }
+}
+
+function naujiSkaiciai(){
+  sugeneruoti();
+  pieshti();
+  $('busena').className = 'busena';
+  $('busena').textContent = 'Naujas variantas paruoštas. Sėkmės!';
+}
+
+function patikrinti(){
+  let correct = 0, answered = 0;
+  PROBLEMS.forEach(p=>{
+    const inp = $('at'+p.idx);
+    const ok = teisingas(p, inp.value);
+    const zn = $('zn'+p.idx);
+    const sp = $('sp'+p.idx);
+    inp.classList.remove('ok','ne');
+    if(ok === null){ zn.textContent=''; sp.style.display='none'; return; }
+    answered++;
+    if(ok){ correct++; inp.classList.add('ok'); zn.textContent='✓'; }
+    else{ inp.classList.add('ne'); zn.textContent='✗'; }
+    if(sp){
+      const steps = (p.steps||[]).map(s=>fmtMath(s)).join(' → ');
+      if(ok && !steps){
+        sp.innerHTML = '';
+        sp.style.display = 'none';
+      } else {
+        sp.innerHTML = ok
+          ? `<b>Sprendimas:</b> ${steps}`
+          : `<b>Teisingas atsakymas:</b> ${fmtMath(atsTekstas(p))}` + (steps ? ` — <b>sprendimas:</b> ${steps}` : '');
+        sp.style.display = 'block';
+      }
+    }
+  });
+  const total = PROBLEMS.length;
+  const b = $('busena');
+  if(answered < total){
+    b.className = 'busena';
+    b.textContent = `Liko neatsakyta: ${total-answered}. Patikrink, ar visi laukai užpildyti.`;
+    return;
+  }
+  b.className = 'busena ' + (correct===total ? 'ok' : (correct===0 ? 'ne' : ''));
+  b.textContent = `Teisingai: ${correct} iš ${total}.` + (correct===total ? ' Puiku!' : '');
+}
+
+const SIMBOLIAI = (META.simboliai && META.simboliai.length) ? META.simboliai : ['−',','];
+
+function insSymbol(inputId, ch){
+  const el = document.getElementById(inputId);
+  if(!el) return;
+  const s = el.selectionStart ?? el.value.length, e = el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0,s) + ch + el.value.slice(e);
+  const pos = s + ch.length;
+  el.focus();
+  el.setSelectionRange(pos,pos);
+}
+$('grupes').addEventListener('click', e=>{
+  const b = e.target.closest('.simb');
+  if(!b) return;
+  insSymbol(b.dataset.target, b.dataset.ch);
+});
+
+$('tikrinti').addEventListener('click', patikrinti);
+$('nauji').addEventListener('click', naujiSkaiciai);
+$('spausdinti').addEventListener('click', ()=>window.print());
+
+$('antraste').textContent = META.title || 'Treniruoklis';
+$('paantraste').textContent = META.subtitle || '';
+document.title = META.title || 'Treniruoklis';
+$('pastabos').textContent = META.pastabos || 'Atsakymuose galima rašyti kablelį arba tašką.';
+if(META.grizti){ $('grizti').href = META.grizti; $('grizti').style.display=''; }
+if(META.poraste) $('poraste').textContent = META.poraste;
+
+naujiSkaiciai();
+</script>
+</body>
+</html>
