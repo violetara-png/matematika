@@ -134,14 +134,6 @@ function groupTerms(list){
   }
   return order.filter(l => Math.abs(sums[l]) > 1e-9).map(l => term(sums[l], l));
 }
-function regroupNotSummed(list){
-  const order = []; const buckets = {};
-  for(const t of list){
-    if(!(t.letters in buckets)){ order.push(t.letters); buckets[t.letters] = []; }
-    buckets[t.letters].push(t);
-  }
-  return order.flatMap(l => buckets[l]);
-}
 
 // --- Vienanariai su laipsniais (raidė -> rodiklis) — daugybos į standartinę išraišką uždaviniams ---
 const SUP = {0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
@@ -201,14 +193,11 @@ function genSutraukimas(){
   let terms = [term(nz(-9,9), v), term(nz(-9,9), v), term(nz(-9,9), w), term(nz(-9,9), w)];
   terms = terms.map(t=>({t, r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.t);
   const expr = signedStr(terms);
-  const regrouped = regroupNotSummed(terms);
   const grouped = groupTerms(terms);
-  return { label:'Panašiųjų narių sutraukimas', heading:'Surašyk panašiuosius narius greta ir sutrauk juos.', expr,
+  return { label:'Panašiųjų narių sutraukimas', heading:'Sutrauk panašiuosius narius.', expr,
     steps:[
-      { label:'1 žingsnis. Perrašyk surikiavęs panašiuosius narius greta (dar nesutraukdamas).', expected: signedStr(regrouped),
-        hint:`Visus narius su raidine dalimi ${v} sustumk greta, po jų — visus su ${w}.` },
-      { label:'2 žingsnis. Sutrauk panašiuosius narius.', expected: signedStr(grouped),
-        hint:'Sudėk kiekvienos grupės koeficientus; raidinę dalį palik tą pačią. Jei suma lygi nuliui, tą narį praleisk.' },
+      { label:'Įrašyk gautą reiškinį.', expected: signedStr(grouped),
+        hint:`Nebūtinai greta parašyti nariai gali būti panašūs — surask visus su raidine dalimi ${v}, tada visus su ${w}, ir sudėk kiekvienos grupės koeficientus.` },
     ]};
 }
 
