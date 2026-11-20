@@ -182,6 +182,7 @@ function genStandartine(){
   return { label:'Vienanarių daugyba', heading:'Padaugink vienanarius ir užrašyk standartine išraiška.', expr,
     steps:[
       { label:'1 žingsnis. Sudaugink skaitinius koeficientus.', expected: signedNum(coefProduct),
+        small:'Čia įrašyk TIK skaičių (koeficientą), be raidžių.',
         hint:'Koeficientus daugink kaip paprastus skaičius — atsižvelk į ženklus (du minusai duoda pliusą).' },
       { label:'2 žingsnis. Sujunk raidžių laipsnius ir užrašyk standartine išraiška.', expected: monoStrSigned(final),
         hint:'Tos pačios raidės laipsnius sudėk (pvz. a²·a = a³). Koeficientą iš 1 žingsnio parašyk priekyje.' },
@@ -227,7 +228,7 @@ function renderStep(idx){
   form.className = 'zingsnis';
   form.innerHTML =
     `<label class="lab" for="${id}">${step.label}</label>` +
-    `<small>Gali rašyti x^2, 3x/2 arba 1,5x.</small>` +
+    `<small>${step.small || 'Gali rašyti x^2, 3x/2 arba 1,5x.'}</small>` +
     `<input type="text" id="${id}" autocomplete="off" autocapitalize="off" spellcheck="false">` +
     `<div class="simboliai"><button type="button" data-ins="−">−</button><button type="button" data-ins="">C</button></div>` +
     `<div class="veiksmai"><button type="submit" class="btn btn-p">Tikrinti</button>` +
