@@ -35,56 +35,51 @@
     padding:22px 20px; box-shadow:0 2px 10px rgba(60,40,20,.05);}
   .tipas{display:inline-block; background:var(--geltona); color:var(--pilka);
     font-size:12px; padding:3px 10px; border-radius:20px; margin-bottom:14px;}
-  .klausimas{font-size:26px; text-align:center; margin:6px 0 20px; letter-spacing:.3px; line-height:1.35;}
-  .klausimas svg{display:block; max-width:360px; width:100%; height:auto; margin:12px auto 0;}
-  .ivestis{display:flex; gap:8px; align-items:center; justify-content:center; margin-bottom:6px;}
-  .ivestis label{font-size:18px; color:var(--pilka);}
-  input[type=text]{font-size:22px; width:170px; padding:8px 12px; text-align:center;
-    border:2px solid var(--linija); border-radius:10px; font-family:inherit;}
+  h2.uzduotis{font-size:19px; margin:0 0 14px; line-height:1.4;}
+  .reiskinys{background:var(--zalia-f); border:1px solid #cfe3cf; border-radius:10px; padding:14px 16px;
+    font-family:"Cambria Math",Cambria,Georgia,serif; font-size:24px; text-align:center; margin-bottom:6px;}
+
+  form.zingsnis{margin:18px 0 0; border-top:1px solid var(--linija); padding-top:16px;}
+  form.zingsnis label.lab{display:block; font-weight:700;}
+  form.zingsnis small{display:block; color:var(--pilka); font-size:12.5px; margin:2px 0 8px;}
+  input[type=text]{font-size:17px; width:100%; padding:10px 12px; font-family:inherit;
+    border:1.5px solid var(--linija); border-radius:8px; background:#fff;}
   input[type=text]:focus{outline:none; border-color:var(--sildyta);}
-  .simboliai{display:flex; gap:6px; justify-content:center; margin:10px 0 4px; flex-wrap:wrap;}
+  input[type=text][readonly]{background:var(--smelis); color:var(--pilka);}
+  .simboliai{display:flex; gap:6px; margin:8px 0 2px; flex-wrap:wrap;}
   .simboliai button{border:1px solid var(--linija); background:var(--smelis); border-radius:8px;
-    min-width:42px; height:38px; padding:0 10px; font-size:18px; cursor:pointer;}
+    min-width:38px; height:34px; padding:0 9px; font-size:16px; cursor:pointer;}
   .simboliai button:hover{background:var(--geltona);}
-  .veiksmai{display:flex; gap:10px; justify-content:center; margin-top:16px;}
-  .btn{border:none; border-radius:10px; padding:12px 22px; font-size:16px; font-weight:600;
+  .veiksmai{display:flex; gap:10px; margin-top:10px; align-items:center; flex-wrap:wrap;}
+  .btn{border:none; border-radius:10px; padding:10px 20px; font-size:15px; font-weight:600;
     cursor:pointer; font-family:inherit;}
   .btn-p{background:var(--sildyta); color:#fff;}
+  .btn-p:disabled{opacity:.45; cursor:default;}
   .btn-a{background:var(--geltona); color:var(--rasalas);}
+  .btn-a:disabled{opacity:.45; cursor:default;}
   .btn:active{transform:translateY(1px);}
 
-  .verdiktas{margin-top:18px; padding:14px 16px; border-radius:10px; font-weight:600; display:none;}
-  .v-ok{background:var(--zalia-f); color:var(--zalia); border:1px solid #bcdcbc;}
-  .v-ne{background:var(--raudona-f); color:var(--raudona); border:1px solid #e6bfbc;}
-  .sprendimas{margin-top:12px; background:#fbfaf7; border:1px solid var(--linija);
-    border-radius:10px; padding:14px 16px; display:none;}
-  .sprendimas h4{margin:0 0 8px; font-size:14px; color:var(--melyna);}
-  .sprendimas ol{margin:0; padding-left:20px;}
-  .sprendimas li{font-size:17px; margin:5px 0; font-variant-numeric:tabular-nums; line-height:1.5;}
+  .fb{min-height:1.4em; margin:10px 0 0; font-weight:650; font-size:14.5px;}
+  .fb.ok{color:var(--zalia);}
+  .fb.bad{color:var(--raudona);}
+
+  #next{display:none; margin-top:18px;}
 
   .apacia{margin-top:20px; font-size:12.5px; color:var(--pilka); text-align:center; line-height:1.6;}
   .apacia b{color:var(--rasalas);}
-  .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.02;margin:0 3px}
-  .fr>span:first-child{border-bottom:1.6px solid currentColor;padding:0 4px}
-  .fr>span:last-child{padding:0 4px}
-  .sqrt{display:inline-flex;align-items:flex-end;margin:0 .05em .05em}
-  .sqrt::before{content:"√";font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.25em;line-height:1;transform:translateY(.12em)}
-  .sqrt.cbrt::before{content:"∛"}
-  .sqrt>span.rad{display:inline-block;border-top:1.6px solid currentColor;padding:0 .1em 0 .05em;margin-left:1px}
-  .sqrt .ix{order:-1;align-self:flex-start;font-size:.52em;font-weight:700;line-height:1;margin:0 -.2em 0 0;transform:translateY(.05em)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1 id="antraste">Kontrolinio treniruoklis: Vienanaris ir daugianaris (8 klasė)</h1>
-    <p id="paantraste">4 skyrius „Reiškiniai“ · 4.1 tema · treniruokis, kol būsi pasiruošęs</p>
+    <h1>Kontrolinio treniruoklis: Vienanaris ir daugianaris (8 klasė)</h1>
+    <p>4 skyrius „Reiškiniai“ · 4.1 tema · treniruokis, kol būsi pasiruošęs</p>
   </header>
 
-  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango"></span> uždavinių teisingai išsprendei bent <span id="pr-riba"></span>. Gali tęsti treniruotę arba baigti.</div>
+  <div class="pasiruoses" id="pasiruoses">🎉 Pasiruošęs kontroliniui! Iš paskutinių <span id="pr-lango">10</span> uždavinių teisingai (be klaidų) išsprendei bent <span id="pr-riba">9</span>. Gali tęsti treniruotę arba baigti.</div>
 
   <div class="juosta">
-    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/0 teisingų</b></div>
+    <div class="virs"><span>Pasiruošimas</span><b id="pctTekstas">0/10 teisingų</b></div>
     <div class="baras"><div id="baras"></div></div>
     <div class="statai">
       <span>Serija: <b id="serija">0</b></span>
@@ -93,233 +88,207 @@
     </div>
   </div>
 
-  <div class="korta">
+  <div class="korta" id="korta">
     <span class="tipas" id="tipas">—</span>
-    <div class="klausimas" id="klausimas">—</div>
-    <div class="ivestis">
-      <label id="ivPre">atsakymas =</label>
-      <input type="text" id="atsakymas" autocomplete="off" inputmode="text" placeholder="?">
-    </div>
-    <div class="simboliai" id="simboliai"></div>
-    <div class="veiksmai">
-      <button class="btn btn-p" id="tikrinti">Tikrinti</button>
-      <button class="btn btn-a" id="kitas" style="display:none">Kitas uždavinys →</button>
-    </div>
-    <div class="verdiktas" id="verdiktas"></div>
-    <div class="sprendimas" id="sprendimas">
-      <h4>Sprendimas žingsnis po žingsnio</h4>
-      <ol id="zingsniai"></ol>
-    </div>
+    <h2 class="uzduotis" id="uzduotis" tabindex="-1">—</h2>
+    <div class="reiskinys" id="reiskinys">—</div>
+    <div id="zingsniai"></div>
+    <button class="btn btn-a" id="next">Kitas uždavinys →</button>
   </div>
 
   <div class="apacia">
-    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango"></span> uždavinių teisingai išsprendi bent <span id="ap-riba"></span>, esi pasiruošęs kontroliniui.<br>
-    Bandymų skaičius neribotas. Po kiekvieno uždavinio parodomas pilnas sprendimas. Kiekvienas uždavinys su naujais skaičiais.
+    <b>Kaip vertinama:</b> kai iš paskutinių <span id="ap-lango">10</span> uždavinių be klaidų (iš pirmo karto) išsprendi bent <span id="ap-riba">9</span>, esi pasiruošęs kontroliniui.<br>
+    Bandymų skaičius neribotas. Kiekvienas žingsnis tikrinamas atskirai. Kiekvienas uždavinys su naujais skaičiais.
   </div>
 </div>
 
 <script>
-// === GEN START ===
-// --- Bendri pagalbininkai (naudoja visi generatoriai) ---
+'use strict';
 function randint(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
 function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; } // ne nulis
-function nf(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'−':'')+s; }
-function pm(n){ n=Math.round(n*1000)/1000; const s=Math.abs(n).toString().replace('.',','); return (n<0?'− ':'+ ')+s; }
-
-// --- Temos generatoriai (įkeliami builder'io) ---
-// Kontrolinio treniruoklio generatoriai — 8 kl. 4.1 Vienanaris ir daugianaris.
-// Sablonas jau apibrezia: randint(a,b), choice(arr), nz(a,b), nf(n), pm(n). NEAPIBREZTI IS NAUJO.
+function nz(a,b){ let n=0; do{ n=randint(a,b); }while(n===0); return n; }
 
 const VARS = ['x', 'y', 'a', 'b', 'm', 'n', 'p', 'q'];
-function otherVar(v){ return choice(VARS.filter(x => x !== v)); }
-function term(coef, v){
-  if(coef === 1) return v;
-  if(coef === -1) return '−' + v;
-  return (coef < 0 ? '−' + Math.abs(coef) : String(coef)) + v;
+function otherVar(v){ const o = VARS.filter(x=>x!==v); return o[Math.floor(Math.random()*o.length)]; }
+function randVarSet(n){ const pool=[...VARS]; const picked=[]; for(let i=0;i<n;i++){ const idx=Math.floor(Math.random()*pool.length); picked.push(pool.splice(idx,1)[0]); } return picked; }
+
+// --- Paprasti nariai (viena raidinė dalis, be laipsnių maišymo) — sutraukimo uždaviniams ---
+function term(coef, letters){ return { coef, letters }; }
+function bodyOf(coef, letters){
+  const abs = Math.abs(coef);
+  return (abs === 1 && letters ? '' : String(abs)) + letters;
 }
-// 3 (ar daugiau) panasiuju nariu su ta pacia raidine dalimi uzrasymas sudeties/atimties zenklais.
-function exprStr(coefs, v){
-  return coefs.map((c, i) => {
-    const t = term(Math.abs(c), v);
-    if(i === 0) return (c < 0 ? '−' : '') + t;
-    return (c < 0 ? ' − ' : ' + ') + t;
+function signedStr(list){
+  if(!list.length) return '0';
+  return list.map((t, i) => {
+    const body = bodyOf(t.coef, t.letters);
+    if(i === 0) return (t.coef < 0 ? '−' : '') + body;
+    return (t.coef < 0 ? ' − ' : ' + ') + body;
   }).join('');
 }
-
-const GENERATORIAI = [
-  // 1) Vienanario standartinė išraiška — koeficientas
-  { label:"Standartinė išraiška ir koeficientas", gen(){
-      const u = choice(VARS), w = otherVar(u);
-      const c1 = randint(2,9), c2 = randint(2,9);
-      const coef = -(c1*c2);
-      return { q:`Vienanarį ${c1}${u}${w} · (−${c2}${u}) užrašykite standartine išraiška. Koks jo koeficientas?`,
-        pre:"Koeficientas =", ans:coef, steps:[
-        `Sudauginame skaitinius daugiklius: ${c1} · (−${c2}) = ${nf(coef)}.`,
-        `Raides sujungiame: ${u} · ${u} = ${u}², o ${w} lieka pirmuoju laipsniu.`,
-        `Standartinė išraiška: ${term(coef, u+'²'+w)}. Koeficientas = ${nf(coef)}`
-      ]};
-  }},
-
-  // 2) Panašiųjų narių sutraukimas (3 nariai, ta pati raidinė dalis)
-  { label:"Panašiųjų narių sutraukimas", gen(){
-      const v = choice(VARS);
-      const c1 = choice([-1,1]) * randint(3,15);
-      const c2 = choice([-1,1]) * randint(3,15);
-      const c3 = choice([-1,1]) * randint(3,15);
-      const sum = c1 + c2 + c3;
-      const vv = v + '²';
-      const ansText = sum === 0 ? '0' : term(sum, vv);
-      return { q:`Sutraukite panašiuosius narius: ${exprStr([c1,c2,c3], vv)}`,
-        ansType:'text', ans:ansText, pre:"atsakymas =", steps:[
-        `Visi trys nariai turi tą pačią raidinę dalį (${vv}) — tai panašieji nariai.`,
-        `Sudedame koeficientus: ${nf(c1)} ${c2<0?'−':'+'} ${Math.abs(c2)} ${c3<0?'−':'+'} ${Math.abs(c3)} = ${nf(sum)}.`,
-        `Raidinę dalį paliekame tą pačią: ${ansText}`
-      ]};
-  }},
-
-  // 3) Suprastinimas (vienanarių sandauga + sutraukimas) ir reikšmės skaičiavimas
-  { label:"Suprastinimas ir reikšmės skaičiavimas", gen(){
-      const v = choice(VARS);
-      const c1 = randint(2,9), c2 = randint(2,9);
-      const c3 = randint(2,12);
-      const prodCoef = -(c1*c2);
-      const combined = prodCoef + c3;
-      const xv = nz(-6,6);
-      const value = combined * xv * xv;
-      return { q:`Suprastinkite reiškinį ${c1}${v} · (−${c2}${v}) + ${term(c3, v+'²')} ir apskaičiuokite jo reikšmę, kai ${v} = ${nf(xv)}.`,
-        pre:"Reikšmė =", ans:value, steps:[
-        `${c1}${v} · (−${c2}${v}) = ${term(prodCoef, v+'²')}`,
-        `${term(prodCoef, v+'²')} + ${term(c3, v+'²')} = ${term(combined, v+'²')}`,
-        `Kai ${v} = ${nf(xv)}: ${nf(combined)} · (${nf(xv)})² = ${nf(combined)} · ${xv*xv} = ${nf(value)}`
-      ]};
-  }}
-];
-
-function makeProblem(){
-  const g = choice(GENERATORIAI);
-  const p = g.gen();
-  p.label = g.label;
-  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
-  return p;
+function groupTerms(list){
+  const order = []; const sums = {};
+  for(const t of list){
+    if(!(t.letters in sums)){ order.push(t.letters); sums[t.letters] = 0; }
+    sums[t.letters] += t.coef;
+  }
+  return order.filter(l => Math.abs(sums[l]) > 1e-9).map(l => term(sums[l], l));
+}
+function regroupNotSummed(list){
+  const order = []; const buckets = {};
+  for(const t of list){
+    if(!(t.letters in buckets)){ order.push(t.letters); buckets[t.letters] = []; }
+    buckets[t.letters].push(t);
+  }
+  return order.flatMap(l => buckets[l]);
 }
 
-
-function makeProblem(){
-  const g = choice(GENERATORIAI);
-  const p = g.gen();
-  p.label = g.label;
-  if(p.pre===undefined) p.pre = (typeof META!=='undefined' && META.ivestis_pre) ? META.ivestis_pre : 'atsakymas =';
-  return p;
+// --- Vienanariai su laipsniais (raidė -> rodiklis) — daugybos į standartinę išraišką uždaviniams ---
+const SUP = {0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+function sup(n){ return String(n).split('').map(d=>SUP[d]).join(''); }
+function monomial(coef, powers){ return { coef, powers }; }
+function monoLetters(powers){
+  return Object.keys(powers).sort().map(v => powers[v]===1 ? v : v+sup(powers[v])).join('');
 }
-// === GEN END ===
+function monoStr(m){
+  const abs = Math.abs(m.coef);
+  const lettersStr = monoLetters(m.powers);
+  return (abs === 1 && lettersStr ? '' : String(abs)) + lettersStr;
+}
+function monoStrSigned(m){ return (m.coef<0?'−':'') + monoStr(m); }
+function signedNum(n){ return (n<0?'−':'') + Math.abs(n); }
+function factorDisplay(m, isFirst){
+  const body = monoStr(m);
+  if(m.coef<0) return isFirst ? ('−'+body) : ('(−'+body+')');
+  return body;
+}
+function multiplyMonomials(factors){
+  let coef=1; const powers={};
+  for(const f of factors){
+    coef *= f.coef;
+    for(const [v,p] of Object.entries(f.powers)){ powers[v] = (powers[v]||0) + p; }
+  }
+  return monomial(coef, powers);
+}
 
-const META = {"title": "Kontrolinio treniruoklis: Vienanaris ir daugianaris (8 klasė)", "subtitle": "4 skyrius „Reiškiniai“ · 4.1 tema · treniruokis, kol būsi pasiruošęs", "lango": 10, "riba": 9, "ivestis_pre": "x =", "simboliai": ["−", ","]};
+function genStandartine(){
+  const nFactors = choice([2,2,2,3]);
+  const nVars = choice([1,1,2]);
+  const vars = randVarSet(nVars);
+  const factors = [];
+  for(let i=0;i<nFactors;i++){
+    const coef = choice([-1,1]) * randint(1,9);
+    const useTwo = vars.length>1 && Math.random()<0.5;
+    const chosenVars = useTwo ? vars.slice() : [choice(vars)];
+    const powers = {};
+    chosenVars.forEach(v => { powers[v] = randint(1,2); });
+    factors.push(monomial(coef, powers));
+  }
+  const expr = factors.map((m,i)=>factorDisplay(m,i===0)).join(' · ');
+  const coefProduct = factors.reduce((acc,m)=>acc*m.coef, 1);
+  const final = multiplyMonomials(factors);
+  return { label:'Vienanarių daugyba', heading:'Padaugink vienanarius ir užrašyk standartine išraiška.', expr,
+    steps:[
+      { label:'1 žingsnis. Sudaugink skaitinius koeficientus.', expected: signedNum(coefProduct),
+        hint:'Koeficientus daugink kaip paprastus skaičius — atsižvelk į ženklus (du minusai duoda pliusą).' },
+      { label:'2 žingsnis. Sujunk raidžių laipsnius ir užrašyk standartine išraiška.', expected: monoStrSigned(final),
+        hint:'Tos pačios raidės laipsnius sudėk (pvz. a²·a = a³). Koeficientą iš 1 žingsnio parašyk priekyje.' },
+    ]};
+}
 
-// ---- Būsena ----
-const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, atsakyta:false, ready:false };
+function genSutraukimas(){
+  const v = choice(VARS), w = otherVar(v);
+  let terms = [term(nz(-9,9), v), term(nz(-9,9), v), term(nz(-9,9), w), term(nz(-9,9), w)];
+  terms = terms.map(t=>({t, r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.t);
+  const expr = signedStr(terms);
+  const regrouped = regroupNotSummed(terms);
+  const grouped = groupTerms(terms);
+  return { label:'Panašiųjų narių sutraukimas', heading:'Surašyk panašiuosius narius greta ir sutrauk juos.', expr,
+    steps:[
+      { label:'1 žingsnis. Perrašyk surikiavęs panašiuosius narius greta (dar nesutraukdamas).', expected: signedStr(regrouped),
+        hint:`Visus narius su raidine dalimi ${v} sustumk greta, po jų — visus su ${w}.` },
+      { label:'2 žingsnis. Sutrauk panašiuosius narius.', expected: signedStr(grouped),
+        hint:'Sudėk kiekvienos grupės koeficientus; raidinę dalį palik tą pačią. Jei suma lygi nuliui, tą narį praleisk.' },
+    ]};
+}
+
+const GENERATORIAI = [genStandartine, genSutraukimas];
+
+const LANGO = 10, RIBA = 9;
+const S = { istorija:[], serija:0, isviso:0, byLabel:{}, dabartinis:null, madeMistake:false, ready:false };
 const $ = id => document.getElementById(id);
-const LANGO = META.lango||10, RIBA = META.riba||9;
 
-function initTekstai(){
-  $('antraste').textContent = META.title || 'Kontrolinio treniruoklis';
-  $('paantraste').textContent = META.subtitle || '';
-  document.title = META.title || 'Kontrolinio treniruoklis';
-  $('pr-lango').textContent = LANGO; $('pr-riba').textContent = RIBA;
-  $('ap-lango').textContent = LANGO; $('ap-riba').textContent = RIBA;
-  $('pctTekstas').textContent = '0/'+LANGO+' teisingų';
-}
-
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function fmtMath(s){
-  if(/<svg[\s>]/i.test(s)) return s;
-  let out = esc(s)
-    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
-    .replace(/\^([▢□])/g, '<sup>$1</sup>')
-    .replace(/([A-Za-z0-9])([▢□])/g, '$1<sup>$2</sup>')
-    .replace(/(\d+)\/(\d+|[▢□])/g, '<span class="fr"><span>$1</span><span>$2</span></span>');
-  // {sqrt:TURINYS} / {cbrt:TURINYS} / {root:N|TURINYS} -> tikra šaknis su overline. Kilpa iki
-  // nekintamo taško leidžia įdėtąsias šaknis (žymeklis šalia žymeklio).
-  let prev;
-  do {
-    prev = out;
-    out = out.replace(/\{sqrt:([^{}]*)\}/g,'<span class="sqrt"><span class="rad">$1</span></span>');
-    out = out.replace(/\{cbrt:([^{}]*)\}/g,'<span class="sqrt cbrt"><span class="rad">$1</span></span>');
-    out = out.replace(/\{root:([^|{}]*)\|([^{}]*)\}/g,'<span class="sqrt"><span class="ix">$1</span><span class="rad">$2</span></span>');
-  } while(out !== prev);
-  return out;
-}
+function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,'').replace(/-/g,'−'); }
 
 function naujas(){
-  S.dabartinis = makeProblem();
-  S.atsakyta = false;
+  S.dabartinis = choice(GENERATORIAI)();
+  S.madeMistake = false;
   $('tipas').textContent = S.dabartinis.label;
-  $('klausimas').innerHTML = fmtMath(S.dabartinis.q);
-  $('ivPre').textContent = S.dabartinis.pre || 'atsakymas =';
-  $('atsakymas').value = '';
-  $('atsakymas').disabled = false;
-  $('verdiktas').style.display='none';
-  $('sprendimas').style.display='none';
-  $('tikrinti').style.display='';
-  $('kitas').style.display='none';
-  $('atsakymas').focus();
+  $('uzduotis').textContent = S.dabartinis.heading;
+  $('reiskinys').textContent = S.dabartinis.expr;
+  $('zingsniai').innerHTML = '';
+  $('next').style.display = 'none';
+  renderStep(0);
 }
 
-// Priima sveikuosius, dešimtainius (kablelį ar tašką) ir trupmenas „a/b".
-function parseVal(s){
-  s = (s||'').trim().replace(/\s/g,'').replace(/−/g,'-').replace(',', '.');
-  if(s==='') return NaN;
-  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
-  if(m){ const d=parseFloat(m[2]); if(d===0) return NaN; return parseFloat(m[1])/d; }
-  return parseFloat(s);
+function renderStep(idx){
+  const step = S.dabartinis.steps[idx];
+  const id = 'zingsnis-' + idx;
+  const form = document.createElement('form');
+  form.className = 'zingsnis';
+  form.innerHTML =
+    `<label class="lab" for="${id}">${step.label}</label>` +
+    `<small>Gali rašyti x^2, 3x/2 arba 1,5x.</small>` +
+    `<input type="text" id="${id}" autocomplete="off" autocapitalize="off" spellcheck="false">` +
+    `<div class="simboliai"><button type="button" data-ins="−">−</button><button type="button" data-ins="">C</button></div>` +
+    `<div class="veiksmai"><button type="submit" class="btn btn-p">Tikrinti</button>` +
+    `<button type="button" class="btn btn-a uzuomina">Užuomina</button></div>` +
+    `<p class="fb"></p>`;
+  const input = form.querySelector('input');
+  const fb = form.querySelector('.fb');
+  form.querySelectorAll('.simboliai button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(b.textContent==='C') input.value=''; else input.value += b.dataset.ins;
+      input.focus();
+    });
+  });
+  form.querySelector('.uzuomina').addEventListener('click', ()=>{
+    fb.className = 'fb'; fb.textContent = step.hint;
+  });
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    if(input.readOnly) return;
+    if(input.value.trim()==='') { input.focus(); return; }
+    const ok = norm(input.value) === norm(step.expected);
+    if(ok){
+      fb.className = 'fb ok'; fb.textContent = '✓ Teisingai! ' + step.expected;
+      input.readOnly = true;
+      form.querySelectorAll('button').forEach(b=>b.disabled=true);
+      if(idx+1 < S.dabartinis.steps.length){
+        renderStep(idx+1);
+      } else {
+        baigtas();
+      }
+    } else {
+      S.madeMistake = true;
+      fb.className = 'fb bad'; fb.textContent = '✗ Neteisingai. Patikrink narių skaičių, koeficientus ir ženklus.';
+      input.focus();
+    }
+  });
+  $('zingsniai').appendChild(form);
+  input.focus();
 }
-function atsTekstas(p){ return p.ansText || (p.ansType==='text' ? p.ans : nf(p.ans)); }
 
-// Teksto atsakymų (nelygybės, intervalai) normalizavimas: nesvarbu tarpai,
-// didžiosios/mažosios, „-"/„−", „<="/„≤", „>="/„≥", „inf"/„∞".
-function normText(s){
-  return (s||'').toString().trim().toLowerCase()
-    .replace(/\s+/g,'')
-    .replace(/-/g,'−')
-    .replace(/<=/g,'≤').replace(/=</g,'≤')
-    .replace(/>=/g,'≥').replace(/=>/g,'≥')
-    .replace(/infinity|inf\b/g,'∞');
-}
-
-function tikrinti(){
-  if(S.atsakyta) return;
-  const p = S.dabartinis;
-  let ok;
-  if(p.ansType === 'text'){
-    const raw = $('atsakymas').value;
-    if(raw.trim()===''){ $('atsakymas').focus(); return; }
-    const val = normText(raw);
-    const accepted = [p.ans, ...(p.ansAlt||[])].map(normText);
-    ok = accepted.includes(val);
-  } else {
-    const val = parseVal($('atsakymas').value);
-    if(isNaN(val)){ $('atsakymas').focus(); return; }
-    ok = Math.abs(val - p.ans) < 1e-6;
-  }
-  S.atsakyta = true;
+function baigtas(){
   S.isviso++;
+  const ok = !S.madeMistake;
   S.istorija.push(ok);
   const lab = S.dabartinis.label;
-  S.byLabel[lab] = S.byLabel[lab] || {ok:0,total:0};
+  S.byLabel[lab] = S.byLabel[lab] || { ok:0, total:0 };
   S.byLabel[lab].total++; if(ok) S.byLabel[lab].ok++;
   S.serija = ok ? S.serija+1 : 0;
-
-  const v = $('verdiktas');
-  v.style.display='block';
-  if(ok){ v.className='verdiktas v-ok'; v.innerHTML='✓ Teisingai! Atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
-  else { v.className='verdiktas v-ne'; v.innerHTML='✗ Neteisingai. Teisingas atsakymas: '+fmtMath(atsTekstas(S.dabartinis)); }
-
-  $('zingsniai').innerHTML = (S.dabartinis.steps||[]).map(s=>`<li>${fmtMath(s)}</li>`).join('');
-  $('sprendimas').style.display = (S.dabartinis.steps&&S.dabartinis.steps.length) ? 'block':'none';
-  $('atsakymas').disabled = true;
-  $('tikrinti').style.display='none';
-  $('kitas').style.display='';
-  $('kitas').focus();
+  $('next').style.display = 'inline-block';
+  $('next').focus();
   atnaujinti();
 }
 
@@ -343,23 +312,8 @@ function atnaujinti(){
   $('pasiruoses').style.display = S.ready ? 'block' : 'none';
 }
 
-function initSimboliai(){
-  const sk = (typeof META!=='undefined' && META.simboliai) ? META.simboliai : ['−',','];
-  const cont = $('simboliai');
-  cont.innerHTML = '';
-  sk.forEach(s=>{ const b=document.createElement('button'); b.textContent=s; b.dataset.ins=s;
-    b.addEventListener('click',()=>{ $('atsakymas').value+=s; $('atsakymas').focus(); }); cont.appendChild(b); });
-  const c=document.createElement('button'); c.textContent='C';
-  c.addEventListener('click',()=>{ $('atsakymas').value=''; $('atsakymas').focus(); }); cont.appendChild(c);
-}
+$('next').addEventListener('click', naujas);
 
-$('tikrinti').addEventListener('click', tikrinti);
-$('kitas').addEventListener('click', naujas);
-$('atsakymas').addEventListener('keydown', e=>{ if(e.key==='Enter') tikrinti(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Enter' && S.atsakyta) naujas(); });
-
-initTekstai();
-initSimboliai();
 naujas();
 </script>
 </body>
