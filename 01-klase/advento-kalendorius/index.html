@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1 klasės matematinis advento kalendorius</title>
+<style>
+:root{--ink:#f8f5e9;--muted:#c8d5cc;--gold:#f3cf78;--red:#a83238;--green:#1b583f;--deep:#071c24;--card:#102d35;--line:#45655d}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 50% 0,#1b4650 0,#0c2933 42%,#06171f 100%)}
+main{max-width:1060px;margin:auto;padding:32px 20px 48px}.hero{text-align:center;padding:22px 10px 28px}.eyebrow{color:var(--gold);letter-spacing:.17em;text-transform:uppercase;font-size:.8rem;font-weight:700}.hero h1{font-family:Georgia,serif;font-size:clamp(2rem,6vw,3.6rem);line-height:1.06;margin:12px 0;color:#fff8e8}.hero p{margin:0;color:var(--muted);font-size:1.05rem}.wreath{font-size:3.2rem;margin:8px auto 2px;filter:drop-shadow(0 3px 9px #0006)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 18px}.progress{color:var(--muted)}.progress strong{color:var(--gold)}button{font:inherit}.reset{background:transparent;color:var(--ink);border:1px solid #759087;border-radius:999px;padding:8px 13px;cursor:pointer}.reset:hover{background:#ffffff12}
+.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.door{position:relative;min-height:88px;border:1px solid #729080;border-radius:14px;color:#fff7df;background:linear-gradient(145deg,#18523e,#0e382f);box-shadow:0 5px 0 #09271f,0 9px 18px #0003;cursor:pointer;font-size:1.65rem;font-family:Georgia,serif;transition:transform .15s,filter .15s}.door:hover{transform:translateY(-3px);filter:brightness(1.13)}.door:nth-child(3n+2){background:linear-gradient(145deg,#a93a3a,#76252e);box-shadow:0 5px 0 #4c1820,0 9px 18px #0003}.door:nth-child(5n){background:linear-gradient(145deg,#bd9142,#87602b);box-shadow:0 5px 0 #60431e,0 9px 18px #0003}
+.door.done:after{content:"⭐";position:absolute;right:6px;top:2px;font-size:1.05rem;filter:drop-shadow(0 0 4px #00000080);animation:starpop .4s ease-out}
+@keyframes starpop{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.3) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+.foot{text-align:center;color:#aebdb6;font-size:.9rem;margin:22px 0 0}
+.celebrate{display:none;text-align:center;color:var(--gold);font-family:Georgia,serif;font-size:1.2rem;margin:18px 0 0;padding:14px;border:1px solid #c9a24f;border-radius:14px;background:#2a2112}
+.modal{position:fixed;inset:0;background:#020b0dcc;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.modal.show{display:flex}.panel{position:relative;width:min(620px,100%);max-height:90vh;overflow:auto;background:linear-gradient(155deg,#173b41,#0b252d);border:1px solid #73917e;border-radius:20px;padding:24px;box-shadow:0 20px 70px #0009}.panelhead{display:flex;justify-content:space-between;align-items:center}.daylabel{color:var(--gold);text-transform:uppercase;letter-spacing:.12em;font-size:.82rem;font-weight:700}.close{background:transparent;border:0;color:white;font-size:1.8rem;cursor:pointer;line-height:1}.panel h2{font:700 1.55rem Georgia,serif;margin:14px 0 8px}.task{font-size:1.1rem;line-height:1.55}
+.checkrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.checkrow input{flex:1;min-width:160px;border-radius:10px;border:1px solid #4a6e62;background:#06171f;color:var(--ink);padding:10px 12px;font-size:1rem}.checkrow input:focus{outline:2px solid var(--gold)}
+.checkfeedback{min-height:26px;margin-top:10px;font-weight:700}.checkfeedback.ok{color:#8fe3a8}.checkfeedback.bad{color:#f29898}
+.answerbox{margin-top:18px;padding:14px;border-radius:12px;background:#06171f;border:1px solid #35564c;display:none}.answerbox.show{display:block}.answerbox p{margin:8px 0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.action{border:0;border-radius:10px;padding:10px 15px;background:var(--gold);color:#262312;font-weight:700;cursor:pointer}.action.secondary{background:#234b43;color:#fff}.toast{min-height:24px;color:#f0d98d;margin-top:10px}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.flystar{position:absolute;font-size:1.4rem;pointer-events:none;animation:flyup 1s ease-out forwards;z-index:9}
+@keyframes flyup{0%{transform:translate(-50%,0) scale(.6) rotate(0);opacity:1}100%{transform:translate(-50%,-90px) scale(1.5) rotate(25deg);opacity:0}}
+@media(max-width:700px){.grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.door{min-height:72px;font-size:1.45rem}main{padding:20px 14px 36px}}@media(max-width:390px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<main>
+<header class="hero"><div class="eyebrow">Gruodžio 1–25 d. · 1 klasė · Advento kalendorius</div><div class="wreath" aria-hidden="true">🎄</div><h1>Matematinis<br>advento kalendorius</h1><p>Kiekviename langelyje laukia trumpa užduotis. Skaičiuok iki 20, atpažink figūras ir piešk! Už teisingą atsakymą gauni žvaigždutę ⭐ ir linksmą melodiją.</p></header>
+<div class="toolbar"><div class="progress" aria-live="polite">Surinktos žvaigždutės: <strong id="count">0</strong> iš 25 ⭐</div><button class="reset" id="reset">Pradėti iš naujo</button></div>
+<section class="grid" id="grid" aria-label="Advento kalendoriaus dienos"></section>
+<p class="foot">Pasiimk sąsiuvinį, pieštuką ir šventinę nuotaiką ✨</p>
+<p class="celebrate" id="celebrate">🎉 Visi langeliai atversti! Linksmų Kalėdų, pirmokai! 🎄✨</p>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="title"><section class="panel" id="panel"><div class="panelhead"><div class="daylabel" id="daylabel"></div><button class="close" id="close" aria-label="Uždaryti">×</button></div><h2 id="title">Užduotis</h2><div class="task" id="task"></div>
+<div class="checkrow"><input type="text" id="answerInput" placeholder="Įrašyk atsakymą..." autocomplete="off"><button class="action" id="check">Tikrinti</button></div>
+<div class="checkfeedback" id="checkfeedback" aria-live="polite"></div>
+<div class="answerbox" id="answerbox"><strong>Atsakymas ir sprendimas</strong><p id="answer"></p></div>
+<div class="actions"><button class="action secondary" id="show">Parodyti sprendimą</button><button class="action secondary" id="done">Pažymėti kaip išspręstą</button></div>
+<div class="toast" id="toast" aria-live="polite"></div></section></div>
+<script>
+const tasks=[
+["❄️ Gruodžio 1 d. – Snaigės ant lango","Ant lango yra 4 snaigės. Priklijuok dar 3. Kiek snaigių dabar ant lango?","4 + 3 = <b>7</b> snaigės.",["7"]],
+["🍪 Gruodžio 2 d. – Meduoliai lėkštėje","Lėkštėje buvo 8 meduoliai. Du suvalgėme. Kiek meduolių liko?","8 − 2 = <b>6</b> meduoliai.",["6"]],
+["🔵 Gruodžio 3 d. – Rask apskritimą","Pažiūrėk į figūras: □ △ ○. Kuri iš jų yra apskritimas? Nupiešk ją savo sąsiuvinyje.","○ yra <b>apskritimas</b> – ji neturi nė vieno kampo.",["apskritimas"]],
+["🎄 Gruodžio 4 d. – Eglutės žaisliukai","Ant eglutės kabo 6 raudoni ir 5 auksiniai žaisliukai. Kiek žaisliukų kabo iš viso?","6 + 5 = <b>11</b> žaisliukai.",["11"]],
+["🎁 Gruodžio 5 d. – Dovanos po eglute","Po eglute buvo 10 dovanų. Tris išdalijome. Kiek dovanų liko?","10 − 3 = <b>7</b> dovanos.",["7"]],
+["✏️ Gruodžio 6 d. – Apskaičiuok","Apskaičiuok. 4 + 5 ir 9 − 4.","4 + 5 = 9, 9 − 4 = <b>5</b>.",["9,5"]],
+["🏠 Gruodžio 7 d. – Namelio stogas","Nupiešk namelį iš kvadrato ir trikampio. Kuri figūra bus stogas?","Stogas bus <b>trikampis</b> – jis smailas viršuje.",["trikampis"]],
+["🍬 Gruodžio 8 d. – Saldainiai maišelyje","Maišelyje buvo 7 saldainiai. Įdėjome dar 6. Kiek saldainių dabar maišelyje?","7 + 6 = <b>13</b> saldainiai.",["13"]],
+["⛄ Gruodžio 9 d. – Sniego senio sagos","Sniego seniui turėjome 12 sagų. Panaudojome 4. Kiek sagų liko?","12 − 4 = <b>8</b> sagos.",["8"]],
+["🔺 Gruodžio 10 d. – Suskaičiuok trikampius","Suskaičiuok trikampius: △ □ △ ○ △. Kiek trikampių radai?","Trikampiai yra tris kartus (△): <b>3</b> trikampiai.",["3"]],
+["⭐ Gruodžio 11 d. – Iškirptos žvaigždės","Ieva iškirpo 9 žvaigždes, o Matas – 5. Kiek žvaigždžių jie iškirpo kartu?","9 + 5 = <b>14</b> žvaigždės.",["14"]],
+["🧤 Gruodžio 12 d. – Pirštinės ant suolo","Ant suolo buvo 14 pirštinių. Vaikai pasiėmė 6. Kiek pirštinių liko ant suolo?","14 − 6 = <b>8</b> pirštinės.",["8"]],
+["🟦 Gruodžio 13 d. – Kvadratas ir stačiakampis","Pažiūrėk į figūras: ○ □ △ ▭. Rask kvadratą ir stačiakampį. Kiek kampų turi kiekviena iš šių dviejų figūrų?","Ir kvadratas, ir stačiakampis turi po <b>4</b> kampus.",["4"]],
+["🧩 Gruodžio 14 d. – Trūkstamas skaičius","Įrašyk trūkstamą skaičių. 7 + □ = 10","□ = 10 − 7 = <b>3</b>.",["3"]],
+["🔔 Gruodžio 15 d. – Varpeliai ant šakų","Ant vienos šakos kabo 8 varpeliai, ant kitos – 7. Kiek varpelių kabo iš viso?","8 + 7 = <b>15</b> varpeliai.",["15"]],
+["🍊 Gruodžio 16 d. – Mandarinai krepšelyje","Krepšelyje buvo 16 mandarinų. Penkis suvalgėme. Kiek mandarinų liko?","16 − 5 = <b>11</b> mandarinai.",["11"]],
+["🎨 Gruodžio 17 d. – Piešiame figūras","Nupiešk 2 apskritimus ir 3 trikampius. Kiek figūrų nupiešei iš viso?","2 + 3 = <b>5</b> figūros.",["5"]],
+["💌 Gruodžio 18 d. – Kalėdiniai atvirukai","Klasė pagamino 10 atvirukų. Kitą dieną pagamino dar 8. Kiek atvirukų pagamino per abi dienas?","10 + 8 = <b>18</b> atvirukai.",["18"]],
+["🧮 Gruodžio 19 d. – Apskaičiuok","Apskaičiuok. 8 + 8 ir 17 − 9.","8 + 8 = 16, 17 − 9 = <b>8</b>.",["16,8"]],
+["🟢🔺 Gruodžio 20 d. – Figūrų seka","Tęsk figūrų seką: ○ △ ○ △ ___ ___. Nupiešk ir įrašyk, kokios dvi figūros eina toliau (du žodžiai, skirti kableliu).","Seka kartojasi: ○, △. Toliau eina <b>apskritimas</b> ir <b>trikampis</b>.",["apskritimas,trikampis"]],
+["🛷 Gruodžio 21 d. – Vaikai ant kalnelio","Ant kalnelio buvo 13 vaikų. Keturi nučiuožė žemyn. Kiek vaikų liko ant kalnelio?","13 − 4 = <b>9</b> vaikai.",["9"]],
+["💡 Gruodžio 22 d. – Lemputės ant eglutės","Ant eglutės šviečia 9 geltonos ir 9 mėlynos lemputės. Kiek lempučių šviečia iš viso?","9 + 9 = <b>18</b> lemputės.",["18"]],
+["🔍 Gruodžio 23 d. – Figūra be kampų","Kuri figūra neturi kampų? ○ □ △ ▭","<b>Apskritimas</b> (○) neturi nė vieno kampo.",["apskritimas"]],
+["🕯️ Gruodžio 24 d. – Kūčiukai ant stalo","Ant stalo buvo 20 kūčiukų. Vaikai suvalgė 8. Kiek kūčiukų liko?","20 − 8 = <b>12</b> kūčiukai.",["12"]],
+["🎁 Gruodžio 25 d. – Kalėdinis iššūkis","Nupiešk 10 žvaigždžių. Prie jų nupiešk dar 6. Tada 4 žvaigždes perbrauk. Kiek žvaigždžių liko neperbrauktų?","10 + 6 = 16 žvaigždės. 16 − 4 = <b>12</b> neperbrauktos žvaigždės.",["12"]]
+];
+const grid=document.getElementById('grid'), modal=document.getElementById('modal'), panel=document.getElementById('panel'), doneSet=new Set(JSON.parse(localStorage.getItem('advento1kldone')||'[]'));let current=0;
+function updateCount(){document.getElementById('count').textContent=doneSet.size;document.querySelectorAll('.door').forEach((b,i)=>b.classList.toggle('done',doneSet.has(i+1)));document.getElementById('celebrate').style.display=(doneSet.size>=tasks.length)?'block':'none'}
+tasks.forEach((item,i)=>{const b=document.createElement('button');b.className='door';b.type='button';b.setAttribute('aria-label',`Atverti ${i+1} dienos užduotį`);b.innerHTML=`<span>${i+1}</span>`;b.addEventListener('click',()=>openDay(i));grid.appendChild(b)});
+function openDay(i){current=i;document.getElementById('daylabel').textContent=`${i+1} diena · gruodžio ${i+1} d.`;document.getElementById('title').textContent=tasks[i][0];document.getElementById('task').innerHTML=tasks[i][1];document.getElementById('answer').innerHTML=tasks[i][2];document.getElementById('answerbox').classList.remove('show');document.getElementById('show').textContent='Parodyti sprendimą';document.getElementById('toast').textContent='';document.getElementById('answerInput').value='';document.getElementById('checkfeedback').textContent='';document.getElementById('checkfeedback').className='checkfeedback';document.getElementById('done').textContent=doneSet.has(i+1)?'Pažymėta kaip išspręsta':'Pažymėti kaip išspręstą';modal.classList.add('show');document.getElementById('answerInput').focus()}
+function closeModal(){modal.classList.remove('show')}
+function flyStar(fromEl){const rect=fromEl.getBoundingClientRect(),panelRect=panel.getBoundingClientRect();const s=document.createElement('span');s.className='flystar';s.textContent='⭐';s.style.left=(rect.left-panelRect.left+rect.width/2)+'px';s.style.top=(rect.top-panelRect.top)+'px';panel.appendChild(s);setTimeout(()=>s.remove(),1000)}
+function markSolved(fromEl){const wasNew=!doneSet.has(current+1);doneSet.add(current+1);localStorage.setItem('advento1kldone',JSON.stringify([...doneSet]));updateCount();document.getElementById('done').textContent='Pažymėta kaip išspręsta';if(wasNew&&fromEl)flyStar(fromEl);return wasNew}
+let audioCtx=null;function getCtx(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();return audioCtx}
+function playCorrect(){const ctx=getCtx(),now=ctx.currentTime;[523.25,659.25,783.99].forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=freq;const t=now+i*0.12;g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.25,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.28);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.3)})}
+function playWrong(){const ctx=getCtx(),now=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';o.frequency.setValueAtTime(220,now);o.frequency.exponentialRampToValueAtTime(90,now+0.35);g.gain.setValueAtTime(0.2,now);g.gain.exponentialRampToValueAtTime(0.0001,now+0.38);o.connect(g);g.connect(ctx.destination);o.start(now);o.stop(now+0.38)}
+function normalize(s){return String(s).toLowerCase().trim().replace(/[−–—]/g,'-').replace(/\s+/g,'')}
+document.getElementById('check').addEventListener('click',(e)=>{const val=document.getElementById('answerInput').value;const fb=document.getElementById('checkfeedback');if(!val.trim()){fb.className='checkfeedback';fb.textContent='Įrašyk atsakymą prieš tikrinant.';return}const accepted=tasks[current][3].map(normalize);const ok=accepted.includes(normalize(val));if(ok){fb.className='checkfeedback ok';fb.textContent='✅ Teisingai! Puiku!';playCorrect();const wasNew=markSolved(e.currentTarget);document.getElementById('toast').textContent=wasNew?'Gavai žvaigždutę už šią dieną. ⭐':'Ši diena jau buvo pažymėta žvaigždute. ⭐'}else{fb.className='checkfeedback bad';fb.textContent='❌ Dar ne taip. Pabandyk vėl arba pažiūrėk sprendimą.';playWrong()}});
+document.getElementById('answerInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('check').click()}});
+document.getElementById('show').addEventListener('click',()=>{document.getElementById('answerbox').classList.toggle('show');document.getElementById('show').textContent=document.getElementById('answerbox').classList.contains('show')?'Slėpti sprendimą':'Parodyti sprendimą'});
+document.getElementById('done').addEventListener('click',(e)=>{const wasNew=markSolved(e.currentTarget);document.getElementById('toast').textContent=wasNew?'Puiku! Gavai žvaigždutę už šią dieną. ⭐':'Ši diena jau pažymėta žvaigždute. ⭐'});
+document.getElementById('close').addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});document.getElementById('reset').addEventListener('click',()=>{if(confirm('Pašalinti surinktas žvaigždutes?')){doneSet.clear();localStorage.removeItem('advento1kldone');updateCount()}});updateCount();
+</script>
+</body>
+</html>
